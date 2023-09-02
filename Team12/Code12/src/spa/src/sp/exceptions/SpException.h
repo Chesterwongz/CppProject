@@ -17,5 +17,5 @@ class SpException : public Exception {
 public:
     static inline const std::string type = "SpException";
 
-    SpException::SpException(const std::string &msg) : Exception(msg) {}
+    SpException(const std::string &msg) : Exception(msg) {}
 };
