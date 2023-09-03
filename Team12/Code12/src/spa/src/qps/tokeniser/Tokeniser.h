@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "qps/token/token.h"
+#include "qps/token/Token.h"
 
 class Tokeniser {
 public:

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "qps/token/token.h"
+#include "qps/token/Token.h"
 
 class SuchThatToken : public Token {
 

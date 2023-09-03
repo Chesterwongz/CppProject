@@ -2,7 +2,7 @@
 
 #include <string>
 #include <vector>
-#include "qps/clause/clause.h"
+#include "qps/clause/Clause.h"
 
 class Token {
 private:
@@ -10,7 +10,7 @@ private:
     Token *next = nullptr;
 
 public:
-    std::string getAttribute();
+    std::vector<std::string> getAttribute();
     Token *getNext();
     ~Token();
 

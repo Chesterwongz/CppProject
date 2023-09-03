@@ -1,8 +1,8 @@
 #pragma once
 
 #include "PKB.h"
-#include "qps/query/query.h"
-#include "qps/token/token.h"
+#include "qps/query/Query.h"
+#include "qps/token/Token.h"
 
 class QueryBuilder {
 private:
