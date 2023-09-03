@@ -1,3 +1,5 @@
+#pragma once
+
 #include <algorithm>
 #include <cctype>
 #include <regex>
@@ -12,14 +14,12 @@ using std::stringstream;
 
 class StringUtils {
 public:
-    static const char CHAR_NEWLINE;
-    static const char CHAR_SPACE;
     static const char CHAR_ZERO;
-    static const string STRING_NEWLINE;
 
-    static bool isNumeric(const string &str);
-    static bool isName(const string &str);
-    static bool isInteger(const string &str);
+    static bool isWhiteSpace(char ch);
+    static bool isDigit(char ch);
+    static bool isAlpha(char ch);
+    static bool isAlphaNumeric(char ch);
 
 private:
     StringUtils() = default;
