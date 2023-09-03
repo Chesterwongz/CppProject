@@ -5,5 +5,5 @@
 
 class Tokeniser {
 public:
-    Token convertToTokens(std::string &inputString);
+    Token *convertToTokens(std::string &inputString);
 };
