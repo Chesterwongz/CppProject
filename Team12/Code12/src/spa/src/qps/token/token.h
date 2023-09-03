@@ -7,7 +7,7 @@
 class Token {
 private:
     std::vector<std::string> attribute;
-    Token *next;
+    Token *next = nullptr;
 
 public:
     std::string getAttribute();
