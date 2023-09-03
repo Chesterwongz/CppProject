@@ -6,7 +6,7 @@
 
 class Query {
 private:
-    std::map<Synonym, Token*> context;
+    std::map<std::string, Token*> context;
     std::vector<Clause> clauses;
 
 public:

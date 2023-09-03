@@ -6,7 +6,7 @@
 
 class Validator {
 private:
-    std::map<Synonym, Token*> declarativeTokensMap;
+    std::map<std::string, Token*> declarativeTokensMap;
 
 public:
     bool validateTokens(Token *token);

@@ -18,5 +18,3 @@ public:
     virtual bool validate() = 0;
     virtual Clause *build() = 0;
 };
-
-typedef std::string Synonym;
