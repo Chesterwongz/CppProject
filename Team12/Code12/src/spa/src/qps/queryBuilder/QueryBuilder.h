@@ -9,5 +9,5 @@ private:
     PKB *pkb;
 
 public:
-    Query *buildQuery(Token *token);
+    Query *buildQuery(Token *token, PKB *pkb);
 };
