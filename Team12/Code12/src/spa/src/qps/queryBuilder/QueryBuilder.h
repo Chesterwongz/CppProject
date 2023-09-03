@@ -9,5 +9,6 @@ private:
     PKB *pkb;
 
 public:
+    explicit QueryBuilder(PKB *pkb);
     Query *buildQuery(QueryToken *token, PKB *pkb);
 };

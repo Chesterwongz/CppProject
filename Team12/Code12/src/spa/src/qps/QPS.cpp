@@ -7,7 +7,7 @@ QPS::QPS(PKB *pkb) :
     pkb(pkb),
     tokeniser(new Tokeniser()),
     validator(new Validator()),
-    queryBuilder(new QueryBuilder) {}
+    queryBuilder(new QueryBuilder(pkb)) {}
 
 QPS::~QPS() {
     delete (tokeniser);
@@ -24,7 +24,7 @@ void QPS::processQueryString(std::string &queryString) {
     }
 
     // build query from validated tokens
-    Query *query = queryBuilder->buildQuery(token, pkb);
+    Query *query = queryBuilder->buildQuery(token);
 
     query->evaluate();
 }
