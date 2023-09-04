@@ -1,7 +1,14 @@
 #pragma once
 
-#include "qps/token/Token.h"
+#include <string>
 
-class SelectToken : public Token {
+#include "qps/token/QueryToken.h"
 
+class SelectToken : public QueryToken {
+private:
+    Synonym synonym;
+
+public:
+    explicit SelectToken(Synonym synonym);
+    const std::string getSynonym();
 };
