@@ -1,20 +1,15 @@
 #include "TokenStream.h"
 #include "sp/tokenizer/handlers/NameTokenizer.h"
 
-Tokenizer::Tokenizer(string &fileContents) {
+TokenStream::TokenStream(string &fileContents, std::unique_ptr<ITokenizer> tokenizerPipeline) {
     inputStream = std::make_shared<InputStream>(fileContents);
-    // Add handlers here
-    std::unique_ptr<ITokenizer> nameTokenizer = std::make_unique<NameTokenizer>();
-    std::unique_ptr<ITokenizer> integerTokenizer = std::make_unique<IntegerTokenizer>();
-    // Construct pipeline
-    nameTokenizer->setNext(std::move(integerTokenizer));
-    handlerPipeline = std::move(nameTokenizer);
+
 
     // Prime the tokenizer with the first token
     lookAhead = nextToken();
 }
 
-std::optional<Token> Tokenizer::nextToken() {
+std::optional<Token> TokenStream::nextToken() {
     inputStream->readWhile(StringUtils::isWhiteSpace); // Skip whitespaces
 
     if (inputStream->isEnd()) {
@@ -24,11 +19,11 @@ std::optional<Token> Tokenizer::nextToken() {
     return handlerPipeline->tokenize(inputStream->peek(), inputStream);
 }
 
-std::optional<Token> Tokenizer::peek() {
+std::optional<Token> TokenStream::peek() {
     return lookAhead;
 }
 
-std::optional<Token> Tokenizer::eat() {
+std::optional<Token> TokenStream::eat() {
     std::optional<Token> currToken = this->lookAhead;
     this->lookAhead = nextToken();
     return currToken;

@@ -5,12 +5,13 @@
 #include <string>
 #include <vector>
 
+#include "sp/ast/TNode.h"
 #include "common/utils/StringUtils.h"
 #include "sp/tokenizer/handlers/ITokenizer.h"
 #include "sp/tokenizer/handlers/IntegerTokenizer.h"
 #include "sp/tokenizer/token/InputStream.h"
 
-class Tokenizer {
+class TokenStream {
 private:
     std::optional<Token> lookAhead;
     std::shared_ptr<InputStream> inputStream;
@@ -21,7 +22,7 @@ private:
      */
     std::optional<Token> nextToken();
 public:
-    explicit Tokenizer(std::string &fileContent);
+    explicit TokenStream(std::string &fileContent, std::unique_ptr<ITokenizer> tokenizerPipeline);
     /**
      * Gets the current token.
      * Returns std::nullopt if end of input has been reached.

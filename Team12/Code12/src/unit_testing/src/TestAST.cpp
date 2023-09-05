@@ -1,5 +1,5 @@
 
-#include "TNode.h"
+#include "sp/ast/TNode.h"
 
 #include "catch.hpp"
 using namespace std;
