@@ -4,14 +4,14 @@
 #include <string>
 #include "sp/tokenizer/token/TokenType.h"
 
-class TokenStream {
+class InputStream {
 private:
     int cursor;
     std::string fileContents;
 public:
-    explicit TokenStream(std::string &fileContents);
+    explicit InputStream(std::string &fileContents);
 
-    bool hasMoreTokens();
+    bool isEnd();
     char peek();
     char read();
     std::string readWhile(const std::function<bool(const char)> &predicate);

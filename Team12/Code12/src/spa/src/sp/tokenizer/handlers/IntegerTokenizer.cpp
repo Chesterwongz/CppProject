@@ -1,9 +1,8 @@
-#include "ConstTokenHandler.h"
+#include "IntegerTokenizer.h"
 
-Token ConstTokenHandler::handle(std::shared_ptr<TokenStream> tokenStream) {
-    const char ch = tokenStream->peek();
-    if (!StringUtils::isDigit(ch)) {
-        return BaseTokenHandler::handle(tokenStream);
+Token IntegerTokenizer::tokenize(char nextCh, std::shared_ptr<InputStream> tokenStream) {
+    if (!StringUtils::isDigit(nextCh)) {
+        return BaseTokenizer::tokenize(nextCh, tokenStream);
     }
     const std::string value = tokenStream->readWhile(StringUtils::isDigit);
 
