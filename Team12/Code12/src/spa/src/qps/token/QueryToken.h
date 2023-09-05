@@ -27,7 +27,7 @@ enum Entity {
     CONSTANT
 };
 
-// feels like should be moved to a separate folder for references in the future
+// TODO: feels like should be moved to a separate folder for references in the future
 enum Reference {
     WILDCARD,
     SYNONYM,

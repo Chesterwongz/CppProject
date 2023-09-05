@@ -13,11 +13,7 @@
 typedef std::vector<std::string> ValidatedTokens;
 
 class TokenFactory {
-private:
-
-
 public:
-    explicit TokenFactory(UnvalidatedTokens unvalidatedToken);
-    virtual QueryToken createToken(ValidatedTokens validatedTokens);
-    virtual bool isCorrectSyllabi(UnvalidatedTokens unvalidatedTokens);
+    virtual QueryToken createToken(ValidatedTokens validatedTokens) = 0;
+    virtual bool isCorrectSyllabi(UnvalidatedTokens unvalidatedTokens) = 0;
 };
