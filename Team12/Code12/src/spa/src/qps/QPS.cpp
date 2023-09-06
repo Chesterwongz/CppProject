@@ -16,15 +16,15 @@ QPS::~QPS() {
 }
 
 void QPS::processQueryString(std::string &queryString) {
-    Token *token = tokeniser->convertToTokens(queryString);
+    std::vector<QueryToken*> queryTokenVector = tokeniser->convertToTokens(queryString);
 
-    bool isTokensValid = validator->validateTokens(token);
+    bool isTokensValid = validator->validateTokens(queryTokenVector);
     if (!isTokensValid) {
         throw QpsException::InvalidQueryException();
     }
 
     // build query from validated tokens
-    Query *query = queryBuilder->buildQuery(token);
+    Query *query = queryBuilder->buildQuery(queryTokenVector);
 
     query->evaluate();
 }
