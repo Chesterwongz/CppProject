@@ -24,3 +24,4 @@ std::vector<TNode*> TNode::getChildren() {
     return result;
 }
 
+TNode::TNode(TNodeType type) : type(type) {}
