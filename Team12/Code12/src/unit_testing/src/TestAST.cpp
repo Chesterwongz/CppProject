@@ -1,4 +1,5 @@
-#include "TNode.h"
+
+#include "sp/ast/TNode.h"
 
 #include "catch.hpp"
 using namespace std;
@@ -7,10 +8,5 @@ void require(bool b) {
 }
 
 TEST_CASE("1st Test") {
-
-    TNode T;
-
-
-
     require(1 == 1);
 }
