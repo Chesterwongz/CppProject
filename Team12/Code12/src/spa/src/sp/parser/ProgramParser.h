@@ -1,14 +1,17 @@
 #pragma once
 
+#include "IParser.h"
 #include <memory>
 #include <utility>
 #include "sp/tokenizer/TokenStream.h"
-#include "IParser.h"
-#include "AbstractParser.h"
+#include "sp/utils/FileReaderUtils.h"
+#include "sp/tokenizer/handlers/NameTokenizer.h"
+#include "sp/tokenizer/handlers/IntegerTokenizer.h"
 
-class ProgramParser : public AbstractParser {
+class ProgramParser : public IParser {
+private:
+    std::shared_ptr<TokenStream> tokenStream;
 public:
-    explicit ProgramParser(std::shared_ptr<TokenStream> tokenStream)
-            : AbstractParser(std::move(tokenStream)) {};
+    explicit ProgramParser(std::string &filePath);
     std::unique_ptr<TNode> parse() override;
 };

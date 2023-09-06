@@ -8,7 +8,7 @@ using std::string;
 class Token {
 private:
     TokenType type;
-    std::string value;
+    string value;
 public:
     explicit Token(TokenType type);
     Token(TokenType type, string value);

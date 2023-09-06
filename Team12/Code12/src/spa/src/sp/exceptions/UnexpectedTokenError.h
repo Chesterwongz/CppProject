@@ -1,15 +1,16 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include "SpException.h"
 
 class UnexpectedTokenError : public SpException {
 public:
-    static inline const std::string type = "UnexpectedTokenError";
+    static inline constexpr string_view type = "UnexpectedTokenError";
 
-    UnexpectedTokenError(const std::string &expectedToken, const std::string &unexpectedToken)
+    explicit UnexpectedTokenError(const string &expectedToken, const string &unexpectedToken)
         : SpException("Expected " + expectedToken + " but got " + unexpectedToken + " instead!") {}
 
-    UnexpectedTokenError(const std::string &expectedToken)
+    explicit UnexpectedTokenError(const string &expectedToken)
             : SpException("Expected " + expectedToken + " but got nothing instead!") {}
 };
