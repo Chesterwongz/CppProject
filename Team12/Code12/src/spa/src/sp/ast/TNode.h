@@ -26,7 +26,7 @@ public:
 
     TNodeType getType();
 
-    std::vector<TNode *> getChildren();
+    [[nodiscard]] virtual std::vector<TNode *> getChildren() const;
 
     virtual void accept(Extractor *e) const;
 

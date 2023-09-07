@@ -19,7 +19,7 @@ TNodeType TNode::getType() {
     return type;
 }
 
-std::vector<TNode*> TNode::getChildren() {
+std::vector<TNode*> TNode::getChildren() const {
     std::vector<TNode*> result;
     for (auto &child : children) {
         result.push_back(child.get());

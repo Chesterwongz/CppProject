@@ -28,6 +28,14 @@ void FollowsExtractor::visitWhile(const WhileNode *node) {
     processFollows(node);
 }
 
+void FollowsExtractor::visitStmtList(const StmtListNode *node) {
+    nestingBlocksStack.emplace(); // add new nesting block
+}
+
+void FollowsExtractor::postVisitStmtList(const StmtListNode *node) {
+    nestingBlocksStack.pop(); // remove nesting block
+}
+
 void FollowsExtractor::processFollows(const StmtNode *node) {
     // ai-gen start(gpt-4, 2)
     /*
@@ -46,14 +54,6 @@ void FollowsExtractor::processFollows(const StmtNode *node) {
     }
     nestingBlocksStack.top().push_back(currLine);
     // ai-gen end
-}
-
-void FollowsExtractor::visitStmtList(const StmtListNode *node) {
-    nestingBlocksStack.emplace(); // add new nesting block
-}
-
-void FollowsExtractor::postVisitStmtList(const StmtListNode *node) {
-    nestingBlocksStack.pop(); // remove nesting block
 }
 
 std::map<int, std::set<int>> FollowsExtractor::getFollowsMap() {

@@ -31,9 +31,9 @@ public:
     void visitPrint(const PrintNode *node) override;
     void visitRead(const ReadNode *node) override;
     void visitWhile(const WhileNode *node) override;
-    void processFollows(const StmtNode *node);
     void visitStmtList(const StmtListNode *node) override;
     void postVisitStmtList(const StmtListNode *node) override;
+    void processFollows(const StmtNode *node);
 
     std::map<int, std::set<int>> getFollowsMap(); // TODO: remove this method after pkb integration
 };
