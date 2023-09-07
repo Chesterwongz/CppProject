@@ -339,21 +339,21 @@ TEST_CASE("Test TNode equality - StmtListNode, diff line number") {
     REQUIRE(*node1 != *node2);
 }
 
-TEST_CASE("Test TNode inequality - same type, different line number") {
+TEST_CASE("Test TNode inequality - StmtNode same type, different line number") {
     std::unique_ptr<TNode> node1 = std::make_unique<AssignNode>(1);
     std::unique_ptr<TNode> node2 = std::make_unique<AssignNode>(2);
     REQUIRE(!node1->isEqual(*node2));
     REQUIRE(*node1 != *node2);
 }
 
-TEST_CASE("Test TNode inequality - different type, same line number") {
+TEST_CASE("Test TNode inequality - StmtNode different type, same line number") {
     std::unique_ptr<TNode> node1 = std::make_unique<AssignNode>(1);
     std::unique_ptr<TNode> node2 = std::make_unique<ReadNode>(1);
     REQUIRE(!node1->isEqual(*node2));
     REQUIRE(*node1 != *node2);
 }
 
-TEST_CASE("Test TNode inequality - different type, different line number") {
+TEST_CASE("Test TNode inequality - StmtNode different type, different line number") {
     std::unique_ptr<TNode> node1 = std::make_unique<PrintNode>(1);
     std::unique_ptr<TNode> node2 = std::make_unique<ReadNode>(2);
     REQUIRE(!node1->isEqual(*node2));
@@ -381,6 +381,169 @@ TEST_CASE("Test TNode equality - WhileNode with same children different line num
     REQUIRE(*node1 != *node2);
 }
 
+TEST_CASE("Test TNode equality - ArithmNode different type") {
+    std::unique_ptr<TNode> node1 = std::make_unique<DivNode>(
+        std::make_unique<ConstNode>("1"),
+        std::make_unique<ConstNode>("2")
+    );
+    std::unique_ptr<TNode> node2 = std::make_unique<TimesNode>(
+        std::make_unique<ConstNode>("1"),
+        std::make_unique<ConstNode>("2")
+    );
+    REQUIRE(!node1->isEqual(*node2));
+    REQUIRE(*node1 != *node2);
+}
 
+TEST_CASE("Test TNode inequality - MinusNode") {
+    std::unique_ptr<TNode> node1 = std::make_unique<MinusNode>(
+        std::make_unique<ConstNode>("2"),
+        std::make_unique<ConstNode>("1")
+    );
+    std::unique_ptr<TNode> node2 = std::make_unique<MinusNode>(
+        std::make_unique<VarNode>("x"),
+        std::make_unique<VarNode>("y")
+    );
+    REQUIRE(!node1->isEqual(*node2));
+    REQUIRE(*node1 != *node2);
+}
+
+TEST_CASE("Test TNode inequality - ModNode") {
+    std::unique_ptr<TNode> node1 = std::make_unique<ModNode>(
+        std::make_unique<ConstNode>("2"),
+        std::make_unique<ConstNode>("1")
+    );
+    std::unique_ptr<TNode> node2 = std::make_unique<ModNode>(
+        std::make_unique<ConstNode>("2"),
+        std::make_unique<VarNode>("x")
+    );
+    REQUIRE(!node1->isEqual(*node2));
+    REQUIRE(*node1 != *node2);
+}
+
+TEST_CASE("Test TNode inequality - PlusNode") {
+    std::unique_ptr<TNode> node1 = std::make_unique<PlusNode>(
+        std::make_unique<ConstNode>("2"),
+        std::make_unique<ConstNode>("1")
+    );
+    std::unique_ptr<TNode> node2 = std::make_unique<PlusNode>(
+        std::make_unique<VarNode>("x"),
+        std::make_unique<ConstNode>("1")
+    );
+    REQUIRE(!node1->isEqual(*node2));
+    REQUIRE(*node1 != *node2);
+}
+
+TEST_CASE("Test TNode inequality - TimesNode") {
+    std::unique_ptr<TNode> node1 = std::make_unique<TimesNode>(
+        std::make_unique<ConstNode>("2"),
+        std::make_unique<ConstNode>("1")
+    );
+    std::unique_ptr<TNode> node2 = std::make_unique<TimesNode>(
+        std::make_unique<ConstNode>("2"),
+        std::make_unique<ConstNode>("2")
+    );
+    REQUIRE(!node1->isEqual(*node2));
+    REQUIRE(*node1 != *node2);
+}
+
+TEST_CASE("Test TNode inequality - RelNode different type") {
+    std::unique_ptr<TNode> node1 = std::make_unique<EqNode>(
+        std::make_unique<VarNode>("x"),
+        std::make_unique<ConstNode>("0")
+    );
+    std::unique_ptr<TNode> node2 = std::make_unique<NeqNode>(
+        std::make_unique<VarNode>("x"),
+        std::make_unique<ConstNode>("0")
+    );
+    REQUIRE(!node1->isEqual(*node2));
+    REQUIRE(*node1 != *node2);
+}
+
+TEST_CASE("Test TNode inequality - NeqNode") {
+    std::unique_ptr<TNode> node1 = std::make_unique<NeqNode>(
+        std::make_unique<VarNode>("x"),
+        std::make_unique<VarNode>("y")
+    );
+    std::unique_ptr<TNode> node2 = std::make_unique<NeqNode>(
+        std::make_unique<VarNode>("x"),
+        std::make_unique<ConstNode>("0")
+    );
+    REQUIRE(!node1->isEqual(*node2));
+    REQUIRE(*node1 != *node2);
+}
+
+TEST_CASE("Test TNode inequality - GteNode") {
+    std::unique_ptr<TNode> node1 = std::make_unique<GteNode>(
+        std::make_unique<VarNode>("x"),
+        std::make_unique<ConstNode>("0")
+    );
+    std::unique_ptr<TNode> node2 = std::make_unique<GteNode>(
+        std::make_unique<VarNode>("x"),
+        std::make_unique<VarNode>("y")
+    );
+    REQUIRE(!node1->isEqual(*node2));
+    REQUIRE(*node1 != *node2);
+}
+
+TEST_CASE("Test TNode inequality - GtNode") {
+    std::unique_ptr<TNode> node1 = std::make_unique<GtNode>(
+        std::make_unique<VarNode>("x"),
+        std::make_unique<ConstNode>("0")
+    );
+    std::unique_ptr<TNode> node2 = std::make_unique<GtNode>(
+        std::make_unique<VarNode>("y"),
+        std::make_unique<ConstNode>("1")
+    );
+    REQUIRE(!node1->isEqual(*node2));
+    REQUIRE(*node1 != *node2);
+}
+
+TEST_CASE("Test TNode inequality - LteNode") {
+    std::unique_ptr<TNode> node1 = std::make_unique<LteNode>(
+        std::make_unique<VarNode>("x"),
+        std::make_unique<ConstNode>("0")
+    );
+    std::unique_ptr<TNode> node2 = std::make_unique<LteNode>(
+        std::make_unique<VarNode>("y"),
+        std::make_unique<ConstNode>("0")
+    );
+    REQUIRE(!node1->isEqual(*node2));
+    REQUIRE(*node1 != *node2);
+}
+
+TEST_CASE("Test TNode inequality - LtNode") {
+    std::unique_ptr<TNode> node1 = std::make_unique<LtNode>(
+        std::make_unique<VarNode>("x"),
+        std::make_unique<ConstNode>("0")
+    );
+    std::unique_ptr<TNode> node2 = std::make_unique<LtNode>(
+        std::make_unique<VarNode>("x"),
+        std::make_unique<ConstNode>("1")
+    );
+    REQUIRE(!node1->isEqual(*node2));
+    REQUIRE(*node1 != *node2);
+}
+
+TEST_CASE("Test TNode inequality - AndNode") {
+    std::unique_ptr<TNode> node1 = std::make_unique<AndNode>(
+        std::move(makeRelNode1()), std::move(makeRelNode2())
+    );
+    std::unique_ptr<TNode> node2 = std::make_unique<AndNode>(
+    std::move(makeRelNode2()), std::move(makeRelNode1())
+    );
+    REQUIRE(!node1->isEqual(*node2));
+    REQUIRE(*node1 != *node2);
+}
+
+TEST_CASE("Test TNode inequality - OrNode") {
+    std::unique_ptr<TNode> node1 = std::make_unique<OrNode>(
+        std::move(makeRelNode1()), std::move(makeRelNode2())
+    );
+    std::unique_ptr<TNode> node2 = std::make_unique<OrNode>(
+        std::move(makeRelNode2()), std::move(makeRelNode1())
+    );
+    REQUIRE(!node1->isEqual(*node2));
+    REQUIRE(*node1 != *node2);
+}
 
 
