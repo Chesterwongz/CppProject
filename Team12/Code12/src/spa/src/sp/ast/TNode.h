@@ -3,6 +3,9 @@
 #include <string>
 #include <vector>
 #include "TNodeType.h"
+#include "sp/extractors/Extractor.h"
+
+class Extractor;
 
 class TNode {
 private:
@@ -18,6 +21,7 @@ public:
     std::string getValue();
     TNodeType getType();
     std::vector<TNode*> getChildren();
+    virtual void accept(Extractor* e) const;
     [[nodiscard]] virtual bool isEqual(const TNode& other) const;
     friend bool operator==(const TNode& lhs, const TNode& rhs);
     friend bool operator!=(const TNode& lhs, const TNode& rhs);

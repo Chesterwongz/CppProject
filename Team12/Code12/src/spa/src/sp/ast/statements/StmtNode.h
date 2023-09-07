@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <utility>
 
 #include "sp/ast/TNode.h"
