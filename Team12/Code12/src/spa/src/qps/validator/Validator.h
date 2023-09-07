@@ -2,12 +2,12 @@
 
 #include <map>
 #include <string>
-#include "qps/token/Token.h"
+#include "qps/token/QueryToken.h"
 
 class Validator {
 private:
-    std::map<std::string, Token*> declarativeTokensMap;
+    std::map<std::string, QueryToken*> declarativeTokensMap;
 
 public:
-    bool validateTokens(Token *token);
+    bool validateTokens(QueryToken *token);
 };

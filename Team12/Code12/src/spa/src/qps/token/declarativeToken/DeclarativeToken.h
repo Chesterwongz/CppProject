@@ -1,9 +1,15 @@
 #pragma once
 
 #include <string>
-#include "qps/token/Token.h"
+#include "qps/token/QueryToken.h"
 
-class DeclarativeToken : public Token {
+class DeclarativeToken : public QueryToken {
+private:
+    Entity entity;
+    Synonym synonym;
+
 public:
-    std::string getSynonym();
+    explicit DeclarativeToken(Entity entity, Synonym synonym);
+    const Synonym getSynonym();
+    const Entity getEntity();
 };

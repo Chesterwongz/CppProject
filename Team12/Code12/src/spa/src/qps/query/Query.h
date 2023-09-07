@@ -1,14 +1,14 @@
 #pragma once
 
 #include <vector>
-#include "qps/token/Token.h"
+#include "qps/token/QueryToken.h"
 #include "qps/validator/Validator.h"
 #include "PKB.h"
 
 class Query {
 private:
     PKB *pkb;
-    std::map<std::string, Token*> context = {};
+    std::map<std::string, QueryToken*> context = {};
     std::vector<Clause> clauses = {};
 
 public:

@@ -1,9 +1,15 @@
 #pragma once
 
 #include <string>
-#include "qps/token/Token.h"
+#include <vector>
+#include "qps/token/QueryToken.h"
 
 class Tokeniser {
+private:
+
+
 public:
-    Token *convertToTokens(std::string &inputString);
+    QueryToken *convertToTokens(std::string &inputString);
 };
+
+typedef std::vector<std::string> UnvalidatedTokens;
