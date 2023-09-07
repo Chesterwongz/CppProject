@@ -4,11 +4,15 @@
 #include "UsesExtractor.h"
 #include "ModifiesExtractor.h"
 
+DesignExtractor::DesignExtractor() {
+    extractors.emplace_back(std::make_unique<FollowsExtractor>());
+}
+
 DesignExtractor::DesignExtractor(PkbWriter* pkbWriter) {
     extractors.emplace_back(std::make_unique<FollowsExtractor>(pkbWriter));
-    extractors.emplace_back(std::make_unique<ParentExtractor>(pkbWriter));
-    extractors.emplace_back(std::make_unique<UsesExtractor>(pkbWriter));
-    extractors.emplace_back(std::make_unique<ModifiesExtractor>(pkbWriter));
+//    extractors.emplace_back(std::make_unique<ParentExtractor>(pkbWriter));
+//    extractors.emplace_back(std::make_unique<UsesExtractor>(pkbWriter));
+//    extractors.emplace_back(std::make_unique<ModifiesExtractor>(pkbWriter));
 }
 
 void DesignExtractor::extract(TNode *node) {
@@ -17,6 +21,9 @@ void DesignExtractor::extract(TNode *node) {
     }
     for (auto child : node->getChildren()) {
         extract(child);
+    }
+    for (const auto &extractor : extractors) {
+        node->reject(extractor.get());
     }
 }
 
@@ -29,3 +36,7 @@ void DesignExtractor::extract(TNode *node) {
 //    }
 //}
 
+std::map<int, std::set<int>> DesignExtractor::getFollowsMap() {
+    auto* followsExtractor = dynamic_cast<FollowsExtractor*>(extractors[0].get());
+    return followsExtractor->getFollowsMap();
+}

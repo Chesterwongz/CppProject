@@ -58,3 +58,5 @@ bool operator!=(const TNode& lhs, const TNode& rhs) {
 
 void TNode::accept(Extractor *e) const {}
 
+void TNode::reject(Extractor *e) const {}
+
