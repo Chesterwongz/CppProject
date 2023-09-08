@@ -5,9 +5,9 @@
 #include "ModifiesExtractor.h"
 
 DesignExtractor::DesignExtractor() {
-//    extractors.emplace_back(std::make_unique<FollowsExtractor>());
-//    extractors.emplace_back(std::make_unique<ParentExtractor>());
-//    extractors.emplace_back(std::make_unique<UsesExtractor>());
+    extractors.emplace_back(std::make_unique<FollowsExtractor>());
+    extractors.emplace_back(std::make_unique<ParentExtractor>());
+    extractors.emplace_back(std::make_unique<UsesExtractor>());
     extractors.emplace_back(std::make_unique<ModifiesExtractor>());
 }
 
@@ -55,6 +55,6 @@ std::map<std::string, std::set<int>> DesignExtractor::getUsesMap() {
 }
 
 std::map<std::string, std::set<int>> DesignExtractor::getModifiesMap() {
-    auto* modifiesExtractor = dynamic_cast<ModifiesExtractor*>(extractors[0].get());
+    auto* modifiesExtractor = dynamic_cast<ModifiesExtractor*>(extractors[3].get());
     return modifiesExtractor->getModifiesMap();
 }
