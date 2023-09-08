@@ -6,6 +6,7 @@
 
 DesignExtractor::DesignExtractor() {
     extractors.emplace_back(std::make_unique<FollowsExtractor>());
+    extractors.emplace_back(std::make_unique<ParentExtractor>());
 }
 
 DesignExtractor::DesignExtractor(PkbWriter* pkbWriter) {
@@ -39,4 +40,9 @@ void DesignExtractor::extract(TNode *node) {
 std::map<int, std::set<int>> DesignExtractor::getFollowsMap() {
     auto* followsExtractor = dynamic_cast<FollowsExtractor*>(extractors[0].get());
     return followsExtractor->getFollowsMap();
+}
+
+std::map<int, std::set<int>> DesignExtractor::getParentMap() {
+    auto* parentExtractor = dynamic_cast<ParentExtractor*>(extractors[1].get());
+    return parentExtractor->getParentMap();
 }

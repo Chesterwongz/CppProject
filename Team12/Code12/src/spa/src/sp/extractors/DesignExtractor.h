@@ -17,5 +17,6 @@ public:
     void extract(TNode* astRoot);
 //    void dfs(TNode* node);
     std::map<int, std::set<int>> getFollowsMap();  // TODO: remove this method after pkb integration
+    std::map<int, std::set<int>> getParentMap();  // TODO: remove this method after pkb integration
 
 };

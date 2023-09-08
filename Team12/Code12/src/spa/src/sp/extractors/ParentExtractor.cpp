@@ -1,5 +1,7 @@
 #include "ParentExtractor.h"
+#include <iostream>
 
+ParentExtractor::ParentExtractor() = default;
 ParentExtractor::ParentExtractor(PkbWriter *pkbWriter) : Extractor(pkbWriter) {}
 
 void ParentExtractor::visitIf(const IfNode *node) {
@@ -27,6 +29,6 @@ void ParentExtractor::visitStmtList(const StmtListNode *node) {
     }
 }
 
-std::map<int, std::set<int>> ParentExtractor::getParentsMap() {
+std::map<int, std::set<int>> ParentExtractor::getParentMap() {
     return parentsMap;
 }

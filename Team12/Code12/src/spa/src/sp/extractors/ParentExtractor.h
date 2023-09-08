@@ -14,12 +14,13 @@ private:
     std::map<int, std::set<int>> parentsMap;
 
 public:
+    explicit ParentExtractor();
     explicit ParentExtractor(PkbWriter *pkbWriter);
     void visitIf(const IfNode *node) override;
     void visitWhile(const WhileNode *node) override;
     void visitStmtList(const StmtListNode *node) override;
     void postVisitIf(const IfNode *node) override;
     void postVisitWhile(const WhileNode *node) override;
-    std::map<int, std::set<int>> getParentsMap();
+    std::map<int, std::set<int>> getParentMap();
 
 };
