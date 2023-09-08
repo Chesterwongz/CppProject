@@ -5,9 +5,10 @@
 #include "ModifiesExtractor.h"
 
 DesignExtractor::DesignExtractor() {
-    extractors.emplace_back(std::make_unique<FollowsExtractor>());
-    extractors.emplace_back(std::make_unique<ParentExtractor>());
-    extractors.emplace_back(std::make_unique<UsesExtractor>());
+//    extractors.emplace_back(std::make_unique<FollowsExtractor>());
+//    extractors.emplace_back(std::make_unique<ParentExtractor>());
+//    extractors.emplace_back(std::make_unique<UsesExtractor>());
+    extractors.emplace_back(std::make_unique<ModifiesExtractor>());
 }
 
 DesignExtractor::DesignExtractor(PkbWriter* pkbWriter) {
@@ -51,4 +52,9 @@ std::map<int, std::set<int>> DesignExtractor::getParentMap() {
 std::map<std::string, std::set<int>> DesignExtractor::getUsesMap() {
     auto* usesExtractor = dynamic_cast<UsesExtractor*>(extractors[2].get());
     return usesExtractor->getUsesMap();
+}
+
+std::map<std::string, std::set<int>> DesignExtractor::getModifiesMap() {
+    auto* modifiesExtractor = dynamic_cast<ModifiesExtractor*>(extractors[0].get());
+    return modifiesExtractor->getModifiesMap();
 }

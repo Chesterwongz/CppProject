@@ -21,11 +21,11 @@
 
 using std::unique_ptr, std::make_unique, std::vector, std::string, std::map, std::set;
 
-map<string, set<int>> getUsesMap(DesignExtractor* designExtractor) {
-    return designExtractor->getUsesMap();
+map<string, set<int>> getModifiesMap(DesignExtractor* designExtractor) {
+    return designExtractor->getModifiesMap();
 }
 
-void printUsesMap(const map<string, set<int>>& map) {
+void printModifiesMap(const map<string, set<int>>& map) {
     for (const auto& elem : map) {
         std::cout << elem.first << ": ";
         for (const auto &follows : elem.second) {
@@ -35,40 +35,40 @@ void printUsesMap(const map<string, set<int>>& map) {
     }
 }
 
-unique_ptr<ReadNode> makeReadNodeInUses(int lineNum, const string& varName) {
+unique_ptr<ReadNode> makeReadNodeInModifies(int lineNum, const string& varName) {
     unique_ptr<ReadNode> readNode = make_unique<ReadNode>(lineNum);
     readNode->addChild(make_unique<VarNode>(varName));
     return readNode;
 }
 
-unique_ptr<PrintNode> makePrintNodeInUses(int lineNum, const string& varName) {
+unique_ptr<PrintNode> makePrintNodeInModifies(int lineNum, const string& varName) {
     unique_ptr<PrintNode> printNode = make_unique<PrintNode>(lineNum);
     printNode->addChild(make_unique<VarNode>(varName));
     return printNode;
 }
 
-unique_ptr<AssignNode> makeAssignNodeInUses(int lineNum) {
+unique_ptr<AssignNode> makeAssignNodeInModifies(int lineNum) {
     unique_ptr<AssignNode> assignNode = make_unique<AssignNode>(lineNum);
     assignNode->addChild(make_unique<VarNode>("x"));
     unique_ptr<PlusNode> plusNode = make_unique<PlusNode>(
         make_unique<VarNode>("y"),
-       make_unique<ConstNode>("1")
+        make_unique<ConstNode>("1")
     );
     assignNode->addChild(std::move(plusNode));
     return assignNode;
 }
 
-TEST_CASE("UsesExtractor - no uses") {
+TEST_CASE("ModifiesExtractor - no modifies") {
 //    string input =
 //        "procedure simple {"
-//        "read y;"
-//        "read y;"
+//        "print x;"
+//        "print y;"
 //        "}";
     unique_ptr<ProgramNode> programNode = make_unique<ProgramNode>();
     unique_ptr<ProcNode> procNode = make_unique<ProcNode>("simple");
     unique_ptr<StmtListNode> stmtListNode = make_unique<StmtListNode>();
-    stmtListNode->addChild(makeReadNodeInUses(1, "y"));
-    stmtListNode->addChild(makeReadNodeInUses(2, "y"));
+    stmtListNode->addChild(makePrintNodeInModifies(1, "x"));
+    stmtListNode->addChild(makePrintNodeInModifies(2, "y"));
     procNode->addChild(std::move(stmtListNode));
     programNode->addChild(std::move(procNode));
 
@@ -77,12 +77,38 @@ TEST_CASE("UsesExtractor - no uses") {
     designExtractor.extract(programNode.get());
 
     // get follows map
-    map<string, set<int>> res = getUsesMap(&designExtractor);
-    printUsesMap(res);
+    map<string, set<int>> res = getModifiesMap(&designExtractor);
+    printModifiesMap(res);
     REQUIRE(res.empty());
 }
 
-TEST_CASE("UsesExtractor - non-nesting, 1 uses") {
+TEST_CASE("ModifiesExtractor - 2 read modifies") {
+//    string input =
+//        "procedure simple {"
+//        "read x;"
+//        "read y;"
+//        "}";
+    unique_ptr<ProgramNode> programNode = make_unique<ProgramNode>();
+    unique_ptr<ProcNode> procNode = make_unique<ProcNode>("simple");
+    unique_ptr<StmtListNode> stmtListNode = make_unique<StmtListNode>();
+    stmtListNode->addChild(makeReadNodeInModifies(1, "x"));
+    stmtListNode->addChild(makeReadNodeInModifies(2, "y"));
+    procNode->addChild(std::move(stmtListNode));
+    programNode->addChild(std::move(procNode));
+
+    // extract
+    DesignExtractor designExtractor;
+    designExtractor.extract(programNode.get());
+
+    // get follows map
+    map<string, set<int>> res = getModifiesMap(&designExtractor);
+    printModifiesMap(res);
+    REQUIRE(res.size() == 2);
+    REQUIRE(res["x"] == set<int>{1});
+    REQUIRE(res["y"] == set<int>{2});
+}
+
+TEST_CASE("ModifiesExtractor - 1 read 1 assign") {
 //    string input =
 //        "procedure simple {"
 //        "read y;"
@@ -92,9 +118,9 @@ TEST_CASE("UsesExtractor - non-nesting, 1 uses") {
     unique_ptr<ProgramNode> programNode = make_unique<ProgramNode>();
     unique_ptr<ProcNode> procNode = make_unique<ProcNode>("simple");
     unique_ptr<StmtListNode> stmtListNode = make_unique<StmtListNode>();
-    stmtListNode->addChild(makeReadNodeInUses(1, "y"));
-    stmtListNode->addChild(makePrintNodeInUses(2, "x"));
-    stmtListNode->addChild(makeAssignNodeInUses(3));
+    stmtListNode->addChild(makeReadNodeInModifies(1, "y"));
+    stmtListNode->addChild(makePrintNodeInModifies(2, "x"));
+    stmtListNode->addChild(makeAssignNodeInModifies(3));
     procNode->addChild(std::move(stmtListNode));
     programNode->addChild(std::move(procNode));
 
@@ -103,37 +129,39 @@ TEST_CASE("UsesExtractor - non-nesting, 1 uses") {
     designExtractor.extract(programNode.get());
 
     // get follows map
-    map<string, set<int>> res = getUsesMap(&designExtractor);
-    printUsesMap(res);
+    map<string, set<int>> res = getModifiesMap(&designExtractor);
+    printModifiesMap(res);
     REQUIRE(res.size() == 2);
-    REQUIRE(res["x"] == set<int>{2});
-    REQUIRE(res["y"] == set<int>{3});
+    REQUIRE(res["x"] == set<int>{3});
+    REQUIRE(res["y"] == set<int>{1});
 }
 
-TEST_CASE("UsesExtractor - if node") {
+TEST_CASE("ModifiesExtractor - if node") {
 //    string input =
 //        "procedure simple {"
 // 1       "read y;"
 // 2       "print x;"
 // 3       "if (num1 < num2) then {"
-// 4       "print z;"
+// 4       "read z;"
 //        "} else {"
 // 5       "x = y + 1;"
+// 6       "read z;"
 //        "}"
 //        "}";
     unique_ptr<ProgramNode> programNode = make_unique<ProgramNode>();
     unique_ptr<ProcNode> procNode = make_unique<ProcNode>("simple");
     unique_ptr<StmtListNode> stmtListNode = make_unique<StmtListNode>();
-    stmtListNode->addChild(makeReadNodeInUses(1, "y"));
-    stmtListNode->addChild(makePrintNodeInUses(2, "x"));
+    stmtListNode->addChild(makeReadNodeInModifies(1, "y"));
+    stmtListNode->addChild(makePrintNodeInModifies(2, "x"));
     // make if node
     unique_ptr<IfNode> ifNode = make_unique<IfNode>(3);
     ifNode->addChild(make_unique<LtNode>(make_unique<VarNode>("num1"), make_unique<VarNode>("num2")));
     unique_ptr<StmtListNode> thenStmtListNode = make_unique<StmtListNode>();
-    thenStmtListNode->addChild(makePrintNodeInUses(4, "z"));
+    thenStmtListNode->addChild(makeReadNodeInModifies(4, "z"));
     ifNode->addChild(std::move(thenStmtListNode));
     unique_ptr<StmtListNode> elseStmtListNode = make_unique<StmtListNode>();
-    elseStmtListNode->addChild(makeAssignNodeInUses(5));
+    elseStmtListNode->addChild(makeAssignNodeInModifies(5));
+    elseStmtListNode->addChild(makeReadNodeInModifies(6, "z"));
     ifNode->addChild(std::move(elseStmtListNode));
     // add if to proc
     stmtListNode->addChild(std::move(ifNode));
@@ -143,17 +171,15 @@ TEST_CASE("UsesExtractor - if node") {
     // extract
     DesignExtractor designExtractor;
     designExtractor.extract(programNode.get());
-    auto res = getUsesMap(&designExtractor);
-    printUsesMap(res);
-    REQUIRE(res.size() == 5);
-    REQUIRE(res["x"] == set<int>{2});
-    REQUIRE(res["y"] == set<int>{3, 5});
-    REQUIRE(res["z"] == set<int>{3, 4});
-    REQUIRE(res["num1"] == set<int>{3});
-    REQUIRE(res["num2"] == set<int>{3});
+    auto res = getModifiesMap(&designExtractor);
+    printModifiesMap(res);
+    REQUIRE(res.size() == 3);
+    REQUIRE(res["x"] == set<int>{3, 5});
+    REQUIRE(res["y"] == set<int>{1});
+    REQUIRE(res["z"] == set<int>{3, 4, 6});
 }
 
-TEST_CASE("UsesExtractor - if in while node") {
+TEST_CASE("ModifiesExtractor - if in while node") {
 //    string input =
 //        "procedure simple {"
 // 1       "read x"
@@ -161,7 +187,7 @@ TEST_CASE("UsesExtractor - if in while node") {
 // 3       "while (x < y) {"
 // 4       "if (x == y) then {"
 // 5       "x = y + 1;"
-// 6       "} else { print w; }"
+// 6       "} else { read w; }"
 // 7       "print z;"
 //        "}"
 // 8       "read num1;"
@@ -169,8 +195,8 @@ TEST_CASE("UsesExtractor - if in while node") {
     unique_ptr<ProgramNode> programNode = make_unique<ProgramNode>();
     unique_ptr<ProcNode> procNode = make_unique<ProcNode>("simple");
     unique_ptr<StmtListNode> stmtListNode = make_unique<StmtListNode>();
-    stmtListNode->addChild(makeReadNodeInUses(1, "x"));
-    stmtListNode->addChild(makeReadNodeInUses(2, "y"));
+    stmtListNode->addChild(makeReadNodeInModifies(1, "x"));
+    stmtListNode->addChild(makeReadNodeInModifies(2, "y"));
     // make while node
     unique_ptr<WhileNode> whileNode = make_unique<WhileNode>(3);
     whileNode->addChild(make_unique<LtNode>(make_unique<VarNode>("x"), make_unique<VarNode>("y")));
@@ -179,29 +205,29 @@ TEST_CASE("UsesExtractor - if in while node") {
     unique_ptr<IfNode> ifNode = make_unique<IfNode>(4);
     ifNode->addChild(make_unique<EqNode>(make_unique<VarNode>("x"), make_unique<VarNode>("y")));
     unique_ptr<StmtListNode> thenStmtListNode = make_unique<StmtListNode>();
-    thenStmtListNode->addChild(makeAssignNodeInUses(5));
+    thenStmtListNode->addChild(makeAssignNodeInModifies(5));
     ifNode->addChild(std::move(thenStmtListNode));
     unique_ptr<StmtListNode> elseStmtListNode = make_unique<StmtListNode>();
-    elseStmtListNode->addChild(makePrintNodeInUses(6, "w"));
+    elseStmtListNode->addChild(makeReadNodeInModifies(6, "w"));
     ifNode->addChild(std::move(elseStmtListNode));
     // add if to while
     whileStmtListNode->addChild(std::move(ifNode));
-    whileStmtListNode->addChild(makePrintNodeInUses(7, "z"));
+    whileStmtListNode->addChild(makePrintNodeInModifies(7, "z"));
     // add while to proc
     whileNode->addChild(std::move(whileStmtListNode));
     stmtListNode->addChild(std::move(whileNode));
-    stmtListNode->addChild(makeReadNodeInUses(8, "num1"));
+    stmtListNode->addChild(makeReadNodeInModifies(8, "num1"));
     procNode->addChild(std::move(stmtListNode));
     programNode->addChild(std::move(procNode));
 
     // extract
     DesignExtractor designExtractor;
     designExtractor.extract(programNode.get());
-    auto res = getUsesMap(&designExtractor);
-    printUsesMap(res);
+    auto res = getModifiesMap(&designExtractor);
+    printModifiesMap(res);
     REQUIRE(res.size() == 4);
-    REQUIRE(res["x"] == set<int>{3, 4});
-    REQUIRE(res["y"] == set<int>{3, 4, 5});
-    REQUIRE(res["w"] == set<int>{6, 4, 3});
-    REQUIRE(res["z"] == set<int>{7, 3});
+    REQUIRE(res["x"] == set<int>{1, 3, 4, 5});
+    REQUIRE(res["y"] == set<int>{2});
+    REQUIRE(res["w"] == set<int>{3, 4, 6});
+    REQUIRE(res["num1"] == set<int>{8});
 }

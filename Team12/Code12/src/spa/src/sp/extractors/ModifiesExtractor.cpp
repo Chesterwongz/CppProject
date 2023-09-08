@@ -37,7 +37,9 @@ void ModifiesExtractor::visitVariable(const VarNode *node) {
 void ModifiesExtractor::processCurrState() {
     ModifiesStmtState &currState = stmtStates.back();
     for (const std::string &var : currState.varsModified) {
-        addModifies(currState.lineNum, var);
+        for (const ModifiesStmtState& state : stmtStates) {
+            addModifies(state.lineNum, var);
+        }
     }
 }
 
@@ -62,11 +64,11 @@ void ModifiesExtractor::postVisitRead(const ReadNode *node) {
     postVisit();
 }
 
-std::map<std::string, std::set<int>> ModifiesExtractor::getModifiedMap() {
-    return modifiesMap;
-}
-
 void ModifiesExtractor::addModifies(int lineNum, const std::string &var) {
     modifiesMap[var].insert(lineNum);
+}
+
+std::map<std::string, std::set<int>> ModifiesExtractor::getModifiesMap() {
+    return modifiesMap;
 }
 

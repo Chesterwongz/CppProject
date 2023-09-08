@@ -41,5 +41,5 @@ public:
     void postVisitWhile(const WhileNode *node) override;
     void postVisitRead(const ReadNode *node) override;
     void addModifies(int lineNum, const std::string &var);
-    std::map<std::string, std::set<int>> getModifiedMap();
+    std::map<std::string, std::set<int>> getModifiesMap();
 };
