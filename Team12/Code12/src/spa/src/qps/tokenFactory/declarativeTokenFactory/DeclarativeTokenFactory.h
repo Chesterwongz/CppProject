@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#include "../TokenFactory.h";
+#include "qps/tokenFactory/TokenFactory.h"
 
 using std::unique_ptr, std::vector, std::string;
 

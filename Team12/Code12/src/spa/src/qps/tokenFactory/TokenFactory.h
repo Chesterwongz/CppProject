@@ -6,17 +6,19 @@
 #include <set>
 #include <memory>
 
-#include "../../common/utils/StringUtils.h"
+#include "common/utils/StringUtils.h"
 #include "qps/tokeniser/Tokeniser.h"
 #include "qps/token/QueryToken.h"
-#include "../token/TokenLinkedList/QueryTokenLL.h"
+#include "qps/token/TokenLinkedList/QueryTokenLL.h"
 
 // Following Factory Method Pattern
 // lexical validator + token factory method
 
 using std::string, std::vector, std::unique_ptr, std::unordered_map, std::set;
 
-typedef vector<QueryToken> TokenStream;
+// the reason for the complex type is because of object slicing
+// https://www.geeksforgeeks.org/object-slicing-in-c/
+typedef vector<unique_ptr<QueryToken>> TokenStream;
 typedef unique_ptr<TokenStream> TokenStreamPtr;
 
 enum FACTORY_TYPES {
@@ -26,15 +28,14 @@ enum FACTORY_TYPES {
     PATTERN
 };
 
+class TokenFactory;
+
 typedef vector<string> ValidatedTokens;
 typedef unique_ptr <vector<string>> UnvalidatedTokenPtr;
 typedef unordered_map<FACTORY_TYPES, unique_ptr<TokenFactory>> TokenFactoryPool;
 
 class TokenFactory {
 protected:
-    explicit TokenFactory() {};
-    ~TokenFactory() {};
-
     const bool isSynonym(const string data);
     const bool isStmtRef(const string data);
     const bool isEntRef(const string data);
@@ -44,12 +45,15 @@ protected:
     const virtual bool isValid(UnvalidatedTokens unvalidatedTokens) = 0;
 
 public:
+    explicit TokenFactory() {};
+    ~TokenFactory() {};
+
     // used like this:
-    // unique_ptr<TokenFactory> tf = TokenFactory.createOrAddFactoryToPool(keyword);
-    // tf->createToken(validatedTokens);
-    unique_ptr<TokenFactory> createOrAddFactoryToPool(const string keyword);
+    // DeclarativeTokenFactory* dtf = TokenFactory::getOrCreateFactory();
+    // dtf.createToken(validatedTokens);
     virtual TokenStreamPtr createTokens(ValidatedTokens validatedTokens) = 0;
 
     // for unit-tests; should be under protected
+    static TokenFactory* getOrCreateFactory(string keyword);
     static TokenFactoryPool tokenFactories;
 };

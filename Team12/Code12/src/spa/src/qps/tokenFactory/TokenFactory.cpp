@@ -1,10 +1,10 @@
 #include <regex>
+#include <iostream>
 
 #include "TokenFactory.h"
 #include "declarativeTokenFactory/DeclarativeTokenFactory.h"
-#include "../../common/utils/StringUtils.h";
 
-set<string> TokenFactory::entities = {
+const set<string> TokenFactory::entities = {
 	"stmt",
 	"read",
 	"print",
@@ -15,7 +15,7 @@ set<string> TokenFactory::entities = {
 	"variable",
 	"constant",
 	"procedure"
-}
+};
 
 const bool TokenFactory::isSynonym(string data) {
 	return StringUtils::isName(data);
@@ -32,13 +32,14 @@ const bool TokenFactory::isEntRef(string data) {
 	return isSynonym(data) || data == "_" || std::regex_match(data, identQuotePattern);
 }
 
-unique_ptr<TokenFactory> TokenFactory::createOrAddFactoryToPool(string keyword) {
+TokenFactory* TokenFactory::getOrCreateFactory(string keyword) {
 	if (entities.find(keyword) != entities.end()) 
 	{
 		if (tokenFactories.find(DECLARATIVE) == tokenFactories.end()) {
 			tokenFactories[DECLARATIVE] = std::make_unique<DeclarativeTokenFactory>();
+            std::cout << "added declarativeTokenFactory to tokenFactories" << std::endl;
 		}
-		return tokenFactories[DECLARATIVE];
+		return tokenFactories[DECLARATIVE].get();
 	}
 
 	return nullptr;

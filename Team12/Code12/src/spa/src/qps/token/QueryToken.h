@@ -10,8 +10,9 @@ typedef std::vector<QueryToken> TokenList;
 class QueryToken {
 public:
     static TokenList tokens;
-    virtual bool semanticValidation() = 0;
-    virtual Clause *buildClause() = 0;
+    // commented out for building :3
+//    virtual bool semanticValidation() = 0;
+//    virtual Clause *buildClause() = 0;
 };
 
 //enum Entity {
