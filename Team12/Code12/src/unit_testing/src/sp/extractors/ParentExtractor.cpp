@@ -18,8 +18,8 @@ map<int, set<int>> getParentMap(DesignExtractor* designExtractor) {
     return designExtractor->getParentMap();
 }
 
-void printParentMap(const map<int, set<int>>& followsMap) {
-    for (const auto& elem : followsMap) {
+void printParentMap(const map<int, set<int>>& map) {
+    for (const auto& elem : map) {
         std::cout << elem.first << ": ";
         for (const auto &follows : elem.second) {
             std::cout << follows << " ";
@@ -95,8 +95,11 @@ TEST_CASE("ParentExtractor - if node") {
     designExtractor.extract(programNode.get());
     auto res = getParentMap(&designExtractor);
     printParentMap(res);
-    REQUIRE(res.size() == 1);
-    REQUIRE(res[3] == set<int>{4, 5, 6, 7});
+    REQUIRE(res.size() == 4);
+    REQUIRE(res[4] == set<int>{3});
+    REQUIRE(res[5] == set<int>{3});
+    REQUIRE(res[6] == set<int>{3});
+    REQUIRE(res[7] == set<int>{3});
 }
 
 TEST_CASE("ParentExtractor - while node") {
@@ -143,7 +146,9 @@ TEST_CASE("ParentExtractor - while node") {
     designExtractor.extract(programNode.get());
     auto res = getParentMap(&designExtractor);
     printParentMap(res);
-    REQUIRE(res.size() == 2);
-    REQUIRE(res[3] == set<int>{4, 5, 6, 7});
-    REQUIRE(res[4] == set<int>{5, 6});
+    REQUIRE(res.size() == 4);
+    REQUIRE(res[4] == set<int>{3});
+    REQUIRE(res[5] == set<int>{3, 4});
+    REQUIRE(res[6] == set<int>{3, 4});
+    REQUIRE(res[7] == set<int>{3});
 }

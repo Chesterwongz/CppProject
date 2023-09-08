@@ -1,5 +1,4 @@
 #include "ParentExtractor.h"
-#include <iostream>
 
 ParentExtractor::ParentExtractor() = default;
 ParentExtractor::ParentExtractor(PkbWriter *pkbWriter) : Extractor(pkbWriter) {}
@@ -22,9 +21,9 @@ void ParentExtractor::postVisitWhile(const WhileNode *node) {
 
 void ParentExtractor::visitStmtList(const StmtListNode *node) {
     std::vector<int> childrenLineNums = node->getChildrenLineNums();
-    for (int parent : parents) {
-        for (int childLine : childrenLineNums) {
-            parentsMap[parent].insert(childLine);
+    for (int childLine : childrenLineNums) {
+        for (int parent : parents) {
+            parentsMap[childLine].insert(parent);
         }
     }
 }

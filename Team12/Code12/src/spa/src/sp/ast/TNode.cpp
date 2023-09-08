@@ -11,7 +11,7 @@ void TNode::addChild(std::unique_ptr<TNode> child) {
     children.push_back(std::move(child));
 }
 
-std::string TNode::getValue() {
+std::string TNode::getValue() const {
     return value;
 }
 

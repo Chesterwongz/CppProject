@@ -22,7 +22,7 @@ public:
 
     void addChild(std::unique_ptr<TNode> child);
 
-    std::string getValue();
+    [[nodiscard]] std::string getValue() const;
 
     TNodeType getType();
 

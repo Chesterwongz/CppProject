@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <string>
 #include "Extractor.h"
 #include "sp/ast/TNode.h"
 #include "pkb/PkbWriter.h"
@@ -18,5 +19,6 @@ public:
 //    void dfs(TNode* node);
     std::map<int, std::set<int>> getFollowsMap();  // TODO: remove this method after pkb integration
     std::map<int, std::set<int>> getParentMap();  // TODO: remove this method after pkb integration
+    std::map<std::string, std::set<int>> getUsesMap();  // TODO: remove this method after pkb integration
 
 };

@@ -11,7 +11,7 @@
 class ParentExtractor : public Extractor {
 private:
     std::vector<int> parents;
-    std::map<int, std::set<int>> parentsMap;
+    std::map<int, std::set<int>> parentsMap; // child, parents
 
 public:
     explicit ParentExtractor();
