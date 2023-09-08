@@ -23,11 +23,15 @@ void ParentExtractor::visitStmtList(const StmtListNode *node) {
     std::vector<int> childrenLineNums = node->getChildrenLineNums();
     for (int childLine : childrenLineNums) {
         for (int parent : parents) {
-            parentsMap[childLine].insert(parent);
+            addParent(parent, childLine);
         }
     }
 }
 
 std::map<int, std::set<int>> ParentExtractor::getParentMap() {
     return parentsMap;
+}
+
+void ParentExtractor::addParent(int parent, int child) {
+    parentsMap[child].insert(parent);
 }

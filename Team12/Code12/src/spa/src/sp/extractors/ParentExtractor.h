@@ -21,6 +21,7 @@ public:
     void visitStmtList(const StmtListNode *node) override;
     void postVisitIf(const IfNode *node) override;
     void postVisitWhile(const WhileNode *node) override;
+    void addParent(int parent, int child);
     std::map<int, std::set<int>> getParentMap();
 
 };

@@ -28,7 +28,7 @@ void UsesExtractor::visitVariable(const VarNode *node) {
         // no valid stmts visited before this variable node
         return;
     }
-    StmtState& currState = stmtStates.back();
+    UsesStmtState& currState = stmtStates.back();
     if (currState.isAnticipateAssignLhs) {
         // LHS of assign statement, do not add to uses
         currState.isAnticipateAssignLhs = false;
@@ -38,10 +38,10 @@ void UsesExtractor::visitVariable(const VarNode *node) {
 }
 
 void UsesExtractor::processCurrState() {
-    StmtState& currState = stmtStates.back();
+    UsesStmtState& currState = stmtStates.back();
     for (const std::string& var : currState.varsUsed) {
-        for (const StmtState& state : stmtStates) {
-            usesMap[var].insert(state.lineNum);
+        for (const UsesStmtState& state : stmtStates) {
+            addUses(state.lineNum, var);
         }
     }
 }
@@ -69,5 +69,9 @@ void UsesExtractor::postVisitPrint(const PrintNode *node) {
 
 std::map<std::string, std::set<int>> UsesExtractor::getUsesMap() {
     return usesMap;
+}
+
+void UsesExtractor::addUses(int lineNum, const std::string &var) {
+    usesMap[var].insert(lineNum);
 }
 

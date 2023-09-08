@@ -46,6 +46,7 @@ public:
     virtual void postVisitPrint(const PrintNode* node) {};
 
     virtual void visitRead(const ReadNode* node) {};
+    virtual void postVisitRead(const ReadNode* node) {};
 
     virtual void visitWhile(const WhileNode* node) {};
     virtual void postVisitWhile(const WhileNode* node) {};

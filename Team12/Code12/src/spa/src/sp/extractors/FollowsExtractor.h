@@ -21,7 +21,7 @@ private:
     std::map<int, std::set<int>> followsMap;
     // each vector element is a nesting block, e.g. proc, if, while {}
     std::stack<std::vector<int>> nestingBlocksStack;
-    void processFollows(const StmtNode *node);
+    void processCurrStmt(const StmtNode *node);
 
 public:
     FollowsExtractor(); // TODO: remove this constructor after pkb integration
@@ -34,6 +34,7 @@ public:
     void visitWhile(const WhileNode *node) override;
     void visitStmtList(const StmtListNode *node) override;
     void postVisitStmtList(const StmtListNode *node) override;
+    void addFollows(int prevLine, int currLine);
 
     std::map<int, std::set<int>> getFollowsMap(); // TODO: remove this method after pkb integration
 };

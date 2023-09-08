@@ -5,27 +5,27 @@ FollowsExtractor::FollowsExtractor() : Extractor() {}
 FollowsExtractor::FollowsExtractor(PkbWriter *pkbWriter) : Extractor(pkbWriter) {}
 
 void FollowsExtractor::visitAssign(const AssignNode *node) {
-    processFollows(node);
+    processCurrStmt(node);
 }
 
 void FollowsExtractor::visitCall(const CallNode *node) {
-    processFollows(node);
+    processCurrStmt(node);
 }
 
 void FollowsExtractor::visitIf(const IfNode *node) {
-    processFollows(node);
+    processCurrStmt(node);
 }
 
 void FollowsExtractor::visitPrint(const PrintNode *node) {
-    processFollows(node);
+    processCurrStmt(node);
 }
 
 void FollowsExtractor::visitRead(const ReadNode *node) {
-    processFollows(node);
+    processCurrStmt(node);
 }
 
 void FollowsExtractor::visitWhile(const WhileNode *node) {
-    processFollows(node);
+    processCurrStmt(node);
 }
 
 void FollowsExtractor::visitStmtList(const StmtListNode *node) {
@@ -36,7 +36,7 @@ void FollowsExtractor::postVisitStmtList(const StmtListNode *node) {
     nestingBlocksStack.pop(); // remove nesting block
 }
 
-void FollowsExtractor::processFollows(const StmtNode *node) {
+void FollowsExtractor::processCurrStmt(const StmtNode *node) {
     // ai-gen start(gpt-4, 2)
     /*
     prompt:
@@ -49,11 +49,15 @@ void FollowsExtractor::processFollows(const StmtNode *node) {
     int currLine = node->getLineNum();
     // Update the Follows* relationships for prev lines in this block
     for (const int& prevLine : nestingBlocksStack.top()) {
-        // pkbWriter->addFollows(prevLine, currLine);
-        followsMap[prevLine].insert(currLine);
+        addFollows(prevLine, currLine);
     }
     nestingBlocksStack.top().push_back(currLine);
     // ai-gen end
+}
+
+void FollowsExtractor::addFollows(int prevLine, int currLine) {
+    // pkbWriter->addFollows(prevLine, currLine);
+    followsMap[prevLine].insert(currLine);
 }
 
 std::map<int, std::set<int>> FollowsExtractor::getFollowsMap() {

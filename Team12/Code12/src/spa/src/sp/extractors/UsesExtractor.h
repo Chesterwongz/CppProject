@@ -13,7 +13,7 @@
 #include "sp/ast/statements/PrintNode.h"
 #include "sp/ast/expressions/VarNode.h"
 
-struct StmtState {
+struct UsesStmtState {
     int lineNum;
     std::unordered_set<std::string> varsUsed;
     bool isAnticipateAssignLhs = false;
@@ -21,7 +21,7 @@ struct StmtState {
 
 class UsesExtractor : public Extractor {
 private:
-    std::vector<StmtState> stmtStates;
+    std::vector<UsesStmtState> stmtStates;
     std::string procName;
     void processCurrState();
     void postVisit();
@@ -40,5 +40,6 @@ public:
     void postVisitIf(const IfNode *node) override;
     void postVisitWhile(const WhileNode *node) override;
     void postVisitPrint(const PrintNode *node) override;
+    void addUses(int lineNum, const std::string &var);
     std::map<std::string, std::set<int>> getUsesMap();
 };
