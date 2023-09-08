@@ -4,7 +4,7 @@ void StmtListNode::accept(Extractor *e) const {
     e->visitStmtList(this);
 }
 
-void StmtListNode::reject(Extractor *e) const {
+void StmtListNode::cleanup(Extractor *e) const {
     e->postVisitStmtList(this);
 }
 

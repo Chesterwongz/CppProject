@@ -24,7 +24,7 @@ void DesignExtractor::extract(TNode *node) {
         extract(child);
     }
     for (const auto &extractor : extractors) {
-        node->reject(extractor.get());
+        node->cleanup(extractor.get());
     }
 }
 
