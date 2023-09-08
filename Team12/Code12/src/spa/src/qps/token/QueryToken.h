@@ -14,18 +14,18 @@ public:
     virtual Clause *buildClause() = 0;
 };
 
-enum Entity {
-    PROCEDURE,
-    STATEMENT,
-    READ,
-    PRINT,
-    ASSIGN,
-    CALL,
-    WHILE,
-    IF,
-    VARIABLE,
-    CONSTANT
-};
+//enum Entity {
+//    PROCEDURE,
+//    STATEMENT,
+//    READ,
+//    PRINT,
+//    ASSIGN,
+//    CALL,
+//    WHILE,
+//    IF,
+//    VARIABLE,
+//    CONSTANT
+//};
 
 // TODO: feels like should be moved to a separate folder for references in the future
 enum Reference {

@@ -3,6 +3,8 @@
 #include <string>
 #include "qps/token/QueryToken.h"
 
+typedef std::string Entity;
+
 class DeclarativeToken : public QueryToken {
 private:
     Entity entity;
