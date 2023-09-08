@@ -16,7 +16,7 @@ QPS::~QPS() {
 }
 
 void QPS::processQueryString(std::string &queryString) {
-    std::vector<QueryToken*> queryTokenVector = tokeniser->convertToTokens(queryString);
+    std::vector<QueryToken> *queryTokenVector = tokeniser->convertToTokens(queryString);
 
     bool isTokensValid = validator->validateTokens(queryTokenVector);
     if (!isTokensValid) {

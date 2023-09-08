@@ -9,5 +9,5 @@ private:
     std::map<std::string, QueryToken*> declarativeTokensMap;
 
 public:
-    bool validateTokens(std::vector<QueryToken*> queryTokenVector);
+    bool validateTokens(std::vector<QueryToken> *queryTokenVector);
 };

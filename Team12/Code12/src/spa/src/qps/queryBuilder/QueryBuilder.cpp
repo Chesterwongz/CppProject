@@ -6,13 +6,13 @@
 
 QueryBuilder::QueryBuilder(PKB *pkb) : pkb(pkb) {}
 
-Query *QueryBuilder::buildQuery(std::vector<QueryToken*> queryTokenVector) {
+Query *QueryBuilder::buildQuery(std::vector<QueryToken> *queryTokenVector) {
     auto *newQuery = new Query(pkb);
-    for (QueryToken* queryToken : queryTokenVector) {
-        if (auto *declarativeToken = dynamic_cast<DeclarativeToken*>(queryToken)) {
+    for (QueryToken &queryToken : *queryTokenVector) {
+        if (auto *declarativeToken = dynamic_cast<DeclarativeToken*>(&queryToken)) {
             newQuery->addSynonym(declarativeToken);
         } else {
-            Clause *clause = queryToken->buildClause();
+            Clause *clause = queryToken.buildClause();
             newQuery->addClause(clause);
         }
     }
