@@ -138,17 +138,16 @@ vector<string> Tokeniser::getArguments(vector<string> whitespaceDelimitedFragmen
 
     for (int k = *iPtr; k < length; k++) {
         string currWord = whitespaceDelimitedFragments[k];
-        if ((currWord != pattern && currWord != suchThat[0]) ||
-            (currWord == suchThat[0] && isArgumentSuch(whitespaceDelimitedFragments, k))) {
-            // currWord is an argument
 
-            arguments.push_back(whitespaceDelimitedFragments[k]);
-            (*iPtr)++;
-        }
-        else {
+        if (TokeniserUtil::isPattern(currWord) || TokeniserUtil::isArgumentSuch(whitespaceDelimitedFragments, k)) {
             // currword is either "pattern" or "such" followed by "that"
             // all the arguments for the earlier keyword have already been captured
             break;
+        }
+        else {
+            // currWord is an argument
+            arguments.push_back(currWord);
+            (*iPtr)++;
         }
 
     }
