@@ -7,6 +7,10 @@
 using std::string;
 using std::vector;
 
+const char semicolon = ';';
+const char whitespace = ' ';
+const char comma = ',';
+
 class TokeniserUtil {
 public:
 	static bool isDesignEntity(string word);
@@ -22,4 +26,6 @@ public:
 	static vector<string> delimitString(string str, char delimiter);
 
 	static bool isExistSubsequentTokens(vector<string> stringVec, std::size_t currIndex);
+
+	static bool isEndsWithComma(string str);
 };

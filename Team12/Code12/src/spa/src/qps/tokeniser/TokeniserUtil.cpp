@@ -86,3 +86,11 @@ bool TokeniserUtil::isExistSubsequentTokens(vector<string> stringVec, std::size_
 
     return true;
 }
+
+// returns true if the last character of str is ',' and false otherwise
+bool TokeniserUtil::isEndsWithComma(string str) {
+    if (!str.empty() && str.back() == comma) {
+        return true;
+    }
+    return false;
+}

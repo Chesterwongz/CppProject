@@ -13,9 +13,6 @@
 using std::string;
 using std::vector;
 
-const char semicolon = ';';
-const char whitespace = ' ';
-
 std::vector<QueryToken>* Tokeniser::convertToTokens(std::string* query) {
     vector<QueryToken> tokens;
     vector<string> queryFragments;
