@@ -7,7 +7,7 @@
 // Constructor
 ModifiesStorage::ModifiesStorage() {}
 
-// Setter and Getter for the first data structure (variable -> statement numbers)
+// Setter and Getter for both data structures (variable -> statement numbers and statement number -> variables)
 void ModifiesStorage::setVariableModification(const std::string& variableName, int statementNumber) {
     if (!variableToStatements.count(variableName)) {
         variableToStatements[variableName] = std::vector<int>{ statementNumber };
@@ -19,19 +19,7 @@ void ModifiesStorage::setVariableModification(const std::string& variableName, i
             statementNumbers.insert(it, statementNumber);
         }
     }
-}
 
-std::vector<int> ModifiesStorage::getStatementNumbersForVariable(const std::string& variableName) {
-    if (variableToStatements.count(variableName)) {
-        return variableToStatements[variableName];
-    }
-    else {
-        return std::vector<int>();
-    }
-}
-
-// Setter and Getter for the second data structure (statement number -> variable names)
-void ModifiesStorage::addStatementModification(int statementNumber, const std::string& variableName) {
     if (!statementToVariables.count(statementNumber)) {
         statementToVariables[statementNumber] = std::vector<std::string>{ variableName };
     }
@@ -40,6 +28,15 @@ void ModifiesStorage::addStatementModification(int statementNumber, const std::s
         if (std::find(variableNames.begin(), variableNames.end(), variableName) == variableNames.end()) {
             variableNames.push_back(variableName);
         }
+    }
+}
+
+std::vector<int> ModifiesStorage::getStatementNumbersForVariable(const std::string& variableName) {
+    if (variableToStatements.count(variableName)) {
+        return variableToStatements[variableName];
+    }
+    else {
+        return std::vector<int>();
     }
 }
 

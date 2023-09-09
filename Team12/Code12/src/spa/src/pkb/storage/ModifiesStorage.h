@@ -13,9 +13,6 @@ public:
     // Setter and Getter for the first data structure (variable -> statement numbers)
     void setVariableModification(const std::string& variableName, int statementNumber);
     std::vector<int> getStatementNumbersForVariable(const std::string& variableName);
-
-    // Setter and Getter for the second data structure (statement number -> variable names)
-    void addStatementModification(int statementNumber, const std::string& variableName);
     std::vector<std::string> getVariablesForStatement(int statementNumber);
 
     // Additional methods
