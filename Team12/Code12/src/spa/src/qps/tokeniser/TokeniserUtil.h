@@ -4,19 +4,22 @@
 #include <string>
 #include <vector>
 
+using std::string;
+using std::vector;
+
 class TokeniserUtil {
 public:
-	static bool isDesignEntity(std::string word);
+	static bool isDesignEntity(string word);
 
-	static bool isSelect(std::string word);
+	static bool isSelect(string word);
 
-	static bool isSuchThat(std::vector<std::string> whitespaceDelimitedFragments, std::size_t* iPtr);
+	static bool isSuchThat(vector<string> whitespaceDelimitedFragments, std::size_t* iPtr);
 
-	static bool isPattern(std::string word);
+	static bool isPattern(string word);
 
-	static bool isArgumentSuch(std::vector<std::string> whitespaceDelimitedFragments, std::size_t suchIndex);
+	static bool isArgumentSuch(vector<string> whitespaceDelimitedFragments, std::size_t suchIndex);
 
-	static std::vector<std::string> delimitString(std::string str, char delimiter);
+	static vector<string> delimitString(string str, char delimiter);
 
-	static void checkIfSubsequentTokensExist(std::vector<std::string> stringVec, std::size_t currIndex);
+	static void checkIfSubsequentTokensExist(vector<string> stringVec, std::size_t currIndex);
 };

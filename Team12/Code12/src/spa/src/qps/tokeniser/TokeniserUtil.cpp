@@ -10,8 +10,11 @@
 #include "Tokeniser.h"
 #include "../token/QueryToken.h"
 
+using std::string;
+using std::vector;
+
 // returns true if word is a design entity
-bool TokeniserUtil::isDesignEntity(std::string word) {
+bool TokeniserUtil::isDesignEntity(string word) {
 
     auto it = std::find(designEntities.begin(), designEntities.end(), word);
 
@@ -19,14 +22,14 @@ bool TokeniserUtil::isDesignEntity(std::string word) {
 }
 
 // returns true if word is "select"
-bool TokeniserUtil::isSelect(std::string word) {
+bool TokeniserUtil::isSelect(string word) {
     return word == select;
 }
 
 // returns true only if whitespaceDelimitedFragments[*iPtr] == "such" and whitespaceDelimitedFragments[*iPtr + 1] == "that"
-bool TokeniserUtil::isSuchThat(std::vector<std::string> whitespaceDelimitedFragments, std::size_t* iPtr) {
+bool TokeniserUtil::isSuchThat(vector<string> whitespaceDelimitedFragments, std::size_t* iPtr) {
 
-    std::string currWord = whitespaceDelimitedFragments[*iPtr];
+    string currWord = whitespaceDelimitedFragments[*iPtr];
 
 
     if (currWord != suchThat[0]) {
@@ -35,20 +38,20 @@ bool TokeniserUtil::isSuchThat(std::vector<std::string> whitespaceDelimitedFragm
 
     checkIfSubsequentTokensExist(whitespaceDelimitedFragments, *iPtr);
 
-    std::string nextWord = whitespaceDelimitedFragments[*iPtr + 1];
+    string nextWord = whitespaceDelimitedFragments[*iPtr + 1];
 
     return nextWord == suchThat[1];
 }
 
 // returns true if word is "pattern"
-bool TokeniserUtil::isPattern(std::string word) {
+bool TokeniserUtil::isPattern(string word) {
     return word == pattern;
 }
 
 // checks if "such" is an argument or part of the keyphrase "such that"
 // returns true if such is an argument. 
 // i.e. "Select such such that..." => first :such" returns true
-bool TokeniserUtil::isArgumentSuch(std::vector<std::string> whitespaceDelimitedFragments, std::size_t suchIndex) {
+bool TokeniserUtil::isArgumentSuch(vector<string> whitespaceDelimitedFragments, std::size_t suchIndex) {
     std::size_t length = whitespaceDelimitedFragments.size();
 
     return suchIndex < length - 1 && whitespaceDelimitedFragments[suchIndex + 1] != suchThat[1];
@@ -57,10 +60,10 @@ bool TokeniserUtil::isArgumentSuch(std::vector<std::string> whitespaceDelimitedF
 // returns a vector of strings delimited by "delimiter"
 // does not include empty strings in the result
 // i.e. "hello i am       sad" delimited by ' ' => ["hello", "i", "am", "sad"]
-std::vector<std::string> TokeniserUtil::delimitString(std::string str, char delimiter) {
-    std::vector<std::string> delimitedFragments;
-    std::istringstream ss(str);
-    std::string fragment;
+vector<string> TokeniserUtil::delimitString(string str, char delimiter) {
+    vector<string> delimitedFragments;
+    istringstream ss(str);
+    string fragment;
     while (std::getline(ss, fragment, delimiter)) {
         if (fragment != "") {
             delimitedFragments.push_back(fragment);
@@ -71,7 +74,7 @@ std::vector<std::string> TokeniserUtil::delimitString(std::string str, char deli
 }
 
 //method to check if currIndex is the last index of stringVec
-void TokeniserUtil::checkIfSubsequentTokensExist(std::vector<std::string> stringVec, std::size_t currIndex) {
+void TokeniserUtil::checkIfSubsequentTokensExist(vector<string> stringVec, std::size_t currIndex) {
     std::size_t length = stringVec.size();
 
     if (currIndex >= length - 1) {

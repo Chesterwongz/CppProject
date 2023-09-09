@@ -4,21 +4,24 @@
 #include <string>
 #include <vector>
 
+using std::string;
+using std::vector;
+
 class Tokeniser {
 public:
 
-	std::vector<QueryToken>* convertToTokens(std::string* query);
+	vector<QueryToken>* convertToTokens(string* query);
 
 private:
-	std::vector<QueryToken> processFragment(std::string queryFragment, std::vector<QueryToken>* tokens);
+	vector<QueryToken> processFragment(string queryFragment, vector<QueryToken>* tokens);
 
-	std::vector<std::string> getDesignEntitySynonyms(std::vector<std::string> whitespaceDelimitedFragments, std::size_t* iPtr);
+	vector<string> getDesignEntitySynonyms(vector<string> whitespaceDelimitedFragments, std::size_t* iPtr);
 
-	std::string getRelationship(std::vector<std::string> whitespaceDelimitedFragments, std::size_t* iPtr);
+	string getRelationship(vector<string> whitespaceDelimitedFragments, std::size_t* iPtr);
 
-	std::string getPatternSynonym(std::vector<std::string> whitespaceDelimitedFragments, std::size_t* iPtr);
+	string getPatternSynonym(vector<string> whitespaceDelimitedFragments, std::size_t* iPtr);
 
-	std::vector<std::string> getArguments(std::vector<std::string> whitespaceDelimitedFragments, std::size_t* iPtr);
+	vector<string> getArguments(vector<string> whitespaceDelimitedFragments, std::size_t* iPtr);
 
 };
 

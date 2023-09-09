@@ -3,7 +3,10 @@
 #include <string>
 #include <vector>
 
-const std::vector<std::string> designEntities = {
+using std::string;
+using std::vector;
+
+const vector<string> designEntities = {
 	"stmt",
 	"read",
 	"print",
@@ -16,11 +19,11 @@ const std::vector<std::string> designEntities = {
 	"procedure"
 };
 
-const std::string select = "Select";
+const string select = "Select";
 
-const std::string pattern = "pattern";
+const string pattern = "pattern";
 
-const std::vector<std::string> suchThat = {
+const vector<string> suchThat = {
 	"such",
 	"that"
 };
