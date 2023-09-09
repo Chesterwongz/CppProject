@@ -9,7 +9,7 @@ private:
 
 
 public:
-    QueryToken *convertToTokens(std::string &inputString);
+    std::vector<QueryToken> *convertToTokens(std::string &inputString);
 };
 
 typedef std::vector<std::string> UnvalidatedTokens;

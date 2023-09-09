@@ -9,5 +9,6 @@ private:
     PKB *pkb;
 
 public:
-    Query *buildQuery(QueryToken *token, PKB *pkb);
+    explicit QueryBuilder(PKB *pkb);
+    Query *buildQuery(std::vector<QueryToken> *queryTokenVector);
 };
