@@ -84,7 +84,10 @@ vector<QueryToken> Tokeniser::processFragment(string queryFragment, vector<Query
 // then synonyms = ["v1,", "v2"]
 std::vector<string> Tokeniser::getDesignEntitySynonyms(vector<string> whitespaceDelimitedFragments, std::size_t* iPtr) {
 
-    TokeniserUtil::checkIfSubsequentTokensExist(whitespaceDelimitedFragments, *iPtr);
+    if (!TokeniserUtil::isExistSubsequentTokens(whitespaceDelimitedFragments, *iPtr)) {
+        // currently using runtime error as a placeholder
+        throw std::runtime_error("this is just a placeholder");
+    }
 
     (*iPtr)++;
 
@@ -102,7 +105,10 @@ std::vector<string> Tokeniser::getDesignEntitySynonyms(vector<string> whitespace
 // this method can be generalised for all 3 cases since in a select statement, each of these sections will be terminated by "pattern" / "such that"
 vector<string> Tokeniser::getArguments(vector<string> whitespaceDelimitedFragments, std::size_t* iPtr) {
 
-    TokeniserUtil::checkIfSubsequentTokensExist(whitespaceDelimitedFragments, *iPtr);
+    if (!TokeniserUtil::isExistSubsequentTokens(whitespaceDelimitedFragments, *iPtr)) {
+        // currently using runtime error as a placeholder
+        throw std::runtime_error("this is just a placeholder");
+    }
 
     vector<string> arguments;
 
@@ -138,7 +144,11 @@ string Tokeniser::getRelationship(vector<string> whitespaceDelimitedFragments, s
     // increment i to get "that"
     (*iPtr)++;
 
-    TokeniserUtil::checkIfSubsequentTokensExist(whitespaceDelimitedFragments, *iPtr); // check if there are tokens after "such that"
+    // check if there are tokens after "such that"
+    if (!TokeniserUtil::isExistSubsequentTokens(whitespaceDelimitedFragments, *iPtr)) {
+        // currently using runtime error as a placeholder
+        throw std::runtime_error("this is just a placeholder");
+    }
 
     (*iPtr)++;
     string relationship = whitespaceDelimitedFragments[*iPtr];
@@ -153,7 +163,12 @@ string Tokeniser::getRelationship(vector<string> whitespaceDelimitedFragments, s
 // need opinions
 string Tokeniser::getPatternSynonym(vector<string> whitespaceDelimitedFragments, std::size_t* iPtr) {
 
-    TokeniserUtil::checkIfSubsequentTokensExist(whitespaceDelimitedFragments, *iPtr); // check if there are tokens after "such that"
+    // check if there are tokens after "pattern"
+
+    if (!TokeniserUtil::isExistSubsequentTokens(whitespaceDelimitedFragments, *iPtr)) {
+        // currently using runtime error as a placeholder
+        throw std::runtime_error("this is just a placeholder");
+    }
 
     (*iPtr)++;
     string relationship = whitespaceDelimitedFragments[*iPtr];

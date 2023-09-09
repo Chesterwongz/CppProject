@@ -74,12 +74,15 @@ vector<string> TokeniserUtil::delimitString(string str, char delimiter) {
 }
 
 //method to check if currIndex is the last index of stringVec
-void TokeniserUtil::checkIfSubsequentTokensExist(vector<string> stringVec, std::size_t currIndex) {
+// returns true if currIndex is NOT the last index of stringVec;
+bool TokeniserUtil::isExistSubsequentTokens(vector<string> stringVec, std::size_t currIndex) {
     std::size_t length = stringVec.size();
 
     if (currIndex >= length - 1) {
         // means it is at least the last element in the vector
         // so no subsequent tokens exist
-        throw std::runtime_error("this is just a placeholder");
+        return false;
     }
+
+    return true;
 }

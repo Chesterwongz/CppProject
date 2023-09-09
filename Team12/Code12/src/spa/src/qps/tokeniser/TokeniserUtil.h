@@ -21,5 +21,5 @@ public:
 
 	static vector<string> delimitString(string str, char delimiter);
 
-	static void checkIfSubsequentTokensExist(vector<string> stringVec, std::size_t currIndex);
+	static bool isExistSubsequentTokens(vector<string> stringVec, std::size_t currIndex);
 };
