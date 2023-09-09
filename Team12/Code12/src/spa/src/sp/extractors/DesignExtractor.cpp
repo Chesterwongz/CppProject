@@ -1,14 +1,11 @@
 #include "DesignExtractor.h"
-#include "FollowsExtractor.h"
-#include "ParentExtractor.h"
-#include "UsesExtractor.h"
-#include "ModifiesExtractor.h"
 
 DesignExtractor::DesignExtractor() {
     extractors.emplace_back(std::make_unique<FollowsExtractor>());
     extractors.emplace_back(std::make_unique<ParentExtractor>());
     extractors.emplace_back(std::make_unique<UsesExtractor>());
     extractors.emplace_back(std::make_unique<ModifiesExtractor>());
+    extractors.emplace_back(std::make_unique<EntityExtractor>());
 }
 
 DesignExtractor::DesignExtractor(PkbWriter* pkbWriter) {
@@ -57,4 +54,49 @@ std::map<std::string, std::set<int>> DesignExtractor::getUsesMap() {
 std::map<std::string, std::set<int>> DesignExtractor::getModifiesMap() {
     auto* modifiesExtractor = dynamic_cast<ModifiesExtractor*>(extractors[3].get());
     return modifiesExtractor->getModifiesMap();
+}
+
+std::unordered_set<std::string> DesignExtractor::getVariables() {
+    auto* entityExtractor = dynamic_cast<EntityExtractor*>(extractors[4].get());
+    return entityExtractor->getVariables();
+}
+
+std::unordered_set<std::string> DesignExtractor::getConstants() {
+    auto* entityExtractor = dynamic_cast<EntityExtractor*>(extractors[4].get());
+    return entityExtractor->getConstants();
+}
+
+std::unordered_set<std::string> DesignExtractor::getProcedures() {
+    auto* entityExtractor = dynamic_cast<EntityExtractor*>(extractors[4].get());
+    return entityExtractor->getProcedures();
+}
+
+std::unordered_set<int> DesignExtractor::getAssignStmts() {
+    auto* entityExtractor = dynamic_cast<EntityExtractor*>(extractors[4].get());
+    return entityExtractor->getAssignStmts();
+}
+
+std::unordered_set<int> DesignExtractor::getCallStmts() {
+    auto* entityExtractor = dynamic_cast<EntityExtractor*>(extractors[4].get());
+    return entityExtractor->getCallStmts();
+}
+
+std::unordered_set<int> DesignExtractor::getIfStmts() {
+    auto* entityExtractor = dynamic_cast<EntityExtractor*>(extractors[4].get());
+    return entityExtractor->getIfStmts();
+}
+
+std::unordered_set<int> DesignExtractor::getPrintStmts() {
+    auto* entityExtractor = dynamic_cast<EntityExtractor*>(extractors[4].get());
+    return entityExtractor->getPrintStmts();
+}
+
+std::unordered_set<int> DesignExtractor::getReadStmts() {
+    auto* entityExtractor = dynamic_cast<EntityExtractor*>(extractors[4].get());
+    return entityExtractor->getReadStmts();
+}
+
+std::unordered_set<int> DesignExtractor::getWhileStmts() {
+    auto* entityExtractor = dynamic_cast<EntityExtractor*>(extractors[4].get());
+    return entityExtractor->getWhileStmts();
 }
