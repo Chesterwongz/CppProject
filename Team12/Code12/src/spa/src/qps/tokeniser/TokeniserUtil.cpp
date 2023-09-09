@@ -16,7 +16,7 @@ using std::vector;
 // returns true if word is a design entity
 bool TokeniserUtil::isDesignEntity(string word) {
 
-    auto it = std::find(designEntities.begin(), designEntities.end(), word);
+    auto it = designEntities.find(word);
 
     return it != designEntities.end();
 }

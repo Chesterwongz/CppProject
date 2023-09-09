@@ -2,11 +2,13 @@
 
 #include <string>
 #include <vector>
+#include <set>
 
 using std::string;
 using std::vector;
+using std::set;
 
-const vector<string> designEntities = {
+const set<string> designEntities = {
 	"stmt",
 	"read",
 	"print",
