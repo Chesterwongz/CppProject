@@ -1,6 +1,6 @@
 #include "Query.h"
 
-Query::Query(PKB *pkb) : pkb(pkb) {}
+Query::Query(PKBReader *pkb) : pkb(pkb) {}
 
 void Query::addSynonym(DeclarativeToken *token) {
     this->context[token->getSynonym()] = token;

@@ -3,7 +3,7 @@
 #include "qps.h"
 #include "qps/exceptions/QpsException.h"
 
-QPS::QPS(PKB *pkb) :
+QPS::QPS(PKBReader *pkb) :
     pkb(pkb),
     tokeniser(new Tokeniser()),
     validator(new Validator()),

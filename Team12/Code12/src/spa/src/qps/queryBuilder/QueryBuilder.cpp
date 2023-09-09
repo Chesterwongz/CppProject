@@ -4,7 +4,7 @@
 #include "PKB.h"
 #include "QueryBuilder.h"
 
-QueryBuilder::QueryBuilder(PKB *pkb) : pkb(pkb) {}
+QueryBuilder::QueryBuilder(PKBReader *pkb) : pkb(pkb) {}
 
 Query *QueryBuilder::buildQuery(std::vector<QueryToken> *queryTokenVector) {
     auto *newQuery = new Query(pkb);

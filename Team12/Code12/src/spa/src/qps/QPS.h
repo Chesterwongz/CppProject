@@ -1,20 +1,20 @@
 #pragma once
 
-#include "PKB.h"
+#include "pkb/PKBReader.h"
 #include "qps/tokeniser/Tokeniser.h"
 #include "qps/validator/Validator.h"
 #include "qps/queryBuilder/QueryBuilder.h"
 
 class QPS {
 private:
-    PKB *pkb;
+    PKBReader *pkb;
     Tokeniser *tokeniser;
     Validator *validator;
     QueryBuilder *queryBuilder;
 
 
 public:
-    explicit QPS(PKB *pkb);
+    explicit QPS(PKBReader *pkb);
     ~QPS();
     void processQueryString(std::string &queryString);
 };
