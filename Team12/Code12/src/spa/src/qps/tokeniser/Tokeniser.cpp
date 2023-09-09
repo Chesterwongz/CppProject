@@ -76,10 +76,14 @@ vector<QueryToken> Tokeniser::processFragment(string queryFragment, vector<Query
 
 }
 
-// method to get synonym if whitespaceDelimitedFragments[entity] is a designEntity
-// eg. whitespaceDelimitedFragments = ["stmt", "v1,", "v2"], entityIndex = 1
-// then synonyms = ["v1,", "v2"]
-std::vector<string> Tokeniser::getDesignEntitySynonyms(vector<string> whitespaceDelimitedFragments, std::size_t* iPtr) {
+// method to get synonym if whitespaceDelimitedFragments[entity] is a designEntity removes comma where applicable
+// eg1. whitespaceDelimitedFragments = ["stmt", "v1,", "v2"], entityIndex = 0
+// then synonyms = ["v1", "v2"], comma removed from "v1,"
+// eg2. whitespaceDelimitedFragments = ["stmt", "v1,", "v2,"] entity index = 0
+// then synonyms = ["v1", "v2,"], comma removed from "v1," only and not "v2," since "v2," is not proceeded by any tokens
+// eg3. whitespaceDelimitedFragments = ["stmt", "v1", "v2,", v3] entity index = 0
+// then synonyms = ["v1 v2", "v3"], v1 and v2 are concatenated since there is no comma separating them
+vector<string> Tokeniser::getDesignEntitySynonyms(vector<string> whitespaceDelimitedFragments, std::size_t* iPtr) {
 
     if (!TokeniserUtil::isExistSubsequentTokens(whitespaceDelimitedFragments, *iPtr)) {
         // currently using runtime error as a placeholder
@@ -88,11 +92,30 @@ std::vector<string> Tokeniser::getDesignEntitySynonyms(vector<string> whitespace
 
     (*iPtr)++;
 
+    string synonym = "";
     vector<string> synonyms;
+    
+    for (std::size_t k = *iPtr; k < whitespaceDelimitedFragments.size(); k++) {
+        if (synonym.empty()) {
+            synonym += whitespaceDelimitedFragments[k];
+        }
+        else {
+            synonym += whitespace;
+            synonym += whitespaceDelimitedFragments[k];
+        }
 
-    for (int k = *iPtr; k < whitespaceDelimitedFragments.size(); k++) {
-        synonyms.push_back(whitespaceDelimitedFragments[k]);
+        if (TokeniserUtil::isEndsWithComma(synonym) && TokeniserUtil::isExistSubsequentTokens(whitespaceDelimitedFragments, k)) {
+            // ends with comma and there are subsequent tokens
+            synonym.pop_back(); // remove ending comma
+            synonyms.push_back(synonym);
+        }
+        
         (*iPtr)++;
+    }
+
+    // add the final synonym if exists
+    if (!synonym.empty()) {
+        synonyms.push_back(synonym);
     }
 
     return synonyms;
