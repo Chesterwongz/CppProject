@@ -1,12 +1,12 @@
 #pragma once
 
 #include <string>
-#include <vector>
+#include <set>
 #include "qps/query/Query.h"
 
 class Clause {
 public:
-    virtual std::vector<int> evaluate(
+    virtual std::set<int> evaluate(
             Context context,
             PKBReader pkb) = 0;
 };

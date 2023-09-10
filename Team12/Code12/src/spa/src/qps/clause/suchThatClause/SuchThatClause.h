@@ -3,8 +3,7 @@
 #include <string>
 
 #include "qps/token/QueryToken.h"
-
-typedef std::string Abstraction;
+#include "qps/token/suchThatToken/SuchThatToken.h"
 
 class SuchThatClause : public Clause {
 private:
@@ -17,7 +16,7 @@ public:
             Abstraction relationship,
             Reference first,
             Reference second);
-    std::vector<int> evaluate(
+    std::set<int> evaluate(
             Context context,
             PKBReader pkb) override;
 };

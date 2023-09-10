@@ -1,8 +1,10 @@
 #include "SuchThatClause.h"
+#include "qps/token/suchThatToken/SuchThatToken.h"
 
 #include <utility>
+#include <set>
 
-SuchThatClause::SuchThatClause(
+SuchThatClause::SuchThatClause (
         Abstraction relationship,
         Reference first,
         Reference second) :
@@ -10,6 +12,11 @@ SuchThatClause::SuchThatClause(
         firstArg(first),
         secondArg(second) {}
 
+std::set<int> evaluate(
+        Context context,
+        PKBReader pkb) {
+
+}
 
 
 

@@ -13,6 +13,6 @@ private:
 
 public:
     DeclarativeClause(Entity entity, Synonym synonym);
-    std::vector<int> evaluate(
+    std::set<int> evaluate(
             Context context,
             PKBReader pkb) override;};
