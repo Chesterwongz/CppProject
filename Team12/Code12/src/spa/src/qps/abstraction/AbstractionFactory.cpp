@@ -19,4 +19,4 @@ IAbstraction *AbstractionFactory::createAbstraction(
             return make_shared<UsesAbstraction>(abstractionParams).get();
     }
     return nullptr;
-}
+};

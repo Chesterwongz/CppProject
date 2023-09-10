@@ -6,7 +6,7 @@ void Query::addSynonym(DeclarativeToken *token) {
     this->context.addToken(token);
 }
 
-void Query::addClause(unique_ptr<Clause> &clause) {
+void Query::addClause(std::unique_ptr<Clause> &clause) {
     this->clauses.push_back(std::move(clause));
 }
 

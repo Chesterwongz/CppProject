@@ -13,4 +13,5 @@ public:
     explicit SelectClause(Synonym synonym);
     std::set<int> evaluate(
             Context context,
-            PKBReader *pkb) override;};
+            PKBReader *pkb) override;
+};

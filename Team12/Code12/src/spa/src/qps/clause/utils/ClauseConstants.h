@@ -48,6 +48,3 @@ const map<Abstraction, AbstractionEnum> AbstractionToEnumMap = {
         {"PARENTS", PARENTS_ENUM},
         {"USES", USES_ENUM},
 };
-
-
-

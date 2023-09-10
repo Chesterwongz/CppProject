@@ -7,7 +7,7 @@
 #include "qps/context/Context.h"
 #include "qps/clause/Clause.h"
 
-typedef std::vector<unique_ptr<Clause>> ClauseList;
+typedef std::vector<std::unique_ptr<Clause>> ClauseList;
 
 class Query {
 private:
@@ -18,6 +18,6 @@ private:
 public:
     explicit Query(PKBReader *pkb);
     void addSynonym(DeclarativeToken *token);
-    void addClause(unique_ptr<Clause> &clause);
+    void addClause(std::unique_ptr<Clause> &clause);
     void evaluate();
 };

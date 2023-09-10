@@ -17,4 +17,5 @@ public:
                            std::string expression);
     std::set<int> evaluate(
             Context context,
-            PKBReader *pkb) override;};
+            PKBReader *pkb) override;
+};

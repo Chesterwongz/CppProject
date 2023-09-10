@@ -7,4 +7,3 @@ public:
     static IAbstraction *createAbstraction(
             struct AbstractionParams *abstractionParams);
 };
-

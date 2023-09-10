@@ -12,8 +12,7 @@ Query QueryBuilder::buildQuery(std::vector<QueryToken> *queryTokenVector) {
         if (auto *declarativeToken = dynamic_cast<DeclarativeToken*>(&queryToken)) {
             newQuery.addSynonym(declarativeToken);
         } else {
-            Clause *clause = queryToken.buildClause();
-            newQuery.addClause(clause);
+            newQuery.addClause(queryToken.buildClause());
         }
     }
     return newQuery;
