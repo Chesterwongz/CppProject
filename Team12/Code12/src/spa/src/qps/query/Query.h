@@ -6,11 +6,14 @@
 #include "pkb/PKBReader.h"
 #include "qps/token/declarativeToken/DeclarativeToken.h"
 
+typedef std::map<std::string, QueryToken*> Context;
+typedef std::vector<Clause*> ClauseList;
+
 class Query {
 private:
     PKBReader *pkb;
-    std::map<std::string, QueryToken*> context = {};
-    std::vector<Clause*> clauses = {};
+    Context context = {};
+    ClauseList clauses = {};
 
 public:
     explicit Query(PKBReader *pkb);

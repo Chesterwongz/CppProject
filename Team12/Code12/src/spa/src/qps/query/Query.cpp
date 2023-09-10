@@ -11,5 +11,7 @@ void Query::addClause(Clause *clause) {
 }
 
 void Query::evaluate() {
-    //todo
+    for (Clause *clause : clauses) {
+        clause->evaluate(this->context);
+    }
 }

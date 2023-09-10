@@ -13,8 +13,9 @@ private:
     Reference secondArg;
 
 public:
-    explicit SuchThatClause(Abstraction relationship, Reference first, Reference second);
-    const Abstraction getRelationship();
-    const Reference getFirstArgument();
-    const Reference getSecondArgument();
+    explicit SuchThatClause(
+            Abstraction relationship,
+            Reference first,
+            Reference second);
+    std::vector<int> evaluate(Context context) override;
 };

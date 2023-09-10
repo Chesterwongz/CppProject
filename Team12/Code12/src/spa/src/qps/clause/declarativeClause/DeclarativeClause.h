@@ -13,4 +13,5 @@ private:
 
 public:
     DeclarativeClause(Entity entity, Synonym synonym);
+    std::vector<int> evaluate(Context context) override;
 };
