@@ -6,13 +6,11 @@
 
 SelectClause::SelectClause(Synonym synonym) : synonym(std::move(synonym)) {}
 
-std::set<int> SelectClause::evaluate(Context context, PKBReader pkb) {
-	DeclarativeToken* selectTokenPtr = context[this->synonym];
-	Entity entity = selectTokenPtr->getEntity();
+std::set<int> SelectClause::evaluate(Context context, PKBReader *pkb) {
+	Entity entity = context.getTokenEntity(synonym);
+	std::string stmtType = EntityToStatementType.at(entity);
 
-	std::string stmtType = EntityToStatementType[entity];
-
-	std::set<int> results = pkb.selectStatement(entityToUpper);
+	std::set<int> results = pkb->selectStatement(stmtType);
 
 	return results;
 }
