@@ -1,9 +1,9 @@
 #include "UsesAbstraction.h"
 
-std::vector<std::string> UsesAbstraction::getAllPossibleFirstRef() {
-    // todo
-}
+std::set<int> UsesAbstraction::getAbstractions() {
+    Entity firstEntity = context.getTokenEntity(first);
+    const StatementType &firstStatementType =
+            EntityToStatementType.at(firstEntity);
 
-std::vector<std::string> UsesAbstraction::getAllPossibleSecondRef() {
-//    return pkb->getAll();
-}
+    return pkb->getStatementsModifying(second, firstStatementType);
+};

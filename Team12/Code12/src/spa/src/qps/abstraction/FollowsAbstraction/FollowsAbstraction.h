@@ -3,10 +3,9 @@
 #include "PKB.h"
 #include "qps/abstraction/IAbstraction.h"
 
-class FollowsAbstraction : IAbstraction {
+class FollowsAbstraction : public IAbstraction {
 public:
-    explicit FollowsAbstraction(AbstractionParams abstractionParams)  :
+    explicit FollowsAbstraction(AbstractionParams *abstractionParams)  :
             IAbstraction(abstractionParams) {};
-    std::vector<std::string> getAllPossibleFirstRef() override;
-    std::vector<std::string> getAllPossibleSecondRef() override;
+    std::set<int> getAbstractions() override;
 };

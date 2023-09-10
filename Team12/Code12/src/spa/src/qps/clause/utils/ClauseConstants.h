@@ -7,6 +7,9 @@
 
 using std::string, std::map;
 
+// Wildcard
+const string WILDCARD = "_";
+
 // Statement types
 typedef string StatementType;
 
