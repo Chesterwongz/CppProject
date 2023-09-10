@@ -22,39 +22,43 @@ std::vector<std::string> PKBReader::getAllProcedures() {
     return designEntitiesStorage.getAllProcedures();
 }
 
+std::unordered_set<int> PKBReader::getAllStmts() {
+    return statementStorage.getAllStatements();
+}
+
 // Method to return the statement numbers of all READ statements
-std::vector<int> PKBReader::getAllRead() {
-    return statementStorage.getStatementNumbersFromStatementType("READ");
+std::unordered_set<int> PKBReader::getAllRead() {
+    return statementStorage.getAllReadStatements();
 }
 
 // Method to return the statement numbers of all PRINT statements
-std::vector<int> PKBReader::getAllPrint() {
-    return statementStorage.getStatementNumbersFromStatementType("PRINT");
+std::unordered_set<int> PKBReader::getAllPrint() {
+    return statementStorage.getAllPrintStatements();
 }
 
 // Method to return the statement numbers of all ASSIGN statements
-std::vector<int> PKBReader::getAllAssign() {
-    return statementStorage.getStatementNumbersFromStatementType("ASSIGN");
+std::unordered_set<int> PKBReader::getAllAssign() {
+    return statementStorage.getAllAssignStatements();
 }
 
 // Method to return the statement numbers of all CALL statements
-std::vector<int> PKBReader::getAllCall() {
-    return statementStorage.getStatementNumbersFromStatementType("CALL");
+std::unordered_set<int> PKBReader::getAllCall() {
+    return statementStorage.getAllCallStatements();
 }
 
 // Method to return the statement numbers of all WHILE statements
-std::vector<int> PKBReader::getAllWhile() {
-    return statementStorage.getStatementNumbersFromStatementType("WHILE");
+std::unordered_set<int> PKBReader::getAllWhile() {
+    return statementStorage.getAllWhileStatements();
 }
 
 // Method to return the statement numbers of all IF statements
-std::vector<int> PKBReader::getAllIf() {
-    return statementStorage.getStatementNumbersFromStatementType("IF");
+std::unordered_set<int> PKBReader::getAllIf() {
+    return statementStorage.getAllIfStatements();
 }
 
 int PKBReader::getFollowing(int statementNumber, std::string statementType) {
     int followingStatement = followsStorage.getImmediateFollows(statementNumber);
-    std::vector<int> allMatchingStatementTypes = statementStorage.getStatementNumbersFromStatementType(statementType);
+    std::unordered_set<int> allMatchingStatementTypes = statementStorage.getStatementNumbersFromStatementType(statementType);
 
     if (followingStatement != -1) {
         auto it = std::find(allMatchingStatementTypes.begin(), allMatchingStatementTypes.end(), followingStatement);
@@ -70,7 +74,7 @@ int PKBReader::getFollowing(int statementNumber, std::string statementType) {
 
 int PKBReader::getFollowed(int statementNumber, std::string statementType) {
     int followedStatement = followsStorage.getImmediateFollowedBy(statementNumber);
-    std::vector<int> allMatchingStatementTypes = statementStorage.getStatementNumbersFromStatementType(statementType);
+    std::unordered_set<int> allMatchingStatementTypes = statementStorage.getStatementNumbersFromStatementType(statementType);
 
     if (followedStatement != -1) {
         auto it = std::find(allMatchingStatementTypes.begin(), allMatchingStatementTypes.end(), followedStatement);
@@ -84,7 +88,7 @@ int PKBReader::getFollowed(int statementNumber, std::string statementType) {
 }
 
 std::vector<int> PKBReader::getStatementsModifying(std::string variableName, std::string statementType) {
-    std::vector<int> allMatchingStatements = statementStorage.getStatementNumbersFromStatementType(statementType);
+    std::unordered_set<int> allMatchingStatements = statementStorage.getStatementNumbersFromStatementType(statementType);
     std::vector<int> result;
 
     for (int statement : allMatchingStatements) {
@@ -102,8 +106,8 @@ std::vector<std::string> PKBReader::getVariablesModifiedBy(int statementNumber, 
     std::vector<std::string> result;
 
     // Check if the statement is of the correct type
-    std::vector<std::string> statementTypes = statementStorage.getStatementTypesFromStatementNumber(statementNumber);
-    if (std::find(statementTypes.begin(), statementTypes.end(), statementType) != statementTypes.end()) {
+    std::string typeOfStatement = statementStorage.getStatementTypeFromStatementNumber(statementNumber);
+    if (typeOfStatement == statementType) {
         // Get the variables modified by the statement
         result = modifiesStorage.getVariablesForStatement(statementNumber);
     }
@@ -115,7 +119,7 @@ std::vector<int> PKBReader::getStatementsUsing(std::string variableName, std::st
     std::vector<int> result;
 
     // Get the statement numbers of the correct type
-    std::vector<int> statementNumbers = statementStorage.getStatementNumbersFromStatementType(statementType);
+    std::unordered_set<int> statementNumbers = statementStorage.getStatementNumbersFromStatementType(statementType);
 
     // Iterate through the statements
     for (int statementNumber : statementNumbers) {
@@ -135,8 +139,8 @@ std::vector<std::string> PKBReader::getVariablesUsedBy(int statementNumber, std:
     std::vector<std::string> result;
 
     // Check if the statement is of the correct type
-    std::vector<std::string> statementTypes = statementStorage.getStatementTypesFromStatementNumber(statementNumber);
-    if (std::find(statementTypes.begin(), statementTypes.end(), statementType) != statementTypes.end()) {
+    std::string typeOfStatement = statementStorage.getStatementTypeFromStatementNumber(statementNumber);
+    if (typeOfStatement == statementType) {
         // Get the variables used by the statement
         result = usesStorage.getVariablesForStatement(statementNumber);
     }

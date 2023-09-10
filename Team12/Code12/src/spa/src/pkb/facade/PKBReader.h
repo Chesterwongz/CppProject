@@ -27,23 +27,26 @@ public:
     // get the names of all procedures in the program
     std::vector<std::string> getAllProcedures();
 
+    // return the statement numbers of all statements
+    std::unordered_set<int> getAllStmts();
+
     // return the statement numbers of all READ statements
-    std::vector<int> getAllRead();
+    std::unordered_set<int> getAllRead();
 
     // return the statement numbers of all PRINT statements
-    std::vector<int> getAllPrint();
+    std::unordered_set<int> getAllPrint();
 
     // return the statement numbers of all ASSIGN statements
-    std::vector<int> getAllAssign();
+    std::unordered_set<int> getAllAssign();
 
     // return the statement numbers of all CALL statements
-    std::vector<int> getAllCall();
+    std::unordered_set<int> getAllCall();
 
     // return the statement numbers of all WHILE statements
-    std::vector<int> getAllWhile();
+    std::unordered_set<int> getAllWhile();
 
     // return the statement numbers of all IF statements
-    std::vector<int> getAllIf();
+    std::unordered_set<int> getAllIf();
 
     int getFollowing(int statementNumber, std::string statementType);
 
@@ -53,9 +56,9 @@ public:
 
     std::vector<std::string> getVariablesModifiedBy(int statementNumber, std::string statementType);
 
-    std::vector<int> PKBReader::getStatementsUsing(std::string variableName, std::string statementType);
+    std::vector<int> getStatementsUsing(std::string variableName, std::string statementType);
 
-    std::vector<std::string> PKBReader::getVariablesUsedBy(int statementNumber, std::string statementType);
+    std::vector<std::string> getVariablesUsedBy(int statementNumber, std::string statementType);
 
 
 private:
