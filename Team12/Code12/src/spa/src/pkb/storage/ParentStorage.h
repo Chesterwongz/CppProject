@@ -1,8 +1,8 @@
-#ifndef PARENTSTORAGE_H
-#define PARENTSTORAGE_H
+#pragma once
 
 #include <vector>
-#include <map>
+#include <unordered_map>
+#include <set>
 
 class ParentStorage {
 public:
@@ -13,10 +13,10 @@ public:
     void setParent(int statementNumber, int childStatement);
 
     // Getter for all children relationship
-    std::vector<int> getAllChildren(int statementNumber);
+    std::set<int> getAllChildren(int statementNumber);
 
     // Getter for all parents relationship
-    std::vector<int> getAllParents(int statementNumber);
+    std::set<int> getAllParents(int statementNumber);
 
     // Getter for immediate child relationship
     int getImmediateChild(int statementNumber);
@@ -26,10 +26,8 @@ public:
 
 private:
     // Data structure for parent relationship (statement number -> child statement numbers)
-    std::map<int, std::vector<int>> parentOf;
+    std::unordered_map<int, std::set<int>> parentOf;
 
     // Data structure for child relationship (child statement number -> parent statement numbers)
-    std::map<int, std::vector<int>> childOf;
+    std::unordered_map<int, std::set<int>>childOf;
 };
-
-#endif // PARENTSTORAGE_H

@@ -1,8 +1,8 @@
 #include "ParentStorage.h"
 
 #include <iostream>
-#include <vector>
-#include <map>
+#include <unordered_map>
+#include <set>
 
 // Constructor
 ParentStorage::ParentStorage() {}
@@ -11,7 +11,7 @@ ParentStorage::ParentStorage() {}
 void ParentStorage::setParent(int statementNumber, int childStatement) {
     // Set in parentOf storage
     if (!parentOf.count(statementNumber)) {
-        parentOf[statementNumber] = std::vector<int>{ childStatement };
+        parentOf[statementNumber] = std::set<int>{ childStatement };
     }
     else {
         auto& vec = parentOf[statementNumber];
@@ -23,7 +23,7 @@ void ParentStorage::setParent(int statementNumber, int childStatement) {
 
     // Set in childOf storage
     if (!childOf.count(childStatement)) {
-        childOf[childStatement] = std::vector<int>{ statementNumber };
+        childOf[childStatement] = std::set<int>{ statementNumber };
     }
     else {
         auto& vec = childOf[childStatement];
@@ -35,29 +35,29 @@ void ParentStorage::setParent(int statementNumber, int childStatement) {
 }
 
 // Getter for all children relationship
-std::vector<int> ParentStorage::getAllChildren(int statementNumber) {
+std::set<int> ParentStorage::getAllChildren(int statementNumber) {
     if (parentOf.count(statementNumber)) {
         return parentOf[statementNumber];
     }
     else {
-        return std::vector<int>();
+        return std::set<int>();
     }
 }
 
 // Getter for all parents relationship
-std::vector<int> ParentStorage::getAllParents(int statementNumber) {
+std::set<int> ParentStorage::getAllParents(int statementNumber) {
     if (childOf.count(statementNumber)) {
         return childOf[statementNumber];
     }
     else {
-        return std::vector<int>();
+        return std::set<int>();
     }
 }
 
 // Getter for immediate child relationship
 int ParentStorage::getImmediateChild(int statementNumber) {
     if (parentOf.count(statementNumber) && !parentOf[statementNumber].empty()) {
-        return parentOf[statementNumber][0]; // Since the vector is sorted, first element is the smallest
+        return *parentOf[statementNumber].begin(); // Use begin() to get the first element of the set
     }
     else {
         return -1; // Return -1 if there are no immediate children
@@ -67,16 +67,10 @@ int ParentStorage::getImmediateChild(int statementNumber) {
 // Getter for immediate parent relationship
 int ParentStorage::getImmediateParent(int statementNumber) {
     if (childOf.count(statementNumber) && !childOf[statementNumber].empty()) {
-        const auto& vec = childOf[statementNumber];
-        return vec[vec.size() - 1]; // Last element is the largest in a sorted vector
+        return *childOf[statementNumber].begin(); // Use begin() to get the first element of the set
     }
     else {
         return -1; // Return -1 if there are no immediate parents
     }
 }
 
-// Data structure for parent relationship (statement number -> child statement numbers)
-std::map<int, std::vector<int>> parentOf;
-
-// Data structure for child relationship (child statement number -> parent statement numbers)
-std::map<int, std::vector<int>> childOf;

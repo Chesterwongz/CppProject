@@ -1,7 +1,7 @@
 #include "ModifiesStorage.h"
 
 #include <iostream>
-#include <vector>
+#include <set>
 #include <map>
 
 // Constructor
@@ -9,66 +9,30 @@ ModifiesStorage::ModifiesStorage() {}
 
 // Setter and Getter for both data structures (variable -> statement numbers and statement number -> variables)
 void ModifiesStorage::setVariableModification(const std::string& variableName, int statementNumber) {
-    if (!variableToStatements.count(variableName)) {
-        variableToStatements[variableName] = std::vector<int>{ statementNumber };
-    }
-    else {
-        auto& statementNumbers = variableToStatements[variableName];
-        auto it = std::lower_bound(statementNumbers.begin(), statementNumbers.end(), statementNumber);
-        if (it == statementNumbers.end() || *it != statementNumber) {
-            statementNumbers.insert(it, statementNumber);
-        }
-    }
-
-    if (!statementToVariables.count(statementNumber)) {
-        statementToVariables[statementNumber] = std::vector<std::string>{ variableName };
-    }
-    else {
-        auto& variableNames = statementToVariables[statementNumber];
-        if (std::find(variableNames.begin(), variableNames.end(), variableName) == variableNames.end()) {
-            variableNames.push_back(variableName);
-        }
-    }
+    variableToStatements[variableName].insert(statementNumber);
+    statementToVariables[statementNumber].insert(variableName);
 }
 
-std::vector<int> ModifiesStorage::getStatementNumbersForVariable(const std::string& variableName) {
-    if (variableToStatements.count(variableName)) {
-        return variableToStatements[variableName];
-    }
-    else {
-        return std::vector<int>();
-    }
+std::set<int> ModifiesStorage::getStatementNumbersForVariable(const std::string& variableName) {
+    return variableToStatements[variableName];
 }
 
-std::vector<std::string> ModifiesStorage::getVariablesForStatement(int statementNumber) {
-    if (statementToVariables.count(statementNumber)) {
-        return statementToVariables[statementNumber];
-    }
-    else {
-        return std::vector<std::string>();
-    }
+std::set<std::string> ModifiesStorage::getVariablesForStatement(int statementNumber) {
+    return statementToVariables[statementNumber];
 }
 
-std::vector<std::string> ModifiesStorage::getAllVariables() {
-    std::vector<std::string> allVariables;
+std::set<std::string> ModifiesStorage::getAllVariables() {
+    std::set<std::string> allVariables;
     for (const auto& entry : variableToStatements) {
-        allVariables.push_back(entry.first);
+        allVariables.insert(entry.first);
     }
     return allVariables;
 }
 
-std::vector<int> ModifiesStorage::getAllStatements() {
-    std::vector<int> allStatements;
+std::set<int> ModifiesStorage::getAllStatements() {
+    std::set<int> allStatements;
     for (const auto& entry : statementToVariables) {
-        allStatements.push_back(entry.first);
+        allStatements.insert(entry.first);
     }
     return allStatements;
 }
-
-
-// Data structure for the first type of relationship (variable -> statement numbers)
-std::map<std::string, std::vector<int>> variableToStatements;
-
-// Data structure for the second type of relationship (statement number -> variable names)
-std::map<int, std::vector<std::string>> statementToVariables;
-

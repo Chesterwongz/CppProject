@@ -19,6 +19,26 @@ void PKBWriter::setUsesRelationship(const std::string& variableName, int stateme
     usesStorage.setVariableUsage(variableName, statementNumber);
 }
 
-void PKBWriter::setStatement(const std::string& statementType, int statementNumber) {
-    statementStorage.setStatement(statementType, statementNumber);
+void PKBWriter::setReadStatement(int statementNumber) {
+    statementStorage.setReadStatement(statementNumber);
+}
+
+void PKBWriter::setPrintStatement(int statementNumber) {
+    statementStorage.setPrintStatement(statementNumber);
+}
+
+void PKBWriter::setAssignStatement(int statementNumber) {
+    statementStorage.setAssignStatement(statementNumber);
+}
+
+void PKBWriter::setCallStatement(int statementNumber) {
+    statementStorage.setCallStatement(statementNumber);
+}
+
+void PKBWriter::setIfStatement(int statementNumber) {
+    statementStorage.setIfStatement(statementNumber);
+}
+
+void PKBWriter::setWhileStatement(int statementNumber) {
+    statementStorage.setWhileStatement(statementNumber);
 }

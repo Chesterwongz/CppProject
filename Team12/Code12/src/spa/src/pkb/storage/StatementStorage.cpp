@@ -8,40 +8,53 @@
 // Constructor
 StatementStorage::StatementStorage() {}
 
-// Setter
-void StatementStorage::setStatement(const std::string& statementType, int statementNumber) {
-    if (!statementStorage.count(statementType)) {
-        statementStorage[statementType] = std::vector<int>{ statementNumber };
-    }
-    else {
-        auto& statementNumbers = statementStorage[statementType];
-        auto it = std::lower_bound(statementNumbers.begin(), statementNumbers.end(), statementNumber);
-        if (it == statementNumbers.end() || *it != statementNumber) {
-            statementNumbers.insert(it, statementNumber);
-        }
-    }
+// Setter for each statement type
+void StatementStorage::setReadStatement(int statementNumber) {
+    readStmtStorage.insert(statementNumber);
 }
 
-// First Getter
-std::vector<int> StatementStorage::getStatementNumbersFromStatementType(const std::string& statementType) {
-    if (statementStorage.count(statementType)) {
-        return statementStorage[statementType];
-    }
-    else {
-        return std::vector<int>();
-    }
+void StatementStorage::setPrintStatement(int statementNumber) {
+    printStmtStorage.insert(statementNumber);
 }
 
-// Second Getter
-std::vector<std::string> StatementStorage::getStatementTypesFromStatementNumber(int statementNumber) {
-    std::vector<std::string> statements;
-    for (const auto& entry : statementStorage) {
-        if (std::binary_search(entry.second.begin(), entry.second.end(), statementNumber)) {
-            statements.push_back(entry.first);
-        }
-    }
-    return statements;
+void StatementStorage::setAssignStatement(int statementNumber) {
+    assignStmtStorage.insert(statementNumber);
 }
 
-// Data structure for statement storage (statement type -> line numbers)
-std::map<std::string, std::vector<int>> statementStorage;
+void StatementStorage::setCallStatement(int statementNumber) {
+    callStmtStorage.insert(statementNumber);
+}
+
+void StatementStorage::setIfStatement(int statementNumber) {
+    ifStmtStorage.insert(statementNumber);
+}
+
+void StatementStorage::setWhileStatement(int statementNumber) {
+    whileStmtStorage.insert(statementNumber);
+}
+
+// Getter for each statement type
+std::unordered_set<int>& StatementStorage::getAllReadStatements() {
+    return readStmtStorage;
+}
+
+std::unordered_set<int>& StatementStorage::getAllPrintStatements() {
+    return printStmtStorage;
+}
+
+std::unordered_set<int>& StatementStorage::getAllAssignStatements() {
+    return assignStmtStorage;
+}
+
+std::unordered_set<int>& StatementStorage::getAllCallStatements() {
+    return callStmtStorage;
+}
+
+std::unordered_set<int>& StatementStorage::getAllIfStatements() {
+    return ifStmtStorage;
+}
+
+std::unordered_set<int>& StatementStorage::getAllWhileStatements() {
+    return whileStmtStorage;
+}
+

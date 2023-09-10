@@ -1,5 +1,4 @@
-#ifndef PKBWRITER_H
-#define PKBWRITER_H
+#pragma once
 
 #include <string>
 #include "pkb/storage/FollowsStorage.h"
@@ -25,8 +24,17 @@ public:
     // Add uses relationship
     void setUsesRelationship(const std::string& variableName, int statementNumber);
 
-    // Add statement
-    void setStatement(const std::string& statementType, int statementNumber);
+    void setReadStatement(int statementNumber);
+
+    void setPrintStatement(int statementNumber);
+
+    void setAssignStatement(int statementNumber);
+
+    void setCallStatement(int statementNumber);
+
+    void setIfStatement(int statementNumber);
+
+    void setWhileStatement(int statementNumber);
 
 private:
     FollowsStorage followsStorage;
@@ -35,5 +43,3 @@ private:
     StatementStorage statementStorage;
     UsesStorage usesStorage;
 };
-
-#endif // PKBWRITER_H

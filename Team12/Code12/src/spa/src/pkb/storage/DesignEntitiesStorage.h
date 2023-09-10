@@ -1,6 +1,8 @@
-#include <vector>
+#pragma once
+
+#include <unordered_set>
 #include <string>
-#include <map>
+#include <unordered_map>
 
 class DesignEntitiesStorage {
 public:
@@ -12,28 +14,31 @@ public:
 
     void setProcedure(const std::string& procedureName, int startStatement);
 
-    std::vector<std::string> getAllVariables();
+    std::unordered_set<std::string> getAllVariables();
 
-    std::vector<int> getAllConstants();
+    std::unordered_set<int> getAllConstants();
 
-    std::vector<std::string> getAllProcedures();
+    std::unordered_set<std::string> getAllProcedures();
 
-    std::vector<std::string> getVariablesOnStatement(int statementNumber);
+    std::unordered_set<std::string> getVariablesOnStatement(int statementNumber);
 
-    std::vector<int> getStatementsOfVariable(const std::string& variableName);
+    std::unordered_set<int> getStatementsOfVariable(const std::string& variableName);
 
-    std::vector<int> getConstantsOnStatement(int statementNumber);
+    std::unordered_set<int> getConstantsOnStatement(int statementNumber);
 
-    std::vector<int> getStatementsOfConstant(int constantValue);
+    std::unordered_set<int> getStatementsOfConstant(int constantValue);
 
-    std::vector<std::string> getProceduresOnStatement(int statementNumber);
+    std::unordered_set<std::string> getProceduresOnStatement(int statementNumber);
 
     int getStartingStatementOfProcedure(const std::string& procedureName);
 
 private:
-    std::map<std::string, std::vector<int>> variableData;
+    // Data structure for variables (variable name -> statement numbers)
+    std::unordered_map<std::string, std::unordered_set<int>> variableData;
 
-    std::map<int, std::vector<int>> constantData;
+    // Data structure for constants (constant value -> statement numbers)
+    std::unordered_map<int, std::unordered_set<int>> constantData;
 
-    std::map<std::string, int> procedureData;
+    // Data structure for procedures (procedure name -> starting statement)
+    std::unordered_map<std::string, int> procedureData;
 };

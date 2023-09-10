@@ -1,8 +1,8 @@
-#ifndef FOLLOWSSTORAGE_H
-#define FOLLOWSSTORAGE_H
+#pragma once
 
 #include <vector>
-#include <map>
+#include <unordered_map>
+#include <set>
 
 class FollowsStorage {
 public:
@@ -13,10 +13,10 @@ public:
     void setFollows(int statementNumber, int followingStatement);
 
     // Getter for all follows relationship
-    std::vector<int> getAllFollows(int statementNumber);
+    std::set<int> getAllFollows(int statementNumber);
 
     // Getter for all followed by relationship
-    std::vector<int> getAllFollowedBy(int statementNumber);
+    std::set<int> getAllFollowedBy(int statementNumber);
 
     // Getter for immediate follows relationship
     int getImmediateFollows(int statementNumber);
@@ -26,10 +26,8 @@ public:
 
 private:
     // Data structure for follows relationship (statement number -> following statement numbers)
-    std::map<int, std::vector<int>> followsFrom;
+    std::unordered_map<int, std::set<int>> followsFrom;
 
     // Data structure for followed by relationship (following statement number -> statement numbers)
-    std::map<int, std::vector<int>> followsTo;
+    std::unordered_map<int, std::set<int>> followsTo;
 };
-
-#endif // FOLLOWSSTORAGE_H
