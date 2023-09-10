@@ -2,6 +2,7 @@
 
 #include <unordered_set>
 #include <vector>
+#include <unordered_map>
 #include <string>
 
 class StatementStorage {
@@ -17,21 +18,18 @@ public:
     void setIfStatement(int statementNumber);
     void setWhileStatement(int statementNumber);
 
+    std::unordered_set<int> getAllStatements();
+
     // Getter for each statement type
-    std::unordered_set<int>& getAllReadStatements();
-    std::unordered_set<int>& getAllPrintStatements();
-    std::unordered_set<int>& getAllAssignStatements();
-    std::unordered_set<int>& getAllCallStatements();
-    std::unordered_set<int>& getAllIfStatements();
-    std::unordered_set<int>& getAllWhileStatements();
+    std::unordered_set<int> getAllReadStatements();
+    std::unordered_set<int> getAllPrintStatements();
+    std::unordered_set<int> getAllAssignStatements();
+    std::unordered_set<int> getAllCallStatements();
+    std::unordered_set<int> getAllIfStatements();
+    std::unordered_set<int> getAllWhileStatements();
+    std::unordered_set<int> getStatementNumbersFromStatementType(std::string statementType);
+    std::string getStatementTypeFromStatementNumber(int statementNumber);
 
 private:
-    std::unordered_set<int> readStmtStorage;
-    std::unordered_set<int> printStmtStorage;
-    std::unordered_set<int> assignStmtStorage;
-    std::unordered_set<int> callStmtStorage;
-    std::unordered_set<int> ifStmtStorage;
-    std::unordered_set<int> whileStmtStorage;
+    std::unordered_map<std::string, std::unordered_set<int>> allStmtStorage;
 };
-
-

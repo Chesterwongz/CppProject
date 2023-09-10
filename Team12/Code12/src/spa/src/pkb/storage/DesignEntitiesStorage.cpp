@@ -7,13 +7,13 @@
 DesignEntitiesStorage::DesignEntitiesStorage() {}
 
 // Setter for variables
-void DesignEntitiesStorage::setVariable(const std::string& variableName, int statementNumber) {
-    variableData[variableName].insert(statementNumber);
+void DesignEntitiesStorage::setVariable(const std::string& variableName) {
+    variableData.insert(variableName);
 }
 
 // Setter for constants
-void DesignEntitiesStorage::setConstant(int constantValue, int statementNumber) {
-    constantData[constantValue].insert(statementNumber);
+void DesignEntitiesStorage::setConstant(int constantValue) {
+    constantData.insert(constantValue);
 }
 
 // Setter for procedures
@@ -23,20 +23,12 @@ void DesignEntitiesStorage::setProcedure(const std::string& procedureName, int s
 
 // Get all variables
 std::unordered_set<std::string> DesignEntitiesStorage::getAllVariables() {
-    std::unordered_set<std::string> variables;
-    for (const auto& entry : variableData) {
-        variables.insert(entry.first);
-    }
-    return variables;
+    return variableData;
 }
 
 // Get all constants
 std::unordered_set<int> DesignEntitiesStorage::getAllConstants() {
-    std::unordered_set<int> constants;
-    for (const auto& entry : constantData) {
-        constants.insert(entry.first);
-    }
-    return constants;
+    return constantData;
 }
 
 // Get all procedures
@@ -46,38 +38,6 @@ std::unordered_set<std::string> DesignEntitiesStorage::getAllProcedures() {
         procedures.insert(entry.first);
     }
     return procedures;
-}
-
-// Get variables on a statement
-std::unordered_set<std::string> DesignEntitiesStorage::getVariablesOnStatement(int statementNumber) {
-    std::unordered_set<std::string> variables;
-    for (const auto& entry : variableData) {
-        if (entry.second.count(statementNumber)) {
-            variables.insert(entry.first);
-        }
-    }
-    return variables;
-}
-
-// Get statements of a variable
-std::unordered_set<int> DesignEntitiesStorage::getStatementsOfVariable(const std::string& variableName) {
-    return variableData[variableName];
-}
-
-// Get constants on a statement
-std::unordered_set<int> DesignEntitiesStorage::getConstantsOnStatement(int statementNumber) {
-    std::unordered_set<int> constants;
-    for (const auto& entry : constantData) {
-        if (entry.second.count(statementNumber)) {
-            constants.insert(entry.first);
-        }
-    }
-    return constants;
-}
-
-// Get statements of a constant
-std::unordered_set<int> DesignEntitiesStorage::getStatementsOfConstant(int constantValue) {
-    return constantData[constantValue];
 }
 
 // Get procedures on a statement

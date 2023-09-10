@@ -10,51 +10,75 @@ StatementStorage::StatementStorage() {}
 
 // Setter for each statement type
 void StatementStorage::setReadStatement(int statementNumber) {
-    readStmtStorage.insert(statementNumber);
+    allStmtStorage["READ"].insert(statementNumber);
 }
 
 void StatementStorage::setPrintStatement(int statementNumber) {
-    printStmtStorage.insert(statementNumber);
+    allStmtStorage["PRINT"].insert(statementNumber);
 }
 
 void StatementStorage::setAssignStatement(int statementNumber) {
-    assignStmtStorage.insert(statementNumber);
+    allStmtStorage["ASSIGN"].insert(statementNumber);
 }
 
 void StatementStorage::setCallStatement(int statementNumber) {
-    callStmtStorage.insert(statementNumber);
+    allStmtStorage["CALL"].insert(statementNumber);
 }
 
 void StatementStorage::setIfStatement(int statementNumber) {
-    ifStmtStorage.insert(statementNumber);
+    allStmtStorage["IF"].insert(statementNumber);
 }
 
 void StatementStorage::setWhileStatement(int statementNumber) {
-    whileStmtStorage.insert(statementNumber);
+    allStmtStorage["WHILE"].insert(statementNumber);
+}
+
+std::unordered_set<int> StatementStorage::getAllStatements() {
+    std::unordered_set<int> allStatements;
+
+    for (const auto& entry : allStmtStorage) {
+        const std::unordered_set<int>& statementNumbers = entry.second;
+        allStatements.insert(statementNumbers.begin(), statementNumbers.end());
+    }
+    return allStatements;
 }
 
 // Getter for each statement type
-std::unordered_set<int>& StatementStorage::getAllReadStatements() {
-    return readStmtStorage;
+std::unordered_set<int> StatementStorage::getAllReadStatements() {
+    return allStmtStorage["READ"];
 }
 
-std::unordered_set<int>& StatementStorage::getAllPrintStatements() {
-    return printStmtStorage;
+std::unordered_set<int> StatementStorage::getAllPrintStatements() {
+    return allStmtStorage["PRINT"];
 }
 
-std::unordered_set<int>& StatementStorage::getAllAssignStatements() {
-    return assignStmtStorage;
+std::unordered_set<int> StatementStorage::getAllAssignStatements() {
+    return allStmtStorage["ASSIGN"];
 }
 
-std::unordered_set<int>& StatementStorage::getAllCallStatements() {
-    return callStmtStorage;
+std::unordered_set<int> StatementStorage::getAllCallStatements() {
+    return allStmtStorage["CALL"];
 }
 
-std::unordered_set<int>& StatementStorage::getAllIfStatements() {
-    return ifStmtStorage;
+std::unordered_set<int> StatementStorage::getAllIfStatements() {
+    return allStmtStorage["IF"];
 }
 
-std::unordered_set<int>& StatementStorage::getAllWhileStatements() {
-    return whileStmtStorage;
+std::unordered_set<int> StatementStorage::getAllWhileStatements() {
+    return allStmtStorage["WHILE"];
 }
 
+std::unordered_set<int> StatementStorage::getStatementNumbersFromStatementType(std::string statementType) {
+    return allStmtStorage[statementType];
+}
+
+std::string StatementStorage::getStatementTypeFromStatementNumber(int statementNumber) {
+    for (const auto& entry : allStmtStorage) {
+        const std::unordered_set<int>& statementNumbers = entry.second;
+        if (statementNumbers.count(statementNumber)) {
+            return entry.first;
+        }
+    }
+
+    return "";  // Return empty string if statement number is not found
+}

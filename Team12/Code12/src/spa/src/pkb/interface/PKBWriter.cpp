@@ -42,3 +42,15 @@ void PKBWriter::setIfStatement(int statementNumber) {
 void PKBWriter::setWhileStatement(int statementNumber) {
     statementStorage.setWhileStatement(statementNumber);
 }
+
+void PKBWriter::setVariable(const std::string& variableName) {
+    designEntitiesStorage.setVariable(variableName);
+}
+
+void PKBWriter::setConstant(int constantValue) {
+    designEntitiesStorage.setConstant(constantValue);
+}
+
+void PKBWriter::setProcedure(const std::string& procedureName, int startStatement) {
+    designEntitiesStorage.setProcedure(procedureName, startStatement);
+}
