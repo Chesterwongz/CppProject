@@ -49,6 +49,23 @@ int PKBReader::getFollowing(int statementNumber, std::string statementType) {
     return -1;
 }
 
+std::set<std::pair<int, int>> PKBReader::getFollowsPairs(std::string statementType1, std::string statementType2) {
+    std::unordered_set<int> firstStatementList = statementStorage.getStatementNumbersFromStatementType(statementType1);
+    std::unordered_set<int> secondStatementList = statementStorage.getStatementNumbersFromStatementType(statementType2);
+
+    std::set<std::pair<int, int>> followsPairs;
+
+    for (int firstStatement : firstStatementList) {
+        int followsResult = followsStorage.getImmediateFollows(firstStatement);
+        if (followsResult != -1 && secondStatementList.count(followsResult)) {
+            followsPairs.insert(std::make_pair(firstStatement, followsResult));
+        }
+    }
+
+    return followsPairs;
+}
+
+
 
 int PKBReader::getFollowed(int statementNumber, std::string statementType) {
     int followedStatement = followsStorage.getImmediateFollowedBy(statementNumber);

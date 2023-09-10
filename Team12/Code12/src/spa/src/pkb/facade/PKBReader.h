@@ -54,6 +54,8 @@ public:
 
     std::set<int> PKBReader::getAllModifyingStatements();
 
+    std::set<std::pair<int, int>> getFollowsPairs(std::string statementType1, std::string statementType2);
+
 
 private:
     DesignEntitiesStorage designEntitiesStorage;
