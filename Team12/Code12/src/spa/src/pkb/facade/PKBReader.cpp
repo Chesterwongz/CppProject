@@ -22,39 +22,16 @@ std::vector<std::string> PKBReader::getAllProcedures() {
     return designEntitiesStorage.getAllProcedures();
 }
 
-std::unordered_set<int> PKBReader::getAllStmts() {
-    return statementStorage.getAllStatements();
+// Method to return the statement numbers of statements
+std::unordered_set<int> PKBReader::getStatement(std::string statementType) {
+    if (statementType == "STMT") {
+        return statementStorage.getAllStatements();
+    }
+    else {
+        return statementStorage.getStatement(statementType);
+    }
 }
 
-// Method to return the statement numbers of all READ statements
-std::unordered_set<int> PKBReader::getAllRead() {
-    return statementStorage.getAllReadStatements();
-}
-
-// Method to return the statement numbers of all PRINT statements
-std::unordered_set<int> PKBReader::getAllPrint() {
-    return statementStorage.getAllPrintStatements();
-}
-
-// Method to return the statement numbers of all ASSIGN statements
-std::unordered_set<int> PKBReader::getAllAssign() {
-    return statementStorage.getAllAssignStatements();
-}
-
-// Method to return the statement numbers of all CALL statements
-std::unordered_set<int> PKBReader::getAllCall() {
-    return statementStorage.getAllCallStatements();
-}
-
-// Method to return the statement numbers of all WHILE statements
-std::unordered_set<int> PKBReader::getAllWhile() {
-    return statementStorage.getAllWhileStatements();
-}
-
-// Method to return the statement numbers of all IF statements
-std::unordered_set<int> PKBReader::getAllIf() {
-    return statementStorage.getAllIfStatements();
-}
 
 int PKBReader::getFollowing(int statementNumber, std::string statementType) {
     int followingStatement = followsStorage.getImmediateFollows(statementNumber);

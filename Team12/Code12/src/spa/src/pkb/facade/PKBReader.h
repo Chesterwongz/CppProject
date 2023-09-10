@@ -27,26 +27,8 @@ public:
     // get the names of all procedures in the program
     std::vector<std::string> getAllProcedures();
 
-    // return the statement numbers of all statements
-    std::unordered_set<int> getAllStmts();
-
-    // return the statement numbers of all READ statements
-    std::unordered_set<int> getAllRead();
-
-    // return the statement numbers of all PRINT statements
-    std::unordered_set<int> getAllPrint();
-
-    // return the statement numbers of all ASSIGN statements
-    std::unordered_set<int> getAllAssign();
-
-    // return the statement numbers of all CALL statements
-    std::unordered_set<int> getAllCall();
-
-    // return the statement numbers of all WHILE statements
-    std::unordered_set<int> getAllWhile();
-
-    // return the statement numbers of all IF statements
-    std::unordered_set<int> getAllIf();
+    // return the statement numbers of statements
+    std::unordered_set<int> getStatement(std::string statementType);
 
     int getFollowing(int statementNumber, std::string statementType);
 

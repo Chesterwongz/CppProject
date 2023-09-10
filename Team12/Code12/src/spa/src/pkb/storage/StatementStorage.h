@@ -21,12 +21,7 @@ public:
     std::unordered_set<int> getAllStatements();
 
     // Getter for each statement type
-    std::unordered_set<int> getAllReadStatements();
-    std::unordered_set<int> getAllPrintStatements();
-    std::unordered_set<int> getAllAssignStatements();
-    std::unordered_set<int> getAllCallStatements();
-    std::unordered_set<int> getAllIfStatements();
-    std::unordered_set<int> getAllWhileStatements();
+    std::unordered_set<int> getStatement(std::string statementType);
     std::unordered_set<int> getStatementNumbersFromStatementType(std::string statementType);
     std::string getStatementTypeFromStatementNumber(int statementNumber);
 
