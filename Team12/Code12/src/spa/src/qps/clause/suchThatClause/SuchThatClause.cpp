@@ -21,7 +21,7 @@ std::set<int> SuchThatClause::evaluate(
     AbstractionFactory fac = AbstractionFactory();
     auto executableAbstraction =
             AbstractionFactory::createAbstraction(abstractionParams);
-    return executableAbstraction.getAbstractions();
+    return executableAbstraction->getAbstractions();
 }
 
 
