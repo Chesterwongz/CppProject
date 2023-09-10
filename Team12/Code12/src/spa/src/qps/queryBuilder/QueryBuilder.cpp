@@ -8,7 +8,7 @@ QueryBuilder::QueryBuilder(PKBReader *pkb) : pkb(pkb) {}
 
 Query QueryBuilder::buildQuery(std::vector<QueryToken> *queryTokenVector) {
     auto newQuery = Query(pkb);
-    for (QueryToken queryToken : *queryTokenVector) {
+    for (QueryToken &queryToken : *queryTokenVector) {
         if (auto *declarativeToken = dynamic_cast<DeclarativeToken*>(&queryToken)) {
             newQuery.addSynonym(declarativeToken);
         } else {
