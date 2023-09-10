@@ -1,4 +1,5 @@
-# include "StatementStorage.h"
+#include "StatementStorage.h"
+#include "../../pkb/ConstantValues.h" 
 
 #include <algorithm>
 #include <iostream>
@@ -10,27 +11,27 @@ StatementStorage::StatementStorage() {}
 
 // Setter for each statement type
 void StatementStorage::setReadStatement(int statementNumber) {
-    allStmtStorage["READ"].insert(statementNumber);
+    allStmtStorage[READ].insert(statementNumber);
 }
 
 void StatementStorage::setPrintStatement(int statementNumber) {
-    allStmtStorage["PRINT"].insert(statementNumber);
+    allStmtStorage[PRINT].insert(statementNumber);
 }
 
 void StatementStorage::setAssignStatement(int statementNumber) {
-    allStmtStorage["ASSIGN"].insert(statementNumber);
+    allStmtStorage[ASSIGN].insert(statementNumber);
 }
 
 void StatementStorage::setCallStatement(int statementNumber) {
-    allStmtStorage["CALL"].insert(statementNumber);
+    allStmtStorage[CALL].insert(statementNumber);
 }
 
 void StatementStorage::setIfStatement(int statementNumber) {
-    allStmtStorage["IF"].insert(statementNumber);
+    allStmtStorage[IF].insert(statementNumber);
 }
 
 void StatementStorage::setWhileStatement(int statementNumber) {
-    allStmtStorage["WHILE"].insert(statementNumber);
+    allStmtStorage[WHILE].insert(statementNumber);
 }
 
 std::unordered_set<int> StatementStorage::getAllStatements() {
@@ -45,27 +46,27 @@ std::unordered_set<int> StatementStorage::getAllStatements() {
 
 // Getter for each statement type
 std::unordered_set<int> StatementStorage::getAllReadStatements() {
-    return allStmtStorage["READ"];
+    return allStmtStorage[READ];
 }
 
 std::unordered_set<int> StatementStorage::getAllPrintStatements() {
-    return allStmtStorage["PRINT"];
+    return allStmtStorage[PRINT];
 }
 
 std::unordered_set<int> StatementStorage::getAllAssignStatements() {
-    return allStmtStorage["ASSIGN"];
+    return allStmtStorage[ASSIGN];
 }
 
 std::unordered_set<int> StatementStorage::getAllCallStatements() {
-    return allStmtStorage["CALL"];
+    return allStmtStorage[CALL];
 }
 
 std::unordered_set<int> StatementStorage::getAllIfStatements() {
-    return allStmtStorage["IF"];
+    return allStmtStorage[IF];
 }
 
 std::unordered_set<int> StatementStorage::getAllWhileStatements() {
-    return allStmtStorage["WHILE"];
+    return allStmtStorage[WHILE];
 }
 
 std::unordered_set<int> StatementStorage::getStatementNumbersFromStatementType(std::string statementType) {

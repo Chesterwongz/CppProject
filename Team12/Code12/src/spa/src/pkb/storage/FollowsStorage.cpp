@@ -14,17 +14,17 @@ void FollowsStorage::setFollows(int statementNumber, int followingStatement) {
 
 // Getter for all follows relationship
 std::set<int> FollowsStorage::getAllFollows(int statementNumber) {
-    return std::set<int>(followsFrom[statementNumber].begin(), followsFrom[statementNumber].end());
+    return followsFrom[statementNumber];
 }
 
 // Getter for all followed by relationship
 std::set<int> FollowsStorage::getAllFollowedBy(int statementNumber) {
-    return std::set<int>(followsTo[statementNumber].begin(), followsTo[statementNumber].end());
+    return followsTo[statementNumber];
 }
 
 // Getter for immediate follows relationship
 int FollowsStorage::getImmediateFollows(int statementNumber) {
-    if (followsFrom.count(statementNumber) && !followsFrom[statementNumber].empty()) {
+    if (followsFrom[statementNumber].empty()) {
         return *(followsFrom[statementNumber].begin());
     }
     else {
@@ -34,7 +34,7 @@ int FollowsStorage::getImmediateFollows(int statementNumber) {
 
 // Getter for immediate followed by relationship
 int FollowsStorage::getImmediateFollowedBy(int statementNumber) {
-    if (followsTo.count(statementNumber) && !followsTo[statementNumber].empty()) {
+    if (!followsTo[statementNumber].empty()) {
         return *(followsTo[statementNumber].rbegin()); // Using rbegin() to get the largest element
     }
     else {

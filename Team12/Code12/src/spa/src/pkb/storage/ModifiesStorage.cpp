@@ -13,18 +13,21 @@ void ModifiesStorage::setVariableModification(const std::string& variableName, i
     statementToVariables[statementNumber].insert(variableName);
 }
 
-std::set<int> ModifiesStorage::getStatementNumbersForVariable(const std::string& variableName) {
+std::unordered_set<int> ModifiesStorage::getStatementNumbersForVariable(const std::string& variableName) {
     return variableToStatements[variableName];
 }
 
-std::set<std::string> ModifiesStorage::getVariablesForStatement(int statementNumber) {
+std::unordered_set<std::string> ModifiesStorage::getVariablesForStatement(int statementNumber) {
     return statementToVariables[statementNumber];
 }
 
-std::set<std::string> ModifiesStorage::getAllVariables() {
-    std::set<std::string> allVariables;
+std::unordered_set<std::string> ModifiesStorage::getAllVariables() {
+    std::unordered_set<std::string> allVariables;
     for (const auto& entry : variableToStatements) {
-        allVariables.insert(entry.first);
+        if (!entry.second.empty()) {
+            allVariables.insert(entry.first); // Use insert for set
+        }
+        
     }
     return allVariables;
 }
@@ -32,7 +35,9 @@ std::set<std::string> ModifiesStorage::getAllVariables() {
 std::set<int> ModifiesStorage::getAllStatements() {
     std::set<int> allStatements;
     for (const auto& entry : statementToVariables) {
-        allStatements.insert(entry.first);
+        if (!entry.second.empty()) {
+            allStatements.insert(entry.first); // Use insert for set
+        }
     }
     return allStatements;
 }
