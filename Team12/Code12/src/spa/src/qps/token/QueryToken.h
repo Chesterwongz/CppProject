@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include "qps/clause/Clause.h"
 
 class QueryToken;
@@ -11,7 +12,7 @@ class QueryToken {
 public:
     static TokenList tokens;
     virtual bool semanticValidation() = 0;
-    virtual Clause *buildClause() = 0;
+    virtual std::unique_ptr<Clause> buildClause() = 0;
 };
 
 enum Entity {
