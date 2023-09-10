@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <set>
 #include "qps/clause/Clause.h"
 #include "qps/token/QueryToken.h"
 
@@ -12,4 +13,4 @@ public:
     explicit SelectClause(Synonym synonym);
     std::set<int> evaluate(
             Context context,
-            PKBReader pkb) override;};
+            PKBReader *pkb) override;};

@@ -1,6 +1,9 @@
+#pragma once
 
 #include <string>
+#include <map>
 #include "qps/token/suchThatToken/SuchThatToken.h"
+#include "qps/token/declarativeToken/DeclarativeToken.h"
 
 using std::string, std::map;
 

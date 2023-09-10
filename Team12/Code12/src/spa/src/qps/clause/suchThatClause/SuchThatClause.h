@@ -1,9 +1,10 @@
 #pragma once
 
 #include <string>
-
+#include <set>
 #include "qps/token/QueryToken.h"
 #include "qps/token/suchThatToken/SuchThatToken.h"
+#include "qps/clause/Clause.h"
 
 class SuchThatClause : public Clause {
 private:
@@ -18,5 +19,5 @@ public:
             Reference second);
     std::set<int> evaluate(
             Context context,
-            PKBReader pkb) override;
+            PKBReader *pkb) override;
 };

@@ -1,8 +1,9 @@
 #pragma once
 
 #include <string>
-
+#include <set>
 #include "qps/token/QueryToken.h"
+#include "qps/clause/Clause.h"
 
 class PatternClause : public Clause {
 private:
@@ -16,4 +17,4 @@ public:
                            std::string expression);
     std::set<int> evaluate(
             Context context,
-            PKBReader pkb) override;};
+            PKBReader *pkb) override;};
