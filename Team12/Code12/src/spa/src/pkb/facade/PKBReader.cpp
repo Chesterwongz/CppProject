@@ -1,4 +1,5 @@
 #include "PKBReader.h"
+#include "../../pkb/ConstantValues.h"
 
 #include <iostream>
 #include <set>
@@ -24,7 +25,7 @@ std::vector<std::string> PKBReader::getAllProcedures() {
 
 // Method to return the statement numbers of statements
 std::unordered_set<int> PKBReader::getStatement(std::string statementType) {
-    if (statementType == "STMT") {
+    if (statementType == STATEMENT) {
         return statementStorage.getAllStatements();
     }
     else {
@@ -67,7 +68,7 @@ int PKBReader::getFollowed(int statementNumber, std::string statementType) {
 std::set<int> PKBReader::getStatementsModifying(std::string variableName, std::string statementType) {
     std::set<int> result;
 
-    if (statementType == "STMT") {
+    if (statementType == STATEMENT) {
         result = modifiesStorage.getStatementNumbersForVariable(variableName);
     }
     else {
@@ -90,7 +91,7 @@ std::set<std::string> PKBReader::getVariablesModifiedBy(int statementNumber, std
 
     std::set<std::string> result;
 
-    if (statementType == "STMT") {
+    if (statementType == STATEMENT) {
         result = usesStorage.getVariablesForStatement(statementNumber);
     }
 
@@ -107,7 +108,7 @@ std::set<std::string> PKBReader::getVariablesModifiedBy(int statementNumber, std
 std::set<int> PKBReader::getStatementsUsing(std::string variableName, std::string statementType) {
     std::set<int> result;
 
-    if (statementType == "STMT") {
+    if (statementType == STATEMENT) {
         result = usesStorage.getStatementNumbersForVariable(variableName);
     }
     else {
@@ -132,7 +133,7 @@ std::set<int> PKBReader::getStatementsUsing(std::string variableName, std::strin
 std::set<std::string> PKBReader::getVariablesUsedBy(int statementNumber, std::string statementType) {
     std::set<std::string> result;
 
-    if (statementType == "STMT") {
+    if (statementType == STATEMENT) {
         result = usesStorage.getVariablesForStatement(statementNumber);
     }
 
