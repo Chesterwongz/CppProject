@@ -10,3 +10,4 @@ public:
             Context context,
             PKBReader *pkb) = 0;
 };
+
