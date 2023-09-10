@@ -6,7 +6,7 @@
 #include "pkb/PKBReader.h"
 #include "qps/token/declarativeToken/DeclarativeToken.h"
 
-typedef std::map<std::string, QueryToken*> Context;
+typedef std::map<std::string, DeclarativeToken*> Context;
 typedef std::vector<Clause*> ClauseList;
 
 class Query {

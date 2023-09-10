@@ -6,5 +6,7 @@
 
 class Clause {
 public:
-    virtual std::vector<int> evaluate(Context context) {};
+    virtual std::vector<int> evaluate(
+            Context context,
+            PKBReader pkb) = 0;
 };

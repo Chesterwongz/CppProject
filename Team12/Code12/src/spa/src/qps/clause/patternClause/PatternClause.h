@@ -14,5 +14,6 @@ public:
     explicit PatternClause(Synonym synonym,
                            Reference entRef,
                            std::string expression);
-    std::vector<int> evaluate(Context context) override;
-};
+    std::vector<int> evaluate(
+            Context context,
+            PKBReader pkb) override;};

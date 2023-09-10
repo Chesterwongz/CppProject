@@ -10,5 +10,6 @@ private:
 
 public:
     explicit SelectClause(Synonym synonym);
-    std::vector<int> evaluate(Context context) override;
-};
+    std::vector<int> evaluate(
+            Context context,
+            PKBReader pkb) override;};

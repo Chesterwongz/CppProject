@@ -17,5 +17,7 @@ public:
             Abstraction relationship,
             Reference first,
             Reference second);
-    std::vector<int> evaluate(Context context) override;
+    std::vector<int> evaluate(
+            Context context,
+            PKBReader pkb) override;
 };
