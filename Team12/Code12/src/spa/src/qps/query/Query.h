@@ -4,15 +4,15 @@
 #include "qps/token/QueryToken.h"
 #include "qps/validator/Validator.h"
 #include "pkb/PKBReader.h"
-#include "qps/token/declarativeToken/DeclarativeToken.h"
+#include "qps/context/Context.h"
+#include "qps/clause/Clause.h"
 
-typedef std::map<std::string, DeclarativeToken*> Context;
 typedef std::vector<Clause*> ClauseList;
 
 class Query {
 private:
     PKBReader *pkb;
-    Context context = {};
+    Context context = Context();
     ClauseList clauses = {};
 
 public:

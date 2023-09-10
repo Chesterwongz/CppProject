@@ -3,7 +3,7 @@
 Query::Query(PKBReader *pkb) : pkb(pkb) {}
 
 void Query::addSynonym(DeclarativeToken *token) {
-    this->context[token->getSynonym()] = token;
+    this->context.addToken(token);
 }
 
 void Query::addClause(Clause *clause) {
@@ -12,6 +12,6 @@ void Query::addClause(Clause *clause) {
 
 void Query::evaluate() {
     for (Clause *clause : clauses) {
-        clause->evaluate(this->context);
+        clause->evaluate(this->context, pkb);
     }
 }
