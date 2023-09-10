@@ -17,4 +17,4 @@ Query *QueryBuilder::buildQuery(std::vector<QueryToken> *queryTokenVector) {
         }
     }
     return (newQuery);
-}
+};
