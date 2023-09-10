@@ -2,7 +2,6 @@
 
 #include <string>
 #include <set>
-#include "qps/token/QueryToken.h"
 #include "qps/token/suchThatToken/SuchThatToken.h"
 #include "qps/clause/Clause.h"
 
@@ -14,9 +13,9 @@ private:
 
 public:
     explicit SuchThatClause(
-            Abstraction relationship,
-            Reference first,
-            Reference second);
+            Abstraction &relationship,
+            Reference &firstArg,
+            Reference &secondArg);
     std::set<int> evaluate(
             Context context,
             PKBReader *pkb) override;

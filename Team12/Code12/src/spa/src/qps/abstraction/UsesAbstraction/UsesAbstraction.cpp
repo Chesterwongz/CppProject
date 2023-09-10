@@ -1,9 +1,9 @@
 #include "UsesAbstraction.h"
 
 std::set<int> UsesAbstraction::getAbstractions() {
-    Entity firstEntity = context.getTokenEntity(first);
+    Entity firstEntity = context.getTokenEntity(firstArg);
     const StatementType &firstStatementType =
             EntityToStatementType.at(firstEntity);
 
-    return pkb->getStatementsModifying(second, firstStatementType);
+    return pkb->getStatementsModifying(secondArg, firstStatementType);
 };

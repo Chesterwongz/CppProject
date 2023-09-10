@@ -5,7 +5,7 @@
 
 class FollowsAbstraction : public IAbstraction {
 public:
-    explicit FollowsAbstraction(AbstractionParams *abstractionParams)  :
+    explicit FollowsAbstraction(struct AbstractionParams *abstractionParams)  :
             IAbstraction(abstractionParams) {};
     std::set<int> getAbstractions() override;
 };
