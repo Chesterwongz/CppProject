@@ -3,7 +3,7 @@
 
 #include <string>
 #include <iostream>
-#include <vector>
+#include <set>
 #include <map>
 
 #include "pkb/storage/DesignEntitiesStorage.h"
@@ -52,13 +52,25 @@ public:
 
     int getFollowed(int statementNumber, std::string statementType);
 
-    std::vector<int> getStatementsModifying(std::string variableName, std::string statementType);
+    std::set<int> getStatementsModifying(std::string variableName, std::string statementType);
 
-    std::vector<std::string> getVariablesModifiedBy(int statementNumber, std::string statementType);
+    std::set<std::string> getVariablesModifiedBy(int statementNumber, std::string statementType);
 
-    std::vector<int> getStatementsUsing(std::string variableName, std::string statementType);
+    std::set<int> getStatementsUsing(std::string variableName, std::string statementType);
 
-    std::vector<std::string> getVariablesUsedBy(int statementNumber, std::string statementType);
+    std::set<std::string> getVariablesUsedBy(int statementNumber, std::string statementType);
+
+    std::set<int> PKBReader::getAllStatementsModifying(std::string variableName);
+
+    std::set<int> PKBReader::getAllStatementsUsing(std::string variableName);
+
+    std::set<std::string> PKBReader::getAllUsedVariables();
+
+    std::set<std::string> PKBReader::getAllModifiedVariables();
+
+    std::set<int> PKBReader::getAllUsingStatements();
+
+    std::set<int> PKBReader::getAllModifyingStatements();
 
 
 private:
