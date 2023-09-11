@@ -19,26 +19,18 @@ void PKBWriter::setUsesRelationship(const std::string& variableName, int stateme
     usesStorage.setVariableUsage(variableName, statementNumber);
 }
 
-void PKBWriter::setReadStatement(int statementNumber) {
-    statementStorage.setReadStatement(statementNumber);
+void PKBWriter::setStatement(int statementNumber, std::string statementType) {
+    statementStorage.setStatement(statementNumber, statementType);
 }
 
-void PKBWriter::setPrintStatement(int statementNumber) {
-    statementStorage.setPrintStatement(statementNumber);
+void PKBWriter::setVariable(const std::string& variableName) {
+    designEntitiesStorage.setVariable(variableName);
 }
 
-void PKBWriter::setAssignStatement(int statementNumber) {
-    statementStorage.setAssignStatement(statementNumber);
+void PKBWriter::setConstant(int constantValue) {
+    designEntitiesStorage.setConstant(constantValue);
 }
 
-void PKBWriter::setCallStatement(int statementNumber) {
-    statementStorage.setCallStatement(statementNumber);
-}
-
-void PKBWriter::setIfStatement(int statementNumber) {
-    statementStorage.setIfStatement(statementNumber);
-}
-
-void PKBWriter::setWhileStatement(int statementNumber) {
-    statementStorage.setWhileStatement(statementNumber);
+void PKBWriter::setProcedure(const std::string& procedureName, int startStatement) {
+    designEntitiesStorage.setProcedure(procedureName, startStatement);
 }

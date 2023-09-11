@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 const std::string STATEMENT = "STMT";
 const std::string ASSIGN = "ASSIGN";
 const std::string READ = "READ";

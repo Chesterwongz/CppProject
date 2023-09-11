@@ -13,26 +13,30 @@ void UsesStorage::setVariableUsage(const std::string& variableName, int statemen
     statementToVariables[statementNumber].insert(variableName);
 }
 
-std::set<int> UsesStorage::getStatementNumbersForVariable(const std::string& variableName) {
+std::unordered_set<int> UsesStorage::getStatementNumbersForVariable(const std::string& variableName) {
     return variableToStatements[variableName];
 }
 
-std::set<std::string> UsesStorage::getVariablesForStatement(int statementNumber) {
+std::unordered_set<std::string> UsesStorage::getVariablesForStatement(int statementNumber) {
     return statementToVariables[statementNumber];
 }
 
 std::set<std::string> UsesStorage::getAllVariables() {
     std::set<std::string> allVariables;
     for (const auto& entry : variableToStatements) {
-        allVariables.insert(entry.first); // Use insert for set
+        if (!entry.second.empty()) {
+            allVariables.insert(entry.first); // Use insert for set
+        }
     }
     return allVariables;
 }
 
-std::set<int> UsesStorage::getAllStatements() {
-    std::set<int> allStatements;
+std::unordered_set<int> UsesStorage::getAllStatements() {
+    std::unordered_set<int> allStatements;
     for (const auto& entry : statementToVariables) {
-        allStatements.insert(entry.first);
+        if (!entry.second.empty()) {
+            allStatements.insert(entry.first); // Use insert for set
+        }
     }
     return allStatements;
 }

@@ -1,4 +1,5 @@
-# include "StatementStorage.h"
+#include "StatementStorage.h"
+#include "../../pkb/ConstantValues.h" 
 
 #include <algorithm>
 #include <iostream>
@@ -9,28 +10,8 @@
 StatementStorage::StatementStorage() {}
 
 // Setter for each statement type
-void StatementStorage::setReadStatement(int statementNumber) {
-    allStmtStorage["READ"].insert(statementNumber);
-}
-
-void StatementStorage::setPrintStatement(int statementNumber) {
-    allStmtStorage["PRINT"].insert(statementNumber);
-}
-
-void StatementStorage::setAssignStatement(int statementNumber) {
-    allStmtStorage["ASSIGN"].insert(statementNumber);
-}
-
-void StatementStorage::setCallStatement(int statementNumber) {
-    allStmtStorage["CALL"].insert(statementNumber);
-}
-
-void StatementStorage::setIfStatement(int statementNumber) {
-    allStmtStorage["IF"].insert(statementNumber);
-}
-
-void StatementStorage::setWhileStatement(int statementNumber) {
-    allStmtStorage["WHILE"].insert(statementNumber);
+void StatementStorage::setStatement(int statementNumber, std::string statementType) {
+    allStmtStorage[statementType].insert(statementNumber);
 }
 
 std::unordered_set<int> StatementStorage::getAllStatements() {
