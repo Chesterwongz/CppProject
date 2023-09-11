@@ -12,7 +12,7 @@ QPS::QPS(PKBReader *pkb) :
     validator(Validator()),
     queryBuilder(QueryBuilder(pkb)) {}
 
-void QPS::processQueryString(string queryString) {
+ unordered_set<int> QPS::processQueryString(string queryString) {
     TokenStream queryTokenVector = tokeniser.convertToTokens(queryString);
 
     bool isTokensValid = validator.validateTokens(queryTokenVector);

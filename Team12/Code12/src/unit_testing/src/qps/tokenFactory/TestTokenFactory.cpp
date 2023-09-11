@@ -1,6 +1,5 @@
 #include "../src/spa/src/qps/tokenFactory/TokenFactory.h"
 #include "../src/spa/src/qps/tokenFactory/declarativeTokenFactory/DeclarativeTokenFactory.h"
-#include "../src/spa/src/qps/common/Keywords.h"
 
 #include "catch.hpp"
 

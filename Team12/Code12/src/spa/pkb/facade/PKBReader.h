@@ -2,16 +2,15 @@
 
 #include <string>
 #include <vector>
-#include <unordered:unordered_set>
-#include :unordered_set
+#include <unordered_set>
 
 class PKBReader {
 public:
     // Constructor
-    PKBReader();
+    PKBReader() {};
 
     // get the names of all variables in the program
-    std::vector <std::string> getAllVariables();
+    std::vector<std::string> getAllVariables();
 
     // get the values of all constants in the program
     std::vector<int> getAllConstants();
@@ -45,6 +44,4 @@ public:
     std::unordered_set<int> getAllUsingStatements();
 
     std::unordered_set<int> getAllModifyingStatements();
-
-    std::unordered_set <std::pair<int, int>> getFollowsPairs(std::string statementType1, std::string statementType2);
 };
