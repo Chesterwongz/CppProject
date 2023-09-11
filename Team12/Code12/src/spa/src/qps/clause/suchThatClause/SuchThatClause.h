@@ -16,7 +16,7 @@ public:
             Abstraction &relationship,
             Reference &firstArg,
             Reference &secondArg);
-    std::set<int> evaluate(
+    std::unordered_set<int> evaluate(
             Context context,
             PKBReader *pkb) override;
 };

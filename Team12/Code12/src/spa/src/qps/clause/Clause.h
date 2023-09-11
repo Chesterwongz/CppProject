@@ -6,7 +6,7 @@
 
 class Clause {
 public:
-    virtual std::set<int> evaluate(
+    virtual std::unordered_set<int> evaluate(
             Context context,
             PKBReader *pkb) = 0;
 };

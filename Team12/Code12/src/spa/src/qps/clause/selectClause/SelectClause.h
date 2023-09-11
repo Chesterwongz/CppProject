@@ -11,7 +11,7 @@ private:
 
 public:
     explicit SelectClause(Synonym synonym);
-    std::set<int> evaluate(
+    std::unordered_set<int> evaluate(
             Context context,
             PKBReader *pkb) override;
 };

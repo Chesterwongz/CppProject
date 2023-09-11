@@ -9,14 +9,14 @@ SuchThatClause::SuchThatClause (
         firstArg(firstArg),
         secondArg(secondArg) {}
 
-std::set<int> SuchThatClause::evaluate(
+std::unordered_set<int> SuchThatClause::evaluate(
         Context context,
         PKBReader *pkb) {
     AbstractionParams *abstractionParams = {};
 
     abstractionParams->abstraction = this->relationship;
     abstractionParams->pkb = pkb;
-    abstractionParams->context = context;
+    abstractionParams->context = std::move(context);
     abstractionParams->firstArg = firstArg;
     abstractionParams->secondArg = secondArg;
 
