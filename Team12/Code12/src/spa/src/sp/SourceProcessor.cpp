@@ -1,10 +1,13 @@
 #include "SourceProcessor.h"
-#include "sp/tokenizer/handlers/NameTokenizer.h"
 
-void SourceProcessor::process(std::string &filePath) {
+void SourceProcessor::process(const std::string &filePath) {
     try {
-        std::unique_ptr<TNode> abstractSyntaxTree = ProgramParser(filePath).parse();
-        // TODO: DesignExtractor
+        std::string fileContent = FileReaderUtils::readFile(filePath);
+        std::optional<std::unique_ptr<TNode>> abstractSyntaxTree =
+                ProgramParser(std::move(std::make_shared<ParserContext>(std::move(fileContent)))).parse();
+        if (abstractSyntaxTree.has_value()) {
+            designExtractor.extract(abstractSyntaxTree.value().get());
+        }
     } catch (const SpException &e) {
         return;
     }

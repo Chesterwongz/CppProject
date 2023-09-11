@@ -1,12 +1,11 @@
 #pragma once
 
 #include "CondNode.h"
-#include "sp/utils/ExprSymbolUtils.h"
+#include "sp/constants/OperatorConstants.h"
 
 class NotNode : public CondNode {
 public:
-    explicit NotNode(std::unique_ptr<ExprNode> left):
-        CondNode(TNodeType::TNODE_NOT, kNot, std::move(left), nullptr) {}
-
+    explicit NotNode(std::unique_ptr<TNode> left):
+        CondNode(TNodeType::TNODE_NOT, op::kNot, std::move(left), nullptr) {}
 };
 

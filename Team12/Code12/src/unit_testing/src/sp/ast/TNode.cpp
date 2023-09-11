@@ -1,7 +1,7 @@
 #include "catch.hpp"
-#include "sp/ast/expressions/ConstNode.h"
 #include "sp/ast/TNode.h"
-#include "sp/ast/expressions/VarNode.h"
+#include "sp/ast/terminals/ConstNode.h"
+#include "sp/ast/terminals/VarNode.h"
 #include "sp/ast/statements/PrintNode.h"
 #include "sp/ast/statements/AssignNode.h"
 #include "sp/ast/statements/CallNode.h"
@@ -75,8 +75,8 @@ TEST_CASE("Test TNode equality - AssignNode") {
 }
 
 TEST_CASE("Test TNode equality - CallNode") {
-    std::unique_ptr<TNode> node1 = std::make_unique<CallNode>(1);
-    std::unique_ptr<TNode> node2 = std::make_unique<CallNode>(1);
+    std::unique_ptr<TNode> node1 = std::make_unique<CallNode>("p1", 1);
+    std::unique_ptr<TNode> node2 = std::make_unique<CallNode>("p1", 1);
     REQUIRE(node1->isEqual(*node2));
     REQUIRE(*node1 == *node2);
 }

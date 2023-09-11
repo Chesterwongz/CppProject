@@ -1,23 +1,17 @@
+#pragma once
+
 #include <vector>
 #include <memory>
 #include <unordered_map>
 #include <set>
 #include "catch.hpp"
-#include "sp/extractors/DesignExtractor.h"
 #include "sp/ast/ProgramNode.h"
 #include "sp/ast/ProcNode.h"
 #include "sp/ast/StmtListNode.h"
-#include "../mocks/MockPKBWriter.h"
 #include "../ast/TNodeUtils.h"
+#include "ExtractorUtils.h"
 
 using std::unique_ptr, std::make_unique, std::vector, std::string, std::unordered_map, std::set;
-
-void extractFollows(TNode* node, MockPKBWriter &mockPKBWriter) {
-    Populator populator;
-    std::vector<std::unique_ptr<Extractor>> extractors;
-    extractors.emplace_back(make_unique<FollowsExtractor>(&mockPKBWriter));
-    populator.populate(node, extractors);
-}
 
 TEST_CASE("FollowsExtractor Simple Statement list") {
 //    string input =
@@ -36,10 +30,74 @@ TEST_CASE("FollowsExtractor Simple Statement list") {
     programNode->addChild(std::move(procNode));
     // extract
     MockPKBWriter mockPKB;
-    extractFollows(programNode.get(), mockPKB);
+    extractAbstraction(programNode.get(), mockPKB, AbstractionType::FOLLOWS);
 
     unordered_map<int, set<int>> expected = {};
     expected[1] = {2, 3};
     expected[2] = {3};
     REQUIRE(mockPKB.isFollowsEqual(expected));
 }
+
+TEST_CASE("FollowsExtractor Simple Statement list with parser") {
+    string input =
+        "procedure simple {"
+        "read num1;"
+        "read num2;"
+        "read num3;"
+        "}";
+    // extract
+    MockPKBWriter mockPKB;
+    extractAbstraction(input, mockPKB, AbstractionType::FOLLOWS);
+
+    unordered_map<int, set<int>> expected = {};
+    expected[1] = {2, 3};
+    expected[2] = {3};
+    REQUIRE(mockPKB.isFollowsEqual(expected));
+}
+
+TEST_CASE("FollowsExtractor with parser - if node") {
+    string input =
+        "procedure simple {"
+        "read y;"
+        "print x;"
+        "if (num1 < num2) then {"
+        "print z;"
+        "} else {"
+        "x = y + 1;"
+        "}"
+        "}";
+
+    // extract
+    MockPKBWriter mockPKB;
+    extractAbstraction(input, mockPKB, AbstractionType::FOLLOWS);
+
+    unordered_map<int, set<int>> expected = {};
+    expected[1] = {2, 3};
+    expected[2] = {3};
+    REQUIRE(mockPKB.isFollowsEqual(expected));
+}
+
+TEST_CASE("FollowsExtractor with parser - if in while node") {
+    string input =
+        "procedure simple {"
+        "read x;"
+        "read y;"
+        "while (x < y) {"
+        "if (x == y) then {"
+        "x = y + 1;"
+        "} else { print w; }"
+        "print z;"
+        "}"
+        "read num1;"
+        "}";
+    // extract
+    MockPKBWriter mockPKB;
+    extractAbstraction(input, mockPKB, AbstractionType::FOLLOWS);
+    unordered_map<int, set<int>> expected = {};
+    expected[1] = {2, 3, 8};
+    expected[2] = {3, 8};
+    expected[3] = {8};
+    expected[4] = {7};
+    REQUIRE(mockPKB.isFollowsEqual(expected));
+}
+

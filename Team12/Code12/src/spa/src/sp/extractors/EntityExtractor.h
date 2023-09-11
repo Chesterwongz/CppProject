@@ -13,8 +13,8 @@
 #include "sp/ast/statements/ReadNode.h"
 #include "sp/ast/statements/StmtNode.h"
 #include "sp/ast/statements/WhileNode.h"
-#include "sp/ast/expressions/VarNode.h"
-#include "sp/ast/expressions/ConstNode.h"
+#include "sp/ast/terminals/VarNode.h"
+#include "sp/ast/terminals/ConstNode.h"
 #include "sp/ast/ProcNode.h"
 #include "pkb/interface/PKBWriter.h"
 

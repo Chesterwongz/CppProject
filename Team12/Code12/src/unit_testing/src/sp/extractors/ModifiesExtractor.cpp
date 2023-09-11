@@ -5,26 +5,20 @@
 #include <unordered_map>
 #include <unordered_set>
 #include "catch.hpp"
-#include "sp/extractors/DesignExtractor.h"
 #include "sp/ast/ProgramNode.h"
 #include "sp/ast/ProcNode.h"
 #include "sp/ast/StmtListNode.h"
 #include "sp/ast/statements/IfNode.h"
 #include "sp/ast/statements/WhileNode.h"
-#include "sp/ast/expressions/VarNode.h"
+#include "sp/ast/terminals/VarNode.h"
 #include "sp/ast/expressions/relational/LtNode.h"
 #include "sp/ast/expressions/relational/EqNode.h"
 #include "../mocks/MockPKBWriter.h"
 #include "../ast/TNodeUtils.h"
+#include "AbstractionTypes.h"
+#include "ExtractorUtils.h"
 
 using std::unique_ptr, std::make_unique, std::vector, std::string, std::map, std::set, std::unordered_map, std::unordered_set;
-
-void extractModifies(TNode* node, MockPKBWriter &mockPKBWriter) {
-    Populator populator;
-    std::vector<std::unique_ptr<Extractor>> extractors;
-    extractors.emplace_back(make_unique<ModifiesExtractor>(&mockPKBWriter));
-    populator.populate(node, extractors);
-}
 
 TEST_CASE("ModifiesExtractor - no modifies") {
 //    string input =
@@ -42,7 +36,20 @@ TEST_CASE("ModifiesExtractor - no modifies") {
 
     // extract
     MockPKBWriter mockPKB;
-    extractModifies(programNode.get(), mockPKB);
+    extractAbstraction(programNode.get(), mockPKB, AbstractionType::MODIFIES);
+    unordered_map<string, unordered_set<int>> expected = unordered_map<string, unordered_set<int>>();
+    REQUIRE(mockPKB.isModifiesEqual(expected));
+}
+
+TEST_CASE("ModifiesExtractor with parser - no modifies") {
+    string input =
+        "procedure simple {"
+        "print x;"
+        "print y;"
+        "}";
+    // extract
+    MockPKBWriter mockPKB;
+    extractAbstraction(input, mockPKB, AbstractionType::MODIFIES);
     unordered_map<string, unordered_set<int>> expected = unordered_map<string, unordered_set<int>>();
     REQUIRE(mockPKB.isModifiesEqual(expected));
 }
@@ -63,12 +70,30 @@ TEST_CASE("ModifiesExtractor - 2 read modifies") {
 
     // extract
     MockPKBWriter mockPKB;
-    extractModifies(programNode.get(), mockPKB);
+    extractAbstraction(programNode.get(), mockPKB, AbstractionType::MODIFIES);
     
     unordered_map<string, unordered_set<int>> expected = {};
     expected["x"] = {1};
     expected["y"] = {2};
     
+    REQUIRE(mockPKB.isModifiesEqual(expected));
+}
+
+TEST_CASE("ModifiesExtractor with parser - 2 read modifies") {
+    string input =
+        "procedure simple {"
+        "read x;"
+        "read y;"
+        "}";
+
+    // extract
+    MockPKBWriter mockPKB;
+    extractAbstraction(input, mockPKB, AbstractionType::MODIFIES);
+
+    unordered_map<string, unordered_set<int>> expected = {};
+    expected["x"] = {1};
+    expected["y"] = {2};
+
     REQUIRE(mockPKB.isModifiesEqual(expected));
 }
 
@@ -90,11 +115,29 @@ TEST_CASE("ModifiesExtractor - 1 read 1 assign") {
 
     // extract
     MockPKBWriter mockPKB;
-    extractModifies(programNode.get(), mockPKB);
+    extractAbstraction(programNode.get(), mockPKB, AbstractionType::MODIFIES);
     unordered_map<string, unordered_set<int>> expected = {};
     expected["x"] = {3};
     expected["y"] = {1};
     
+    REQUIRE(mockPKB.isModifiesEqual(expected));
+}
+
+TEST_CASE("ModifiesExtractor with parser - 1 read 1 assign") {
+    string input =
+        "procedure simple {"
+        "read y;"
+        "print x;"
+        "x = y + 1;"
+        "}";
+
+    // extract
+    MockPKBWriter mockPKB;
+    extractAbstraction(input, mockPKB, AbstractionType::MODIFIES);
+    unordered_map<string, unordered_set<int>> expected = {};
+    expected["x"] = {3};
+    expected["y"] = {1};
+
     REQUIRE(mockPKB.isModifiesEqual(expected));
 }
 
@@ -132,7 +175,31 @@ TEST_CASE("ModifiesExtractor - if node") {
 
     // extract
     MockPKBWriter mockPKB;
-    extractModifies(programNode.get(), mockPKB);
+    extractAbstraction(programNode.get(), mockPKB, AbstractionType::MODIFIES);
+    unordered_map<string, unordered_set<int>> expected = {};
+    expected["x"] = {3, 5};
+    expected["y"] = {1};
+    expected["z"] = {3, 4, 6};
+
+    REQUIRE(mockPKB.isModifiesEqual(expected));
+}
+
+TEST_CASE("ModifiesExtractor with parser - if node") {
+    string input =
+        "procedure simple {"
+        "read y;"
+        "print x;"
+        "if (num1 < num2) then {"
+        "read z;"
+        "} else {"
+        "x = y + 1;"
+        "read z;"
+        "}"
+        "}";
+
+    // extract
+    MockPKBWriter mockPKB;
+    extractAbstraction(input, mockPKB, AbstractionType::MODIFIES);
     unordered_map<string, unordered_set<int>> expected = {};
     expected["x"] = {3, 5};
     expected["y"] = {1};
@@ -183,8 +250,31 @@ TEST_CASE("ModifiesExtractor - if in while node") {
     programNode->addChild(std::move(procNode));
 
     // extract
-    MockPKBWriter mockPkb;
-    extractModifies(programNode.get(), mockPkb);
+    MockPKBWriter mockPKB;
+    extractAbstraction(programNode.get(), mockPKB, AbstractionType::MODIFIES);
+    unordered_map<string, unordered_set<int>> expected = {};
+    expected["x"] = {1, 3, 4, 5};
+    expected["y"] = {2};
+    expected["w"] = {3, 4, 6};
+    expected["z"] = {8};
+}
+
+TEST_CASE("ModifiesExtractor with parser - if in while node") {
+    string input =
+        "procedure simple {"
+        "read x;"
+        "read y;"
+        "while (x < y) {"
+        "if (x == y) then {"
+        "x = y + 1;"
+        "} else { read w; }"
+        "print z;""}"
+        "read num1;"
+        "}";
+
+    // extract
+    MockPKBWriter mockPKB;
+    extractAbstraction(input, mockPKB, AbstractionType::MODIFIES);
     unordered_map<string, unordered_set<int>> expected = {};
     expected["x"] = {1, 3, 4, 5};
     expected["y"] = {2};

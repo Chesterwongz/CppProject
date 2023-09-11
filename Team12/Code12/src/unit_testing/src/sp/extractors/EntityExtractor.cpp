@@ -5,23 +5,15 @@
 #include <unordered_set>
 #include <unordered_map>
 #include "catch.hpp"
-#include "sp/extractors/DesignExtractor.h"
 #include "sp/ast/ProgramNode.h"
 #include "sp/ast/ProcNode.h"
 #include "sp/ast/StmtListNode.h"
 #include "sp/ast/statements/IfNode.h"
 #include "sp/ast/statements/WhileNode.h"
-#include "../mocks/MockPKBWriter.h"
 #include "../ast/TNodeUtils.h"
+#include "ExtractorUtils.h"
 
 using std::unique_ptr, std::make_unique, std::vector, std::string, std::map, std::set, std::unordered_set, std::unordered_map;
-
-void extractEntity(TNode* node, MockPKBWriter &mockPKBWriter) {
-    Populator populator;
-    std::vector<std::unique_ptr<Extractor>> extractors;
-    extractors.emplace_back(make_unique<EntityExtractor>(&mockPKBWriter));
-    populator.populate(node, extractors);
-}
 
 TEST_CASE("EntityExtractor - only reads") {
 //    string input =
@@ -39,7 +31,28 @@ TEST_CASE("EntityExtractor - only reads") {
 
     // extract
     MockPKBWriter mockPKB;
-    extractEntity(programNode.get(), mockPKB);
+    extractAbstraction(programNode.get(), mockPKB, AbstractionType::ENTITY);
+
+    // compare test results
+    REQUIRE(mockPKB.isConstantsEqual({}));
+    REQUIRE(mockPKB.isVariablesEqual({"y"}));
+    REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
+    REQUIRE(mockPKB.isAssignsEqual({}));
+    REQUIRE(mockPKB.isCallsEqual({}));
+    REQUIRE(mockPKB.isIfsEqual({}));
+    REQUIRE(mockPKB.isPrintsEqual({}));
+    REQUIRE(mockPKB.isReadsEqual({1, 2}));
+    REQUIRE(mockPKB.isWhilesEqual({}));
+}
+
+TEST_CASE("EntityExtractor with parser - only reads") {
+    string input = "procedure simple {"
+                   "read y;"
+                   "read y;"
+                   "}";
+    // extract
+    MockPKBWriter mockPKB;
+    extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
     // compare test results
     REQUIRE(mockPKB.isConstantsEqual({}));
@@ -71,7 +84,29 @@ TEST_CASE("EntityExtractor - non-nesting, 1 uses") {
 
     // extract
     MockPKBWriter mockPKB;
-    extractEntity(programNode.get(), mockPKB);
+    extractAbstraction(programNode.get(), mockPKB, AbstractionType::ENTITY);
+
+    REQUIRE(mockPKB.isConstantsEqual({"1"}));
+    REQUIRE(mockPKB.isVariablesEqual({"x", "y"}));
+    REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
+    REQUIRE(mockPKB.isAssignsEqual({3}));
+    REQUIRE(mockPKB.isCallsEqual({}));
+    REQUIRE(mockPKB.isIfsEqual({}));
+    REQUIRE(mockPKB.isPrintsEqual({2}));
+    REQUIRE(mockPKB.isReadsEqual({1}));
+    REQUIRE(mockPKB.isWhilesEqual({}));
+}
+
+TEST_CASE("EntityExtractor with parser - non-nesting, 1 uses") {
+    string input = "procedure simple {"
+                   "read y;"
+                   "print x;"
+                   "x = y + 1;"
+                   "}";
+
+    // extract
+    MockPKBWriter mockPKB;
+    extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
     REQUIRE(mockPKB.isVariablesEqual({"x", "y"}));
@@ -116,7 +151,35 @@ TEST_CASE("EntityExtractor - if node") {
 
     // extract
     MockPKBWriter mockPKB;
-    extractEntity(programNode.get(), mockPKB);
+    extractAbstraction(programNode.get(), mockPKB, AbstractionType::ENTITY);
+
+    REQUIRE(mockPKB.isConstantsEqual({"1"}));
+    REQUIRE(mockPKB.isVariablesEqual({"x", "y", "z", "num1", "num2"}));
+    REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
+    REQUIRE(mockPKB.isAssignsEqual({5}));
+    REQUIRE(mockPKB.isCallsEqual({}));
+    REQUIRE(mockPKB.isIfsEqual({3}));
+
+    REQUIRE(mockPKB.isPrintsEqual({2, 4}));
+    REQUIRE(mockPKB.isReadsEqual({1}));
+    REQUIRE(mockPKB.isWhilesEqual({}));
+}
+
+TEST_CASE("EntityExtractor with parser - if node") {
+    string input =
+        "procedure simple {"
+        "read y;"
+        "print x;"
+        "if (num1 < num2) then {"
+        "print z;"
+       "} else {"
+        "x = y + 1;"
+       "}"
+       "}";
+
+    // extract
+    MockPKBWriter mockPKB;
+    extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
     REQUIRE(mockPKB.isVariablesEqual({"x", "y", "z", "num1", "num2"}));
@@ -173,7 +236,35 @@ TEST_CASE("EntityExtractor - if in while node") {
 
     // extract
     MockPKBWriter mockPKB;
-    extractEntity(programNode.get(), mockPKB);
+    extractAbstraction(programNode.get(), mockPKB, AbstractionType::ENTITY);
+
+    REQUIRE(mockPKB.isConstantsEqual({"1"}));
+    REQUIRE(mockPKB.isVariablesEqual({"x", "y", "w", "z", "num1"}));
+    REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
+    REQUIRE(mockPKB.isAssignsEqual({5}));
+    REQUIRE(mockPKB.isCallsEqual({}));
+    REQUIRE(mockPKB.isIfsEqual({4}));
+    REQUIRE(mockPKB.isPrintsEqual({6, 7}));
+    REQUIRE(mockPKB.isReadsEqual({1, 2, 8}));
+    REQUIRE(mockPKB.isWhilesEqual({3}));
+}
+
+TEST_CASE("EntityExtractor with parser - if in while node") {
+    string input =
+        "procedure simple {"
+         "read x;"
+         "read y;"
+         "while (x < y) {"
+         "if (x == y) then {"
+         "x = y + 1;"
+         "} else { print w; }"
+         "print z;"
+        "}"
+         "read num1;"
+        "}";
+    // extract
+    MockPKBWriter mockPKB;
+    extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
     REQUIRE(mockPKB.isVariablesEqual({"x", "y", "w", "z", "num1"}));

@@ -1,13 +1,10 @@
 #include "TNode.h"
 
-#include <iostream>
-#include <utility>
+TNode::TNode(TNodeType type) : type(type) {}
 
-TNode::TNode(TNodeType type): type(type) {}
+TNode::TNode(TNodeType type, string value): type(type), value(std::move(value)) {}
 
-TNode::TNode(TNodeType type, std::string value): type(type), value(std::move(value)) {}
-
-void TNode::addChild(std::unique_ptr<TNode> child) {
+void TNode::addChild(unique_ptr<TNode> child) {
     children.push_back(std::move(child));
 }
 
@@ -19,8 +16,9 @@ TNodeType TNode::getType() {
     return type;
 }
 
-std::vector<TNode*> TNode::getChildren() const {
-    std::vector<TNode*> result;
+vector<TNode*> TNode::getChildren() const {
+    vector<TNode*> result;
+    result.reserve(children.size());
     for (auto &child : children) {
         result.push_back(child.get());
     }

@@ -11,7 +11,7 @@
 #include "sp/ast/statements/IfNode.h"
 #include "sp/ast/statements/WhileNode.h"
 #include "sp/ast/statements/ReadNode.h"
-#include "sp/ast/expressions/VarNode.h"
+#include "sp/ast/terminals/VarNode.h"
 
 struct ModifiesStmtState {
     int lineNum;

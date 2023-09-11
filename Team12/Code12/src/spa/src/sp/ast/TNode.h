@@ -1,18 +1,21 @@
 #pragma once
 
-#include <string>
-#include <vector>
 #include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 #include "TNodeType.h"
 #include "sp/extractors/Extractor.h"
 
 class Extractor;
 
+using std::string, std::unique_ptr, std::vector;
+
 class TNode {
 private:
-    std::string value;
+    string value;
     TNodeType type;
-    std::vector<std::unique_ptr<TNode>> children;
+    vector<unique_ptr<TNode>> children;
 
 public:
     explicit TNode(TNodeType type);
@@ -20,13 +23,13 @@ public:
 
     virtual ~TNode() = default;
 
-    void addChild(std::unique_ptr<TNode> child);
+    void addChild(unique_ptr<TNode> child);
 
-    [[nodiscard]] std::string getValue() const;
+    [[nodiscard]] string getValue() const;
 
     TNodeType getType();
 
-    [[nodiscard]] virtual std::vector<TNode *> getChildren() const;
+    [[nodiscard]] virtual vector<TNode *> getChildren() const;
 
     virtual void accept(Extractor *e) const;
 

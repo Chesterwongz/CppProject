@@ -1,6 +1,6 @@
 #include "BaseTokenizer.h"
 
-std::shared_ptr<ITokenizer> BaseTokenizer::setNext(std::shared_ptr<ITokenizer> handler) {
+std::shared_ptr<ITokenHandler> BaseTokenizer::setNext(std::shared_ptr<ITokenHandler> handler) {
     this->nextHandler = handler;
     // Returning a handler from here will let us link handlers in a convenient
     // way like this:
@@ -8,9 +8,9 @@ std::shared_ptr<ITokenizer> BaseTokenizer::setNext(std::shared_ptr<ITokenizer> h
     return nextHandler;
 }
 
-Token BaseTokenizer::tokenize(char nextCh, std::shared_ptr<InputStream> tokenStream) {
+Token BaseTokenizer::tokenize(char nextCh, std::shared_ptr<InputStream> inputStream) {
     if (this->nextHandler) {
-        return this->nextHandler->tokenize(nextCh, tokenStream);
+        return this->nextHandler->tokenize(nextCh, inputStream);
     }
-    throw SyntaxError(nextCh);
+    throw SyntaxError(std::string(1, nextCh));
 }

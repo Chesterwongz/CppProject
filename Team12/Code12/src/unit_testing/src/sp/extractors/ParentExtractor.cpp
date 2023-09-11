@@ -13,6 +13,8 @@
 #include "sp/ast/statements/WhileNode.h"
 #include "../mocks/MockPKBWriter.h"
 #include "../ast/TNodeUtils.h"
+#include "AbstractionTypes.h"
+#include "ExtractorUtils.h"
 
 using std::unique_ptr, std::make_unique, std::vector, std::string, std::map, std::set, std::unordered_map, std::unordered_set;
 
@@ -40,7 +42,20 @@ TEST_CASE("ParentExtractor - no parent") {
 
     // extract
     MockPKBWriter mockPkbWriter;
-    extractParent(programNode.get(), mockPkbWriter);
+    extractAbstraction(programNode.get(), mockPkbWriter, AbstractionType::PARENT);
+
+    REQUIRE(mockPkbWriter.isParentEqual({}));
+}
+
+TEST_CASE("ParentExtractor with parser - no parent") {
+    string input =
+        "procedure simple {"
+        "read num1;"
+        "read num2;"
+        "}";
+    // extract
+    MockPKBWriter mockPkbWriter;
+    extractAbstraction(input, mockPkbWriter, AbstractionType::PARENT);
 
     REQUIRE(mockPkbWriter.isParentEqual({}));
 }
@@ -80,11 +95,34 @@ TEST_CASE("ParentExtractor - if node") {
 
     // extract
     MockPKBWriter mockPkbWriter;
-    extractParent(programNode.get(), mockPkbWriter);
+    extractAbstraction(programNode.get(), mockPkbWriter, AbstractionType::PARENT);
     unordered_map<int, set<int>> expected = {};
     expected[3] = {4, 5, 6, 7};
     REQUIRE(mockPkbWriter.isParentEqual(expected));
 }
+
+TEST_CASE("ParentExtractor with parser - if node") {
+    string input =
+        "procedure simple {"
+        "read num1;"
+        "read num2;"
+        "if (num1 < num2) then {"
+        "read x;"
+        "read x;"
+        "} else {"
+        "read x;"
+        "read x;"
+        "}"
+        "}";
+
+    // extract
+    MockPKBWriter mockPkbWriter;
+    extractAbstraction(input, mockPkbWriter, AbstractionType::PARENT);
+    unordered_map<int, set<int>> expected = {};
+    expected[3] = {4, 5, 6, 7};
+    REQUIRE(mockPkbWriter.isParentEqual(expected));
+}
+
 
 TEST_CASE("ParentExtractor - while node") {
 //    string input =
@@ -127,7 +165,31 @@ TEST_CASE("ParentExtractor - while node") {
 
     // extract
     MockPKBWriter mockPkbWriter;
-    extractParent(programNode.get(), mockPkbWriter);
+    extractAbstraction(programNode.get(), mockPkbWriter, AbstractionType::PARENT);
+
+    unordered_map<int, set<int>> expected = {};
+    expected[3] = {4, 5, 6, 7};
+    expected[4] = {5, 6};
+    REQUIRE(mockPkbWriter.isParentEqual(expected));
+}
+
+TEST_CASE("ParentExtractor with parser - while node") {
+    string input =
+        "procedure simple {"
+        "read x;"
+        "read x;"
+        "while (num1 < num2) {"
+        "if (num1 == num2) then {"
+        "read x;"
+        "} else { read x; }"
+        "read x;"
+        "}"
+        "read x;"
+        "}";
+
+    // extract
+    MockPKBWriter mockPkbWriter;
+    extractAbstraction(input, mockPkbWriter, AbstractionType::PARENT);
 
     unordered_map<int, set<int>> expected = {};
     expected[3] = {4, 5, 6, 7};
