@@ -11,6 +11,7 @@
 #include "qps/token/QueryToken.h"
 #include "qps/token/TokenLinkedList/QueryTokenLL.h"
 #include "qps/common/Keywords.h"
+#include "qps/tokenFactory/TokenFactory.h"
 
 // Following Factory Method Pattern
 // lexical validator + token factory method
@@ -20,12 +21,9 @@ using std::string, std::vector, std::unique_ptr, std::unordered_map, std::set;
 // the reason for the complex type is because of object slicing
 // https://www.geeksforgeeks.org/object-slicing-in-c/
 typedef vector<unique_ptr<QueryToken>> TokenStream;
-typedef unique_ptr<TokenStream> TokenStreamPtr;
+typedef unique_ptr<TokenStream> TokenStreamPtr; // this needs to be unique_ptr to ensure the lifetime of the tokenstream
 
 class TokenFactory;
-
-typedef vector<string> ValidatedTokens;
-typedef unique_ptr <vector<string>> UnvalidatedTokenPtr;
 typedef unordered_map<TOKENTYPES, unique_ptr<TokenFactory>> TokenFactoryPool;
 
 class TokenFactory {
@@ -36,7 +34,7 @@ protected:
 
     const static set<string> entities; // TODO: Merge with Houten's constants in common or utils folder
 
-    const virtual bool isValid(UnvalidatedTokens unvalidatedTokens) = 0;
+    virtual const bool isValid(UnvalidatedTokens unvalidatedTokens) = 0;
 
 public:
     explicit TokenFactory() = default;
@@ -45,7 +43,7 @@ public:
     // used like this:
     // DeclarativeTokenFactory* dtf = TokenFactory::getOrCreateFactory();
     // dtf.createToken(validatedTokens);
-    virtual TokenStreamPtr createTokens(ValidatedTokens validatedTokens) = 0;
+    virtual TokenStreamPtr createTokens(UnvalidatedTokens unvalidatedTokens) = 0;
 
     // for unit-tests; should be under protected
     static TokenFactory* getOrCreateFactory(TOKENTYPES keyword);

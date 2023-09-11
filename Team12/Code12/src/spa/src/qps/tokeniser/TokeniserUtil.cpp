@@ -5,7 +5,7 @@
 #include <sstream>
 #include <algorithm>
 #include "common/exceptions/Exception.h"
-#include "Keywords.h"
+#include "qps/common/Keywords.h"
 #include "TokeniserUtil.h"
 #include "Tokeniser.h"
 #include "../token/QueryToken.h"
@@ -62,7 +62,7 @@ bool TokeniserUtil::isArgumentSuch(vector<string> whitespaceDelimitedFragments, 
 // i.e. "hello i am       sad" delimited by ' ' => ["hello", "i", "am", "sad"]
 vector<string> TokeniserUtil::delimitString(string str, char delimiter) {
     vector<string> delimitedFragments;
-    istringstream ss(str);
+    stringstream ss(str);
     string fragment;
     while (std::getline(ss, fragment, delimiter)) {
         if (fragment != "") {

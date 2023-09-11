@@ -1,9 +1,13 @@
 #pragma once
 
+#include <string>
+
 #include "PKB.h"
 #include "qps/tokeniser/Tokeniser.h"
 #include "qps/validator/Validator.h"
 #include "qps/queryBuilder/QueryBuilder.h"
+
+using std::string;
 
 class QPS {
 private:
@@ -12,8 +16,7 @@ private:
     Validator validator;
     QueryBuilder queryBuilder;
 
-
 public:
     explicit QPS(PKB *pkb);
-    void processQueryString(std::string &queryString);
+    void processQueryString(string queryString);
 };
