@@ -1,9 +1,5 @@
 #include "UsesStorage.h"
 
-#include <iostream>
-#include <map>
-#include <set>
-
 // Constructor
 UsesStorage::UsesStorage() {}
 
@@ -14,19 +10,23 @@ void UsesStorage::setVariableUsage(const std::string& variableName, int statemen
 }
 
 std::unordered_set<int> UsesStorage::getStatementNumbersForVariable(const std::string& variableName) {
+    if (variableToStatements.find(variableName) == variableToStatements.end()) {
+        return {};
+    }
     return variableToStatements[variableName];
 }
 
 std::unordered_set<std::string> UsesStorage::getVariablesForStatement(int statementNumber) {
+    if (statementToVariables.find(statementNumber) == statementToVariables.end()) {
+        return {};
+    }
     return statementToVariables[statementNumber];
 }
 
 std::set<std::string> UsesStorage::getAllVariables() {
     std::set<std::string> allVariables;
     for (const auto& entry : variableToStatements) {
-        if (!entry.second.empty()) {
-            allVariables.insert(entry.first); // Use insert for set
-        }
+        allVariables.insert(entry.first); // Use insert for set
     }
     return allVariables;
 }
@@ -34,9 +34,7 @@ std::set<std::string> UsesStorage::getAllVariables() {
 std::unordered_set<int> UsesStorage::getAllStatements() {
     std::unordered_set<int> allStatements;
     for (const auto& entry : statementToVariables) {
-        if (!entry.second.empty()) {
-            allStatements.insert(entry.first); // Use insert for set
-        }
+        allStatements.insert(entry.first); // Use insert for set
     }
     return allStatements;
 }

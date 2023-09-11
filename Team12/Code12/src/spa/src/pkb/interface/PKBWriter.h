@@ -31,7 +31,7 @@ public:
 
     void setProcedure(const std::string& procedureName, int startStatement);
 
-    void setStatement(int statementNumber, std::string statementType);
+    void setStatement(int statementNumber, StmtType statementType);
 
 private:
     DesignEntitiesStorage designEntitiesStorage;
