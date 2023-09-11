@@ -5,5 +5,5 @@
 class ISourceProcessor {
 public:
     virtual ~ISourceProcessor() = default;
-    virtual void process(std::string &fileName) = 0;
+    virtual void process(const std::string &fileName) = 0;
 };

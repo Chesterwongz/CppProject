@@ -1,24 +1,27 @@
 #pragma once
 
-#include <string>
-#include <vector>
 #include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 #include "TNodeType.h"
+
+using std::string, std::unique_ptr, std::vector;
 
 class TNode {
 private:
-    std::string value;
+    string value;
     TNodeType type;
-    std::vector<std::unique_ptr<TNode>> children;
-
-public:
+    vector<unique_ptr<TNode>> children;
+protected:
     explicit TNode(TNodeType type);
-    TNode(TNodeType type, std::string value);
-    ~TNode() = default;
-    void addChild(std::unique_ptr<TNode> child);
-    std::string getValue();
+    TNode(TNodeType type, string value);
+public:
+    virtual ~TNode() = default;
+    void addChild(unique_ptr<TNode> child);
+    string getValue();
     TNodeType getType();
-    std::vector<TNode*> getChildren();
+    vector<TNode*> getChildren();
 };
 
 

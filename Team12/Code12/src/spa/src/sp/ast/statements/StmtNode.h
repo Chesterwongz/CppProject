@@ -11,7 +11,7 @@ private:
 
 public:
     explicit StmtNode(TNodeType type, std::string value, int lineNum) : TNode(type, std::move(value)),  lineNum(lineNum) {}
-    virtual ~StmtNode() = default;
+    ~StmtNode() override = default;
     [[nodiscard]] int getLineNum() const;
 };
 

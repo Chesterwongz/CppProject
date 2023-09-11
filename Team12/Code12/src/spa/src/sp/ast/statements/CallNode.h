@@ -4,5 +4,6 @@
 
 class CallNode : public StmtNode {
 public:
-    explicit CallNode(int lineNum): StmtNode(TNodeType::TNODE_CALL, "", lineNum) {}
+    explicit CallNode(std::string procName, int lineNum)
+        : StmtNode(TNodeType::TNODE_CALL, std::move(procName), lineNum) {}
 };
