@@ -25,11 +25,10 @@ private:
     std::string procName;
     void processCurrState();
     void postVisit();
-    std::map<std::string, std::set<int>> usesMap; // var, stmts
+    void addUses(int lineNum, const std::string &var);
 
 public:
-    UsesExtractor();
-    explicit UsesExtractor(PkbWriter *pkbWriter);
+    explicit UsesExtractor(PKBWriter *pkbWriter);
     void visitProcedure(const ProcNode *node) override; // TODO: modify after MS1
     void visitAssign(const AssignNode *node) override;
     void visitIf(const IfNode *node) override;
@@ -40,6 +39,4 @@ public:
     void postVisitIf(const IfNode *node) override;
     void postVisitWhile(const WhileNode *node) override;
     void postVisitPrint(const PrintNode *node) override;
-    void addUses(int lineNum, const std::string &var);
-    std::map<std::string, std::set<int>> getUsesMap();
 };

@@ -1,8 +1,6 @@
 #include "FollowsExtractor.h"
 
-FollowsExtractor::FollowsExtractor() : Extractor() {}
-
-FollowsExtractor::FollowsExtractor(PkbWriter *pkbWriter) : Extractor(pkbWriter) {}
+FollowsExtractor::FollowsExtractor(PKBWriter *pkbWriter) : Extractor(pkbWriter) {}
 
 void FollowsExtractor::visitAssign(const AssignNode *node) {
     processCurrStmt(node);
@@ -56,10 +54,5 @@ void FollowsExtractor::processCurrStmt(const StmtNode *node) {
 }
 
 void FollowsExtractor::addFollows(int prevLine, int currLine) {
-    // pkbWriter->addFollows(prevLine, currLine);
-    followsMap[prevLine].insert(currLine);
-}
-
-std::map<int, std::set<int>> FollowsExtractor::getFollowsMap() {
-    return followsMap;
+    pkbWriter->setFollowsRelationship(prevLine, currLine);
 }

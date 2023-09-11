@@ -5,7 +5,7 @@
 #include <set>
 
 // Constructor
-ParentStorage::ParentStorage() {}
+ParentStorage::ParentStorage() = default;
 
 // Setter for parent relationship
 void ParentStorage::setParent(int statementNumber, int childStatement) {
@@ -17,7 +17,7 @@ void ParentStorage::setParent(int statementNumber, int childStatement) {
 }
 
 // Getter for all children relationship
-std::set<int> ParentStorage::getAllChildren(int statementNumber) {
+std::unordered_set<int> ParentStorage::getAllChildren(int statementNumber) {
     if (parentOf.find(statementNumber) == parentOf.end()) {
         return {};
     }
@@ -32,12 +32,19 @@ std::set<int> ParentStorage::getAllParents(int statementNumber) {
     return childOf[statementNumber];
 }
 
-// Getter for immediate child relationship - smallest statement number
-int ParentStorage::getImmediateChild(int statementNumber) {
+// Getter for immediate children relationship - 1 parent can have multiple children with varying line numbers
+std::unordered_set<int> ParentStorage::getImmediateChildren(int statementNumber) {
     if (parentOf.find(statementNumber) == parentOf.end()) {
-        return -1;
+        return {};
     }
-    return *parentOf[statementNumber].begin(); // Use begin() to get the first element of the set
+    std::unordered_set<int> immediateChildren = parentOf[statementNumber];
+    for (int child : immediateChildren) {
+        if (parentOf.find(child) != parentOf.end()) {
+            immediateChildren.erase(child);
+        }
+    }
+
+    return immediateChildren;
 }
 
 // Getter for immediate parent relationship - largest statement number

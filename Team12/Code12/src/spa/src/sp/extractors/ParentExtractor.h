@@ -11,17 +11,13 @@
 class ParentExtractor : public Extractor {
 private:
     std::vector<int> parents;
-    std::map<int, std::set<int>> parentsMap; // child, parents
+    void addParent(int parent, int child);
 
 public:
-    explicit ParentExtractor();
-    explicit ParentExtractor(PkbWriter *pkbWriter);
+    explicit ParentExtractor(PKBWriter *pkbWriter);
     void visitIf(const IfNode *node) override;
     void visitWhile(const WhileNode *node) override;
     void visitStmtList(const StmtListNode *node) override;
     void postVisitIf(const IfNode *node) override;
     void postVisitWhile(const WhileNode *node) override;
-    void addParent(int parent, int child);
-    std::map<int, std::set<int>> getParentMap();
-
 };

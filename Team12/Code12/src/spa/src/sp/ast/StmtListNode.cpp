@@ -20,3 +20,8 @@ std::vector<int> StmtListNode::getChildrenLineNums() const {
     return childrenLineNums;
 }
 // ai-gen end
+
+int StmtListNode::getStartLineNum() const {
+    auto* firstStmtChild = dynamic_cast<StmtNode*>(this->getChildren()[0]);
+    return firstStmtChild->getLineNum();
+}

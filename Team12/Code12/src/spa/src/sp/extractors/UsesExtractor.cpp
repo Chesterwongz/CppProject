@@ -1,7 +1,6 @@
 #include "UsesExtractor.h"
 
-UsesExtractor::UsesExtractor() : Extractor() {}
-UsesExtractor::UsesExtractor(PkbWriter *pkbWriter) : Extractor(pkbWriter) {}
+UsesExtractor::UsesExtractor(PKBWriter *pkbWriter) : Extractor(pkbWriter) {}
 
 void UsesExtractor::visitProcedure(const ProcNode *node) {
     procName = node->getValue();
@@ -67,11 +66,6 @@ void UsesExtractor::postVisitPrint(const PrintNode *node) {
     postVisit();
 }
 
-std::map<std::string, std::set<int>> UsesExtractor::getUsesMap() {
-    return usesMap;
-}
-
 void UsesExtractor::addUses(int lineNum, const std::string &var) {
-    usesMap[var].insert(lineNum);
+    pkbWriter->setUsesRelationship(var, lineNum);
 }
-

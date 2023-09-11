@@ -13,19 +13,17 @@
 #include "sp/ast/statements/StmtNode.h"
 #include "sp/ast/statements/WhileNode.h"
 #include "sp/ast/StmtListNode.h"
+#include "pkb/interface/PKBWriter.h"
 
 class FollowsExtractor : public Extractor {
 private:
-    // temp storage for testing
-    // TODO: change to use PkbWriter
-    std::map<int, std::set<int>> followsMap;
     // each vector element is a nesting block, e.g. proc, if, while {}
     std::stack<std::vector<int>> nestingBlocksStack;
     void processCurrStmt(const StmtNode *node);
+    void addFollows(int prevLine, int currLine);
 
 public:
-    FollowsExtractor(); // TODO: remove this constructor after pkb integration
-    explicit FollowsExtractor(PkbWriter *pkbWriter);
+    explicit FollowsExtractor(PKBWriter *pkbWriter);
     void visitAssign(const AssignNode *node) override;
     void visitCall(const CallNode *node) override;
     void visitIf(const IfNode *node) override;
@@ -34,7 +32,4 @@ public:
     void visitWhile(const WhileNode *node) override;
     void visitStmtList(const StmtListNode *node) override;
     void postVisitStmtList(const StmtListNode *node) override;
-    void addFollows(int prevLine, int currLine);
-
-    std::map<int, std::set<int>> getFollowsMap(); // TODO: remove this method after pkb integration
 };

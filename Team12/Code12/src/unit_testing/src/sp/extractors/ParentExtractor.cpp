@@ -2,34 +2,25 @@
 #include <memory>
 #include <map>
 #include <set>
-#include <iostream>
+#include <unordered_map>
+#include <unordered_set>
 #include "catch.hpp"
 #include "sp/extractors/DesignExtractor.h"
 #include "sp/ast/ProgramNode.h"
 #include "sp/ast/ProcNode.h"
 #include "sp/ast/StmtListNode.h"
-#include "sp/ast/statements/ReadNode.h"
 #include "sp/ast/statements/IfNode.h"
 #include "sp/ast/statements/WhileNode.h"
+#include "../mocks/MockPKBWriter.h"
+#include "../ast/TNodeUtils.h"
 
-using std::unique_ptr, std::make_unique, std::vector, std::string, std::map, std::set;
+using std::unique_ptr, std::make_unique, std::vector, std::string, std::map, std::set, std::unordered_map, std::unordered_set;
 
-map<int, set<int>> getParentMap(DesignExtractor* designExtractor) {
-    return designExtractor->getParentMap();
-}
-
-void printParentMap(const map<int, set<int>>& map) {
-    for (const auto& elem : map) {
-        std::cout << elem.first << ": ";
-        for (const auto &follows : elem.second) {
-            std::cout << follows << " ";
-        }
-        std::cout << "\n";
-    }
-}
-
-unique_ptr<ReadNode> makeReadNodeInParent(int lineNum) {
-    return make_unique<ReadNode>(lineNum);
+void extractParent(TNode* node, MockPKBWriter &mockPKBWriter) {
+    Populator populator;
+    std::vector<std::unique_ptr<Extractor>> extractors;
+    extractors.emplace_back(make_unique<ParentExtractor>(&mockPKBWriter));
+    populator.populate(node, extractors);
 }
 
 TEST_CASE("ParentExtractor - no parent") {
@@ -41,49 +32,46 @@ TEST_CASE("ParentExtractor - no parent") {
     unique_ptr<ProgramNode> programNode = make_unique<ProgramNode>();
     unique_ptr<ProcNode> procNode = make_unique<ProcNode>("simple");
     unique_ptr<StmtListNode> stmtListNode = make_unique<StmtListNode>();
-    stmtListNode->addChild(makeReadNodeInParent(1));
-    stmtListNode->addChild(makeReadNodeInParent(2));
-    stmtListNode->addChild(makeReadNodeInParent(3));
+    stmtListNode->addChild(makeReadNode(1, "num1"));
+    stmtListNode->addChild(makeReadNode(2, "num2"));
+    stmtListNode->addChild(makeReadNode(3, "num3"));
     procNode->addChild(std::move(stmtListNode));
     programNode->addChild(std::move(procNode));
 
     // extract
-    DesignExtractor designExtractor;
-    designExtractor.extract(programNode.get());
+    MockPKBWriter mockPkbWriter;
+    extractParent(programNode.get(), mockPkbWriter);
 
-    // get follows map
-    map<int, set<int>> res = getParentMap(&designExtractor);
-    printParentMap(res);
-    REQUIRE(res.empty());
+    REQUIRE(mockPkbWriter.isParentEqual({}));
 }
 
 TEST_CASE("ParentExtractor - if node") {
 //    string input =
 //        "procedure simple {"
-//        "read num1;"
-//        "read num2;"
-//        "if (num1 < num2) then {"
-//        "read"
-//        "read"
+// 1       "read num1;"
+// 2       "read num2;"
+// 3       "if (num1 < num2) then {"
+// 4       "read"
+// 5       "read"
 //        "} else {"
-//        "read"
-//        "read"
+// 6       "read"
+// 7       "read"
 //        "}"
 //        "}";
     unique_ptr<ProgramNode> programNode = make_unique<ProgramNode>();
     unique_ptr<ProcNode> procNode = make_unique<ProcNode>("simple");
     unique_ptr<StmtListNode> stmtListNode = make_unique<StmtListNode>();
-    stmtListNode->addChild(makeReadNodeInParent(1));
-    stmtListNode->addChild(makeReadNodeInParent(2));
+    stmtListNode->addChild(makeReadNode(1, "num1"));
+    stmtListNode->addChild(makeReadNode(2, "num2"));
     // make if node
     unique_ptr<IfNode> ifNode = make_unique<IfNode>(3);
     unique_ptr<StmtListNode> thenStmtListNode = make_unique<StmtListNode>();
-    thenStmtListNode->addChild(makeReadNodeInParent(4));
-    thenStmtListNode->addChild(makeReadNodeInParent(5));
+    thenStmtListNode->addChild(makeReadNode(4, "num1"));
+    thenStmtListNode->addChild(makeReadNode(5, "num2"));
     ifNode->addChild(std::move(thenStmtListNode));
     unique_ptr<StmtListNode> elseStmtListNode = make_unique<StmtListNode>();
-    elseStmtListNode->addChild(makeReadNodeInParent(6));
-    elseStmtListNode->addChild(makeReadNodeInParent(7));
+    elseStmtListNode->addChild(makeReadNode(6, "num1"));
+    elseStmtListNode->addChild(makeReadNode(7, "num2"));
     ifNode->addChild(std::move(elseStmtListNode));
     // add if to proc
     stmtListNode->addChild(std::move(ifNode));
@@ -91,15 +79,11 @@ TEST_CASE("ParentExtractor - if node") {
     programNode->addChild(std::move(procNode));
 
     // extract
-    DesignExtractor designExtractor;
-    designExtractor.extract(programNode.get());
-    auto res = getParentMap(&designExtractor);
-    printParentMap(res);
-    REQUIRE(res.size() == 4);
-    REQUIRE(res[4] == set<int>{3});
-    REQUIRE(res[5] == set<int>{3});
-    REQUIRE(res[6] == set<int>{3});
-    REQUIRE(res[7] == set<int>{3});
+    MockPKBWriter mockPkbWriter;
+    extractParent(programNode.get(), mockPkbWriter);
+    unordered_map<int, set<int>> expected = {};
+    expected[3] = {4, 5, 6, 7};
+    REQUIRE(mockPkbWriter.isParentEqual(expected));
 }
 
 TEST_CASE("ParentExtractor - while node") {
@@ -118,37 +102,35 @@ TEST_CASE("ParentExtractor - while node") {
     unique_ptr<ProgramNode> programNode = make_unique<ProgramNode>();
     unique_ptr<ProcNode> procNode = make_unique<ProcNode>("simple");
     unique_ptr<StmtListNode> stmtListNode = make_unique<StmtListNode>();
-    stmtListNode->addChild(makeReadNodeInParent(1));
-    stmtListNode->addChild(makeReadNodeInParent(2));
+    stmtListNode->addChild(makeReadNode(1, "x"));
+    stmtListNode->addChild(makeReadNode(2, "x"));
     // make while node
     unique_ptr<WhileNode> whileNode = make_unique<WhileNode>(3);
     unique_ptr<StmtListNode> whileStmtListNode = make_unique<StmtListNode>();
     // make if node
     unique_ptr<IfNode> ifNode = make_unique<IfNode>(4);
     unique_ptr<StmtListNode> thenStmtListNode = make_unique<StmtListNode>();
-    thenStmtListNode->addChild(makeReadNodeInParent(5));
+    thenStmtListNode->addChild(makeReadNode(5, "x"));
     ifNode->addChild(std::move(thenStmtListNode));
     unique_ptr<StmtListNode> elseStmtListNode = make_unique<StmtListNode>();
-    elseStmtListNode->addChild(makeReadNodeInParent(6));
+    elseStmtListNode->addChild(makeReadNode(6, "x"));
     ifNode->addChild(std::move(elseStmtListNode));
     // add if to while
     whileStmtListNode->addChild(std::move(ifNode));
-    whileStmtListNode->addChild(makeReadNodeInParent(7));
+    whileStmtListNode->addChild(makeReadNode(7, "x"));
     // add while to proc
     whileNode->addChild(std::move(whileStmtListNode));
     stmtListNode->addChild(std::move(whileNode));
-    stmtListNode->addChild(makeReadNodeInParent(8));
+    stmtListNode->addChild(makeReadNode(8, "x"));
     procNode->addChild(std::move(stmtListNode));
     programNode->addChild(std::move(procNode));
 
     // extract
-    DesignExtractor designExtractor;
-    designExtractor.extract(programNode.get());
-    auto res = getParentMap(&designExtractor);
-    printParentMap(res);
-    REQUIRE(res.size() == 4);
-    REQUIRE(res[4] == set<int>{3});
-    REQUIRE(res[5] == set<int>{3, 4});
-    REQUIRE(res[6] == set<int>{3, 4});
-    REQUIRE(res[7] == set<int>{3});
+    MockPKBWriter mockPkbWriter;
+    extractParent(programNode.get(), mockPkbWriter);
+
+    unordered_map<int, set<int>> expected = {};
+    expected[3] = {4, 5, 6, 7};
+    expected[4] = {5, 6};
+    REQUIRE(mockPkbWriter.isParentEqual(expected));
 }

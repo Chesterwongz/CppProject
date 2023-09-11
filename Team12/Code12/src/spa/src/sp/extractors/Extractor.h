@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pkb/PkbWriter.h"
+#include "pkb/interface/PKBWriter.h"
 
 class TNode;
 class ProgramNode;
@@ -19,13 +19,12 @@ class VarNode;
 class ConstNode;
 
 class Extractor {
-private:
-    PkbWriter* pkbWriter;
+protected:
+    PKBWriter* pkbWriter;
 
 public:
-    explicit Extractor(): pkbWriter() {};
     virtual ~Extractor() = default;
-    explicit Extractor(PkbWriter* pkbWriter): pkbWriter(pkbWriter) {};
+    explicit Extractor(PKBWriter* pkbWriter): pkbWriter(pkbWriter) {};
     virtual void visitProgram(const ProgramNode* node) {};
 
     virtual void visitProcedure(const ProcNode* node) {};

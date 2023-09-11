@@ -10,4 +10,5 @@ public:
     void accept(Extractor* e) const override;
     void cleanup(Extractor* e) const override;
     [[nodiscard]] std::vector<int> getChildrenLineNums() const;
+    [[nodiscard]] int getStartLineNum() const;
 };

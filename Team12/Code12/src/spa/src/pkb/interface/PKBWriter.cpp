@@ -1,7 +1,7 @@
 #include "PKBWriter.h"
 
 //not complete
-PKBWriter::PKBWriter() {}
+PKBWriter::PKBWriter() = default;
 
 void PKBWriter::setFollowsRelationship(int statementNumber, int followingStatement) {
     followsStorage.setFollows(statementNumber, followingStatement);
@@ -27,7 +27,7 @@ void PKBWriter::setVariable(const std::string& variableName) {
     designEntitiesStorage.setVariable(variableName);
 }
 
-void PKBWriter::setConstant(int constantValue) {
+void PKBWriter::setConstant(const std::string& constantValue) {
     designEntitiesStorage.setConstant(constantValue);
 }
 
