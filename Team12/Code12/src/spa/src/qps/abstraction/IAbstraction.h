@@ -7,7 +7,6 @@
 #include "qps/query/Query.h"
 #include "qps/token/suchThatToken/SuchThatToken.h"
 #include "qps/clause/utils/ClauseConstants.h"
-#include "qps/abstraction/AbstractionFactory.h"
 
 struct AbstractionParams {
     PKBReader *pkb;
