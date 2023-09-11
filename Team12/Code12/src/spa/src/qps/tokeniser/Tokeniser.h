@@ -1,18 +1,23 @@
 #pragma once
 
-#include "qps/token/QueryToken.h"
 #include <string>
 #include <vector>
+#include <memory>
 
-using std::string, std::vector, std::size_t;
+#include "qps/token/QueryToken.h"
+#include "qps/tokenFactory/TokenFactory.h"
+
+using std::string, std::vector, std::size_t, std::unique_ptr;
+
+typedef vector<unique_ptr<QueryToken>> TokenStream;
+typedef vector<string> UnvalidatedTokens;
 
 class Tokeniser {
 public:
+	TokenStream convertToTokens(string query);
 
-	vector<QueryToken>* convertToTokens(string* query);
-
-private:
-	vector<QueryToken> processFragment(string queryFragment, vector<QueryToken>* tokens);
+//private:
+	void processFragment(string queryFragment, TokenStream& tokens);
 
 	vector<string> getDesignEntitySynonyms(vector<string> whitespaceDelimitedFragments, size_t* iPtr);
 
@@ -24,5 +29,3 @@ private:
 
 };
 
-
-typedef vector<string> UnvalidatedTokens;

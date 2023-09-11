@@ -3,6 +3,7 @@
 #include "PKB.h"
 #include "qps/query/Query.h"
 #include "qps/token/QueryToken.h"
+#include "qps/tokenFactory/TokenFactory.h"
 
 class QueryBuilder {
 private:
@@ -10,5 +11,5 @@ private:
 
 public:
     explicit QueryBuilder(PKB *pkb);
-    Query buildQuery(std::vector<QueryToken> *queryTokenVector);
+    Query buildQuery(TokenStream& queryTokenVector);
 };

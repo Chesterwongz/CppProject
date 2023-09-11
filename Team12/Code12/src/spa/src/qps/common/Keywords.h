@@ -7,16 +7,16 @@
 using std::string, std::vector, std::unordered_set;
 
 const unordered_set<string> designEntities = {
-	"stmt",
-	"read",
-	"print",
-	"call",
-	"while",
-	"if",
-	"assign",
-	"variable",
-	"constant",
-	"procedure"
+        "stmt",
+        "read",
+        "print",
+        "call",
+        "while",
+        "if",
+        "assign",
+        "variable",
+        "constant",
+        "procedure"
 };
 
 const string select = "Select";
@@ -24,6 +24,15 @@ const string select = "Select";
 const string pattern = "pattern";
 
 const vector<string> suchThat = {
-	"such",
-	"that"
+        "such",
+        "that"
 };
+
+enum TOKENTYPES {
+    ENTITY,
+    SELECT,
+    SUCH_THAT,
+    PATTERN
+};
+
+

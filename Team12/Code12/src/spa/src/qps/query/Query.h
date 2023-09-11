@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+#include <unordered_map>
+
 #include "qps/token/QueryToken.h"
 #include "qps/validator/Validator.h"
 #include "PKB.h"
@@ -9,7 +11,7 @@
 class Query {
 private:
     PKB *pkb;
-    std::map<std::string, QueryToken*> context = {};
+    std::unordered_map<std::string, QueryToken*> context = {};
     std::vector<unique_ptr<Clause>> clauses = {};
 
 public:
