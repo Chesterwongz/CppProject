@@ -10,5 +10,3 @@ void require(bool b) {
 TEST_CASE("1st Test") {
     require(1 == 1);
 }
-
-

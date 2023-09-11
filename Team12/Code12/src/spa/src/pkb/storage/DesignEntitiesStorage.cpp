@@ -51,12 +51,23 @@ std::unordered_set<std::string> DesignEntitiesStorage::getProceduresOnStatement(
     return procedures;
 }
 
-// Get the starting statement of a procedure
-int DesignEntitiesStorage::getStartingStatementOfProcedure(const std::string& procedureName) {
-    if (procedureData.count(procedureName)) {
-        return procedureData[procedureName];
+    // Get the starting statement of a procedure
+    int getStartingStatementOfProcedure(const std::string& procedureName) {
+        if (procedureData.count(procedureName)) {
+            return procedureData[procedureName];
+        }
+        else {
+            return -1; // Return -1 if procedure not found
+        }
     }
-    else {
-        return -1; // Return -1 if procedure not found
-    }
-}
+
+private:
+    // Data structure for variables (variable name -> statement numbers)
+    std::map<std::string, std::vector<int>> variableData;
+
+    // Data structure for constants (constant value -> statement numbers)
+    std::map<int, std::vector<int>> constantData;
+
+    // Data structure for procedures (procedure name -> starting statement)
+    std::map<std::string, int> procedureData;
+};
