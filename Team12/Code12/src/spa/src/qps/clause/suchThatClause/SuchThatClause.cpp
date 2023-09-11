@@ -21,7 +21,7 @@ std::set<int> SuchThatClause::evaluate(
     abstractionParams->secondArg = secondArg;
 
     AbstractionFactory fac = AbstractionFactory();
-    auto executableAbstraction =
-            AbstractionFactory::createAbstraction(abstractionParams);
+    std::unique_ptr<IAbstraction> executableAbstraction =
+            std::move(AbstractionFactory::createAbstraction(abstractionParams));
     return executableAbstraction->getAbstractions();
 }

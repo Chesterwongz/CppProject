@@ -4,19 +4,19 @@
 #include "qps/abstraction/UsesAbstraction/UsesAbstraction.h"
 #include "qps/abstraction/ParentsAbstraction/ParentsAbstraction.h"
 
-IAbstraction *AbstractionFactory::createAbstraction(
+std::unique_ptr<IAbstraction> AbstractionFactory::createAbstraction(
         struct AbstractionParams *abstractionParams) {
     AbstractionEnum abstractionEnum =
             AbstractionToEnumMap.at(abstractionParams->abstraction);
     switch (abstractionEnum) {
         case FOLLOWS_ENUM:
-            return make_shared<FollowsAbstraction>(abstractionParams).get();
+            return std::move(make_unique<FollowsAbstraction>(abstractionParams));
         case MODIFIES_ENUM:
-            return make_shared<ModifiesAbstraction>(abstractionParams).get();
+            return std::move(make_unique<ModifiesAbstraction>(abstractionParams));
         case PARENTS_ENUM:
-            return make_shared<ParentsAbstraction>(abstractionParams).get();
+            return std::move(make_unique<ParentsAbstraction>(abstractionParams));
         case USES_ENUM:
-            return make_shared<UsesAbstraction>(abstractionParams).get();
+            return std::move(make_unique<UsesAbstraction>(abstractionParams));
     }
     return nullptr;
 };

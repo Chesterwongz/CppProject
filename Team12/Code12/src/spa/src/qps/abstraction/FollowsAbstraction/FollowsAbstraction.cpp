@@ -21,7 +21,3 @@ std::set<int> FollowsAbstraction::getAbstractions() {
 //
 //    return pkb->getFollowing(second, firstStatementType);
 }
-
-FollowsAbstraction *createAbstraction(AbstractionParams *params) {
-    return new FollowsAbstraction(params);
-}
