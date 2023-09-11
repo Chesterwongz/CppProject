@@ -31,17 +31,7 @@ public:
 
     void setProcedure(const std::string& procedureName, int startStatement);
 
-    void setReadStatement(int statementNumber);
-
-    void setPrintStatement(int statementNumber);
-
-    void setAssignStatement(int statementNumber);
-
-    void setCallStatement(int statementNumber);
-
-    void setIfStatement(int statementNumber);
-
-    void setWhileStatement(int statementNumber);
+    void setStatement(int statementNumber, std::string statementType);
 
 private:
     DesignEntitiesStorage designEntitiesStorage;
