@@ -16,5 +16,6 @@ private:
     DesignExtractor designExtractor;
 
 public:
+    explicit SourceProcessor(PKBWriter* pkbWriter) : designExtractor(pkbWriter) {};
     void process(const std::string &fileName) override;
 };
