@@ -24,7 +24,7 @@ std::set<int> FollowsStorage::getAllFollowedBy(int statementNumber) {
 
 // Getter for immediate follows relationship
 int FollowsStorage::getImmediateFollows(int statementNumber) {
-    if (followsFrom[statementNumber].empty()) {
+    if (!followsFrom[statementNumber].empty()) {
         return *(followsFrom[statementNumber].begin());
     }
     else {
