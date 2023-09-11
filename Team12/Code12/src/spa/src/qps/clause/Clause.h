@@ -2,7 +2,9 @@
 
 #include <string>
 #include <set>
-#include "qps/query/Query.h"
+#include <unordered_set>
+#include "qps/context/Context.h"
+#include "pkb/PKBReader.h"
 
 class Clause {
 public:

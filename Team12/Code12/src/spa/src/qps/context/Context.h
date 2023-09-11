@@ -2,17 +2,19 @@
 
 #include <string>
 #include <map>
-#include "qps/token/declarativeToken/DeclarativeToken.h"
-#include "qps/token/QueryToken.h"
+//#include "qps/token/declarativeToken/DeclarativeToken.h"
 
 using std::string, std::map;
 
+typedef string Synonym;
+typedef string Entity;
+
 class Context {
 private:
-    map<string, DeclarativeToken*> tokenNameToTokenMap = {};
+    map<string, Entity> tokenNameToTokenMap = {};
 
 public:
-    void addToken(DeclarativeToken *token);
-    DeclarativeToken *getToken(Synonym &tokenName);
+    void addToken(Synonym tokenSynonym, Entity tokenEntity);
+
     Entity getTokenEntity(Synonym &tokenName);
 };

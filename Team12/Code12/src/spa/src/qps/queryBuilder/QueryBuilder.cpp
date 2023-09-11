@@ -6,11 +6,12 @@ QueryBuilder::QueryBuilder(PKBReader *pkb) : pkb(pkb) {}
 
 Query QueryBuilder::buildQuery(TokenStream& queryTokenVector) {
     auto newQuery = Query(pkb);
-    for (auto &queryToken : queryTokenVector) {
-        if (auto *declarativeToken = dynamic_cast<DeclarativeToken*>(&queryToken)) {
-            newQuery.addSynonym(declarativeToken);
+    for (int i = 0; i < queryTokenVector.size(); i++) {
+        auto queryToken = std::move(queryTokenVector.at(i));
+        if (auto *declarativeToken = dynamic_cast<DeclarativeToken*>(queryToken.get())) {
+            newQuery.addSynonym(std::move(declarativeToken));
         } else {
-            std::unique_ptr<Clause> clause = queryToken.buildClause();
+            std::unique_ptr<Clause> clause = std::move(queryToken->buildClause());
             newQuery.addClause(clause);
         }
     }

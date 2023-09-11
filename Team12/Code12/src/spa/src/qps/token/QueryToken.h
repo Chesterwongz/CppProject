@@ -8,12 +8,8 @@
 
 using std::string;
 
-class QueryToken;
-typedef std::vector<QueryToken> TokenList;
-
 class QueryToken {
 public:
-    static TokenList tokens;
     virtual bool semanticValidation() = 0;
     virtual std::unique_ptr<Clause> buildClause() = 0;
 };

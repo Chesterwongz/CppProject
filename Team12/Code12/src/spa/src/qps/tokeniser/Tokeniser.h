@@ -9,9 +9,6 @@
 
 using std::string, std::vector, std::size_t, std::unique_ptr;
 
-typedef vector<unique_ptr<QueryToken>> TokenStream;
-typedef vector<string> UnvalidatedTokens;
-
 class Tokeniser {
 public:
 	TokenStream convertToTokens(string query);

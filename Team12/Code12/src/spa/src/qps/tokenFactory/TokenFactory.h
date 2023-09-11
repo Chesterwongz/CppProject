@@ -7,11 +7,9 @@
 #include <memory>
 
 #include "common/utils/StringUtils.h"
-#include "qps/tokeniser/Tokeniser.h"
 #include "qps/token/QueryToken.h"
 #include "qps/token/TokenLinkedList/QueryTokenLL.h"
 #include "qps/common/Keywords.h"
-#include "qps/tokenFactory/TokenFactory.h"
 
 // Following Factory Method Pattern
 // lexical validator + token factory method
@@ -22,6 +20,7 @@ using std::string, std::vector, std::unique_ptr, std::unordered_map, std::set;
 // https://www.geeksforgeeks.org/object-slicing-in-c/
 typedef vector<unique_ptr<QueryToken>> TokenStream;
 typedef unique_ptr<TokenStream> TokenStreamPtr; // this needs to be unique_ptr to ensure the lifetime of the tokenstream
+typedef vector<string> UnvalidatedTokens;
 
 class TokenFactory;
 typedef unordered_map<TOKENTYPES, unique_ptr<TokenFactory>> TokenFactoryPool;

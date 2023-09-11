@@ -5,7 +5,7 @@ Query::Query(PKBReader *pkb) : pkb(pkb) {}
 using namespace std;
 
 void Query::addSynonym(DeclarativeToken *token) {
-    this->context.addToken(token);
+    this->context.addToken(token->getSynonym(), token->getEntity());
 }
 
 void Query::addClause(unique_ptr<Clause> &clause) {
