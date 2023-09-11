@@ -36,7 +36,7 @@ bool TokeniserUtil::isSuchThat(vector<string> whitespaceDelimitedFragments, std:
         return false;
     }
 
-    checkIfSubsequentTokensExist(whitespaceDelimitedFragments, *iPtr);
+    isExistSubsequentTokens(whitespaceDelimitedFragments, *iPtr);
 
     string nextWord = whitespaceDelimitedFragments[*iPtr + 1];
 

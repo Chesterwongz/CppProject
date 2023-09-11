@@ -2,7 +2,6 @@
 #include <sstream>
 #include <iostream>
 #include <string>
-#include <sstream>
 #include <algorithm>
 #include <memory>
 
@@ -102,8 +101,6 @@ vector<string> Tokeniser::getDesignEntitySynonyms(vector<string> whitespaceDelim
 
     string synonym = "";
     vector<string> synonyms;
-    string entity = whitespaceDelimitedFragments[0];
-    synonyms.push_back(entity);
     
     for (size_t k = *iPtr; k < whitespaceDelimitedFragments.size(); k++) {
         if (synonym.empty()) {
