@@ -1,8 +1,10 @@
 #pragma once
 
 #include <vector>
+#include <unordered_map>
 #include <unordered_set>
 #include <algorithm>
+
 #include "qps/token/QueryToken.h"
 #include "qps/validator/Validator.h"
 #include "pkb/PKBReader.h"

@@ -1,7 +1,10 @@
-#pragma once
+#include <vector>
+#include <memory>
 
 #include "qps/exceptions/QpsException.h"
 #include "QPS.h"
+
+using std::string, std::vector, std::unique_ptr;
 
 QPS::QPS(PKBReader *pkb) :
     pkb(pkb),
@@ -9,8 +12,8 @@ QPS::QPS(PKBReader *pkb) :
     validator(Validator()),
     queryBuilder(QueryBuilder(pkb)) {}
 
-void QPS::processQueryString(std::string &queryString) {
-    std::vector<QueryToken> *queryTokenVector = tokeniser.convertToTokens(queryString);
+void QPS::processQueryString(string queryString) {
+    TokenStream queryTokenVector = tokeniser.convertToTokens(queryString);
 
     bool isTokensValid = validator.validateTokens(queryTokenVector);
     if (!isTokensValid) {

@@ -10,5 +10,5 @@ private:
 
 public:
     explicit SelectToken(Synonym synonym);
-    const std::string getSynonym();
+    std::string getSynonym();
 };

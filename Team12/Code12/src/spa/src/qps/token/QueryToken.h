@@ -3,7 +3,10 @@
 #include <string>
 #include <vector>
 #include <memory>
+
 #include "qps/clause/Clause.h"
+
+using std::string;
 
 class QueryToken;
 typedef std::vector<QueryToken> TokenList;
@@ -14,19 +17,6 @@ public:
     virtual bool semanticValidation() = 0;
     virtual std::unique_ptr<Clause> buildClause() = 0;
 };
-
-//enum Entity {
-//    PROCEDURE,
-//    STATEMENT,
-//    READ,
-//    PRINT,
-//    ASSIGN,
-//    CALL,
-//    WHILE,
-//    IF,
-//    VARIABLE,
-//    CONSTANT
-//};
 
 // TODO: feels like should be moved to a separate folder for references in the future
 enum Reference {

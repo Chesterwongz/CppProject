@@ -9,10 +9,14 @@
 using std::unique_ptr, std::vector, std::string;
 
 class DeclarativeTokenFactory : public TokenFactory {
+private:
+    string entityType;
+
 protected:
 	const bool isValid(UnvalidatedTokens unvalidatedTokens) override;
 
 public:
-	explicit DeclarativeTokenFactory() : TokenFactory() {}
-	TokenStreamPtr createTokens(ValidatedTokens validatedTokens) override;
+    DeclarativeTokenFactory() : entityType("") {}
+	TokenStreamPtr createTokens(UnvalidatedTokens unvalidatedTokens) override;
+    void setEntityType(const string entity);
 };

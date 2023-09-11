@@ -9,5 +9,5 @@ protected:
 
 public:
     explicit SelectTokenFactory() : TokenFactory() {}
-    TokenStreamPtr createTokens(ValidatedTokens validatedTokens) override;
+    TokenStreamPtr createTokens(UnvalidatedTokens unvalidatedTokens) override;
 };
