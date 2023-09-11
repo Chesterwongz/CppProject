@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include "TNodeType.h"
 #include "sp/extractors/Extractor.h"
 
@@ -15,7 +16,6 @@ private:
 
 public:
     explicit TNode(TNodeType type);
-
     TNode(TNodeType type, std::string value);
 
     virtual ~TNode() = default;

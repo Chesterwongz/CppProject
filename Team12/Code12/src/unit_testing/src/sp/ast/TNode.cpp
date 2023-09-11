@@ -1,6 +1,5 @@
 #include "catch.hpp"
 #include "sp/ast/expressions/ConstNode.h"
-#include "sp/ast/TNodeType.h"
 #include "sp/ast/TNode.h"
 #include "sp/ast/expressions/VarNode.h"
 #include "sp/ast/statements/PrintNode.h"
