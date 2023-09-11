@@ -3,9 +3,9 @@
 
 const bool SelectTokenFactory::isValid(UnvalidatedTokens unvalidatedTokens) {
     // should be ["Select", syn]
-    if (unvalidatedTokens.size() != 2) return false;
+    if (unvalidatedTokens.size() != 1) return false;
 
-    return unvalidatedTokens[0] == "Select" && isSynonym(unvalidatedTokens[1]);
+    return isSynonym(unvalidatedTokens[0]);
 }
 
 TokenStreamPtr SelectTokenFactory::createTokens(UnvalidatedTokens unvalidatedTokens) {

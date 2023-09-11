@@ -5,7 +5,7 @@
 // e.g. "stmt s1, s2" --> ["stmt", "s1", "s2"]
 // e.g. "procedure call c" --> ["procedure call", "c"]
 const bool DeclarativeTokenFactory::isValid(UnvalidatedTokens unvalidatedTokens) {
-	for (size_t i = 1; i < unvalidatedTokens.size(); i++)
+	for (size_t i = 0; i < unvalidatedTokens.size(); i++)
 	{
 		bool res = TokenFactory::isSynonym(unvalidatedTokens[i]);
 		if (!res) return false;
