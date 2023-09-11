@@ -12,10 +12,7 @@
 #include "sp/extractors/DesignExtractor.h"
 
 class SourceProcessor : public ISourceProcessor {
-private:
-    DesignExtractor designExtractor;
-
 public:
-    explicit SourceProcessor(PKBWriter* pkbWriter) : designExtractor(pkbWriter) {};
-    void process(const std::string &fileName) override;
+    explicit SourceProcessor() = default;;
+    void process(const std::string &fileName, PKBWriter *pkbWriter) override;
 };
