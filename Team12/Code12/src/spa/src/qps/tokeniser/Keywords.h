@@ -2,13 +2,11 @@
 
 #include <string>
 #include <vector>
-#include <set>
+#include <unordered_set>
 
-using std::string;
-using std::vector;
-using std::set;
+using std::string, std::vector, std::unordered_set;
 
-const set<string> designEntities = {
+const unordered_set<string> designEntities = {
 	"stmt",
 	"read",
 	"print",

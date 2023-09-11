@@ -10,10 +10,9 @@
 #include "TokeniserUtil.h"
 #include "../token/QueryToken.h"
 
-using std::string;
-using std::vector;
+using std::string, std::vector, std::size_t;
 
-std::vector<QueryToken>* Tokeniser::convertToTokens(std::string* query) {
+vector<QueryToken>* Tokeniser::convertToTokens(string* query) {
     vector<QueryToken> tokens;
     vector<string> queryFragments;
 
@@ -30,12 +29,12 @@ std::vector<QueryToken>* Tokeniser::convertToTokens(std::string* query) {
 vector<QueryToken> Tokeniser::processFragment(string queryFragment, vector<QueryToken>* tokens) {
     vector<string> whitespaceDelimitedFragments;
     vector<QueryToken> newTokens;
-    std::size_t length;
+    size_t length;
 
     whitespaceDelimitedFragments = TokeniserUtil::delimitString(queryFragment, whitespace); // delimit by whitespace
     length = whitespaceDelimitedFragments.size();
 
-    std::size_t i = 0;
+    size_t i = 0;
 
     // apart from the else block that throws an error, every if block will at least increment i by 1
     // no risk of infinite loop
@@ -83,7 +82,7 @@ vector<QueryToken> Tokeniser::processFragment(string queryFragment, vector<Query
 // then synonyms = ["v1", "v2,"], comma removed from "v1," only and not "v2," since "v2," is not proceeded by any tokens
 // eg3. whitespaceDelimitedFragments = ["stmt", "v1", "v2,", v3] entity index = 0
 // then synonyms = ["v1 v2", "v3"], v1 and v2 are concatenated since there is no comma separating them
-vector<string> Tokeniser::getDesignEntitySynonyms(vector<string> whitespaceDelimitedFragments, std::size_t* iPtr) {
+vector<string> Tokeniser::getDesignEntitySynonyms(vector<string> whitespaceDelimitedFragments, size_t* iPtr) {
 
     if (!TokeniserUtil::isExistSubsequentTokens(whitespaceDelimitedFragments, *iPtr)) {
         // currently using runtime error as a placeholder
@@ -95,7 +94,7 @@ vector<string> Tokeniser::getDesignEntitySynonyms(vector<string> whitespaceDelim
     string synonym = "";
     vector<string> synonyms;
     
-    for (std::size_t k = *iPtr; k < whitespaceDelimitedFragments.size(); k++) {
+    for (size_t k = *iPtr; k < whitespaceDelimitedFragments.size(); k++) {
         if (synonym.empty()) {
             synonym += whitespaceDelimitedFragments[k];
         }
@@ -123,7 +122,7 @@ vector<string> Tokeniser::getDesignEntitySynonyms(vector<string> whitespaceDelim
 
 // method to get arguments if whitespaceDelimitedFragments[*iPtr] == "select" / "such" (followed by "that") / "pattern"
 // this method can be generalised for all 3 cases since in a select statement, each of these sections will be terminated by "pattern" / "such that"
-vector<string> Tokeniser::getArguments(vector<string> whitespaceDelimitedFragments, std::size_t* iPtr) {
+vector<string> Tokeniser::getArguments(vector<string> whitespaceDelimitedFragments, size_t* iPtr) {
 
     if (!TokeniserUtil::isExistSubsequentTokens(whitespaceDelimitedFragments, *iPtr)) {
         // currently using runtime error as a placeholder
@@ -132,7 +131,7 @@ vector<string> Tokeniser::getArguments(vector<string> whitespaceDelimitedFragmen
 
     vector<string> arguments;
 
-    std::size_t length = whitespaceDelimitedFragments.size();
+    size_t length = whitespaceDelimitedFragments.size();
 
     (*iPtr)++;
 
@@ -158,7 +157,7 @@ vector<string> Tokeniser::getArguments(vector<string> whitespaceDelimitedFragmen
 // method to get relationship (i.e. Follows/Modifies etc) if whitespaceDelimitedFragments[*iPtr] == "such" and 
 // whitespaceDelimitedFragments[*iPtr + 1] == "that"
 // this method DOES NOT do the checking of "such that", it is a prereq to call this method
-string Tokeniser::getRelationship(vector<string> whitespaceDelimitedFragments, std::size_t* iPtr) {
+string Tokeniser::getRelationship(vector<string> whitespaceDelimitedFragments,size_t* iPtr) {
     // whitespaceDelimitedFragments[*iPtr] = "such"
     // increment i to get "that"
     (*iPtr)++;
@@ -180,7 +179,7 @@ string Tokeniser::getRelationship(vector<string> whitespaceDelimitedFragments, s
 // pretty sure this violates DRY
 // not sure if i combine the 2 methods and use a boolean flag to determine whether to incr iPtr an additional time would be too confusing.
 // need opinions
-string Tokeniser::getPatternSynonym(vector<string> whitespaceDelimitedFragments, std::size_t* iPtr) {
+string Tokeniser::getPatternSynonym(vector<string> whitespaceDelimitedFragments, size_t* iPtr) {
 
     // check if there are tokens after "pattern"
 
