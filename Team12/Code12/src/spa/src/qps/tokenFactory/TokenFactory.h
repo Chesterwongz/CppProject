@@ -8,7 +8,6 @@
 
 #include "common/utils/StringUtils.h"
 #include "qps/token/QueryToken.h"
-#include "qps/token/TokenLinkedList/QueryTokenLL.h"
 #include "qps/common/Keywords.h"
 
 // Following Factory Method Pattern

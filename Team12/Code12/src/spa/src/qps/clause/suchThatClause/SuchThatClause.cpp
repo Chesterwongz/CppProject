@@ -20,8 +20,8 @@ std::unordered_set<int> SuchThatClause::evaluate(
     abstractionParams->firstArg = firstArg;
     abstractionParams->secondArg = secondArg;
 
-    AbstractionFactory fac = AbstractionFactory();
     std::unique_ptr<IAbstraction> executableAbstraction =
-            std::move(AbstractionFactory::createAbstraction(abstractionParams));
+            AbstractionFactory::createAbstraction(abstractionParams);
+
     return executableAbstraction->getAbstractions();
 }

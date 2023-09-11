@@ -7,10 +7,8 @@
 
 #include "qps/token/QueryToken.h"
 #include "qps/validator/Validator.h"
-#include "pkb/PKBReader.h"
+#include "../../../pkb/facade/PKBReader.h"
 #include "qps/token/declarativeToken/DeclarativeToken.h"
-//#include "qps/context/Context.h"
-//#include "qps/clause/Clause.h"
 
 typedef std::vector<std::unique_ptr<Clause>> ClauseList;
 

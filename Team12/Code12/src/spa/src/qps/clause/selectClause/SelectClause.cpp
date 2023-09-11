@@ -1,16 +1,16 @@
 #include "SelectClause.h"
 
 #include <utility>
-#include <algorithm>
+#include <unordered_set>
 #include "../utils/ClauseConstants.h"
 
-SelectClause::SelectClause(Synonym synonym) : synonym(std::move(synonym)) {}
+SelectClause::SelectClause(Synonym synonym) : synonym(synonym) {}
 
 std::unordered_set<int> SelectClause::evaluate(Context context, PKBReader *pkb) {
 	Entity entity = context.getTokenEntity(synonym);
 	std::string stmtType = EntityToStatementType.at(entity);
 
-	std::set<int> results = pkb->selectStatement(stmtType);
+	std::unordered_set<int> results = pkb->getStatement(stmtType);
 
 	return results;
 }

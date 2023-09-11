@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <set>
+#include <unordered_set>
 #include "qps/clause/Clause.h"
 #include "qps/token/QueryToken.h"
 

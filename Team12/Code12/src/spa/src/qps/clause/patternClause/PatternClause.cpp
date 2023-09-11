@@ -6,6 +6,6 @@ PatternClause::PatternClause(
         Synonym synonym,
         Reference entRef,
         std::string expression) :
-        synonym(std::move(synonym)),
+        synonym(synonym),
         entRef(entRef),
-        expression(std::move(expression)) {}
+        expression(expression) {}

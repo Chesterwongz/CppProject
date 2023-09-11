@@ -10,6 +10,7 @@ Synonym DeclarativeToken::getSynonym() {
     return synonym;
 }
 
-//Clause QueryToken::buildClause() {
-//    return new Clause
-//}
+unique_ptr<Clause> DeclarativeToken::buildClause() {
+    // by default DeclarativeToken shouldn't be able to build
+    return nullptr;
+}

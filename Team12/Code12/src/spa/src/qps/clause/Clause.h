@@ -4,7 +4,7 @@
 #include <set>
 #include <unordered_set>
 #include "qps/context/Context.h"
-#include "pkb/PKBReader.h"
+#include "../../../pkb/facade/PKBReader.h"
 
 class Clause {
 public:

@@ -10,4 +10,5 @@ std::unordered_set<int> ParentsAbstraction::getAbstractions() {
             EntityToStatementType.at(secondEntity);
     // Todo:
 //    return pkb->getStatementsParents(firstStatementType, secondStatementType);
+    return std::unordered_set<int>();
 };

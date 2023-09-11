@@ -10,7 +10,6 @@ using std::string;
 
 class QueryToken {
 public:
-    virtual bool semanticValidation() = 0;
     virtual std::unique_ptr<Clause> buildClause() = 0;
     virtual ~QueryToken() = default;
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pkb/PKBReader.h"
+#include "../../../pkb/facade/PKBReader.h"
 #include "qps/query/Query.h"
 #include "qps/token/QueryToken.h"
 #include "qps/tokenFactory/TokenFactory.h"
