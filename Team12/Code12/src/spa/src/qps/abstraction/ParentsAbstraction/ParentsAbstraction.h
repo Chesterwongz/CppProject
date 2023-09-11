@@ -7,5 +7,5 @@ class ParentsAbstraction : public IAbstraction {
 public:
     explicit ParentsAbstraction(struct AbstractionParams *abstractionParams) :
             IAbstraction(abstractionParams) {};
-    std::set<int> getAbstractions() override;
+    std::unordered_set<int> getAbstractions() override;
 };

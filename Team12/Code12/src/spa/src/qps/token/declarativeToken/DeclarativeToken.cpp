@@ -2,11 +2,11 @@
 
 DeclarativeToken::DeclarativeToken(Entity entity, Synonym synonym) : entity(entity), synonym(synonym) {}
 
-const Entity DeclarativeToken::getEntity() {
+Entity DeclarativeToken::getEntity() {
     return entity;
 }
 
-const Synonym DeclarativeToken::getSynonym() {
+Synonym DeclarativeToken::getSynonym() {
     return synonym;
 }
 

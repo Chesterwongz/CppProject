@@ -1,6 +1,6 @@
 #include "ParentsAbstraction.h"
 
-std::set<int> ParentsAbstraction::getAbstractions() {
+std::unordered_set<int> ParentsAbstraction::getAbstractions() {
     Entity firstEntity = context.getTokenEntity(firstArg);
     const StatementType &firstStatementType =
             EntityToStatementType.at(firstEntity);

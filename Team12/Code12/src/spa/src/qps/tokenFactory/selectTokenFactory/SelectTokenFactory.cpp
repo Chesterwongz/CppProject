@@ -1,8 +1,8 @@
 #include "SelectTokenFactory.h"
 #include "qps/token/selectToken/SelectToken.h"
 
-const bool SelectTokenFactory::isValid(UnvalidatedTokens unvalidatedTokens) {
-    // should be ["Select", syn]
+bool SelectTokenFactory::isValid(UnvalidatedTokens unvalidatedTokens) {
+    // should be [syn]
     if (unvalidatedTokens.size() != 1) return false;
 
     return isSynonym(unvalidatedTokens[0]);

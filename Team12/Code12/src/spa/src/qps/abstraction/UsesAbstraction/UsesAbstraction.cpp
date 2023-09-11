@@ -1,6 +1,6 @@
 #include "UsesAbstraction.h"
 
-std::set<int> UsesAbstraction::getAbstractions() {
+std::unordered_set<int> UsesAbstraction::getAbstractions() {
     Entity firstEntity = context.getTokenEntity(firstArg);
     const StatementType &firstStatementType =
             EntityToStatementType.at(firstEntity);

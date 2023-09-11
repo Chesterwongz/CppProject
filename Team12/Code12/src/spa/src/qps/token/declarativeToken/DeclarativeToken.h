@@ -12,6 +12,6 @@ private:
 
 public:
     DeclarativeToken(Entity entity, Synonym synonym);
-    const Synonym getSynonym();
-    const Entity getEntity();
+    Synonym getSynonym();
+    Entity getEntity();
 };

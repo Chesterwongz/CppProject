@@ -7,5 +7,5 @@ class ModifiesAbstraction : public IAbstraction {
 public:
     explicit ModifiesAbstraction(struct AbstractionParams *abstractionParams)  :
             IAbstraction(abstractionParams) {};
-    std::set<int> getAbstractions() override;
+    std::unordered_set<int> getAbstractions() override;
 };

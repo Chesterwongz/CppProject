@@ -13,7 +13,7 @@ private:
     string entityType;
 
 protected:
-	const bool isValid(UnvalidatedTokens unvalidatedTokens) override;
+	bool isValid(UnvalidatedTokens unvalidatedTokens) override;
 
 public:
     DeclarativeTokenFactory() : entityType("") {}

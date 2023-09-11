@@ -27,13 +27,13 @@ typedef unordered_map<TOKENTYPES, unique_ptr<TokenFactory>> TokenFactoryPool;
 
 class TokenFactory {
 protected:
-    const bool isSynonym(const string data);
-    const bool isStmtRef(const string data);
-    const bool isEntRef(const string data);
+    bool isSynonym(const string data);
+    bool isStmtRef(const string data);
+    bool isEntRef(const string data);
 
     const static set<string> entities; // TODO: Merge with Houten's constants in common or utils folder
 
-    virtual const bool isValid(UnvalidatedTokens unvalidatedTokens) = 0;
+    virtual bool isValid(UnvalidatedTokens unvalidatedTokens) = 0;
 
 public:
     explicit TokenFactory() = default;
