@@ -17,6 +17,8 @@ const set<string> TokenFactory::entities = {
 	"procedure"
 };
 
+TokenFactoryPool TokenFactory::tokenFactories;
+
 const bool TokenFactory::isSynonym(string data) {
 	return StringUtils::isName(data);
 }
@@ -32,15 +34,21 @@ const bool TokenFactory::isEntRef(string data) {
 	return isSynonym(data) || data == "_" || std::regex_match(data, identQuotePattern);
 }
 
-TokenFactory* TokenFactory::getOrCreateFactory(string keyword) {
-	if (entities.find(keyword) != entities.end()) 
-	{
-		if (tokenFactories.find(DECLARATIVE) == tokenFactories.end()) {
-			tokenFactories[DECLARATIVE] = std::make_unique<DeclarativeTokenFactory>();
-            std::cout << "added declarativeTokenFactory to tokenFactories" << std::endl;
-		}
-		return tokenFactories[DECLARATIVE].get();
-	}
+TokenFactory* TokenFactory::getOrCreateFactory(TOKENTYPES keyword) {
+    switch (keyword) {
+        case ENTITY:
+            if (tokenFactories.find(ENTITY) == tokenFactories.end()) {
+                tokenFactories[ENTITY] = std::make_unique<DeclarativeTokenFactory>();
+                std::cout << "added declarativeTokenFactory to tokenFactories" << std::endl;
+            }
+            return tokenFactories[ENTITY].get();
+
+        case SELECT:
+            if (tokenFactories.find(SELECT) == tokenFactories.end()) {
+                tokenFactories[SELECT] = std::make_unique<DeclarativeTokenFactory>();
+            }
+            return tokenFactories[SELECT].get();
+    }
 
 	return nullptr;
 }

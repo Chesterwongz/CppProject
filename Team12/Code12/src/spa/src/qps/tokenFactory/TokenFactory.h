@@ -10,6 +10,7 @@
 #include "qps/tokeniser/Tokeniser.h"
 #include "qps/token/QueryToken.h"
 #include "qps/token/TokenLinkedList/QueryTokenLL.h"
+#include "qps/common/Keywords.h"
 
 // Following Factory Method Pattern
 // lexical validator + token factory method
@@ -21,18 +22,11 @@ using std::string, std::vector, std::unique_ptr, std::unordered_map, std::set;
 typedef vector<unique_ptr<QueryToken>> TokenStream;
 typedef unique_ptr<TokenStream> TokenStreamPtr;
 
-enum FACTORY_TYPES {
-    DECLARATIVE,
-    SELECT,
-    SUCH_THAT,
-    PATTERN
-};
-
 class TokenFactory;
 
 typedef vector<string> ValidatedTokens;
 typedef unique_ptr <vector<string>> UnvalidatedTokenPtr;
-typedef unordered_map<FACTORY_TYPES, unique_ptr<TokenFactory>> TokenFactoryPool;
+typedef unordered_map<TOKENTYPES, unique_ptr<TokenFactory>> TokenFactoryPool;
 
 class TokenFactory {
 protected:
@@ -45,8 +39,8 @@ protected:
     const virtual bool isValid(UnvalidatedTokens unvalidatedTokens) = 0;
 
 public:
-    explicit TokenFactory() {};
-    ~TokenFactory() {};
+    explicit TokenFactory() = default;
+    virtual ~TokenFactory() = default;
 
     // used like this:
     // DeclarativeTokenFactory* dtf = TokenFactory::getOrCreateFactory();
@@ -54,6 +48,6 @@ public:
     virtual TokenStreamPtr createTokens(ValidatedTokens validatedTokens) = 0;
 
     // for unit-tests; should be under protected
-    static TokenFactory* getOrCreateFactory(string keyword);
+    static TokenFactory* getOrCreateFactory(TOKENTYPES keyword);
     static TokenFactoryPool tokenFactories;
 };
