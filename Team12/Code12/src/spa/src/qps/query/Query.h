@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <unordered_set>
 #include "qps/token/QueryToken.h"
 #include "qps/validator/Validator.h"
 #include "pkb/PKBReader.h"
@@ -19,5 +20,5 @@ public:
     explicit Query(PKBReader *pkb);
     void addSynonym(DeclarativeToken *token);
     void addClause(std::unique_ptr<Clause> &clause);
-    void evaluate();
+    std::unordered_set<int> evaluate();
 };

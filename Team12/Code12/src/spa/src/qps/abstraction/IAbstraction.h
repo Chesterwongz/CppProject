@@ -1,5 +1,6 @@
 #pragma once
 
+#include <unordered_set>
 #include "PKB.h"
 #include "qps/token/QueryToken.h"
 #include "pkb/PKBReader.h"
@@ -30,5 +31,5 @@ protected:
             firstArg(params->firstArg),
             secondArg(params->secondArg) {};
 public:
-    virtual std::set<int> getAbstractions() = 0;
+    virtual std::unordered_set<int> getAbstractions() = 0;
 };
