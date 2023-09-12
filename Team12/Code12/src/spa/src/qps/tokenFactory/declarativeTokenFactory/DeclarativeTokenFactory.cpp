@@ -31,10 +31,10 @@ TokenStreamPtr DeclarativeTokenFactory::createTokens(UnvalidatedTokens unvalidat
 
     TokenStreamPtr declarativeTokens = std::make_unique<std::vector<std::unique_ptr<QueryToken>>>();
 
-    for (size_t i = 0; i < unvalidatedTokens.size(); i++)
+    for (auto & unvalidatedToken : unvalidatedTokens)
     {
-        std::cout << "Creating token for: " << unvalidatedTokens[i] << std::endl;
-        auto token = std::make_unique<DeclarativeToken>(entityType, unvalidatedTokens[i]);
+        std::cout << "Creating token for: " << unvalidatedToken << std::endl;
+        auto token = std::make_unique<DeclarativeToken>(entityType, unvalidatedToken);
         declarativeTokens->push_back(std::move(token));
     }
 

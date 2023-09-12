@@ -21,7 +21,7 @@ TokenStream Tokeniser::convertToTokens(string query) {
 
     queryFragments = TokeniserUtil::delimitString(query, semicolon); // delimit by semicolon
 
-    for (string queryFragment : queryFragments) {
+    for (const string& queryFragment : queryFragments) {
         processFragment(queryFragment, tokens);
     }
 
@@ -31,7 +31,7 @@ TokenStream Tokeniser::convertToTokens(string query) {
 // creates the respective tokens and adds it to tokens
 void Tokeniser::processFragment(string queryFragment, TokenStream& tokens) {
     vector<string> whitespaceDelimitedFragments;
-    TokenStream* newTokens;
+    TokenStreamPtr newTokens;
     size_t length;
 
     whitespaceDelimitedFragments = TokeniserUtil::delimitString(queryFragment, whitespace); // delimit by whitespace
@@ -44,17 +44,17 @@ void Tokeniser::processFragment(string queryFragment, TokenStream& tokens) {
         if (TokeniserUtil::isDesignEntity(currWord)) {
             // getsynonym and create a DeclarationToken
             vector<string> designEntitySynonyms = getDesignEntitySynonyms(whitespaceDelimitedFragments, &i);
-            DeclarativeTokenFactory* dtf = dynamic_cast<DeclarativeTokenFactory *>(TokenFactory::getOrCreateFactory(ENTITY));
+            auto* dtf = dynamic_cast<DeclarativeTokenFactory *>(TokenFactory::getOrCreateFactory(ENTITY));
 
             dtf->setEntityType(currWord);
-            newTokens = (dtf->createTokens(designEntitySynonyms)).get();
+            newTokens = dtf->createTokens(designEntitySynonyms);
         }
         else if (TokeniserUtil::isSelect(currWord)) {
             // getSynonym and create SelectTokens
             vector<string> selectSynonyms = getArguments(whitespaceDelimitedFragments, &i);
-            SelectTokenFactory* stf = dynamic_cast<SelectTokenFactory *>(TokenFactory::getOrCreateFactory(SELECT));
+            auto* stf = dynamic_cast<SelectTokenFactory *>(TokenFactory::getOrCreateFactory(SELECT));
 
-            newTokens = (stf->createTokens(selectSynonyms)).get();
+            newTokens = stf->createTokens(selectSynonyms);
         }
 //        else if (TokeniserUtil::isSuchThat(whitespaceDelimitedFragments, &i)) {
 //            // get relationship, relationship args and create conditional tokens
@@ -77,8 +77,8 @@ void Tokeniser::processFragment(string queryFragment, TokenStream& tokens) {
         // add newTokens to tokens
         // moving ownership to tokens so newTokens will now be a vector of nullptr
         tokens.insert(tokens.end(),
-                         std::make_move_iterator(newTokens->begin()),
-                         std::make_move_iterator(newTokens->end()));
+                         std::make_move_iterator(newTokens.get()->begin()),
+                         std::make_move_iterator(newTokens.get()->end()));
 
     }
 }
@@ -99,7 +99,7 @@ vector<string> Tokeniser::getDesignEntitySynonyms(vector<string> whitespaceDelim
 
     (*iPtr)++;
 
-    string synonym = "";
+    string synonym;
     vector<string> synonyms;
     
     for (size_t k = *iPtr; k < whitespaceDelimitedFragments.size(); k++) {
