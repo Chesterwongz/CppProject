@@ -180,12 +180,5 @@ std::unordered_set<int> PKBReader::getAllUsingStatements() {
 }
 
 std::unordered_set<int> PKBReader::getAllModifyingStatements() {
-<<<<<<< HEAD
-    std::set<int> stmts = modifiesStorage.getAllStatements();
-    std::unordered_set<int> unorderedStmts(stmts.begin(), stmts.end());
-    return unorderedStmts;
+    return modifiesStorage.getAllStatements();;
 }
-=======
-    return modifiesStorage.getAllStatements();
-}
->>>>>>> ef60aac8248edf46ebc2af31f0ee2f1e800616aa
