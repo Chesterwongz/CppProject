@@ -1,45 +1,30 @@
 #include "StatementStorage.h"
-#include "../../pkb/ConstantValues.h" 
-
-#include <algorithm>
-#include <iostream>
-#include <vector>
-#include <map>
 
 // Constructor
-StatementStorage::StatementStorage() {}
+StatementStorage::StatementStorage() = default;
 
 // Setter for each statement type
-void StatementStorage::setStatement(int statementNumber, std::string statementType) {
+void StatementStorage::setStatement(int statementNumber, StmtType statementType) {
     allStmtStorage[statementType].insert(statementNumber);
+    allStatements.insert(statementNumber);
 }
 
 std::unordered_set<int> StatementStorage::getAllStatements() {
-    std::unordered_set<int> allStatements;
-
-    for (const auto& entry : allStmtStorage) {
-        const std::unordered_set<int>& statementNumbers = entry.second;
-        allStatements.insert(statementNumbers.begin(), statementNumbers.end());
-    }
     return allStatements;
 }
 
 // Getter for each statement type
-std::unordered_set<int> StatementStorage::getStatement(std::string statementType) {
+std::unordered_set<int> StatementStorage::getStatementNumbersFromStatementType(StmtType statementType) {
     return allStmtStorage[statementType];
 }
 
-std::unordered_set<int> StatementStorage::getStatementNumbersFromStatementType(std::string statementType) {
-    return allStmtStorage[statementType];
-}
 
-std::string StatementStorage::getStatementTypeFromStatementNumber(int statementNumber) {
+StmtType StatementStorage::getStatementTypeFromStatementNumber(int statementNumber) {
     for (const auto& entry : allStmtStorage) {
         const std::unordered_set<int>& statementNumbers = entry.second;
-        if (statementNumbers.count(statementNumber)) {
+        if (statementNumbers.find(statementNumber) != statementNumbers.end()) {
             return entry.first;
         }
     }
-
-    return "";  // Return empty string if statement number is not found
+    return StmtType::INVALID;
 }

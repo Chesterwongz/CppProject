@@ -13,12 +13,22 @@ volatile bool AbstractWrapper::GlobalStop = false;
 TestWrapper::TestWrapper() {
   // create any objects here as instance variables of this class
   // as well as any initialization required for your spa program
+  sourceProcessor = std::make_unique<SourceProcessor>();
+  pkbWriter = std::make_unique<PKBWriter>();
 }
 
 // method for parsing the SIMPLE source
 void TestWrapper::parse(std::string filename) {
 	// call your parser to do the parsing
   // ...rest of your code...
+    try {
+        sourceProcessor->process(filename, pkbWriter.get());
+    } catch (SpException error) {
+        std::cout << error.what() << std::endl;
+        exit(1);
+    } catch (...) {
+        exit(2);
+    }
 }
 
 // method to evaluating a query

@@ -14,24 +14,24 @@ public:
     PKBWriter();
 
     // Add follows relationship
-    void setFollowsRelationship(int statementNumber, int followingStatement);
+    virtual void setFollowsRelationship(int statementNumber, int followingStatement);
 
     // Add parent relationship
-    void setParentRelationship(int statementNumber, int childStatement);
+    virtual void setParentRelationship(int statementNumber, int childStatement);
 
     // Add modifies relationship
-    void setModifiesRelationship(const std::string& variableName, int statementNumber);
+    virtual void setModifiesRelationship(const std::string& variableName, int statementNumber);
 
     // Add uses relationship
-    void setUsesRelationship(const std::string& variableName, int statementNumber);
+    virtual void setUsesRelationship(const std::string& variableName, int statementNumber);
 
-    void setVariable(const std::string& variableName);
+    virtual void setVariable(const std::string& variableName);
 
-    void setConstant(int constantValue);
+    virtual void setConstant(const std::string& constantValue);
 
-    void setProcedure(const std::string& procedureName, int startStatement);
+    virtual void setProcedure(const std::string& procedureName, int startStatement);
 
-    void setStatement(int statementNumber, std::string statementType);
+    virtual void setStatement(int statementNumber, StmtType statementType);
 
 private:
     DesignEntitiesStorage designEntitiesStorage;

@@ -5,8 +5,10 @@
 
 class SyntaxError : public SpException {
 public:
-    static inline constexpr string_view type = "SyntaxError";
+    static inline constexpr std::string_view type = "SyntaxError";
 
-    explicit SyntaxError(const char &unexpectedToken)
-        : SpException("Syntax error! Unexpected token: " + string(1,unexpectedToken)) {}
+    explicit SyntaxError(const std::string &msg) : SpException("Syntax error: Invalid token '" + msg + "'!") {}
+
+    explicit SyntaxError(const std::string &msg, int lineNum)
+            : SpException("Syntax error: Invalid " + msg + " at " + std::to_string(lineNum) + "!") {}
 };

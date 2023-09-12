@@ -1,12 +1,12 @@
 #pragma once
 
 #include "RelNode.h"
-#include "sp/utils/ExprSymbolUtils.h"
+#include "sp/constants/OperatorConstants.h"
 
 class LteNode : public RelNode {
 public:
-    LteNode(std::unique_ptr<ExprNode> left, std::unique_ptr<ExprNode> right):
-        RelNode(TNodeType::TNODE_LTE, kLte, std::move(left), std::move(right)) {}
+    LteNode(std::unique_ptr<TNode> left, std::unique_ptr<TNode> right):
+        RelNode(TNodeType::TNODE_LTE, op::kLte, std::move(left), std::move(right)) {}
 
 };
 
