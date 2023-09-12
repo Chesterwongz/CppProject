@@ -1,5 +1,5 @@
 #include "qps/query/Query.h"
-#include "PKB.h"
+#include "pkb/facade/PKB.h"
 #include "QueryBuilder.h"
 
 QueryBuilder::QueryBuilder(PKBReader *pkb) : pkb(pkb) {}

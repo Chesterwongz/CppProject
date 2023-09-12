@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PKB.h"
+#include "pkb/facade/PKB.h"
 #include "qps/abstraction/IAbstraction.h"
 
 class ParentsAbstraction : public IAbstraction {

@@ -19,7 +19,7 @@
 class PKBReader {
 public:
     // Constructor
-    PKBReader(Storage& storage) : storage(storage) {};
+    PKBReader(struct Storage& storage) : storage(storage) {};
 
     // get the names of all variables in the program
     std::unordered_set<std::string> getAllVariables();
@@ -60,6 +60,6 @@ public:
     std::vector<std::pair<int, int>> getFollowsPairs(StmtType statementType1, StmtType statementType2);
 
 private:
-    Storage& storage;
+    struct Storage& storage;
 };
 
