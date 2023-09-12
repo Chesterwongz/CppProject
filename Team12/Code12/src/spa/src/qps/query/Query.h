@@ -2,21 +2,25 @@
 
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
+#include <algorithm>
 
 #include "qps/token/QueryToken.h"
 #include "qps/validator/Validator.h"
-#include "PKB.h"
+#include "pkb/facade/PKBReader.h"
 #include "qps/token/declarativeToken/DeclarativeToken.h"
+
+typedef std::vector<std::unique_ptr<Clause>> ClauseList;
 
 class Query {
 private:
-    PKB *pkb;
-    std::unordered_map<std::string, QueryToken*> context = {};
-    std::vector<unique_ptr<Clause>> clauses = {};
+    PKBReader *pkb;
+    Context context = Context();
+    ClauseList clauses = {};
 
 public:
-    explicit Query(PKB *pkb);
+    explicit Query(PKBReader *pkb);
     void addSynonym(DeclarativeToken *token);
-    void addClause(unique_ptr<Clause> &clause);
-    void evaluate();
+    void addClause(std::unique_ptr<Clause> &clause);
+    std::unordered_set<int> evaluate();
 };

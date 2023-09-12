@@ -17,5 +17,8 @@ const Reference SuchThatToken::getSecondArgument() {
     return secondArg;
 }
 
-
+unique_ptr<Clause> SuchThatToken::buildClause() {
+    // placeholder
+    return nullptr;
+}
 

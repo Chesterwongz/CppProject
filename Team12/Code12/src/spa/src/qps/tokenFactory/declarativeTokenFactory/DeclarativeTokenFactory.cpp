@@ -1,10 +1,12 @@
+#include <iostream>
+
 #include "DeclarativeTokenFactory.h"
 #include "qps/token/declarativeToken/DeclarativeToken.h"
 
 // TODO: Tokenizer to try to ensure keyword/entity is a single element at index 0.
 // e.g. "stmt s1, s2" --> ["stmt", "s1", "s2"]
 // e.g. "procedure call c" --> ["procedure call", "c"]
-const bool DeclarativeTokenFactory::isValid(UnvalidatedTokens unvalidatedTokens) {
+bool DeclarativeTokenFactory::isValid(UnvalidatedTokens unvalidatedTokens) {
 	for (size_t i = 0; i < unvalidatedTokens.size(); i++)
 	{
 		bool res = TokenFactory::isSynonym(unvalidatedTokens[i]);
@@ -29,9 +31,9 @@ TokenStreamPtr DeclarativeTokenFactory::createTokens(UnvalidatedTokens unvalidat
 
     TokenStreamPtr declarativeTokens = std::make_unique<std::vector<std::unique_ptr<QueryToken>>>();
 
-    for (size_t i = 1; i < unvalidatedTokens.size(); i++)
+    for (auto & unvalidatedToken : unvalidatedTokens)
     {
-        auto token = std::make_unique<DeclarativeToken>(entityType, unvalidatedTokens[i]);
+        auto token = std::make_unique<DeclarativeToken>(entityType, unvalidatedToken);
         declarativeTokens->push_back(std::move(token));
     }
 

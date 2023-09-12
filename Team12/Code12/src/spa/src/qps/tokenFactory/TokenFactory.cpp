@@ -3,6 +3,7 @@
 
 #include "TokenFactory.h"
 #include "declarativeTokenFactory/DeclarativeTokenFactory.h"
+#include "selectTokenFactory/SelectTokenFactory.h"
 
 const set<string> TokenFactory::entities = {
 	"stmt",
@@ -19,15 +20,15 @@ const set<string> TokenFactory::entities = {
 
 TokenFactoryPool TokenFactory::tokenFactories;
 
-const bool TokenFactory::isSynonym(string data) {
+bool TokenFactory::isSynonym(string data) {
 	return StringUtils::isName(data);
 }
 
-const bool TokenFactory::isStmtRef(string data) {
+bool TokenFactory::isStmtRef(string data) {
 	return isSynonym(data) || data == "_" || StringUtils::isInteger(data);
 }
 
-const bool TokenFactory::isEntRef(string data) {
+bool TokenFactory::isEntRef(string data) {
 	// this pattern is to check for '"' IDENT '"'
 	std::regex identQuotePattern("\"[A-Za-z]([A-Za-z0-9])*\"");
 
@@ -45,7 +46,7 @@ TokenFactory* TokenFactory::getOrCreateFactory(TOKENTYPES keyword) {
 
         case SELECT:
             if (tokenFactories.find(SELECT) == tokenFactories.end()) {
-                tokenFactories[SELECT] = std::make_unique<DeclarativeTokenFactory>();
+                tokenFactories[SELECT] = std::make_unique<SelectTokenFactory>();
             }
             return tokenFactories[SELECT].get();
     }

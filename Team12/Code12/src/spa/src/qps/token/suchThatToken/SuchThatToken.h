@@ -1,8 +1,11 @@
 #pragma once
 
 #include <string>
+#include <memory>
 
 #include "qps/token/QueryToken.h"
+
+using std::unique_ptr;
 
 typedef std::string Abstraction;
 
@@ -17,4 +20,5 @@ public:
     const Abstraction getRelationship();
     const Reference getFirstArgument();
     const Reference getSecondArgument();
+    unique_ptr<Clause> buildClause();
 };

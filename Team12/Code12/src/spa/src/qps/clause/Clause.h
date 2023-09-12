@@ -1,13 +1,14 @@
 #pragma once
 
 #include <string>
-#include <vector>
+#include <set>
+#include <unordered_set>
+#include "qps/context/Context.h"
+#include "pkb/facade/PKBReader.h"
 
 class Clause {
-private:
-    std::string attribute;
-
 public:
-    std::string getAttribute();
-    virtual std::vector<int> evaluate() = 0;
+    virtual std::unordered_set<int> evaluate(
+            Context context,
+            PKBReader *pkb) = 0;
 };

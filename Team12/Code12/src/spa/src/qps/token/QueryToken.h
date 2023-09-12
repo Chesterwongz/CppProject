@@ -8,12 +8,10 @@
 
 using std::string;
 
-class QueryToken;
-typedef std::vector<QueryToken> TokenList;
-
 class QueryToken {
 public:
     virtual std::unique_ptr<Clause> buildClause() = 0;
+    virtual ~QueryToken() = default;
 };
 
 // TODO: feels like should be moved to a separate folder for references in the future

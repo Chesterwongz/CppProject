@@ -21,7 +21,7 @@ TokenStream Tokeniser::convertToTokens(string query) {
 
     queryFragments = TokeniserUtil::delimitString(query, semicolon); // delimit by semicolon
 
-    for (string queryFragment : queryFragments) {
+    for (const string& queryFragment : queryFragments) {
         processFragment(queryFragment, tokens);
     }
 
@@ -31,7 +31,7 @@ TokenStream Tokeniser::convertToTokens(string query) {
 // creates the respective tokens and adds it to tokens
 void Tokeniser::processFragment(string queryFragment, TokenStream& tokens) {
     vector<string> whitespaceDelimitedFragments;
-    TokenStream* newTokens;
+    TokenStreamPtr newTokens;
     size_t length;
 
     whitespaceDelimitedFragments = TokeniserUtil::delimitString(queryFragment, whitespace); // delimit by whitespace
@@ -44,17 +44,17 @@ void Tokeniser::processFragment(string queryFragment, TokenStream& tokens) {
         if (TokeniserUtil::isDesignEntity(currWord)) {
             // getsynonym and create a DeclarationToken
             vector<string> designEntitySynonyms = getDesignEntitySynonyms(whitespaceDelimitedFragments, &i);
-            DeclarativeTokenFactory* dtf = dynamic_cast<DeclarativeTokenFactory *>(TokenFactory::getOrCreateFactory(ENTITY));
+            auto* dtf = dynamic_cast<DeclarativeTokenFactory *>(TokenFactory::getOrCreateFactory(ENTITY));
 
             dtf->setEntityType(currWord);
-            newTokens = (dtf->createTokens(designEntitySynonyms)).get();
+            newTokens = dtf->createTokens(designEntitySynonyms);
         }
         else if (TokeniserUtil::isSelect(currWord)) {
             // getSynonym and create SelectTokens
             vector<string> selectSynonyms = getArguments(whitespaceDelimitedFragments, &i);
-            SelectTokenFactory* stf = dynamic_cast<SelectTokenFactory *>(TokenFactory::getOrCreateFactory(SELECT));
+            auto* stf = dynamic_cast<SelectTokenFactory *>(TokenFactory::getOrCreateFactory(SELECT));
 
-            newTokens = (stf->createTokens(selectSynonyms)).get();
+            newTokens = stf->createTokens(selectSynonyms);
         }
 //        else if (TokeniserUtil::isSuchThat(whitespaceDelimitedFragments, &i)) {
 //            // get relationship, relationship args and create conditional tokens
@@ -71,14 +71,14 @@ void Tokeniser::processFragment(string queryFragment, TokenStream& tokens) {
         else {
             // TODO: throw unexpected token error
             // currently using runtime error as a placeholder
-            throw std::runtime_error("this is just a placeholder");
+            throw std::runtime_error("unexpected token error: "  + currWord);
         }
 
         // add newTokens to tokens
         // moving ownership to tokens so newTokens will now be a vector of nullptr
         tokens.insert(tokens.end(),
-                         std::make_move_iterator(newTokens->begin()),
-                         std::make_move_iterator(newTokens->end()));
+                         std::make_move_iterator(newTokens.get()->begin()),
+                         std::make_move_iterator(newTokens.get()->end()));
 
     }
 }
@@ -94,12 +94,12 @@ vector<string> Tokeniser::getDesignEntitySynonyms(vector<string> whitespaceDelim
 
     if (!TokeniserUtil::isExistSubsequentTokens(whitespaceDelimitedFragments, *iPtr)) {
         // currently using runtime error as a placeholder
-        throw std::runtime_error("this is just a placeholder");
+        throw std::runtime_error("Expecting a synonym token here");
     }
 
     (*iPtr)++;
 
-    string synonym = "";
+    string synonym;
     vector<string> synonyms;
     
     for (size_t k = *iPtr; k < whitespaceDelimitedFragments.size(); k++) {
@@ -134,7 +134,7 @@ vector<string> Tokeniser::getArguments(vector<string> whitespaceDelimitedFragmen
 
     if (!TokeniserUtil::isExistSubsequentTokens(whitespaceDelimitedFragments, *iPtr)) {
         // currently using runtime error as a placeholder
-        throw std::runtime_error("this is just a placeholder");
+        throw std::runtime_error("Expecting another token here");
     }
 
     vector<string> arguments;
@@ -173,7 +173,7 @@ string Tokeniser::getRelationship(vector<string> whitespaceDelimitedFragments,si
     // check if there are tokens after "such that"
     if (!TokeniserUtil::isExistSubsequentTokens(whitespaceDelimitedFragments, *iPtr)) {
         // currently using runtime error as a placeholder
-        throw std::runtime_error("this is just a placeholder");
+        throw std::runtime_error("expecting a relationship token here");
     }
 
     (*iPtr)++;
@@ -193,7 +193,7 @@ string Tokeniser::getPatternSynonym(vector<string> whitespaceDelimitedFragments,
 
     if (!TokeniserUtil::isExistSubsequentTokens(whitespaceDelimitedFragments, *iPtr)) {
         // currently using runtime error as a placeholder
-        throw std::runtime_error("this is just a placeholder");
+        throw std::runtime_error("expecting a synonym for pattern here");
     }
 
     (*iPtr)++;

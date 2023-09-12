@@ -1,7 +1,10 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include "qps/token/QueryToken.h"
+
+using std::unique_ptr;
 
 typedef std::string Entity;
 
@@ -12,6 +15,7 @@ private:
 
 public:
     DeclarativeToken(Entity entity, Synonym synonym);
-    const Synonym getSynonym();
-    const Entity getEntity();
+    Synonym getSynonym();
+    Entity getEntity();
+    unique_ptr<Clause> buildClause() override;
 };

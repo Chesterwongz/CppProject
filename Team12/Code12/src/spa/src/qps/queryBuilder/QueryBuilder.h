@@ -1,15 +1,15 @@
 #pragma once
 
-#include "PKB.h"
+#include "pkb/facade/PKBReader.h"
 #include "qps/query/Query.h"
 #include "qps/token/QueryToken.h"
 #include "qps/tokenFactory/TokenFactory.h"
 
 class QueryBuilder {
 private:
-    PKB *pkb;
+    PKBReader *pkb;
 
 public:
-    explicit QueryBuilder(PKB *pkb);
+    explicit QueryBuilder(PKBReader *pkb);
     Query buildQuery(TokenStream& queryTokenVector);
 };

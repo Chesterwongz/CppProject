@@ -1,19 +1,22 @@
+#include <utility>
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 #include "qps/exceptions/QpsException.h"
 #include "QPS.h"
 
 using std::string, std::vector, std::unique_ptr;
 
-QPS::QPS(PKB *pkb) :
+QPS::QPS(PKBReader *pkb) :
     pkb(pkb),
     tokeniser(Tokeniser()),
     validator(Validator()),
     queryBuilder(QueryBuilder(pkb)) {}
 
-void QPS::processQueryString(string queryString) {
-    TokenStream queryTokenVector = tokeniser.convertToTokens(queryString);
+ unordered_set<int> QPS::processQueryString(string queryString) {
+    queryString.erase(std::remove(queryString.begin(), queryString.end(), '\n'), queryString.end());
+    TokenStream queryTokenVector = tokeniser.convertToTokens(std::move(queryString));
 
     bool isTokensValid = validator.validateTokens(queryTokenVector);
     if (!isTokensValid) {
@@ -23,5 +26,5 @@ void QPS::processQueryString(string queryString) {
     // build query from validated tokens
     Query query = queryBuilder.buildQuery(queryTokenVector);
 
-    query.evaluate();
+     return query.evaluate();
 }

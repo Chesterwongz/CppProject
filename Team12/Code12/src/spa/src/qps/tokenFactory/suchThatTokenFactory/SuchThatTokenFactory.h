@@ -11,7 +11,7 @@ private:
     string relationship;
 
 protected:
-    const bool isValid(UnvalidatedTokens unvalidatedTokens) override;
+    bool isValid(UnvalidatedTokens unvalidatedTokens) override;
 
 public:
     explicit SuchThatTokenFactory() : relationship("") {}

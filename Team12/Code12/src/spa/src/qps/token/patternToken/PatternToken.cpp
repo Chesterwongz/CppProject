@@ -1,18 +1,24 @@
 #include "qps/token/patternToken/PatternToken.h"
+#include "qps/clause/patternClause/PatternClause.h"
 
 PatternToken::PatternToken(Synonym synonym, Reference entRef, std::string expression) :
 synonym(synonym),
 entRef(entRef),
 expression(expression) {}
 
-const Synonym PatternToken::getSynonym() {
+Synonym PatternToken::getSynonym() {
     return synonym;
 }
 
-const Reference PatternToken::getFirstArgument() {
+Reference PatternToken::getFirstArgument() {
     return entRef;
 }
 
-const std::string PatternToken::getExpression() {
+std::string PatternToken::getExpression() {
     return expression;
+}
+
+unique_ptr<Clause> PatternToken::buildClause() {
+    // placeholder
+    return nullptr;
 }

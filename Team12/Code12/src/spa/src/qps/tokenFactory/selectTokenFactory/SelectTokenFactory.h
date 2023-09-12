@@ -5,7 +5,7 @@
 
 class SelectTokenFactory : public TokenFactory {
 protected:
-    const bool isValid(UnvalidatedTokens unvalidatedTokens) override;
+    bool isValid(UnvalidatedTokens unvalidatedTokens) override;
 
 public:
     explicit SelectTokenFactory() : TokenFactory() {}

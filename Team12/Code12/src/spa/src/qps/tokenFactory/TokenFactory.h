@@ -7,11 +7,8 @@
 #include <memory>
 
 #include "common/utils/StringUtils.h"
-#include "qps/tokeniser/Tokeniser.h"
 #include "qps/token/QueryToken.h"
-#include "qps/token/TokenLinkedList/QueryTokenLL.h"
 #include "qps/common/Keywords.h"
-#include "qps/tokenFactory/TokenFactory.h"
 
 // Following Factory Method Pattern
 // lexical validator + token factory method
@@ -22,19 +19,20 @@ using std::string, std::vector, std::unique_ptr, std::unordered_map, std::set;
 // https://www.geeksforgeeks.org/object-slicing-in-c/
 typedef vector<unique_ptr<QueryToken>> TokenStream;
 typedef unique_ptr<TokenStream> TokenStreamPtr; // this needs to be unique_ptr to ensure the lifetime of the tokenstream
+typedef vector<string> UnvalidatedTokens;
 
 class TokenFactory;
 typedef unordered_map<TOKENTYPES, unique_ptr<TokenFactory>> TokenFactoryPool;
 
 class TokenFactory {
 protected:
-    const bool isSynonym(const string data);
-    const bool isStmtRef(const string data);
-    const bool isEntRef(const string data);
+    bool isSynonym(const string data);
+    bool isStmtRef(const string data);
+    bool isEntRef(const string data);
 
     const static set<string> entities; // TODO: Merge with Houten's constants in common or utils folder
 
-    virtual const bool isValid(UnvalidatedTokens unvalidatedTokens) = 0;
+    virtual bool isValid(UnvalidatedTokens unvalidatedTokens) = 0;
 
 public:
     explicit TokenFactory() = default;
