@@ -10,6 +10,7 @@ using std::vector;
 const char semicolon = ';';
 const char whitespace = ' ';
 const char comma = ',';
+const char newline = '\n';
 
 class TokeniserUtil {
 public:

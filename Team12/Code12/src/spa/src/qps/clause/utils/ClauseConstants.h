@@ -19,12 +19,12 @@ const string WHILE_STMT_TYPE = "WHILE";
 const string STMT_TYPE = "STMT";
 
 const map<Entity, StatementType> EntityToStatementType = {
-        {"Assign", ASSIGN_STMT_TYPE},
-        {"Call", CALL_STMT_TYPE},
-        {"If", IF_STMT_TYPE},
-        {"Print", PRINT_STMT_TYPE},
-        {"Read", READ_STMT_TYPE},
-        {"While", WHILE_STMT_TYPE},
+        {"assign", ASSIGN_STMT_TYPE},
+        {"call", CALL_STMT_TYPE},
+        {"if", IF_STMT_TYPE},
+        {"print", PRINT_STMT_TYPE},
+        {"read", READ_STMT_TYPE},
+        {"while", WHILE_STMT_TYPE},
         {"stmt", STMT_TYPE},
 };
 

@@ -1,6 +1,7 @@
 #include <utility>
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 #include "qps/exceptions/QpsException.h"
 #include "QPS.h"
@@ -14,6 +15,7 @@ QPS::QPS(PKBReader *pkb) :
     queryBuilder(QueryBuilder(pkb)) {}
 
  unordered_set<int> QPS::processQueryString(string queryString) {
+    queryString.erase(std::remove(queryString.begin(), queryString.end(), '\n'), queryString.end());
     TokenStream queryTokenVector = tokeniser.convertToTokens(std::move(queryString));
 
     bool isTokensValid = validator.validateTokens(queryTokenVector);

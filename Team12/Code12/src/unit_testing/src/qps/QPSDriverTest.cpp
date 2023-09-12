@@ -7,7 +7,7 @@
 #include "qps/QPS.h"
 
 TEST_CASE("Test QPS Driver") {
-    std::string query = "stmt s; Select s";
+    std::string query = "assign n;\nSelect n";
     PKBReader pkb = PKBReader();
     QPS driver = QPS(&pkb);
 

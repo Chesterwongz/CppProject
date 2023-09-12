@@ -13,7 +13,7 @@ class Tokeniser {
 public:
 	TokenStream convertToTokens(string query);
 
-//private:
+private:
 	void processFragment(string queryFragment, TokenStream& tokens);
 
 	vector<string> getDesignEntitySynonyms(vector<string> whitespaceDelimitedFragments, size_t* iPtr);
