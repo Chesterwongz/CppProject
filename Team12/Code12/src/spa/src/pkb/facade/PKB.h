@@ -1,7 +1,7 @@
 #pragma once
 
-#include "pkb/facade/PKBReader.h"
-#include "pkb/facade/PKBWriter.h"
+#include "PKBWriter.h"
+#include "PKBReader.h"
 
 struct Storage {
     DesignEntitiesStorage designEntitiesStorage;
@@ -19,8 +19,5 @@ private:
     Storage storage;
 
 public:
-    PKB() {
-        storage = {DesignEntitiesStorage(), FollowsStorage(), ModifiesStorage(), ParentStorage(), StatementStorage(), UsesStorage()};
-        writer = PKBWriter(storage);
-    }
+    PKB() : storage(), writer(storage), reader(storage) {};
 };
