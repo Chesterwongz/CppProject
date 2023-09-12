@@ -33,7 +33,6 @@ TokenStreamPtr DeclarativeTokenFactory::createTokens(UnvalidatedTokens unvalidat
 
     for (auto & unvalidatedToken : unvalidatedTokens)
     {
-        std::cout << "Creating token for: " << unvalidatedToken << std::endl;
         auto token = std::make_unique<DeclarativeToken>(entityType, unvalidatedToken);
         declarativeTokens->push_back(std::move(token));
     }

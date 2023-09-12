@@ -23,7 +23,6 @@ TokenStreamPtr SelectTokenFactory::createTokens(UnvalidatedTokens unvalidatedTok
 
     for (size_t i = 0; i < unvalidatedTokens.size(); i++)
     {
-        std::cout << "Creating token for: " << unvalidatedTokens[i] << std::endl;
         auto token = std::make_unique<SelectToken>(unvalidatedTokens[i]);
         selectTokens->push_back(std::move(token));
     }
