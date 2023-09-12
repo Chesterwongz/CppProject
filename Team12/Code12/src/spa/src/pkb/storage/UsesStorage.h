@@ -17,7 +17,7 @@ public:
     std::unordered_set<std::string> getVariablesForStatement(int statementNumber);
 
     // Additional methods
-    std::set<std::string> getAllVariables();
+    std::unordered_set<std::string> getAllVariables();
     std::unordered_set<int> getAllStatements();
 
 private:

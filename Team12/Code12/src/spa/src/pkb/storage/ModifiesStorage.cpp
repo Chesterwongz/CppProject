@@ -27,17 +27,16 @@ std::unordered_set<std::string> ModifiesStorage::getAllVariables() {
         if (!entry.second.empty()) {
             allVariables.insert(entry.first); // Use insert for set
         }
-        
+
     }
     return allVariables;
 }
 
-std::set<int> ModifiesStorage::getAllStatements() {
-    std::set<int> allStatements;
+std::unordered_set<int> ModifiesStorage::getAllStatements() {
+    std::unordered_set<int> allStatements;
     for (const auto& entry : statementToVariables) {
         if (!entry.second.empty()) {
             allStatements.insert(entry.first); // Use insert for set
         }
     }
-    return allStatements;
-}
+    return allStatements;}

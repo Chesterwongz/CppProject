@@ -17,7 +17,7 @@ public:
 
     // Additional methods
     std::unordered_set<std::string> getAllVariables();
-    std::set<int> getAllStatements();
+    std::unordered_set<int> getAllStatements();
 
 private:
     // Data structure for the first type of relationship (variable -> statement numbers)
