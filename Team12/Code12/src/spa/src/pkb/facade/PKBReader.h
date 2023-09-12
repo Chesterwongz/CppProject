@@ -19,13 +19,13 @@ public:
     PKBReader();
 
     // get the names of all variables in the program
-    std::vector<std::string> getAllVariables();
+    std::unordered_set<std::string> getAllVariables();
 
     // get the values of all constants in the program
-    std::vector<int> getAllConstants();
+    std::unordered_set<int> getAllConstants();
 
     // get the names of all procedures in the program
-    std::vector<std::string> getAllProcedures();
+    std::unordered_set<std::string> getAllProcedures();
 
     // return the statement numbers of statements
     std::unordered_set<int> getStatement(std::string statementType);
@@ -34,23 +34,23 @@ public:
 
     int getFollowed(int statementNumber, std::string statementType);
 
-    std::set<int> getStatementsModifying(std::string variableName, std::string statementType);
+    std::unordered_set<int> getStatementsModifying(std::string variableName, std::string statementType);
 
-    std::set<std::string> getVariablesModifiedBy(int statementNumber, std::string statementType);
+    std::unordered_set<std::string> getVariablesModifiedBy(int statementNumber, std::string statementType);
 
-    std::set<int> getStatementsUsing(std::string variableName, std::string statementType);
+    std::unordered_set<int> getStatementsUsing(std::string variableName, std::string statementType);
 
-    std::set<std::string> getVariablesUsedBy(int statementNumber, std::string statementType);
+    std::unordered_set<std::string> getVariablesUsedBy(int statementNumber, std::string statementType);
 
-    std::set<int> PKBReader::getAllStatementsModifying(std::string variableName);
+    std::unordered_set<int> PKBReader::getAllStatementsModifying(std::string variableName);
 
-    std::set<int> PKBReader::getAllStatementsUsing(std::string variableName);
+    std::unordered_set<int> PKBReader::getAllStatementsUsing(std::string variableName);
 
     std::set<std::string> PKBReader::getAllUsedVariables();
 
-    std::set<std::string> PKBReader::getAllModifiedVariables();
+    std::unordered_set<std::string> PKBReader::getAllModifiedVariables();
 
-    std::set<int> PKBReader::getAllUsingStatements();
+    std::unordered_set<int> PKBReader::getAllUsingStatements();
 
     std::set<int> PKBReader::getAllModifyingStatements();
 

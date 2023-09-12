@@ -9,17 +9,17 @@
 PKBReader::PKBReader() {}
 
 // Method to get the names of all variables in the program
-std::vector<std::string>PKBReader::getAllVariables() {
+std::unordered_set<std::string>PKBReader::getAllVariables() {
     return designEntitiesStorage.getAllVariables();
 }
 
 // Method to get the values of all constants in the program
-std::vector<int> PKBReader::getAllConstants() {
+std::unordered_set<int> PKBReader::getAllConstants() {
     return designEntitiesStorage.getAllConstants();
 }
 
 // Method to get the names of all procedures in the program
-std::vector<std::string> PKBReader::getAllProcedures() {
+std::unordered_set<std::string> PKBReader::getAllProcedures() {
     return designEntitiesStorage.getAllProcedures();
 }
 
@@ -82,8 +82,8 @@ int PKBReader::getFollowed(int statementNumber, std::string statementType) {
     return -1;
 }
 
-std::set<int> PKBReader::getStatementsModifying(std::string variableName, std::string statementType) {
-    std::set<int> result;
+std::unordered_set<int> PKBReader::getStatementsModifying(std::string variableName, std::string statementType) {
+    std::unordered_set<int> result;
 
     if (statementType == STATEMENT) {
         result = modifiesStorage.getStatementNumbersForVariable(variableName);
@@ -92,7 +92,7 @@ std::set<int> PKBReader::getStatementsModifying(std::string variableName, std::s
         std::unordered_set<int> allMatchingStatements = statementStorage.getStatementNumbersFromStatementType(statementType);
 
         for (int statement : allMatchingStatements) {
-            std::set<std::string> variables = modifiesStorage.getVariablesForStatement(statement);
+            std::unordered_set<std::string> variables = modifiesStorage.getVariablesForStatement(statement);
 
             if (variables.find(variableName) != variables.end()) {
                 result.insert(statement); // Use insert to add elements to the set
@@ -104,9 +104,9 @@ std::set<int> PKBReader::getStatementsModifying(std::string variableName, std::s
 }
 
 
-std::set<std::string> PKBReader::getVariablesModifiedBy(int statementNumber, std::string statementType) {
+std::unordered_set<std::string> PKBReader::getVariablesModifiedBy(int statementNumber, std::string statementType) {
 
-    std::set<std::string> result;
+    std::unordered_set<std::string> result;
 
     if (statementType == STATEMENT) {
         result = usesStorage.getVariablesForStatement(statementNumber);
@@ -122,8 +122,8 @@ std::set<std::string> PKBReader::getVariablesModifiedBy(int statementNumber, std
     return result;
 }
 
-std::set<int> PKBReader::getStatementsUsing(std::string variableName, std::string statementType) {
-    std::set<int> result;
+std::unordered_set<int> PKBReader::getStatementsUsing(std::string variableName, std::string statementType) {
+    std::unordered_set<int> result;
 
     if (statementType == STATEMENT) {
         result = usesStorage.getStatementNumbersForVariable(variableName);
@@ -135,7 +135,7 @@ std::set<int> PKBReader::getStatementsUsing(std::string variableName, std::strin
         // Iterate through the statements
         for (int statementNumber : statementNumbers) {
             // Get the variables used by the statement
-            std::set<std::string> usedVariables = usesStorage.getVariablesForStatement(statementNumber);
+            std::unordered_set<std::string> usedVariables = usesStorage.getVariablesForStatement(statementNumber);
 
             // Check if the specified variable is used by the statement
             if (usedVariables.find(variableName) != usedVariables.end()) {
@@ -147,8 +147,8 @@ std::set<int> PKBReader::getStatementsUsing(std::string variableName, std::strin
 }
 
 
-std::set<std::string> PKBReader::getVariablesUsedBy(int statementNumber, std::string statementType) {
-    std::set<std::string> result;
+std::unordered_set<std::string> PKBReader::getVariablesUsedBy(int statementNumber, std::string statementType) {
+    std::unordered_set<std::string> result;
 
     if (statementType == STATEMENT) {
         result = usesStorage.getVariablesForStatement(statementNumber);
@@ -164,11 +164,11 @@ std::set<std::string> PKBReader::getVariablesUsedBy(int statementNumber, std::st
     return result;
 }
 
-std::set<int> PKBReader::getAllStatementsModifying(std::string variableName) {
+std::unordered_set<int> PKBReader::getAllStatementsModifying(std::string variableName) {
     return modifiesStorage.getStatementNumbersForVariable(variableName);
 }
 
-std::set<int> PKBReader::getAllStatementsUsing(std::string variableName) {
+std::unordered_set<int> PKBReader::getAllStatementsUsing(std::string variableName) {
     return usesStorage.getStatementNumbersForVariable(variableName);
 }
 
@@ -176,11 +176,11 @@ std::set<std::string>PKBReader::getAllUsedVariables() {
     return usesStorage.getAllVariables();
 }
 
-std::set<std::string> PKBReader::getAllModifiedVariables() {
+std::unordered_set<std::string> PKBReader::getAllModifiedVariables() {
     return modifiesStorage.getAllVariables();
 }
 
-std::set<int> PKBReader::getAllUsingStatements() {
+std::unordered_set<int> PKBReader::getAllUsingStatements() {
     return usesStorage.getAllStatements();
 }
 
