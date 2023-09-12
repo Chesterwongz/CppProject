@@ -16,7 +16,7 @@ void PKBWriter::setUsesRelationship(const std::string& variableName, int stateme
     storage.usesStorage.setVariableUsage(variableName, statementNumber);
 }
 
-void PKBWriter::setStatement(int statementNumber, std::string statementType) {
+void PKBWriter::setStatement(int statementNumber, StmtType statementType) {
     storage.statementStorage.setStatement(statementNumber, statementType);
 }
 
@@ -24,7 +24,7 @@ void PKBWriter::setVariable(const std::string& variableName) {
     storage.designEntitiesStorage.setVariable(variableName);
 }
 
-void PKBWriter::setConstant(int constantValue) {
+void PKBWriter::setConstant(const std::string& constantValue) {
     storage.designEntitiesStorage.setConstant(constantValue);
 }
 

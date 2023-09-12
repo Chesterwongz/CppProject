@@ -4,6 +4,9 @@
 #include <iostream>
 #include <set>
 #include <map>
+#include <string>
+#include <vector>
+#include <unordered_set>
 
 #include "pkb/facade/PKB.h"
 #include "pkb/storage/DesignEntitiesStorage.h"
@@ -22,41 +25,41 @@ public:
     std::unordered_set<std::string> getAllVariables();
 
     // get the values of all constants in the program
-    std::unordered_set<int> getAllConstants();
+    std::unordered_set<std::string> getAllConstants();
 
     // get the names of all procedures in the program
     std::unordered_set<std::string> getAllProcedures();
 
     // return the statement numbers of statements
-    std::unordered_set<int> getStatement(std::string statementType);
+    std::unordered_set<int> getStatement(StmtType statementType);
 
-    int getFollowing(int statementNumber, std::string statementType);
+    int getFollowing(int statementNumber, StmtType statementType);
 
-    int getFollowed(int statementNumber, std::string statementType);
+    int getFollowed(int statementNumber, StmtType statementType);
 
-    std::unordered_set<int> getStatementsModifying(std::string variableName, std::string statementType);
+    std::unordered_set<int> getStatementsModifying(const std::string& variableName, StmtType statementType);
 
-    std::unordered_set<std::string> getVariablesModifiedBy(int statementNumber, std::string statementType);
+    std::unordered_set<std::string> getVariablesModifiedBy(int statementNumber, StmtType statementType);
 
-    std::unordered_set<int> getStatementsUsing(std::string variableName, std::string statementType);
+    std::unordered_set<int> getStatementsUsing(const std::string& variableName, StmtType statementType);
 
-    std::unordered_set<std::string> getVariablesUsedBy(int statementNumber, std::string statementType);
+    std::unordered_set<std::string> getVariablesUsedBy(int statementNumber, StmtType statementType);
 
-    std::unordered_set<int> PKBReader::getAllStatementsModifying(std::string variableName);
+    std::unordered_set<int> getAllStatementsModifying(std::string variableName);
 
-    std::unordered_set<int> PKBReader::getAllStatementsUsing(std::string variableName);
+    std::unordered_set<int> getAllStatementsUsing(std::string variableName);
 
-    std::unordered_set<std::string> PKBReader::getAllUsedVariables();
+    std::unordered_set<std::string> getAllUsedVariables();
 
-    std::unordered_set<std::string> PKBReader::getAllModifiedVariables();
+    std::unordered_set<std::string> getAllModifiedVariables();
 
-    std::unordered_set<int> PKBReader::getAllUsingStatements();
+    std::unordered_set<int> getAllUsingStatements();
 
-    std::unordered_set<int> PKBReader::getAllModifyingStatements();
+    std::unordered_set<int> getAllModifyingStatements();
 
-    std::unordered_set<std::pair<int, int>> getFollowsPairs(std::string statementType1, std::string statementType2);
-
+    std::vector<std::pair<int, int>> getFollowsPairs(StmtType statementType1, StmtType statementType2);
 
 private:
     Storage& storage;
 };
+

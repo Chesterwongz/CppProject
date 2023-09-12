@@ -1,9 +1,9 @@
 #include "FileReaderUtils.h"
 
 std::string FileReaderUtils::readFile(const std::string &filePath) {
-    std::ifstream file(filePath);
-
-    if (!file.is_open()) {
+    std::ifstream file;
+    file.open(filePath);
+    if (!file) {
         throw SpException{"Could not read " + filePath};
     }
 
