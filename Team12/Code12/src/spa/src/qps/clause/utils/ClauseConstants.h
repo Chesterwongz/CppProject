@@ -16,6 +16,7 @@ const string IF_STMT_TYPE = "IF";
 const string PRINT_STMT_TYPE = "PRINT";
 const string READ_STMT_TYPE = "READ";
 const string WHILE_STMT_TYPE = "WHILE";
+const string STMT_TYPE = "STMT";
 
 const map<Entity, StatementType> EntityToStatementType = {
         {"Assign", ASSIGN_STMT_TYPE},
@@ -24,6 +25,7 @@ const map<Entity, StatementType> EntityToStatementType = {
         {"Print", PRINT_STMT_TYPE},
         {"Read", READ_STMT_TYPE},
         {"While", WHILE_STMT_TYPE},
+        {"stmt", STMT_TYPE},
 };
 
 // Abstractions
