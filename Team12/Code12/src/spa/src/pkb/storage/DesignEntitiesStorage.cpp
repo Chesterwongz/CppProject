@@ -4,7 +4,7 @@
 #include <iostream>
 
 // Constructor
-DesignEntitiesStorage::DesignEntitiesStorage() {}
+DesignEntitiesStorage::DesignEntitiesStorage() = default;
 
 // Setter for variables
 void DesignEntitiesStorage::setVariable(const std::string& variableName) {
@@ -12,7 +12,7 @@ void DesignEntitiesStorage::setVariable(const std::string& variableName) {
 }
 
 // Setter for constants
-void DesignEntitiesStorage::setConstant(int constantValue) {
+void DesignEntitiesStorage::setConstant(const std::string& constantValue) {
     constantData.insert(constantValue);
 }
 
@@ -27,7 +27,7 @@ std::unordered_set<std::string> DesignEntitiesStorage::getAllVariables() {
 }
 
 // Get all constants
-std::unordered_set<int> DesignEntitiesStorage::getAllConstants() {
+std::unordered_set<std::string> DesignEntitiesStorage::getAllConstants() {
     return constantData;
 }
 

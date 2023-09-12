@@ -4,5 +4,7 @@
 
 class CallNode : public StmtNode {
 public:
-    explicit CallNode(int lineNum): StmtNode(TNodeType::TNODE_CALL, "", lineNum) {}
+    CallNode(std::string procName, int lineNum)
+        : StmtNode(TNodeType::TNODE_CALL, std::move(procName), lineNum) {}
+    void accept(Extractor* e) const override;
 };
