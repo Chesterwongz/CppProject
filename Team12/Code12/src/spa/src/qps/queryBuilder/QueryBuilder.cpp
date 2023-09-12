@@ -4,7 +4,7 @@
 
 QueryBuilder::QueryBuilder(PKBReader *pkb) : pkb(pkb) {}
 
-Query QueryBuilder::buildQuery(TokenStream& queryTokenVector) {
+Query QueryBuilder::buildQuery(QPSTokenStream& queryTokenVector) {
     auto newQuery = Query(pkb);
     for (int i = 0; i < queryTokenVector.size(); i++) {
         auto queryToken = std::move(queryTokenVector.at(i));

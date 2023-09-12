@@ -9,8 +9,7 @@
 #include "Tokeniser.h"
 #include "../token/QueryToken.h"
 
-using std::string;
-using std::vector;
+using std::string, std::vector, std::stringstream;
 
 // returns true if word is a design entity
 bool TokeniserUtil::isDesignEntity(string word) {

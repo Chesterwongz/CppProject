@@ -9,6 +9,6 @@ void SuchThatTokenFactory::setRelationship(std::string relationship) {
     SuchThatTokenFactory::relationship = relationship;
 }
 
-TokenStreamPtr SuchThatTokenFactory::createTokens(UnvalidatedTokens uvalidatedTokens) {
+QPSTokenStreamPtr SuchThatTokenFactory::createTokens(UnvalidatedTokens uvalidatedTokens) {
     return nullptr;
 }

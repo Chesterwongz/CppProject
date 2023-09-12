@@ -16,7 +16,7 @@ QPS::QPS(PKBReader *pkb) :
 
  unordered_set<int> QPS::processQueryString(string queryString) {
     queryString.erase(std::remove(queryString.begin(), queryString.end(), '\n'), queryString.end());
-    TokenStream queryTokenVector = tokeniser.convertToTokens(std::move(queryString));
+    QPSTokenStream queryTokenVector = tokeniser.convertToTokens(std::move(queryString));
 
     bool isTokensValid = validator.validateTokens(queryTokenVector);
     if (!isTokensValid) {

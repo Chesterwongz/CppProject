@@ -14,5 +14,5 @@ private:
     std::unordered_map<string, QueryToken*> declarativeTokensMap;
 
 public:
-    bool validateTokens(TokenStream& queryTokenVector);
+    bool validateTokens(QPSTokenStream& queryTokenVector);
 };
