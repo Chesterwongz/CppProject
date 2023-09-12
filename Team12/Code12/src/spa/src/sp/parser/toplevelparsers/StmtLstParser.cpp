@@ -11,7 +11,7 @@
 std::optional<std::unique_ptr<TNode>> StmtLstParser::parse() {
     context->forceEatExpected(TokenType::DELIM, delim::kOpenCurlyString);
 
-    std::unique_ptr<TNode> stmtLstNode = std::make_unique<StmtLstNode>();
+    std::unique_ptr<TNode> stmtLstNode = std::make_unique<StmtListNode>();
 
     StmtParser stmtParser = StmtParser(context);
     std::optional<std::unique_ptr<TNode>> childNodeOpt = requireTNode(TNodeType::TNODE_STMT_LIST)(stmtParser.parse());

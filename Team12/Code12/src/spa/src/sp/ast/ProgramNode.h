@@ -4,6 +4,7 @@
 
 class ProgramNode : public TNode {
 public:
-    explicit ProgramNode() : TNode(TNodeType::TNODE_PROGRAM) {}
+    ProgramNode(): TNode(TNodeType::TNODE_PROGRAM) {}
+    void accept(Extractor* e) const override;
 };
 

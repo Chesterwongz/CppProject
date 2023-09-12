@@ -9,8 +9,10 @@
 #include "sp/parser/IParser.h"
 #include "sp/parser/toplevelparsers/ProgramParser.h"
 #include "sp/tokenizer/Tokenizer.h"
+#include "sp/extractors/DesignExtractor.h"
 
 class SourceProcessor : public ISourceProcessor {
 public:
-    void process(const std::string &fileName) override;
+    explicit SourceProcessor() = default;;
+    void process(const std::string &fileName, PKBWriter *pkbWriter) override;
 };
