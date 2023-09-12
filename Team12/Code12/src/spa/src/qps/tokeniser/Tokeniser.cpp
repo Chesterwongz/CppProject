@@ -71,7 +71,7 @@ void Tokeniser::processFragment(string queryFragment, TokenStream& tokens) {
         else {
             // TODO: throw unexpected token error
             // currently using runtime error as a placeholder
-            throw std::runtime_error("this is just a placeholder");
+            throw std::runtime_error("unexpected token error: "  + currWord);
         }
 
         // add newTokens to tokens
@@ -94,7 +94,7 @@ vector<string> Tokeniser::getDesignEntitySynonyms(vector<string> whitespaceDelim
 
     if (!TokeniserUtil::isExistSubsequentTokens(whitespaceDelimitedFragments, *iPtr)) {
         // currently using runtime error as a placeholder
-        throw std::runtime_error("this is just a placeholder");
+        throw std::runtime_error("Expecting a synonym token here");
     }
 
     (*iPtr)++;
@@ -134,7 +134,7 @@ vector<string> Tokeniser::getArguments(vector<string> whitespaceDelimitedFragmen
 
     if (!TokeniserUtil::isExistSubsequentTokens(whitespaceDelimitedFragments, *iPtr)) {
         // currently using runtime error as a placeholder
-        throw std::runtime_error("this is just a placeholder");
+        throw std::runtime_error("Expecting another token here");
     }
 
     vector<string> arguments;
@@ -173,7 +173,7 @@ string Tokeniser::getRelationship(vector<string> whitespaceDelimitedFragments,si
     // check if there are tokens after "such that"
     if (!TokeniserUtil::isExistSubsequentTokens(whitespaceDelimitedFragments, *iPtr)) {
         // currently using runtime error as a placeholder
-        throw std::runtime_error("this is just a placeholder");
+        throw std::runtime_error("expecting a relationship token here");
     }
 
     (*iPtr)++;
@@ -193,7 +193,7 @@ string Tokeniser::getPatternSynonym(vector<string> whitespaceDelimitedFragments,
 
     if (!TokeniserUtil::isExistSubsequentTokens(whitespaceDelimitedFragments, *iPtr)) {
         // currently using runtime error as a placeholder
-        throw std::runtime_error("this is just a placeholder");
+        throw std::runtime_error("expecting a synonym for pattern here");
     }
 
     (*iPtr)++;

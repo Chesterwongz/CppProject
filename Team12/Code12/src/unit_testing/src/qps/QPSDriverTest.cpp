@@ -3,11 +3,11 @@
 
 #include "catch.hpp"
 
-#include "../../../spa/pkb/facade/PKBReader.h"
+#include "pkb/facade/PKBReader.h"
 #include "qps/QPS.h"
 
 TEST_CASE("Test QPS Driver") {
-    std::string query = "stmt s;\nSelect s";
+    std::string query = "stmt s; Select s";
     PKBReader pkb = PKBReader();
     QPS driver = QPS(&pkb);
 

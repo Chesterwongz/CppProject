@@ -3,7 +3,7 @@
 #include <string>
 #include <unordered_set>
 
-#include "../pkb/facade/PKBReader.h"
+#include "pkb/facade/PKBReader.h"
 #include "qps/tokeniser/Tokeniser.h"
 #include "qps/validator/Validator.h"
 #include "qps/queryBuilder/QueryBuilder.h"

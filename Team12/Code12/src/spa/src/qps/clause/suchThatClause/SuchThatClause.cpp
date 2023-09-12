@@ -1,5 +1,6 @@
 #include "SuchThatClause.h"
 #include "qps/abstraction/IAbstraction.h"
+#include "qps/abstraction/AbstractionFactory.h"
 
 SuchThatClause::SuchThatClause (
         Abstraction &relationship,

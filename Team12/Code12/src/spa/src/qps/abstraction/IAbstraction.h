@@ -3,7 +3,7 @@
 #include <unordered_set>
 #include "PKB.h"
 #include "qps/token/QueryToken.h"
-#include "../../../pkb/facade/PKBReader.h"
+#include "pkb/facade/PKBReader.h"
 #include "qps/query/Query.h"
 #include "qps/token/suchThatToken/SuchThatToken.h"
 #include "qps/clause/utils/ClauseConstants.h"

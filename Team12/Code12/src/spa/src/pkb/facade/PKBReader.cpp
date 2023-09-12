@@ -1,5 +1,5 @@
 // DUMMY PKBReader
-#include "../pkb/facade/PKBReader.h"
+#include "PKBReader.h"
 
 std::vector<std::string> PKBReader::getAllVariables() {
     return {};

@@ -20,4 +20,5 @@ std::unordered_set<int> FollowsAbstraction::getAbstractions() {
 //
 //
 //    return pkb->getFollowing(second, firstStatementType);
+    return {};
 }
