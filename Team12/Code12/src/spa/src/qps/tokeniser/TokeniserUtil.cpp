@@ -2,7 +2,6 @@
 #include <sstream>
 #include <iostream>
 #include <string>
-#include <sstream>
 #include <algorithm>
 #include "common/exceptions/Exception.h"
 #include "qps/common/Keywords.h"

@@ -3,7 +3,7 @@
 #include <string>
 #include <memory>
 
-#include "pkb/facade/PKB.h"
+#include "pkb/facade/PKBStorage.h"
 #include "pkb/storage/DesignEntitiesStorage.h"
 #include "pkb/storage/FollowsStorage.h"
 #include "pkb/storage/ModifiesStorage.h"
