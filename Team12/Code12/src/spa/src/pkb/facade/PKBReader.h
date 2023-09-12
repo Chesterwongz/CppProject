@@ -1,5 +1,4 @@
-#ifndef PKBREADER_H
-#define PKBREADER_H
+#pragma once
 
 #include <string>
 #include <iostream>
@@ -46,15 +45,15 @@ public:
 
     std::unordered_set<int> PKBReader::getAllStatementsUsing(std::string variableName);
 
-    std::set<std::string> PKBReader::getAllUsedVariables();
+    std::unordered_set<std::string> PKBReader::getAllUsedVariables();
 
     std::unordered_set<std::string> PKBReader::getAllModifiedVariables();
 
     std::unordered_set<int> PKBReader::getAllUsingStatements();
 
-    std::set<int> PKBReader::getAllModifyingStatements();
+    std::unordered_set<int> PKBReader::getAllModifyingStatements();
 
-    std::set<std::pair<int, int>> getFollowsPairs(std::string statementType1, std::string statementType2);
+    std::unordered_set<std::pair<int, int>> getFollowsPairs(std::string statementType1, std::string statementType2);
 
 
 private:
@@ -65,5 +64,3 @@ private:
     StatementStorage statementStorage;
     UsesStorage usesStorage;
 };
-
-#endif // PKBREADER_H

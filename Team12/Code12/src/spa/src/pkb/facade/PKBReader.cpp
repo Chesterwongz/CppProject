@@ -49,11 +49,11 @@ int PKBReader::getFollowing(int statementNumber, std::string statementType) {
     return -1;
 }
 
-std::set<std::pair<int, int>> PKBReader::getFollowsPairs(std::string statementType1, std::string statementType2) {
+std::unordered_set<std::pair<int, int>> PKBReader::getFollowsPairs(std::string statementType1, std::string statementType2) {
     std::unordered_set<int> firstStatementList = statementStorage.getStatementNumbersFromStatementType(statementType1);
     std::unordered_set<int> secondStatementList = statementStorage.getStatementNumbersFromStatementType(statementType2);
 
-    std::set<std::pair<int, int>> followsPairs;
+    std::unordered_set<std::pair<int, int>> followsPairs;
 
     for (int firstStatement : firstStatementList) {
         int followsResult = followsStorage.getImmediateFollows(firstStatement);
@@ -172,7 +172,7 @@ std::unordered_set<int> PKBReader::getAllStatementsUsing(std::string variableNam
     return usesStorage.getStatementNumbersForVariable(variableName);
 }
 
-std::set<std::string>PKBReader::getAllUsedVariables() {
+std::unordered_set<std::string>PKBReader::getAllUsedVariables() {
     return usesStorage.getAllVariables();
 }
 
@@ -184,16 +184,6 @@ std::unordered_set<int> PKBReader::getAllUsingStatements() {
     return usesStorage.getAllStatements();
 }
 
-std::set<int> PKBReader::getAllModifyingStatements() {
+std::unordered_set<int> PKBReader::getAllModifyingStatements() {
     return modifiesStorage.getAllStatements();
 }
-
-
-
-
-
-
-
-
-
-
