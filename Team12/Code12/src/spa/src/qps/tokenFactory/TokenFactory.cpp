@@ -3,6 +3,7 @@
 
 #include "TokenFactory.h"
 #include "declarativeTokenFactory/DeclarativeTokenFactory.h"
+#include "selectTokenFactory/SelectTokenFactory.h"
 
 const set<string> TokenFactory::entities = {
 	"stmt",
@@ -45,7 +46,7 @@ TokenFactory* TokenFactory::getOrCreateFactory(TOKENTYPES keyword) {
 
         case SELECT:
             if (tokenFactories.find(SELECT) == tokenFactories.end()) {
-                tokenFactories[SELECT] = std::make_unique<DeclarativeTokenFactory>();
+                tokenFactories[SELECT] = std::make_unique<SelectTokenFactory>();
             }
             return tokenFactories[SELECT].get();
     }
