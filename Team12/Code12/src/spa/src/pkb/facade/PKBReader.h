@@ -58,6 +58,7 @@ public:
 
     std::vector<std::pair<int, int>> getFollowsPairs(StmtType statementType1, StmtType statementType2);
 
+    std::unordered_set<std::pair<int, int>> getFollowsPairs(std::string statementType1, std::string statementType2);
 
 private:
     DesignEntitiesStorage designEntitiesStorage;
