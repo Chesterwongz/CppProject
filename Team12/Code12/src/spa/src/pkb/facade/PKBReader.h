@@ -5,6 +5,7 @@
 #include <set>
 #include <map>
 
+#include "pkb/facade/PKB.h"
 #include "pkb/storage/DesignEntitiesStorage.h"
 #include "pkb/storage/FollowsStorage.h"
 #include "pkb/storage/ModifiesStorage.h"
@@ -15,7 +16,7 @@
 class PKBReader {
 public:
     // Constructor
-    PKBReader();
+    PKBReader(Storage& storage) : storage(storage) {};
 
     // get the names of all variables in the program
     std::unordered_set<std::string> getAllVariables();
@@ -57,10 +58,5 @@ public:
 
 
 private:
-    DesignEntitiesStorage designEntitiesStorage;
-    FollowsStorage followsStorage;
-    ModifiesStorage modifiesStorage;
-    ParentStorage parentStorage;
-    StatementStorage statementStorage;
-    UsesStorage usesStorage;
+    Storage& storage;
 };

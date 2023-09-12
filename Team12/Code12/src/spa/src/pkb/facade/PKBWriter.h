@@ -1,6 +1,9 @@
 #pragma once
 
 #include <string>
+#include <memory>
+
+#include "pkb/facade/PKB.h"
 #include "pkb/storage/DesignEntitiesStorage.h"
 #include "pkb/storage/FollowsStorage.h"
 #include "pkb/storage/ModifiesStorage.h"
@@ -8,10 +11,12 @@
 #include "pkb/storage/StatementStorage.h"
 #include "pkb/storage/UsesStorage.h"
 
+using std::unique_ptr;
+
 class PKBWriter {
 public:
     // Constructor
-    PKBWriter();
+    PKBWriter(Storage& storage) : storage(storage) {};
 
     // Add follows relationship
     void setFollowsRelationship(int statementNumber, int followingStatement);
@@ -34,10 +39,5 @@ public:
     void setStatement(int statementNumber, std::string statementType);
 
 private:
-    DesignEntitiesStorage designEntitiesStorage;
-    FollowsStorage followsStorage;
-    ModifiesStorage modifiesStorage;
-    ParentStorage parentStorage;
-    StatementStorage statementStorage;
-    UsesStorage usesStorage;
+    Storage& storage;
 };
