@@ -1,11 +1,12 @@
 #include "SuchThatClause.h"
 #include "qps/abstraction/IAbstraction.h"
 #include "qps/abstraction/AbstractionFactory.h"
+#include "../../argument/IArgument.h"
 
 SuchThatClause::SuchThatClause (
         Abstraction &relationship,
-        Reference &firstArg,
-        Reference &secondArg) :
+        IArgument* firstArg,
+        IArgument* secondArg) :
         relationship(relationship),
         firstArg(firstArg),
         secondArg(secondArg) {}

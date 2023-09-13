@@ -1,6 +1,8 @@
 #include "qps/token/suchThatToken/SuchThatToken.h"
 #include "../../argument/IArgument.h"
 #include "../../argument/argumentFactory/ArgumentFactory.h"
+#include "../../clause/Clause.h"
+#include "../../clause/suchThatClause/SuchThatClause.h"
 
 using std::string;
 
@@ -38,7 +40,6 @@ const IArgument SuchThatToken::getSecondArgumentType() {
 }
 
 unique_ptr<Clause> SuchThatToken::buildClause() {
-    // placeholder
-    return nullptr;
+    return std::make_unique<SuchThatClause>(this->relationship, firstArg, secondArg);
 }
 

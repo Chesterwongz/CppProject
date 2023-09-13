@@ -8,14 +8,14 @@
 class SuchThatClause : public Clause {
 private:
     Abstraction relationship;
-    Reference firstArg;
-    Reference secondArg;
+    IArgument* firstArg;
+    IArgument* secondArg;
 
 public:
     explicit SuchThatClause(
             Abstraction &relationship,
-            Reference &firstArg,
-            Reference &secondArg);
+            IArgument* firstArg,
+            IArgument* secondArg);
     std::unordered_set<int> evaluate(
             Context context,
             PKBReader *pkb) override;
