@@ -11,7 +11,7 @@ private:
 	const string argumentType = "ident";
 	string identValue;
 public:
-	Ident(string argumentValue) : identValue(argumentValue) {
+	explicit Ident(string argumentValue) : identValue(argumentValue) {
 		argumentValue.erase(std::remove(argumentValue.begin(), argumentValue.end(), '\"'), argumentValue.end());
 		identValue = argumentValue;
 	};

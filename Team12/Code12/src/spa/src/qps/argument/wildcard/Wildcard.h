@@ -12,7 +12,7 @@ private:
 	string wildcardValue;
 
 public:
-	Wildcard(string argumentValue) : wildcardValue(argumentValue) {};
+	explicit Wildcard(string argumentValue) : wildcardValue(argumentValue) {};
 	string getValue() override;
 	string getArgumentType() override;
 };
