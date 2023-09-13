@@ -17,3 +17,20 @@ bool StringUtils::isAlpha(const char ch) {
 bool StringUtils::isAlphaNumeric(const char ch) {
     return std::isalnum(ch);
 }
+
+bool StringUtils::isSynonym(string data) {
+    std::regex synonymPattern("^[A-Za-z][A-Za-z0-9]*$");
+    return std::regex_match(data, synonymPattern);
+}
+
+bool StringUtils::isStmtRef(string data) {
+    std::regex integerPattern("^[0-9]+$");
+    return isSynonym(data) || data == "_" || std::regex_match(data, integerPattern);
+}
+
+bool StringUtils::isEntRef(string data) {
+    // this pattern is to check for '"' IDENT '"'
+    std::regex identQuotePattern("\"[A-Za-z]([A-Za-z0-9])*\"");
+
+    return isSynonym(data) || data == "_" || std::regex_match(data, identQuotePattern);
+}
