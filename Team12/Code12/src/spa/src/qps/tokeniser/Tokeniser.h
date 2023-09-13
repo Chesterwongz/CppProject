@@ -11,10 +11,10 @@ using std::string, std::vector, std::size_t, std::unique_ptr;
 
 class Tokeniser {
 public:
-	TokenStream convertToTokens(string query);
+	QPSTokenStream convertToTokens(string query);
 
 private:
-	void processFragment(string queryFragment, TokenStream& tokens);
+	void processFragment(string queryFragment, QPSTokenStream& tokens);
 
 	vector<string> getDesignEntitySynonyms(vector<string> whitespaceDelimitedFragments, size_t* iPtr);
 

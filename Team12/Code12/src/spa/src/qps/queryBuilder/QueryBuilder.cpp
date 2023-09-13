@@ -1,10 +1,10 @@
 #include "qps/query/Query.h"
-#include "PKB.h"
+#include "pkb/facade/PKB.h"
 #include "QueryBuilder.h"
 
 QueryBuilder::QueryBuilder(PKBReader *pkb) : pkb(pkb) {}
 
-Query QueryBuilder::buildQuery(TokenStream& queryTokenVector) {
+Query QueryBuilder::buildQuery(QPSTokenStream& queryTokenVector) {
     auto newQuery = Query(pkb);
     for (int i = 0; i < queryTokenVector.size(); i++) {
         auto queryToken = std::move(queryTokenVector.at(i));

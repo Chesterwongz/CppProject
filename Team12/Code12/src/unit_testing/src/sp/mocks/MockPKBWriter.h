@@ -8,7 +8,7 @@
 #include <unordered_set>
 #include <unordered_map>
 
-#include "pkb/interface/PKBWriter.h"
+#include "pkb/facade/PKBWriter.h"
 
 class MockPKBWriter : public PKBWriter {
 public:

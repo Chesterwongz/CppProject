@@ -16,5 +16,5 @@ protected:
 public:
     explicit SuchThatTokenFactory() : relationship("") {}
     void setRelationship(string relationship);
-    TokenStreamPtr createTokens(UnvalidatedTokens uvalidatedTokens) override;
+    QPSTokenStreamPtr createTokens(UnvalidatedTokens uvalidatedTokens) override;
 };

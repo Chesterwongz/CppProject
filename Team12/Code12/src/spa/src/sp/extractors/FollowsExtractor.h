@@ -13,7 +13,7 @@
 #include "sp/ast/statements/StmtNode.h"
 #include "sp/ast/statements/WhileNode.h"
 #include "sp/ast/StmtListNode.h"
-#include "pkb/interface/PKBWriter.h"
+#include "pkb/facade/PKBWriter.h"
 
 class FollowsExtractor : public Extractor {
 private:

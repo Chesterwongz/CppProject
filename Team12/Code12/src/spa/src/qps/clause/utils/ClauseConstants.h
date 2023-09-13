@@ -18,14 +18,14 @@ const string READ_STMT_TYPE = "READ";
 const string WHILE_STMT_TYPE = "WHILE";
 const string STMT_TYPE = "STMT";
 
-const map<Entity, StatementType> EntityToStatementType = {
-        {"assign", ASSIGN_STMT_TYPE},
-        {"call", CALL_STMT_TYPE},
-        {"if", IF_STMT_TYPE},
-        {"print", PRINT_STMT_TYPE},
-        {"read", READ_STMT_TYPE},
-        {"while", WHILE_STMT_TYPE},
-        {"stmt", STMT_TYPE},
+const map<Entity, StmtType> EntityToStatementType = {
+        {"assign", StmtType::ASSIGN},
+        {"call", StmtType::CALL},
+        {"if", StmtType::IF},
+        {"print", StmtType::PRINT},
+        {"read", StmtType::READ},
+        {"while", StmtType::WHILE},
+        {"stmt", StmtType::STMT},
 };
 
 // Abstractions

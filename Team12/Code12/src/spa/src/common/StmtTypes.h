@@ -10,6 +10,7 @@ enum class StmtType {
     ASSIGN,
     READ,
     PRINT,
+    STMT
 };
 
 typedef int LineNum;

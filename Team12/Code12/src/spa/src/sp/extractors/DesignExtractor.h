@@ -12,7 +12,7 @@
 #include "UsesExtractor.h"
 #include "ModifiesExtractor.h"
 #include "EntityExtractor.h"
-#include "pkb/interface/PKBWriter.h"
+#include "pkb/facade/PKBWriter.h"
 #include "Populator.h"
 
 class DesignExtractor {

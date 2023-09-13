@@ -23,8 +23,8 @@ std::unordered_set<std::string> UsesStorage::getVariablesForStatement(int statem
     return statementToVariables[statementNumber];
 }
 
-std::set<std::string> UsesStorage::getAllVariables() {
-    std::set<std::string> allVariables;
+std::unordered_set<std::string> UsesStorage::getAllVariables() {
+    std::unordered_set<std::string> allVariables;
     for (const auto& entry : variableToStatements) {
         allVariables.insert(entry.first); // Use insert for set
     }

@@ -16,7 +16,7 @@
 #include "sp/ast/terminals/VarNode.h"
 #include "sp/ast/terminals/ConstNode.h"
 #include "sp/ast/ProcNode.h"
-#include "pkb/interface/PKBWriter.h"
+#include "pkb/facade/PKBWriter.h"
 
 class EntityExtractor : public Extractor {
 public:

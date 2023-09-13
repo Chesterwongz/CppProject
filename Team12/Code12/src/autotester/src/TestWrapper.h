@@ -5,15 +5,21 @@
 #include <iostream>
 #include <list>
 #include <memory>
+#include <unordered_set>
+#include <algorithm>
 
 // include your other headers here
 #include "AbstractWrapper.h"
 #include "sp/SourceProcessor.h"
+#include "pkb/facade/PKB.h"
+#include "qps/QPS.h"
 
 class TestWrapper : public AbstractWrapper {
 private:
+    std::unique_ptr<QPS> qps;
     std::unique_ptr<SourceProcessor> sourceProcessor;
-    std::unique_ptr<PKBWriter> pkbWriter;
+//    std::unique_ptr<PKBWriter> pkbWriter;
+    std::unique_ptr<PKB> pkb;
 
  public:
   // default constructor

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "pkb/interface/PKBWriter.h"
+#include "pkb/facade/PKBWriter.h"
 
 class ISourceProcessor {
 public:

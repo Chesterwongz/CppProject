@@ -11,5 +11,5 @@ private:
 
 public:
     explicit QueryBuilder(PKBReader *pkb);
-    Query buildQuery(TokenStream& queryTokenVector);
+    Query buildQuery(QPSTokenStream& queryTokenVector);
 };
