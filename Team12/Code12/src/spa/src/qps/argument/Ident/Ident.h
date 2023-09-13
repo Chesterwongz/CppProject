@@ -9,6 +9,10 @@ using std::string;
 class Ident : public IArgument {
 private:
 	const string argumentType = "ident";
+	string identValue;
 public:
-	Ident(string argumentValue) : IArgument(argumentValue);
+	Ident(string argumentValue) : identValue(argumentValue) {};
+	string getValue() override;
+	string getArgumentType() override;
+
 };

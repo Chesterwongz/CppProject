@@ -28,14 +28,14 @@ bool StringUtils::isSynonym(string data) {
 
 bool StringUtils::isStmtRef(string data) {
     std::regex integerPattern("^[0-9]+$");
-    return isSynonym(data) || isWildcard() || std::regex_match(data, integerPattern);
+    return isSynonym(data) || isWildcard(data) || std::regex_match(data, integerPattern);
 }
 
 bool StringUtils::isEntRef(string data) {
     // this pattern is to check for '"' IDENT '"'
     std::regex identQuotePattern("\"[A-Za-z]([A-Za-z0-9])*\"");
 
-    return isSynonym(data) || isWildcard() || isIdent(data;
+    return isSynonym(data) || isWildcard(data) || isIdent(data);
 }
 
 bool StringUtils::isIdent(string data) {

@@ -9,6 +9,9 @@ using std::string;
 class Synonym : public IArgument {
 private:
 	const string argumentType = "synonym";
+	string synonymValue;
 public:
-	Synonym(string argumentValue) : IArgument(argumentValue);
+	explicit Synonym(string argumentValue) : synonymValue(argumentValue) {};
+	string getValue() override;
+	string getArgumentType() override;
 };

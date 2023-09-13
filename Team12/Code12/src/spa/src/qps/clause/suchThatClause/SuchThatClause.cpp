@@ -19,8 +19,8 @@ std::unordered_set<int> SuchThatClause::evaluate(
     abstractionParams->abstraction = this->relationship;
     abstractionParams->pkb = pkb;
     abstractionParams->context = std::move(context);
-    abstractionParams->firstArg = firstArg;
-    abstractionParams->secondArg = secondArg;
+    abstractionParams->firstArg = firstArg->getValue();       // (@yq need to change this)
+    abstractionParams->secondArg = secondArg->getValue();   //(@yq need to change this)
 
     std::unique_ptr<IAbstraction> executableAbstraction =
             AbstractionFactory::createAbstraction(abstractionParams);

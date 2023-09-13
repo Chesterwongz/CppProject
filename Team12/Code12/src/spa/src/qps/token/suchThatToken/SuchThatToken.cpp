@@ -23,19 +23,19 @@ const IArgument* SuchThatToken::getSecondArgument() {
     return secondArg;
 }
 
-const IArgument SuchThatToken::getFirstArgumentType() {
+const string SuchThatToken::getFirstArgumentType() {
     return firstArg->getArgumentType();
 }
 
-const IArgument SuchThatToken::getFirstArgumentValue() {
+const string SuchThatToken::getFirstArgumentValue() {
     return firstArg->getValue();
 }
 
-const IArgument SuchThatToken::getSecondArgumentType() {
+const string SuchThatToken::getSecondArgumentType() {
     return secondArg->getArgumentType();
 }
 
-const IArgument SuchThatToken::getSecondArgumentType() {
+const string SuchThatToken::getSecondArgumentValue() {
     return secondArg->getValue();
 }
 

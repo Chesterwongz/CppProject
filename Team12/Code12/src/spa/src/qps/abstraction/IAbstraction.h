@@ -12,8 +12,8 @@ struct AbstractionParams {
     PKBReader *pkb;
     Context context;
     Abstraction abstraction;
-    Reference firstArg;
-    Reference secondArg;
+    string firstArg;    // (@yq i changed from reference to string)
+    string secondArg;   // (@yq i changed from reference to string)
 };
 
 class IAbstraction {
@@ -21,8 +21,8 @@ protected:
     PKBReader *pkb{};
     Context context;
     Abstraction abstraction;
-    Reference firstArg;
-    Reference secondArg;
+    string firstArg;    // (@yq i changed from reference to string)
+    string secondArg;   // (@yq i changed from reference to string)
     explicit IAbstraction(struct AbstractionParams *params) :
             pkb(params->pkb),
             context(params->context),

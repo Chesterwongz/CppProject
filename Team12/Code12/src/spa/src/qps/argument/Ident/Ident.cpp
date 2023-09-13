@@ -1,12 +1,12 @@
 #include <string>
 
-#include <../IArgument.h>
+#include "../IArgument.h"
 #include "Ident.h"
 
 string Ident::getValue() {
-	return this->value;
+	return identValue;
 }
 
 string Ident::getArgumentType() {
-	return this->argumentType;
+	return argumentType;
 }

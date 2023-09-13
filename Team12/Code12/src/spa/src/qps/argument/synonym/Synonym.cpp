@@ -1,12 +1,12 @@
 #include <string>
 
-#include <../IArgument.h>
+#include "../IArgument.h"
 #include "Synonym.h"
 
 string Synonym::getValue() {
-	return this->value;
+	return synonymValue;
 }
 
 string Synonym::getArgumentType() {
-	return this->argumentType;
+	return argumentType;
 }

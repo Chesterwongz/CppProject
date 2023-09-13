@@ -1,5 +1,4 @@
 #include "ArgumentFactory.h"
-#include "../argumentFactoryUtil/ArgumentFactoryUtil.h"
 #include "../synonym/Synonym.h"
 #include "../../../common/utils/StringUtils.h"
 #include "../wildcard/Wildcard.h"
@@ -17,7 +16,7 @@ unique_ptr<IArgument> ArgumentFactory::createArgument(string argument) {
 		return make_unique<Ident>(argument);
 	}
 
-	if (StringUtils::isSynonym) {
+	if (StringUtils::isSynonym(argument)) {
 		return make_unique<Synonym>(argument);
 	}
 	
