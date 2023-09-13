@@ -1,6 +1,9 @@
 #include "StringUtils.h"
 
+using std::string;
+
 const char StringUtils::CHAR_ZERO = '0';
+const string StringUtils::wildcard = "_";
 
 bool StringUtils::isWhiteSpace(const char ch) {
     return regex_search(std::string(1, ch), std::regex("[ \t\r\n\f]"));
@@ -25,12 +28,22 @@ bool StringUtils::isSynonym(string data) {
 
 bool StringUtils::isStmtRef(string data) {
     std::regex integerPattern("^[0-9]+$");
-    return isSynonym(data) || data == "_" || std::regex_match(data, integerPattern);
+    return isSynonym(data) || isWildcard() || std::regex_match(data, integerPattern);
 }
 
 bool StringUtils::isEntRef(string data) {
     // this pattern is to check for '"' IDENT '"'
     std::regex identQuotePattern("\"[A-Za-z]([A-Za-z0-9])*\"");
 
-    return isSynonym(data) || data == "_" || std::regex_match(data, identQuotePattern);
+    return isSynonym(data) || isWildcard() || isIdent(data;
+}
+
+bool StringUtils::isIdent(string data) {
+    std::regex identQuotePattern("\"[A-Za-z]([A-Za-z0-9])*\"");
+
+    return std::regex_match(data, identQuotePattern);
+}
+
+bool StringUtils::isWildcard(string data) {
+    return data == wildcard;
 }

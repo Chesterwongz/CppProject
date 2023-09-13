@@ -20,23 +20,6 @@ const set<string> TokenFactory::entities = {
 
 TokenFactoryPool TokenFactory::tokenFactories;
 
-bool TokenFactory::isSynonym(string data) {
-    std::regex synonymPattern("^[A-Za-z][A-Za-z0-9]*$");
-	return std::regex_match(data, synonymPattern);
-}
-
-bool TokenFactory::isStmtRef(string data) {
-    std::regex integerPattern("^[0-9]+$");
-	return isSynonym(data) || data == "_" || std::regex_match(data, integerPattern);
-}
-
-bool TokenFactory::isEntRef(string data) {
-	// this pattern is to check for '"' IDENT '"'
-	std::regex identQuotePattern("\"[A-Za-z]([A-Za-z0-9])*\"");
-
-	return isSynonym(data) || data == "_" || std::regex_match(data, identQuotePattern);
-}
-
 TokenFactory* TokenFactory::getOrCreateFactory(TOKENTYPES keyword) {
     switch (keyword) {
         case ENTITY:

@@ -10,6 +10,7 @@ using std::string;
 class StringUtils {
 public:
     static const char CHAR_ZERO;
+    static const string wildcard;
 
     static bool isWhiteSpace(char ch);
     static bool isDigit(char ch);
@@ -19,6 +20,8 @@ public:
     static bool isSynonym(const string data);
     static bool isStmtRef(const string data);
     static bool isEntRef(const string data);
+    static bool isIdent(const string data);
+    static bool isWildcard(const string data);
 
 private:
     StringUtils() = default;
