@@ -2,10 +2,6 @@
 
 #include <utility>
 
-PatternClause::PatternClause(
-        Synonym synonym,
-        Reference entRef,
-        std::string expression) :
-        synonym(synonym),
-        entRef(entRef),
-        expression(expression) {}
+PatternClause::PatternClause(unique_ptr<IArgument> synonym, PatternArgsStreamPtr patternArgsStreamPtr) {
+	PatternClause::synonym = std::move(synonym);
+}

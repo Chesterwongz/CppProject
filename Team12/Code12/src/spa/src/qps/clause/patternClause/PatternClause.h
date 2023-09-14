@@ -5,17 +5,20 @@
 #include "qps/token/QueryToken.h"
 #include "qps/clause/Clause.h"
 #include "pkb/facade/PKBReader.h"
+#include "qps/argument/IArgument.h"
+
+using std::string, std::unique_ptr, std::vector;
+
+typedef vector<unique_ptr<IArgument>> PatternArgsStream;
+typedef unique_ptr<PatternArgsStream> PatternArgsStreamPtr;
 
 class PatternClause : public Clause {
 private:
-    Synonym synonym;
-    Reference entRef;
-    std::string expression;
+    unique_ptr<IArgument> synonym;
+    PatternArgsStreamPtr patternArgsStreamPtr;
 
 public:
-    explicit PatternClause(Synonym synonym,
-                           Reference entRef,
-                           std::string expression);
+    explicit PatternClause(unique_ptr<IArgument> synonym, PatternArgsStreamPtr patternArgsStreamPtr);
     std::unordered_set<int> evaluate(
             Context context,
             PKBReader *pkb) override;
