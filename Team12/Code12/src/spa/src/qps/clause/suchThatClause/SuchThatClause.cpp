@@ -5,25 +5,27 @@
 
 SuchThatClause::SuchThatClause (
         Abstraction &relationship,
-        IArgument* firstArg,
-        IArgument* secondArg) :
+        unique_ptr<IArgument> &firstArg,
+        unique_ptr<IArgument> &secondArg) :
         relationship(relationship),
-        firstArg(firstArg),
-        secondArg(secondArg) {}
+        firstArg(std::move(firstArg)),
+        secondArg(std::move(secondArg)) {};
 
-std::unordered_set<int> SuchThatClause::evaluate(
+QueryResult SuchThatClause::evaluate(
         Context context,
-        PKBReader *pkb) {
+        PKBReader *pkb,
+        string &synonymToQuery) {
     AbstractionParams *abstractionParams = {};
 
     abstractionParams->abstraction = this->relationship;
     abstractionParams->pkb = pkb;
     abstractionParams->context = std::move(context);
-    abstractionParams->firstArg = firstArg->getValue();       // (@yq need to change this)
-    abstractionParams->secondArg = secondArg->getValue();   //(@yq need to change this)
+    abstractionParams->firstArg = firstArg;       // (@yq need to change this)
+    abstractionParams->secondArg = secondArg;   //(@yq need to change this)
 
     std::unique_ptr<IAbstraction> executableAbstraction =
             AbstractionFactory::createAbstraction(abstractionParams);
 
-    return executableAbstraction->getAbstractions();
+//    return executableAbstraction-
+    return {};
 }

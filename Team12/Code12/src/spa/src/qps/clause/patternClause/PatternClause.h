@@ -16,7 +16,8 @@ public:
     explicit PatternClause(Synonym synonym,
                            Reference entRef,
                            std::string expression);
-    std::unordered_set<int> evaluate(
+    QueryResult evaluate(
             Context context,
-            PKBReader *pkb) override;
+            PKBReader *pkb,
+            string &synonymToQuery) override;
 };
