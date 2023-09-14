@@ -4,8 +4,9 @@
 #include <set>
 #include "qps/token/suchThatToken/SuchThatToken.h"
 #include "qps/clause/Clause.h"
+#include "qps/argument/IArgument.h"
 
-using std::shared_ptr;
+using std::shared_ptr, std::unique_ptr;
 
 class SuchThatClause : public Clause {
 private:

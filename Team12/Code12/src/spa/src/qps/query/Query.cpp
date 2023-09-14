@@ -18,7 +18,7 @@ void Query::addClause(unique_ptr<Clause> &clause) {
 }
 
 set<string> Query::evaluate() {
-    unordered_set<int> intersectionResult;
+    set<int> intersectionResult;
     // todo:
     if (clauses.empty()) {
         returnAllPossibleQueriedSynonym();
@@ -52,6 +52,7 @@ set<string> Query::evaluate() {
 ////                         inserter(intersectionResult, intersectionResult.begin()));
 //    }
 //    return intersectionResult;
+return {};
 }
 
 // For case where there are no clauses (e.g. Select a).
@@ -60,8 +61,9 @@ set<string> Query::returnAllPossibleQueriedSynonym() {
     Entity entity = context.getTokenEntity(this->synonymToQuery);
     StmtType stmtType = EntityToStatementType.at(entity);
 
-    set<string> results = pkb->getStatement(stmtType);
+    //todo once pkb updates types
+//    set<string> results = pkb->getStatement(stmtType);
 
-    return results;
+    return {};
 }
 

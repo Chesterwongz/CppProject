@@ -1,7 +1,5 @@
 #include "qps/token/suchThatToken/SuchThatToken.h"
-#include "../../argument/IArgument.h"
 #include "../../argument/argumentFactory/ArgumentFactory.h"
-#include "../../clause/Clause.h"
 #include "../../clause/suchThatClause/SuchThatClause.h"
 
 using std::string;

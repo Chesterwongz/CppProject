@@ -2,7 +2,6 @@
 
 #include <string>
 #include <map>
-//#include "qps/token/declarativeToken/DeclarativeToken.h"
 
 using std::string, std::map;
 
