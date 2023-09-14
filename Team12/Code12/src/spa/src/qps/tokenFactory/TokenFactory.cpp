@@ -4,6 +4,7 @@
 #include "TokenFactory.h"
 #include "declarativeTokenFactory/DeclarativeTokenFactory.h"
 #include "selectTokenFactory/SelectTokenFactory.h"
+#include "suchThatTokenFactory/SuchThatTokenFactory.h"
 
 const set<string> TokenFactory::entities = {
 	"stmt",
@@ -34,6 +35,11 @@ TokenFactory* TokenFactory::getOrCreateFactory(TOKENTYPES keyword) {
                 tokenFactories[SELECT] = std::make_unique<SelectTokenFactory>();
             }
             return tokenFactories[SELECT].get();
+        case SUCH_THAT:
+            if (tokenFactories.find(SUCH_THAT) == tokenFactories.end()) {
+                tokenFactories[SUCH_THAT] = std::make_unique<SuchThatTokenFactory>();
+            }
+            return tokenFactories[SUCH_THAT].get();
     }
 
 	return nullptr;
