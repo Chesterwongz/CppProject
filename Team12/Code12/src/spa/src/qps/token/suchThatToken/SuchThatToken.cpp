@@ -7,20 +7,22 @@
 using std::string;
 
 SuchThatToken::SuchThatToken(Abstraction relationship, string first, string second) : relationship(relationship) {
-    firstArg = ArgumentFactory::createArgument(first).get();
-    secondArg = ArgumentFactory::createArgument(second).get();
+    firstArg = ArgumentFactory::createArgument(first);
+    secondArg = ArgumentFactory::createArgument(second);
 }
 
 const Abstraction SuchThatToken::getRelationship() {
     return relationship;
 }
 
+// tbh not sure if returning the pointer directly is even needed
 const IArgument* SuchThatToken::getFirstArgument() {
-    return firstArg;
+    return firstArg.get();
 }
 
+// tbh not sure if returning the pointer directly is even needed
 const IArgument* SuchThatToken::getSecondArgument() {
-    return secondArg;
+    return secondArg.get();
 }
 
 const string SuchThatToken::getFirstArgumentType() {

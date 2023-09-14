@@ -14,8 +14,8 @@ typedef std::string Abstraction;
 class SuchThatToken : public QueryToken {
 private:
     Abstraction relationship;
-    IArgument* firstArg;
-    IArgument* secondArg;
+    unique_ptr<IArgument> firstArg;
+    unique_ptr<IArgument> secondArg;
 
 public:
     explicit SuchThatToken(Abstraction relationship, string first, string second);
