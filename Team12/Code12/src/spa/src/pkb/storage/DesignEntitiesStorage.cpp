@@ -22,18 +22,18 @@ void DesignEntitiesStorage::setProcedure(const std::string& procedureName, int s
 }
 
 // Get all variables
-std::unordered_set<std::string> DesignEntitiesStorage::getAllVariables() {
+std::set<std::string> DesignEntitiesStorage::getAllVariables() {
     return variableData;
 }
 
 // Get all constants
-std::unordered_set<std::string> DesignEntitiesStorage::getAllConstants() {
+std::set<std::string> DesignEntitiesStorage::getAllConstants() {
     return constantData;
 }
 
 // Get all procedures
-std::unordered_set<std::string> DesignEntitiesStorage::getAllProcedures() {
-    std::unordered_set<std::string> procedures;
+std::set<std::string> DesignEntitiesStorage::getAllProcedures() {
+    std::set<std::string> procedures;
     for (const auto& entry : procedureData) {
         procedures.insert(entry.first);
     }
@@ -41,8 +41,8 @@ std::unordered_set<std::string> DesignEntitiesStorage::getAllProcedures() {
 }
 
 // Get procedures on a statement
-std::unordered_set<std::string> DesignEntitiesStorage::getProceduresOnStatement(int statementNumber) {
-    std::unordered_set<std::string> procedures;
+std::set<std::string> DesignEntitiesStorage::getProceduresOnStatement(int statementNumber) {
+    std::set<std::string> procedures;
     for (const auto& entry : procedureData) {
         if (entry.second == statementNumber) {
             procedures.insert(entry.first);

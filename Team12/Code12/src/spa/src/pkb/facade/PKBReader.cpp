@@ -3,22 +3,22 @@
 #include <set>
 
 // Method to get the names of all variables in the program
-std::unordered_set<std::string>PKBReader::getAllVariables() {
+std::set<std::string>PKBReader::getAllVariables() {
     return storage.designEntitiesStorage.getAllVariables();
 }
 
 // Method to get the values of all constants in the program
-std::unordered_set<std::string> PKBReader::getAllConstants() {
+std::set<std::string> PKBReader::getAllConstants() {
     return storage.designEntitiesStorage.getAllConstants();
 }
 
 // Method to get the names of all procedures in the program
-std::unordered_set<std::string> PKBReader::getAllProcedures() {
+std::set<std::string> PKBReader::getAllProcedures() {
     return storage.designEntitiesStorage.getAllProcedures();
 }
 
 // Method to return the statement numbers of statements
-std::unordered_set<int> PKBReader::getStatement(StmtType statementType) {
+std::set<int> PKBReader::getStatement(StmtType statementType) {
     if (statementType == StmtType::STMT) {
         return storage.statementStorage.getAllStatements();
     }
@@ -30,7 +30,7 @@ std::unordered_set<int> PKBReader::getStatement(StmtType statementType) {
 
 int PKBReader::getFollowing(int statementNumber, StmtType statementType) {
     int followingStatement = storage.followsStorage.getImmediateFollows(statementNumber);
-    std::unordered_set<int> allMatchingStatementTypes = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
+    std::set<int> allMatchingStatementTypes = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
 
     if (followingStatement != -1) {
         auto it = allMatchingStatementTypes.find(followingStatement);
@@ -43,9 +43,24 @@ int PKBReader::getFollowing(int statementNumber, StmtType statementType) {
     return -1;
 }
 
+int PKBReader::getFollowed(int statementNumber, StmtType statementType) {
+    int followedStatement = storage.followsStorage.getImmediateFollowedBy(statementNumber);
+    std::set<int> allMatchingStatementTypes = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
+
+    if (followedStatement != -1) {
+        auto it = allMatchingStatementTypes.find(followedStatement);
+
+        if (it != allMatchingStatementTypes.end()) {
+            return followedStatement;
+        }
+    }
+
+    return -1;
+}
+
 std::vector<std::pair<int, int>> PKBReader::getFollowsPairs(StmtType statementType1, StmtType statementType2) {
-    std::unordered_set<int> firstStatementList = storage.statementStorage.getStatementNumbersFromStatementType(statementType1);
-    std::unordered_set<int> secondStatementList = storage.statementStorage.getStatementNumbersFromStatementType(statementType2);
+    std::set<int> firstStatementList = storage.statementStorage.getStatementNumbersFromStatementType(statementType1);
+    std::set<int> secondStatementList = storage.statementStorage.getStatementNumbersFromStatementType(statementType2);
 
     std::vector<std::pair<int, int>> followsPairs;
 
@@ -59,34 +74,151 @@ std::vector<std::pair<int, int>> PKBReader::getFollowsPairs(StmtType statementTy
     return followsPairs;
 }
 
+std::set<int> PKBReader::getFollowsStar(int statementNumber, StmtType statementType) {
+    std::set<int> allFollowsStar = storage.followsStorage.getAllFollows(statementNumber);
 
+    std::set<int> allMatchingStatements = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
 
-int PKBReader::getFollowed(int statementNumber, StmtType statementType) {
-    int followedStatement = storage.followsStorage.getImmediateFollowedBy(statementNumber);
-    std::unordered_set<int> allMatchingStatementTypes = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
-
-    if (followedStatement != -1) {
-        auto it = allMatchingStatementTypes.find(followedStatement);
-
-        if (it != allMatchingStatementTypes.end()) {
-            return followedStatement;
+    std::set<int> result;
+    // Iterate through the result set
+    for (int stmt : allFollowsStar) {
+        // If the statement is also present in allMatchingStatements, add it to the common set
+        if (allMatchingStatements.find(stmt) != allMatchingStatements.end()) {
+            result.insert(stmt);
         }
     }
 
-    return -1;
+    return result;
 }
 
-std::unordered_set<int> PKBReader::getStatementsModifying(const std::string& variableName, StmtType statementType) {
-    std::unordered_set<int> result;
+std::set<int> PKBReader::getFollowedStar(int statementNumber, StmtType statementType) {
+    std::set<int> allFollowedStar = storage.followsStorage.getAllFollowedBy(statementNumber);
+
+    std::set<int> allMatchingStatements = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
+
+    std::set<int> result;
+    // Iterate through the result set
+    for (int stmt : allFollowedStar) {
+        // If the statement is also present in allMatchingStatements, add it to the common set
+        if (allMatchingStatements.find(stmt) != allMatchingStatements.end()) {
+            result.insert(stmt);
+        }
+    }
+
+    return result;
+
+}
+
+//
+std::set<int> PKBReader::getImmediateChildrenOf(int statementNumber, StmtType statementType) {
+    std::set<int> allImmediateChildren = storage.parentStorage.getImmediateChildren(statementNumber);
+
+    std::set<int> allMatchingStatements = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
+
+    std::set<int> result;
+    // Iterate through the result set
+    for (int stmt : allImmediateChildren) {
+        // If the statement is also present in allMatchingStatements, add it to the common set
+        if (allMatchingStatements.find(stmt) != allMatchingStatements.end()) {
+            result.insert(stmt);
+        }
+    }
+
+    return result;
+}
+
+int PKBReader::getImmediateParentOf(int statementNumber, StmtType statementType) {
+    int immediateParent = storage.parentStorage.getImmediateParent(statementNumber);
+
+    std::set<int> allMatchingStatements = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
+
+    if (allMatchingStatements.find(immediateParent) != allMatchingStatements.end()) {
+        return immediateParent;
+    }
+    else {
+        return -1;
+    }
+}
+
+std::vector<std::pair<int, int>> PKBReader::getParentChildPairs(StmtType parentType, StmtType childType) {
+    std::set<int> firstStatementList = storage.statementStorage.getStatementNumbersFromStatementType(parentType);
+    std::set<int> secondStatementList = storage.statementStorage.getStatementNumbersFromStatementType(childType);
+
+    std::vector<std::pair<int, int>> parentChildPairs;
+
+    for (int firstStatement : firstStatementList) {
+        std::set<int> allChildren = storage.parentStorage.getImmediateChildren(firstStatement);
+        for (int child : allChildren) {
+            if (secondStatementList.find(child) != secondStatementList.end()) {
+                parentChildPairs.push_back(std::make_pair(firstStatement, child));
+            }
+        }
+    }
+    return parentChildPairs;
+}
+
+std::set<int> PKBReader::getParentStarOf(int statementNumber, StmtType statementType) {
+    std::set<int> allParents = storage.parentStorage.getAllParents(statementNumber);
+
+    std::set<int> allMatchingStatements = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
+
+    std::set<int> result;
+
+    for (int stmt : allParents) {
+        if (allMatchingStatements.find(stmt) != allMatchingStatements.end()) {
+            result.insert(stmt);
+        }
+    }
+
+    return result;
+}
+
+std::set<int> PKBReader::getChildrenStarOf(int statementNumber, StmtType statementType) {
+    std::set<int> allChildren = storage.parentStorage.getAllChildren(statementNumber);
+
+    std::set<int> allMatchingStatements = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
+
+    std::set<int> result;
+
+    for (int stmt : allChildren) {
+        if (allMatchingStatements.find(stmt) != allMatchingStatements.end()) {
+            result.insert(stmt);
+        }
+    }
+
+    return result;
+}
+
+
+
+std::vector<std::pair<int, int>> PKBReader::getParentChildStarPairs(StmtType parentType, StmtType childType) {
+    std::set<int> firstStatementList = storage.statementStorage.getStatementNumbersFromStatementType(parentType);
+    std::set<int> secondStatementList = storage.statementStorage.getStatementNumbersFromStatementType(childType);
+
+    std::vector<std::pair<int, int>> parentChildStarPairs;
+
+    for (int firstStatement : firstStatementList) {
+        std::set<int> allChildren = storage.parentStorage.getAllChildren(firstStatement);
+        for (int child : allChildren) {
+            if (secondStatementList.find(child) != secondStatementList.end()) {
+                parentChildStarPairs.push_back(std::make_pair(firstStatement, child));
+            }
+        }
+    }
+    return parentChildStarPairs;
+}
+
+std::set<int> PKBReader::getStatementsModifying(const std::string& variableName, StmtType statementType) {
+    std::set<int> result;
 
     if (statementType == StmtType::STMT) {
         result = storage.modifiesStorage.getStatementNumbersForVariable(variableName);
     }
     else {
-        std::unordered_set<int> allMatchingStatements = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
+        std::set<int> allMatchingStatements = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
 
         for (int statement : allMatchingStatements) {
-            std::unordered_set<std::string> variables = storage.modifiesStorage.getVariablesForStatement(statement);
+            std::set<std::string> variables = storage.modifiesStorage.getVariablesForStatement(statement);
 
             if (variables.find(variableName) != variables.end()) {
                 result.insert(statement); // Use insert to add elements to the set
@@ -98,9 +230,9 @@ std::unordered_set<int> PKBReader::getStatementsModifying(const std::string& var
 }
 
 
-std::unordered_set<std::string> PKBReader::getVariablesModifiedBy(int statementNumber, StmtType statementType) {
+std::set<std::string> PKBReader::getVariablesModifiedBy(int statementNumber, StmtType statementType) {
 
-    std::unordered_set<std::string> result;
+    std::set<std::string> result;
 
     if (statementType == StmtType::STMT) {
         result = storage.usesStorage.getVariablesForStatement(statementNumber);
@@ -116,20 +248,20 @@ std::unordered_set<std::string> PKBReader::getVariablesModifiedBy(int statementN
     return result;
 }
 
-std::unordered_set<int> PKBReader::getStatementsUsing(const std::string& variableName, StmtType statementType) {
-    std::unordered_set<int> result;
+std::set<int> PKBReader::getStatementsUsing(const std::string& variableName, StmtType statementType) {
+    std::set<int> result;
 
     if (statementType == StmtType::STMT) {
         result = storage.usesStorage.getStatementNumbersForVariable(variableName);
     }
     else {
         // Get the statement numbers of the correct type
-        std::unordered_set<int> statementNumbers = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
+        std::set<int> statementNumbers = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
 
         // Iterate through the statements
         for (int statementNumber : statementNumbers) {
             // Get the variables used by the statement
-            std::unordered_set<std::string> usedVariables = storage.usesStorage.getVariablesForStatement(statementNumber);
+            std::set<std::string> usedVariables = storage.usesStorage.getVariablesForStatement(statementNumber);
 
             // Check if the specified variable is used by the statement
             if (usedVariables.find(variableName) != usedVariables.end()) {
@@ -141,8 +273,8 @@ std::unordered_set<int> PKBReader::getStatementsUsing(const std::string& variabl
 }
 
 
-std::unordered_set<std::string> PKBReader::getVariablesUsedBy(int statementNumber, StmtType statementType) {
-    std::unordered_set<std::string> result;
+std::set<std::string> PKBReader::getVariablesUsedBy(int statementNumber, StmtType statementType) {
+    std::set<std::string> result;
 
     if (statementType == StmtType::STMT) {
         result = storage.usesStorage.getVariablesForStatement(statementNumber);
@@ -158,26 +290,49 @@ std::unordered_set<std::string> PKBReader::getVariablesUsedBy(int statementNumbe
     return result;
 }
 
-std::unordered_set<int> PKBReader::getAllStatementsModifying(std::string variableName) {
+std::set<int> PKBReader::getAllStatementsModifying(std::string variableName) {
     return storage.modifiesStorage.getStatementNumbersForVariable(variableName);
 }
 
-std::unordered_set<int> PKBReader::getAllStatementsUsing(std::string variableName) {
+std::set<int> PKBReader::getAllStatementsUsing(std::string variableName) {
     return storage.usesStorage.getStatementNumbersForVariable(variableName);
 }
 
-std::unordered_set<std::string>PKBReader::getAllUsedVariables() {
+std::set<std::string>PKBReader::getAllUsedVariables() {
     return storage.usesStorage.getAllVariables();
 }
 
-std::unordered_set<std::string> PKBReader::getAllModifiedVariables() {
+std::set<std::string> PKBReader::getAllModifiedVariables() {
     return storage.modifiesStorage.getAllVariables();
 }
 
-std::unordered_set<int> PKBReader::getAllUsingStatements() {
-    return storage.usesStorage.getAllStatements();
+std::set<int> PKBReader::getAllUsingStatements(StmtType statementType) {
+    std::set<int> result;
+
+    std::set<int> allUsingStatements = storage.usesStorage.getAllStatements();
+
+    std::set<int> allMatchingStatements = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
+
+    for (int stmt : allMatchingStatements) {
+        if (allUsingStatements.find(stmt) != allUsingStatements.end()) {
+            result.insert(stmt);
+        }
+    }
+
+    return result;
 }
 
-std::unordered_set<int> PKBReader::getAllModifyingStatements() {
-    return storage.modifiesStorage.getAllStatements();
+std::set<int> PKBReader::getAllModifyingStatements(StmtType statementType) {
+    std::set<int> result;
+
+    std::set<int> allModifyingStatements = storage.modifiesStorage.getAllStatements();
+
+    std::set<int> allMatchingStatements = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
+
+    for (int stmt : allMatchingStatements) {
+        if (allModifyingStatements.find(stmt) != allModifyingStatements.end()) {
+            result.insert(stmt);
+        }
+    }
+    return result;
 }
