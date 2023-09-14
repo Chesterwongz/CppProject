@@ -10,7 +10,7 @@ using std::string;
 class StringUtils {
 public:
     static const char CHAR_ZERO;
-    static const string wildcard;
+    static const string WILDCARD;
 
     static bool isWhiteSpace(char ch);
     static bool isDigit(char ch);

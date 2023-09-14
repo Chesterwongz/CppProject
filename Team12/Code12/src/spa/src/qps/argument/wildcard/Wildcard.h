@@ -8,7 +8,7 @@ using std::string;
 
 class Wildcard : public IArgument {
 private:
-	const string argumentType = "wildcard";
+	const string argumentType = WILDCARD_TYPE;
 	string wildcardValue;
 
 public:

@@ -8,7 +8,7 @@ using std::string;
 
 class Ident : public IArgument {
 private:
-	const string argumentType = "ident";
+	const string argumentType = IDENT_TYPE;
 	string identValue;
 public:
 	explicit Ident(string argumentValue) : identValue(argumentValue) {
