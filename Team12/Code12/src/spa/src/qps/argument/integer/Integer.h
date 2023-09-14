@@ -11,7 +11,7 @@ private:
 	const string argumentType = INTEGER_TYPE;
 	string integerValue;
 public:
-	explicit Integer(string argumentValue) : synonymValue(argumentValue) {};
+	explicit Integer(string argumentValue) : integerValue(argumentValue) {};
 	string getValue() override;
 	string getArgumentType() override;
 };

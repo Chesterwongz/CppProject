@@ -19,5 +19,5 @@ private:
 
 public:
     explicit QPS(PKBReader *pkb);
-    std::unordered_set<int> processQueryString(string queryString);
+    std::set<string> processQueryString(string queryString);
 };
