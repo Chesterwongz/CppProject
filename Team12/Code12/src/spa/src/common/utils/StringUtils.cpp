@@ -27,8 +27,7 @@ bool StringUtils::isSynonym(string data) {
 }
 
 bool StringUtils::isStmtRef(string data) {
-    std::regex integerPattern("^[0-9]+$");
-    return isSynonym(data) || isWildcard(data) || std::regex_match(data, integerPattern);
+    return isSynonym(data) || isWildcard(data) || isInteger(data);
 }
 
 bool StringUtils::isEntRef(string data) {
@@ -44,3 +43,9 @@ bool StringUtils::isIdent(string data) {
 bool StringUtils::isWildcard(string data) {
     return data == WILDCARD;
 }
+
+bool StringUtils::isInteger(string data) {
+    std::regex integerPattern("^[0-9]+$");
+    return std::regex_match(data, integerPattern);
+}
+

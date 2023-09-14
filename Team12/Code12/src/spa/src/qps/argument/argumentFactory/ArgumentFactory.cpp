@@ -3,7 +3,7 @@
 #include "../../../common/utils/StringUtils.h"
 #include "../wildcard/Wildcard.h"
 #include "../Ident/Ident.h"
-
+#include "../integer/Integer.h"
 
 using std::unique_ptr, std::make_unique, std::string;
 
@@ -20,5 +20,9 @@ unique_ptr<IArgument> ArgumentFactory::createArgument(string argument) {
 		return make_unique<Synonym>(argument);
 	}
 	
+	if (StringUtils::isInteger(argument)) {
+		return make_unique<Integer>(argument);
+	}
+
 	return nullptr;
 }

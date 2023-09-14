@@ -22,6 +22,7 @@ public:
     static bool isEntRef(const string data);
     static bool isIdent(const string data);
     static bool isWildcard(const string data);
+    static bool isInteger(const string data);
 
 private:
     StringUtils() = default;

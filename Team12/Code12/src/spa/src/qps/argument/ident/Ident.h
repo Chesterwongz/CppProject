@@ -10,8 +10,10 @@ class Ident : public IArgument {
 private:
 	const string argumentType = IDENT_TYPE;
 	string identValue;
+
 public:
 	explicit Ident(string argumentValue) : identValue(argumentValue) {
+		// remove '\"' from value
 		argumentValue.erase(std::remove(argumentValue.begin(), argumentValue.end(), '\"'), argumentValue.end());
 		identValue = argumentValue;
 	};
