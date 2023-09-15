@@ -20,7 +20,7 @@ public:
 
     std::set<std::string> getAllProcedures();
 
-    std::set<std::string> getProceduresOnStatement(int statementNumber);
+    std::string getProcedureStartingOnStatement(int statementNumber);
 
     int getStartingStatementOfProcedure(const std::string& procedureName);
 

@@ -40,15 +40,14 @@ std::set<std::string> DesignEntitiesStorage::getAllProcedures() {
     return procedures;
 }
 
-// Get procedures on a statement
-std::set<std::string> DesignEntitiesStorage::getProceduresOnStatement(int statementNumber) {
+// Get procedure starting on a statement
+std::string DesignEntitiesStorage::getProcedureStartingOnStatement(int statementNumber) {
     std::set<std::string> procedures;
     for (const auto& entry : procedureData) {
         if (entry.second == statementNumber) {
-            procedures.insert(entry.first);
+            return entry.first;
         }
     }
-    return procedures;
 }
 
 // Get the starting statement of a procedure
