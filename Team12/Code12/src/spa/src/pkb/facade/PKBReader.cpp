@@ -373,22 +373,3 @@ std::vector<std::pair<std::string, std::string>> PKBReader::getAllModifiedVariab
     return result;
 }
 
-std::vector<std::pair<std::string, std::string>> PKBReader::getAllUsingStatements(StmtType statementType) {
-    std::vector<std::pair<std::string, std::string>> result;
-
-    std::set<int> allUsingStatements = storage.usesStorage.getAllStatements();
-
-    std::set<int> allMatchingStatements = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
-
-    for (int stmt : allMatchingStatements) {
-        if (allUsingStatements.find(stmt) != allUsingStatements.end()) {
-            std::set<std::string> variables = storage.usesStorage.getVariablesForStatement(stmt);
-            for (const std::string& v : variables) {
-                result.emplace_back(std::to_string(stmt), v);
-            }
-        }
-    }
-
-    return result;
-}
-
