@@ -3,7 +3,7 @@
 #include "DeclarativeTokenFactory.h"
 #include "qps/token/declarativeToken/DeclarativeToken.h"
 
-// TODO: Tokenizer to try to ensure keyword/entity is a single element at index 0.
+// TODO: PQLTokenizer to try to ensure keyword/entity is a single element at index 0.
 // e.g. "stmt s1, s2" --> ["stmt", "s1", "s2"]
 // e.g. "procedure call c" --> ["procedure call", "c"]
 bool DeclarativeTokenFactory::isValid(UnvalidatedTokens unvalidatedTokens) {
