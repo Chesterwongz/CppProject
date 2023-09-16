@@ -7,7 +7,7 @@ PatternToken::PatternToken(string synonym, vector<string> unvalidatedTokens) {
     PatternToken::synonym = ArgumentFactory::createArgument(synonym);
     for (int i = 0; i < unvalidatedTokens.size(); i++) {
         unique_ptr<IArgument> arg = ArgumentFactory::createArgument(unvalidatedTokens[i]);
-        PatternToken::argumentsStream->push_back(arg);
+        PatternToken::patternArgsStreamPtr->push_back(arg);
     }
 }
 
@@ -28,6 +28,5 @@ unique_ptr<vector<unique_ptr<IArgument>>> PatternToken::getPatternArgsStreamPtr(
 }
 
 unique_ptr<Clause> PatternToken::buildClause() {
-    // placeholder
-    return nullptr;
+    return std::make_unique<PatternClause>(std::move(synonym), std::move(patternArgsStreamPtr));
 }

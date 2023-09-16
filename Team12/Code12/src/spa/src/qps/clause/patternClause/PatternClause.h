@@ -14,6 +14,8 @@ typedef unique_ptr<PatternArgsStream> PatternArgsStreamPtr;
 
 class PatternClause : public Clause {
 private:
+    const string PATTERN_ASSIGN_TYPE = "assign";
+
     unique_ptr<IArgument> synonym;
     PatternArgsStreamPtr patternArgsStreamPtr;
 
@@ -21,5 +23,5 @@ public:
     explicit PatternClause(unique_ptr<IArgument> synonym, PatternArgsStreamPtr patternArgsStreamPtr);
     std::unordered_set<int> evaluate(
             Context context,
-            PKBReader *pkb) override;
+            PKBReader *pkbReader) override;
 };
