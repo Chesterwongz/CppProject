@@ -1,6 +1,6 @@
 #include "ArgumentFactory.h"
 #include "../synonym/Synonym.h"
-#include "../../../common/utils/StringUtils.h"
+#include "../../common/QPSStringUtils.h"
 #include "../wildcard/Wildcard.h"
 #include "../Ident/Ident.h"
 #include "../integer/Integer.h"
@@ -8,19 +8,19 @@
 using std::unique_ptr, std::make_unique, std::string;
 
 unique_ptr<IArgument> ArgumentFactory::createArgument(string argument) {
-	if (StringUtils::isWildcard(argument)) {
+	if (QPSStringUtils::isWildcard(argument)) {
 		return make_unique<Wildcard>(argument);
 	} 
 
-	if (StringUtils::isIdent(argument)) {
+	if (QPSStringUtils::isIdent(argument)) {
 		return make_unique<Ident>(argument);
 	}
 
-	if (StringUtils::isSynonym(argument)) {
+	if (QPSStringUtils::isSynonym(argument)) {
 		return make_unique<Synonym>(argument);
 	}
 	
-	if (StringUtils::isInteger(argument)) {
+	if (QPSStringUtils::isInteger(argument)) {
 		return make_unique<Integer>(argument);
 	}
 
