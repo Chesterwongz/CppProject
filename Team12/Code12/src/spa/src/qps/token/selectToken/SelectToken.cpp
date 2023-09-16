@@ -8,5 +8,6 @@ std::string SelectToken::getSynonym() {
 }
 
 unique_ptr<Clause> SelectToken::buildClause() {
-    return make_unique<SelectClause>(SelectToken::synonym);
+    // by default SelectToken shouldn't be able to build
+    return nullptr;
 }

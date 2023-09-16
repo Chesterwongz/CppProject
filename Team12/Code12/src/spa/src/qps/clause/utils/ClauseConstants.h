@@ -8,16 +8,6 @@
 using std::string, std::map;
 
 // Statement types
-typedef string StatementType;
-
-const string ASSIGN_STMT_TYPE = "ASSIGN";
-const string CALL_STMT_TYPE = "CALL";
-const string IF_STMT_TYPE = "IF";
-const string PRINT_STMT_TYPE = "PRINT";
-const string READ_STMT_TYPE = "READ";
-const string WHILE_STMT_TYPE = "WHILE";
-const string STMT_TYPE = "STMT";
-
 const map<Entity, StmtType> EntityToStatementType = {
         {"assign", StmtType::ASSIGN},
         {"call", StmtType::CALL},

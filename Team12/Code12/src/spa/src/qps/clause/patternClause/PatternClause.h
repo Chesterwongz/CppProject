@@ -24,4 +24,9 @@ public:
     std::unordered_set<int> evaluate(
             Context context,
             PKBReader *pkbReader) override;
+
+    QueryResult evaluate(
+            Context context,
+            PKBReader *pkb,
+            string &synonymToQuery) override;
 };
