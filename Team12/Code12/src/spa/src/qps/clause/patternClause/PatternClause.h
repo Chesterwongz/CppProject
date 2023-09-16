@@ -21,9 +21,6 @@ private:
 
 public:
     explicit PatternClause(unique_ptr<IArgument> synonym, PatternArgsStreamPtr patternArgsStreamPtr);
-    std::unordered_set<int> evaluate(
-            Context context,
-            PKBReader *pkbReader) override;
 
     QueryResult evaluate(
             Context context,

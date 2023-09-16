@@ -2,7 +2,7 @@
 #include "../../argument/IArgument.h"
 #include "../../common/QPSStringUtils.h"
 
-std::set<string> AssignEvaluator::evaluate() {
+QueryResult AssignEvaluator::evaluate() {
 	PatternArgsStream patternArgsStream = *patternArgsStreamPtr;
 
 	unique_ptr<IArgument> firstArg = std::move(patternArgsStream[0]);
