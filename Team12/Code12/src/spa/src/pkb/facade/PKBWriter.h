@@ -38,6 +38,8 @@ public:
 
     virtual void setStatement(int statementNumber, StmtType statementType);
 
+    virtual void setAssignPattern(int lineNum, const std::string& variableName, const std::string& expression);
+
 private:
     struct Storage& storage;
 };
