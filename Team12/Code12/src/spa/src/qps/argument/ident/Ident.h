@@ -12,11 +12,7 @@ private:
 	string identValue;
 
 public:
-	explicit Ident(string argumentValue) : identValue(argumentValue) {
-		// remove '\"' from value
-		argumentValue.erase(std::remove(argumentValue.begin(), argumentValue.end(), '\"'), argumentValue.end());
-		identValue = argumentValue;
-	};
+	explicit Ident(string argumentValue);
 	string getValue() override;
 	string getArgumentType() override;
 
