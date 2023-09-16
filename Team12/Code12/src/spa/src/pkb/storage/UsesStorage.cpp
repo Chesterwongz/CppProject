@@ -26,7 +26,7 @@ std::set<std::string> UsesStorage::getVariablesForStatement(int statementNumber)
 std::set<std::string> UsesStorage::getAllVariables() {
     std::set<std::string> allVariables;
     for (const auto& entry : variableToStatements) {
-        allVariables.insert(entry.first); // Use insert for set
+        allVariables.insert(entry.first);
     }
     return allVariables;
 }
@@ -34,7 +34,7 @@ std::set<std::string> UsesStorage::getAllVariables() {
 std::set<int> UsesStorage::getAllStatements() {
     std::set<int> allStatements;
     for (const auto& entry : statementToVariables) {
-        allStatements.insert(entry.first); // Use insert for set
+        allStatements.insert(entry.first);
     }
     return allStatements;
 }

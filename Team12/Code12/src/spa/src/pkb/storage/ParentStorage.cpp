@@ -9,10 +9,7 @@ ParentStorage::ParentStorage() = default;
 
 // Setter for parent relationship
 void ParentStorage::setParent(int statementNumber, int childStatement) {
-    // Set in parentsOf storage
     childrenOf[statementNumber].insert(childStatement);
-
-    // Set in childrenOf storage
     parentsOf[childStatement].insert(statementNumber);
 }
 
@@ -72,6 +69,6 @@ int ParentStorage::getImmediateParent(int statementNumber) {
     if (parentsOf.find(statementNumber) == parentsOf.end()) {
         return -1;
     }
-    return *parentsOf[statementNumber].rbegin(); // Use begin() to get the first element of the set
+    return *parentsOf[statementNumber].rbegin();
 }
 

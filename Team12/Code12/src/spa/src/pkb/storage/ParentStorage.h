@@ -3,7 +3,6 @@
 #include <vector>
 #include <unordered_map>
 #include <set>
-#include <set>
 
 class ParentStorage {
 public:
@@ -31,7 +30,7 @@ public:
 
 private:
     // Data structure for parent relationship (statement number -> child statement numbers)
-    std::unordered_map<int, std::set<int>>childrenOf;
+    std::unordered_map<int, std::set<int>> childrenOf;
 
     // Data structure for child relationship (child statement number -> parent statement numbers)
     std::unordered_map<int, std::set<int>> parentsOf;

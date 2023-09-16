@@ -56,6 +56,6 @@ int DesignEntitiesStorage::getStartingStatementOfProcedure(const std::string& pr
         return procedureData[procedureName];
     }
     else {
-        return -1; // Return -1 if procedure not found
+        return -1;
     }
 }

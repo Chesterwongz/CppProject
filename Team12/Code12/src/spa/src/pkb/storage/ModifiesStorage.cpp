@@ -30,7 +30,7 @@ std::set<std::string> ModifiesStorage::getVariablesForStatement(int statementNum
 std::set<std::string> ModifiesStorage::getAllVariables() {
     std::set<std::string> allVariables;
     for (const auto& entry : variableToStatements) {
-        allVariables.insert(entry.first); // Use insert for set
+        allVariables.insert(entry.first);
     }
     return allVariables;
 }
@@ -38,6 +38,6 @@ std::set<std::string> ModifiesStorage::getAllVariables() {
 std::set<int> ModifiesStorage::getAllStatements() {
     std::set<int> allStatements;
     for (const auto& entry : statementToVariables) {
-        allStatements.insert(entry.first); // Use insert for set
+        allStatements.insert(entry.first);
     }
     return allStatements;}
