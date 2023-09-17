@@ -73,14 +73,14 @@ public:
     // return all pairs (s1,s2) that satisfy Parent*(s1, s2) and satisfying statement type restriction
     std::vector<std::pair<std::string, std::string>> getParentChildStarPairs(StmtType parentType, StmtType childType);
 
-    // return all pairs (s, v) that satisfy Modifies(s, v) where v is variableName and s is of same type as statementType
-    std::vector<std::pair<std::string, std::string>> getStatementsModifying(const std::string& variableName, StmtType statementType);
+    // return all s that satisfy Modifies(s, v) where v is variableName and s is of same type as statementType
+    std::vector<std::string> getStatementsModifying(const std::string& variableName, StmtType statementType);
 
     // return all pairs (s, v) that satisfy Modifies(s, v) where s is statementNumber and also the correct statementType mentioned
     std::vector<std::pair<std::string, std::string>> getVariablesModifiedBy(int statementNumber, StmtType statementType);
 
-    // return all pairs (s, v) that satisfy Uses(s, v) where v is variableName and s is of same type as statementType
-    std::vector<std::pair<std::string, std::string>> getStatementsUsing(const std::string& variableName, StmtType statementType);
+    // return all s that satisfy Uses(s, v) where v is variableName and s is of same type as statementType
+    std::vector<std::string> getStatementsUsing(const std::string& variableName, StmtType statementType);
 
     // return all pairs (s, v) that satisfy Uses(s, v) where s is statementNumber and also the correct statementType mentioned
     std::vector<std::pair<std::string, std::string>> getVariablesUsedBy(int statementNumber, StmtType statementType);
@@ -90,6 +90,10 @@ public:
 
     // return all pairs (s, v) that satisfy Uses (s, v) where s is of a particular type
     std::vector<std::pair<std::string, std::string>> getAllUsedVariables(StmtType statementType);
+
+    std::vector<std::string> getExactPattern(std::string variableName, std::string rpn);
+
+    std::vector<std::string> getPartialPattern(std::string variableName, std::string rpn);
 
 private:
     struct Storage& storage;

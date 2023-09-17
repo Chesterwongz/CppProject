@@ -11,13 +11,21 @@ public:
 
     void setPattern(std::string variableName, std::string rpn, int statementNumber);
 
-    std::string getPattern(std::string variableName, std::string rpn);
+    std::vector<std::string> getAllStatements();
+
+    std::vector<std::string> getAllStatementsWithVariable(const std::string& variableName);
+
+    std::vector<std::string> getExactPattern(std::string variableName, std::string rpn);
+
+    std::vector<std::string> getPartialPattern(std::string variableName, std::string rpn);
 
 private:
-    //map<LHS, pair(RPN, stmtNum)>
-    //map<stmtNum, pair(LHS, RPN)>
-       // map<RPN, pair(LHS, stmtNum)>
+    //map<variableName, pair(RPN, stmtNum)>
     std::unordered_map<std::string, std::pair<std::string, int>> variablePatternStorage;
+
+    //map<stmtNum, pair(variableName, RPN)>
     std::unordered_map<int, std::pair<std::string, std::string>> statementPatternStorage;
+
+    // map<RPN, pair(variableName, stmtNum)>
     std::unordered_map<std::string, std::pair<std::string, int>> rpnPatternStorage;
 };
