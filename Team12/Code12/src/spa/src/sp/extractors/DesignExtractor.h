@@ -12,6 +12,7 @@
 #include "UsesExtractor.h"
 #include "ModifiesExtractor.h"
 #include "EntityExtractor.h"
+#include "PatternExtractor.h"
 #include "pkb/facade/PKBWriter.h"
 #include "Populator.h"
 

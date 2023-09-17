@@ -38,12 +38,12 @@ TEST_CASE("EntityExtractor - only reads") {
     REQUIRE(mockPKB.isConstantsEqual({}));
     REQUIRE(mockPKB.isVariablesEqual({"y"}));
     REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
-    REQUIRE(mockPKB.isAssignsEqual({}));
-    REQUIRE(mockPKB.isCallsEqual({}));
-    REQUIRE(mockPKB.isIfsEqual({}));
-    REQUIRE(mockPKB.isPrintsEqual({}));
-    REQUIRE(mockPKB.isReadsEqual({1, 2}));
-    REQUIRE(mockPKB.isWhilesEqual({}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::PRINT, {}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::READ, {1, 2}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::WHILE, {}));
 }
 
 TEST_CASE("EntityExtractor with parser - only reads") {
@@ -60,12 +60,12 @@ TEST_CASE("EntityExtractor with parser - only reads") {
     REQUIRE(mockPKB.isConstantsEqual({}));
     REQUIRE(mockPKB.isVariablesEqual({"y"}));
     REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
-    REQUIRE(mockPKB.isAssignsEqual({}));
-    REQUIRE(mockPKB.isCallsEqual({}));
-    REQUIRE(mockPKB.isIfsEqual({}));
-    REQUIRE(mockPKB.isPrintsEqual({}));
-    REQUIRE(mockPKB.isReadsEqual({1, 2}));
-    REQUIRE(mockPKB.isWhilesEqual({}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::PRINT, {}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::READ, {1, 2}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::WHILE, {}));
 }
 
 TEST_CASE("EntityExtractor - non-nesting, 1 uses") {
@@ -92,12 +92,12 @@ TEST_CASE("EntityExtractor - non-nesting, 1 uses") {
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
     REQUIRE(mockPKB.isVariablesEqual({"x", "y"}));
     REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
-    REQUIRE(mockPKB.isAssignsEqual({3}));
-    REQUIRE(mockPKB.isCallsEqual({}));
-    REQUIRE(mockPKB.isIfsEqual({}));
-    REQUIRE(mockPKB.isPrintsEqual({2}));
-    REQUIRE(mockPKB.isReadsEqual({1}));
-    REQUIRE(mockPKB.isWhilesEqual({}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {3}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::PRINT, {2}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::READ, {1}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::WHILE, {}));
 }
 
 TEST_CASE("EntityExtractor with parser - non-nesting, 1 uses") {
@@ -115,12 +115,12 @@ TEST_CASE("EntityExtractor with parser - non-nesting, 1 uses") {
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
     REQUIRE(mockPKB.isVariablesEqual({"x", "y"}));
     REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
-    REQUIRE(mockPKB.isAssignsEqual({3}));
-    REQUIRE(mockPKB.isCallsEqual({}));
-    REQUIRE(mockPKB.isIfsEqual({}));
-    REQUIRE(mockPKB.isPrintsEqual({2}));
-    REQUIRE(mockPKB.isReadsEqual({1}));
-    REQUIRE(mockPKB.isWhilesEqual({}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {3}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::PRINT, {2}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::READ, {1}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::WHILE, {}));
 }
 
 TEST_CASE("EntityExtractor - if node") {
@@ -161,13 +161,12 @@ TEST_CASE("EntityExtractor - if node") {
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
     REQUIRE(mockPKB.isVariablesEqual({"x", "y", "z", "num1", "num2"}));
     REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
-    REQUIRE(mockPKB.isAssignsEqual({5}));
-    REQUIRE(mockPKB.isCallsEqual({}));
-    REQUIRE(mockPKB.isIfsEqual({3}));
-
-    REQUIRE(mockPKB.isPrintsEqual({2, 4}));
-    REQUIRE(mockPKB.isReadsEqual({1}));
-    REQUIRE(mockPKB.isWhilesEqual({}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {5}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {3}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::PRINT, {2, 4}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::READ, {1}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::WHILE, {}));
 }
 
 TEST_CASE("EntityExtractor with parser - if node") {
@@ -190,13 +189,12 @@ TEST_CASE("EntityExtractor with parser - if node") {
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
     REQUIRE(mockPKB.isVariablesEqual({"x", "y", "z", "num1", "num2"}));
     REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
-    REQUIRE(mockPKB.isAssignsEqual({5}));
-    REQUIRE(mockPKB.isCallsEqual({}));
-    REQUIRE(mockPKB.isIfsEqual({3}));
-
-    REQUIRE(mockPKB.isPrintsEqual({2, 4}));
-    REQUIRE(mockPKB.isReadsEqual({1}));
-    REQUIRE(mockPKB.isWhilesEqual({}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {5}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {3}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::PRINT, {2, 4}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::READ, {1}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::WHILE, {}));
 }
 
 TEST_CASE("EntityExtractor - if in while node") {
@@ -248,12 +246,12 @@ TEST_CASE("EntityExtractor - if in while node") {
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
     REQUIRE(mockPKB.isVariablesEqual({"x", "y", "w", "z", "num1"}));
     REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
-    REQUIRE(mockPKB.isAssignsEqual({5}));
-    REQUIRE(mockPKB.isCallsEqual({}));
-    REQUIRE(mockPKB.isIfsEqual({4}));
-    REQUIRE(mockPKB.isPrintsEqual({6, 7}));
-    REQUIRE(mockPKB.isReadsEqual({1, 2, 8}));
-    REQUIRE(mockPKB.isWhilesEqual({3}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {5}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {4}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::PRINT, {6, 7}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::READ, {1, 2, 8}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::WHILE, {3}));
 }
 
 TEST_CASE("EntityExtractor with parser - if in while node") {
@@ -277,10 +275,10 @@ TEST_CASE("EntityExtractor with parser - if in while node") {
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
     REQUIRE(mockPKB.isVariablesEqual({"x", "y", "w", "z", "num1"}));
     REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
-    REQUIRE(mockPKB.isAssignsEqual({5}));
-    REQUIRE(mockPKB.isCallsEqual({}));
-    REQUIRE(mockPKB.isIfsEqual({4}));
-    REQUIRE(mockPKB.isPrintsEqual({6, 7}));
-    REQUIRE(mockPKB.isReadsEqual({1, 2, 8}));
-    REQUIRE(mockPKB.isWhilesEqual({3}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {5}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {4}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::PRINT, {6, 7}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::READ, {1, 2, 8}));
+    REQUIRE(mockPKB.isStmtTypeEquals(StmtType::WHILE, {3}));
 }

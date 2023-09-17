@@ -20,6 +20,7 @@ public:
     std::unordered_map<int, std::set<int>> parentStorage;
     std::unordered_map<std::string, std::unordered_set<int>> modifiesStorage;
     std::unordered_map<std::string, std::unordered_set<int>> usesStorage;
+    std::unordered_map<int, std::pair<std::string, std::string>> assignPatternStorage;
 
     explicit MockPKBWriter(Storage &storage) : PKBWriter(storage){};
     ~MockPKBWriter() override = default;
@@ -56,6 +57,10 @@ public:
         statementStorage[statementType].insert(statementNumber);
     }
 
+    void setAssignPattern(int lineNum, const std::string &variableName, const std::string &expression) override {
+        assignPatternStorage[lineNum] = std::make_pair(variableName, expression);
+    }
+
     [[nodiscard]] bool isVariablesEqual(const std::unordered_set<std::string> &variables) const {
         return variableStorage == variables;
     }
@@ -68,52 +73,12 @@ public:
         return procedureStorage == procedures;
     }
 
-    [[nodiscard]] bool isAssignsEqual(const std::unordered_set<int> &assigns) const {
-        auto it = statementStorage.find(StmtType::ASSIGN);
+    [[nodiscard]] bool isStmtTypeEquals(StmtType stmtType, const std::unordered_set<int> &stmts) const {
+        auto it = statementStorage.find(stmtType);
         if (it == statementStorage.end()) {
-            return assigns.empty();
+            return stmts.empty();
         }
-        return it->second == assigns;
-    }
-
-    [[nodiscard]] bool isIfsEqual(const std::unordered_set<int> &ifs) const {
-        auto it = statementStorage.find(StmtType::IF);
-        if (it == statementStorage.end()) {
-            return ifs.empty();
-        }
-        return it->second == ifs;
-    }
-
-    [[nodiscard]] bool isWhilesEqual(const std::unordered_set<int> &whiles) const {
-        auto it = statementStorage.find(StmtType::WHILE);
-        if (it == statementStorage.end()) {
-            return whiles.empty();
-        }
-        return it->second == whiles;
-    }
-
-    [[nodiscard]] bool isCallsEqual(const std::unordered_set<int> &calls) const {
-        auto it = statementStorage.find(StmtType::CALL);
-        if (it == statementStorage.end()) {
-            return calls.empty();
-        }
-        return it->second == calls;
-    }
-
-    [[nodiscard]] bool isReadsEqual(const std::unordered_set<int> &reads) const {
-        auto it = statementStorage.find(StmtType::READ);
-        if (it == statementStorage.end()) {
-            return reads.empty();
-        }
-        return it->second == reads;
-    }
-
-    [[nodiscard]] bool isPrintsEqual(const std::unordered_set<int> &prints) const {
-        auto it = statementStorage.find(StmtType::PRINT);
-        if (it == statementStorage.end()) {
-            return prints.empty();
-        }
-        return it->second == prints;
+        return it->second == stmts;
     }
 
     [[nodiscard]] bool isFollowsEqual(const std::unordered_map<int, std::set<int>> &follows) const {
@@ -130,5 +95,9 @@ public:
 
     [[nodiscard]] bool isModifiesEqual(std::unordered_map<std::string, std::unordered_set<int>> &modifies) const {
         return modifiesStorage == modifies;
+    }
+
+    [[nodiscard]] bool isAssignPatternEqual(std::unordered_map<int, std::pair<std::string, std::string>> &assignPattern) const {
+        return assignPatternStorage == assignPattern;
     }
 };

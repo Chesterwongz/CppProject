@@ -6,6 +6,7 @@ DesignExtractor::DesignExtractor(PKBWriter* pkbWriter) {
     extractors.emplace_back(std::make_unique<UsesExtractor>(pkbWriter));
     extractors.emplace_back(std::make_unique<ModifiesExtractor>(pkbWriter));
     extractors.emplace_back(std::make_unique<EntityExtractor>(pkbWriter));
+    extractors.emplace_back(std::make_unique<PatternExtractor>(pkbWriter));
 }
 
 void DesignExtractor::extract(TNode *node) {
