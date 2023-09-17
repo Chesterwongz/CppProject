@@ -219,8 +219,8 @@ std::vector<std::pair<std::string, std::string>> PKBReader::getParentChildStarPa
     return parentChildStarPairs;
 }
 
-std::vector<std::string> PKBReader::getStatementsModifying(const std::string& variableName, StmtType statementType) {
-    std::vector<std::pair<std::string, std::string>> result;
+std::vector<std::string> PKBReader::getStatementsModifying(std::string variableName, StmtType statementType) {
+    std::vector<std::string> result;
 
     std::set<int> allMatchingStatements = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
 
@@ -243,7 +243,7 @@ std::vector<std::pair<std::string, std::string>> PKBReader::getVariablesModified
 
         std::set<std::string> variables = storage.modifiesStorage.getVariablesForStatement(statementNumber);
 
-        for (const std::string& v : variables) {
+        for (std::string v : variables) {
             result.emplace_back(std::to_string(statementNumber), v);
         }
     }
@@ -251,8 +251,8 @@ std::vector<std::pair<std::string, std::string>> PKBReader::getVariablesModified
     return result;
 }
 
-std::vector<std::string> PKBReader::getStatementsUsing(const std::string& variableName, StmtType statementType) {
-    std::vector<std::pair<std::string, std::string>> result;
+std::vector<std::string> PKBReader::getStatementsUsing(std::string variableName, StmtType statementType) {
+    std::vector<std::string> result;
 
     std::set<int> statementNumbers = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
 
@@ -274,7 +274,7 @@ std::vector<std::pair<std::string, std::string>> PKBReader::getVariablesUsedBy(i
 
         std::set<std::string> variables = storage.usesStorage.getVariablesForStatement(statementNumber);
 
-        for (const std::string& v : variables) {
+        for (std::string v : variables) {
             result.emplace_back(std::to_string(statementNumber), v);
         }
     }
@@ -287,8 +287,8 @@ std::vector<std::pair<std::string, std::string>> PKBReader::getAllModifiedVariab
 
     std::set<std::string> variables = storage.modifiesStorage.getAllVariables();
 
-    for (const std::string& v : variables) {
-        std::set<int> statementNumbers = storage.usesStorage.getStatementNumbersForVariable(v);
+    for (std::string v : variables) {
+        std::set<int> statementNumbers = storage.modifiesStorage.getStatementNumbersForVariable(v);
         for (int stmt : statementNumbers) {
             std::set<int> sameStatementType = storage.statementStorage.getStatementNumbersFromStatementType(statementType);
             if (sameStatementType.find(stmt) != sameStatementType.end()) {
@@ -304,7 +304,7 @@ std::vector<std::pair<std::string, std::string>> PKBReader::getAllUsedVariables(
     std::vector<std::pair<std::string, std::string>> result;
     std::set<std::string> variables = storage.usesStorage.getAllVariables();
 
-    for (const std::string& v : variables) {
+    for (std::string v : variables) {
         std::set<int> statementNumbers = storage.usesStorage.getStatementNumbersForVariable(v);
         for (int stmt : statementNumbers) {
             std::set<int> sameStatementType = storage.statementStorage.getStatementNumbersFromStatementType(statementType);

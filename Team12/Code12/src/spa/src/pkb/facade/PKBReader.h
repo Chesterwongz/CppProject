@@ -74,13 +74,13 @@ public:
     std::vector<std::pair<std::string, std::string>> getParentChildStarPairs(StmtType parentType, StmtType childType);
 
     // return all s that satisfy Modifies(s, v) where v is variableName and s is of same type as statementType
-    std::vector<std::string> getStatementsModifying(const std::string& variableName, StmtType statementType);
+    std::vector<std::string> getStatementsModifying(std::string variableName, StmtType statementType);
 
     // return all pairs (s, v) that satisfy Modifies(s, v) where s is statementNumber and also the correct statementType mentioned
     std::vector<std::pair<std::string, std::string>> getVariablesModifiedBy(int statementNumber, StmtType statementType);
 
     // return all s that satisfy Uses(s, v) where v is variableName and s is of same type as statementType
-    std::vector<std::string> getStatementsUsing(const std::string& variableName, StmtType statementType);
+    std::vector<std::string> getStatementsUsing(std::string variableName, StmtType statementType);
 
     // return all pairs (s, v) that satisfy Uses(s, v) where s is statementNumber and also the correct statementType mentioned
     std::vector<std::pair<std::string, std::string>> getVariablesUsedBy(int statementNumber, StmtType statementType);
