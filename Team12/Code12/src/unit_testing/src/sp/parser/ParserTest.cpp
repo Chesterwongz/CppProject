@@ -9,7 +9,8 @@
 
 TEST_CASE("Test ProgramParser") {
     std::string input = "\n procedure proc1 {\n\twhile(z >= 0){while((z!=0) || (!(z<0))){z = z*1 + 2*3;}}\n\tprint z;}\nprocedure proc2 {\n\tprint = 1;read y;\n\n}\n";
-    std::optional<std::unique_ptr<TNode>> ast = ProgramParser(std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
+    std::optional<std::unique_ptr<TNode>> ast = ProgramParser(
+            std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
     REQUIRE(ast.has_value());
 }
 
@@ -34,7 +35,7 @@ TEST_CASE("Test ProgramParser multi procedures") {
                               "    cenX = 0;\n"
                               "    cenY = 0;\n"
                               "    call readPoint;\n"
-                              "    while ((x != 0) && (y != 0)) {\n"
+                              "    while ((x != 0) && ((y - 1) > 0)) {\n"
                               "        count = count + 1;\n"
                               "        cenX = cenX + x;\n"
                               "        cenY = cenY + y;\n"
@@ -55,12 +56,48 @@ TEST_CASE("Test ProgramParser multi procedures") {
 
 TEST_CASE("Test BODMAS") {
     std::string input = "hi = (1* (1 + 2) + (0) /2)%2;";
-    std::optional<std::unique_ptr<TNode>> ast = StmtParser(std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
+    std::optional<std::unique_ptr<TNode>> ast = StmtParser(
+            std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
     REQUIRE(ast.has_value());
 }
 
+TEST_CASE("Test invalid assign stmt") {
+    std::string input = "hi = ();";
+    try {
+        std::optional<std::unique_ptr<TNode>> ast = StmtParser(
+                std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
+        REQUIRE(false);
+    } catch (const SyntaxError &err) {
+        std::string errMsg(err.what());
+        REQUIRE(!errMsg.empty());
+    }
+}
+
 TEST_CASE("Test CondExprParser") {
-    std::string input = "((z!=0) || (!(z<0)))";
-    std::optional<std::unique_ptr<TNode>> ast = CondExprParser(std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
+    std::string input = "(z!=0) || (!(z<0))";
+    std::optional<std::unique_ptr<TNode>> ast = CondExprParser(
+            std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
+    REQUIRE(ast.has_value());
+}
+
+TEST_CASE("Test CondExprParser is RelExpr") {
+    std::string input = "(p) == 2";
+    std::optional<std::unique_ptr<TNode>> ast = CondExprParser(
+            std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
+    REQUIRE(ast.has_value());
+}
+
+
+TEST_CASE("Test CondExprParser is (RelExpr)") {
+    std::string input = "((p + q * 2) == (x - y % 3))";
+    std::optional<std::unique_ptr<TNode>> ast = CondExprParser(
+            std::move(std::make_shared<ParserContext>(std::move(input)))).parseWithBrackets();
+    REQUIRE(ast.has_value());
+}
+
+TEST_CASE("Test RelExprParser (expr) == (expr)") {
+    std::string input = "(p + q * 2) == (x - y % 3)";
+    std::shared_ptr<ParserContext> context = std::make_shared<ParserContext>(std::move(input));
+    std::optional<std::unique_ptr<TNode>> ast = RelExprParser(std::move(context)).parse();
     REQUIRE(ast.has_value());
 }

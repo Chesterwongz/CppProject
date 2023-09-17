@@ -14,8 +14,8 @@
 class TokenStream {
 private:
     int cursor;
+    std::optional<Token> currToken;
     std::vector<Token> tokenLst;
-    std::optional<Token> lookAhead;
 
     /**
      * Gets the next token from the inputStream and irreversibly moves the inputStream forward.
@@ -25,11 +25,15 @@ private:
 public:
     static std::unique_ptr<TokenStream> initialize(std::string fileContents, ITokenHandler &tokenizerChain);
 
+    [[nodiscard]] int getCursor() const;
+
+    void setCursor(int n);
+
     /**
      * Gets the current token.
      * Returns std::nullopt if end of input has been reached.
      */
-    std::optional<Token> peek();
+    [[nodiscard]] std::optional<Token> peek() const;
 
     /**
      * Returns the current token and moves to the nextToken token.

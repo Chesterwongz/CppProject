@@ -7,3 +7,19 @@ AbstractParser::requireTNodeOpt(TNodeType nodeType) {
         if (!nodeOpt.has_value()) throw SyntaxError(TNodeTypeUtils::toString(nodeType), lineNum);
     };
 }
+
+std::optional<std::unique_ptr<TNode>> AbstractParser::parseWithBrackets() {
+    context->saveContext();
+    if (!context->tryEatExpected(TokenType::DELIM, delim::kOpenBracketString).has_value()) {
+        context->loadPrevSavedContext();
+        return std::nullopt;
+    }
+
+    std::optional<std::unique_ptr<TNode>> nodeOpt = parse();
+
+    if (!nodeOpt.has_value() || !context->tryEatExpected(TokenType::DELIM, delim::kCloseBracketString).has_value()) {
+        context->loadPrevSavedContext();
+        return std::nullopt;
+    }
+    return nodeOpt;
+}

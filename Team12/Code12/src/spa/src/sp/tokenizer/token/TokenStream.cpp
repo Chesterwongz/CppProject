@@ -6,7 +6,7 @@ std::unique_ptr<TokenStream> TokenStream::initialize(std::string fileContents, I
     InputStream inputStream = InputStream(std::move(fileContents));
     // Prime the tokenizer with the first token
     std::optional<Token> tokenOpt = nextToken(inputStream, tokenizerChain);
-    tokenStream->lookAhead = tokenOpt;
+    tokenStream->currToken = tokenOpt;
     while (tokenOpt.has_value()) {
         tokenStream->tokenLst.push_back(tokenOpt.value());
         tokenOpt = nextToken(inputStream, tokenizerChain);
@@ -24,14 +24,23 @@ std::optional<Token> TokenStream::nextToken(InputStream &inputStream, ITokenHand
     return tokenizerChain.tokenize(inputStream.peek(), inputStream);
 }
 
-std::optional<Token> TokenStream::peek() {
-    return lookAhead;
+int TokenStream::getCursor() const {
+    return cursor;
+}
+
+void TokenStream::setCursor(int n) {
+    cursor = n;
+    currToken = tokenLst[cursor];
+}
+
+std::optional<Token> TokenStream::peek() const {
+    return currToken;
 }
 
 std::optional<Token> TokenStream::eat() {
-    if (!lookAhead.has_value()) return lookAhead;
+    if (!currToken.has_value()) return currToken;
 
-    std::optional<Token> currToken = lookAhead;
-    lookAhead = cursor + 1 < tokenLst.size() ? std::optional{tokenLst[++cursor]} : std::nullopt;
-    return currToken;
+    std::optional<Token> temp = currToken;
+    currToken = cursor + 1 < tokenLst.size() ? std::optional{tokenLst[++cursor]} : std::nullopt;
+    return temp;
 }

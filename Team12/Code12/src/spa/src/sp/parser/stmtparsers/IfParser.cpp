@@ -2,7 +2,7 @@
 
 // if: 'if' '(' cond_expr ')' 'then' '{' stmtLst '}' 'else' '{' stmtLst '}'
 std::optional<std::unique_ptr<TNode>> IfParser::parse() {
-    std::optional<std::unique_ptr<TNode>> condExprNodeOpt = CondExprParser(context).parse();
+    std::optional<std::unique_ptr<TNode>> condExprNodeOpt = CondExprParser(context).parseWithBrackets();
     if (!condExprNodeOpt.has_value()) return std::nullopt; // could be something like `if = 1;`
 
     context->forceEatExpected(TokenType::NAME, keyword::kThen);

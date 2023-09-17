@@ -4,19 +4,28 @@ ParserContext::ParserContext(const std::string &input) {
     tokenStream = Tokenizer::tokenize(input);
 }
 
+int ParserContext::getLineNum() const {
+    return lineNum;
+}
+
+void ParserContext::incrementLineNum() {
+    lineNum++;
+}
+
+void ParserContext::saveContext() {
+    savePositionStack.push_back(tokenStream->getCursor());
+}
+
+void ParserContext::loadPrevSavedContext() {
+    tokenStream->setCursor(savePositionStack.back());
+    savePositionStack.pop_back();
+}
+
 bool ParserContext::addProcName(const std::string &newName) {
     if (this->seenProcNames.count(newName)) {
         throw DuplicateProcNameException(newName);
     }
     this->seenProcNames.insert(newName);
-    return true;
-}
-
-bool ParserContext::addVarName(const std::string &newName) {
-    if (this->seenVarNames.count(newName)) {
-        throw DuplicateProcNameException(newName);
-    }
-    this->seenVarNames.insert(newName);
     return true;
 }
 
@@ -48,12 +57,4 @@ std::string ParserContext::forceEatExpected(TokenType expectedType) {
 std::string ParserContext::forceEatExpected(TokenType expectedType, const std::string &expectedValue) {
     if (!isExpected(expectedType, expectedValue)) throw UnexpectedTokenException(expectedValue, lineNum);
     return tokenStream->eat().value().getValue();
-}
-
-int ParserContext::getLineNum() const {
-    return lineNum;
-}
-
-void ParserContext::incrementLineNum() {
-    lineNum++;
 }

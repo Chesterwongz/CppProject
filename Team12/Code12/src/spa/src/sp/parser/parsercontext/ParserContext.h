@@ -10,15 +10,14 @@
 
 class ParserContext {
 private:
-    int lineNum{0};
+    int lineNum{};
+    std::vector<int> savePositionStack;
     std::unordered_set<std::string> seenVarNames;
     std::unordered_set<std::string> seenProcNames;
     std::unique_ptr<TokenStream> tokenStream;
 
 public:
     explicit ParserContext(const std::string &input);
-
-    bool addVarName(const std::string &newName);
 
     bool addProcName(const std::string &newName);
 
@@ -46,4 +45,8 @@ public:
     std::string forceEatExpected(TokenType expectedType, const string &expectedValue);
 
     std::string forceEatExpected(TokenType expectedType);
+
+    void saveContext();
+
+    void loadPrevSavedContext();
 };
