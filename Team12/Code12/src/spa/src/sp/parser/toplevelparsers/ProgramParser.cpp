@@ -13,8 +13,8 @@
 std::optional<std::unique_ptr<TNode>> ProgramParser::parse() {
     std::unique_ptr<TNode> root = std::make_unique<ProgramNode>();
     ProcedureParser procedureParser = ProcedureParser(this->context);
-    std::optional<std::unique_ptr<TNode>> childNodeOpt = requireTNode(TNodeType::TNODE_PROGRAM)(
-            procedureParser.parse());
+    std::optional<std::unique_ptr<TNode>> childNodeOpt = procedureParser.parse();
+    requireTNodeOpt(TNodeType::TNODE_PROGRAM)(childNodeOpt);
     while (childNodeOpt.has_value()) {
         root->addChild(std::move(childNodeOpt.value()));
         childNodeOpt = procedureParser.parse();

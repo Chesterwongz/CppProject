@@ -18,9 +18,10 @@ std::optional<std::unique_ptr<TNode>> ProcedureParser::parse() {
 
     context->addProcName(procName);
 
-    std::unique_ptr<TNode> stmtLstNode = requireTNode(TNodeType::TNODE_PROCEDURE)(StmtLstParser(context).parse());
+    std::optional<std::unique_ptr<TNode>> stmtLstNodeOpt = StmtLstParser(context).parse();
+    requireTNodeOpt(TNodeType::TNODE_PROCEDURE)(stmtLstNodeOpt);
 
     std::unique_ptr<TNode> procNode = std::make_unique<ProcNode>(procName);
-    procNode->addChild(std::move(stmtLstNode));
+    procNode->addChild(std::move(stmtLstNodeOpt.value()));
     return procNode;
 }

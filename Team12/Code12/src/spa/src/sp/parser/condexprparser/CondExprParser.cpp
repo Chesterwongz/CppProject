@@ -19,10 +19,11 @@ std::optional<std::unique_ptr<TNode>> CondExprParser::parse() {
         } else { // It's a binary expr.
             std::string condOp = context->forceEatExpected(TokenType::COND_OP);
 
-            std::unique_ptr<TNode> rightNode = requireTNode(TNodeType::TNODE_COND)(condExprParser.parse());
+            std::optional<std::unique_ptr<TNode>> rightNodeOpt = condExprParser.parse();
+            requireTNodeOpt(TNodeType::TNODE_COND)(rightNodeOpt);
 
             nodeOpt = ExprNodeFactory::makeNode(
-                    condOp, std::move(leftNodeOpt.value()), std::move(rightNode));
+                    condOp, std::move(leftNodeOpt.value()), std::move(rightNodeOpt.value()));
         }
     }
     if (!nodeOpt.has_value()) { // was not a nested cond expr
