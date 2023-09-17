@@ -21,6 +21,9 @@ public:
     std::unordered_map<std::string, std::unordered_set<int>> modifiesStorage;
     std::unordered_map<std::string, std::unordered_set<int>> usesStorage;
 
+    explicit MockPKBWriter(Storage &storage) : PKBWriter(storage){};
+    ~MockPKBWriter() override = default;
+
     void setFollowsRelationship(int statementNumber, int followingStatement) override {
         followsStorage[statementNumber].insert(followingStatement);
     }
