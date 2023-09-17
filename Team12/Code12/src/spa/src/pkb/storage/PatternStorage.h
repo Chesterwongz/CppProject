@@ -25,7 +25,4 @@ private:
 
     //map<stmtNum, pair(variableName, RPN)>
     std::unordered_map<int, std::pair<std::string, std::string>> statementPatternStorage;
-
-    // map<RPN, pair(variableName, stmtNum)>
-    std::unordered_map<std::string, std::pair<std::string, int>> rpnPatternStorage;
 };
