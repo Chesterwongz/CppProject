@@ -27,7 +27,11 @@ public:
 
     [[nodiscard]] string getValue() const;
 
-    TNodeType getType();
+    TNodeType getType() const;
+
+    TNode* getChildAt(int index) const;
+
+    string getChildValueAt(int index) const;
 
     [[nodiscard]] virtual vector<TNode *> getChildren() const;
 

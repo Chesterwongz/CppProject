@@ -18,7 +18,7 @@ using std::unique_ptr, std::make_unique, std::vector, std::string, std::map, std
 std::unordered_set, std::pair;
 
 
-TEST_CASE("PatternExtractor - no assign pattern") {
+TEST_CASE("PatternExtractor for assign - no assign pattern") {
 //    string input =
 //        "procedure simple {"
 //        "print x;"
@@ -38,7 +38,7 @@ TEST_CASE("PatternExtractor - no assign pattern") {
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
 
-TEST_CASE("PatternExtractor with parser - no assign pattern") {
+TEST_CASE("PatternExtractor for assign with parser - no assign pattern") {
     string input =
         "procedure simple {"
         "print x;"
@@ -51,7 +51,7 @@ TEST_CASE("PatternExtractor with parser - no assign pattern") {
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
 
-TEST_CASE("PatternExtractor - 2 simple assign patterns") {
+TEST_CASE("PatternExtractor for assign - 2 simple assign patterns") {
 //    string input =
 //        "procedure simple {"
 //        "x = z + 2"
@@ -76,7 +76,7 @@ TEST_CASE("PatternExtractor - 2 simple assign patterns") {
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
 
-TEST_CASE("PatternExtractor with parser - 2 simple assign patterns") {
+TEST_CASE("PatternExtractor for assign with parser - 2 simple assign patterns") {
     string input =
         "procedure simple {"
         "x = z + 2;"
@@ -94,7 +94,7 @@ TEST_CASE("PatternExtractor with parser - 2 simple assign patterns") {
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
 
-TEST_CASE("PatternExtractor with parser - 2 same assign patterns for same var") {
+TEST_CASE("PatternExtractor for assign with parser - 2 same assign patterns for same var") {
     string input =
         "procedure simple {"
         "x = a - b * c;"
@@ -111,7 +111,7 @@ TEST_CASE("PatternExtractor with parser - 2 same assign patterns for same var") 
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
 
-TEST_CASE("PatternExtractor with parser - 3 diff assign patterns for same var") {
+TEST_CASE("PatternExtractor for assign with parser - 3 diff assign patterns for same var") {
     string input =
         "procedure simple {"
         "x = a - b * c;"
@@ -130,7 +130,7 @@ TEST_CASE("PatternExtractor with parser - 3 diff assign patterns for same var") 
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
 
-TEST_CASE("PatternExtractor with parser - diff assign pattern for diff vars with parentheses") {
+TEST_CASE("PatternExtractor for assign with parser - diff assign pattern for diff vars with parentheses") {
     string input =
         "procedure simple {"
         "y = (a + b) * c;"
@@ -149,7 +149,7 @@ TEST_CASE("PatternExtractor with parser - diff assign pattern for diff vars with
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
 
-TEST_CASE("PatternExtractor with parser - if node") {
+TEST_CASE("PatternExtractor for assign with parser - one container node") {
     string input =
         "procedure simple {"
         "read y;"
@@ -173,7 +173,7 @@ TEST_CASE("PatternExtractor with parser - if node") {
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
 
-TEST_CASE("PatternExtractor with parser - if in while node") {
+TEST_CASE("PatternExtractor for assign with parser - nested container node") {
     string input =
         "procedure simple {"
         "read x;"
@@ -199,20 +199,20 @@ TEST_CASE("PatternExtractor with parser - if in while node") {
     expected[8] = {"num1", "abc*+d%"};
 }
 
-TEST_CASE("PatternExtractor with parser - assign pattern with all operators") {
+TEST_CASE("PatternExtractor for assign with parser - assign pattern with all operators") {
     string input =
         "procedure simple {"
-        "read a; read b; read c; read d; read e; read f;" // 1
-        "x = a + b * c - d / e % f;" // 2
-        "y = (a + b) * (c - d) / (e % f);" // 3
-        "z = a * (b + c * d - e / f) % g;" // 4
-        "a = a - b / c * d + e % f * g;" // 5
-        "b = (a * b - c) % (d + e / f);" // 6
-        "c = a / (b + c) * d - e % f + g;" // 7
-        "d = a + b * (c % d - e) / f;" // 8
-        "e = (a % b) * c - d / (e + f);" // 9
-        "f = a / b * (c + d) % e - f;" // 10
-        "g = (a + b % c) * (d - e / f);" // 11
+        "read a; read b; read c; read d; read e; read f;" // 1-6
+        "x = a + b * c - d / e % f;" // 7
+        "y = (a + b) * (c - d) / (e % f);" // 8
+        "z = a * (b + c * d - e / f) % g;" // 9
+        "a = a - b / c * d + e % f * g;" // 10
+        "b = (a * b - c) % (d + e / f);" // 11
+        "c = a / (b + c) * d - e % f + g;" // 12
+        "d = a + b * (c % d - e) / f;" // 13
+        "e = (a % b) * c - d / (e + f);" // 14
+        "f = a / b * (c + d) % e - f;" // 115
+        "g = (a + b % c) * (d - e / f);" // 16
         "}";
 
     // extract
@@ -220,17 +220,6 @@ TEST_CASE("PatternExtractor with parser - assign pattern with all operators") {
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
     unordered_map<int, pair<string, string>> expected = {};
-//    expected[2] = {"x", "abc*+de/f%-"};
-//    expected[3] = {"y", "ab+cd-*ef%/"};
-//    expected[4] = {"z", "abcd*+ef/-*g%"};
-//    expected[5] = {"a", "abc/d*-ef%g*+"};
-//    expected[6] = {"b", "ab*c-def/+%"};
-//    expected[7] = {"c", "abc+/d*ef%-g+"};
-//    expected[8] = {"d", "abcd%e-*f/+"};
-//    expected[9] = {"e", "ab%c*def+/-"};
-//    expected[10] = {"f", "ab/cd+*e%f-"};
-//    expected[11] = {"g", "abc%+def/-*"};
-    // TODO: update line num after parser is fixed
     expected[7] = {"x", "abc*+de/f%-"};
     expected[8] = {"y", "ab+cd-*ef%/"};
     expected[9] = {"z", "abcd*+ef/-*g%"};
@@ -241,9 +230,5 @@ TEST_CASE("PatternExtractor with parser - assign pattern with all operators") {
     expected[14] = {"e", "ab%c*def+/-"};
     expected[15] = {"f", "ab/cd+*e%f-"};
     expected[16] = {"g", "abc%+def/-*"};
-    for (auto& [lineNum, pattern]: mockPKB.assignPatternStorage) {
-        bool isPatternEqual = expected[lineNum] == pattern;
-        std::cout << lineNum << " " << pattern.first << " " << pattern.second << " " << std::to_string(isPatternEqual) << std::endl;
-    }
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }

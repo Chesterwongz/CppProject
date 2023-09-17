@@ -32,6 +32,8 @@ void PKBWriter::setProcedure(const std::string& procedureName, int startStatemen
     storage.designEntitiesStorage.setProcedure(procedureName, startStatement);
 }
 
-void PKBWriter::setAssignPattern(int lineNum, const std::string &variableName, const std::string &expression) {
+void PKBWriter::setAssignPattern(int statementNumber, const std::string &varName, const std::string &expr) {}
 
-}
+void PKBWriter::setWhilePattern(int statementNumber, const std::string &varName) {}
+
+void PKBWriter::setIfPattern(int statementNumber, const std::string &varName) {}

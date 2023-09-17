@@ -12,8 +12,22 @@ std::string TNode::getValue() const {
     return value;
 }
 
-TNodeType TNode::getType() {
+TNodeType TNode::getType() const {
     return type;
+}
+
+TNode * TNode::getChildAt(int index) const {
+    if (index < 0 || index >= children.size()) {
+        return nullptr;
+    }
+    return children.at(index).get();
+}
+
+string TNode::getChildValueAt(int index) const {
+    if (index < 0 || index >= children.size()) {
+        return "";
+    }
+    return children.at(index)->getValue();
 }
 
 vector<TNode*> TNode::getChildren() const {

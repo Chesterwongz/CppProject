@@ -39,7 +39,11 @@ public:
 
     virtual void setStatement(int statementNumber, StmtType statementType);
 
-    virtual void setAssignPattern(int lineNum, const std::string& variableName, const std::string& expression);
+    virtual void setAssignPattern(int statementNumber, const std::string& varName, const std::string& expr);
+
+    virtual void setWhilePattern(int statementNumber, const std::string& varName);
+
+    virtual void setIfPattern(int statementNumber, const std::string& varName);
 
 private:
     struct Storage& storage;
