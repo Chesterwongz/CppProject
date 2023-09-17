@@ -12,7 +12,6 @@ class ParserContext {
 private:
     int lineNum{};
     std::vector<int> savePositionStack;
-    std::unordered_set<std::string> seenVarNames;
     std::unordered_set<std::string> seenProcNames;
     std::unique_ptr<TokenStream> tokenStream;
 
