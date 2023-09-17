@@ -16,7 +16,7 @@ using std::unique_ptr;
 class PKBWriter {
 public:
     // Constructor
-    explicit PKBWriter(struct Storage& storage) : storage(storage) {};
+    explicit PKBWriter(PKBStorage& storage) : storage(storage) {};
 
     // Add follows relationship
     virtual void setFollowsRelationship(int statementNumber, int followingStatement);
@@ -41,5 +41,5 @@ public:
     virtual void setPattern(std::string variableName, std::string rpn, int statementNumber);
 
 private:
-    struct Storage& storage;
+    PKBStorage& storage;
 };
