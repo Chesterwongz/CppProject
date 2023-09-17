@@ -33,5 +33,26 @@ enum PQLTokenType {
     PQL_OPERATOR_TOKEN,
 
     // should throw error if encountered
-    PQL_INVALID_TOKEN
+    PQL_INVALID_TOKEN,
+
+    // more detailed states after going through the parser
+    // main usage for predictive parser map
+
+    // Declarative
+    PQL_ENTITY_TOKEN,
+    PQL_SYNONYM_TOKEN,
+
+    // Select
+    PQL_SELECT_TOKEN,
+
+    // Such That
+    PQL_FOLLOWS_TOKEN,
+    PQL_PARENT_TOKEN,
+    PQL_USES_TOKEN,
+    PQL_MODIFIES_TOKEN,
+
+    // Pattern
+    PQL_PATTERN_TOKEN,
+    PQL_LEFT_WILDCARD,
+    PQL_RIGHT_WILDCARD
 };

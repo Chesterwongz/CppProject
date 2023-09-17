@@ -11,10 +11,17 @@ bool PQLTokenStream::isTokenStreamEnd() {
 	return currIndex >= tokenListSize;
 }
 
-void PQLTokenStream::nextToken() {
+void PQLTokenStream::next() {
 	if (!isTokenStreamEnd) {
 		currIndex++;
 	}
+}
+
+unique_ptr<PQLToken>& PQLTokenStream::peek() {
+	if (!isTokenStreamEnd()) {
+		return &(tokenList->at(currIndex));
+	}
+	return nullptr;
 }
 
 unique_ptr<PQLToken>& PQLTokenStream::getCurrentToken() {

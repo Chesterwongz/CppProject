@@ -12,8 +12,9 @@ private:
 
 public:
 	explicit PQLTokenStream(unique_ptr<TokenPtrList> tokenList);
-	const bool isTokenStreamEnd() const;
-	void nextToken();
-	const unique_ptr<PQLToken>& getCurrentToken() const;
+	const bool isTokenStreamEnd();
+	void next();
+	const unique_ptr<PQLToken>& getCurrentToken();
+	const unique_ptr<PQLToken>& peek();
 };
 

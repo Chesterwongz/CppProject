@@ -12,5 +12,4 @@ private:
 	virtual bool isExpectedToken(PQLTokenType currType) = 0;
 public:
 	virtual void handleToken(PQLTokenType tokenType) = 0;
-	virtual void buildClause() = 0;
 };

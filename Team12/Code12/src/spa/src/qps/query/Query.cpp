@@ -1,11 +1,11 @@
 #include "Query.h"
 
-Query::Query(PKBReader *pkb) : pkb(pkb) {}
+Query::Query(unique_ptr<PKBReader>& pkb) : pkb(pkb) {}
 
 using namespace std;
 
-void Query::addSynonym(DeclarativeToken *token) {
-    this->context.addToken(token->getSynonym(), token->getEntity());
+void Query::addContext(unique_ptr<Context> context) {
+    this->context = context;
 }
 
 void Query::addClause(unique_ptr<Clause> &clause) {

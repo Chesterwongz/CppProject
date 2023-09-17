@@ -14,13 +14,13 @@ typedef std::vector<std::unique_ptr<Clause>> ClauseList;
 
 class Query {
 private:
-    PKBReader *pkb;
-    Context context = Context();
+    unique_ptr<PKBReader>& pkb;
+    unique_ptr<Context> context;
     ClauseList clauses = {};
 
 public:
-    explicit Query(PKBReader *pkb);
-    void addSynonym(DeclarativeToken *token);
-    void addClause(std::unique_ptr<Clause> &clause);
+    explicit Query(unique_ptr<PKBReader>& pkb);
+    void addContext(unique_ptr<Context> context);
+    void addClause(unique_ptr<Clause> &clause);
     std::unordered_set<int> evaluate();
 };
