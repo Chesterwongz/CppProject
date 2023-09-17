@@ -21,8 +21,8 @@ public:
     std::vector<std::string> getPartialPattern(std::string variableName, std::string rpn);
 
 private:
-    //map<variableName, pair(RPN, stmtNum)>
-    std::unordered_map<std::string, std::unordered_set<std::pair<std::string, int>>> variablePatternStorage;
+    //map<variableName, vector<pair(RPN, stmtNum)>>
+    std::unordered_map<std::string, std::vector<std::pair<std::string, int>>> variablePatternStorage;
 
     //map<stmtNum, pair(variableName, RPN)>
     std::unordered_map<int, std::pair<std::string, std::string>> statementPatternStorage;
