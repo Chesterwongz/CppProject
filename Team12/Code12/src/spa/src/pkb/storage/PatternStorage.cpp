@@ -8,9 +8,8 @@
 PatternStorage::PatternStorage() = default;
 
 void PatternStorage::setPattern(std::string variableName, std::string rpn, int statementNumber) {
-    variablePatternStorage[variableName] = std::make_pair(rpn, statementNumber);
+    variablePatternStorage[variableName].insert(std::make_pair(rpn, statementNumber));
     statementPatternStorage[statementNumber] = std::make_pair(rpn, variableName);
-    rpnPatternStorage[rpn] = std::make_pair(variableName, statementNumber);
 }
 
 std::vector<std::string> PatternStorage::getAllStatements() {
@@ -24,11 +23,13 @@ std::vector<std::string> PatternStorage::getAllStatements() {
 std::vector<std::string> PatternStorage::getAllStatementsWithVariable(const std::string& variableName) {
     std::vector<std::string> result;
 
-    for (const auto& entry : variablePatternStorage) {
-        if (entry.first == variableName) {
-            result.push_back(std::to_string(entry.second.second));
+    auto it = variablePatternStorage.find(variableName);
+    if (it != variablePatternStorage.end()) {
+        for (const auto& pair : it->second) {
+            result.push_back(std::to_string(pair.second));
         }
     }
+
     return result;
 }
 

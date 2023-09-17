@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <unordered_map>
-#include <set>
+#include <unordered_set>
 
 class PatternStorage {
 public:
@@ -21,7 +21,7 @@ public:
 
 private:
     //map<variableName, pair(RPN, stmtNum)>
-    std::unordered_map<std::string, std::pair<std::string, int>> variablePatternStorage;
+    std::unordered_map<std::string, std::unordered_set<std::pair<std::string, int>>> variablePatternStorage;
 
     //map<stmtNum, pair(variableName, RPN)>
     std::unordered_map<int, std::pair<std::string, std::string>> statementPatternStorage;
