@@ -8,7 +8,7 @@
 PatternStorage::PatternStorage() = default;
 
 void PatternStorage::setPattern(std::string variableName, std::string rpn, int statementNumber) {
-    variablePatternStorage[variableName].insert(std::make_pair(rpn, statementNumber));
+    variablePatternStorage[variableName].emplace_back(std::make_pair(rpn, statementNumber));
     statementPatternStorage[statementNumber] = std::make_pair(rpn, variableName);
 }
 
