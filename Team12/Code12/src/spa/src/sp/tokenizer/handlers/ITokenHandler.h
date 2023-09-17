@@ -11,6 +11,8 @@
 class ITokenHandler {
 public:
     virtual ~ITokenHandler() = default;
-    virtual Token tokenize(char nextCh, std::shared_ptr<InputStream> inputStream) = 0;
-    virtual std::shared_ptr<ITokenHandler> setNext(std::shared_ptr<ITokenHandler> handler) = 0;
+
+    virtual Token tokenize(char nextCh, InputStream &inputStream) = 0;
+
+    virtual ITokenHandler &setNext(std::unique_ptr<ITokenHandler> handler) = 0;
 };

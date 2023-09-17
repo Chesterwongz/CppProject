@@ -40,7 +40,8 @@ std::optional<std::string> ParserContext::tryEatExpected(TokenType expectedType,
 }
 
 std::string ParserContext::forceEatExpected(TokenType expectedType) {
-    if (!isExpected(expectedType)) throw UnexpectedTokenException(TokenTypeUtils::toString(expectedType), lineNum);
+    if (!isExpected(expectedType))
+        throw UnexpectedTokenException(TokenTypeUtils::toString(expectedType), lineNum);
     return tokenStream->eat().value().getValue();
 }
 

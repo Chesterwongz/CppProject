@@ -1,21 +1,27 @@
 #include "TokenStream.h"
-#include "sp/tokenizer/handlers/NameTokenizer.h"
 
-TokenStream::TokenStream(std::string fileContents, std::unique_ptr<ITokenHandler> tokenizerChain) {
-    this->inputStream = std::make_shared<InputStream>(std::move(fileContents));
-    this->tokenizerChain = std::move(tokenizerChain);
+
+std::unique_ptr<TokenStream> TokenStream::initialize(std::string fileContents, ITokenHandler &tokenizerChain) {
+    std::unique_ptr<TokenStream> tokenStream = std::make_unique<TokenStream>();
+    InputStream inputStream = InputStream(std::move(fileContents));
     // Prime the tokenizer with the first token
-    this->lookAhead = nextToken();
+    std::optional<Token> tokenOpt = nextToken(inputStream, tokenizerChain);
+    tokenStream->lookAhead = tokenOpt;
+    while (tokenOpt.has_value()) {
+        tokenStream->tokenLst.push_back(tokenOpt.value());
+        tokenOpt = nextToken(inputStream, tokenizerChain);
+    }
+    return tokenStream;
 }
 
-std::optional<Token> TokenStream::nextToken() {
-    inputStream->readWhile(StringUtils::isWhiteSpace); // Skip whitespaces
+std::optional<Token> TokenStream::nextToken(InputStream &inputStream, ITokenHandler &tokenizerChain) {
+    inputStream.readWhile(StringUtils::isWhiteSpace); // Skip whitespaces
 
-    if (inputStream->isEnd()) {
+    if (inputStream.isEnd()) {
         return std::nullopt;
     }
 
-    return tokenizerChain->tokenize(inputStream->peek(), inputStream);
+    return tokenizerChain.tokenize(inputStream.peek(), inputStream);
 }
 
 std::optional<Token> TokenStream::peek() {
@@ -23,7 +29,9 @@ std::optional<Token> TokenStream::peek() {
 }
 
 std::optional<Token> TokenStream::eat() {
-    std::optional<Token> currToken = this->lookAhead;
-    this->lookAhead = nextToken();
+    if (!lookAhead.has_value()) return lookAhead;
+
+    std::optional<Token> currToken = lookAhead;
+    lookAhead = cursor + 1 < tokenLst.size() ? std::optional{tokenLst[++cursor]} : std::nullopt;
     return currToken;
 }
