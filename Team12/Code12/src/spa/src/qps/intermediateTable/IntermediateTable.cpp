@@ -1,5 +1,6 @@
 #include <stdexcept>
 #include "IntermediateTable.h"
+#include "IntermediateTableUtils.h"
 
 IntermediateTable::IntermediateTable(
         const string &firstColName,
@@ -12,7 +13,7 @@ IntermediateTable::IntermediateTable(
         vector<string> row = {};
         row.push_back(dataPair.first);
         row.push_back(dataPair.second);
-        table.push_back(row);
+        this->tableData.push_back(row);
     }
 }
 
@@ -23,45 +24,39 @@ IntermediateTable::IntermediateTable(
         IntermediateTable::createNewCol(colName);
     }
     for (auto &dataRow : data) {
-        table.push_back(dataRow);
+        this->tableData.push_back(dataRow);
     }
 }
 
-vector<string> IntermediateTable::getCol(int colIndex) {
-    vector<string> res = {};
-    res.reserve(this->table.size());
-    for (auto &col : this->table) {
-        res.push_back(col.at(colIndex));
-    };
-    return res;
-}
 
-vector<string> IntermediateTable::getRow(int rowIndex) {
-    return this->table.at(rowIndex);
-}
-
-int IntermediateTable::createNewCol(const string &colName) {
-    this->colNameToIndexMap[colName] = this->currentColCount;
+int IntermediateTable::createNewCol(const string &newColName) {
+    this->colNameToIndexMap[newColName] = this->currentColCount;
+    this->colNames.push_back(newColName);
     return this->currentColCount++;
 }
 
-vector<vector<string>> IntermediateTable::getTable() {
-    return this->table;
+vector<vector<string>> IntermediateTable::getData() {
+    return this->tableData;
 }
 
 vector<string> IntermediateTable::getSingleCol(const string &colName) {
-    if (this->colNameToIndexMap.find(colName) == this->colNameToIndexMap.end()) {
+    if (!isColExists(colName)) {
         throw std::runtime_error("Non-existent column name");
     }
     int colIndex = this->colNameToIndexMap.at(colName);
-    return this->getCol(colIndex);
+    vector<string> res = {};
+    res.reserve(this->tableData.size());
+    for (auto &row : this->tableData) {
+        res.push_back(row.at(colIndex));
+    }
+    return res;
 }
 
 vector<vector<string>> IntermediateTable::getCol(
         const vector<string> &colNameVector) {
     vector<vector<string>> res = {};
-    res.reserve(this->table.size());
-    for (int rowIndex = 0; rowIndex < table.size(); rowIndex++) {
+    res.reserve(this->tableData.size());
+    for (int rowIndex = 0; rowIndex < tableData.size(); rowIndex++) {
         vector<string> row = {};
         row.reserve(colNameVector.size());
         for (const string &colName : colNameVector) {
@@ -69,10 +64,39 @@ vector<vector<string>> IntermediateTable::getCol(
                 throw std::runtime_error("Non-existent column name");
             }
             int colIndex = this->colNameToIndexMap.at((colName));
-            row.push_back(this->table.at(rowIndex).at(colIndex));
+            row.push_back(this->tableData.at(rowIndex).at(colIndex));
         }
         res.push_back(row);
     }
-
     return res;
+}
+
+vector<string> IntermediateTable::getColNames() {
+    return this->colNames;
+}
+
+int IntermediateTable::getColIndex(const string &colName) {
+    if (!isColExists(colName)) {
+        return -1;
+    }
+    return this->colNameToIndexMap.at(colName);
+}
+
+bool IntermediateTable::isColExists(const std::string &colName) {
+    return this->colNameToIndexMap.find(colName) != this->colNameToIndexMap.end();
+}
+
+int IntermediateTable::getRowCount() {
+    return this->tableData.size();
+}
+
+IntermediateTable IntermediateTable::join(const IntermediateTable& intermediateTable) {
+    pair<vector<int>, vector<int>> sharedColumnIndexes =
+            getSharedColIndexes(*this, intermediateTable);
+    bool noSharedColumns =
+            sharedColumnIndexes.first.empty() && sharedColumnIndexes.second.empty();
+    if (noSharedColumns) {
+        return getCrossProduct(*this, intermediateTable);
+    }
+    return getInnerJoin(sharedColumnIndexes, *this, intermediateTable);
 }

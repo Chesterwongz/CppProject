@@ -10,16 +10,15 @@ using std::pair, std::unordered_map, std::string, std::vector;
 class IntermediateTable {
 private:
     unordered_map<string, int> colNameToIndexMap = {};
-    vector<vector<string>> table;
+    vector<vector<string>> tableData;
     int currentColCount = 0;
-    vector<string> getCol(int colIndex);
-    vector<string> getRow(int rowIndex);
     /**
      * Add an empty column to the table
-     * @param colName takes in name of new column
+     * @param newColName takes in name of new column
      * @return index of new column
      */
-    int createNewCol(const string& colName);
+    int createNewCol(const string& newColName);
+    vector<string> colNames = {};
 
 public:
     /**
@@ -43,7 +42,7 @@ public:
     /**
      * @return the entire table's data
      */
-    vector<vector<string>> getTable();
+    vector<vector<string>> getData();
 
     /**
      * @param colName
@@ -57,10 +56,28 @@ public:
      */
     vector<vector<string>> getCol(const vector<string>& colNameVector);
 
+
     /**
      * Join a different intermediateTable into this
-     * @param intermediateTable seperate table to be joined into
+     * @param intermediateTable separate table to be joined into
      *                          this table
      */
-    void join(IntermediateTable intermediateTable);
+    IntermediateTable join(const IntermediateTable& intermediateTable);
+
+    /**
+     * @return vector of all column names
+     */
+    vector<string> getColNames();
+
+    /**
+     * @return index of specified column
+     */
+    int getColIndex(const string &colName);
+
+    /**
+     * checks if specified column name exists
+     */
+    bool isColExists(const string &colName);
+
+    int getRowCount();
 };
