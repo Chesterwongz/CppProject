@@ -16,17 +16,13 @@ TNodeType TNode::getType() const {
     return type;
 }
 
-TNode * TNode::getChildAt(int index) const {
-    if (index < 0 || index >= children.size()) {
-        return nullptr;
-    }
+TNode* TNode::getChildAt(int index) const {
+    assert(index >= 0 && index < children.size());
     return children.at(index).get();
 }
 
 string TNode::getChildValueAt(int index) const {
-    if (index < 0 || index >= children.size()) {
-        return "";
-    }
+    assert(index >= 0 && index < children.size());
     return children.at(index)->getValue();
 }
 

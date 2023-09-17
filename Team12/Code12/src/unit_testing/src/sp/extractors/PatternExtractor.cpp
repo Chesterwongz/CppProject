@@ -232,3 +232,303 @@ TEST_CASE("PatternExtractor for assign with parser - assign pattern with all ope
     expected[16] = {"g", "abc%+def/-*"};
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
+
+TEST_CASE("PatternExtractor for while with parser - no while patter") {
+    string input =
+        "procedure simple {"
+        "print x;"
+        "}";
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
+    unordered_map<int, unordered_set<string>> expected = {};
+    REQUIRE(mockPKB.isWhilePatternEqual(expected));
+}
+
+TEST_CASE("PatternExtractor for while with parser - 1 while pattern") {
+    string input =
+        "procedure simple {"
+        "read x;"
+        "while (x < y) {"
+        "read y;"
+        "}"
+        "}";
+
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
+    unordered_map<int, unordered_set<string>> expected = {};
+    expected[2] = {"x", "y"};
+    REQUIRE(mockPKB.isWhilePatternEqual(expected));
+}
+
+TEST_CASE("PatternExtractor for while with parser - 2 nested while pattern") {
+    string input =
+        "procedure nestedWhile {"
+        "   read a;"
+        "   read b;"
+        "   while (a == b) {"
+        "       read c;"
+        "       while (c != a) {"
+        "           read d;"
+        "       }"
+        "   }"
+        "}";
+
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
+    unordered_map<int, unordered_set<string>> expected = {};
+    expected[3] = {"a", "b"};
+    expected[5] = {"c", "a"};
+    REQUIRE(mockPKB.isWhilePatternEqual(expected));
+}
+
+TEST_CASE("PatternExtractor for while with parser - 3 nested while pattern") {
+    string input =
+        "procedure multipleWhiles {"
+        "   read v;"
+        "   read w;"
+        "   while (v == 0) {"
+        "       read x;"
+        "       while (w != v) {"
+        "           read y;"
+        "           while (x > (y - 1)) {"
+        "               read z;"
+        "           }"
+        "       }"
+        "   }"
+        "}";
+
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
+    unordered_map<int, unordered_set<string>> expected = {};
+    expected[3] = {"v"};
+    expected[5] = {"w", "v"};
+    expected[7] = {"x", "y"};
+    REQUIRE(mockPKB.isWhilePatternEqual(expected));
+}
+
+TEST_CASE("PatternExtractor for while with parser - sequential while pattern") {
+    string input =
+        "procedure multipleWhile {"
+        "   read i;"
+        "   while (i > 0) {"
+        "       read j;"
+        "   }"
+        "   read k;"
+        "   while (k <= i) {"
+        "       read l;"
+        "   }"
+        "}";
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
+    unordered_map<int, unordered_set<string>> expected = {};
+    expected[2] = {"i"};
+    expected[5] = {"k", "i"};
+    REQUIRE(mockPKB.isWhilePatternEqual(expected));
+}
+
+TEST_CASE("PatternExtractor for while with parser - multiple control variables") {
+    string input =
+        "procedure complexConditions {"
+        "   read p;"
+        "   read q;"
+        "   while ((p + q * 2) == (x - y % 3)) {"
+        "       read r;"
+        "   }"
+        "}";
+
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
+    unordered_map<int, unordered_set<string>> expected = {};
+    expected[3] = {"p", "q", "x", "y"};
+    REQUIRE(mockPKB.isWhilePatternEqual(expected));
+}
+
+TEST_CASE("PatternExtractor for if with parser - no if patter") {
+    string input =
+        "procedure simple {"
+        "print x;"
+        "}";
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
+    unordered_map<int, unordered_set<string>> expected = {};
+    REQUIRE(mockPKB.isIfPatternEqual(expected));
+}
+
+TEST_CASE("PatternExtractor for if with parser - 1 if pattern") {
+    string input =
+        "procedure simple {"
+        "read x;"
+        "if (x < y) then {"
+        "read y;"
+        "} else { read z; }"
+        "}";
+
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
+    unordered_map<int, unordered_set<string>> expected = {};
+    expected[2] = {"x", "y"};
+    REQUIRE(mockPKB.isIfPatternEqual(expected));
+}
+
+TEST_CASE("PatternExtractor for if with parser - 2 nested if pattern") {
+    string input =
+        "procedure nestedIf {"
+        "   read a;"
+        "   read b;"
+        "   if (a == b) then {"
+        "       read c;"
+        "       if (c != a) then {"
+        "           read d;"
+        "       } else { print a; }"
+        "   } else { print b; }"
+        "}";
+
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
+    unordered_map<int, unordered_set<string>> expected = {};
+    expected[3] = {"a", "b"};
+    expected[5] = {"c", "a"};
+    REQUIRE(mockPKB.isIfPatternEqual(expected));
+}
+
+TEST_CASE("PatternExtractor for if with parser - 3 nested if pattern") {
+    string input =
+        "procedure multipleIf {"
+        "   read v;"
+        "   read w;"
+        "   if (v == 0) then {"
+        "       read x;"
+        "       if (w != v) then {"
+        "           read y;"
+        "           if (x > (y - 1)) then {"
+        "               read z;"
+        "           } else { print x; }"
+        "       } else { print z; }"
+        "   } else { print v; }"
+        "}";
+
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
+    unordered_map<int, unordered_set<string>> expected = {};
+    expected[3] = {"v"};
+    expected[5] = {"w", "v"};
+    expected[7] = {"x", "y"};
+    REQUIRE(mockPKB.isIfPatternEqual(expected));
+}
+
+TEST_CASE("PatternExtractor for if with parser - sequential if pattern") {
+    string input =
+        "procedure multipleIf {"
+        "   read i;"
+        "   if (i > 0) then {"
+        "       read j;"
+        "   } else { read i; }"
+        "   read k;"
+        "   if (k <= i) then {"
+        "       read l;"
+        "   } else { print i; }"
+        "}";
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
+    unordered_map<int, unordered_set<string>> expected = {};
+    expected[2] = {"i"};
+    expected[6] = {"k", "i"};
+    REQUIRE(mockPKB.isIfPatternEqual(expected));
+}
+
+TEST_CASE("PatternExtractor for if with parser - multiple control variables") {
+    string input =
+        "procedure complexConditions {"
+        "   read p;"
+        "   read q;"
+        "   if ((p + q * 2) == (x - y % 3)) then {"
+        "       read r;"
+        "   } else { print p; }"
+        "}";
+
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
+    unordered_map<int, unordered_set<string>> expected = {};
+    expected[3] = {"p", "q", "x", "y"};
+    REQUIRE(mockPKB.isIfPatternEqual(expected));
+}
+
+
+TEST_CASE("PatternExtractor with all patterns") {
+    string input =
+        "procedure nestedWhile {"
+        "    read a; read b; read c; read d; read e; read f;" // 1-6
+        "    x = a + b * c - d / e % f;" // 7
+        "    while (a == b) {" // 8
+        "        y = (a + b) * (c - d) / (e % f);" // 9
+        "        if (c != a) then {" // 10
+        "            z = a * (b + c * d - e / f) % g;" // 11
+        "        } else {"
+        "            a = a - b / c * d + e % f * g;" // 12
+        "        }"
+        "        while ((a + b * 2) == (x - y % 3)) {" // 13
+        "            b = (a * b - c) % (d + e / f);" // 14
+        "            c = a / (b + c) * d - e % f + g;" // 15
+        "        }"
+        "    }"
+        "    if ((c + d) > (e - f)) then {" // 16
+        "        while (a < b) {" // 17
+        "            d = a + b * (c % d - e) / f;" // 18
+        "        }"
+        "        e = (a % b) * c - d / (e + f);" // 19
+        "    } else {"
+        "        f = a / b * (c + d) % e - f;" // 20
+        "    }"
+        "    g = (a + b % c) * (d - e / f);" // 21
+        "}";
+
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
+    unordered_map<int, pair<string, string>> expectedAssignStorage = {};
+    unordered_map<int, unordered_set<string>> expectedWhileStorage = {};
+    unordered_map<int, unordered_set<string>> expectedIfStorage = {};
+    expectedAssignStorage[7] = {"x", "abc*+de/f%-"};
+    expectedAssignStorage[9] = {"y", "ab+cd-*ef%/"};
+    expectedAssignStorage[11] = {"z", "abcd*+ef/-*g%"};
+    expectedAssignStorage[12] = {"a", "abc/d*-ef%g*+"};
+    expectedAssignStorage[14] = {"b", "ab*c-def/+%"};
+    expectedAssignStorage[15] = {"c", "abc+/d*ef%-g+"};
+    expectedAssignStorage[18] = {"d", "abcd%e-*f/+"};
+    expectedAssignStorage[19] = {"e", "ab%c*def+/-"};
+    expectedAssignStorage[20] = {"f", "ab/cd+*e%f-"};
+    expectedAssignStorage[21] = {"g", "abc%+def/-*"};
+    expectedWhileStorage[8] = {"a", "b"};
+    expectedWhileStorage[13] = {"a", "b", "x", "y"};
+    expectedWhileStorage[17] = {"a", "b"};
+    expectedIfStorage[10] = {"c", "a"};
+    expectedIfStorage[16] = {"c", "d", "e", "f"};
+    REQUIRE(mockPKB.isAssignPatternEqual(expectedAssignStorage));
+    REQUIRE(mockPKB.isWhilePatternEqual(expectedWhileStorage));
+    REQUIRE(mockPKB.isIfPatternEqual(expectedIfStorage));
+}

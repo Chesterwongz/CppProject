@@ -21,6 +21,8 @@ public:
     std::unordered_map<std::string, std::unordered_set<int>> modifiesStorage;
     std::unordered_map<std::string, std::unordered_set<int>> usesStorage;
     std::unordered_map<int, std::pair<std::string, std::string>> assignPatternStorage;
+    std::unordered_map<int, std::unordered_set<std::string>> whilePatternStorage;
+    std::unordered_map<int, std::unordered_set<std::string>> ifPatternStorage;
 
     explicit MockPKBWriter(Storage &storage) : PKBWriter(storage){};
     ~MockPKBWriter() override = default;
@@ -61,6 +63,14 @@ public:
         assignPatternStorage[lineNum] = std::make_pair(variableName, expression);
     }
 
+    void setWhilePattern(int lineNum, const std::string &variableName) override {
+        whilePatternStorage[lineNum].insert(variableName);
+    }
+
+    void setIfPattern(int lineNum, const std::string &variableName) override {
+        ifPatternStorage[lineNum].insert(variableName);
+    }
+
     [[nodiscard]] bool isVariablesEqual(const std::unordered_set<std::string> &variables) const {
         return variableStorage == variables;
     }
@@ -99,5 +109,13 @@ public:
 
     [[nodiscard]] bool isAssignPatternEqual(std::unordered_map<int, std::pair<std::string, std::string>> &assignPattern) const {
         return assignPatternStorage == assignPattern;
+    }
+
+    [[nodiscard]] bool isWhilePatternEqual(std::unordered_map<int, std::unordered_set<std::string>> &whilePattern) const {
+        return whilePatternStorage == whilePattern;
+    }
+
+    [[nodiscard]] bool isIfPatternEqual(std::unordered_map<int, std::unordered_set<std::string>> &ifPattern) const {
+        return ifPatternStorage == ifPattern;
     }
 };
