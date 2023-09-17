@@ -30,7 +30,8 @@ TEST_CASE("EntityExtractor - only reads") {
     programNode->addChild(std::move(procNode));
 
     // extract
-    MockPKBWriter mockPKB;
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
     extractAbstraction(programNode.get(), mockPKB, AbstractionType::ENTITY);
 
     // compare test results
@@ -51,7 +52,8 @@ TEST_CASE("EntityExtractor with parser - only reads") {
                    "read y;"
                    "}";
     // extract
-    MockPKBWriter mockPKB;
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
     // compare test results
@@ -83,7 +85,8 @@ TEST_CASE("EntityExtractor - non-nesting, 1 uses") {
     programNode->addChild(std::move(procNode));
 
     // extract
-    MockPKBWriter mockPKB;
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
     extractAbstraction(programNode.get(), mockPKB, AbstractionType::ENTITY);
 
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
@@ -105,7 +108,8 @@ TEST_CASE("EntityExtractor with parser - non-nesting, 1 uses") {
                    "}";
 
     // extract
-    MockPKBWriter mockPKB;
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
@@ -150,7 +154,8 @@ TEST_CASE("EntityExtractor - if node") {
     programNode->addChild(std::move(procNode));
 
     // extract
-    MockPKBWriter mockPKB;
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
     extractAbstraction(programNode.get(), mockPKB, AbstractionType::ENTITY);
 
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
@@ -178,7 +183,8 @@ TEST_CASE("EntityExtractor with parser - if node") {
        "}";
 
     // extract
-    MockPKBWriter mockPKB;
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
@@ -235,7 +241,8 @@ TEST_CASE("EntityExtractor - if in while node") {
     programNode->addChild(std::move(procNode));
 
     // extract
-    MockPKBWriter mockPKB;
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
     extractAbstraction(programNode.get(), mockPKB, AbstractionType::ENTITY);
 
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
@@ -263,7 +270,8 @@ TEST_CASE("EntityExtractor with parser - if in while node") {
          "read num1;"
         "}";
     // extract
-    MockPKBWriter mockPKB;
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
     REQUIRE(mockPKB.isConstantsEqual({"1"}));

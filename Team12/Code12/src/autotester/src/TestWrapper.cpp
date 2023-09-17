@@ -25,7 +25,7 @@ void TestWrapper::parse(std::string filename) {
   // ...rest of your code...
     try {
         sourceProcessor->process(filename, pkb->getWriter());
-    } catch (SpException error) {
+    } catch (SpException& error) {
         std::cout << error.what() << std::endl;
         exit(1);
     } catch (...) {
