@@ -3,7 +3,7 @@
 #include <memory>
 #include <algorithm>
 
-#include "qps/exceptions/QpsException.h"
+#include "qps/exceptions/QPSException.h"
 #include "QPS.h"
 
 using std::string, std::vector, std::unique_ptr;
@@ -20,7 +20,7 @@ QPS::QPS(PKBReader *pkb) :
 
     bool isTokensValid = validator.validateTokens(queryTokenVector);
     if (!isTokensValid) {
-        throw QpsException::InvalidQueryException();
+        throw QPSException::InvalidQueryException();
     }
 
     // build query from validated tokens
