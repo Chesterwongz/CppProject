@@ -65,4 +65,5 @@ void ModifiesExtractor::postVisitRead(const ReadNode *node) {
 
 void ModifiesExtractor::addModifies(int lineNum, const std::string &var) {
     pkbWriter->setModifiesRelationship(var, lineNum);
+    pkbWriter->setModifiesRelationship(var, procName);
 }

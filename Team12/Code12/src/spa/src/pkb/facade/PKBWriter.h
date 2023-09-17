@@ -45,6 +45,10 @@ public:
 
     virtual void setIfPattern(int statementNumber, const std::string& varName);
 
+    virtual void setUsesRelationship(const std::string& variableName, const std::string& procedureName);
+
+    virtual void setModifiesRelationship(const std::string& variableName, const std::string& procedureName);
+
 private:
     struct Storage& storage;
 };

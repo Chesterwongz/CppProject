@@ -37,6 +37,9 @@ TEST_CASE("UsesExtractor - no uses") {
     extractAbstraction(programNode.get(), mockPKB, AbstractionType::USES);
     unordered_map<string, unordered_set<int>> expected = {};
     REQUIRE(mockPKB.isUsesEqual(expected));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    REQUIRE(mockPKB.isUsesEqual(expectedVarToProcName));
 }
 
 TEST_CASE("UsesExtractor with parser - no uses") {
@@ -52,6 +55,9 @@ TEST_CASE("UsesExtractor with parser - no uses") {
     extractAbstraction(input, mockPKB, AbstractionType::USES);
     unordered_map<string, unordered_set<int>> expected = {};
     REQUIRE(mockPKB.isUsesEqual(expected));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    REQUIRE(mockPKB.isUsesEqual(expectedVarToProcName));
 }
 
 TEST_CASE("UsesExtractor - non-nesting, 1 uses") {
@@ -78,6 +84,11 @@ TEST_CASE("UsesExtractor - non-nesting, 1 uses") {
     expected["x"] = {2};
     expected["y"] = {3};
     REQUIRE(mockPKB.isUsesEqual(expected));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["x"] = {"simple"};
+    expectedVarToProcName["y"] = {"simple"};
+    REQUIRE(mockPKB.isUsesEqual(expectedVarToProcName));
 }
 
 TEST_CASE("UsesExtractor with parser - non-nesting, 1 uses") {
@@ -138,6 +149,15 @@ TEST_CASE("UsesExtractor - if node") {
     expected["z"] = {3, 4};
     expected["num1"] = {3};
     expected["num2"] = {3};
+    REQUIRE(mockPKB.isUsesEqual(expected));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["x"] = {"simple"};
+    expectedVarToProcName["y"] = {"simple"};
+    expectedVarToProcName["z"] = {"simple"};
+    expectedVarToProcName["num1"] = {"simple"};
+    expectedVarToProcName["num2"] = {"simple"};
+    REQUIRE(mockPKB.isUsesEqual(expectedVarToProcName));
 }
 
 TEST_CASE("UsesExtractor with parser - if node") {
@@ -161,6 +181,15 @@ TEST_CASE("UsesExtractor with parser - if node") {
     expected["z"] = {3, 4};
     expected["num1"] = {3};
     expected["num2"] = {3};
+    REQUIRE(mockPKB.isUsesEqual(expected));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["x"] = {"simple"};
+    expectedVarToProcName["y"] = {"simple"};
+    expectedVarToProcName["z"] = {"simple"};
+    expectedVarToProcName["num1"] = {"simple"};
+    expectedVarToProcName["num2"] = {"simple"};
+    REQUIRE(mockPKB.isUsesEqual(expectedVarToProcName));
 }
 
 TEST_CASE("UsesExtractor - if in while node") {
@@ -214,6 +243,13 @@ TEST_CASE("UsesExtractor - if in while node") {
     expected["w"] = {3, 4, 6};
     expected["z"] = {3, 7};
     REQUIRE(mockPKB.isUsesEqual(expected));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["x"] = {"simple"};
+    expectedVarToProcName["y"] = {"simple"};
+    expectedVarToProcName["w"] = {"simple"};
+    expectedVarToProcName["z"] = {"simple"};
+    REQUIRE(mockPKB.isUsesEqual(expectedVarToProcName));
 }
 
 TEST_CASE("UsesExtractor with parser - if in while node") {
@@ -239,4 +275,39 @@ TEST_CASE("UsesExtractor with parser - if in while node") {
     expected["w"] = {3, 4, 6};
     expected["z"] = {3, 7};
     REQUIRE(mockPKB.isUsesEqual(expected));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["x"] = {"simple"};
+    expectedVarToProcName["y"] = {"simple"};
+    expectedVarToProcName["z"] = {"simple"};
+    expectedVarToProcName["w"] = {"simple"};
+    REQUIRE(mockPKB.isUsesEqual(expectedVarToProcName));
+}
+
+TEST_CASE("UsesExtractor with parser - no proc call") {
+    string input =
+        "procedure simple {"
+        "print x;"
+        "print y;"
+        "}"
+        "procedure simple2 {"
+        "print x;"
+        "}"
+        "procedure simple3 {"
+        "x = y + 1;"
+        "}";
+
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::USES);
+    unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
+    expectedVarToStmtNum["x"] = {1, 3};
+    expectedVarToStmtNum["y"] = {2, 4};
+    REQUIRE(mockPKB.isUsesEqual(expectedVarToStmtNum));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["x"] = {"simple", "simple2"};
+    expectedVarToProcName["y"] = {"simple", "simple3"};
+    REQUIRE(mockPKB.isUsesEqual(expectedVarToProcName));
 }

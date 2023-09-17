@@ -68,4 +68,5 @@ void UsesExtractor::postVisitPrint(const PrintNode *node) {
 
 void UsesExtractor::addUses(int lineNum, const std::string &var) {
     pkbWriter->setUsesRelationship(var, lineNum);
+    pkbWriter->setUsesRelationship(var, procName);
 }

@@ -19,7 +19,9 @@ public:
     std::unordered_map<int, std::set<int>> followsStorage;
     std::unordered_map<int, std::set<int>> parentStorage;
     std::unordered_map<std::string, std::unordered_set<int>> modifiesStorage;
+    std::unordered_map<std::string, std::unordered_set<std::string>> modifiesProcStorage; // var to proc
     std::unordered_map<std::string, std::unordered_set<int>> usesStorage;
+    std::unordered_map<std::string, std::unordered_set<std::string>> usesProcStorage; // var to proc
     std::unordered_map<int, std::pair<std::string, std::string>> assignPatternStorage;
     std::unordered_map<int, std::unordered_set<std::string>> whilePatternStorage;
     std::unordered_map<int, std::unordered_set<std::string>> ifPatternStorage;
@@ -39,8 +41,16 @@ public:
         modifiesStorage[variableName].insert(statementNumber);
     }
 
+    void setModifiesRelationship(const std::string &variableName, const std::string& procName) override {
+        modifiesProcStorage[variableName].insert(procName);
+    }
+
     void setUsesRelationship(const std::string &variableName, int statementNumber) override {
         usesStorage[variableName].insert(statementNumber);
+    }
+
+    void setUsesRelationship(const std::string &variableName, const std::string& procName) override {
+        usesProcStorage[variableName].insert(procName);
     }
 
     void setVariable(const std::string &variableName) override {
@@ -103,8 +113,16 @@ public:
         return usesStorage == uses;
     }
 
+    [[nodiscard]] bool isUsesEqual(std::unordered_map<std::string, std::unordered_set<string>> &uses) const {
+        return usesProcStorage == uses;
+    }
+
     [[nodiscard]] bool isModifiesEqual(std::unordered_map<std::string, std::unordered_set<int>> &modifies) const {
         return modifiesStorage == modifies;
+    }
+
+    [[nodiscard]] bool isModifiesEqual(std::unordered_map<std::string, std::unordered_set<string>> &modifies) const {
+        return modifiesProcStorage == modifies;
     }
 
     [[nodiscard]] bool isAssignPatternEqual(std::unordered_map<int, std::pair<std::string, std::string>> &assignPattern) const {

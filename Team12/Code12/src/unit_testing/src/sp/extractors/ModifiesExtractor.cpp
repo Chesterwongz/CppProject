@@ -38,8 +38,11 @@ TEST_CASE("ModifiesExtractor - no modifies") {
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(programNode.get(), mockPKB, AbstractionType::MODIFIES);
-    unordered_map<string, unordered_set<int>> expected = unordered_map<string, unordered_set<int>>();
-    REQUIRE(mockPKB.isModifiesEqual(expected));
+    unordered_map<string, unordered_set<int>> expectedVarToStmtNum = unordered_map<string, unordered_set<int>>();
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToStmtNum));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToProcName));
 }
 
 TEST_CASE("ModifiesExtractor with parser - no modifies") {
@@ -52,8 +55,11 @@ TEST_CASE("ModifiesExtractor with parser - no modifies") {
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::MODIFIES);
-    unordered_map<string, unordered_set<int>> expected = unordered_map<string, unordered_set<int>>();
-    REQUIRE(mockPKB.isModifiesEqual(expected));
+    unordered_map<string, unordered_set<int>> expectedVarToStmtNum = unordered_map<string, unordered_set<int>>();
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToStmtNum));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToProcName));
 }
 
 TEST_CASE("ModifiesExtractor - 2 read modifies") {
@@ -75,11 +81,15 @@ TEST_CASE("ModifiesExtractor - 2 read modifies") {
     MockPKBWriter mockPKB(storage);
     extractAbstraction(programNode.get(), mockPKB, AbstractionType::MODIFIES);
     
-    unordered_map<string, unordered_set<int>> expected = {};
-    expected["x"] = {1};
-    expected["y"] = {2};
-    
-    REQUIRE(mockPKB.isModifiesEqual(expected));
+    unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
+    expectedVarToStmtNum["x"] = {1};
+    expectedVarToStmtNum["y"] = {2};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToStmtNum));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["x"] = {"simple"};
+    expectedVarToProcName["y"] = {"simple"};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToProcName));
 }
 
 TEST_CASE("ModifiesExtractor with parser - 2 read modifies") {
@@ -94,11 +104,15 @@ TEST_CASE("ModifiesExtractor with parser - 2 read modifies") {
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::MODIFIES);
 
-    unordered_map<string, unordered_set<int>> expected = {};
-    expected["x"] = {1};
-    expected["y"] = {2};
+    unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
+    expectedVarToStmtNum["x"] = {1};
+    expectedVarToStmtNum["y"] = {2};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToStmtNum));
 
-    REQUIRE(mockPKB.isModifiesEqual(expected));
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["x"] = {"simple"};
+    expectedVarToProcName["y"] = {"simple"};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToProcName));
 }
 
 TEST_CASE("ModifiesExtractor - 1 read 1 assign") {
@@ -121,11 +135,15 @@ TEST_CASE("ModifiesExtractor - 1 read 1 assign") {
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(programNode.get(), mockPKB, AbstractionType::MODIFIES);
-    unordered_map<string, unordered_set<int>> expected = {};
-    expected["x"] = {3};
-    expected["y"] = {1};
-    
-    REQUIRE(mockPKB.isModifiesEqual(expected));
+    unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
+    expectedVarToStmtNum["x"] = {3};
+    expectedVarToStmtNum["y"] = {1};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToStmtNum));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["x"] = {"simple"};
+    expectedVarToProcName["y"] = {"simple"};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToProcName));
 }
 
 TEST_CASE("ModifiesExtractor with parser - 1 read 1 assign") {
@@ -140,11 +158,15 @@ TEST_CASE("ModifiesExtractor with parser - 1 read 1 assign") {
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::MODIFIES);
-    unordered_map<string, unordered_set<int>> expected = {};
-    expected["x"] = {3};
-    expected["y"] = {1};
+    unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
+    expectedVarToStmtNum["x"] = {3};
+    expectedVarToStmtNum["y"] = {1};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToStmtNum));
 
-    REQUIRE(mockPKB.isModifiesEqual(expected));
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["x"] = {"simple"};
+    expectedVarToProcName["y"] = {"simple"};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToProcName));
 }
 
 TEST_CASE("ModifiesExtractor - if node") {
@@ -183,12 +205,17 @@ TEST_CASE("ModifiesExtractor - if node") {
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(programNode.get(), mockPKB, AbstractionType::MODIFIES);
-    unordered_map<string, unordered_set<int>> expected = {};
-    expected["x"] = {3, 5};
-    expected["y"] = {1};
-    expected["z"] = {3, 4, 6};
+    unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
+    expectedVarToStmtNum["x"] = {3, 5};
+    expectedVarToStmtNum["y"] = {1};
+    expectedVarToStmtNum["z"] = {3, 4, 6};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToStmtNum));
 
-    REQUIRE(mockPKB.isModifiesEqual(expected));
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["x"] = {"simple"};
+    expectedVarToProcName["y"] = {"simple"};
+    expectedVarToProcName["z"] = {"simple"};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToProcName));
 }
 
 TEST_CASE("ModifiesExtractor with parser - if node") {
@@ -208,12 +235,17 @@ TEST_CASE("ModifiesExtractor with parser - if node") {
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::MODIFIES);
-    unordered_map<string, unordered_set<int>> expected = {};
-    expected["x"] = {3, 5};
-    expected["y"] = {1};
-    expected["z"] = {3, 4, 6};
+    unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
+    expectedVarToStmtNum["x"] = {3, 5};
+    expectedVarToStmtNum["y"] = {1};
+    expectedVarToStmtNum["z"] = {3, 4, 6};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToStmtNum));
 
-    REQUIRE(mockPKB.isModifiesEqual(expected));
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["x"] = {"simple"};
+    expectedVarToProcName["y"] = {"simple"};
+    expectedVarToProcName["z"] = {"simple"};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToProcName));
 }
 
 TEST_CASE("ModifiesExtractor - if in while node") {
@@ -261,11 +293,19 @@ TEST_CASE("ModifiesExtractor - if in while node") {
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(programNode.get(), mockPKB, AbstractionType::MODIFIES);
-    unordered_map<string, unordered_set<int>> expected = {};
-    expected["x"] = {1, 3, 4, 5};
-    expected["y"] = {2};
-    expected["w"] = {3, 4, 6};
-    expected["z"] = {8};
+    unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
+    expectedVarToStmtNum["x"] = {1, 3, 4, 5};
+    expectedVarToStmtNum["y"] = {2};
+    expectedVarToStmtNum["w"] = {3, 4, 6};
+    expectedVarToStmtNum["num1"] = {8};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToStmtNum));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["x"] = {"simple"};
+    expectedVarToProcName["y"] = {"simple"};
+    expectedVarToProcName["w"] = {"simple"};
+    expectedVarToProcName["num1"] = {"simple"};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToProcName));
 }
 
 TEST_CASE("ModifiesExtractor with parser - if in while node") {
@@ -277,7 +317,8 @@ TEST_CASE("ModifiesExtractor with parser - if in while node") {
         "if (x == y) then {"
         "x = y + 1;"
         "} else { read w; }"
-        "print z;""}"
+        "print z;"
+        "}"
         "read num1;"
         "}";
 
@@ -285,9 +326,45 @@ TEST_CASE("ModifiesExtractor with parser - if in while node") {
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::MODIFIES);
-    unordered_map<string, unordered_set<int>> expected = {};
-    expected["x"] = {1, 3, 4, 5};
-    expected["y"] = {2};
-    expected["w"] = {3, 4, 6};
-    expected["z"] = {8};
+    unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
+    expectedVarToStmtNum["x"] = {1, 3, 4, 5};
+    expectedVarToStmtNum["y"] = {2};
+    expectedVarToStmtNum["w"] = {3, 4, 6};
+    expectedVarToStmtNum["num1"] = {8};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToStmtNum));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["x"] = {"simple"};
+    expectedVarToProcName["y"] = {"simple"};
+    expectedVarToProcName["w"] = {"simple"};
+    expectedVarToProcName["num1"] = {"simple"};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToProcName));
+}
+
+TEST_CASE("ModifiesExtractor with parser - no proc call") {
+    string input =
+        "procedure simple {"
+        "read x;"
+        "read y;"
+        "}"
+        "procedure simple2 {"
+        "read x;"
+        "}"
+        "procedure simple3 {"
+        "y = x + 1;"
+        "}";
+
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::MODIFIES);
+    unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
+    expectedVarToStmtNum["x"] = {1, 3};
+    expectedVarToStmtNum["y"] = {2, 4};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToStmtNum));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["x"] = {"simple", "simple2"};
+    expectedVarToProcName["y"] = {"simple", "simple3"};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToProcName));
 }
