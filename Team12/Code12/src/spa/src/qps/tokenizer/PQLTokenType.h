@@ -51,6 +51,9 @@ enum PQLTokenType {
     PQL_SELECT_TOKEN,
 
     // Such That
+    PQL_SUCH_TOKEN,
+    PQL_THAT_TOKEN,
+    PQL_SUCH_THAT_TOKEN,
     PQL_FOLLOWS_TOKEN,
     PQL_PARENT_TOKEN,
     PQL_USES_TOKEN,
