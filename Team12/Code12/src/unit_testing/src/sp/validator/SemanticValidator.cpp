@@ -15,8 +15,8 @@ void setup(const string& input) {
     if (!nodeOpt.has_value()) {
         throw SpException("Failed to parse input");
     }
-    SemanticValidator semanticValidator(nodeOpt.value().get());
-    semanticValidator.validate();
+    SemanticValidator semanticValidator;
+    semanticValidator.validate(nodeOpt.value().get());
 }
 
 TEST_CASE("SemanticValidator - valid program with one procedure") {
@@ -64,6 +64,24 @@ TEST_CASE("SemanticValidator - valid program with multi procedures") {
                               "    normSq = cenX * cenX + cenY * cenY;\n"
                               "}";
     REQUIRE_NOTHROW(setup(fileContent));
+}
+
+TEST_CASE("SemanticValidator - duplicate proc names throw exception") {
+    string input =
+        "procedure First {"
+        "    read x;"
+        "    read z;"
+        "}"
+        "procedure First {"
+        "    print z;"
+        "    read x;"
+        "}";
+
+    REQUIRE_THROWS_MATCHES(
+        setup(input),
+        DuplicateProcNameException,
+        Catch::Message("Duplicate procedure name 'First', this name has already been used!")
+    );
 }
 
 TEST_CASE("SemanticValidator - undefined proc calls throw exception") {

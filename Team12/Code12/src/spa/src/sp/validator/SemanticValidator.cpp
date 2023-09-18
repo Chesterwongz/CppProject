@@ -1,27 +1,31 @@
 #include "SemanticValidator.h"
 
-SemanticValidator::SemanticValidator(TNode* root) : root(root) {}
+SemanticValidator::SemanticValidator() = default;
 
-void SemanticValidator::validate() {
-    initialiseGraph();
+void SemanticValidator::validate(const TNode* root) {
+    initialiseGraph(root);
     dfs(root);
     if (hasCyclicCalls()) {
         throw CyclicProcCallException();
     }
 }
 
-void SemanticValidator::initialiseGraph() {
-    auto programNode = dynamic_cast<ProgramNode*>(root);
+bool SemanticValidator::isProcedureDefined(const string &procName) {
+    return indegree.find(procName) != indegree.end();
+}
+
+void SemanticValidator::initialiseGraph(const TNode* root) {
+    auto programNode = dynamic_cast<const ProgramNode*>(root);
     assert(programNode);
     vector<std::string> procNames = programNode->getProcNames();
     for (auto &procName : procNames) {
+        if (isProcedureDefined(procName)) {
+            // duplicate proc name
+            throw DuplicateProcNameException(procName);
+        }
         adjList[procName] = std::unordered_set<std::string>();
         indegree[procName] = 0;
     }
-}
-
-bool SemanticValidator::isProcedureDefined(const string &procName) {
-    return indegree.find(procName) != indegree.end();
 }
 
 bool SemanticValidator::isDuplicateCall(const string &callee) {
