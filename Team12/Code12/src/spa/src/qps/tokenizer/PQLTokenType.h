@@ -32,6 +32,7 @@ enum PQLTokenType {
     PQL_OPEN_BRACKET_TOKEN,
     PQL_CLOSE_BRACKET_TOKEN,
     PQL_QUOTE_TOKEN,
+    PQL_LITERAL_TOKEN,
 
     // for operators in expressions for patterns
     PQL_OPERATOR_TOKEN,

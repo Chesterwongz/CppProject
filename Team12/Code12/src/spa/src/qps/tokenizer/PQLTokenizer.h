@@ -6,20 +6,23 @@
 #include "tokenStream/PQLTokenStream.h"
 #include "PQLTokenTable.h"
 
-using std::string, std::unique_ptr, std::make_unique;
+using std::string, std::unique_ptr, std::make_unique, std::move;
 
 class PQLTokenizer {
 private:
     string buffer;
-    TokenPtrList* tokenList;
+    string literalBuffer;
+    unique_ptr<TokenPtrList> tokenList;
     PQLTokenTable* tokenTable;
     bool containsChar;
     bool processingLiteral;
 
     void processChar(const char c);
-    void toggleLiteral();
     void flushBuffer();
-    void appendToken(PQLToken* token);
+
+    void toggleLiteral();
+    void startLiteral();
+    void endLiteral();
 
 public:
     explicit PQLTokenizer();
