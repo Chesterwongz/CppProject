@@ -21,6 +21,9 @@ unique_ptr<Extractor> getExtractor(MockPKBWriter &mockPKBWriter, AbstractionType
         case AbstractionType::PATTERN:
             return make_unique<PatternExtractor>(&mockPKBWriter);
 
+        case AbstractionType::CALLS:
+            return make_unique<CallsExtractor>(&mockPKBWriter);
+
         default:
             throw SpException("Unknown abstraction type");
     }

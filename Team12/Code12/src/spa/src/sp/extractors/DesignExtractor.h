@@ -7,6 +7,7 @@
 #include <string>
 #include "Extractor.h"
 #include "sp/ast/TNode.h"
+#include "CallsExtractor.h"
 #include "FollowsExtractor.h"
 #include "ParentExtractor.h"
 #include "UsesExtractor.h"

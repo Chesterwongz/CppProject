@@ -41,3 +41,5 @@ void PKBWriter::setIfPattern(int statementNumber, const std::string &varName) {}
 void PKBWriter::setUsesRelationship(const std::string &variableName, const std::string &procedureName) {}
 
 void PKBWriter::setModifiesRelationship(const std::string &variableName, const std::string &procedureName) {}
+
+void PKBWriter::setCallsRelationship(const std::string &callerProc, const std::string &calleeProc) {}

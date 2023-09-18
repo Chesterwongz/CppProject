@@ -49,6 +49,9 @@ public:
 
     virtual void setModifiesRelationship(const std::string& variableName, const std::string& procedureName);
 
+    // direct calls, not transitive
+    virtual void setCallsRelationship(const std::string& callerProc, const std::string& calleeProc);
+
 private:
     struct Storage& storage;
 };

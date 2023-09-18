@@ -26,6 +26,7 @@ public:
     virtual ~Extractor() = default;
     explicit Extractor(PKBWriter* pkbWriter): pkbWriter(pkbWriter) {};
     virtual void visitProgram(const ProgramNode* node) {};
+    virtual void postVisitProgram(const ProgramNode* node) {};
 
     virtual void visitProcedure(const ProcNode* node) {};
     virtual void postVisitProcedure(const ProcNode* node) {};
