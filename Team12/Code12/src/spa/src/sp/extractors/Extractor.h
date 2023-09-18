@@ -51,7 +51,6 @@ public:
     virtual void visitWhile(const WhileNode* node) {};
     virtual void postVisitWhile(const WhileNode* node) {};
 
-    virtual void visitCond(const CondNode* node) {};
     virtual void visitExpr(const ExprNode* node) {};
 
     virtual void visitVariable(const VarNode* node) {};

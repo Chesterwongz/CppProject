@@ -5,7 +5,7 @@ CallsExtractor::CallsExtractor(PKBWriter *pkbWriter) : Extractor(pkbWriter) {}
 void CallsExtractor::visitProgram(const ProgramNode *node) {
     vector<std::string> procNames = node->getProcNames();
     for (auto &procName : procNames) {
-        adjList[procName] = std::unordered_set < std::string > ();
+        adjList[procName] = std::unordered_set<std::string>();
         indegree[procName] = 0;
     }
 }
@@ -14,9 +14,13 @@ void CallsExtractor::visitProcedure(const ProcNode *node) {
     currProc = node->getValue();
 }
 
+bool CallsExtractor::isProcedureDefined(const string &procName) {
+    return indegree.find(procName) != indegree.end();
+}
+
 void CallsExtractor::visitCall(const CallNode *node) {
     std::string callee = node->getValue();
-    if (indegree.find(callee) == indegree.end()) {
+    if (!isProcedureDefined(callee)) {
         // undefined proc called
         throw UndefinedProcCallException(callee);
     }
@@ -26,7 +30,7 @@ void CallsExtractor::visitCall(const CallNode *node) {
     pkbWriter->setCallsRelationship(currProc, callee);
 }
 
-void CallsExtractor::postVisitProgram(const ProgramNode *node) {
+bool CallsExtractor::hasCyclicCalls() {
     // check for cyclic calls using topo sort
     std::queue<std::string> q;
     for (auto &it : indegree) {
@@ -46,7 +50,11 @@ void CallsExtractor::postVisitProgram(const ProgramNode *node) {
             }
         }
     }
-    if (countVisited != indegree.size()) {
+    return countVisited != indegree.size();
+}
+
+void CallsExtractor::postVisitProgram(const ProgramNode *node) {
+    if (hasCyclicCalls()) {
         throw CyclicProcCallException();
     }
 }

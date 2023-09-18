@@ -18,13 +18,6 @@
 
 using std::unique_ptr, std::make_unique, std::vector, std::string, std::map, std::set, std::unordered_map, std::unordered_set;
 
-void extractParent(TNode* node, MockPKBWriter &mockPKBWriter) {
-    Populator populator;
-    std::vector<std::unique_ptr<Extractor>> extractors;
-    extractors.emplace_back(make_unique<ParentExtractor>(&mockPKBWriter));
-    populator.populate(node, extractors);
-}
-
 TEST_CASE("ParentExtractor - no parent") {
 //    string input =
 //        "procedure simple {"
