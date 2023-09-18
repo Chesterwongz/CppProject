@@ -13,20 +13,12 @@ void ParserContext::incrementLineNum() {
 }
 
 void ParserContext::saveContext() {
-    savePositionStack.push_back(tokenStream->getCursor());
+    savePositionStack.push(tokenStream->getCursor());
 }
 
 void ParserContext::loadPrevSavedContext() {
-    tokenStream->setCursor(savePositionStack.back());
-    savePositionStack.pop_back();
-}
-
-bool ParserContext::addProcName(const std::string &newName) {
-    if (this->seenProcNames.count(newName)) {
-        throw DuplicateProcNameException(newName);
-    }
-    this->seenProcNames.insert(newName);
-    return true;
+    tokenStream->setCursor(savePositionStack.top());
+    savePositionStack.pop();
 }
 
 bool ParserContext::isExpected(TokenType expectedType) {

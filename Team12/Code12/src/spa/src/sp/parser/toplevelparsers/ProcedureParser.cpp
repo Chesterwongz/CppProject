@@ -16,8 +16,6 @@ std::optional<std::unique_ptr<TNode>> ProcedureParser::parse() {
 
     std::string procName = context->forceEatExpected(TokenType::NAME);
 
-    context->addProcName(procName);
-
     std::optional<std::unique_ptr<TNode>> stmtLstNodeOpt = StmtLstParser(context).parse();
     requireTNodeOpt(TNodeType::TNODE_PROCEDURE)(stmtLstNodeOpt);
 
