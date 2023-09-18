@@ -15,7 +15,7 @@ TEST_CASE("Test ProgramParser") {
 }
 
 TEST_CASE("Test ProgramParser multi procedures") {
-    std::string fileContent = "procedure main {\n"
+    std::string input = "procedure main {\n"
                               "    flag = 0;\n"
                               "    call computeCentroid;\n"
                               "    call printResults;\n"
@@ -50,7 +50,28 @@ TEST_CASE("Test ProgramParser multi procedures") {
                               "    normSq = cenX * cenX + cenY * cenY;\n"
                               "}";
     std::optional<std::unique_ptr<TNode>> ast =
-            ProgramParser(std::move(std::make_shared<ParserContext>(std::move(fileContent)))).parse();
+            ProgramParser(std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
+    REQUIRE(ast.has_value());
+}
+
+TEST_CASE("Nested Ifs") {
+    std::string input =
+        "procedure nestedIfs {\n"
+        "    if (!(level == 1)) then {\n"
+        "        assign = 2;\n"
+        "        if ((level != 3) || (assign > 2))then{\n"
+        "            assign = 4;\n"
+        "        } else {\n"
+        "            cenX = cenX / 5;\n"
+        "            cenY = cenY / 6;\n"
+        "        }\n"
+        "    } else {\n"
+        "        cenX = cenX / 7;\n"
+        "        cenY = cenY / 8;\n"
+        "    }\n"
+        "}";
+    std::optional<std::unique_ptr<TNode>> ast =
+            ProgramParser(std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
     REQUIRE(ast.has_value());
 }
 
