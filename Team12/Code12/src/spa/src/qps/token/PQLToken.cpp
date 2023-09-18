@@ -12,3 +12,8 @@ PQLToken::getType() {
 PQLToken::getValue() {
 	return value;
 }
+
+void PQLToken::updateTokenType(PQLTokenType type)
+{
+	this->type = type;
+}

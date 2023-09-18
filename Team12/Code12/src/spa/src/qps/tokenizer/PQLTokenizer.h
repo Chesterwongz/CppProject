@@ -10,12 +10,11 @@ using std::string, std::unique_ptr, std::make_unique;
 
 class PQLTokenizer {
 private:
-    PQLTokenType currType;
     string buffer;
     TokenPtrList* tokenList;
     PQLTokenTable* tokenTable;
+    bool containsChar;
     bool processingLiteral;
-    bool processingArgument; // values between brackets
 
     void processChar(const char c);
     void toggleLiteral();

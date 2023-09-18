@@ -12,17 +12,6 @@ PQLParserContext::PQLParserContext(
 	this->context = Context();
 }
 
-unique_ptr<PQLToken>& PQLParserContext::lookAhead() const
-{
-	auto next = tokenStream->peek();
-
-	if (next == nullptr) {
-		throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);
-	}
-
-	return next;
-}
-
 unique_ptr<PQLTokenStream>& PQLParserContext::getTokenStream() const
 {
 	return tokenStream;
@@ -31,4 +20,11 @@ unique_ptr<PQLTokenStream>& PQLParserContext::getTokenStream() const
 void PQLParserContext::transitionTo(unique_ptr<IParserState> nextState)
 {
 	currState = nextState;
+}
+
+void PQLParserContext::addToContext(string entity, string synonym) {
+	if (!PQLParserUtils::isSynonym(synonym)) {
+		throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_SYNONYM);
+	}
+	this->context->addToken(synonym, entity);
 }

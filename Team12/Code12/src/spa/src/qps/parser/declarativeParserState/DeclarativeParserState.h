@@ -1,22 +1,17 @@
 #pragma once
 
-#include <unordered_map>
-#include <unordered_set>
-
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/IParserState.h"
-
-using std::unordered_map, std::unordered_set;
-
-// mini simpler state
-typedef unordered_map<PQLTokenType, unordered_set<PQLTokenType>> PredictiveMap;
 
 class DeclarativeParserState : public IParserState {
 private:
 	unique_ptr<PQLParserContext>& parserContext;
 	unique_ptr<PQLTokenStream>& tokenStream;
-	static PQLTokenType exitToken;
+	unique_ptr<PQLToken>& prev;
+	string currentEntity;
 	static PredictiveMap predictiveMap;
+	void processNameToken(unique_ptr<PQLToken>& curr);
+	bool isExpectedToken(PQLTokenType curr) override;
 
 public:
 	explicit DeclarativeParserState(PQLParserContext& parserContext);

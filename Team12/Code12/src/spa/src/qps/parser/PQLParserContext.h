@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IParserState.h"
+#include "qps/common/PQLParserUtils.h"
 #include "qps/query/Query.h"
 #include "qps/context/Context.h"
 #include "qps/tokenizer/tokenStream/PQLTokenStream.h"
@@ -20,7 +21,7 @@ public:
 		unique_ptr<IParserState> currState,
 		unique_ptr<Query>& query
 	);
-	unique_ptr<PQLToken>& lookAhead() const; // to check next token and determine the next state
+	void addToContext(string entity, string synonym);
 	unique_ptr<PQLTokenStream>& getTokenStream() const;
 	void transitionTo(unique_ptr<IParserState> nextState);
 };

@@ -20,8 +20,9 @@ protected:
 	PQLToken(PQLTokenType type, const TokenValue value);
 
 public:
-	PQLTokenType getType() const;
-	TokenValue getValue() const;
+	const PQLTokenType getType();
+	const TokenValue getValue();
+	void updateTokenType(PQLTokenType type);
 };
 
 typedef vector<unique_ptr<PQLToken>> TokenPtrList;

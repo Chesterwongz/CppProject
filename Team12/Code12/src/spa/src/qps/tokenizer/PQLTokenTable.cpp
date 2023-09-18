@@ -18,12 +18,12 @@ PQLTokenTable::PQLTokenTable() {
 
 	for (int i = ASCII_LOWER_A; i <= ASCII_LOWER_Z; i++)
 	{
-		tokens[i] = PQL_NAME_TOKEN;
+		tokens[i] = PQL_CHAR_TOKEN;
 	}
 
 	for (int i = ASCII_UPPER_A; i <= ASCII_UPPER_Z; i++)
 	{
-		tokens[i] = PQL_NAME_TOKEN;
+		tokens[i] = PQL_CHAR_TOKEN;
 	}
 	
 	tokens[ASCII_UNDERSCORE] = PQL_WILDCARD_TOKEN;

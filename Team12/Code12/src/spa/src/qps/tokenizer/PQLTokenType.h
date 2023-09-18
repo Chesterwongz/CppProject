@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unordered_map>
+
 // should encompass all available characters
 // first char in buffer determines token type. 
 // E.g. stmt s1; --> [PQL_NAME_TOKEN, PQL_NAME_TOKEN]
@@ -8,9 +10,11 @@ enum PQLTokenType {
     // for the first token
     PQL_NULL_TOKEN,
 
-    // for synonyms and keywords. All letters.
+    // for synonyms and keywords.
     PQL_NAME_TOKEN,
 
+    // for char
+    PQL_CHAR_TOKEN,
     // for line numbers
     PQL_INTEGER_TOKEN,
 
@@ -56,3 +60,19 @@ enum PQLTokenType {
     PQL_LEFT_WILDCARD,
     PQL_RIGHT_WILDCARD
 };
+
+unordered_map<string, PQLTokenType> keywordToTokenType = {
+    { "stmt", PQL_ENTITY_TOKEN },
+    { "read", PQL_ENTITY_TOKEN },
+    { "print", PQL_ENTITY_TOKEN },
+    { "call", PQL_ENTITY_TOKEN },
+    { "while", PQL_ENTITY_TOKEN },
+    { "if", PQL_ENTITY_TOKEN },
+    { "assign", PQL_ENTITY_TOKEN },
+    { "variable", PQL_ENTITY_TOKEN },
+    { "constant", PQL_ENTITY_TOKEN },
+    { "procedure", PQL_ENTITY_TOKEN },
+
+    { "Select", PQL_SELECT_TOKEN }
+}
+
