@@ -10,6 +10,7 @@
 #include "sp/parser/toplevelparsers/ProgramParser.h"
 #include "sp/tokenizer/Tokenizer.h"
 #include "sp/extractors/DesignExtractor.h"
+#include "sp/validator/SemanticValidator.h"
 
 class SourceProcessor : public ISourceProcessor {
 public:
