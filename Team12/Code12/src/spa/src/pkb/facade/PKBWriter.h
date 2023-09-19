@@ -25,6 +25,8 @@ public:
     // Add parent relationship
     virtual void setParentRelationship(int statementNumber, int childStatement);
 
+    virtual void setParentStarRelationship(int statementNumber, int childStatement);
+
     // Add modifies relationship
     virtual void setModifiesRelationship(const std::string& variableName, int statementNumber);
 
@@ -51,6 +53,8 @@ public:
 
     // direct calls, not transitive
     virtual void setCallsRelationship(const std::string& callerProc, const std::string& calleeProc);
+
+    virtual void setCallsStarRelationship(const std::string& callerProc, const std::string& calleeProc);
 
 private:
     struct Storage& storage;

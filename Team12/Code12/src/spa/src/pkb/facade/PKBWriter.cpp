@@ -32,6 +32,8 @@ void PKBWriter::setProcedure(const std::string& procedureName, int startStatemen
     storage.designEntitiesStorage.setProcedure(procedureName, startStatement);
 }
 
+void PKBWriter::setParentStarRelationship(int statementNumber, int childStatement) {}
+
 void PKBWriter::setAssignPattern(int statementNumber, const std::string &varName, const std::string &expr) {}
 
 void PKBWriter::setWhilePattern(int statementNumber, const std::string &varName) {}
@@ -43,3 +45,5 @@ void PKBWriter::setUsesRelationship(const std::string &variableName, const std::
 void PKBWriter::setModifiesRelationship(const std::string &variableName, const std::string &procedureName) {}
 
 void PKBWriter::setCallsRelationship(const std::string &callerProc, const std::string &calleeProc) {}
+
+void PKBWriter::setCallsStarRelationship(const std::string &callerProc, const std::string &calleeProc) {}

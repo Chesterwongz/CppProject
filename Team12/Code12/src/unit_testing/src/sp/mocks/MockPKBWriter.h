@@ -11,13 +11,14 @@
 #include "pkb/facade/PKBWriter.h"
 
 class MockPKBWriter : public PKBWriter {
-public:
+private:
     std::unordered_set<std::string> variableStorage;
     std::unordered_set<std::string> constantStorage;
     std::unordered_map<std::string, int> procedureStorage;
     std::unordered_map<StmtType, std::unordered_set<int>> statementStorage;
     std::unordered_map<int, std::set<int>> followsStorage;
     std::unordered_map<int, std::set<int>> parentStorage;
+    std::unordered_map<int, std::set<int>> parentStarStorage;
     std::unordered_map<std::string, std::unordered_set<int>> modifiesStorage;
     std::unordered_map<std::string, std::unordered_set<std::string>> modifiesProcStorage; // var to proc
     std::unordered_map<std::string, std::unordered_set<int>> usesStorage;
@@ -26,7 +27,9 @@ public:
     std::unordered_map<int, std::unordered_set<std::string>> whilePatternStorage;
     std::unordered_map<int, std::unordered_set<std::string>> ifPatternStorage;
     std::unordered_map<std::string, std::unordered_set<std::string>> callsStorage;
+    std::unordered_map<std::string, std::unordered_set<std::string>> callsStarStorage;
 
+public:
     explicit MockPKBWriter(Storage &storage) : PKBWriter(storage){};
     ~MockPKBWriter() override = default;
 
@@ -36,6 +39,10 @@ public:
 
     void setParentRelationship(int statementNumber, int childStatement) override {
         parentStorage[statementNumber].insert(childStatement);
+    }
+
+    void setParentStarRelationship(int statementNumber, int childStatement) override {
+        parentStarStorage[statementNumber].insert(childStatement);
     }
 
     void setModifiesRelationship(const std::string &variableName, int statementNumber) override {
@@ -86,6 +93,10 @@ public:
         callsStorage[caller].insert(callee);
     }
 
+    void setCallsStarRelationship(const std::string &caller, const std::string &callee) override {
+        callsStarStorage[caller].insert(callee);
+    }
+
     [[nodiscard]] bool isVariablesEqual(const std::unordered_set<std::string> &variables) const {
         return variableStorage == variables;
     }
@@ -112,6 +123,10 @@ public:
 
     [[nodiscard]] bool isParentEqual(const std::unordered_map<int, std::set<int>> &parent) const {
         return parentStorage == parent;
+    }
+
+    [[nodiscard]] bool isParentStarEqual(const std::unordered_map<int, std::set<int>> &parentStar) const {
+        return parentStarStorage == parentStar;
     }
 
     [[nodiscard]] bool isUsesEqual(std::unordered_map<std::string, std::unordered_set<int>> &uses) const {
@@ -144,5 +159,9 @@ public:
 
     [[nodiscard]] bool isCallsEqual(std::unordered_map<std::string, std::unordered_set<std::string>> &calls) const {
         return callsStorage == calls;
+    }
+
+    [[nodiscard]] bool isCallsStarEqual(std::unordered_map<std::string, std::unordered_set<std::string>> &callsStar) const {
+        return callsStarStorage == callsStar;
     }
 };

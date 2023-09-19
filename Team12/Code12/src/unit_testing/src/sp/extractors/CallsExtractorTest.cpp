@@ -32,6 +32,7 @@ TEST_CASE("CallsExtractor - no calls") {
 
     unordered_map<string, std::unordered_set<string>> expected = {};
     REQUIRE(mockPKB.isCallsEqual(expected));
+    REQUIRE(mockPKB.isCallsStarEqual(expected));
 }
 
 TEST_CASE("CallsExtractor with parser - no calls") {
@@ -47,6 +48,7 @@ TEST_CASE("CallsExtractor with parser - no calls") {
 
     unordered_map<string, unordered_set<string>> expected = {};
     REQUIRE(mockPKB.isCallsEqual(expected));
+    REQUIRE(mockPKB.isCallsStarEqual(expected));
 }
 
 TEST_CASE("CallsExtractor with parser - single calls") {
@@ -66,6 +68,7 @@ TEST_CASE("CallsExtractor with parser - single calls") {
     unordered_map<string, unordered_set<string>> expected = {};
     expected["First"] = {"Second"};
     REQUIRE(mockPKB.isCallsEqual(expected));
+    REQUIRE(mockPKB.isCallsStarEqual(expected));
 }
 
 TEST_CASE("CallsExtractor with parser - multiple calls in one proc") {
@@ -90,9 +93,10 @@ TEST_CASE("CallsExtractor with parser - multiple calls in one proc") {
     unordered_map<string, unordered_set<string>> expected = {};
     expected["First"] = {"Second", "Third"};
     REQUIRE(mockPKB.isCallsEqual(expected));
+    REQUIRE(mockPKB.isCallsStarEqual(expected));
 }
 
-TEST_CASE("CallsExtractor with parser - chained calls") {
+TEST_CASE("CallsExtractor with parser - 2 chained calls") {
     string input =
         "procedure First {"
         "    call Second;"
@@ -111,8 +115,86 @@ TEST_CASE("CallsExtractor with parser - chained calls") {
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
-    unordered_map<string, unordered_set<string>> expected = {};
-    expected["First"] = {"Second"};
-    expected["Second"] = {"Third"};
-    REQUIRE(mockPKB.isCallsEqual(expected));
+    unordered_map<string, unordered_set<string>> expectedCalls = {};
+    expectedCalls["First"] = {"Second"};
+    expectedCalls["Second"] = {"Third"};
+    REQUIRE(mockPKB.isCallsEqual(expectedCalls));
+    unordered_map<string, unordered_set<string>> expectedCallsStar = {};
+    expectedCallsStar["First"] = {"Second", "Third"};
+    expectedCallsStar["Second"] = {"Third"};
+    REQUIRE(mockPKB.isCallsStarEqual(expectedCallsStar));
 }
+
+TEST_CASE("CallsExtractor with parser - 2 chained calls from 1 procedure") {
+    string input =
+        "procedure One {"
+        "    call Two;"
+        "    call Three;"
+        "    read i;"
+        "}"
+        "procedure Two {"
+        "    call Four;"
+        "    read j;"
+        "}"
+        "procedure Three {"
+        "    call Four;"
+        "    read k;"
+        "}"
+        "procedure Four {"
+        "    read l;"
+        "}";
+
+
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::CALLS);
+
+    unordered_map<string, unordered_set<string>> expectedCalls = {};
+    expectedCalls["One"] = {"Two", "Three"};
+    expectedCalls["Two"] = {"Four"};
+    expectedCalls["Three"] = {"Four"};
+    REQUIRE(mockPKB.isCallsEqual(expectedCalls));
+    unordered_map<string, unordered_set<string>> expectedCallsStar = {};
+    expectedCallsStar["One"] = {"Two", "Three", "Four"};
+    expectedCallsStar["Two"] = {"Four"};
+    expectedCallsStar["Three"] = {"Four"};
+    REQUIRE(mockPKB.isCallsStarEqual(expectedCallsStar));
+}
+
+TEST_CASE("CallsExtractor with parser - 3 chained calls") {
+    string input =
+        "procedure One {"
+        "    call Two;"
+        "    read i;"
+        "}"
+        "procedure Two {"
+        "    call Three;"
+        "    read j;"
+        "}"
+        "procedure Three {"
+        "    call Four;"
+        "    read k;"
+        "}"
+        "procedure Four {"
+        "    read l;"
+        "}";
+
+
+    // extract
+    struct Storage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::CALLS);
+
+    unordered_map<string, unordered_set<string>> expectedCalls = {};
+    expectedCalls["One"] = {"Two"};
+    expectedCalls["Two"] = {"Three"};
+    expectedCalls["Three"] = {"Four"};
+    REQUIRE(mockPKB.isCallsEqual(expectedCalls));
+    unordered_map<string, unordered_set<string>> expectedCallsStar = {};
+    expectedCallsStar["One"] = {"Two", "Three", "Four"};
+    expectedCallsStar["Two"] = {"Three", "Four"};
+    expectedCallsStar["Three"] = {"Four"};
+    REQUIRE(mockPKB.isCallsStarEqual(expectedCallsStar));
+}
+

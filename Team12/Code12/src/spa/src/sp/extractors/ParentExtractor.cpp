@@ -19,14 +19,22 @@ void ParentExtractor::postVisitWhile(const WhileNode *node) {
 }
 
 void ParentExtractor::visitStmtList(const StmtListNode *node) {
+    if (parents.empty()) return;
+
     std::vector<int> childrenLineNums = node->getChildrenLineNums();
+    int immediateParent = parents.back();
     for (int childLine : childrenLineNums) {
-        for (int parent : parents) {
-            addParent(parent, childLine);
+        addParent(immediateParent, childLine);
+        for (int p : parents) {
+            addParentStar(p, childLine);
         }
     }
 }
 
 void ParentExtractor::addParent(int parent, int child) {
     pkbWriter->setParentRelationship(parent, child);
+}
+
+void ParentExtractor::addParentStar(int parent, int child) {
+    pkbWriter->setParentStarRelationship(parent, child);
 }
