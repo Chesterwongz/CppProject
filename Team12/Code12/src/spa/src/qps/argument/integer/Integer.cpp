@@ -10,3 +10,19 @@ string Integer::getValue() {
 string Integer::getArgumentType() {
 	return argumentType;
 }
+
+bool Integer::isIdent() {
+	return false;
+}
+
+bool Integer::isInteger() {
+	return true;
+}
+
+bool Integer::isSynonym() {
+	return false;
+}
+
+bool Integer::isWildcard() {
+	return false;
+}

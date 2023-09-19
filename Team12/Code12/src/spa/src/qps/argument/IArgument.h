@@ -14,4 +14,8 @@ class IArgument {
 public:
 	virtual string getValue() = 0;
 	virtual string getArgumentType() = 0;
+	virtual bool isIdent() = 0;
+	virtual bool isInteger() = 0;
+	virtual bool isSynonym() = 0;
+	virtual bool isWildcard() = 0;
 };

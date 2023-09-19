@@ -16,3 +16,19 @@ string Ident::getValue() {
 string Ident::getArgumentType() {
 	return argumentType;
 }
+
+bool Ident::isIdent() {
+	return true;
+}
+
+bool Ident::isInteger() {
+	return false;
+}
+
+bool Ident::isSynonym() {
+	return false;
+}
+
+bool Ident::isWildcard() {
+	return false;
+}

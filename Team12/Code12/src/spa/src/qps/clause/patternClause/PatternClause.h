@@ -20,6 +20,7 @@ private:
     PatternArgsStreamPtr patternArgsStreamPtr;
 
 public:
+    // prolly will have to add one more field that specifies if the pattern arg is a direct or partial match
     explicit PatternClause(unique_ptr<IArgument> synonym, PatternArgsStreamPtr patternArgsStreamPtr);
 
     QueryResult evaluate(
