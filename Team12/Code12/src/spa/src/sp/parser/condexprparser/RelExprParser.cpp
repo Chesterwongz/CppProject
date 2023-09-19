@@ -11,8 +11,9 @@ std::optional<std::unique_ptr<TNode>> RelExprParser::parse() {
     std::optional<std::string> opOpt = context->tryEatExpected(TokenType::REL_OP);
     if (!opOpt.has_value()) return std::nullopt;
 
-    std::unique_ptr<TNode> rightNode = requireTNode(TNodeType::TNODE_REL)(relFactorParser.parse());
+    std::optional<std::unique_ptr<TNode>> rightNodeOpt = relFactorParser.parse();
+    requireTNodeOpt(TNodeType::TNODE_REL)(rightNodeOpt);
 
     return ExprNodeFactory::makeNode(
-            opOpt.value(), std::move(leftNodeOpt.value()), std::move(rightNode));
+            opOpt.value(), std::move(leftNodeOpt.value()), std::move(rightNodeOpt.value()));
 }

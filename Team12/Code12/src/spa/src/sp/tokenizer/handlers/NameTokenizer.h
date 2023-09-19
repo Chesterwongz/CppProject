@@ -6,5 +6,5 @@
 
 class NameTokenizer : public BaseTokenizer {
 public:
-    Token tokenize(char nextCh, std::shared_ptr<InputStream> inputStream) override;
+    Token tokenize(char nextCh, InputStream &inputStream) override;
 };

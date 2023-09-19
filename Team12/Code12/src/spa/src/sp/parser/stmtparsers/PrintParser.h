@@ -1,13 +1,13 @@
 #pragma once
 
 #include "sp/ast/statements/PrintNode.h"
-#include "sp/ast/terminals/VarNode.h"
-#include "sp/parser/abstractparser/AbstractParser.h"
-#include "sp/parser/terminalparsers/VarParser.h"
+#include "sp/parser/stmtparsers/templates/ReadPrintParserTemplate.h"
 
-class PrintParser : public AbstractParser {
+//print: 'print' var_name';'
+class PrintParser : public ReadPrintParserTemplate {
 public:
-    explicit PrintParser(std::shared_ptr<ParserContext> context) : AbstractParser(std::move(context)) {};
+    explicit PrintParser(std::shared_ptr<ParserContext> context) : ReadPrintParserTemplate(std::move(context)) {};
 
-    std::optional<std::unique_ptr<TNode>> parse() override;
+    [[nodiscard]] std::unique_ptr<TNode> makeTNode() const override;
+
 };

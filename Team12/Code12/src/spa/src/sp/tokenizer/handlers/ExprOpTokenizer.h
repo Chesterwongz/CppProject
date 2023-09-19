@@ -7,7 +7,7 @@
 
 class ExprOpTokenizer : public BaseTokenizer {
 public:
-    Token tokenize(char nextCh, std::shared_ptr<InputStream> inputStream) override;
+    Token tokenize(char nextCh, InputStream &inputStream) override;
 
     static bool matchesExprOp(char ch);
 };
