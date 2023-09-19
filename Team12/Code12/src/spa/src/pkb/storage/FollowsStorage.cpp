@@ -41,5 +41,5 @@ int FollowsStorage::getImmediateFollowedBy(int statementNumber) {
     if (followsTo.find(statementNumber) == followsTo.end()) {
         return -1;
     }
-    return *(followsTo[statementNumber].rbegin()); // Using rbegin() to get the largest element
+    return *(followsTo[statementNumber].rbegin());
 }
