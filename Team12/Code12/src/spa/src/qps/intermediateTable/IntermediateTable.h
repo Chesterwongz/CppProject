@@ -11,14 +11,21 @@ class IntermediateTable {
 private:
     unordered_map<string, int> colNameToIndexMap = {};
     vector<vector<string>> tableData;
+    vector<string> colNames = {};
     int currentColCount = 0;
+    bool isWildcard = false;
+    bool isEmpty;
+
     /**
      * Add an empty column to the table
      * @param newColName takes in name of new column
      * @return index of new column
      */
     int createNewCol(const string& newColName);
-    vector<string> colNames = {};
+    /**
+     * for initialising table empty or wildcard tables
+     */
+    explicit IntermediateTable(bool isTableWildcard);
 
 public:
     /**
@@ -38,6 +45,19 @@ public:
     explicit IntermediateTable(
             const vector<string> &colNames,
             const vector<vector<string>> &data);
+
+    /**
+     * Wildcard table * ANY = ANY
+     * !!! Wildcard tables are empty by definition !!!
+     * @return Wildcard table
+     */
+    static IntermediateTable makeWildcardTable();
+
+    /**
+     * Empty table * ANY = Empty table
+     * @return Empty table
+     */
+    static IntermediateTable makeEmptyTable();
 
     /**
      * @return the entire table's data
@@ -79,5 +99,12 @@ public:
      */
     bool isColExists(const string &colName);
 
+    /**
+     * generic getter methods
+     */
     int getRowCount();
+    bool isTableEmpty() const;
+    bool isTableWildcard() const;
+    bool isTableEmptyAndNotWildcard() const;
+    void printTable();
 };
