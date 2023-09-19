@@ -5,9 +5,8 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
-#include <memory>
 
-using std::pair, std::unordered_map, std::string, std::vector, std::unique_ptr;
+using std::pair, std::unordered_map, std::string, std::vector;
 class IntermediateTable {
 private:
     unordered_map<string, int> colNameToIndexMap = {};
@@ -52,13 +51,13 @@ public:
      * !!! Wildcard tables are empty by definition !!!
      * @return Wildcard table
      */
-    static unique_ptr<IntermediateTable> makeWildcardTable();
+    static IntermediateTable makeWildcardTable();
 
     /**
      * Empty table * ANY = Empty table
      * @return Empty table
      */
-    static unique_ptr<IntermediateTable> makeEmptyTable();
+    static IntermediateTable makeEmptyTable();
 
     /**
      * @return the entire table's data
