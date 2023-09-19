@@ -8,9 +8,20 @@ QueryResult AssignEvaluator::evaluate() {
 	unique_ptr<IArgument> firstArg = std::move(patternArgsStream[0]);
 	unique_ptr<IArgument> secondArg = std::move(patternArgsStream[1]);
 
-	string firstArgValue = firstArg->getValue();
+	string firstArgValue;
+	
+	if (firstArg->isSynonym()) {
+		firstArgValue = QPSStringUtils::WILDCARD;
+	}
+	else {
+		firstArgValue = firstArg->getValue();
+	}
+
 	string secondArgRPNValue = QPSStringUtils::convertToRPN(secondArg->getValue());
-	// TODO: call PKB
+
+	vector<string> pkbResult = pkbReader->getExactPattern(firstArgValue, secondArgRPNValue);
+
+	//TODO: make intermediate table.
 
 	// pkbReader->getAssignPattern(firstArg, secondArgRPNValue);
 }
