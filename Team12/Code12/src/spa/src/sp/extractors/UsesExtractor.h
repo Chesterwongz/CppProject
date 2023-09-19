@@ -28,7 +28,7 @@ private:
     void addUses(int lineNum, const std::string &var);
 
 public:
-    explicit UsesExtractor(PKBWriter *pkbWriter);
+    explicit UsesExtractor(PKBWriter& pkbWriter);
     void visitProcedure(const ProcNode& node) override;
     void visitAssign(const AssignNode& node) override;
     void visitIf(const IfNode& node) override;

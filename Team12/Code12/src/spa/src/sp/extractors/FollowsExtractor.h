@@ -23,7 +23,7 @@ private:
     void addFollows(int prevLine, int currLine);
 
 public:
-    explicit FollowsExtractor(PKBWriter *pkbWriter);
+    explicit FollowsExtractor(PKBWriter& pkbWriter);
     void visitAssign(const AssignNode& node) override;
     void visitCall(const CallNode& node) override;
     void visitIf(const IfNode& node) override;

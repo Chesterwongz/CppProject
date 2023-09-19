@@ -23,6 +23,6 @@ private:
     Populator populator;
 
 public:
-    explicit DesignExtractor(PKBWriter* pkbWriter);
+    explicit DesignExtractor(PKBWriter& pkbWriter);
     void extract(TNode& node);
 };

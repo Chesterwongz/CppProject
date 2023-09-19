@@ -1,6 +1,6 @@
 #include "FollowsExtractor.h"
 
-FollowsExtractor::FollowsExtractor(PKBWriter *pkbWriter) : Extractor(pkbWriter) {}
+FollowsExtractor::FollowsExtractor(PKBWriter& pkbWriter) : Extractor(pkbWriter) {}
 
 void FollowsExtractor::visitAssign(const AssignNode& node) {
     processCurrStmt(node);
@@ -54,5 +54,5 @@ void FollowsExtractor::processCurrStmt(const StmtNode& node) {
 }
 
 void FollowsExtractor::addFollows(int prevLine, int currLine) {
-    pkbWriter->setFollowsRelationship(prevLine, currLine);
+    pkbWriter.setFollowsRelationship(prevLine, currLine);
 }

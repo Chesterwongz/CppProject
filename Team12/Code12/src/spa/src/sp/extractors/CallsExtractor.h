@@ -19,7 +19,7 @@ private:
     void addCallsStar();
 
 public:
-    explicit CallsExtractor(PKBWriter *pkbWriter);
+    explicit CallsExtractor(PKBWriter& pkbWriter);
     void visitProcedure(const ProcNode& node) override;
     void visitCall(const CallNode& node) override;
     void postVisitProgram(const ProgramNode& node) override;

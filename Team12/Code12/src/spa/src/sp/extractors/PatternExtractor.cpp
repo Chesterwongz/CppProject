@@ -1,7 +1,7 @@
 #include "PatternExtractor.h"
 
 
-PatternExtractor::PatternExtractor(PKBWriter *pkbWriter) : Extractor(pkbWriter) {}
+PatternExtractor::PatternExtractor(PKBWriter& pkbWriter) : Extractor(pkbWriter) {}
 
 std::string PatternExtractor::nodeToPostfixString(const TNode& node) {
     if (node.getType() == TNodeType::TNODE_CONST || node.getType() == TNodeType::TNODE_VAR) {
@@ -26,7 +26,7 @@ void PatternExtractor::getControlVars(std::unordered_set<std::string>& vars, con
 void PatternExtractor::visitAssign(const AssignNode& node) {
     std::string varName = node.getChildValueAt(0);
     std::string postfixExpr = nodeToPostfixString(node.getChildAt(1));
-    pkbWriter->setAssignPattern(node.getLineNum(), varName, postfixExpr);
+    pkbWriter.setAssignPattern(node.getLineNum(), varName, postfixExpr);
 }
 
 void PatternExtractor::visitWhile(const WhileNode& node) {
@@ -42,9 +42,9 @@ void PatternExtractor::processContainerStmt(StmtType stmtType, const StmtNode& n
     getControlVars(controlVars, node.getChildAt(0));
     for (auto& var : controlVars) {
         if (stmtType == StmtType::WHILE) {
-            pkbWriter->setWhilePattern(node.getLineNum(), var);
+            pkbWriter.setWhilePattern(node.getLineNum(), var);
         } else {
-            pkbWriter->setIfPattern(node.getLineNum(), var);
+            pkbWriter.setIfPattern(node.getLineNum(), var);
         }
     }
 }

@@ -14,7 +14,7 @@ private:
     void processContainerStmt(StmtType stmtType, const StmtNode& node);
 
 public:
-    explicit PatternExtractor(PKBWriter *pkbWriter);
+    explicit PatternExtractor(PKBWriter& pkbWriter);
     void visitAssign(const AssignNode& node) override;
     void visitWhile(const WhileNode& node) override;
     void visitIf(const IfNode& node) override;

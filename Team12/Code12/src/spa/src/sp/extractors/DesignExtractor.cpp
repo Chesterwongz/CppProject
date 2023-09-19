@@ -1,6 +1,6 @@
 #include "DesignExtractor.h"
 
-DesignExtractor::DesignExtractor(PKBWriter* pkbWriter) {
+DesignExtractor::DesignExtractor(PKBWriter& pkbWriter) {
     extractors.emplace_back(std::make_unique<CallsExtractor>(pkbWriter));
     extractors.emplace_back(std::make_unique<FollowsExtractor>(pkbWriter));
     extractors.emplace_back(std::make_unique<ParentExtractor>(pkbWriter));

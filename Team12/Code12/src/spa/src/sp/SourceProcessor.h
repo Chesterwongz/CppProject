@@ -15,5 +15,5 @@
 class SourceProcessor : public ISourceProcessor {
 public:
     explicit SourceProcessor() = default;;
-    void process(const std::string &fileName, PKBWriter *pkbWriter) override;
+    void process(const std::string &fileName, PKBWriter &pkbWriter) override;
 };

@@ -20,11 +20,11 @@ class ConstNode;
 
 class Extractor {
 protected:
-    PKBWriter* pkbWriter;
+    PKBWriter& pkbWriter;
 
 public:
     virtual ~Extractor() = default;
-    explicit Extractor(PKBWriter* pkbWriter): pkbWriter(pkbWriter) {};
+    explicit Extractor(PKBWriter& pkbWriter): pkbWriter(pkbWriter) {};
     virtual void visitProgram(const ProgramNode& node) {};
     virtual void postVisitProgram(const ProgramNode& node) {};
 

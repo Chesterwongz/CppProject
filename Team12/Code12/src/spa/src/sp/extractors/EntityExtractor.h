@@ -20,7 +20,7 @@
 
 class EntityExtractor : public Extractor {
 public:
-    explicit EntityExtractor(PKBWriter *pkbWriter);
+    explicit EntityExtractor(PKBWriter& pkbWriter);
     void visitAssign(const AssignNode& node) override;
     void visitCall(const CallNode& node) override;
     void visitIf(const IfNode& node) override;

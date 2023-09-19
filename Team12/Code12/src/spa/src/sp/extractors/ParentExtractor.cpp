@@ -1,6 +1,6 @@
 #include "ParentExtractor.h"
 
-ParentExtractor::ParentExtractor(PKBWriter *pkbWriter) : Extractor(pkbWriter) {}
+ParentExtractor::ParentExtractor(PKBWriter& pkbWriter) : Extractor(pkbWriter) {}
 
 void ParentExtractor::visitIf(const IfNode& node) {
     parents.push_back(node.getLineNum());
@@ -32,9 +32,9 @@ void ParentExtractor::visitStmtList(const StmtListNode& node) {
 }
 
 void ParentExtractor::addParent(int parent, int child) {
-    pkbWriter->setParentRelationship(parent, child);
+    pkbWriter.setParentRelationship(parent, child);
 }
 
 void ParentExtractor::addParentStar(int parent, int child) {
-    pkbWriter->setParentStarRelationship(parent, child);
+    pkbWriter.setParentStarRelationship(parent, child);
 }

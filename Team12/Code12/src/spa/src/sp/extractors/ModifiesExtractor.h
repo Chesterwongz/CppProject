@@ -28,7 +28,7 @@ private:
     void addModifies(int lineNum, const std::string &var);
 
 public:
-    explicit ModifiesExtractor(PKBWriter *pkbWriter);
+    explicit ModifiesExtractor(PKBWriter& pkbWriter);
     void visitProcedure(const ProcNode& node) override; // TODO: modify after MS1
     void visitAssign(const AssignNode& node) override;
     void visitIf(const IfNode& node) override;

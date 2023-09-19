@@ -3,25 +3,25 @@
 unique_ptr<Extractor> getExtractor(MockPKBWriter &mockPKBWriter, AbstractionType abstractionType) {
     switch (abstractionType) {
         case AbstractionType::ENTITY:
-            return make_unique<EntityExtractor>(&mockPKBWriter);
+            return make_unique<EntityExtractor>(mockPKBWriter);
 
         case AbstractionType::FOLLOWS:
-            return make_unique<FollowsExtractor>(&mockPKBWriter);
+            return make_unique<FollowsExtractor>(mockPKBWriter);
 
         case AbstractionType::MODIFIES:
-            return make_unique<ModifiesExtractor>(&mockPKBWriter);
+            return make_unique<ModifiesExtractor>(mockPKBWriter);
 
         case AbstractionType::USES:
-            return make_unique<UsesExtractor>(&mockPKBWriter);
+            return make_unique<UsesExtractor>(mockPKBWriter);
 
         case AbstractionType::PARENT:
-            return make_unique<ParentExtractor>(&mockPKBWriter);
+            return make_unique<ParentExtractor>(mockPKBWriter);
 
         case AbstractionType::PATTERN:
-            return make_unique<PatternExtractor>(&mockPKBWriter);
+            return make_unique<PatternExtractor>(mockPKBWriter);
 
         case AbstractionType::CALLS:
-            return make_unique<CallsExtractor>(&mockPKBWriter);
+            return make_unique<CallsExtractor>(mockPKBWriter);
 
         default:
             throw SpException("Unknown abstraction type");

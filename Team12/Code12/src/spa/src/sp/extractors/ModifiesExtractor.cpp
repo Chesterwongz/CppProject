@@ -1,6 +1,6 @@
 #include "ModifiesExtractor.h"
 
-ModifiesExtractor::ModifiesExtractor(PKBWriter *pkbWriter) : Extractor(pkbWriter) {}
+ModifiesExtractor::ModifiesExtractor(PKBWriter& pkbWriter) : Extractor(pkbWriter) {}
 
 void ModifiesExtractor::visitProcedure(const ProcNode& node) {
     procName = node.getValue();
@@ -64,6 +64,6 @@ void ModifiesExtractor::postVisitRead(const ReadNode& node) {
 }
 
 void ModifiesExtractor::addModifies(int lineNum, const std::string &var) {
-    pkbWriter->setModifiesRelationship(var, lineNum);
-    pkbWriter->setModifiesRelationship(var, procName);
+    pkbWriter.setModifiesRelationship(var, lineNum);
+    pkbWriter.setModifiesRelationship(var, procName);
 }

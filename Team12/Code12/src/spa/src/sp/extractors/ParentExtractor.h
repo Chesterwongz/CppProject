@@ -15,7 +15,7 @@ private:
     void addParentStar(int parent, int child);
 
 public:
-    explicit ParentExtractor(PKBWriter *pkbWriter);
+    explicit ParentExtractor(PKBWriter& pkbWriter);
     void visitIf(const IfNode& node) override;
     void visitWhile(const WhileNode& node) override;
     void visitStmtList(const StmtListNode& node) override;
