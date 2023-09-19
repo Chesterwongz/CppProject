@@ -23,6 +23,11 @@ set<string> Query::evaluate() {
     if (clauses.empty()) {
         returnAllPossibleQueriedSynonym();
     }
+    // todo:
+    // if intermediateTable is wildcard, returnAllPossibleQueriedSynonym();
+    // else return empty
+
+
 //    for (unique_ptr<Clause> &clause : clauses) {
 //        unordered_set<int> clauseResult = clause->evaluate(this->context, pkb);
 //        if (intersectionResult.empty()) {

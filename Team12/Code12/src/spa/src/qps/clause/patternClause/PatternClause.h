@@ -16,7 +16,7 @@ public:
     explicit PatternClause(Synonym synonym,
                            Reference entRef,
                            std::string expression);
-    QueryResult evaluate(
+    IntermediateTable evaluate(
             Context context,
             PKBReader *pkb,
             string &synonymToQuery) override;

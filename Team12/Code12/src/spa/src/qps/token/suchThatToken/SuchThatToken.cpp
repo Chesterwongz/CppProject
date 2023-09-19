@@ -40,6 +40,8 @@ const string SuchThatToken::getSecondArgumentValue() {
 }
 
 unique_ptr<Clause> SuchThatToken::buildClause() {
-    return std::make_unique<SuchThatClause>(this->relationship, firstArg, secondArg);
+    // todo: need update isTransitive boolean
+    bool isTransitive = false;
+    return std::make_unique<SuchThatClause>(this->relationship, firstArg, secondArg, isTransitive);
 }
 

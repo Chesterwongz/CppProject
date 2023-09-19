@@ -5,7 +5,7 @@
 
 class FollowsAbstraction : public IAbstraction {
 public:
-    FollowsAbstraction(struct AbstractionParams *abstractionParams)  :
+    explicit FollowsAbstraction(struct AbstractionParams *abstractionParams)  :
             IAbstraction(abstractionParams) {};
-   QueryResult getAbstractions() override;
+    IntermediateTable getAbstractions() override;
 };
