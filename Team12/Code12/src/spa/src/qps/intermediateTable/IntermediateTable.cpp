@@ -32,7 +32,7 @@ IntermediateTable::IntermediateTable(
     for (auto &dataRow : data) {
         this->tableData.push_back(dataRow);
     }
-    this->isEmpty = colNames.empty() && tableData.empty();
+    this->isEmpty = false;
 }
 
 IntermediateTable IntermediateTable::makeWildcardTable() {
@@ -63,7 +63,7 @@ vector<string> IntermediateTable::getSingleCol(const string &colName) {
     }
     int colIndex = this->colNameToIndexMap.at(colName);
     vector<string> res = {};
-    res.reserve(this->tableData.size());
+    res.reserve(this->getRowCount());
     for (auto &row : this->tableData) {
         res.push_back(row.at(colIndex));
     }
@@ -73,8 +73,8 @@ vector<string> IntermediateTable::getSingleCol(const string &colName) {
 vector<vector<string>> IntermediateTable::getCol(
         const vector<string> &colNameVector) {
     vector<vector<string>> res = {};
-    res.reserve(this->tableData.size());
-    for (int rowIndex = 0; rowIndex < tableData.size(); rowIndex++) {
+    res.reserve(this->getRowCount());
+    for (int rowIndex = 0; rowIndex < this->getRowCount(); rowIndex++) {
         vector<string> row = {};
         row.reserve(colNameVector.size());
         for (const string &colName : colNameVector) {

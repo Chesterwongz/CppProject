@@ -17,11 +17,12 @@ private:
     bool isEmpty;
 
     /**
-     * Add an empty column to the table
+     * add an empty column to the table
      * @param newColName takes in name of new column
      * @return index of new column
      */
     int createNewCol(const string& newColName);
+
     /**
      * for initialising table empty or wildcard tables
      */
