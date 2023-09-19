@@ -12,6 +12,10 @@ void PKBWriter::setParentRelationship(int statementNumber, int childStatement) {
     storage.setParent(statementNumber, childStatement);
 }
 
+void PKBWriter::setParentStarRelationship(int statementNumber, int childStatement) {
+    storage.setParentStar(statementNumber, childStatement);
+}
+
 void PKBWriter::setUsesRelationship(const std::string& variableName, int statementNumber) {
     storage.setVariableUsage(variableName, statementNumber);
 }

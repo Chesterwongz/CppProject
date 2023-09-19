@@ -20,6 +20,7 @@ public:
 
     // ParentStorage methods
     void setParent(int statementNumber, int childStatement);
+    void setParentStar(int statementNumber, int childStatement);
 
     // UsesStorage methods
     void setVariableUsage(const std::string& variableName, int statementNumber);

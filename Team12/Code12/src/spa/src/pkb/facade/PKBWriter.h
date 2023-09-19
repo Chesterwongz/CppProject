@@ -24,6 +24,9 @@ public:
     // Add parent relationship
     virtual void setParentRelationship(int statementNumber, int childStatement);
 
+    // Add parent* relationship
+    virtual void PKBWriter::setParentStarRelationship(int statementNumber, int childStatement);
+
     // Add modifies relationship
     virtual void setModifiesRelationship(const std::string& variableName, int statementNumber);
 

@@ -15,6 +15,10 @@ void PKBStorage::setParent(int statementNumber, int childStatement) {
     parentStorage.setParent(statementNumber, childStatement);
 }
 
+void PKBStorage::setParentStar(int statementNumber, int childStatement) {
+    parentStorage.setParentStar(statementNumber, childStatement);
+}
+
 void PKBStorage::setVariableUsage(const std::string& variableName, int statementNumber) {
     usesStorage.setVariableUsage(variableName, statementNumber);
 }

@@ -9,6 +9,11 @@ ParentStorage::ParentStorage() = default;
 
 // Setter for parent relationship
 void ParentStorage::setParent(int statementNumber, int childStatement) {
+    immediateChildrenOf[statementNumber].insert(childStatement);
+    parentsOf[childStatement].insert(statementNumber);
+}
+
+void ParentStorage::setParentStar(int statementNumber, int childStatement) {
     childrenOf[statementNumber].insert(childStatement);
     parentsOf[childStatement].insert(statementNumber);
 }
@@ -49,19 +54,10 @@ std::set<int> ParentStorage::getAllChildren() {
 
 // Getter for immediate children relationship - 1 parent can have multiple children with varying line numbers
 std::set<int> ParentStorage::getImmediateChildren(int statementNumber) {
-    if (childrenOf.find(statementNumber) == childrenOf.end()) {
+    if (immediateChildrenOf.find(statementNumber) == immediateChildrenOf.end()) {
         return {};
     }
-    std::set<int> immediateChildren = childrenOf[statementNumber];
-    for (int child : childrenOf[statementNumber]) {
-        if (childrenOf.find(child) != childrenOf.end()) {
-            for (int grandChild : childrenOf[child]) {
-                immediateChildren.erase(grandChild);
-            }
-        }
-    }
-
-    return immediateChildren;
+    return immediateChildrenOf[statementNumber];
 }
 
 // Getter for immediate parent relationship - largest statement number

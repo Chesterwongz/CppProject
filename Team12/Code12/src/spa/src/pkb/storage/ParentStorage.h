@@ -12,6 +12,8 @@ public:
     // Setter for parent relationship
     void setParent(int statementNumber, int childStatement);
 
+    void setParentStar(int statementNumber, int childStatement);
+
     std::set<int> getAllParents();
 
     std::set<int> getAllChildren();
@@ -29,7 +31,10 @@ public:
     int getImmediateParent(int statementNumber);
 
 private:
-    // Data structure for parent relationship (statement number -> child statement numbers)
+    // Data structure for parent relationship (statement number -> immediate children statement numbers)
+    std::unordered_map<int, std::set<int>> immediateChildrenOf;
+
+    // Data structure for parent* relationship (statement number -> all children statement numbers)
     std::unordered_map<int, std::set<int>> childrenOf;
 
     // Data structure for child relationship (child statement number -> parent statement numbers)
