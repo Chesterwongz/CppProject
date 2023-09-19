@@ -29,7 +29,7 @@ TEST_CASE("FollowsExtractor Simple Statement list") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::FOLLOWS);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::FOLLOWS);
 
     unordered_map<int, set<int>> expected = {};
     expected[1] = {2, 3};

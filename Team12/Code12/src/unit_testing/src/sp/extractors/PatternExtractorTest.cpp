@@ -33,7 +33,7 @@ TEST_CASE("PatternExtractor for assign - no assign pattern") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::PATTERN);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::PATTERN);
     unordered_map<int, pair<string, string>> expected = unordered_map<int, pair<string, string>>();
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
@@ -68,7 +68,7 @@ TEST_CASE("PatternExtractor for assign - 2 simple assign patterns") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::PATTERN);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::PATTERN);
 
     unordered_map<int, pair<string, string>> expected = {};
     expected[1] = {"x", "z2+"};

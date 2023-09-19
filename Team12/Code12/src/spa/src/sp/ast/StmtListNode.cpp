@@ -1,11 +1,11 @@
 #include "StmtListNode.h"
 
 void StmtListNode::accept(Extractor *e) const {
-    e->visitStmtList(this);
+    e->visitStmtList(*this);
 }
 
 void StmtListNode::cleanup(Extractor *e) const {
-    e->postVisitStmtList(this);
+    e->postVisitStmtList(*this);
 }
 
 // ai-gen start (gpt-4, 1)

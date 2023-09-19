@@ -2,39 +2,39 @@
 
 FollowsExtractor::FollowsExtractor(PKBWriter *pkbWriter) : Extractor(pkbWriter) {}
 
-void FollowsExtractor::visitAssign(const AssignNode *node) {
+void FollowsExtractor::visitAssign(const AssignNode& node) {
     processCurrStmt(node);
 }
 
-void FollowsExtractor::visitCall(const CallNode *node) {
+void FollowsExtractor::visitCall(const CallNode& node) {
     processCurrStmt(node);
 }
 
-void FollowsExtractor::visitIf(const IfNode *node) {
+void FollowsExtractor::visitIf(const IfNode& node) {
     processCurrStmt(node);
 }
 
-void FollowsExtractor::visitPrint(const PrintNode *node) {
+void FollowsExtractor::visitPrint(const PrintNode& node) {
     processCurrStmt(node);
 }
 
-void FollowsExtractor::visitRead(const ReadNode *node) {
+void FollowsExtractor::visitRead(const ReadNode& node) {
     processCurrStmt(node);
 }
 
-void FollowsExtractor::visitWhile(const WhileNode *node) {
+void FollowsExtractor::visitWhile(const WhileNode& node) {
     processCurrStmt(node);
 }
 
-void FollowsExtractor::visitStmtList(const StmtListNode *node) {
+void FollowsExtractor::visitStmtList(const StmtListNode& node) {
     nestingBlocksStack.emplace(); // add new nesting block
 }
 
-void FollowsExtractor::postVisitStmtList(const StmtListNode *node) {
+void FollowsExtractor::postVisitStmtList(const StmtListNode& node) {
     nestingBlocksStack.pop(); // remove nesting block
 }
 
-void FollowsExtractor::processCurrStmt(const StmtNode *node) {
+void FollowsExtractor::processCurrStmt(const StmtNode& node) {
     // ai-gen start(gpt-4, 2)
     /*
     prompt:
@@ -44,7 +44,7 @@ void FollowsExtractor::processCurrStmt(const StmtNode *node) {
     Suppose I have a DesignExtractor class that contains the AST root node. How do you extract Follows* relationship from the AST using visitor pattern?
     Follow-up: If the program has multiple statement blocks, e.g. while x { x = x + 1; y = y + 1; if x > 0 { x = 2; y = 2;}}, how does currStmtStack handle extract Follows* in that case
      */
-    int currLine = node->getLineNum();
+    int currLine = node.getLineNum();
     // Update the Follows* relationships for prev lines in this block
     for (const int& prevLine : nestingBlocksStack.top()) {
         addFollows(prevLine, currLine);

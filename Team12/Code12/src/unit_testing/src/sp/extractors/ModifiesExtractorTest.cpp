@@ -37,7 +37,7 @@ TEST_CASE("ModifiesExtractor - no modifies") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::MODIFIES);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::MODIFIES);
     unordered_map<string, unordered_set<int>> expectedVarToStmtNum = unordered_map<string, unordered_set<int>>();
     REQUIRE(mockPKB.isModifiesEqual(expectedVarToStmtNum));
 
@@ -79,7 +79,7 @@ TEST_CASE("ModifiesExtractor - 2 read modifies") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::MODIFIES);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::MODIFIES);
     
     unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
     expectedVarToStmtNum["x"] = {1};
@@ -134,7 +134,7 @@ TEST_CASE("ModifiesExtractor - 1 read 1 assign") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::MODIFIES);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::MODIFIES);
     unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
     expectedVarToStmtNum["x"] = {3};
     expectedVarToStmtNum["y"] = {1};
@@ -204,7 +204,7 @@ TEST_CASE("ModifiesExtractor - if node") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::MODIFIES);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::MODIFIES);
     unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
     expectedVarToStmtNum["x"] = {3, 5};
     expectedVarToStmtNum["y"] = {1};
@@ -292,7 +292,7 @@ TEST_CASE("ModifiesExtractor - if in while node") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::MODIFIES);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::MODIFIES);
     unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
     expectedVarToStmtNum["x"] = {1, 3, 4, 5};
     expectedVarToStmtNum["y"] = {2};

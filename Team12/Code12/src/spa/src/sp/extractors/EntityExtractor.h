@@ -21,13 +21,13 @@
 class EntityExtractor : public Extractor {
 public:
     explicit EntityExtractor(PKBWriter *pkbWriter);
-    void visitAssign(const AssignNode *node) override;
-    void visitCall(const CallNode *node) override;
-    void visitIf(const IfNode *node) override;
-    void visitPrint(const PrintNode *node) override;
-    void visitRead(const ReadNode *node) override;
-    void visitWhile(const WhileNode *node) override;
-    void visitVariable(const VarNode *node) override;
-    void visitConstant(const ConstNode *node) override;
-    void visitProcedure(const ProcNode *node) override;
+    void visitAssign(const AssignNode& node) override;
+    void visitCall(const CallNode& node) override;
+    void visitIf(const IfNode& node) override;
+    void visitPrint(const PrintNode& node) override;
+    void visitRead(const ReadNode& node) override;
+    void visitWhile(const WhileNode& node) override;
+    void visitVariable(const VarNode& node) override;
+    void visitConstant(const ConstNode& node) override;
+    void visitProcedure(const ProcNode& node) override;
 };

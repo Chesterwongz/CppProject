@@ -10,6 +10,6 @@ DesignExtractor::DesignExtractor(PKBWriter* pkbWriter) {
     extractors.emplace_back(std::make_unique<PatternExtractor>(pkbWriter));
 }
 
-void DesignExtractor::extract(TNode *node) {
+void DesignExtractor::extract(TNode& node) {
     populator.populate(node, extractors);
 }

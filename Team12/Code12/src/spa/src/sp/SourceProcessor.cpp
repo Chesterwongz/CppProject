@@ -8,7 +8,7 @@ void SourceProcessor::process(const std::string &filePath, PKBWriter *pkbWriter)
     if (!abstractSyntaxTree.has_value()) {
         throw SpException("Failed to parse input");
     }
-    TNode* root = abstractSyntaxTree.value().get();
+    TNode& root = *abstractSyntaxTree.value();
     SemanticValidator semanticValidator;
     semanticValidator.validate(root);
     DesignExtractor designExtractor(pkbWriter);

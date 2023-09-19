@@ -24,5 +24,5 @@ private:
 
 public:
     explicit DesignExtractor(PKBWriter* pkbWriter);
-    void extract(TNode* node);
+    void extract(TNode& node);
 };

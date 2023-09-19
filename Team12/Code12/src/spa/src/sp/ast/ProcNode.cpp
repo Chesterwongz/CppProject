@@ -1,11 +1,11 @@
 #include "ProcNode.h"
 
 void ProcNode::accept(Extractor *e) const {
-    e->visitProcedure(this);
+    e->visitProcedure(*this);
 }
 
 void ProcNode::cleanup(Extractor *e) const {
-    e->postVisitProcedure(this);
+    e->postVisitProcedure(*this);
 }
 
 int ProcNode::getProcStart() const {

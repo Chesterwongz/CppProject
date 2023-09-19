@@ -1,9 +1,9 @@
 #include "IfNode.h"
 
 void IfNode::accept(Extractor *e) const {
-    e->visitIf(this);
+    e->visitIf(*this);
 }
 
 void IfNode::cleanup(Extractor *e) const {
-    e->postVisitIf(this);
+    e->postVisitIf(*this);
 }

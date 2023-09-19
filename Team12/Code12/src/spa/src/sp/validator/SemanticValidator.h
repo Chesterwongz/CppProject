@@ -16,15 +16,15 @@ private:
     std::string callerProc;
     std::unordered_map<std::string, std::unordered_set<std::string>> adjList;
     std::unordered_map<std::string, int> indegree;
-    void initialiseGraph(const TNode* root);
+    void initialiseGraph(const TNode& root);
     void updateGraph(const std::string& callee);
     bool isProcedureDefined(const std::string &procName);
     bool isDuplicateCall(const string &callee);
     bool hasCyclicCalls();
-    void dfs(const TNode* node);
+    void dfs(const TNode& node);
 
 public:
     explicit SemanticValidator();
-    void validate(const TNode* root);
+    void validate(const TNode& root);
 };
 

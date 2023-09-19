@@ -32,7 +32,7 @@ TEST_CASE("EntityExtractor - only reads") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::ENTITY);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
 
     // compare test results
     REQUIRE(mockPKB.isConstantsEqual({}));
@@ -87,7 +87,7 @@ TEST_CASE("EntityExtractor - non-nesting, 1 uses") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::ENTITY);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
 
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
     REQUIRE(mockPKB.isVariablesEqual({"x", "y"}));
@@ -156,7 +156,7 @@ TEST_CASE("EntityExtractor - if node") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::ENTITY);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
 
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
     REQUIRE(mockPKB.isVariablesEqual({"x", "y", "z", "num1", "num2"}));
@@ -241,7 +241,7 @@ TEST_CASE("EntityExtractor - if in while node") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::ENTITY);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
 
     REQUIRE(mockPKB.isConstantsEqual({"1"}));
     REQUIRE(mockPKB.isVariablesEqual({"x", "y", "w", "z", "num1"}));

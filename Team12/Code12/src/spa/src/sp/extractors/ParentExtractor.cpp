@@ -2,26 +2,26 @@
 
 ParentExtractor::ParentExtractor(PKBWriter *pkbWriter) : Extractor(pkbWriter) {}
 
-void ParentExtractor::visitIf(const IfNode *node) {
-    parents.push_back(node->getLineNum());
+void ParentExtractor::visitIf(const IfNode& node) {
+    parents.push_back(node.getLineNum());
 }
 
-void ParentExtractor::visitWhile(const WhileNode *node) {
-    parents.push_back(node->getLineNum());
+void ParentExtractor::visitWhile(const WhileNode& node) {
+    parents.push_back(node.getLineNum());
 }
 
-void ParentExtractor::postVisitIf(const IfNode *node) {
+void ParentExtractor::postVisitIf(const IfNode& node) {
     parents.pop_back();
 }
 
-void ParentExtractor::postVisitWhile(const WhileNode *node) {
+void ParentExtractor::postVisitWhile(const WhileNode& node) {
     parents.pop_back();
 }
 
-void ParentExtractor::visitStmtList(const StmtListNode *node) {
+void ParentExtractor::visitStmtList(const StmtListNode& node) {
     if (parents.empty()) return;
 
-    std::vector<int> childrenLineNums = node->getChildrenLineNums();
+    std::vector<int> childrenLineNums = node.getChildrenLineNums();
     int immediateParent = parents.back();
     for (int childLine : childrenLineNums) {
         addParent(immediateParent, childLine);

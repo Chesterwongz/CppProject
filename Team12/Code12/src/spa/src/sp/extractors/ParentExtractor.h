@@ -16,9 +16,9 @@ private:
 
 public:
     explicit ParentExtractor(PKBWriter *pkbWriter);
-    void visitIf(const IfNode *node) override;
-    void visitWhile(const WhileNode *node) override;
-    void visitStmtList(const StmtListNode *node) override;
-    void postVisitIf(const IfNode *node) override;
-    void postVisitWhile(const WhileNode *node) override;
+    void visitIf(const IfNode& node) override;
+    void visitWhile(const WhileNode& node) override;
+    void visitStmtList(const StmtListNode& node) override;
+    void postVisitIf(const IfNode& node) override;
+    void postVisitWhile(const WhileNode& node) override;
 };

@@ -16,7 +16,7 @@ void setup(const string& input) {
         throw SpException("Failed to parse input");
     }
     SemanticValidator semanticValidator;
-    semanticValidator.validate(nodeOpt.value().get());
+    semanticValidator.validate(*nodeOpt.value());
 }
 
 TEST_CASE("SemanticValidator - valid program with one procedure") {

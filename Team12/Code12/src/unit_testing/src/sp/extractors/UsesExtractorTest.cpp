@@ -34,7 +34,7 @@ TEST_CASE("UsesExtractor - no uses") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::USES);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::USES);
     unordered_map<string, unordered_set<int>> expected = {};
     REQUIRE(mockPKB.isUsesEqual(expected));
 
@@ -79,7 +79,7 @@ TEST_CASE("UsesExtractor - non-nesting, 1 uses") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::USES);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::USES);
     unordered_map<string, unordered_set<int>> expected = {};
     expected["x"] = {2};
     expected["y"] = {3};
@@ -142,7 +142,7 @@ TEST_CASE("UsesExtractor - if node") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::USES);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::USES);
     unordered_map<string, unordered_set<int>> expected = {};
     expected["x"] = {2};
     expected["y"] = {3, 5};
@@ -236,7 +236,7 @@ TEST_CASE("UsesExtractor - if in while node") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::USES);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::USES);
     unordered_map<string, unordered_set<int>> expected = {};
     expected["x"] = {3, 4};
     expected["y"] = {3, 4, 5};

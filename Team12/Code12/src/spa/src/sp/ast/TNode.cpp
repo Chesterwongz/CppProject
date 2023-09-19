@@ -16,9 +16,9 @@ TNodeType TNode::getType() const {
     return type;
 }
 
-TNode* TNode::getChildAt(int index) const {
+TNode& TNode::getChildAt(int index) const {
     assert(index >= 0 && index < children.size());
-    return children.at(index).get();
+    return *children.at(index).get();
 }
 
 string TNode::getChildValueAt(int index) const {

@@ -29,7 +29,7 @@ public:
 
     [[nodiscard]] TNodeType getType() const;
 
-    [[nodiscard]] TNode* getChildAt(int index) const;
+    [[nodiscard]] TNode& getChildAt(int index) const;
 
     [[nodiscard]] string getChildValueAt(int index) const;
 

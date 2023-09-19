@@ -13,7 +13,6 @@ unique_ptr<Extractor> getExtractor(MockPKBWriter &mockPKBWriter, AbstractionType
 
         case AbstractionType::USES:
             return make_unique<UsesExtractor>(&mockPKBWriter);
-            break;
 
         case AbstractionType::PARENT:
             return make_unique<ParentExtractor>(&mockPKBWriter);
@@ -29,7 +28,7 @@ unique_ptr<Extractor> getExtractor(MockPKBWriter &mockPKBWriter, AbstractionType
     }
 }
 
-void extractAbstraction(TNode* node, MockPKBWriter &mockPKBWriter, AbstractionType abstractionType) {
+void extractAbstraction(TNode &node, MockPKBWriter &mockPKBWriter, AbstractionType abstractionType) {
     Populator populator;
     vector<unique_ptr<Extractor>> extractors;
     extractors.emplace_back(getExtractor(mockPKBWriter, abstractionType));
@@ -42,5 +41,5 @@ void extractAbstraction(const string& input, MockPKBWriter &mockPKBWriter, Abstr
     if (!nodeOpt.has_value()) {
         throw SpException("Failed to parse input");
     }
-    extractAbstraction(nodeOpt.value().get(), mockPKBWriter, abstractionType);
+    extractAbstraction(*nodeOpt.value(), mockPKBWriter, abstractionType);
 }

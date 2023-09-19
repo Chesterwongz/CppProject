@@ -28,7 +28,7 @@ TEST_CASE("CallsExtractor - no calls") {
     // extract
     struct Storage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::CALLS);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::CALLS);
 
     unordered_map<string, std::unordered_set<string>> expected = {};
     REQUIRE(mockPKB.isCallsEqual(expected));

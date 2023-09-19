@@ -2,17 +2,17 @@
 
 CallsExtractor::CallsExtractor(PKBWriter *pkbWriter) : Extractor(pkbWriter) {}
 
-void CallsExtractor::visitProcedure(const ProcNode *node) {
-    currProc = node->getValue();
+void CallsExtractor::visitProcedure(const ProcNode& node) {
+    currProc = node.getValue();
 }
 
-void CallsExtractor::visitCall(const CallNode *node) {
-    std::string callee = node->getValue();
+void CallsExtractor::visitCall(const CallNode& node) {
+    std::string callee = node.getValue();
     callerToCalleeMap[currProc].insert(callee);
     pkbWriter->setCallsRelationship(currProc, callee);
 }
 
-void CallsExtractor::postVisitProgram(const ProgramNode *node) {
+void CallsExtractor::postVisitProgram(const ProgramNode& node) {
     addCallsStar();
 }
 

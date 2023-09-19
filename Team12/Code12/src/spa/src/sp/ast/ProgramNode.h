@@ -7,7 +7,6 @@
 class ProgramNode : public TNode {
 public:
     ProgramNode(): TNode(TNodeType::TNODE_PROGRAM) {}
-    [[nodiscard]] vector<std::string> getProcNames() const;
     void accept(Extractor* e) const override;
     void cleanup(Extractor* e) const override;
 };
