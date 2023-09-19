@@ -37,6 +37,6 @@ private:
     // Data structure for parent* relationship (statement number -> all children statement numbers)
     std::unordered_map<int, std::set<int>> childrenOf;
 
-    // Data structure for child relationship (child statement number -> parent statement numbers)
+    // Data structure for child relationship (child statement number -> parents statement numbers)
     std::unordered_map<int, std::set<int>> parentsOf;
 };
