@@ -31,9 +31,9 @@ IntermediateTable MULTI_COLUMN_TABLE_2 = IntermediateTable(
         MULTI_COL_NAME_VECTOR_2,
         MULTI_COL_DATA_2);
 
-IntermediateTable WILDCARD_TABLE = IntermediateTable::makeWildcardTable();
+IntermediateTable WILDCARD_TABLE = *IntermediateTable::makeWildcardTable();
 
-IntermediateTable EMPTY_TABLE = IntermediateTable::makeEmptyTable();
+IntermediateTable EMPTY_TABLE = *IntermediateTable::makeEmptyTable();
 
 TEST_CASE("IntermediateTable - constructors + getData") {
     REQUIRE(isVectorsSameAsPairs(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getData(), PAIR_DATA));

@@ -35,15 +35,18 @@ IntermediateTable::IntermediateTable(
     this->isEmpty = colNames.empty() && tableData.empty();
 }
 
-IntermediateTable IntermediateTable::makeWildcardTable() {
-    bool isTableWildcard = true;
+unique_ptr<IntermediateTable> IntermediateTable::makeWildcardTable() {
     // note: wildcard tables are empty
-    return IntermediateTable(isTableWildcard);
+    bool isTableWildcard = true;
+    // make_unique cannot access private constructor
+    return std::unique_ptr<IntermediateTable>(
+            new IntermediateTable(isTableWildcard));
 }
 
-IntermediateTable IntermediateTable::makeEmptyTable() {
+unique_ptr<IntermediateTable> IntermediateTable::makeEmptyTable() {
     bool isTableWildcard = false;
-    return IntermediateTable(isTableWildcard);
+    return std::unique_ptr<IntermediateTable>(
+            new IntermediateTable(isTableWildcard));
 }
 
 int IntermediateTable::createNewCol(const string &newColName) {
@@ -127,7 +130,7 @@ IntermediateTable IntermediateTable::join(const IntermediateTable& intermediateT
     }
     if (this->isTableEmptyAndNotWildcard() || intermediateTable.isTableEmptyAndNotWildcard()) {
         // (ANY x EMPTY || EMPTY x ANY) = EMPTY
-        return IntermediateTable::makeEmptyTable();
+        return *(IntermediateTable::makeEmptyTable());
     }
     if (this->isTableWildcard() && !intermediateTable.isTableWildcard()) {
         // WILDCARD X TABLE_2 = TABLE_2
