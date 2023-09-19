@@ -1,14 +1,14 @@
 <?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
 <test_results>
 <info>
-<name>autotester</name><parsing_time_taken>1.006000</parsing_time_taken>
+<name>autotester</name><parsing_time_taken>0.960000</parsing_time_taken>
 </info>
 <queries>
 <query>
 <id ReturnTuple="1" CondNum="1" RelNum="0" comment="assignment">1</id><querystr><![CDATA[assign s; Select s]]></querystr>
 <stuans>2</stuans>
 <correct></correct>
-<time_taken>0.628000</time_taken>
+<time_taken>0.577000</time_taken>
 <failed>
 <missing></missing>
 <additional>2</additional>
@@ -24,7 +24,7 @@
 <id ReturnTuple="1" CondNum="1" RelNum="0" comment="read">2</id><querystr><![CDATA[read s; Select s]]></querystr>
 <stuans>1,3</stuans>
 <correct>1</correct>
-<time_taken>0.481000</time_taken>
+<time_taken>0.382000</time_taken>
 <failed>
 <missing></missing>
 <additional>3</additional>
