@@ -1,13 +1,7 @@
 #include "ParentStorage.h"
 
-#include <iostream>
-#include <unordered_map>
-#include <set>
-
-// Constructor
 ParentStorage::ParentStorage() = default;
 
-// Setter for parent relationship
 void ParentStorage::setParent(int statementNumber, int childStatement) {
     immediateChildrenOf[statementNumber].insert(childStatement);
     parentsOf[childStatement].insert(statementNumber);
@@ -18,7 +12,6 @@ void ParentStorage::setParentStar(int statementNumber, int childStatement) {
     parentsOf[childStatement].insert(statementNumber);
 }
 
-// Getter for all children relationship
 std::set<int> ParentStorage::getAllChildren(int statementNumber) {
     if (childrenOf.find(statementNumber) == childrenOf.end()) {
         return {};
@@ -26,7 +19,6 @@ std::set<int> ParentStorage::getAllChildren(int statementNumber) {
     return childrenOf[statementNumber];
 }
 
-// Getter for all parents relationship
 std::set<int> ParentStorage::getAllParents(int statementNumber) {
     if (parentsOf.find(statementNumber) == parentsOf.end()) {
         return {};
@@ -34,7 +26,6 @@ std::set<int> ParentStorage::getAllParents(int statementNumber) {
     return parentsOf[statementNumber];
 }
 
-// Getter for all parents
 std::set<int> ParentStorage::getAllParents() {
     std::set<int> allParents;
     for (const auto& entry : childrenOf) {
@@ -43,7 +34,6 @@ std::set<int> ParentStorage::getAllParents() {
     return allParents;
 }
 
-// Getter for all children
 std::set<int> ParentStorage::getAllChildren() {
     std::set<int> allChildren;
     for (const auto& entry : parentsOf) {
@@ -52,7 +42,6 @@ std::set<int> ParentStorage::getAllChildren() {
     return allChildren;
 }
 
-// Getter for immediate children relationship - 1 parent can have multiple children with varying line numbers
 std::set<int> ParentStorage::getImmediateChildren(int statementNumber) {
     if (immediateChildrenOf.find(statementNumber) == immediateChildrenOf.end()) {
         return {};
@@ -60,7 +49,6 @@ std::set<int> ParentStorage::getImmediateChildren(int statementNumber) {
     return immediateChildrenOf[statementNumber];
 }
 
-// Getter for immediate parent relationship - largest statement number
 int ParentStorage::getImmediateParent(int statementNumber) {
     if (parentsOf.find(statementNumber) == parentsOf.end()) {
         return -1;

@@ -15,7 +15,6 @@ using std::unique_ptr;
 
 class PKBWriter {
 public:
-    // Constructor
     explicit PKBWriter(PKBStorage& storage) : storage(storage) {};
 
     // Add follows relationship
@@ -33,14 +32,19 @@ public:
     // Add uses relationship
     virtual void setUsesRelationship(const std::string& variableName, int statementNumber);
 
+    // Add variable name to storage
     virtual void setVariable(const std::string& variableName);
 
+    // Add constant value to storage
     virtual void setConstant(const std::string& constantValue);
 
+    // Add procedure name to storage
     virtual void setProcedure(const std::string& procedureName, int startStatement);
 
+    // Add statement number and type to storage
     virtual void setStatement(int statementNumber, StmtType statementType);
 
+    // Add an expression to storage
     virtual void setPattern(std::string variableName, std::string rpn, int statementNumber);
 
 private:

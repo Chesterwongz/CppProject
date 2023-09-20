@@ -1,4 +1,3 @@
-// Storage.cpp
 #include "PKBStorage.h"
 
 PKBStorage::PKBStorage() {}

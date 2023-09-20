@@ -2,9 +2,7 @@
 
 #include <string>
 #include <iostream>
-#include <set>
 #include <map>
-#include <string>
 #include <vector>
 #include <set>
 
@@ -18,7 +16,6 @@
 
 class PKBReader {
 public:
-    // Constructor
     PKBReader(PKBStorage& storage) : storage(storage) {};
 
     // return the names of all variables in the program
@@ -58,8 +55,6 @@ public:
 
     // return a pair (s1, s2) that satisfy Parent(s1, s2) where s1 is of same type as statementType and s2 is statementNumber
     std::pair<std::string, std::string> getImmediateParentOf(int statementNumber, StmtType statementType);
-
-    std::vector<std::pair<std::string, std::string>> getRelationsHelper(int statementNumber, StmtType statementType, std::set<int>(ParentStorage::* relationFunction)(int));
 
     // return all pairs (s1,s2) that satisfy Parent(s1, s2) and satisfying statement type restriction
     std::vector<std::pair<std::string, std::string>> getParentChildPairs(StmtType parentType, StmtType childType);
