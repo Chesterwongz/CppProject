@@ -1,0 +1,4 @@
+procedure AssignPattern {
+  line1 = 1 + 2 + 3 + 4;
+  line2 = a + b -c * d /  e %f;
+}

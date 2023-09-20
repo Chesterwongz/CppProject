@@ -1,0 +1,6 @@
+procedure procedure {
+  read read;
+  print print;
+  while ((!(while != while))||(while<=while)) {
+    if ((if == if) && ( ! (if >= if))) {
+        assign = variable + 5;}}}
