@@ -5,11 +5,11 @@
 #include "qps/token/QueryToken.h"
 #include "pkb/facade/PKBReader.h"
 #include "qps/query/Query.h"
-#include "qps/token/suchThatToken/SuchThatToken.h"
 #include "qps/clause/utils/ClauseConstants.h"
 
+
 struct AbstractionParams {
-    PKBReader *pkb;
+    PKBReader &pkb;
     Context context;
     Abstraction abstraction;
     Reference firstArg;
@@ -18,7 +18,7 @@ struct AbstractionParams {
 
 class IAbstraction {
 protected:
-    PKBReader *pkb{};
+    PKBReader& pkb;
     Context context;
     Abstraction abstraction;
     Reference firstArg;

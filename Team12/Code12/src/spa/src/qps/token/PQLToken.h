@@ -25,4 +25,4 @@ public:
     PQLToken(PQLTokenType type, const TokenValue value);
 };
 
-typedef vector<unique_ptr<PQLToken>> TokenPtrList;
+typedef vector<PQLToken> PQLTokenList;

@@ -12,17 +12,18 @@ SuchThatClause::SuchThatClause (
 
 std::unordered_set<int> SuchThatClause::evaluate(
         Context context,
-        PKBReader *pkb) {
-    AbstractionParams *abstractionParams = {};
-
-    abstractionParams->abstraction = this->relationship;
-    abstractionParams->pkb = pkb;
-    abstractionParams->context = std::move(context);
-    abstractionParams->firstArg = firstArg;
-    abstractionParams->secondArg = secondArg;
-
-    std::unique_ptr<IAbstraction> executableAbstraction =
-            AbstractionFactory::createAbstraction(abstractionParams);
-
-    return executableAbstraction->getAbstractions();
+        PKBReader &pkb) {
+//    AbstractionParams *abstractionParams = {};
+//
+//    abstractionParams->abstraction = this->relationship;
+//    abstractionParams->pkb = pkb;
+//    abstractionParams->context = std::move(context);
+//    abstractionParams->firstArg = firstArg;
+//    abstractionParams->secondArg = secondArg;
+//
+//    std::unique_ptr<IAbstraction> executableAbstraction =
+//            AbstractionFactory::createAbstraction(abstractionParams);
+//
+//    return executableAbstraction->getAbstractions();
+return {};
 }

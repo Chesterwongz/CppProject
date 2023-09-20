@@ -2,13 +2,12 @@
 
 #include <string>
 #include <map>
-#include "qps/token/suchThatToken/SuchThatToken.h"
-#include "qps/token/declarativeToken/DeclarativeToken.h"
 
 using std::string, std::map;
 
 // Statement types
 typedef string StatementType;
+typedef string Abstraction;
 
 const string ASSIGN_STMT_TYPE = "ASSIGN";
 const string CALL_STMT_TYPE = "CALL";

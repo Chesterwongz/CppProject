@@ -15,11 +15,5 @@ public:
 };
 
 // TODO: feels like should be moved to a separate folder for references in the future
-enum Reference {
-    WILDCARD,
-    SYNONYM,
-    STRING,
-    LINE_NUMBER
-};
 
 typedef std::string Synonym;

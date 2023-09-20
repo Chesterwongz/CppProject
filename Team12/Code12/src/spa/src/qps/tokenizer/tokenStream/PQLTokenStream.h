@@ -8,10 +8,10 @@ class PQLTokenStream {
 private:
 	int currIndex;
 	int tokenListSize;
-	unique_ptr<TokenPtrList> tokenList;
+	unique_ptr<PQLTokenList> tokenList;
 
 public:
-	explicit PQLTokenStream(unique_ptr<TokenPtrList> tokenList);
+	explicit PQLTokenStream(unique_ptr<PQLTokenList> tokenList);
 	const bool isTokenStreamEnd();
 	void next();
     PQLToken& getCurrentToken();

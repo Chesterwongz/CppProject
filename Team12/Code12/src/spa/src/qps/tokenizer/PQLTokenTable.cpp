@@ -38,7 +38,6 @@ PQLTokenTable::PQLTokenTable() {
 
 	tokens[ASCII_SEMICOLON] = PQL_SEMICOLON_TOKEN;
 	tokens[ASCII_COMMA] = PQL_COMMA_TOKEN;
-	tokens[ASCII_PERIOD] = PQL_PERIOD_TOKEN;
 }
 
 PQLTokenType PQLTokenTable::getTokenType(const char c) {

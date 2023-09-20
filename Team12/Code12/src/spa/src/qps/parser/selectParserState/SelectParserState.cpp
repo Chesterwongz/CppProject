@@ -54,7 +54,7 @@ void SelectParserState::handleToken() {
 			break;
 		case PQL_SYNONYM_TOKEN:
 			// TODO: Depends on next type
-			this->parserContext.transitionTo();
+//			this->parserContext.transitionTo();
 			return;
 		case PQL_SELECT_TOKEN:
 			

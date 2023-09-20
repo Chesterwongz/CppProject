@@ -75,7 +75,7 @@ void DeclarativeParserState::handleToken() {
 		case PQL_SELECT_TOKEN: // exit token
 			// TODO: Select state
             // add to clause
-			this->parserContext.transitionTo();
+//			this->parserContext.transitionTo();
 
 			return;
 		default:

@@ -7,24 +7,8 @@
 
 using std::string, std::vector, std::unique_ptr;
 
-QPS::QPS(PKBReader *pkb) :
+QPS::QPS(PKBReader *pkb, const string& query) :
     pkb(pkb),
-    tokeniser(Tokeniser()),
-    validator(Validator()) {}
+    tokenizer(PQLTokenizer(query)) {}
 
- unordered_set<int> QPS::processQueryString(string queryString) {
-    queryString.erase(std::remove(queryString.begin(), queryString.end(), '\n'), queryString.end());
-    QPSTokenStream queryTokenVector = tokeniser.convertToTokens(std::move(queryString));
 
-//    bool isTokensValid = validator.validateTokens(queryTokenVector);
-//    if (!isTokensValid) {
-//        throw QPSException::InvalidQueryException();
-//    }
-
-    // build query from validated tokens
-//    Query query = queryBuilder.buildQuery(queryTokenVector);
-//
-//     return query.evaluate();
-
-return {};
-}

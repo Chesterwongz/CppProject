@@ -4,11 +4,12 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <algorithm>
+#include <memory>
 
 #include "qps/token/QueryToken.h"
-#include "qps/validator/Validator.h"
 #include "pkb/facade/PKBReader.h"
-#include "qps/token/declarativeToken/DeclarativeToken.h"
+
+using std::unique_ptr;
 
 typedef std::vector<std::unique_ptr<Clause>> ClauseList;
 

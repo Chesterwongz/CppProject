@@ -5,6 +5,14 @@
 #include <unordered_set>
 #include "qps/context/Context.h"
 #include "pkb/facade/PKBReader.h"
+#include "qps/clause/utils/ClauseConstants.h"
+
+enum Reference {
+    WILDCARD,
+    SYNONYM,
+    STRING,
+    LINE_NUMBER
+};
 
 class Clause {
 public:

@@ -6,7 +6,7 @@
 PQLTokenizer::PQLTokenizer(const string& query) :
 	buffer(""),
     literalBuffer(""),
-	tokenList(make_unique<TokenPtrList>()),
+	tokenList(make_unique<PQLTokenList>()),
     currPos(0),
 	tokenTable(),
     query(query),
@@ -18,7 +18,7 @@ PQLTokenizer::PQLTokenizer(const string& query) :
 }
 
 // TODO: can be converted to a mix of strategy pattern and simple methods for complex edges and simpler cases respectively
-unique_ptr<PQLTokenStream> PQLTokenizer::tokenize() {
+unique_ptr<PQLTokenList> PQLTokenizer::tokenize() {
 	while (currPos < query.length()) {
         PQLTokenType currType = tokenTable.getTokenType(query.at(currPos));
 
@@ -36,18 +36,22 @@ unique_ptr<PQLTokenStream> PQLTokenizer::tokenize() {
             case PQL_WILDCARD_TOKEN:
             case PQL_ASTERICKS_TOKEN:
             case PQL_SEMICOLON_TOKEN:
+            case PQL_COMMA_TOKEN:
             case PQL_OPEN_BRACKET_TOKEN:
             case PQL_CLOSE_BRACKET_TOKEN:
             case PQL_OPERATOR_TOKEN:
                 processSymbols(currType);
                 break;
             case PQL_IGNORE_TOKEN:
+                currPos++;
                 break;
             case PQL_INVALID_TOKEN:
             default:
                 throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);
         }
     }
+
+    return std::move(tokenList);
 }
 
 void PQLTokenizer::flushBuffer(PQLTokenType type) {
@@ -55,19 +59,19 @@ void PQLTokenizer::flushBuffer(PQLTokenType type) {
         return;
     }
     if (!isProcessingLiteral) {
-        tokenList->push_back(make_unique<PQLToken>(type, buffer));
+        tokenList->push_back(PQLToken(type, buffer));
     } else {
-        literalBuffer += ' ';
         literalBuffer.append(buffer);
+        literalBuffer += ' ';
     }
     buffer.clear();
 }
 
 void PQLTokenizer::flushLiteralBuffer(PQLTokenType type) {
-    if (buffer.empty()) {
+    if (literalBuffer.empty()) {
         throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_EMPTY_LITERAL);
     }
-    tokenList->push_back(make_unique<PQLToken>(type, literalBuffer));
+    tokenList->push_back(PQLToken(type, literalBuffer));
     literalBuffer.clear();
 }
 
