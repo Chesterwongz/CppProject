@@ -7,6 +7,7 @@ string validAlphanumericSynonym = "rnj324jn2k43";
 string validAlphabeticIdent = "\"fkjdgn\"";
 string validAlphanumericIdent = "\"j1nkn4j2n\"";
 string validInteger = "234872";
+string wildcard = "_";
 
 TEST_CASE("test_isSynonym_allAlphabet_true") {
 	string testSynonym = validAlphabeticSynonym;
@@ -93,7 +94,7 @@ TEST_CASE("test_isIdent_no_'\"'_false") {
 }
 
 TEST_CASE("test_isWildcard_'_'_true") {
-	string testWildcard = "_";
+	string testWildcard = wildcard;
 	bool result = QPSStringUtils::isWildcard(testWildcard);
 
 	REQUIRE(result);
@@ -160,4 +161,53 @@ TEST_CASE("test_isEntRef_validSynonym_true") {
 	bool result = QPSStringUtils::isEntRef(testEntRef);
 
 	REQUIRE(result);
+}
+
+TEST_CASE("test_isEntRef_validIdent_true") {
+	string testEntRef = validAlphanumericIdent;
+	bool result = QPSStringUtils::isEntRef(testEntRef);
+
+	REQUIRE(result);
+}
+
+TEST_CASE("test_isEntRef_wildcard_true") {
+	string testEntRef = wildcard;
+	bool result = QPSStringUtils::isEntRef(testEntRef);
+
+	REQUIRE(result);
+}
+
+TEST_CASE("test_isEntRef_validInteger_false") {
+	string testEntRef = validInteger;
+	bool result = QPSStringUtils::isEntRef(testEntRef);
+
+	REQUIRE(result == false);
+}
+
+TEST_CASE("test_isStmtRef_validSynonym_true") {
+	string testStmtRef = validAlphabeticSynonym;
+	bool result = QPSStringUtils::isStmtRef(testStmtRef);
+
+	REQUIRE(result);
+}
+
+TEST_CASE("test_isStmtRef_validInteger_true") {
+	string testEntRef = validInteger;
+	bool result = QPSStringUtils::isStmtRef(testEntRef);
+
+	REQUIRE(result);
+}
+
+TEST_CASE("test_isStmtRef_wildcard_true") {
+	string testEntRef = wildcard;
+	bool result = QPSStringUtils::isStmtRef(testEntRef);
+
+	REQUIRE(result);
+}
+
+TEST_CASE("test_isStmtRef_validIdent_false") {
+	string testEntRef = validAlphanumericIdent;
+	bool result = QPSStringUtils::isStmtRef(testEntRef);
+
+	REQUIRE(result == false);
 }
