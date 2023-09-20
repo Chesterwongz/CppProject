@@ -91,6 +91,20 @@ TEST_CASE("test_isIdent_no_'\"'_invalid") {
 	REQUIRE(result == false);
 }
 
+TEST_CASE("test_isWildcard_'_'_valid") {
+	string testWildcard = "_";
+	bool result = QPSStringUtils::isWildcard(testWildcard);
+
+	REQUIRE(result);
+}
+
+TEST_CASE("test_isWildcard_not'_'_invalid") {
+	string testWildcard = "sdf23r";
+	bool result = QPSStringUtils::isWildcard(testWildcard);
+
+	REQUIRE(result == false);
+}
+
 TEST_CASE("test_isEntRef_validSynonym_valid") {
 	string testEntRef = validAlphanumericSynonym;
 	bool result = QPSStringUtils::isEntRef(testEntRef);
