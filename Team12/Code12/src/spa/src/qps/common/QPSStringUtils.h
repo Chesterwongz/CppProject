@@ -6,18 +6,12 @@
 #include <string>
 #include <map>
 
-using std::string;
-
-// Define operator precedence
-std::map<char, int> precedence = {
-    {'(', 0}, {')', 0},
-    {'+', 1}, {'-', 1},
-    {'*', 2}, {'/', 2}
-};
+using std::string, std::map;
 
 class QPSStringUtils {
 public:
     static const string WILDCARD;
+    static map<char, int> precedence;
 
     static bool isSynonym(const string data);
     static bool isStmtRef(const string data);
