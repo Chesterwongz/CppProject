@@ -17,6 +17,7 @@ class PKBWriter {
 public:
     // Constructor
     explicit PKBWriter(struct Storage& storage) : storage(storage) {};
+    virtual ~PKBWriter() = default;
 
     // Add follows relationship
     virtual void setFollowsRelationship(int statementNumber, int followingStatement);
