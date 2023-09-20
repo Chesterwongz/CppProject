@@ -36,7 +36,17 @@ bool QPSStringUtils::isWildcard(string data) {
 }
 
 bool QPSStringUtils::isInteger(string data) {
-    std::regex integerPattern("^[0-9]+$");
+
+    string integerRegex;
+
+    if (data.size() == 1) {
+        integerRegex = "[0-9]";
+    }
+    else {
+        integerRegex = "[1-9][0-9]+";
+        
+    }
+    std::regex integerPattern(integerRegex);
     return std::regex_match(data, integerPattern);
 }
 
