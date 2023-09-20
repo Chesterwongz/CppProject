@@ -1,106 +1,123 @@
 #include "PQLTokenizer.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/common/PQLParserUtils.h"
+#include "common/utils/StringUtils.h"
 
-PQLTokenizer::PQLTokenizer() {
-	buffer("");
-	literalBuffer("");
-	tokenList(make_unique<TokenPtrList>());
-	processingLiteral(false);
-	containsChar(false);
-	tokenTable();
-	// TODO: Reserve buffer size
+PQLTokenizer::PQLTokenizer(const string& query) :
+	buffer(""),
+    literalBuffer(""),
+	tokenList(make_unique<TokenPtrList>()),
+    currPos(0),
+	tokenTable(),
+    query(query),
+    isProcessingLiteral(false),
+    numberOfTokensInLiteral(0)
+{
+    buffer.reserve(BUFFER_SIZE);
+    literalBuffer.reserve(BUFFER_SIZE);
 }
 
-unique_ptr<PQLTokenStream> PQLTokenizer::tokenize(const string& query) {
-	for (size_t pos = 0; pos < query.size(); pos++) {
-		char c = query.at(pos);
-		processChar(c);
-	}
+// TODO: can be converted to a mix of strategy pattern and simple methods for complex edges and simpler cases respectively
+unique_ptr<PQLTokenStream> PQLTokenizer::tokenize() {
+	while (currPos < query.length()) {
+        PQLTokenType currType = tokenTable.getTokenType(query.at(currPos));
 
-	if (processingLiteral) {
-		throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNMATCHED_QUOTE);
-	}
-
-	return make_unique<PQLTokenStream>(move(tokenList));
+        // will only check the first char in buffer
+        switch (currType) {
+            case PQL_CHAR_TOKEN:
+                processName();
+                break;
+            case PQL_INTEGER_TOKEN:
+                processInt();
+                break;
+            case PQL_QUOTE_TOKEN:
+                processLiteral();
+                break;
+            case PQL_WILDCARD_TOKEN:
+            case PQL_ASTERICKS_TOKEN:
+            case PQL_SEMICOLON_TOKEN:
+            case PQL_OPEN_BRACKET_TOKEN:
+            case PQL_CLOSE_BRACKET_TOKEN:
+            case PQL_OPERATOR_TOKEN:
+                processSymbols(currType);
+                break;
+            case PQL_IGNORE_TOKEN:
+                break;
+            case PQL_INVALID_TOKEN:
+            default:
+                throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);
+        }
+    }
 }
 
-void PQLTokenizer::processChar(const char c) {
-	PQLTokenType type = tokenTable->getTokenType(c);
-
-	switch (type) {
-
-	case PQL_INVALID_TOKEN:
-		throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);
-
-	case PQL_CHAR_TOKEN:
-		containsChar = true;
-	case PQL_INTEGER_TOKEN:
-	if (!processingLiteral) {
-		buffer.push_back(c);
-	}
-	else {
-		literalBuffer.push_back(c);
-	}
-		return;
-
-	// these tokens are delimiters
-	case PQL_SEMICOLON_TOKEN:
-	case PQL_COMMA_TOKEN:
-	case PQL_IGNORE_TOKEN:
-		flushBuffer();
-		return;
-
-	case PQL_QUOTE_TOKEN:
-		toggleLiteral();
-		return;
-
-	// all other tokens should be appended as an individual token
-	default:
-		break;
-	}
-
-	flushBuffer();
+void PQLTokenizer::flushBuffer(PQLTokenType type) {
+    if (buffer.empty()) {
+        return;
+    }
+    if (!isProcessingLiteral) {
+        tokenList->push_back(make_unique<PQLToken>(type, buffer));
+    } else {
+        literalBuffer += ' ';
+        literalBuffer.append(buffer);
+    }
+    buffer.clear();
 }
 
-void PQLTokenizer::flushBuffer() {
-	if (buffer.length() > 0) {
-		if (!containsChar && PQLParserUtils::isValidInteger(buffer)) {
-			tokenList->push_back(make_unique<PQLToken>(PQL_INTEGER_TOKEN, buffer));
-		}
-		else if (PQLParserUtils::isValidName(buffer)) {
-			tokenList->push_back(make_unique<PQLToken>(PQL_NAME_TOKEN, buffer));
-		}
-
-		buffer.clear();
-		containsChar = false;
-	}
+void PQLTokenizer::flushLiteralBuffer(PQLTokenType type) {
+    if (buffer.empty()) {
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_EMPTY_LITERAL);
+    }
+    tokenList->push_back(make_unique<PQLToken>(type, literalBuffer));
+    literalBuffer.clear();
 }
 
-void PQLTokenizer::toggleLiteral() {
-	if (!processingLiteral) {
-		startLiteral();
-	}
-	else {
-		endLiteral();
-	}
+void PQLTokenizer::processName() {
+    while (true) {
+        char c = query.at(currPos);
+        if (!StringUtils::isAlphaNumeric(c)) {
+            break;
+        }
+        buffer.push_back(c);
+        currPos++;
+    }
+    if (!PQLParserUtils::isValidName(buffer)) {
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INAVLID_NAME);
+    }
+    if (isProcessingLiteral) numberOfTokensInLiteral++;
+    flushBuffer(PQL_NAME_TOKEN);
 }
 
-void PQLTokenizer::startLiteral() {
-	literalBuffer.clear();
-	processingLiteral = true;
-	literalSymbolCount = 0;
+void PQLTokenizer::processInt() {
+    while (true) {
+        char c = query.at(currPos);
+        if (!StringUtils::isDigit(c)) {
+            break;
+        }
+        buffer.push_back(c);
+        currPos++;
+    }
+    if (!PQLParserUtils::isValidInteger(buffer)) {
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INAVLID_INTEGER);
+    }
+    if (isProcessingLiteral) numberOfTokensInLiteral++;
+    flushBuffer(PQL_INTEGER_TOKEN);
 }
 
-void PQLTokenizer::endLiteral() {
-	flushBuffer();
-	processingLiteral = false;
+void PQLTokenizer::processLiteral() {
+    // currPos is a quote
+    isProcessingLiteral = !isProcessingLiteral;
+    currPos++;
 
-	if (literalBuffer.empty()) {
-		throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_EMPTY_LITERAL);
-	}
+    if (!isProcessingLiteral) {
+        PQLTokenType type = numberOfTokensInLiteral == 1
+                ? PQL_LITERAL_REF_TOKEN
+                : PQL_LITERAL_EXPRESSION_TOKEN;
+        flushLiteralBuffer(type);
+    }
+}
 
-	tokenList->push_back(PQLToken(PQL_LITERAL_TOKEN, literalBuffer));
-
-	literalBuffer.clear();
+void PQLTokenizer::processSymbols(const PQLTokenType type) {
+    buffer.push_back(query.at(currPos));
+    flushBuffer(type);
+    currPos++;
 }

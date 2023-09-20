@@ -18,5 +18,5 @@ public:
                            std::string expression);
     std::unordered_set<int> evaluate(
             Context context,
-            PKBReader *pkb) override;
+            PKBReader &pkb) override;
 };

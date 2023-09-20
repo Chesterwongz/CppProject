@@ -1,21 +1,21 @@
 #include "Query.h"
 
-Query::Query(unique_ptr<PKBReader>& pkb) : pkb(pkb) {}
+Query::Query(PKBReader& pkb) : pkb(pkb) {}
 
 using namespace std;
 
 void Query::addContext(unique_ptr<Context> context) {
-    this->context = context;
+    this->context = std::move(context);
 }
 
-void Query::addClause(unique_ptr<Clause> &clause) {
+void Query::addClause(unique_ptr<Clause> clause) {
     this->clauses.push_back(std::move(clause));
 }
 
 unordered_set<int> Query::evaluate() {
     unordered_set<int> intersectionResult;
     for (unique_ptr<Clause> &clause : clauses) {
-        unordered_set<int> clauseResult = clause->evaluate(this->context, pkb);
+        unordered_set<int> clauseResult = clause->evaluate(*context.get(), pkb);
         if (intersectionResult.empty()) {
             intersectionResult = clauseResult;
             continue;

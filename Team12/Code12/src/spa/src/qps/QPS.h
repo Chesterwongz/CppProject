@@ -15,7 +15,6 @@ private:
     PKBReader *pkb;
     Tokeniser tokeniser;
     Validator validator;
-    QueryBuilder queryBuilder;
 
 public:
     explicit QPS(PKBReader *pkb);

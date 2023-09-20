@@ -15,5 +15,5 @@ private:
 	// e.g. check if the next token is correct type
 	virtual bool isExpectedToken(PQLTokenType currType) = 0;
 public:
-	virtual void handleToken(PQLTokenType tokenType) = 0;
+	virtual void handleToken() = 0;
 };

@@ -5,15 +5,15 @@
 
 class DeclarativeParserState : public IParserState {
 private:
-	unique_ptr<PQLParserContext>& parserContext;
-	unique_ptr<PQLTokenStream>& tokenStream;
-	unique_ptr<PQLToken>& prev;
+	PQLParserContext& parserContext;
+	PQLTokenStream& tokenStream;
+	PQLTokenType prev;
 	string currentEntity;
 	static PredictiveMap predictiveMap;
-	void processNameToken(unique_ptr<PQLToken>& curr);
+	void processNameToken(PQLToken& curr);
 	bool isExpectedToken(PQLTokenType curr) override;
 
 public:
 	explicit DeclarativeParserState(PQLParserContext& parserContext);
-	void handleToken(PQLTokenType tokenType) override;
+	void handleToken() override;
 };

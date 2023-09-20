@@ -10,18 +10,18 @@
 // replaces the QueryBuilder and TokenFactory
 class PQLParserContext {
 private:
-	unique_ptr<Query>& query; // belongs to driver
+	Query& query; // belongs to driver
 	unique_ptr<Context> context;
-	unique_ptr<PQLTokenStream>& tokenStream; // token stream belongs to driver
+	PQLTokenStream& tokenStream; // token stream belongs to driver
 	unique_ptr<IParserState> currState;
 	
 public:
 	explicit PQLParserContext(
-		unique_ptr<PQLTokenStream>& tokenStream, 
+		PQLTokenStream& tokenStream,
 		unique_ptr<IParserState> currState,
-		unique_ptr<Query>& query
+		Query& query
 	);
 	void addToContext(string entity, string synonym);
-	unique_ptr<PQLTokenStream>& getTokenStream() const;
+	PQLTokenStream& getTokenStream() const;
 	void transitionTo(unique_ptr<IParserState> nextState);
 };

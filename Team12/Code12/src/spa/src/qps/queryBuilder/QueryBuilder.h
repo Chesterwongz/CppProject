@@ -8,17 +8,17 @@
 #include "qps/tokenFactory/TokenFactory.h"
 #include "qps/context/Context.h"
 
-using std::unique_ptr;
+using std::unique_ptr, std::move;
 
 class QueryBuilder {
 private:
     unique_ptr<Query> query;
-    unique_ptr<PKBReader>& pkbReader;
-    unique_ptr<Context> context;
+    PKBReader& pkbReader;
+    Context context;
     vector<unique_ptr<Clause>> clauses;
 
 public:
-    explicit QueryBuilder(unique_ptr<PKBReader>& pkb);
+    explicit QueryBuilder(PKBReader& pkb);
     unique_ptr<Query> buildQuery();
     string isExistingSynonym(string synonym); // returns entity type
     void addSynonym(string name, string entity);

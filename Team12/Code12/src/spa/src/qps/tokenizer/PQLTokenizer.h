@@ -8,24 +8,30 @@
 
 using std::string, std::unique_ptr, std::make_unique, std::move;
 
+static int BUFFER_SIZE = 2048;
+
 class PQLTokenizer {
 private:
     string buffer;
     string literalBuffer;
     unique_ptr<TokenPtrList> tokenList;
-    PQLTokenTable* tokenTable;
-    bool containsChar;
-    bool processingLiteral;
+    int currPos;
+    const string& query;
+    bool isProcessingLiteral;
+    int numberOfTokensInLiteral;
 
-    void processChar(const char c);
-    void flushBuffer();
+    PQLTokenTable tokenTable;
 
-    void toggleLiteral();
-    void startLiteral();
-    void endLiteral();
+    void flushBuffer(PQLTokenType type);
+    void flushLiteralBuffer(PQLTokenType type);
+
+    void processName();
+    void processInt();
+    void processLiteral();
+    void processSymbols(const PQLTokenType type);
 
 public:
-    explicit PQLTokenizer();
+    explicit PQLTokenizer(const string& query);
     // TokenStream is owned by QPS driver which will pass the token stream for predictive parsing 
-    unique_ptr<PQLTokenStream> tokenize(const string &query);
+    unique_ptr<PQLTokenStream> tokenize();
 };

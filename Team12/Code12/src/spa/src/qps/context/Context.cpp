@@ -2,16 +2,19 @@
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-Entity Context::getTokenEntity(Synonym synonym) {
+Entity Context::getTokenEntity(Synonym &synonym) {
     auto entity = tokenNameToTokenMap.find(synonym);
 
-    if (syn == tokenNameToTokenMap.end()) {
+    if (entity == tokenNameToTokenMap.end()) {
         throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_SYNONYM);
     }
 
-    return entity;
+    return entity->second;
 };
 
-void Context::addToken(Synonym tokenSynonym, Entity tokenEntity) {
+void Context::addSynonym(Synonym tokenSynonym, Entity tokenEntity) {
+    if (tokenNameToTokenMap.find(tokenSynonym) == tokenNameToTokenMap.end()) {
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_REPEAT_SYNONYM_NAME);
+    }
     this->tokenNameToTokenMap[tokenSynonym] = tokenEntity;
 };

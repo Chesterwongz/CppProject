@@ -5,11 +5,11 @@ PQLToken::PQLToken(PQLTokenType type) : type(type) {}
 PQLToken::PQLToken(PQLTokenType type, TokenValue string) :
 	type(type), value(string) {}
 
-PQLToken::getType() {
+const PQLTokenType PQLToken::getType() {
 	return type;
 }
 
-PQLToken::getValue() {
+const TokenValue PQLToken::getValue() {
 	return value;
 }
 

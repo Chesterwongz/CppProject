@@ -1,10 +1,9 @@
 #pragma once
 
+#include <string>
 #include <unordered_map>
 
-// should encompass all available characters
-// first char in buffer determines token type. 
-// E.g. stmt s1; --> [PQL_NAME_TOKEN, PQL_NAME_TOKEN]
+using std::unordered_map, std::string;
 
 enum PQLTokenType {
     // for the first token
@@ -25,14 +24,14 @@ enum PQLTokenType {
  
     PQL_SEMICOLON_TOKEN,
     PQL_COMMA_TOKEN,
-    PQL_PERIOD_TOKEN,
     PQL_ASTERICKS_TOKEN,
 
     // literals and arguments
     PQL_OPEN_BRACKET_TOKEN,
     PQL_CLOSE_BRACKET_TOKEN,
     PQL_QUOTE_TOKEN,
-    PQL_LITERAL_TOKEN,
+    PQL_LITERAL_EXPRESSION_TOKEN,
+    PQL_LITERAL_REF_TOKEN,
 
     // for operators in expressions for patterns
     PQL_OPERATOR_TOKEN,
@@ -76,7 +75,6 @@ unordered_map<string, PQLTokenType> keywordToTokenType = {
     { "variable", PQL_ENTITY_TOKEN },
     { "constant", PQL_ENTITY_TOKEN },
     { "procedure", PQL_ENTITY_TOKEN },
-
     { "Select", PQL_SELECT_TOKEN }
-}
+};
 

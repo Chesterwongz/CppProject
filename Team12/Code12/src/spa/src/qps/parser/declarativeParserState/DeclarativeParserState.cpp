@@ -11,32 +11,29 @@ PredictiveMap DeclarativeParserState::predictiveMap = {
 	{ PQL_SEMICOLON_TOKEN, { PQL_ENTITY_TOKEN, PQL_NAME_TOKEN } }
 };
 
-DeclarativeParserState::DeclarativeParserState(PQLParserContext& parserContext)
-{
-	this->parserContext = parserContext;
-	this->tokenStream = parserContext.getTokenStream();
-	this->currentEntity = nullptr;
-	this->prev = nullptr;
-}
+DeclarativeParserState::DeclarativeParserState(PQLParserContext& parserContext) :
+    parserContext(parserContext),
+	tokenStream(parserContext.getTokenStream()),
+	currentEntity(""),
+	prev(PQL_NULL_TOKEN) {}
 
 // To identify what type is the name token
-void DeclarativeParserState::processNameToken(unique_ptr<PQLToken>& curr)
+void DeclarativeParserState::processNameToken(PQLToken& curr)
 {
-	if (token->getType != PQL_NAME_TOKEN) {
-		throw QPSInvalidQueryException();
+	if (curr.getType() != PQL_NAME_TOKEN) {
+		throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNEXPECTED_TOKEN);
 	}
 
-	if (prev == nullptr // first token of this clause. Must be ENTITY
-		|| prev->getType() == PQL_SEMICOLON_TOKEN // next must be either SELECT or SYNONYM
-		|| currentEntity == nullptr)
+	if (prev == PQL_NULL_TOKEN // first token of this clause. Must be ENTITY
+		|| prev == PQL_SEMICOLON_TOKEN // next must be either SELECT or SYNONYM
+		|| currentEntity == "")
 	{
-		auto entity = keywordToTokenType.find(curr->getValue);
+		auto entity = keywordToTokenType.find(curr.getValue());
 		if (entity != keywordToTokenType.end()) {
-			std::cout << entity << std::endl;
-			curr->updateTokenType(entity);
+			curr.updateTokenType(entity->second);
 		}
 	} else {
-		curr->updateTokenType(PQL_SYNONYM_TOKEN);
+		curr.updateTokenType(PQL_SYNONYM_TOKEN);
 	}
 }
 
@@ -46,7 +43,8 @@ bool DeclarativeParserState::isExpectedToken(PQLTokenType curr) {
 	if (nextTokens == predictiveMap.end()) {
 		return false;
 	}
-	if (nextTokens.find(curr) == nextTokens.end()) {
+    auto nextStep = nextTokens->second;
+	if (nextStep.find(curr) == nextStep.end()) {
 		return false;
 	}
 	return true;
@@ -54,35 +52,37 @@ bool DeclarativeParserState::isExpectedToken(PQLTokenType curr) {
 
 void DeclarativeParserState::handleToken() {
 
-	while (!this->tokenStream->isTokenStreamEnd()) {
-		auto curr = tokenStream->getCurrentToken();
+	while (!this->tokenStream.isTokenStreamEnd()) {
+        PQLToken& curr = tokenStream.getCurrentToken();
 
-		if (!isExpectedToken(curr->getType())) {
+		if (!isExpectedToken(curr.getType())) {
 			throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNEXPECTED_TOKEN);
 		}
 
-		switch (curr->getType()) {
+		switch (curr.getType()) {
 		case PQL_NAME_TOKEN:
 			processNameToken(curr);
 			break;
 		case PQL_ENTITY_TOKEN:
-			this->currentEntity = curr->getValue();
+			this->currentEntity = curr.getValue();
 			break;
 		case PQL_SYNONYM_TOKEN:
-			this->parserContext->addToContext(this->currentEntity, curr->getValue());
+			this->parserContext.addToContext(this->currentEntity, curr.getValue());
 			break;
 		case PQL_COMMA_TOKEN:
 		case PQL_SEMICOLON_TOKEN:
 			break;
-		case PQL_SELECT_TOKEN:
+		case PQL_SELECT_TOKEN: // exit token
 			// TODO: Select state
-			this->parserContext->transitionTo();
+            // add to clause
+			this->parserContext.transitionTo();
+
 			return;
 		default:
 			throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);
 		}
-		this->prev = curr;
-		tokenStream->next();
+		this->prev = curr.getType();
+		tokenStream.next();
 	}
 }
 

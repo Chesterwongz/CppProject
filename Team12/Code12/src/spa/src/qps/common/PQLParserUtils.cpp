@@ -1,11 +1,11 @@
 #include "PQLParserUtils.h"
 
-bool PQLParserUtils::isValidName(string data) {
+bool PQLParserUtils::isValidName(string &data) {
 	regex synonymPattern("^[A-Za-z][A-Za-z0-9]*$");
 	return regex_match(data, synonymPattern);
 }
 
-bool PQLParserUtils::isValidInteger(string data) {
+bool PQLParserUtils::isValidInteger(string &data) {
 	regex integerPattern("^[1-9][0-9]*$");
 	return regex_match(data, integerPattern);
 }

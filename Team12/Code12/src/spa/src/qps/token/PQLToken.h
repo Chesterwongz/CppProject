@@ -17,12 +17,12 @@ private:
 
 protected:
 	explicit PQLToken(PQLTokenType type);
-	PQLToken(PQLTokenType type, const TokenValue value);
 
 public:
 	const PQLTokenType getType();
 	const TokenValue getValue();
 	void updateTokenType(PQLTokenType type);
+    PQLToken(PQLTokenType type, const TokenValue value);
 };
 
 typedef vector<unique_ptr<PQLToken>> TokenPtrList;
