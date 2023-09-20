@@ -3,7 +3,7 @@
 #include "../../common/QPSStringUtils.h"
 
 QueryResult AssignEvaluator::evaluate() {
-	PatternArgsStream patternArgsStream = *patternArgsStreamPtr;
+	PatternArgsStream patternArgsStream = std::move(*patternArgsStreamPtr);
 
 	unique_ptr<IArgument> firstArg = std::move(patternArgsStream[0]);
 	unique_ptr<IArgument> secondArg = std::move(patternArgsStream[1]);
@@ -23,5 +23,6 @@ QueryResult AssignEvaluator::evaluate() {
 
 	//TODO: make intermediate table.
 
-	// pkbReader->getAssignPattern(firstArg, secondArgRPNValue);
+	// return intermediate table.
+	return map<StmtSynonym, PossibleValues>(); //placeholder
 }
