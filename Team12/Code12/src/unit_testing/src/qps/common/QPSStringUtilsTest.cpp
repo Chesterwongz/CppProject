@@ -211,3 +211,51 @@ TEST_CASE("test_isStmtRef_validIdent_false") {
 
 	REQUIRE(result == false);
 }
+
+TEST_CASE("test_convertToRPN_basicAddition") {
+	string expression = "3 + 4";
+	string expected = "34+";
+	string actual = QPSStringUtils::convertToRPN(expression);
+
+	REQUIRE(actual == expected);
+}
+
+TEST_CASE("test_convertToRPN_basicSubtraction") {
+	string expression = "3 - 5";
+	string expected = "35-";
+	string actual = QPSStringUtils::convertToRPN(expression);
+
+	REQUIRE(actual == expected);
+}
+
+TEST_CASE("test_convertToRPN_basicMultiplication") {
+	string expression = "4 * 10";
+	string expected = "410*";
+	string actual = QPSStringUtils::convertToRPN(expression);
+
+	REQUIRE(actual == expected);
+}
+
+TEST_CASE("test_convertToRPN_basicDivision") {
+	string expression = "6 / 2";
+	string expected = "62/";
+	string actual = QPSStringUtils::convertToRPN(expression);
+
+	REQUIRE(actual == expected);
+}
+
+TEST_CASE("test_convertToRPN_parenthesis") {
+	string expression = "6 / (2 + 3)";
+	string expected = "623+/";
+	string actual = QPSStringUtils::convertToRPN(expression);
+
+	REQUIRE(actual == expected);
+}
+
+TEST_CASE("test_convertToRPN_nestedParenthesis") {
+	string expression = "((3 + 4) * (8 - 2)) / (7 - 1)";
+	string expected = "34+82-*71-/";
+	string actual = QPSStringUtils::convertToRPN(expression);
+
+	REQUIRE(actual == expected);
+}
