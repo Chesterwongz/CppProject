@@ -145,11 +145,9 @@ std::pair<std::string, std::string> PKBReader::getImmediateParentOf(int statemen
     std::pair<std::string, std::string> result;
 
     if (allMatchingStatements.find(immediateParent) != allMatchingStatements.end()) {
-        result = std::make_pair(std::to_string(statementNumber), std::to_string(immediateParent));
+        result = std::make_pair(std::to_string(immediateParent), std::to_string(statementNumber));
     }
-    else {
-        result = std::make_pair(std::to_string(statementNumber), "-1");
-    }
+
     return result;
 }
 
