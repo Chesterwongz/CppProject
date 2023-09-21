@@ -15,9 +15,9 @@ TEST_CASE("test_integer_getValue") {
 }
 
 TEST_CASE("test_integer_getArgumentType") {
-	string actualIdentArgType = integer.getArgumentType();
+	string actualIntegerArgType = integer.getArgumentType();
 
-	REQUIRE(actualIdentArgType == integerArgType);
+	REQUIRE(actualIntegerArgType == integerArgType);
 }
 
 TEST_CASE("test_integer_isIdent_false") {
