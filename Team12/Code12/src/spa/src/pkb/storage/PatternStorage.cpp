@@ -1,10 +1,5 @@
 #include "PatternStorage.h"
-#include "../../common/Types.h"
 
-#include <iostream>
-#include <vector>
-
-// Constructor
 PatternStorage::PatternStorage() = default;
 
 void PatternStorage::setPattern(std::string variableName, std::string rpn, int statementNumber) {
@@ -17,6 +12,7 @@ std::vector<std::string> PatternStorage::getAllStatements() {
     for (const auto& entry : statementPatternStorage) {
         result.push_back(std::to_string(entry.first));
     }
+
     return result;
 }
 
@@ -55,6 +51,7 @@ std::vector<std::string> PatternStorage::getExactPattern(std::string variableNam
             }
         }
     }
+
     return result;
 }
 
@@ -80,6 +77,7 @@ std::vector<std::string> PatternStorage::getPartialPattern(std::string variableN
             }
         }
     }
+
     return result;
 }
 

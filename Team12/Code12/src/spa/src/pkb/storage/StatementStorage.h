@@ -8,19 +8,20 @@
 
 class StatementStorage {
 public:
-    // Constructor
     StatementStorage();
 
     // Setter for each statement type
     void setStatement(int statementNumber, StmtType statementType);
 
+    // Return all statement numbers of the program
     std::set<int> getAllStatements();
 
-    // Getter for each statement type
+    // Return all statements of a particular type
     std::set<int> getStatementNumbersFromStatementType(StmtType statementType);
+
+    // Return the type of a particular statement
     StmtType getStatementTypeFromStatementNumber(int statementNumber);
 
 private:
-    std::unordered_map<StmtType, std::set<int>> allStmtStorage;
-    std::set<int> allStatements;
+    std::unordered_map<StmtType, std::set<int>> statements;
 };
