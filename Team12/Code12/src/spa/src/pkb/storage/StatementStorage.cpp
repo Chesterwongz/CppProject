@@ -9,19 +9,22 @@ void StatementStorage::setStatement(int statementNumber, StmtType statementType)
     allStatements.insert(statementNumber);
 }
 
-std::unordered_set<int> StatementStorage::getAllStatements() {
+std::set<int> StatementStorage::getAllStatements() {
     return allStatements;
 }
 
 // Getter for each statement type
-std::unordered_set<int> StatementStorage::getStatementNumbersFromStatementType(StmtType statementType) {
+std::set<int> StatementStorage::getStatementNumbersFromStatementType(StmtType statementType) {
+    if (statementType == StmtType::STMT) {
+        return allStatements;
+    }
     return allStmtStorage[statementType];
 }
 
 
 StmtType StatementStorage::getStatementTypeFromStatementNumber(int statementNumber) {
     for (const auto& entry : allStmtStorage) {
-        const std::unordered_set<int>& statementNumbers = entry.second;
+        const std::set<int>& statementNumbers = entry.second;
         if (statementNumbers.find(statementNumber) != statementNumbers.end()) {
             return entry.first;
         }

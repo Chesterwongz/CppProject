@@ -9,38 +9,55 @@ ParentStorage::ParentStorage() = default;
 
 // Setter for parent relationship
 void ParentStorage::setParent(int statementNumber, int childStatement) {
-    // Set in parentOf storage
-    parentOf[statementNumber].insert(childStatement);
-
-    // Set in childOf storage
-    childOf[childStatement].insert(statementNumber);
+    childrenOf[statementNumber].insert(childStatement);
+    parentsOf[childStatement].insert(statementNumber);
 }
 
 // Getter for all children relationship
-std::unordered_set<int> ParentStorage::getAllChildren(int statementNumber) {
-    if (parentOf.find(statementNumber) == parentOf.end()) {
+std::set<int> ParentStorage::getAllChildren(int statementNumber) {
+    if (childrenOf.find(statementNumber) == childrenOf.end()) {
         return {};
     }
-    return parentOf[statementNumber];
+    return childrenOf[statementNumber];
 }
 
 // Getter for all parents relationship
 std::set<int> ParentStorage::getAllParents(int statementNumber) {
-    if (childOf.find(statementNumber) == childOf.end()) {
+    if (parentsOf.find(statementNumber) == parentsOf.end()) {
         return {};
     }
-    return childOf[statementNumber];
+    return parentsOf[statementNumber];
+}
+
+// Getter for all parents
+std::set<int> ParentStorage::getAllParents() {
+    std::set<int> allParents;
+    for (const auto& entry : childrenOf) {
+        allParents.insert(entry.first);
+    }
+    return allParents;
+}
+
+// Getter for all children
+std::set<int> ParentStorage::getAllChildren() {
+    std::set<int> allChildren;
+    for (const auto& entry : parentsOf) {
+        allChildren.insert(entry.first);
+    }
+    return allChildren;
 }
 
 // Getter for immediate children relationship - 1 parent can have multiple children with varying line numbers
-std::unordered_set<int> ParentStorage::getImmediateChildren(int statementNumber) {
-    if (parentOf.find(statementNumber) == parentOf.end()) {
+std::set<int> ParentStorage::getImmediateChildren(int statementNumber) {
+    if (childrenOf.find(statementNumber) == childrenOf.end()) {
         return {};
     }
-    std::unordered_set<int> immediateChildren = parentOf[statementNumber];
-    for (int child : immediateChildren) {
-        if (parentOf.find(child) != parentOf.end()) {
-            immediateChildren.erase(child);
+    std::set<int> immediateChildren = childrenOf[statementNumber];
+    for (int child : childrenOf[statementNumber]) {
+        if (childrenOf.find(child) != childrenOf.end()) {
+            for (int grandChild : childrenOf[child]) {
+                immediateChildren.erase(grandChild);
+            }
         }
     }
 
@@ -49,9 +66,9 @@ std::unordered_set<int> ParentStorage::getImmediateChildren(int statementNumber)
 
 // Getter for immediate parent relationship - largest statement number
 int ParentStorage::getImmediateParent(int statementNumber) {
-    if (childOf.find(statementNumber) == childOf.end()) {
+    if (parentsOf.find(statementNumber) == parentsOf.end()) {
         return -1;
     }
-    return *childOf[statementNumber].rbegin(); // Use begin() to get the first element of the set
+    return *parentsOf[statementNumber].rbegin();
 }
 

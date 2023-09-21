@@ -1,6 +1,6 @@
 #pragma once
 
-#include <unordered_set>
+#include <set>
 #include <string>
 #include <unordered_map>
 
@@ -14,20 +14,20 @@ public:
 
     void setProcedure(const std::string& procedureName, int startStatement);
 
-    std::unordered_set<std::string> getAllVariables();
+    std::set<std::string> getAllVariables();
 
-    std::unordered_set<std::string> getAllConstants();
+    std::set<std::string> getAllConstants();
 
-    std::unordered_set<std::string> getAllProcedures();
+    std::set<std::string> getAllProcedures();
 
-    std::unordered_set<std::string> getProceduresOnStatement(int statementNumber);
+    std::string getProcedureStartingOnStatement(int statementNumber);
 
     int getStartingStatementOfProcedure(const std::string& procedureName);
 
 private:
-    std::unordered_set<std::string> variableData;
+    std::set<std::string> variableData;
 
-    std::unordered_set<std::string> constantData;
+    std::set<std::string> constantData;
 
     // Data structure for procedures (procedure name -> starting statement)
     std::unordered_map<std::string, int> procedureData;
