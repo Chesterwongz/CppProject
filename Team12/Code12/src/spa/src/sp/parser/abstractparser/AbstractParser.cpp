@@ -1,10 +1,25 @@
 #include "AbstractParser.h"
 
-std::function<std::unique_ptr<TNode>(std::optional<std::unique_ptr<TNode>>)>
-AbstractParser::requireTNode(TNodeType nodeType) {
+std::function<void(const std::optional<std::unique_ptr<TNode>> &)>
+AbstractParser::requireTNodeOpt(TNodeType nodeType) {
     int lineNum = context->getLineNum();
-    return [nodeType, lineNum](std::optional<std::unique_ptr<TNode>> nodeOpt) {
+    return [nodeType, lineNum](const std::optional<std::unique_ptr<TNode>> &nodeOpt) {
         if (!nodeOpt.has_value()) throw SyntaxError(TNodeTypeUtils::toString(nodeType), lineNum);
-        return std::move(nodeOpt.value());
     };
+}
+
+std::optional<std::unique_ptr<TNode>> AbstractParser::parseWithBrackets() {
+    context->saveContext();
+    if (!context->tryEatExpected(TokenType::DELIM, delim::kOpenBracketString).has_value()) {
+        context->loadPrevSavedContext();
+        return std::nullopt;
+    }
+
+    std::optional<std::unique_ptr<TNode>> nodeOpt = parse();
+
+    if (!nodeOpt.has_value() || !context->tryEatExpected(TokenType::DELIM, delim::kCloseBracketString).has_value()) {
+        context->loadPrevSavedContext();
+        return std::nullopt;
+    }
+    return nodeOpt;
 }

@@ -14,12 +14,11 @@ std::unique_ptr<TokenStream> Tokenizer::tokenize(std::string fileContent) {
     std::unique_ptr<ITokenHandler> delimTokenizer = std::make_unique<DelimiterTokenizer>();
 
     // Construct pipeline
-    nameTokenizer
-        ->setNext(std::move(integerTokenizer))
-        ->setNext(std::move(termOpTokenizer))
-        ->setNext(std::move(exprOpTokenizer))
-        ->setNext(std::move(relOpTokenizer))
-        ->setNext(std::move(condOpTokenizer))
-        ->setNext(std::move(delimTokenizer));
-    return std::make_unique<TokenStream>(std::move(fileContent), std::move(nameTokenizer));
+    nameTokenizer->setNext(std::move(integerTokenizer))
+            .setNext(std::move(termOpTokenizer))
+            .setNext(std::move(exprOpTokenizer))
+            .setNext(std::move(relOpTokenizer))
+            .setNext(std::move(condOpTokenizer))
+            .setNext(std::move(delimTokenizer));
+    return TokenStream::initialize(std::move(fileContent), *nameTokenizer);
 }

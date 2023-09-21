@@ -1,7 +1,5 @@
 #include "InputStream.h"
 
-#include <utility>
-
 InputStream::InputStream(std::string fileContents) : fileContents(std::move(fileContents)), cursor(0) {}
 
 bool InputStream::isEnd() {
@@ -16,7 +14,7 @@ std::string InputStream::peekWhile(const std::function<bool(const char)> &predic
     int peekCursor = cursor;
     std::string str;
     char peekChar = fileContents.at(peekCursor);
-    while (!isEnd() && predicate(peekChar)) {
+    while (peekCursor < fileContents.length() && predicate(peekChar)) {
         str.push_back(peekChar);
         peekChar = fileContents.at(++peekCursor);
     }
@@ -24,9 +22,7 @@ std::string InputStream::peekWhile(const std::function<bool(const char)> &predic
 }
 
 char InputStream::read() {
-    char ch = peek();
-    cursor++;
-    return ch;
+    return fileContents.at(cursor++);
 }
 
 std::string InputStream::readN(int n) {
