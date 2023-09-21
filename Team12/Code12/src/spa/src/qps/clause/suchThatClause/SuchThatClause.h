@@ -23,6 +23,5 @@ public:
             bool isTransitive);
     IntermediateTable evaluate(
             Context context,
-            PKBReader *pkb,
-            string &synonymToQuery) override;
+            PKBReader *pkb) override;
 };

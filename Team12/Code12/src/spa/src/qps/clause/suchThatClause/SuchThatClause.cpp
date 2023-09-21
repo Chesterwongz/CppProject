@@ -16,8 +16,7 @@ SuchThatClause::SuchThatClause (
 
 IntermediateTable SuchThatClause::evaluate(
         Context context,
-        PKBReader *pkb,
-        string &synonymToQuery) {
+        PKBReader *pkb) {
     AbstractionParams *abstractionParams = {};
 
     abstractionParams->abstraction = this->relationship;

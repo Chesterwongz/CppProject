@@ -18,6 +18,5 @@ public:
                            std::string expression);
     IntermediateTable evaluate(
             Context context,
-            PKBReader *pkb,
-            string &synonymToQuery) override;
+            PKBReader *pkb) override;
 };

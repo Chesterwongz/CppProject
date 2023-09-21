@@ -13,6 +13,5 @@ class Clause {
 public:
     virtual IntermediateTable evaluate(
             Context context,
-            PKBReader *pkb,
-            string &synonymToQuery) = 0;
+            PKBReader *pkb) = 0;
 };
