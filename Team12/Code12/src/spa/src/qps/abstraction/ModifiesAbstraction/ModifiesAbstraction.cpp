@@ -3,8 +3,10 @@
 QueryResult ModifiesAbstraction::getAbstractions() {
     QueryResult queryResult = {};
 
-    bool isStmtSynonym = firstArg->getArgumentType() == SYNONYM_TYPE;
-    bool isVarIdentifier = secondArg->getArgumentType() == IDENT_TYPE;
+    // bool isStmtSynonym = firstArg->getArgumentType() == SYNONYM_TYPE; // @yq i change this
+    //bool isVarIdentifier = secondArg->getArgumentType() == IDENT_TYPE;
+    bool isStmtSynonym = firstArg->isSynonym();
+    bool isVarIdentifier = secondArg->isIdent();
 
     // Modifies (StatementSynonym, VariableName)
     if (isStmtSynonym && isVarIdentifier) {
@@ -21,8 +23,8 @@ QueryResult ModifiesAbstraction::getAbstractions() {
 //        queryResult[stmtSynonym] = statementsModifyingVar;
     }
 
-    bool isVarSynonym = secondArg->getArgumentType() == SYNONYM_TYPE;
-
+    // bool isVarSynonym = secondArg->getArgumentType() == SYNONYM_TYPE; //@yq i changed this
+    bool isVarSynonym = secondArg->isSynonym();
 
     return queryResult;
 }
