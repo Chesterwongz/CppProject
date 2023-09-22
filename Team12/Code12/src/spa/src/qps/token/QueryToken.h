@@ -16,4 +16,4 @@ public:
 
 // TODO: feels like should be moved to a separate folder for references in the future
 
-typedef std::string Synonym;
+typedef std::string SynonymType;

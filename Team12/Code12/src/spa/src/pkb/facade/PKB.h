@@ -19,5 +19,5 @@ public:
     PKBWriter writer;
     PKB() : storage(), writer(storage), reader(storage) {};
     PKBWriter& getWriter() { return writer; }
-    PKBReader* getReader() { return &reader; }
+    PKBReader& getReader() { return reader; }
 };

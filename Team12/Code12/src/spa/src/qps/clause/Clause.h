@@ -5,18 +5,17 @@
 #include <unordered_set>
 #include "qps/context/Context.h"
 #include "pkb/facade/PKBReader.h"
-#include "qps/clause/utils/ClauseConstants.h"
 
-enum Reference {
-    WILDCARD,
-    SYNONYM,
-    STRING,
-    LINE_NUMBER
-};
+using std::string, std::set, std::map;
+
+typedef string StmtSynonym;
+typedef set<string> PossibleValues;
+typedef map<StmtSynonym, PossibleValues > QueryResult;
 
 class Clause {
 public:
-    virtual std::unordered_set<int> evaluate(
+    virtual QueryResult evaluate(
             Context context,
-            PKBReader& pkb) = 0;
+            PKBReader& pkb,
+            string &synonymToQuery) = 0;
 };

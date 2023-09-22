@@ -5,13 +5,14 @@
 #include "qps/abstraction/ModifiesAbstraction/ModifiesAbstraction.h"
 #include "qps/abstraction/UsesAbstraction/UsesAbstraction.h"
 #include "qps/abstraction/ParentsAbstraction/ParentsAbstraction.h"
+#include "qps/clause/utils/ClauseConstants.h"
 
 using std::unique_ptr, std::make_unique;
 
 unique_ptr<IAbstraction> AbstractionFactory::createAbstraction(
-        struct AbstractionParams *abstractionParams) {
+        struct AbstractionParams &abstractionParams) {
     AbstractionEnum abstractionEnum =
-            AbstractionToEnumMap.at(abstractionParams->abstraction);
+            AbstractionToEnumMap.at(abstractionParams.abstraction);
     switch (abstractionEnum) {
         case FOLLOWS_ENUM:
             return make_unique<FollowsAbstraction>(abstractionParams);

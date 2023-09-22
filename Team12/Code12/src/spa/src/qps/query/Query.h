@@ -9,19 +9,23 @@
 #include "qps/token/QueryToken.h"
 #include "pkb/facade/PKBReader.h"
 
-using std::unique_ptr;
+using std::set, std::vector, std::unique_ptr, std::string;
 
-typedef std::vector<std::unique_ptr<Clause>> ClauseList;
+typedef vector<unique_ptr<Clause>> ClauseList;
 
 class Query {
 private:
     PKBReader& pkb;
     unique_ptr<Context> context;
     ClauseList clauses = {};
+    // e.g. `Select a such that ...`
+    //   -> `a` is the synonymToQuery
+    string synonymToQuery;
 
 public:
     explicit Query(PKBReader& pkb);
     void addContext(unique_ptr<Context> context);
     void addClause(unique_ptr<Clause> clause);
-    std::unordered_set<int> evaluate();
+    set<string> returnAllPossibleQueriedSynonym();
+    set<string> evaluate();
 };

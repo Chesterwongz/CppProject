@@ -7,28 +7,29 @@
 #include "qps/query/Query.h"
 #include "qps/clause/utils/ClauseConstants.h"
 
-
 struct AbstractionParams {
     PKBReader &pkb;
     Context context;
     Abstraction abstraction;
-    Reference firstArg;
-    Reference secondArg;
+    shared_ptr<IArgument> firstArg;
+    shared_ptr<IArgument> secondArg;
+
+    AbstractionParams(PKBReader& pkb) : pkb(pkb) {}
 };
 
 class IAbstraction {
 protected:
-    PKBReader& pkb;
+    PKBReader &pkb;
     Context context;
     Abstraction abstraction;
-    Reference firstArg;
-    Reference secondArg;
-    explicit IAbstraction(struct AbstractionParams *params) :
-            pkb(params->pkb),
-            context(params->context),
-            abstraction(params->abstraction),
-            firstArg(params->firstArg),
-            secondArg(params->secondArg) {};
+    shared_ptr<IArgument> firstArg;    // (@yq i changed from reference to string)
+    shared_ptr<IArgument> secondArg;   // (@yq i changed from reference to string)
+    explicit IAbstraction(struct AbstractionParams &params) :
+            pkb(params.pkb),
+            context(params.context),
+            abstraction(params.abstraction),
+            firstArg(std::move(params.firstArg)),
+            secondArg(std::move(params.secondArg)) {};
 public:
-    virtual std::unordered_set<int> getAbstractions() = 0;
+    virtual QueryResult getAbstractions() = 0;
 };
