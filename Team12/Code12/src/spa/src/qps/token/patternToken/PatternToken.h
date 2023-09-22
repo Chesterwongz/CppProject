@@ -4,19 +4,20 @@
 #include <memory>
 
 #include "qps/token/QueryToken.h"
+#include "../../argument/IArgument.h"
+#include "../../clause/patternClause/PatternClause.h"
 
-using std::unique_ptr;
+using std::string, std::vector, std::unique_ptr;
 
 class PatternToken : public QueryToken {
 private:
-    Synonym synonym;
-    Reference entRef;
-    std::string expression;
-
+    unique_ptr<IArgument> synonym;
+    PatternArgsStreamPtr patternArgsStreamPtr;
 public:
-    explicit PatternToken(Synonym synonym, Reference entRef, std::string expression);
-    Synonym getSynonym();
-    Reference getFirstArgument();
-    std::string getExpression();
+    explicit PatternToken(string synonym, vector<string> unvalidatedTokens);
+    SynonymType getSynonym();
+    /*Reference getFirstArgument();
+    std::string getExpression();*/
+    PatternArgsStreamPtr getPatternArgsStreamPtr();
     unique_ptr<Clause> buildClause();
 };

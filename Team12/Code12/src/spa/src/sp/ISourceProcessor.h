@@ -6,5 +6,5 @@
 class ISourceProcessor {
 public:
     virtual ~ISourceProcessor() = default;
-    virtual void process(const std::string &fileName, PKBWriter *pkbWriter) = 0;
+    virtual void process(const std::string &fileName, PKBWriter &pkbWriter) = 0;
 };

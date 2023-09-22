@@ -23,7 +23,7 @@ const IArgument* SuchThatToken::getSecondArgument() {
     return secondArg.get();
 }
 
-const string SuchThatToken::getFirstArgumentType() {
+const QPSStringUtils::ArgumentType SuchThatToken::getFirstArgumentType() {
     return firstArg->getArgumentType();
 }
 
@@ -31,7 +31,7 @@ const string SuchThatToken::getFirstArgumentValue() {
     return firstArg->getValue();
 }
 
-const string SuchThatToken::getSecondArgumentType() {
+const QPSStringUtils::ArgumentType SuchThatToken::getSecondArgumentType() {
     return secondArg->getArgumentType();
 }
 

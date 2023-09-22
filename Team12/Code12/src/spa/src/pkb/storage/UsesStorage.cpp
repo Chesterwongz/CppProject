@@ -1,9 +1,7 @@
 #include "UsesStorage.h"
 
-// Constructor
 UsesStorage::UsesStorage() {}
 
-// Setter and Getter for both data structures (variable -> statement numbers)
 void UsesStorage::setVariableUsage(const std::string& variableName, int statementNumber) {
     variableToStatements[variableName].insert(statementNumber);
     statementToVariables[statementNumber].insert(variableName);

@@ -19,7 +19,7 @@ void SuchThatTokenFactory::setRelationship(std::string relationship) {
 QPSTokenStreamPtr SuchThatTokenFactory::createTokens(UnvalidatedTokens unvalidatedTokens) {
     
     if (!isValid(unvalidatedTokens)) {
-        throw std::runtime_error("Select token stream is invalid");
+        throw std::runtime_error("Such that token stream is invalid");
     }
 
     if (unvalidatedTokens.empty()) {

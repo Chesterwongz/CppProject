@@ -22,4 +22,4 @@ enum Reference {
     LINE_NUMBER
 };
 
-typedef std::string Synonym;
+typedef std::string SynonymType;

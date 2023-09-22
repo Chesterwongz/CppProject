@@ -9,5 +9,5 @@ public:
     static inline constexpr string_view type = "DuplicateProcNameException";
 
     explicit DuplicateProcNameException(const string &name)
-            : SpException("Duplicate procedure name '" + name + "' This name has already been used!") {}
+            : SpException("Duplicate procedure name '" + name + "', this name has already been used!") {}
 };
