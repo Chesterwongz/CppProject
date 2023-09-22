@@ -1,6 +1,6 @@
 #pragma once
 
-#include <unordered_set>
+#include <set>
 #include <vector>
 #include <unordered_map>
 #include <string>
@@ -8,19 +8,20 @@
 
 class StatementStorage {
 public:
-    // Constructor
     StatementStorage();
 
     // Setter for each statement type
     void setStatement(int statementNumber, StmtType statementType);
 
-    std::unordered_set<int> getAllStatements();
+    // Return all statement numbers of the program
+    std::set<int> getAllStatements();
 
-    // Getter for each statement type
-    std::unordered_set<int> getStatementNumbersFromStatementType(StmtType statementType);
+    // Return all statements of a particular type
+    std::set<int> getStatementNumbersFromStatementType(StmtType statementType);
+
+    // Return the type of a particular statement
     StmtType getStatementTypeFromStatementNumber(int statementNumber);
 
 private:
-    std::unordered_map<StmtType, std::unordered_set<int>> allStmtStorage;
-    std::unordered_set<int> allStatements;
+    std::unordered_map<StmtType, std::set<int>> statements;
 };
