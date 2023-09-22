@@ -23,6 +23,6 @@ using std::unique_ptr, std::make_unique, std::vector, std::string, std::unordere
 
 unique_ptr<Extractor> getExtractor(MockPKBWriter &mockPKBWriter, AbstractionType abstractionType);
 
-void extractAbstraction(TNode* node, MockPKBWriter &mockPKBWriter, AbstractionType abstractionType);
+void extractAbstraction(TNode& node, MockPKBWriter &mockPKBWriter, AbstractionType abstractionType);
 
 void extractAbstraction(const string& input, MockPKBWriter &mockPKBWriter, AbstractionType abstractionType);

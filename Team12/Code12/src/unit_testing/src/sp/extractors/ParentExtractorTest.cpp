@@ -5,7 +5,6 @@
 #include <unordered_map>
 #include <unordered_set>
 #include "catch.hpp"
-#include "sp/extractors/DesignExtractor.h"
 #include "sp/ast/ProgramNode.h"
 #include "sp/ast/ProcNode.h"
 #include "sp/ast/StmtListNode.h"
@@ -17,13 +16,6 @@
 #include "ExtractorUtils.h"
 
 using std::unique_ptr, std::make_unique, std::vector, std::string, std::map, std::set, std::unordered_map, std::unordered_set;
-
-void extractParent(TNode* node, MockPKBWriter &mockPKBWriter) {
-    Populator populator;
-    std::vector<std::unique_ptr<Extractor>> extractors;
-    extractors.emplace_back(make_unique<ParentExtractor>(&mockPKBWriter));
-    populator.populate(node, extractors);
-}
 
 TEST_CASE("ParentExtractor - no parent") {
 //    string input =
@@ -41,11 +33,12 @@ TEST_CASE("ParentExtractor - no parent") {
     programNode->addChild(std::move(procNode));
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPkbWriter(storage);
-    extractAbstraction(programNode.get(), mockPkbWriter, AbstractionType::PARENT);
+    extractAbstraction(*programNode, mockPkbWriter, AbstractionType::PARENT);
 
     REQUIRE(mockPkbWriter.isParentEqual({}));
+    REQUIRE(mockPkbWriter.isParentStarEqual({}));
 }
 
 TEST_CASE("ParentExtractor with parser - no parent") {
@@ -55,11 +48,12 @@ TEST_CASE("ParentExtractor with parser - no parent") {
         "read num2;"
         "}";
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPkbWriter(storage);
     extractAbstraction(input, mockPkbWriter, AbstractionType::PARENT);
 
     REQUIRE(mockPkbWriter.isParentEqual({}));
+    REQUIRE(mockPkbWriter.isParentStarEqual({}));
 }
 
 TEST_CASE("ParentExtractor - if node") {
@@ -96,12 +90,13 @@ TEST_CASE("ParentExtractor - if node") {
     programNode->addChild(std::move(procNode));
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPkbWriter(storage);
-    extractAbstraction(programNode.get(), mockPkbWriter, AbstractionType::PARENT);
+    extractAbstraction(*programNode, mockPkbWriter, AbstractionType::PARENT);
     unordered_map<int, set<int>> expected = {};
     expected[3] = {4, 5, 6, 7};
     REQUIRE(mockPkbWriter.isParentEqual(expected));
+    REQUIRE(mockPkbWriter.isParentStarEqual(expected));
 }
 
 TEST_CASE("ParentExtractor with parser - if node") {
@@ -119,12 +114,13 @@ TEST_CASE("ParentExtractor with parser - if node") {
         "}";
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPkbWriter(storage);
     extractAbstraction(input, mockPkbWriter, AbstractionType::PARENT);
     unordered_map<int, set<int>> expected = {};
     expected[3] = {4, 5, 6, 7};
     REQUIRE(mockPkbWriter.isParentEqual(expected));
+    REQUIRE(mockPkbWriter.isParentStarEqual(expected));
 }
 
 
@@ -168,14 +164,18 @@ TEST_CASE("ParentExtractor - while node") {
     programNode->addChild(std::move(procNode));
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPkbWriter(storage);
-    extractAbstraction(programNode.get(), mockPkbWriter, AbstractionType::PARENT);
+    extractAbstraction(*programNode, mockPkbWriter, AbstractionType::PARENT);
 
-    unordered_map<int, set<int>> expected = {};
-    expected[3] = {4, 5, 6, 7};
-    expected[4] = {5, 6};
-    REQUIRE(mockPkbWriter.isParentEqual(expected));
+    unordered_map<int, set<int>> expectedParent = {};
+    expectedParent[3] = {4, 7};
+    expectedParent[4] = {5, 6};
+    REQUIRE(mockPkbWriter.isParentEqual(expectedParent));
+    unordered_map<int, set<int>> expectedParentStar = {};
+    expectedParentStar[3] = {4, 5, 6, 7};
+    expectedParentStar[4] = {5, 6};
+    REQUIRE(mockPkbWriter.isParentStarEqual(expectedParentStar));
 }
 
 TEST_CASE("ParentExtractor with parser - while node") {
@@ -193,12 +193,16 @@ TEST_CASE("ParentExtractor with parser - while node") {
         "}";
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPkbWriter(storage);
     extractAbstraction(input, mockPkbWriter, AbstractionType::PARENT);
 
-    unordered_map<int, set<int>> expected = {};
-    expected[3] = {4, 5, 6, 7};
-    expected[4] = {5, 6};
-    REQUIRE(mockPkbWriter.isParentEqual(expected));
+    unordered_map<int, set<int>> expectedParent = {};
+    expectedParent[3] = {4, 7};
+    expectedParent[4] = {5, 6};
+    REQUIRE(mockPkbWriter.isParentEqual(expectedParent));
+    unordered_map<int, set<int>> expectedParentStar = {};
+    expectedParentStar[3] = {4, 5, 6, 7};
+    expectedParentStar[4] = {5, 6};
+    REQUIRE(mockPkbWriter.isParentStarEqual(expectedParentStar));
 }

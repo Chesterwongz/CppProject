@@ -12,12 +12,12 @@
 
 class PKB {
 private:
-    Storage storage;
+    PKBStorage storage;
 
 public:
     PKBReader reader;
     PKBWriter writer;
     PKB() : storage(), writer(storage), reader(storage) {};
-    PKBWriter* getWriter() { return &writer; }
+    PKBWriter& getWriter() { return writer; }
     PKBReader* getReader() { return &reader; }
 };

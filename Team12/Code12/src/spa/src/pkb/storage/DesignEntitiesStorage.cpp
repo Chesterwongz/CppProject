@@ -22,33 +22,32 @@ void DesignEntitiesStorage::setProcedure(const std::string& procedureName, int s
 }
 
 // Get all variables
-std::unordered_set<std::string> DesignEntitiesStorage::getAllVariables() {
+std::set<std::string> DesignEntitiesStorage::getAllVariables() {
     return variableData;
 }
 
 // Get all constants
-std::unordered_set<std::string> DesignEntitiesStorage::getAllConstants() {
+std::set<std::string> DesignEntitiesStorage::getAllConstants() {
     return constantData;
 }
 
 // Get all procedures
-std::unordered_set<std::string> DesignEntitiesStorage::getAllProcedures() {
-    std::unordered_set<std::string> procedures;
+std::set<std::string> DesignEntitiesStorage::getAllProcedures() {
+    std::set<std::string> procedures;
     for (const auto& entry : procedureData) {
         procedures.insert(entry.first);
     }
     return procedures;
 }
 
-// Get procedures on a statement
-std::unordered_set<std::string> DesignEntitiesStorage::getProceduresOnStatement(int statementNumber) {
-    std::unordered_set<std::string> procedures;
+// Get procedure starting on a statement
+std::string DesignEntitiesStorage::getProcedureStartingOnStatement(int statementNumber) {
+    std::set<std::string> procedures;
     for (const auto& entry : procedureData) {
         if (entry.second == statementNumber) {
-            procedures.insert(entry.first);
+            return entry.first;
         }
     }
-    return procedures;
 }
 
 // Get the starting statement of a procedure
@@ -57,6 +56,6 @@ int DesignEntitiesStorage::getStartingStatementOfProcedure(const std::string& pr
         return procedureData[procedureName];
     }
     else {
-        return -1; // Return -1 if procedure not found
+        return -1;
     }
 }
