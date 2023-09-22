@@ -14,8 +14,8 @@ IntermediateTable ParentsAbstraction::getAbstractions() {
                                                   : StmtType::STMT;
 
     vector<pair<string, string>> statementsModifyingVar = this->isTransitive ?
-            pkb->getParentChildStarPairs(firstStmtType, secondStmtType)
-            : pkb->getParentChildPairs(firstStmtType, secondStmtType);
+            pkb.getParentChildStarPairs(firstStmtType, secondStmtType)
+            : pkb.getParentChildPairs(firstStmtType, secondStmtType);
 
     return IntermediateTableFactory::buildIntermediateTable(
             firstArgValue,

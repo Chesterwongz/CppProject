@@ -14,8 +14,8 @@
                                                  : StmtType::STMT;
 
      vector<pair<string, string>> statementsModifyingVar = this->isTransitive ?
-             pkb->getFollowsStarPairs(firstStmtType, secondStmtType)
-             : pkb->getFollowsPairs(firstStmtType, secondStmtType);
+             pkb.getFollowsStarPairs(firstStmtType, secondStmtType)
+             : pkb.getFollowsPairs(firstStmtType, secondStmtType);
 
      return IntermediateTableFactory::buildIntermediateTable(
              firstArgValue,

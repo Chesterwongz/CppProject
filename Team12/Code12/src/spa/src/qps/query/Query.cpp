@@ -2,7 +2,7 @@
 #include "../clause/utils/ClauseConstants.h"
 #include "../intermediateTable/IntermediateTableFactory.h"
 
-Query::Query(PKBReader *pkb) : pkb(pkb) {}
+Query::Query(PKBReader &pkb) : pkb(pkb) {}
 
 using namespace std;
 
@@ -48,6 +48,6 @@ set<string> Query::evaluate() {
 set<string> Query::returnAllPossibleQueriedSynonym() {
     Entity entity = context.getTokenEntity(this->synonymToQuery);
     StmtType stmtType = EntityToStatementType.at(entity);
-    return pkb->getStatement(stmtType);
+    return pkb.getStatement(stmtType);
 }
 

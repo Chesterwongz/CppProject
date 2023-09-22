@@ -26,7 +26,7 @@ IntermediateTable ModifiesAbstraction::getAbstractions() {
             || isStmtWildcardAndVarWildcard) {
         string varSynonym = secondArg.getValue();
         vector<pair<string, string>> statementsModifyingVar =
-                pkb->getAllModifiedVariables(stmtType);
+                pkb.getAllModifiedVariables(stmtType);
 
         return IntermediateTableFactory::buildIntermediateTable(
                 stmtValue,
@@ -42,7 +42,7 @@ IntermediateTable ModifiesAbstraction::getAbstractions() {
     if (isStmtSynonymAndVarIdent || isStmtWildCardAndVarIdent) {
         string varIdentifier = secondArg.getValue();
         vector<vector<string>> statementsModifyingVar =
-                { pkb->getStatementsModifying(varIdentifier, stmtType) };
+                { pkb.getStatementsModifying(varIdentifier, stmtType) };
         vector<string> colName = { stmtValue };
         return IntermediateTableFactory::buildIntermediateTable(
                 colName,

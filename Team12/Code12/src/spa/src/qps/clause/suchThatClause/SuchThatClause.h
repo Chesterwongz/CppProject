@@ -23,5 +23,5 @@ public:
             bool isTransitive);
     IntermediateTable evaluate(
             Context context,
-            PKBReader *pkb) override;
+            PKBReader &pkb) override;
 };

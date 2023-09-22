@@ -13,5 +13,6 @@ class Clause {
 public:
     virtual IntermediateTable evaluate(
             Context context,
-            PKBReader *pkb) = 0;
+            PKBReader &pkb) = 0;
+    virtual ~Clause() = default;
 };

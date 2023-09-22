@@ -16,15 +16,16 @@ SuchThatClause::SuchThatClause (
 
 IntermediateTable SuchThatClause::evaluate(
         Context context,
-        PKBReader *pkb) {
-    unique_ptr<AbstractionParams> abstractionParams = {};
-
-    abstractionParams->abstraction = this->relationship;
-    abstractionParams->pkb = pkb;
-    abstractionParams->context = std::move(context);
-    abstractionParams->firstArg = *(this->firstArg);
-    abstractionParams->secondArg = *(this->secondArg);
-    abstractionParams->isTransitive = this->isTransitive;
+        PKBReader &pkb) {
+    unique_ptr<AbstractionParams> abstractionParams
+            = std::make_unique<AbstractionParams>(
+                    pkb,
+                    std::move(context),
+                    this->relationship,
+                    *(this->firstArg),
+                    *(this->secondArg),
+                    this->isTransitive
+            );
 
     std::unique_ptr<IAbstraction> executableAbstraction =
             AbstractionFactory::createAbstraction(std::move(abstractionParams));
