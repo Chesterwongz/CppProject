@@ -11,7 +11,7 @@ PatternToken::PatternToken(string synonym, vector<string> unvalidatedTokens) {
     }
 }
 
-Synonym PatternToken::getSynonym() {
+SynonymType PatternToken::getSynonym() {
     return synonym->getValue();
 }
 

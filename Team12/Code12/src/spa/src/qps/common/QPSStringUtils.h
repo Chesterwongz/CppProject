@@ -15,6 +15,13 @@ class QPSStringUtils {
 public:
     static map<char, int> precedence;
 
+    enum ArgumentType {
+        IDENT,
+        SYNONYM,
+        WILDCARD,
+        INTEGER
+    };
+
     static bool isSynonym(const string data);
     static bool isStmtRef(const string data);
     static bool isEntRef(const string data);

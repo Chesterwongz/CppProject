@@ -11,11 +11,11 @@ typedef std::string Entity;
 class DeclarativeToken : public QueryToken {
 private:
     Entity entity;
-    Synonym synonym;
+    SynonymType synonym;
 
 public:
-    DeclarativeToken(Entity entity, Synonym synonym);
-    Synonym getSynonym();
+    DeclarativeToken(Entity entity, SynonymType synonym);
+    SynonymType getSynonym();
     Entity getEntity();
     unique_ptr<Clause> buildClause() override;
 };

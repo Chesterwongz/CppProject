@@ -22,9 +22,9 @@ public:
     const Abstraction getRelationship();
     const IArgument* getFirstArgument();
     const IArgument* getSecondArgument();
-    const string getFirstArgumentType();
+    const QPSStringUtils::ArgumentType getFirstArgumentType();
     const string getFirstArgumentValue();
-    const string getSecondArgumentType();
+    const QPSStringUtils::ArgumentType getSecondArgumentType();
     const string getSecondArgumentValue();
     unique_ptr<Clause> buildClause();
 };

@@ -7,7 +7,7 @@ string Wildcard::getValue() {
 	return wildcardValue;
 }
 
-string Wildcard::getArgumentType() {
+QPSStringUtils::ArgumentType Wildcard::getArgumentType() {
 	return argumentType;
 }
 

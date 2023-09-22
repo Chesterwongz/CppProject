@@ -8,12 +8,12 @@ using std::string;
 
 class Integer : public IArgument {
 private:
-	const string argumentType = INTEGER_TYPE;
+	const QPSStringUtils::ArgumentType argumentType = QPSStringUtils::INTEGER;
 	string integerValue;
 public:
-	explicit Integer(string argumentValue) : integerValue(argumentValue) {};
+	explicit Integer(string argumentValue);
 	string getValue() override;
-	string getArgumentType() override;
+	QPSStringUtils::ArgumentType getArgumentType() override;
 	virtual bool isIdent() override;
 	virtual bool isInteger() override;
 	virtual bool isSynonym() override;

@@ -9,7 +9,7 @@ using std::unique_ptr, std::make_unique, std::string;
 
 unique_ptr<IArgument> ArgumentFactory::createArgument(string argument) {
 	if (QPSStringUtils::isWildcard(argument)) {
-		return make_unique<Wildcard>(argument);
+		return make_unique<Wildcard>();
 	} 
 
 	if (QPSStringUtils::isIdent(argument)) {
@@ -25,4 +25,20 @@ unique_ptr<IArgument> ArgumentFactory::createArgument(string argument) {
 	}
 
 	return nullptr;
+}
+
+unique_ptr<Synonym> ArgumentFactory::createSynonymArgument(string argumentValue) {
+	return make_unique<Synonym>(argumentValue);
+}
+
+unique_ptr<Ident> ArgumentFactory::createIdentArgument(string argumentValue) {
+	return make_unique<Ident>(argumentValue);
+}
+
+unique_ptr<Integer> ArgumentFactory::createIntegerArgument(string argumentValue) {
+	return make_unique<Integer>(argumentValue);
+}
+
+unique_ptr<Wildcard> ArgumentFactory::createWildcardArgument() {
+	return make_unique<Wildcard>();
 }

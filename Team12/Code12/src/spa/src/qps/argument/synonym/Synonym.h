@@ -8,13 +8,13 @@ using std::string;
 
 class Synonym : public IArgument {
 private:
-	const string argumentType = SYNONYM_TYPE;
+	const QPSStringUtils::ArgumentType argumentType = QPSStringUtils::SYNONYM;
 	string synonymValue;
 
 public:
-	explicit Synonym(string argumentValue) : synonymValue(argumentValue) {};
+	explicit Synonym(string argumentValue);
 	string getValue() override;
-	string getArgumentType() override;
+	QPSStringUtils::ArgumentType getArgumentType() override;
 	virtual bool isIdent() override;
 	virtual bool isInteger() override;
 	virtual bool isSynonym() override;
