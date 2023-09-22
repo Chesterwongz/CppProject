@@ -16,6 +16,6 @@ class Clause {
 public:
     virtual QueryResult evaluate(
             Context context,
-            PKBReader *pkb,
+            PKBReader& pkb,
             string &synonymToQuery) = 0;
 };

@@ -10,7 +10,7 @@
 using std::shared_ptr;
 
 struct AbstractionParams {
-    PKBReader *pkb;
+    PKBReader &pkb;
     Context context;
     Abstraction abstraction;
     shared_ptr<IArgument> firstArg;
@@ -19,7 +19,7 @@ struct AbstractionParams {
 
 class IAbstraction {
 protected:
-    PKBReader *pkb{};
+    PKBReader &pkb;
     Context context;
     Abstraction abstraction;
     shared_ptr<IArgument> firstArg;    // (@yq i changed from reference to string)

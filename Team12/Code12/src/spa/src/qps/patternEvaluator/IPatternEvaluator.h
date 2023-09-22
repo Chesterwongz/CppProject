@@ -21,9 +21,9 @@ class IPatternEvaluator {
 protected:
 	Context context;
 	PatternArgsStreamPtr patternArgsStreamPtr;
-	PKBReader* pkbReader;
+	PKBReader& pkbReader;
 public:
-	explicit IPatternEvaluator(Context context, PatternArgsStreamPtr patternArgsStreamPtr, PKBReader* pkbReader) :
+	explicit IPatternEvaluator(Context context, PatternArgsStreamPtr patternArgsStreamPtr, PKBReader& pkbReader) :
 		context(context),
 		patternArgsStreamPtr(std::move(patternArgsStreamPtr)),
 		pkbReader(pkbReader) {};

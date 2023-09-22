@@ -2,7 +2,7 @@
 #include "pkb/facade/PKB.h"
 #include "QueryBuilder.h"
 
-QueryBuilder::QueryBuilder(PKBReader *pkb) : pkb(pkb) {}
+QueryBuilder::QueryBuilder(PKBReader& pkb) : pkb(pkb) {}
 
 Query QueryBuilder::buildQuery(QPSTokenStream& queryTokenVector) {
     auto newQuery = Query(pkb);

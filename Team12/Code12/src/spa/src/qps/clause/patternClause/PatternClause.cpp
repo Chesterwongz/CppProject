@@ -10,7 +10,7 @@ PatternClause::PatternClause(unique_ptr<IArgument> synonym, PatternArgsStreamPtr
 
 
 //prolly will change method return type to set<string>
-QueryResult PatternClause::evaluate(Context context, PKBReader* pkbReader, string& synonymToQuery) {
+QueryResult PatternClause::evaluate(Context context, PKBReader& pkbReader, string& synonymToQuery) {
 	string synonymValue = synonym->getValue();
 	string entityType = context.getTokenEntity(synonymValue);
 

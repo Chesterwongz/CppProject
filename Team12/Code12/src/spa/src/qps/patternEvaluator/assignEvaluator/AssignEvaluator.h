@@ -4,7 +4,7 @@
 
 class AssignEvaluator : public IPatternEvaluator {
 public:
-	explicit AssignEvaluator(Context context, PatternArgsStreamPtr patternArgsStreamPtr, PKBReader* pkbReader) :
+	explicit AssignEvaluator(Context context, PatternArgsStreamPtr patternArgsStreamPtr, PKBReader& pkbReader) :
 		IPatternEvaluator(context, std::move(patternArgsStreamPtr), pkbReader) {};
 
 	QueryResult evaluate() override;

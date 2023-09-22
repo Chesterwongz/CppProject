@@ -25,6 +25,6 @@ public:
 
     QueryResult evaluate(
             Context context,
-            PKBReader *pkb,
+            PKBReader &pkb,
             string &synonymToQuery) override;
 };

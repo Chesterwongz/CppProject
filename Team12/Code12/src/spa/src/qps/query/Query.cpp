@@ -1,7 +1,7 @@
 #include "Query.h"
 #include "../clause/utils/ClauseConstants.h"
 
-Query::Query(PKBReader *pkb) : pkb(pkb) {}
+Query::Query(PKBReader& pkb) : pkb(pkb) {}
 
 using namespace std;
 

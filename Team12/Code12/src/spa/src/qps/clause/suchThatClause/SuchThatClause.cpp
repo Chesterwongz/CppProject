@@ -13,7 +13,7 @@ SuchThatClause::SuchThatClause (
 
 QueryResult SuchThatClause::evaluate(
         Context context,
-        PKBReader *pkb,
+        PKBReader& pkb,
         string &synonymToQuery) {
     AbstractionParams *abstractionParams = {};
 

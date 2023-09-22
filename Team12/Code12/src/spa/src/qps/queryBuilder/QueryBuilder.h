@@ -7,9 +7,9 @@
 
 class QueryBuilder {
 private:
-    PKBReader *pkb;
+    PKBReader &pkb;
 
 public:
-    explicit QueryBuilder(PKBReader *pkb);
+    explicit QueryBuilder(PKBReader& pkb);
     Query buildQuery(QPSTokenStream& queryTokenVector);
 };

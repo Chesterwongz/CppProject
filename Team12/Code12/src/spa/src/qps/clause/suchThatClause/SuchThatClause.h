@@ -21,6 +21,6 @@ public:
             unique_ptr<IArgument> &secondArg);
     QueryResult evaluate(
             Context context,
-            PKBReader *pkb,
+            PKBReader &pkb,
             string &synonymToQuery) override;
 };
