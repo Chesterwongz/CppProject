@@ -30,7 +30,7 @@ private:
     std::unordered_map<std::string, std::unordered_set<std::string>> callsStarStorage;
 
 public:
-    explicit MockPKBWriter(Storage &storage) : PKBWriter(storage){};
+    explicit MockPKBWriter(PKBStorage &storage) : PKBWriter(storage){};
     ~MockPKBWriter() override = default;
 
     void setFollowsRelationship(int statementNumber, int followingStatement) override {

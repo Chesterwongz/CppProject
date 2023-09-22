@@ -30,7 +30,7 @@ TEST_CASE("EntityExtractor - only reads") {
     programNode->addChild(std::move(procNode));
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
 
@@ -52,7 +52,7 @@ TEST_CASE("EntityExtractor with parser - only reads") {
                    "read y;"
                    "}";
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
@@ -85,7 +85,7 @@ TEST_CASE("EntityExtractor - non-nesting, 1 uses") {
     programNode->addChild(std::move(procNode));
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
 
@@ -108,7 +108,7 @@ TEST_CASE("EntityExtractor with parser - non-nesting, 1 uses") {
                    "}";
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
@@ -154,7 +154,7 @@ TEST_CASE("EntityExtractor - if node") {
     programNode->addChild(std::move(procNode));
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
 
@@ -182,7 +182,7 @@ TEST_CASE("EntityExtractor with parser - if node") {
        "}";
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
@@ -239,7 +239,7 @@ TEST_CASE("EntityExtractor - if in while node") {
     programNode->addChild(std::move(procNode));
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
 
@@ -268,7 +268,7 @@ TEST_CASE("EntityExtractor with parser - if in while node") {
          "read num1;"
         "}";
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 

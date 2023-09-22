@@ -2,33 +2,43 @@
 
 #include <vector>
 #include <unordered_map>
-#include <unordered_set>
 #include <set>
 
 class ParentStorage {
 public:
-    // Constructor
     ParentStorage();
 
     // Setter for parent relationship
     void setParent(int statementNumber, int childStatement);
 
-    // Getter for all children relationship
-    std::unordered_set<int> getAllChildren(int statementNumber);
+    // Setter for parent* relationship
+    void setParentStar(int statementNumber, int childStatement);
 
-    // Getter for all parents relationship
-    std::set<int> getAllParents(int statementNumber);
+    // Return all the immediate children of a particular statement 
+    std::set<int> getImmediateChildren(int statementNumber);
 
-    // Getter for immediate children relationship - 1 parent can have multiple children
-    std::unordered_set<int> getImmediateChildren(int statementNumber);
-
-    // Getter for immediate parent relationship - 1 child has at most 1 immediate parent
+    // Return the immediate parent of a particular statmement
     int getImmediateParent(int statementNumber);
 
-private:
-    // Data structure for parent relationship (statement number -> child statement numbers)
-    std::unordered_map<int, std::unordered_set<int>> parentOf;
+    // Return all children of a particular statement
+    std::set<int> getAllChildren(int statementNumber);
 
-    // Data structure for child relationship (child statement number -> parent statement numbers)
-    std::unordered_map<int, std::set<int>>childOf;
+    // Return all parents of a particular sttaement
+    std::set<int> getAllParents(int statementNumber);
+
+    // Return all statements that are parents of some statement in the program
+    std::set<int> getAllParents();
+
+    // Return all statements that are a children of some statement in the program
+    std::set<int> getAllChildren();
+
+private:
+    // (statement number -> immediate children statement numbers)
+    std::unordered_map<int, std::set<int>> immediateChildrenOf;
+
+    // (statement number -> all children statement numbers)
+    std::unordered_map<int, std::set<int>> childrenOf;
+
+    // (child statement number -> parents statement numbers)
+    std::unordered_map<int, std::set<int>> parentsOf;
 };

@@ -12,7 +12,7 @@
 
 class PKB {
 private:
-    Storage storage;
+    PKBStorage storage;
 
 public:
     PKBReader reader;

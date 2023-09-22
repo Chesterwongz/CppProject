@@ -33,7 +33,7 @@ TEST_CASE("ParentExtractor - no parent") {
     programNode->addChild(std::move(procNode));
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPkbWriter(storage);
     extractAbstraction(*programNode, mockPkbWriter, AbstractionType::PARENT);
 
@@ -48,7 +48,7 @@ TEST_CASE("ParentExtractor with parser - no parent") {
         "read num2;"
         "}";
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPkbWriter(storage);
     extractAbstraction(input, mockPkbWriter, AbstractionType::PARENT);
 
@@ -90,7 +90,7 @@ TEST_CASE("ParentExtractor - if node") {
     programNode->addChild(std::move(procNode));
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPkbWriter(storage);
     extractAbstraction(*programNode, mockPkbWriter, AbstractionType::PARENT);
     unordered_map<int, set<int>> expected = {};
@@ -114,7 +114,7 @@ TEST_CASE("ParentExtractor with parser - if node") {
         "}";
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPkbWriter(storage);
     extractAbstraction(input, mockPkbWriter, AbstractionType::PARENT);
     unordered_map<int, set<int>> expected = {};
@@ -164,7 +164,7 @@ TEST_CASE("ParentExtractor - while node") {
     programNode->addChild(std::move(procNode));
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPkbWriter(storage);
     extractAbstraction(*programNode, mockPkbWriter, AbstractionType::PARENT);
 
@@ -193,7 +193,7 @@ TEST_CASE("ParentExtractor with parser - while node") {
         "}";
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPkbWriter(storage);
     extractAbstraction(input, mockPkbWriter, AbstractionType::PARENT);
 

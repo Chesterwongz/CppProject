@@ -26,7 +26,7 @@ TEST_CASE("CallsExtractor - no calls") {
     procNode->addChild(std::move(stmtListNode));
     programNode->addChild(std::move(procNode));
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(*programNode, mockPKB, AbstractionType::CALLS);
 
@@ -42,7 +42,7 @@ TEST_CASE("CallsExtractor with parser - no calls") {
         "read num2;"
         "}";
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
@@ -61,7 +61,7 @@ TEST_CASE("CallsExtractor with parser - single calls") {
         "}";
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
@@ -86,7 +86,7 @@ TEST_CASE("CallsExtractor with parser - multiple calls in one proc") {
         "}";
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
@@ -111,7 +111,7 @@ TEST_CASE("CallsExtractor with parser - 2 chained calls") {
         "}";
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
@@ -146,7 +146,7 @@ TEST_CASE("CallsExtractor with parser - 2 chained calls from 1 procedure") {
 
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
@@ -182,7 +182,7 @@ TEST_CASE("CallsExtractor with parser - 3 chained calls") {
 
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
