@@ -1,6 +1,6 @@
 #include <iostream>
-#include "TestIntermediateTableUtils.h"
-#include "TestIntermediateTableData.h"
+#include "IntermediateTableTestUtils.h"
+#include "IntermediateTableTestData.h"
 
 #include "catch.hpp"
 #include "qps/intermediateTable/IntermediateTableUtils.h"

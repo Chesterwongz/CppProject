@@ -1,5 +1,5 @@
 #include <iostream>
-#include "TestIntermediateTableUtils.h"
+#include "IntermediateTableTestUtils.h"
 
 bool isVectorSameAsPair(vector<string> vector1, const pair<string, string>& pair1) {
     if (vector1.size() != 2) {

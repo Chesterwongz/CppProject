@@ -1,8 +1,8 @@
 #include <iostream>
 #include "catch.hpp"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
-#include "TestIntermediateTableData.h"
-#include "TestIntermediateTableUtils.h"
+#include "IntermediateTableTestData.h"
+#include "IntermediateTableTestUtils.h"
 
 TEST_CASE("IntermediateTableFactory - buildIntermediateTable - pairs_without_wildcard") {
     IntermediateTable tableFromPairs = IntermediateTableFactory::buildIntermediateTable(
