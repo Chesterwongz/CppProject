@@ -36,6 +36,17 @@ void PKBWriter::setProcedure(const std::string& procedureName, int startStatemen
     storage.setProcedure(procedureName, startStatement);
 }
 
-void PKBWriter::setAssignPattern(std::string variableName, std::string rpn, int statementNumber) {
+void PKBWriter::setAssignPattern(std::string& variableName, std::string& rpn, int statementNumber) {
     storage.setAssignPattern(variableName, rpn, statementNumber);
 }
+void PKBWriter::setWhilePattern(int statementNumber, const std::string &varName) {}
+
+void PKBWriter::setIfPattern(int statementNumber, const std::string &varName) {}
+
+void PKBWriter::setUsesRelationship(const std::string &variableName, const std::string &procedureName) {}
+
+void PKBWriter::setModifiesRelationship(const std::string &variableName, const std::string &procedureName) {}
+
+void PKBWriter::setCallsRelationship(const std::string &callerProc, const std::string &calleeProc) {}
+
+void PKBWriter::setCallsStarRelationship(const std::string &callerProc, const std::string &calleeProc) {}

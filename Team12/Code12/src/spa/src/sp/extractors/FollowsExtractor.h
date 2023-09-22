@@ -19,17 +19,17 @@ class FollowsExtractor : public Extractor {
 private:
     // each vector element is a nesting block, e.g. proc, if, while {}
     std::stack<std::vector<int>> nestingBlocksStack;
-    void processCurrStmt(const StmtNode *node);
+    void processCurrStmt(const StmtNode& node);
     void addFollows(int prevLine, int currLine);
 
 public:
-    explicit FollowsExtractor(PKBWriter *pkbWriter);
-    void visitAssign(const AssignNode *node) override;
-    void visitCall(const CallNode *node) override;
-    void visitIf(const IfNode *node) override;
-    void visitPrint(const PrintNode *node) override;
-    void visitRead(const ReadNode *node) override;
-    void visitWhile(const WhileNode *node) override;
-    void visitStmtList(const StmtListNode *node) override;
-    void postVisitStmtList(const StmtListNode *node) override;
+    explicit FollowsExtractor(PKBWriter& pkbWriter);
+    void visitAssign(const AssignNode& node) override;
+    void visitCall(const CallNode& node) override;
+    void visitIf(const IfNode& node) override;
+    void visitPrint(const PrintNode& node) override;
+    void visitRead(const ReadNode& node) override;
+    void visitWhile(const WhileNode& node) override;
+    void visitStmtList(const StmtListNode& node) override;
+    void postVisitStmtList(const StmtListNode& node) override;
 };

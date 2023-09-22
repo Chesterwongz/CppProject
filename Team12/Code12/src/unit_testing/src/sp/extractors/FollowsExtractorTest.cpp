@@ -27,9 +27,9 @@ TEST_CASE("FollowsExtractor Simple Statement list") {
     procNode->addChild(std::move(stmtListNode));
     programNode->addChild(std::move(procNode));
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
-    extractAbstraction(programNode.get(), mockPKB, AbstractionType::FOLLOWS);
+    extractAbstraction(*programNode, mockPKB, AbstractionType::FOLLOWS);
 
     unordered_map<int, set<int>> expected = {};
     expected[1] = {2, 3};
@@ -45,7 +45,7 @@ TEST_CASE("FollowsExtractor Simple Statement list with parser") {
         "read num3;"
         "}";
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::FOLLOWS);
 
@@ -68,7 +68,7 @@ TEST_CASE("FollowsExtractor with parser - if node") {
         "}";
 
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::FOLLOWS);
 
@@ -92,7 +92,7 @@ TEST_CASE("FollowsExtractor with parser - if in while node") {
         "read num1;"
         "}";
     // extract
-    struct Storage storage{};
+    PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::FOLLOWS);
     unordered_map<int, set<int>> expected = {};
