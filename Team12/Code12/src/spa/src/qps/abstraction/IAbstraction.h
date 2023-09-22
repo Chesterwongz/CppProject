@@ -1,11 +1,16 @@
 #pragma once
 
+#include <memory>
 #include <unordered_set>
+
 #include "pkb/facade/PKB.h"
 #include "qps/token/QueryToken.h"
 #include "pkb/facade/PKBReader.h"
 #include "qps/query/Query.h"
 #include "qps/clause/utils/ClauseConstants.h"
+#include "qps/argument/IArgument.h"
+
+using std::shared_ptr;
 
 struct AbstractionParams {
     PKBReader &pkb;
