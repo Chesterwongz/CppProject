@@ -22,11 +22,13 @@ protected:
 	Context context;
 	PatternArgsStreamPtr patternArgsStreamPtr;
 	PKBReader& pkbReader;
+	bool isPartialMatch;
 public:
-	explicit IPatternEvaluator(Context context, PatternArgsStreamPtr patternArgsStreamPtr, PKBReader& pkbReader) :
+	explicit IPatternEvaluator(Context context, PatternArgsStreamPtr patternArgsStreamPtr, PKBReader& pkbReader, bool isPartialMatch) :
 		context(context),
 		patternArgsStreamPtr(std::move(patternArgsStreamPtr)),
-		pkbReader(pkbReader) {};
+		pkbReader(pkbReader),
+		isPartialMatch(isPartialMatch) {};
 
 	virtual QueryResult evaluate() = 0;
 };

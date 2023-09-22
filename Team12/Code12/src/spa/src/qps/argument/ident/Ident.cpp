@@ -4,12 +4,13 @@
 #include "Ident.h"
 
 Ident::Ident(string argumentValue) {
-	if (!QPSStringUtils::isIdent(argumentValue)) {
-		throw std::runtime_error("argumentValue is not an ident");
-	}
+	// TODO: check its ident and remove '\"'
+	//if (!QPSStringUtils::isIdent(argumentValue)) {
+	//	throw std::runtime_error("argumentValue is not an ident");
+	//}
 
-	// remove '\"' from value
-	argumentValue.erase(std::remove(argumentValue.begin(), argumentValue.end(), '\"'), argumentValue.end());
+	//// remove '\"' from value
+	//argumentValue.erase(std::remove(argumentValue.begin(), argumentValue.end(), '\"'), argumentValue.end());
 	identValue = argumentValue;
 }
 
