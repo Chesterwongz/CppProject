@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cassert>
 #include <memory>
 #include <string>
 #include <utility>
@@ -27,13 +28,17 @@ public:
 
     [[nodiscard]] string getValue() const;
 
-    TNodeType getType();
+    [[nodiscard]] TNodeType getType() const;
+
+    [[nodiscard]] TNode& getChildAt(int index) const;
+
+    [[nodiscard]] string getChildValueAt(int index) const;
 
     [[nodiscard]] virtual vector<TNode *> getChildren() const;
 
-    virtual void accept(Extractor *e) const;
+    virtual void accept(Extractor& e) const;
 
-    virtual void cleanup(Extractor *e) const;
+    virtual void cleanup(Extractor& e) const;
 
     [[nodiscard]] virtual bool isEqual(const TNode &other) const;
 

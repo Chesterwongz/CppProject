@@ -7,11 +7,13 @@
 #include <string>
 #include "Extractor.h"
 #include "sp/ast/TNode.h"
+#include "CallsExtractor.h"
 #include "FollowsExtractor.h"
 #include "ParentExtractor.h"
 #include "UsesExtractor.h"
 #include "ModifiesExtractor.h"
 #include "EntityExtractor.h"
+#include "PatternExtractor.h"
 #include "pkb/facade/PKBWriter.h"
 #include "Populator.h"
 
@@ -21,6 +23,6 @@ private:
     Populator populator;
 
 public:
-    explicit DesignExtractor(PKBWriter* pkbWriter);
-    void extract(TNode* node);
+    explicit DesignExtractor(PKBWriter& pkbWriter);
+    void extract(TNode& node);
 };

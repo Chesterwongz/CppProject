@@ -1,33 +1,33 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
 #include <unordered_map>
 #include <set>
 
 class FollowsStorage {
 public:
-    // Constructor
     FollowsStorage();
 
-    // Setter for follows relationship
+    // Setter for follows* relationship
     void setFollows(int statementNumber, int followingStatement);
 
-    // Getter for all follows relationship
-    std::set<int> getAllFollows(int statementNumber);
-
-    // Getter for all followed by relationship
-    std::set<int> getAllFollowedBy(int statementNumber);
-
-    // Getter for immediate follows relationship
+    // Return s2 that satisfies Follows(s1, s2) where s1 is statementNumber
     int getImmediateFollows(int statementNumber);
 
-    // Getter for immediate followed by relationship
+    // Return s1 that satisfies Follows(s1, s2) where s2 is statementNumber
     int getImmediateFollowedBy(int statementNumber);
 
+    // Return all s2 that satisfies Follows*(s1, s2) where s1 is statementNumber
+    std::set<int> getAllFollows(int statementNumber);
+
+    // Return all s1 that satisfies Follows*(s1, s2) where s2 is statementNumber
+    std::set<int> getAllFollowedBy(int statementNumber);
+
 private:
-    // Data structure for follows relationship (statement number -> following statement numbers)
+    // (statement number -> following statement numbers)
     std::unordered_map<int, std::set<int>> followsFrom;
 
-    // Data structure for followed by relationship (following statement number -> statement numbers)
+    // (following statement number -> statement numbers)
     std::unordered_map<int, std::set<int>> followsTo;
 };
