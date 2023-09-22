@@ -2,6 +2,9 @@
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/parser/relationshipParserState/followsParserState/FollowsParserState.h"
+#include "qps/parser/relationshipParserState/parentsParserState/ParentsParserState.h"
+#include "qps/parser/relationshipParserState/usesParserState/UsesParserState.h"
+#include "qps/parser/relationshipParserState/modifiesParserState/ModifiesParserState.h"
 
 PredictiveMap SuchThatParserState::predictiveMap = {
         { PQL_NULL_TOKEN, { PQL_SUCH_TOKEN } },
@@ -39,9 +42,14 @@ void SuchThatParserState::handleToken() {
                 parserContext.transitionTo(make_unique<FollowsParserState>(parserContext));
                 return;
             case PQL_PARENT_TOKEN:
-                // transitionTo
+                parserContext.transitionTo(make_unique<ParentsParserState>(parserContext));
+                return;
             case PQL_USES_TOKEN:
+                parserContext.transitionTo(make_unique<UsesParserState>(parserContext));
+                return;
             case PQL_MODIFIES_TOKEN:
+                parserContext.transitionTo(make_unique<ModifiesParserState>(parserContext));
+                return;
             default:
                 throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);
         }

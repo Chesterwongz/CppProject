@@ -1,6 +1,7 @@
 #include "ParentsParserState.h"
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
+#include "qps/parser/patternParserState/PatternParserState.h"
 
 // TODO: Consider merging with follows
 PredictiveMap ParentsParserState::predictiveMap = {
@@ -59,20 +60,22 @@ void ParentsParserState::handleToken() {
             case PQL_CLOSE_BRACKET_TOKEN:
                 isInBracket = false;
                 // TODO: add clause
-                // TODO: transitionTo
                 break;
             case PQL_SYNONYM_TOKEN:
             case PQL_INTEGER_TOKEN:
             case PQL_WILDCARD_TOKEN:
                 // TODO: create arguments and add to arguments vector
                 break;
+            case PQL_PATTERN_TOKEN:
+                this->parserContext.transitionTo(make_unique<PatternParserState>(parserContext));
+                return;
             default:
                 throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNEXPECTED_TOKEN);
         }
         this->prev = curr.getType();
         tokenStream.next();
     }
-    if (prev != exitToken && isInBracket) {
+    if (prev != exitToken || isInBracket) {
         throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNMATCHED_BRACKET);
     }
 }

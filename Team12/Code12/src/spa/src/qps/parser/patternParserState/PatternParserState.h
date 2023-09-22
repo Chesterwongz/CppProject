@@ -11,6 +11,8 @@ private:
     PQLTokenStream& tokenStream;
     PQLTokenType prev;
     bool isInBracket;
+    bool isPartialMatch;
+    string matchPattern;
     string outerSynonym;
     static PredictiveMap predictiveMap;
     static PQLTokenType exitToken;
