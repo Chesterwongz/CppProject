@@ -6,6 +6,6 @@
 
 class AbstractionFactory {
 public:
-    static std::unique_ptr<IAbstraction> createAbstraction(
-            struct AbstractionParams *abstractionParams);
+    static unique_ptr<IAbstraction> createAbstraction(
+            unique_ptr<AbstractionParams> abstractionParams);
 };

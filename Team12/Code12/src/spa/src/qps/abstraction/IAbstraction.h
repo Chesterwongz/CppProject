@@ -29,7 +29,7 @@ protected:
     IArgument &secondArg;
     bool isTransitive;
 
-    explicit IAbstraction(struct AbstractionParams *params);
+    explicit IAbstraction(unique_ptr<AbstractionParams> params);
 
 public:
     virtual IntermediateTable getAbstractions() = 0;

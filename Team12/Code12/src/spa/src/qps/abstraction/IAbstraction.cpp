@@ -1,6 +1,6 @@
 #include "IAbstraction.h"
 
-IAbstraction::IAbstraction(struct AbstractionParams *params) :
+IAbstraction::IAbstraction(unique_ptr<AbstractionParams> params) :
         pkb(params->pkb),
         context(params->context),
         abstraction(params->abstraction),

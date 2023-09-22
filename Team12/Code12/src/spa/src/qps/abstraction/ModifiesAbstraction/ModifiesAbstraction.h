@@ -5,7 +5,7 @@
 
 class ModifiesAbstraction : public IAbstraction {
 public:
-    explicit ModifiesAbstraction(struct AbstractionParams *abstractionParams)  :
-            IAbstraction(abstractionParams) {};
+    explicit ModifiesAbstraction(unique_ptr<AbstractionParams> abstractionParams)  :
+            IAbstraction(std::move(abstractionParams)) {};
     IntermediateTable getAbstractions() override;
 };

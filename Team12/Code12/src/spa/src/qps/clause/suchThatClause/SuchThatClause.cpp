@@ -17,7 +17,7 @@ SuchThatClause::SuchThatClause (
 IntermediateTable SuchThatClause::evaluate(
         Context context,
         PKBReader *pkb) {
-    AbstractionParams *abstractionParams = {};
+    unique_ptr<AbstractionParams> abstractionParams = {};
 
     abstractionParams->abstraction = this->relationship;
     abstractionParams->pkb = pkb;
@@ -27,7 +27,7 @@ IntermediateTable SuchThatClause::evaluate(
     abstractionParams->isTransitive = this->isTransitive;
 
     std::unique_ptr<IAbstraction> executableAbstraction =
-            AbstractionFactory::createAbstraction(abstractionParams);
+            AbstractionFactory::createAbstraction(std::move(abstractionParams));
 
     return executableAbstraction->getAbstractions();
 }
