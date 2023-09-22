@@ -18,6 +18,6 @@ public:
     PKBReader reader;
     PKBWriter writer;
     PKB() : storage(), writer(storage), reader(storage) {};
-    PKBWriter* getWriter() { return &writer; }
+    PKBWriter& getWriter() { return writer; }
     PKBReader* getReader() { return &reader; }
 };

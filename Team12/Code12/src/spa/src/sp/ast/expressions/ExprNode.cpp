@@ -7,7 +7,3 @@ ExprNode::ExprNode(TNodeType nodeType, std::string value, std::unique_ptr<TNode>
         addChild(std::move(right));
     }
 }
-
-void ExprNode::accept(Extractor *e) const {
-    e->visitExpr(this);
-}

@@ -1,35 +1,35 @@
 #include "ModifiesExtractor.h"
 
-ModifiesExtractor::ModifiesExtractor(PKBWriter *pkbWriter) : Extractor(pkbWriter) {}
+ModifiesExtractor::ModifiesExtractor(PKBWriter& pkbWriter) : Extractor(pkbWriter) {}
 
-void ModifiesExtractor::visitProcedure(const ProcNode *node) {
-    procName = node->getValue();
+void ModifiesExtractor::visitProcedure(const ProcNode& node) {
+    procName = node.getValue();
 }
 
-void ModifiesExtractor::visitAssign(const AssignNode *node) {
-    stmtStates.push_back({node->getLineNum(), {}, true});
+void ModifiesExtractor::visitAssign(const AssignNode& node) {
+    stmtStates.push_back({node.getLineNum(), {}, true});
 }
 
-void ModifiesExtractor::visitIf(const IfNode *node) {
-    stmtStates.push_back({node->getLineNum(), {}, false});
+void ModifiesExtractor::visitIf(const IfNode& node) {
+    stmtStates.push_back({node.getLineNum(), {}, false});
 }
 
-void ModifiesExtractor::visitWhile(const WhileNode *node) {
-    stmtStates.push_back({node->getLineNum(), {}, false});
+void ModifiesExtractor::visitWhile(const WhileNode& node) {
+    stmtStates.push_back({node.getLineNum(), {}, false});
 }
 
-void ModifiesExtractor::visitRead(const ReadNode *node) {
-    stmtStates.push_back({node->getLineNum(), {}, true});
+void ModifiesExtractor::visitRead(const ReadNode& node) {
+    stmtStates.push_back({node.getLineNum(), {}, true});
 }
 
-void ModifiesExtractor::visitVariable(const VarNode *node) {
+void ModifiesExtractor::visitVariable(const VarNode& node) {
     if (stmtStates.empty() || !stmtStates.back().isAnticipateVar) {
         // no valid stmt before this var, or, prev stmt/container is not going to modify this var
         return;
     }
 
     ModifiesStmtState &currState = stmtStates.back();
-    currState.varsModified.insert(node->getValue());
+    currState.varsModified.insert(node.getValue());
     currState.isAnticipateVar = false;
 }
 
@@ -47,22 +47,23 @@ void ModifiesExtractor::postVisit() {
     stmtStates.pop_back();
 }
 
-void ModifiesExtractor::postVisitAssign(const AssignNode *node) {
+void ModifiesExtractor::postVisitAssign(const AssignNode& node) {
     postVisit();
 }
 
-void ModifiesExtractor::postVisitIf(const IfNode *node) {
+void ModifiesExtractor::postVisitIf(const IfNode& node) {
     postVisit();
 }
 
-void ModifiesExtractor::postVisitWhile(const WhileNode *node) {
+void ModifiesExtractor::postVisitWhile(const WhileNode& node) {
     postVisit();
 }
 
-void ModifiesExtractor::postVisitRead(const ReadNode *node) {
+void ModifiesExtractor::postVisitRead(const ReadNode& node) {
     postVisit();
 }
 
 void ModifiesExtractor::addModifies(int lineNum, const std::string &var) {
-    pkbWriter->setModifiesRelationship(var, lineNum);
+    pkbWriter.setModifiesRelationship(var, lineNum);
+    pkbWriter.setModifiesRelationship(var, procName);
 }

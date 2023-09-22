@@ -28,15 +28,15 @@ private:
     void addUses(int lineNum, const std::string &var);
 
 public:
-    explicit UsesExtractor(PKBWriter *pkbWriter);
-    void visitProcedure(const ProcNode *node) override; // TODO: modify after MS1
-    void visitAssign(const AssignNode *node) override;
-    void visitIf(const IfNode *node) override;
-    void visitWhile(const WhileNode *node) override;
-    void visitPrint(const PrintNode *node) override;
-    void visitVariable(const VarNode *node) override;
-    void postVisitAssign(const AssignNode *node) override;
-    void postVisitIf(const IfNode *node) override;
-    void postVisitWhile(const WhileNode *node) override;
-    void postVisitPrint(const PrintNode *node) override;
+    explicit UsesExtractor(PKBWriter& pkbWriter);
+    void visitProcedure(const ProcNode& node) override;
+    void visitAssign(const AssignNode& node) override;
+    void visitIf(const IfNode& node) override;
+    void visitWhile(const WhileNode& node) override;
+    void visitPrint(const PrintNode& node) override;
+    void visitVariable(const VarNode& node) override;
+    void postVisitAssign(const AssignNode& node) override;
+    void postVisitIf(const IfNode& node) override;
+    void postVisitWhile(const WhileNode& node) override;
+    void postVisitPrint(const PrintNode& node) override;
 };
