@@ -5,6 +5,7 @@
 #include <regex>
 #include <string>
 #include <map>
+#include <stack>
 
 using std::string, std::map;
 

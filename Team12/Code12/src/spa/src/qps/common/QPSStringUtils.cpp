@@ -1,4 +1,3 @@
-#include <stack>
 #include "QPSStringUtils.h"
 
 using std::string;
