@@ -19,7 +19,7 @@ QueryResult AssignEvaluator::evaluate() {
 
 	string secondArgRPNValue = QPSStringUtils::convertToRPN(secondArg->getValue());
 
-	vector<string> pkbResult = pkbReader->getExactPattern(firstArgValue, secondArgRPNValue);
+	vector<string> pkbResult = pkbReader->getExactAssignPattern(firstArgValue, secondArgRPNValue);
 
 	//TODO: make intermediate table.
 
