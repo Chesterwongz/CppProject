@@ -2,7 +2,6 @@
 #include <sstream>
 #include <iostream>
 #include <string>
-#include <sstream>
 #include <algorithm>
 #include "common/exceptions/Exception.h"
 #include "qps/common/Keywords.h"
@@ -10,8 +9,7 @@
 #include "Tokeniser.h"
 #include "../token/QueryToken.h"
 
-using std::string;
-using std::vector;
+using std::string, std::vector, std::stringstream;
 
 // returns true if word is a design entity
 bool TokeniserUtil::isDesignEntity(string word) {

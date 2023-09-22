@@ -1,7 +1,7 @@
 #include "Validator.h"
 #include "qps/token/declarativeToken/declarativeToken.h"
 
-bool Validator::validateTokens(TokenStream& queryTokenVector) {
+bool Validator::validateTokens(QPSTokenStream& queryTokenVector) {
 //    for (int i = 0; i < queryTokenVector.size(); i++) {
 //        QueryToken* queryToken = (queryTokenVector[i]).get();
 //

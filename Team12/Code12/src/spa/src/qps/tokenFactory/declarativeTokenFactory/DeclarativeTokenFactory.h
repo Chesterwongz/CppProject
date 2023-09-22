@@ -17,6 +17,6 @@ protected:
 
 public:
     DeclarativeTokenFactory() : entityType("") {}
-	TokenStreamPtr createTokens(UnvalidatedTokens unvalidatedTokens) override;
+	QPSTokenStreamPtr createTokens(UnvalidatedTokens unvalidatedTokens) override;
     void setEntityType(const string entity);
 };

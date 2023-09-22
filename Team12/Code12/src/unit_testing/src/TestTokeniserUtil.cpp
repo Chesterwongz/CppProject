@@ -1,5 +1,3 @@
-#include "TNode.h"
-
 #include "catch.hpp"
 #include "../../spa/src/qps/tokeniser/TokeniserUtil.h"
 

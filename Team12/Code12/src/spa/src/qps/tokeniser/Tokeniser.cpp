@@ -15,8 +15,8 @@
 
 using std::string, std::vector, std::size_t, std::unique_ptr;
 
-TokenStream Tokeniser::convertToTokens(string query) {
-    TokenStream tokens;
+QPSTokenStream Tokeniser::convertToTokens(string query) {
+    QPSTokenStream tokens;
     vector<string> queryFragments;
 
     queryFragments = TokeniserUtil::delimitString(query, semicolon); // delimit by semicolon
@@ -29,9 +29,9 @@ TokenStream Tokeniser::convertToTokens(string query) {
 }
 
 // creates the respective tokens and adds it to tokens
-void Tokeniser::processFragment(string queryFragment, TokenStream& tokens) {
+void Tokeniser::processFragment(string queryFragment, QPSTokenStream& tokens) {
     vector<string> whitespaceDelimitedFragments;
-    TokenStreamPtr newTokens;
+    QPSTokenStreamPtr newTokens;
     size_t length;
 
     whitespaceDelimitedFragments = TokeniserUtil::delimitString(queryFragment, whitespace); // delimit by whitespace

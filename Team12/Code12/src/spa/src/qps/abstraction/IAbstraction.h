@@ -1,7 +1,7 @@
 #pragma once
 
 #include <unordered_set>
-#include "PKB.h"
+#include "pkb/facade/PKB.h"
 #include "qps/token/QueryToken.h"
 #include "pkb/facade/PKBReader.h"
 #include "qps/query/Query.h"

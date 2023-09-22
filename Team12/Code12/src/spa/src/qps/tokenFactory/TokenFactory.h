@@ -17,8 +17,8 @@ using std::string, std::vector, std::unique_ptr, std::unordered_map, std::set;
 
 // the reason for the complex type is because of object slicing
 // https://www.geeksforgeeks.org/object-slicing-in-c/
-typedef vector<unique_ptr<QueryToken>> TokenStream;
-typedef unique_ptr<TokenStream> TokenStreamPtr; // this needs to be unique_ptr to ensure the lifetime of the tokenstream
+typedef vector<unique_ptr<QueryToken>> QPSTokenStream;
+typedef unique_ptr<QPSTokenStream> QPSTokenStreamPtr; // this needs to be unique_ptr to ensure the lifetime of the tokenstream
 typedef vector<string> UnvalidatedTokens;
 
 class TokenFactory;
@@ -41,7 +41,7 @@ public:
     // used like this:
     // DeclarativeTokenFactory* dtf = TokenFactory::getOrCreateFactory();
     // dtf.createToken(validatedTokens);
-    virtual TokenStreamPtr createTokens(UnvalidatedTokens unvalidatedTokens) = 0;
+    virtual QPSTokenStreamPtr createTokens(UnvalidatedTokens unvalidatedTokens) = 0;
 
     // for unit-tests; should be under protected
     static TokenFactory* getOrCreateFactory(TOKENTYPES keyword);

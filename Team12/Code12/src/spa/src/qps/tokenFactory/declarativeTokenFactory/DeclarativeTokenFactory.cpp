@@ -20,7 +20,7 @@ void DeclarativeTokenFactory::setEntityType(string entity) {
     entityType = entity;
 }
 
-TokenStreamPtr DeclarativeTokenFactory::createTokens(UnvalidatedTokens unvalidatedTokens) {
+QPSTokenStreamPtr DeclarativeTokenFactory::createTokens(UnvalidatedTokens unvalidatedTokens) {
     if (!isValid(unvalidatedTokens)) {
         throw std::runtime_error("Declarative token stream is invalid");
     }
@@ -29,7 +29,7 @@ TokenStreamPtr DeclarativeTokenFactory::createTokens(UnvalidatedTokens unvalidat
         return std::make_unique<std::vector<std::unique_ptr<QueryToken>>>();
     }
 
-    TokenStreamPtr declarativeTokens = std::make_unique<std::vector<std::unique_ptr<QueryToken>>>();
+    QPSTokenStreamPtr declarativeTokens = std::make_unique<std::vector<std::unique_ptr<QueryToken>>>();
 
     for (auto & unvalidatedToken : unvalidatedTokens)
     {

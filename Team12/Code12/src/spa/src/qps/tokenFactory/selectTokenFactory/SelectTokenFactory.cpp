@@ -10,7 +10,7 @@ bool SelectTokenFactory::isValid(UnvalidatedTokens unvalidatedTokens) {
     return isSynonym(unvalidatedTokens[0]);
 }
 
-TokenStreamPtr SelectTokenFactory::createTokens(UnvalidatedTokens unvalidatedTokens) {
+QPSTokenStreamPtr SelectTokenFactory::createTokens(UnvalidatedTokens unvalidatedTokens) {
     if (!isValid(unvalidatedTokens)) {
         throw std::runtime_error("Select token stream is invalid");
     }
@@ -19,7 +19,7 @@ TokenStreamPtr SelectTokenFactory::createTokens(UnvalidatedTokens unvalidatedTok
         return std::make_unique<std::vector<std::unique_ptr<QueryToken>>>();
     }
 
-    TokenStreamPtr selectTokens = std::make_unique<std::vector<std::unique_ptr<QueryToken>>>();
+    QPSTokenStreamPtr selectTokens = std::make_unique<std::vector<std::unique_ptr<QueryToken>>>();
 
     for (size_t i = 0; i < unvalidatedTokens.size(); i++)
     {

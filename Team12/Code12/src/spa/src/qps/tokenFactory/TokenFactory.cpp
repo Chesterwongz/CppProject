@@ -21,11 +21,13 @@ const set<string> TokenFactory::entities = {
 TokenFactoryPool TokenFactory::tokenFactories;
 
 bool TokenFactory::isSynonym(string data) {
-	return StringUtils::isName(data);
+    std::regex synonymPattern("^[A-Za-z][A-Za-z0-9]*$");
+	return std::regex_match(data, synonymPattern);
 }
 
 bool TokenFactory::isStmtRef(string data) {
-	return isSynonym(data) || data == "_" || StringUtils::isInteger(data);
+    std::regex integerPattern("^[0-9]+$");
+	return isSynonym(data) || data == "_" || std::regex_match(data, integerPattern);
 }
 
 bool TokenFactory::isEntRef(string data) {
