@@ -48,6 +48,10 @@ bool PQLParserUtils::isExpectedToken(PredictiveMap &pm, PQLTokenType prev, PQLTo
     return true;
 }
 
+bool PQLParserUtils::isDelimiter(PQLTokenType tokenType) {
+    return delimiterTokens.find(tokenType) != delimiterTokens.end();
+}
+
 void PQLParserUtils::processNameTokenInRelationships(PQLToken &curr, bool isInBracket) {
     if (isInBracket) {
         curr.updateTokenType(PQL_SYNONYM_TOKEN);

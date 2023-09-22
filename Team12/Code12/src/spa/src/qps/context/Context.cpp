@@ -17,4 +17,4 @@ void Context::addSynonym(Synonym tokenSynonym, Entity tokenEntity) {
         throw QPSInvalidQueryException(QPS_INVALID_QUERY_REPEAT_SYNONYM_NAME);
     }
     this->tokenNameToTokenMap[tokenSynonym] = tokenEntity;
-};
+}

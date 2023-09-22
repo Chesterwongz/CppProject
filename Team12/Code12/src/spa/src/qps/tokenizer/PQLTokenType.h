@@ -2,8 +2,9 @@
 
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 
-using std::unordered_map, std::string;
+using std::unordered_map, std::string, std::unordered_set;
 
 enum PQLTokenType {
     // for the first token
@@ -65,4 +66,4 @@ const string ASSIGN_KEYWORD = "assign";
 const string VARIABLE_KEYWORD = "variable";
 
 extern unordered_map<string, PQLTokenType> keywordToTokenType;
-
+extern unordered_set<PQLTokenType> delimiterTokens;

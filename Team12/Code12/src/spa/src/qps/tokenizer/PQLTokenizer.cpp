@@ -1,7 +1,6 @@
 #include "PQLTokenizer.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/common/PQLParserUtils.h"
-#include "common/utils/StringUtils.h"
 
 PQLTokenizer::PQLTokenizer(const string& query) :
 	buffer(""),
@@ -79,10 +78,13 @@ void PQLTokenizer::flushLiteralBuffer(PQLTokenType type) {
     literalBuffer.clear();
 }
 
+// Refactor processName() and processInt() due to similarities
 void PQLTokenizer::processName() {
     while (currPos < query.length()) {
         char c = query.at(currPos);
-        if (!StringUtils::isAlphaNumeric(c)) {
+
+        PQLTokenType currType = tokenTable.getTokenType(c);
+        if (PQLParserUtils::isDelimiter(currType)) {
             break;
         }
         buffer.push_back(c);
@@ -98,7 +100,8 @@ void PQLTokenizer::processName() {
 void PQLTokenizer::processInt() {
     while (currPos < query.length()) {
         char c = query.at(currPos);
-        if (!StringUtils::isDigit(c)) {
+        PQLTokenType currType = tokenTable.getTokenType(c);
+        if (PQLParserUtils::isDelimiter(currType)) {
             break;
         }
         buffer.push_back(c);

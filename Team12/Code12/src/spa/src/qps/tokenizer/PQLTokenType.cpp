@@ -17,3 +17,15 @@ unordered_map<string, PQLTokenType> keywordToTokenType = {
         { "such", PQL_SUCH_TOKEN },
         { "that", PQL_THAT_TOKEN }
 };
+
+unordered_set<PQLTokenType> delimiterTokens = {
+        PQL_IGNORE_TOKEN,
+        PQL_SEMICOLON_TOKEN,
+        PQL_COMMA_TOKEN,
+        PQL_QUOTE_TOKEN,
+        PQL_OPEN_BRACKET_TOKEN,
+        PQL_CLOSE_BRACKET_TOKEN,
+        PQL_ASTERISKS_TOKEN,
+        PQL_WILDCARD_TOKEN,
+        PQL_OPERATOR_TOKEN
+};

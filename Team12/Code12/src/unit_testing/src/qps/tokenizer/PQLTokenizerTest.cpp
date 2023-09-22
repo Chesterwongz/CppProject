@@ -60,14 +60,7 @@ TEST_CASE("Invalid query with unmatched quote") {
     string query = "\"unmatched";
     PQLTokenizer tokenizer(query);
 
-    try {
-        unique_ptr<PQLTokenList > res = tokenizer.tokenize();
-    } catch (QPSInvalidQueryException e) {
-        REQUIRE(true);
-        std::cout << e.what() << std::endl;
-        return;
-    }
-    REQUIRE(false);
+    REQUIRE_THROWS_WITH(tokenizer.tokenize(), QPS_INVALID_QUERY_ERR_UNMATCHED_QUOTE);
 }
 
 TEST_CASE("test all symbols") {
@@ -88,12 +81,38 @@ TEST_CASE("invalid name") {
     string query = "stmt sa&;";
     PQLTokenizer tokenizer(query);
 
-    try {
-        unique_ptr<PQLTokenList > res = tokenizer.tokenize();
-    } catch (QPSInvalidQueryException e) {
-        std::cout << e.what() << std::endl;
-        REQUIRE(true);
-        return;
-    }
-    REQUIRE(false);
+    REQUIRE_THROWS_WITH(tokenizer.tokenize(), QPS_INVALID_QUERY_INAVLID_NAME);
+}
+
+TEST_CASE("query with literals and many whitespaces") {
+    string query = "stmt       s1 ,     s2; assign     a;\n Select a      pattern a (   \"x\",   _ )    ";
+    vector<PQLTokenType> expected = {
+            PQL_NAME_TOKEN,
+            PQL_NAME_TOKEN,
+            PQL_COMMA_TOKEN,
+            PQL_NAME_TOKEN,
+            PQL_SEMICOLON_TOKEN,
+            PQL_NAME_TOKEN,
+            PQL_NAME_TOKEN,
+            PQL_SEMICOLON_TOKEN,
+            PQL_NAME_TOKEN,
+            PQL_NAME_TOKEN,
+            PQL_NAME_TOKEN,
+            PQL_NAME_TOKEN,
+            PQL_OPEN_BRACKET_TOKEN,
+            PQL_LITERAL_REF_TOKEN,
+            PQL_COMMA_TOKEN,
+            PQL_WILDCARD_TOKEN,
+            PQL_CLOSE_BRACKET_TOKEN
+    };
+    PQLTokenizer tokenizer(query);
+    unique_ptr<PQLTokenList > res = tokenizer.tokenize();
+    REQUIRE(isEqual(expected, *(res.get())));
+}
+
+TEST_CASE("Invalid integer") {
+    string integer = "4d500";
+    PQLTokenizer tokenizer(integer);
+
+    REQUIRE_THROWS(tokenizer.tokenize(), QPS_INVALID_QUERY_INAVLID_INTEGER);
 }
