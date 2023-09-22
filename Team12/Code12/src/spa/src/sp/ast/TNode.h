@@ -36,9 +36,9 @@ public:
 
     [[nodiscard]] virtual vector<TNode *> getChildren() const;
 
-    virtual void accept(Extractor *e) const;
+    virtual void accept(Extractor& e) const;
 
-    virtual void cleanup(Extractor *e) const;
+    virtual void cleanup(Extractor& e) const;
 
     [[nodiscard]] virtual bool isEqual(const TNode &other) const;
 

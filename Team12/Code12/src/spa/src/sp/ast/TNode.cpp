@@ -64,6 +64,6 @@ bool operator!=(const TNode& lhs, const TNode& rhs) {
     return !(lhs == rhs);
 }
 
-void TNode::accept(Extractor *e) const {}
+void TNode::accept(Extractor& e) const {}
 
-void TNode::cleanup(Extractor *e) const {}
+void TNode::cleanup(Extractor& e) const {}
