@@ -1,16 +1,17 @@
 #pragma once
 
 #include <string>
+#include <utility>
 #include <unordered_set>
+
 #include "qps/token/QueryToken.h"
 #include "qps/clause/Clause.h"
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/IArgument.h"
+#include "../../patternEvaluator/PatternEvaluatorFactory.h"
+#include "../../patternEvaluator/IPatternEvaluator.h"
 
 using std::string, std::unique_ptr, std::vector;
-
-typedef vector<unique_ptr<IArgument>> PatternArgsStream;
-typedef unique_ptr<PatternArgsStream> PatternArgsStreamPtr;
 
 class PatternClause : public Clause {
 private:

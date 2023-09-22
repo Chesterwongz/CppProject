@@ -1,7 +1,4 @@
 #include "PatternClause.h"
-#include "../../patternEvaluator/PatternEvaluatorFactory.h"
-#include "../../patternEvaluator/IPatternEvaluator.h"
-#include <utility>
 
 PatternClause::PatternClause(unique_ptr<IArgument> synonym, PatternArgsStreamPtr patternArgsStreamPtr, bool isPartialMatch) {
 	PatternClause::synonym = std::move(synonym);
