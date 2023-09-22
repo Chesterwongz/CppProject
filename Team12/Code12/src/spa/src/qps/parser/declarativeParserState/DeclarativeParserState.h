@@ -14,7 +14,6 @@ private:
 	PQLTokenType prev;
 	string currentEntity;
 	static PredictiveMap predictiveMap;
-    static PQLTokenType exitToken;
 	void processNameToken(PQLToken& curr) override;
 
 public:

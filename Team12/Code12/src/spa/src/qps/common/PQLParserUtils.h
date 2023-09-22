@@ -6,6 +6,7 @@
 #include <unordered_set>
 
 #include "qps/tokenizer/PQLTokenType.h"
+#include "qps/token/PQLToken.h"
 
 using std::regex, std::string, std::regex_match, std::unordered_map, std::unordered_set;
 
@@ -20,5 +21,6 @@ public:
 	static bool isStmtRef(string data);
 	static bool isEntRef(string data);
     static PQLTokenType getTokenTypeFromKeyword(const string &keyword);
+    static void processNameTokenInRelationships(PQLToken& curr, bool isInBracket);
     static bool isExpectedToken(PredictiveMap& pm, PQLTokenType prev, PQLTokenType curr);
 };

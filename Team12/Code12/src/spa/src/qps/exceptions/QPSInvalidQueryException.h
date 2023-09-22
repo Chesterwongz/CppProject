@@ -14,6 +14,7 @@ const char QPS_INVALID_QUERY_INAVLID_NAME[] = "Invalid Name";
 const char QPS_INVALID_QUERY_INAVLID_INTEGER[] = "Invalid Integer";
 const char QPS_INVALID_QUERY_INVALID_ENTITY[] = "Invalid entity: ";
 const char QPS_INVALID_QUERY_INCOMPLETE_QUERY[] = "Incomplete query";
+const char QPS_INVALID_QUERY_INVALID_PATTERN_SYNONYM[] = "Invalid pattern synonym";
 
 class QPSInvalidQueryException : public QPSException {
 public:

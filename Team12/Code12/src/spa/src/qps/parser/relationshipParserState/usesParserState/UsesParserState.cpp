@@ -1,32 +1,32 @@
-#include "FollowsParserState.h"
+#include "UsesParserState.h"
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-// TODO: create such that clause after merge
-PredictiveMap FollowsParserState::predictiveMap = {
-        { PQL_NULL_TOKEN, { PQL_FOLLOWS_TOKEN } },
-        { PQL_FOLLOWS_TOKEN, { PQL_ASTERISKS_TOKEN, PQL_OPEN_BRACKET_TOKEN } },
-        { PQL_ASTERISKS_TOKEN, { PQL_OPEN_BRACKET_TOKEN } },
-        { PQL_OPEN_BRACKET_TOKEN, { PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_INTEGER_TOKEN } },
+PredictiveMap UsesParserState::predictiveMap = {
+        { PQL_NULL_TOKEN, { PQL_USES_TOKEN } },
+        { PQL_USES_TOKEN, { PQL_OPEN_BRACKET_TOKEN } },
+        { PQL_OPEN_BRACKET_TOKEN, { PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN,
+                                    PQL_LITERAL_REF_TOKEN, PQL_INTEGER_TOKEN} },
+        { PQL_COMMA_TOKEN, { PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN,
+                            PQL_LITERAL_REF_TOKEN } },
         { PQL_SYNONYM_TOKEN, { PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN } },
         { PQL_WILDCARD_TOKEN, { PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN } },
+        { PQL_LITERAL_REF_TOKEN, { PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN } },
         { PQL_INTEGER_TOKEN, { PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN } },
-        { PQL_COMMA_TOKEN, { PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_INTEGER_TOKEN } },
         { PQL_CLOSE_BRACKET_TOKEN, { PQL_PATTERN_TOKEN } }
 };
 
-PQLTokenType FollowsParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
+PQLTokenType UsesParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
 
-int FollowsParserState::maxNumberOfArgs = 2;
+int UsesParserState::maxNumberOfArgs = 2;
 
-FollowsParserState::FollowsParserState(PQLParserContext &parserContext) :
-    parserContext(parserContext),
-    tokenStream(this->parserContext.getTokenStream()),
-    prev(PQL_NULL_TOKEN),
-    isInBracket(false),
-    isTransitive(false) {};
+UsesParserState::UsesParserState(PQLParserContext &parserContext) :
+        parserContext(parserContext),
+        tokenStream(this->parserContext.getTokenStream()),
+        prev(PQL_NULL_TOKEN),
+        isInBracket(false) {};
 
-void FollowsParserState::processNameToken(PQLToken &curr) {
+void UsesParserState::processNameToken(PQLToken &curr) {
     if (isInBracket) {
         curr.updateTokenType(PQL_SYNONYM_TOKEN);
         return;
@@ -34,7 +34,7 @@ void FollowsParserState::processNameToken(PQLToken &curr) {
     curr.updateTokenType(PQLParserUtils::getTokenTypeFromKeyword(curr.getValue()));
 }
 
-void FollowsParserState::handleToken() {
+void UsesParserState::handleToken() {
     while (!this->tokenStream.isTokenStreamEnd()) {
         auto& curr = tokenStream.getCurrentToken();
 
@@ -47,32 +47,28 @@ void FollowsParserState::handleToken() {
         }
 
         switch (curr.getType()) {
-            case PQL_FOLLOWS_TOKEN:
+            case PQL_USES_TOKEN:
             case PQL_COMMA_TOKEN:
-                break;
-            case PQL_ASTERISKS_TOKEN:
-                isTransitive = true;
                 break;
             case PQL_OPEN_BRACKET_TOKEN:
                 isInBracket = true;
+                break;
+            case PQL_CLOSE_BRACKET_TOKEN:
+                isInBracket = false;
                 // TODO: add clause
                 // TODO: transitionTo
                 return;
-            case PQL_CLOSE_BRACKET_TOKEN:
-                isInBracket = false;
-                break;
             case PQL_SYNONYM_TOKEN:
-            case PQL_INTEGER_TOKEN:
             case PQL_WILDCARD_TOKEN:
+            case PQL_LITERAL_REF_TOKEN:
+            case PQL_INTEGER_TOKEN:
                 // TODO: create arguments and add to arguments vector
                 break;
             default:
                 throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNEXPECTED_TOKEN);
         }
-        this->prev = curr.getType();
-        tokenStream.next();
-    }
-    if (prev != exitToken && isInBracket) {
-        throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNMATCHED_BRACKET);
+        if (prev != exitToken && isInBracket) {
+            throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNMATCHED_BRACKET);
+        }
     }
 }

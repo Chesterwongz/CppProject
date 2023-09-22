@@ -17,10 +17,10 @@ private:
 public:
 	explicit PQLParserContext(
 		PQLTokenStream& tokenStream,
-		unique_ptr<IParserState> currState,
 		Query& query
 	);
 	void addToContext(string entity, string synonym);
+    string getSynonymType(const string &synonym);
 	[[nodiscard]] PQLTokenStream& getTokenStream() const;
 	void transitionTo(unique_ptr<IParserState> nextState);
     void addClause(unique_ptr<Clause> clause);

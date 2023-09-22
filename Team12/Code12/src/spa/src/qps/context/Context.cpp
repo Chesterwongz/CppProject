@@ -2,7 +2,7 @@
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-Entity Context::getTokenEntity(Synonym &synonym) {
+Entity Context::getTokenEntity(const Synonym &synonym) {
     auto entity = tokenNameToTokenMap.find(synonym);
 
     if (entity == tokenNameToTokenMap.end()) {

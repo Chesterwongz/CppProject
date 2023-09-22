@@ -11,8 +11,6 @@ PredictiveMap DeclarativeParserState::predictiveMap = {
 	{ PQL_SEMICOLON_TOKEN, { PQL_ENTITY_TOKEN, PQL_SELECT_TOKEN } }
 };
 
-PQLTokenType DeclarativeParserState::exitToken = PQL_SEMICOLON_TOKEN;
-
 DeclarativeParserState::DeclarativeParserState(PQLParserContext& parserContext) :
     parserContext(parserContext),
 	tokenStream(parserContext.getTokenStream()),
@@ -62,8 +60,8 @@ void DeclarativeParserState::handleToken() {
         this->prev = curr.getType();
         tokenStream.next();
 	}
-    if (prev != exitToken) {
-        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCOMPLETE_QUERY);
-    }
+
+    // should never exit in this parser
+    throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCOMPLETE_QUERY);
 }
 

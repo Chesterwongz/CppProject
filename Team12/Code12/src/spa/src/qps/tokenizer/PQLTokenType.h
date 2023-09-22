@@ -61,5 +61,7 @@ enum PQLTokenType {
     PQL_PATTERN_TOKEN,
 };
 
+const string ASSIGN_KEYWORD = "assign";
+
 extern unordered_map<string, PQLTokenType> keywordToTokenType;
 

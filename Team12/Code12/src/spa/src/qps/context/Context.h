@@ -10,10 +10,10 @@ typedef string Entity;
 
 class Context {
 private:
-    map<string, Entity> tokenNameToTokenMap = {};
+    map<Synonym, Entity> tokenNameToTokenMap = {};
 
 public:
     void addSynonym(Synonym tokenSynonym, Entity tokenEntity);
 
-    Entity getTokenEntity(Synonym &tokenName);
+    Entity getTokenEntity(const Synonym &tokenName);
 };

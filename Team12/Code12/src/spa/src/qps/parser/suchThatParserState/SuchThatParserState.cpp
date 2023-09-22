@@ -48,6 +48,8 @@ void SuchThatParserState::handleToken() {
         this->prev = curr.getType();
         tokenStream.next();
     }
+    // should never exit in this parser
+    throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCOMPLETE_QUERY);
 }
 
 

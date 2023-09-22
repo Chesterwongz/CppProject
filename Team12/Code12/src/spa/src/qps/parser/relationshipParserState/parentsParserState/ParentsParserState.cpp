@@ -1,11 +1,11 @@
-#include "FollowsParserState.h"
+#include "ParentsParserState.h"
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-// TODO: create such that clause after merge
-PredictiveMap FollowsParserState::predictiveMap = {
-        { PQL_NULL_TOKEN, { PQL_FOLLOWS_TOKEN } },
-        { PQL_FOLLOWS_TOKEN, { PQL_ASTERISKS_TOKEN, PQL_OPEN_BRACKET_TOKEN } },
+// TODO: Consider merging with follows
+PredictiveMap ParentsParserState::predictiveMap = {
+        { PQL_NULL_TOKEN, { PQL_PARENT_TOKEN } },
+        { PQL_PARENT_TOKEN, { PQL_ASTERISKS_TOKEN, PQL_OPEN_BRACKET_TOKEN } },
         { PQL_ASTERISKS_TOKEN, { PQL_OPEN_BRACKET_TOKEN } },
         { PQL_OPEN_BRACKET_TOKEN, { PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_INTEGER_TOKEN } },
         { PQL_SYNONYM_TOKEN, { PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN } },
@@ -15,18 +15,11 @@ PredictiveMap FollowsParserState::predictiveMap = {
         { PQL_CLOSE_BRACKET_TOKEN, { PQL_PATTERN_TOKEN } }
 };
 
-PQLTokenType FollowsParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
+PQLTokenType ParentsParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
 
-int FollowsParserState::maxNumberOfArgs = 2;
+int ParentsParserState::maxNumberOfArgs = 2;
 
-FollowsParserState::FollowsParserState(PQLParserContext &parserContext) :
-    parserContext(parserContext),
-    tokenStream(this->parserContext.getTokenStream()),
-    prev(PQL_NULL_TOKEN),
-    isInBracket(false),
-    isTransitive(false) {};
-
-void FollowsParserState::processNameToken(PQLToken &curr) {
+void ParentsParserState::processNameToken(PQLToken &curr) {
     if (isInBracket) {
         curr.updateTokenType(PQL_SYNONYM_TOKEN);
         return;
@@ -34,7 +27,14 @@ void FollowsParserState::processNameToken(PQLToken &curr) {
     curr.updateTokenType(PQLParserUtils::getTokenTypeFromKeyword(curr.getValue()));
 }
 
-void FollowsParserState::handleToken() {
+ParentsParserState::ParentsParserState(PQLParserContext &parserContext) :
+        parserContext(parserContext),
+        tokenStream(this->parserContext.getTokenStream()),
+        prev(PQL_NULL_TOKEN),
+        isInBracket(false),
+        isTransitive(false) {};
+
+void ParentsParserState::handleToken() {
     while (!this->tokenStream.isTokenStreamEnd()) {
         auto& curr = tokenStream.getCurrentToken();
 
@@ -55,11 +55,11 @@ void FollowsParserState::handleToken() {
                 break;
             case PQL_OPEN_BRACKET_TOKEN:
                 isInBracket = true;
-                // TODO: add clause
-                // TODO: transitionTo
                 return;
             case PQL_CLOSE_BRACKET_TOKEN:
                 isInBracket = false;
+                // TODO: add clause
+                // TODO: transitionTo
                 break;
             case PQL_SYNONYM_TOKEN:
             case PQL_INTEGER_TOKEN:

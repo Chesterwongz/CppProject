@@ -11,6 +11,7 @@ private:
 	PQLTokenStream& tokenStream;
 	PQLTokenType prev;
 	static PredictiveMap predictiveMap;
+	static PQLTokenType exitToken;
 	void processNameToken(PQLToken& curr) override;
 
 public:

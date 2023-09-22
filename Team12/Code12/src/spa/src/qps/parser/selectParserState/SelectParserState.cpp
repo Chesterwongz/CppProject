@@ -9,6 +9,8 @@ PredictiveMap SelectParserState::predictiveMap = {
 	{ PQL_SYNONYM_TOKEN, { PQL_SUCH_TOKEN, PQL_PATTERN_TOKEN } }
 };
 
+PQLTokenType SelectParserState::exitToken = PQL_SYNONYM_TOKEN;
+
 SelectParserState::SelectParserState(PQLParserContext& parserContext) :
         parserContext(parserContext),
         tokenStream(parserContext.getTokenStream()),
@@ -55,4 +57,7 @@ void SelectParserState::handleToken() {
         this->prev = curr.getType();
         tokenStream.next();
 	}
+    if (prev != exitToken) {
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCOMPLETE_QUERY);
+    }
 }
