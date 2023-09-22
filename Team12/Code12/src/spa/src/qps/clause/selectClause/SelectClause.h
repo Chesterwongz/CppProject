@@ -11,7 +11,8 @@ private:
 
 public:
     explicit SelectClause(Synonym synonym);
-    std::unordered_set<int> evaluate(
+    QueryResult evaluate(
             Context context,
-            PKBReader& pkb) override;
+            PKBReader& pkb,
+            string &synonymToQuery) override;
 };

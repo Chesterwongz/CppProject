@@ -3,6 +3,7 @@
 #include <string>
 #include <set>
 #include "qps/clause/Clause.h"
+#include "qps/clause/utils/ClauseConstants.h"
 #include "qps/argument/IArgument.h"
 
 using std::shared_ptr, std::unique_ptr;

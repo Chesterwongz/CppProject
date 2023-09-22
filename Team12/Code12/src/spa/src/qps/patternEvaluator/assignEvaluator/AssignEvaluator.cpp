@@ -1,6 +1,4 @@
 #include "AssignEvaluator.h"
-#include "../../argument/IArgument.h"
-#include "../../common/QPSStringUtils.h"
 #include "common/utils/StringUtils.h"
 
 QueryResult AssignEvaluator::evaluate() {

@@ -1,9 +1,4 @@
 #include "ArgumentFactory.h"
-#include "../synonym/Synonym.h"
-#include "../../common/QPSStringUtils.h"
-#include "../wildcard/Wildcard.h"
-#include "../Ident/Ident.h"
-#include "../integer/Integer.h"
 
 using std::unique_ptr, std::make_unique, std::string;
 

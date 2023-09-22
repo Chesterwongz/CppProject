@@ -3,11 +3,11 @@
 #include <string>
 #include <memory>
 
-#include "../IArgument.h"
-#include "../synonym/Synonym.h"
-#include "../ident/Ident.h"
-#include "../integer/Integer.h"
-#include "../wildcard/Wildcard.h"
+#include "qps/argument/IArgument.h"
+#include "qps/argument/synonym/Synonym.h"
+#include "qps/argument/ident/Ident.h"
+#include "qps/argument/integer/Integer.h"
+#include "qps/argument/wildcard/Wildcard.h"
 
 using std::string;
 

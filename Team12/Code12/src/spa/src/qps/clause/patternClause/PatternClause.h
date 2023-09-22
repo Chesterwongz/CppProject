@@ -8,8 +8,8 @@
 #include "qps/clause/Clause.h"
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/IArgument.h"
-#include "../../patternEvaluator/PatternEvaluatorFactory.h"
-#include "../../patternEvaluator/IPatternEvaluator.h"
+#include "qps/patternEvaluator/PatternEvaluatorFactory.h"
+#include "qps/patternEvaluator/IPatternEvaluator.h"
 
 using std::string, std::unique_ptr, std::vector;
 

@@ -1,6 +1,4 @@
 #include <string>
-
-#include "../IArgument.h"
 #include "Synonym.h"
 
 Synonym::Synonym(string argumentValue) {
