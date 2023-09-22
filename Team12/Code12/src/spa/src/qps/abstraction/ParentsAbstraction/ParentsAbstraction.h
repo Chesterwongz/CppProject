@@ -5,7 +5,7 @@
 
 class ParentsAbstraction : public IAbstraction {
 public:
-    ParentsAbstraction(struct AbstractionParams *abstractionParams) :
+    ParentsAbstraction(struct AbstractionParams &abstractionParams) :
             IAbstraction(abstractionParams) {};
     QueryResult getAbstractions() override;
 };

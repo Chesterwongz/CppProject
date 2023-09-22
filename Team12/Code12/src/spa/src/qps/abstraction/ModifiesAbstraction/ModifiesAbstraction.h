@@ -5,7 +5,7 @@
 
 class ModifiesAbstraction : public IAbstraction {
 public:
-    ModifiesAbstraction(struct AbstractionParams *abstractionParams)  :
+    ModifiesAbstraction(struct AbstractionParams &abstractionParams)  :
             IAbstraction(abstractionParams) {};
     QueryResult getAbstractions() override;
 };

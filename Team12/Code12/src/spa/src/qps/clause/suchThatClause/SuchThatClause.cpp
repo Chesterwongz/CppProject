@@ -15,13 +15,12 @@ QueryResult SuchThatClause::evaluate(
         Context context,
         PKBReader& pkb,
         string &synonymToQuery) {
-    AbstractionParams *abstractionParams = {};
+    AbstractionParams abstractionParams = {pkb};
 
-    abstractionParams->abstraction = this->relationship;
-    abstractionParams->pkb = pkb;
-    abstractionParams->context = std::move(context);
-    abstractionParams->firstArg = firstArg;       // (@yq need to change this)
-    abstractionParams->secondArg = secondArg;   //(@yq need to change this)
+    abstractionParams.abstraction = this->relationship;
+    abstractionParams.context = std::move(context);
+    abstractionParams.firstArg = firstArg;       // (@yq need to change this)
+    abstractionParams.secondArg = secondArg;   //(@yq need to change this)
 
     std::unique_ptr<IAbstraction> executableAbstraction =
             AbstractionFactory::createAbstraction(abstractionParams);
