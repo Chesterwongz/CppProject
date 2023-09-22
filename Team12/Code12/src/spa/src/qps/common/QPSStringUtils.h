@@ -7,11 +7,12 @@
 #include <map>
 #include <stack>
 
+#include "common/utils/StringUtils.h"
+
 using std::string, std::map;
 
 class QPSStringUtils {
 public:
-    static const string WILDCARD;
     static map<char, int> precedence;
 
     static bool isSynonym(const string data);

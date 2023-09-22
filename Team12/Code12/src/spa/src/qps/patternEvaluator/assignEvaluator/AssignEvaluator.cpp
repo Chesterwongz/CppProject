@@ -1,6 +1,7 @@
 #include "AssignEvaluator.h"
 #include "../../argument/IArgument.h"
 #include "../../common/QPSStringUtils.h"
+#include "common/utils/StringUtils.h"
 
 QueryResult AssignEvaluator::evaluate() {
 	PatternArgsStream patternArgsStream = std::move(*patternArgsStreamPtr);
@@ -11,7 +12,7 @@ QueryResult AssignEvaluator::evaluate() {
 	string firstArgValue;
 	
 	if (firstArg->isSynonym()) {
-		firstArgValue = QPSStringUtils::WILDCARD;
+		firstArgValue = StringUtils::WILDCARD;
 	}
 	else {
 		firstArgValue = firstArg->getValue();
