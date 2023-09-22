@@ -10,7 +10,7 @@ public:
     PatternStorage();
 
     // Setter for assignment expressions in the program
-    void setPattern(std::string variableName, std::string rpn, int statementNumber);
+    void setAssignPattern(std::string variableName, std::string rpn, int statementNumber);
 
     // Return all assignment statements
     std::vector<std::string> getAllStatements();
@@ -19,10 +19,10 @@ public:
     std::vector<std::string> getAllStatementsWithVariable(const std::string& variableName);
 
     // Return all statement numbers that contain the exact match
-    std::vector<std::string> getExactPattern(std::string variableName, std::string rpn);
+    std::vector<std::string> getExactAssignPattern(std::string variableName, std::string rpn);
 
     // Return all the statement numbers that contain a partial match
-    std::vector<std::string> getPartialPattern(std::string variableName, std::string rpn);
+    std::vector<std::string> getPartialAssignPattern(std::string variableName, std::string rpn);
 
 private:
     // variableName --> (RPN, stmtNum)

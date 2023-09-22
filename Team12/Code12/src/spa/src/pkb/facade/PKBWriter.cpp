@@ -36,6 +36,6 @@ void PKBWriter::setProcedure(const std::string& procedureName, int startStatemen
     storage.setProcedure(procedureName, startStatement);
 }
 
-void PKBWriter::setPattern(std::string variableName, std::string rpn, int statementNumber) {
-    storage.setPattern(variableName, rpn, statementNumber);
+void PKBWriter::setAssignPattern(std::string variableName, std::string rpn, int statementNumber) {
+    storage.setAssignPattern(variableName, rpn, statementNumber);
 }

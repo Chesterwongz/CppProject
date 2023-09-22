@@ -38,8 +38,8 @@ void PKBStorage::setProcedure(const std::string& procedureName, int startStateme
     designEntitiesStorage.setProcedure(procedureName, startStatement);
 }
 
-void PKBStorage::setPattern(std::string variableName, std::string rpn, int statementNumber) {
-    patternStorage.setPattern(variableName, rpn, statementNumber);
+void PKBStorage::setAssignPattern(std::string variableName, std::string rpn, int statementNumber) {
+    patternStorage.setAssignPattern(variableName, rpn, statementNumber);
 }
 
 std::set<std::string> PKBStorage::getAllVariables() {
@@ -60,6 +60,10 @@ std::set<int> PKBStorage::getStatementNumbersFromStatementType(StmtType statemen
 
 StmtType PKBStorage::getStatementTypeFromStatementNumber(int statementNumber) {
     return statementStorage.getStatementTypeFromStatementNumber(statementNumber);
+}
+
+bool PKBStorage::isStatementType(int statementNumber, StmtType statementType) {
+    return statementType == StmtType::STMT || statementStorage.getStatementTypeFromStatementNumber(statementNumber) == statementType;
 }
 
 int PKBStorage::getImmediateFollows(int statementNumber) {
@@ -110,12 +114,12 @@ std::set<int> PKBStorage::getStatementNumbersForUsedVariable(std::string variabl
     return usesStorage.getStatementNumbersForVariable(variableName);
 }
 
-std::vector<std::string> PKBStorage::getExactPattern(std::string variableName, std::string rpn) {
-    return  patternStorage.getExactPattern(variableName, rpn);
+std::vector<std::string> PKBStorage::getExactAssignPattern(std::string variableName, std::string rpn) {
+    return  patternStorage.getExactAssignPattern(variableName, rpn);
 }
 
-std::vector<std::string> PKBStorage::getPartialPattern(std::string variableName, std::string rpn) {
-    return patternStorage.getPartialPattern(variableName, rpn);
+std::vector<std::string> PKBStorage::getPartialAssignPattern(std::string variableName, std::string rpn) {
+    return patternStorage.getPartialAssignPattern(variableName, rpn);
 }
 
 

@@ -45,7 +45,7 @@ public:
     virtual void setStatement(int statementNumber, StmtType statementType);
 
     // Add an expression to storage
-    virtual void setPattern(std::string variableName, std::string rpn, int statementNumber);
+    virtual void setAssignPattern(std::string variableName, std::string rpn, int statementNumber);
 
 private:
     PKBStorage& storage;

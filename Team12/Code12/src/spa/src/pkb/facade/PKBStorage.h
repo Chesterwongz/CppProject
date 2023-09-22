@@ -1,5 +1,6 @@
 #pragma once
 
+#include "common/StmtTypes.h"
 #include "pkb/storage/DesignEntitiesStorage.h"
 #include "pkb/storage/FollowsStorage.h"
 #include "pkb/storage/ModifiesStorage.h"
@@ -27,6 +28,8 @@ public:
     std::set<int> getStatementNumbersFromStatementType(StmtType statementType);
 
     StmtType getStatementTypeFromStatementNumber(int statementNumber);
+
+    bool isStatementType(int statementNumber, StmtType statementType);
 
     // FollowsStorage methods
     void setFollows(int statementNumber, int followingStatement);
@@ -62,10 +65,10 @@ public:
     std::set<int> getStatementNumbersForUsedVariable(std::string variableName);
 
     //PatternStorage methods
-    virtual void setPattern(std::string variableName, std::string rpn, int statementNumber);
+    virtual void setAssignPattern(std::string variableName, std::string rpn, int statementNumber);
 
-    std::vector<std::string> getExactPattern(std::string variableName, std::string rpn);
-    std::vector<std::string> getPartialPattern(std::string variableName, std::string rpn);
+    std::vector<std::string> getExactAssignPattern(std::string variableName, std::string rpn);
+    std::vector<std::string> getPartialAssignPattern(std::string variableName, std::string rpn);
 
 private:
     DesignEntitiesStorage designEntitiesStorage;
