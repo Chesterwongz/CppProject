@@ -24,7 +24,7 @@ enum PQLTokenType {
  
     PQL_SEMICOLON_TOKEN,
     PQL_COMMA_TOKEN,
-    PQL_ASTERICKS_TOKEN,
+    PQL_ASTERISKS_TOKEN,
 
     // literals and arguments
     PQL_OPEN_BRACKET_TOKEN,
@@ -52,7 +52,6 @@ enum PQLTokenType {
     // Such That
     PQL_SUCH_TOKEN,
     PQL_THAT_TOKEN,
-    PQL_SUCH_THAT_TOKEN,
     PQL_FOLLOWS_TOKEN,
     PQL_PARENT_TOKEN,
     PQL_USES_TOKEN,
@@ -60,8 +59,6 @@ enum PQLTokenType {
 
     // Pattern
     PQL_PATTERN_TOKEN,
-    PQL_LEFT_WILDCARD,
-    PQL_RIGHT_WILDCARD
 };
 
 extern unordered_map<string, PQLTokenType> keywordToTokenType;

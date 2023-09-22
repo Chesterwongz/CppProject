@@ -3,16 +3,18 @@
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/IParserState.h"
 
+using std::make_unique;
+
 class SelectParserState : public IParserState {
 private:
 	PQLParserContext& parserContext;
 	PQLTokenStream& tokenStream;
 	PQLTokenType prev;
 	static PredictiveMap predictiveMap;
-	void processNameToken(PQLToken& curr);
-	bool isExpectedToken(PQLTokenType curr) override;
+	void processNameToken(PQLToken& curr) override;
 
 public:
 	explicit SelectParserState(PQLParserContext& parserContext);
 	void handleToken() override;
+    ~SelectParserState() override = default;
 };

@@ -34,7 +34,7 @@ unique_ptr<PQLTokenList> PQLTokenizer::tokenize() {
                 processLiteral();
                 break;
             case PQL_WILDCARD_TOKEN:
-            case PQL_ASTERICKS_TOKEN:
+            case PQL_ASTERISKS_TOKEN:
             case PQL_SEMICOLON_TOKEN:
             case PQL_COMMA_TOKEN:
             case PQL_OPEN_BRACKET_TOKEN:
@@ -49,6 +49,10 @@ unique_ptr<PQLTokenList> PQLTokenizer::tokenize() {
             default:
                 throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);
         }
+    }
+
+    if (isProcessingLiteral) {
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNMATCHED_QUOTE);
     }
 
     return std::move(tokenList);
@@ -76,7 +80,7 @@ void PQLTokenizer::flushLiteralBuffer(PQLTokenType type) {
 }
 
 void PQLTokenizer::processName() {
-    while (true) {
+    while (currPos < query.length()) {
         char c = query.at(currPos);
         if (!StringUtils::isAlphaNumeric(c)) {
             break;
@@ -92,7 +96,7 @@ void PQLTokenizer::processName() {
 }
 
 void PQLTokenizer::processInt() {
-    while (true) {
+    while (currPos < query.length()) {
         char c = query.at(currPos);
         if (!StringUtils::isDigit(c)) {
             break;

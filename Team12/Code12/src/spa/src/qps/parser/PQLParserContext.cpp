@@ -1,7 +1,7 @@
 #include "PQLParserContext.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-PQLParserContext::PQLParserContext( // TODO: Virtual destructor!
+PQLParserContext::PQLParserContext(
 	PQLTokenStream& tokenStream,
 	unique_ptr<IParserState> currState,
 	Query& query) :
@@ -26,4 +26,8 @@ void PQLParserContext::addToContext(string entity, string synonym) {
 		throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_SYNONYM);
 	}
 	this->context->addSynonym(synonym, entity);
+}
+
+void PQLParserContext::addClause(unique_ptr<Clause> clause) {
+    query.addClause(std::move(clause));
 }

@@ -1,5 +1,7 @@
 #include "catch.hpp"
 
+#include <iostream>
+
 #include "qps/tokenizer/PQLTokenizer.h"
 #include "qps/tokenizer/PQLTokenType.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
@@ -52,4 +54,46 @@ TEST_CASE("query with literals") {
     PQLTokenizer tokenizer(query);
     unique_ptr<PQLTokenList > res = tokenizer.tokenize();
     REQUIRE(isEqual(expected, *(res.get())));
+}
+
+TEST_CASE("Invalid query with unmatched quote") {
+    string query = "\"unmatched";
+    PQLTokenizer tokenizer(query);
+
+    try {
+        unique_ptr<PQLTokenList > res = tokenizer.tokenize();
+    } catch (QPSInvalidQueryException e) {
+        REQUIRE(true);
+        std::cout << e.what() << std::endl;
+        return;
+    }
+    REQUIRE(false);
+}
+
+TEST_CASE("test all symbols") {
+    string query = "()*,;";
+    vector<PQLTokenType> expected = {
+            PQL_OPEN_BRACKET_TOKEN,
+            PQL_CLOSE_BRACKET_TOKEN,
+            PQL_ASTERISKS_TOKEN,
+            PQL_COMMA_TOKEN,
+            PQL_SEMICOLON_TOKEN
+    };
+    PQLTokenizer tokenizer(query);
+    unique_ptr<PQLTokenList> res = tokenizer.tokenize();
+    REQUIRE(isEqual(expected, *(res.get())));
+}
+
+TEST_CASE("invalid name") {
+    string query = "stmt sa&;";
+    PQLTokenizer tokenizer(query);
+
+    try {
+        unique_ptr<PQLTokenList > res = tokenizer.tokenize();
+    } catch (QPSInvalidQueryException e) {
+        std::cout << e.what() << std::endl;
+        REQUIRE(true);
+        return;
+    }
+    REQUIRE(false);
 }

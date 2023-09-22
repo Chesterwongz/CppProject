@@ -27,7 +27,7 @@ const int ASCII_ROUND_BRACKET_RIGHT = 41;
 const int ASCII_UNDERSCORE = 95;
 
 // PQL_OPERATOR_TOKEN
-const int ASCII_TIMES = 42; // also PQL_ASTERICKS_TOKEN
+const int ASCII_TIMES = 42; // also PQL_ASTERISKS_TOKEN
 const int ASCII_PLUS = 43;
 const int ASCII_MINUS = 45;
 const int ASCII_SLASH = 47;

@@ -11,5 +11,9 @@ unordered_map<string, PQLTokenType> keywordToTokenType = {
         { "variable", PQL_ENTITY_TOKEN },
         { "constant", PQL_ENTITY_TOKEN },
         { "procedure", PQL_ENTITY_TOKEN },
-        { "Select", PQL_SELECT_TOKEN }
+
+        { "Select", PQL_SELECT_TOKEN },
+
+        { "such", PQL_SUCH_TOKEN },
+        { "that", PQL_THAT_TOKEN }
 };
