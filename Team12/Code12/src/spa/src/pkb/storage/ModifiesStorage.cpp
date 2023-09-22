@@ -1,13 +1,7 @@
 #include "ModifiesStorage.h"
 
-#include <iostream>
-#include <set>
-#include <map>
-
-// Constructor
 ModifiesStorage::ModifiesStorage() {}
 
-// Setter and Getter for both data structures (variable -> statement numbers and statement number -> variables)
 void ModifiesStorage::setVariableModification(const std::string& variableName, int statementNumber) {
     variableToStatements[variableName].insert(statementNumber);
     statementToVariables[statementNumber].insert(variableName);

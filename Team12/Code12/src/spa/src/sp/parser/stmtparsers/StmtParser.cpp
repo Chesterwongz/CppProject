@@ -28,7 +28,8 @@ std::optional<std::unique_ptr<TNode>> StmtParser::parse() {
 
     // Goes here if assign stmt has keyword as var_name, e.g., `read = 1;`.
     // All stmts must be valid, so we can stop executing if something goes wrong here.
-    nodeOpt = requireTNode(TNodeType::TNODE_STMT)(AssignParser(context, keyword).parse());
+    nodeOpt = AssignParser(context, keyword).parse();
+    requireTNodeOpt(TNodeType::TNODE_STMT)(nodeOpt);
 
     return nodeOpt;
 }

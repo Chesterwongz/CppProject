@@ -1,8 +1,5 @@
 #include "FollowsStorage.h"
 
-#include <iostream>
-#include <vector>
-
 // Constructor
 FollowsStorage::FollowsStorage() {}
 

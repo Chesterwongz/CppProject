@@ -1,14 +1,14 @@
 #include "RelOpTokenizer.h"
 
-Token RelOpTokenizer::tokenize(char nextCh, std::shared_ptr<InputStream> inputStream) {
+Token RelOpTokenizer::tokenize(char nextCh, InputStream &inputStream) {
     if (!matchesRelOp(nextCh))
         return BaseTokenizer::tokenize(nextCh, inputStream);
-    const std::string value = inputStream->peekWhile(matchesRelOp);
+    const std::string value = inputStream.peekWhile(matchesRelOp);
 
     if (!isRelOp(value))
         return BaseTokenizer::tokenize(nextCh, inputStream);
 
-    inputStream->readN((int) value.length());
+    inputStream.readN((int) value.length());
 
     return {TokenType::REL_OP, value};
 }
