@@ -1,6 +1,6 @@
 #include "FollowsAbstraction.h"
 
-std::unordered_set<int> FollowsAbstraction::getAbstractions() {
+QueryResult FollowsAbstraction::getAbstractions() {
     // TODO:
 //    if (first == WILDCARD && second == WILDCARD) {
 ////        return pkb->getALl

@@ -26,9 +26,6 @@ typedef unordered_map<TOKENTYPES, unique_ptr<TokenFactory>> TokenFactoryPool;
 
 class TokenFactory {
 protected:
-    bool isSynonym(const string data);
-    bool isStmtRef(const string data);
-    bool isEntRef(const string data);
 
     const static set<string> entities; // TODO: Merge with Houten's constants in common or utils folder
 

@@ -1,28 +1,30 @@
 #include "SuchThatClause.h"
 #include "qps/abstraction/IAbstraction.h"
 #include "qps/abstraction/AbstractionFactory.h"
+#include "../../argument/IArgument.h"
 
 SuchThatClause::SuchThatClause (
         Abstraction &relationship,
-        Reference &firstArg,
-        Reference &secondArg) :
+        unique_ptr<IArgument> &firstArg,
+        unique_ptr<IArgument> &secondArg) :
         relationship(relationship),
-        firstArg(firstArg),
-        secondArg(secondArg) {}
+        firstArg(std::move(firstArg)),
+        secondArg(std::move(secondArg)) {};
 
-std::unordered_set<int> SuchThatClause::evaluate(
+QueryResult SuchThatClause::evaluate(
         Context context,
-        PKBReader *pkb) {
-    AbstractionParams *abstractionParams = {};
+        PKBReader& pkb,
+        string &synonymToQuery) {
+    AbstractionParams abstractionParams = {pkb};
 
-    abstractionParams->abstraction = this->relationship;
-    abstractionParams->pkb = pkb;
-    abstractionParams->context = std::move(context);
-    abstractionParams->firstArg = firstArg;
-    abstractionParams->secondArg = secondArg;
+    abstractionParams.abstraction = this->relationship;
+    abstractionParams.context = std::move(context);
+    abstractionParams.firstArg = firstArg;       // (@yq need to change this)
+    abstractionParams.secondArg = secondArg;   //(@yq need to change this)
 
     std::unique_ptr<IAbstraction> executableAbstraction =
             AbstractionFactory::createAbstraction(abstractionParams);
 
-    return executableAbstraction->getAbstractions();
+//    return executableAbstraction-
+    return {};
 }

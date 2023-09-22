@@ -2,12 +2,14 @@
 
 #include "SelectTokenFactory.h"
 #include "qps/token/selectToken/SelectToken.h"
+#include "../../../common/utils/StringUtils.h"
+#include "qps/common/QPSStringUtils.h"
 
 bool SelectTokenFactory::isValid(UnvalidatedTokens unvalidatedTokens) {
     // should be [syn]
     if (unvalidatedTokens.size() != 1) return false;
 
-    return isSynonym(unvalidatedTokens[0]);
+    return QPSStringUtils::isSynonym(unvalidatedTokens[0]);
 }
 
 QPSTokenStreamPtr SelectTokenFactory::createTokens(UnvalidatedTokens unvalidatedTokens) {

@@ -4,6 +4,7 @@
 #include "TokenFactory.h"
 #include "declarativeTokenFactory/DeclarativeTokenFactory.h"
 #include "selectTokenFactory/SelectTokenFactory.h"
+#include "suchThatTokenFactory/SuchThatTokenFactory.h"
 
 const set<string> TokenFactory::entities = {
 	"stmt",
@@ -20,23 +21,6 @@ const set<string> TokenFactory::entities = {
 
 TokenFactoryPool TokenFactory::tokenFactories;
 
-bool TokenFactory::isSynonym(string data) {
-    std::regex synonymPattern("^[A-Za-z][A-Za-z0-9]*$");
-	return std::regex_match(data, synonymPattern);
-}
-
-bool TokenFactory::isStmtRef(string data) {
-    std::regex integerPattern("^[0-9]+$");
-	return isSynonym(data) || data == "_" || std::regex_match(data, integerPattern);
-}
-
-bool TokenFactory::isEntRef(string data) {
-	// this pattern is to check for '"' IDENT '"'
-	std::regex identQuotePattern("\"[A-Za-z]([A-Za-z0-9])*\"");
-
-	return isSynonym(data) || data == "_" || std::regex_match(data, identQuotePattern);
-}
-
 TokenFactory* TokenFactory::getOrCreateFactory(TOKENTYPES keyword) {
     switch (keyword) {
         case ENTITY:
@@ -51,6 +35,11 @@ TokenFactory* TokenFactory::getOrCreateFactory(TOKENTYPES keyword) {
                 tokenFactories[SELECT] = std::make_unique<SelectTokenFactory>();
             }
             return tokenFactories[SELECT].get();
+        case SUCH_THAT:
+            if (tokenFactories.find(SUCH_THAT) == tokenFactories.end()) {
+                tokenFactories[SUCH_THAT] = std::make_unique<SuchThatTokenFactory>();
+            }
+            return tokenFactories[SUCH_THAT].get();
     }
 
 	return nullptr;

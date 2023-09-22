@@ -6,9 +6,16 @@
 #include "qps/context/Context.h"
 #include "pkb/facade/PKBReader.h"
 
+using std::string, std::set, std::map;
+
+typedef string StmtSynonym;
+typedef set<string> PossibleValues;
+typedef map<StmtSynonym, PossibleValues > QueryResult;
+
 class Clause {
 public:
-    virtual std::unordered_set<int> evaluate(
+    virtual QueryResult evaluate(
             Context context,
-            PKBReader *pkb) = 0;
+            PKBReader& pkb,
+            string &synonymToQuery) = 0;
 };

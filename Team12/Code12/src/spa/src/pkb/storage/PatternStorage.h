@@ -5,6 +5,8 @@
 #include <vector>
 #include <unordered_map>
 
+#include "common/utils/StringUtils.h"
+
 class PatternStorage {
 public:
     PatternStorage();
@@ -31,5 +33,4 @@ private:
     // stmtNum --> (variableName, RPN)
     std::unordered_map<int, std::pair<std::string, std::string>> statementPatternStorage;
 
-    std::string wildcard = "_";
 };

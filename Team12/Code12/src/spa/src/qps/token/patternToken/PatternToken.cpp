@@ -1,24 +1,33 @@
 #include "qps/token/patternToken/PatternToken.h"
 #include "qps/clause/patternClause/PatternClause.h"
+#include "qps/argument/IArgument.h"
+#include "qps/argument/argumentFactory/ArgumentFactory.h"
 
-PatternToken::PatternToken(Synonym synonym, Reference entRef, std::string expression) :
-synonym(synonym),
-entRef(entRef),
-expression(expression) {}
-
-Synonym PatternToken::getSynonym() {
-    return synonym;
+PatternToken::PatternToken(string synonym, vector<string> unvalidatedTokens) {
+    PatternToken::synonym = ArgumentFactory::createArgument(synonym);
+    for (int i = 0; i < unvalidatedTokens.size(); i++) {
+        unique_ptr<IArgument> arg = ArgumentFactory::createArgument(unvalidatedTokens[i]);
+        PatternToken::patternArgsStreamPtr->push_back(std::move(arg));
+    }
 }
 
-Reference PatternToken::getFirstArgument() {
-    return entRef;
+SynonymType PatternToken::getSynonym() {
+    return synonym->getValue();
 }
 
-std::string PatternToken::getExpression() {
-    return expression;
+//Reference PatternToken::getFirstArgument() {
+//    return entRef;
+//}
+//
+//std::string PatternToken::getExpression() {
+//    return expression;
+//}
+
+unique_ptr<vector<unique_ptr<IArgument>>> PatternToken::getPatternArgsStreamPtr() {
+    return std::move(patternArgsStreamPtr);
 }
 
 unique_ptr<Clause> PatternToken::buildClause() {
-    // placeholder
-    return nullptr;
+    // patterntoken not going to be in use anyway, set isPartialMatch to true just for build
+    return std::make_unique<PatternClause>(std::move(synonym), std::move(patternArgsStreamPtr), true);
 }

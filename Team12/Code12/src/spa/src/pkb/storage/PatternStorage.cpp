@@ -31,17 +31,17 @@ std::vector<std::string> PatternStorage::getAllStatementsWithVariable(const std:
 
 std::vector<std::string> PatternStorage::getExactAssignPattern(std::string variableName, std::string rpn) {
     std::vector<std::string> result;
-    if (variableName == wildcard && rpn == wildcard) {
+    if (variableName == StringUtils::WILDCARD && rpn == StringUtils::WILDCARD) {
         result = getAllStatements();
     }
-    else if (variableName == wildcard) {
+    else if (variableName == StringUtils::WILDCARD) {
         for (const auto& entry : statementPatternStorage) {
             if (entry.second.second == rpn) {
                 result.push_back(std::to_string(entry.first));
             }
         }
     }
-    else if (rpn == wildcard) {
+    else if (rpn == StringUtils::WILDCARD) {
         result = getAllStatementsWithVariable(variableName);
     }
     else {
@@ -57,17 +57,17 @@ std::vector<std::string> PatternStorage::getExactAssignPattern(std::string varia
 
 std::vector<std::string> PatternStorage::getPartialAssignPattern(std::string variableName, std::string rpn) {
     std::vector<std::string> result;
-    if (variableName == wildcard && rpn == wildcard) {
+    if (variableName == StringUtils::WILDCARD && rpn == StringUtils::WILDCARD) {
         result = getAllStatements();
     }
-    else if (variableName == wildcard) {
+    else if (variableName == StringUtils::WILDCARD) {
         for (const auto& entry : statementPatternStorage) {
             if (entry.second.second.find(rpn) != std::string::npos) {
                 result.push_back(std::to_string(entry.first));
             }
         }
     }
-    else if (rpn == wildcard) {
+    else if (rpn == StringUtils::WILDCARD) {
         result = getAllStatementsWithVariable(variableName);
     }
     else {

@@ -1,6 +1,10 @@
 #include "StringUtils.h"
 
+using std::string;
+
 const char StringUtils::CHAR_ZERO = '0';
+
+const string StringUtils::WILDCARD = "_";
 
 bool StringUtils::isWhiteSpace(const char ch) {
     return regex_search(std::string(1, ch), std::regex("[ \t\r\n\f]"));

@@ -9,18 +9,26 @@
 #include "qps/validator/Validator.h"
 #include "pkb/facade/PKBReader.h"
 #include "qps/token/declarativeToken/DeclarativeToken.h"
+#include "qps/token/selectToken/SelectToken.h"
 
-typedef std::vector<std::unique_ptr<Clause>> ClauseList;
+using std::set, std::vector, std::unique_ptr, std::string;
+
+typedef vector<unique_ptr<Clause>> ClauseList;
 
 class Query {
 private:
-    PKBReader *pkb;
+    PKBReader& pkb;
     Context context = Context();
     ClauseList clauses = {};
+    // e.g. `Select a such that ...`
+    //   -> `a` is the synonymToQuery
+    string synonymToQuery;
 
 public:
-    explicit Query(PKBReader *pkb);
+    explicit Query(PKBReader& pkb);
+    void setSynonymToQuery(SelectToken *token);
     void addSynonym(DeclarativeToken *token);
     void addClause(std::unique_ptr<Clause> &clause);
-    std::unordered_set<int> evaluate();
+    set<string> returnAllPossibleQueriedSynonym();
+    set<string> evaluate();
 };
