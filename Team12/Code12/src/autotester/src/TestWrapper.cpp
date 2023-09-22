@@ -16,7 +16,7 @@ TestWrapper::TestWrapper() {
   sourceProcessor = std::make_unique<SourceProcessor>();
 //  pkbWriter = std::make_unique<PKBWriter>();
     pkb = std::make_unique<PKB>();
-    qps = std::make_unique<QPS>(*pkb->getReader());
+    qps = std::make_unique<QPS>(pkb->getReader());
 }
 
 // method for parsing the SIMPLE source

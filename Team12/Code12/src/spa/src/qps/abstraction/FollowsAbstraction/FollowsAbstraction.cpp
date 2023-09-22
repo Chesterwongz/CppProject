@@ -1,8 +1,8 @@
 #include "FollowsAbstraction.h"
 
  IntermediateTable FollowsAbstraction::getAbstractions() {
-     bool isFirstStmtSynonym = firstArg.getArgumentType() == SYNONYM_TYPE;
-     bool isSecondStmtSynonym = secondArg.getArgumentType() == SYNONYM_TYPE;
+     bool isFirstStmtSynonym = firstArg.isSynonym();
+     bool isSecondStmtSynonym = secondArg.isSynonym();
 
      string firstArgValue = firstArg.getValue();
      StmtType firstStmtType = isFirstStmtSynonym ?

@@ -1,11 +1,11 @@
 #include "UsesAbstraction.h"
 
 IntermediateTable UsesAbstraction::getAbstractions() {
-    bool isStmtSynonym = firstArg.getArgumentType() == SYNONYM_TYPE;
-    bool isStmtWildcard = firstArg.getArgumentType() == WILDCARD_TYPE;
-    bool isVarIdentifier = secondArg.getArgumentType() == IDENT_TYPE;
-    bool isVarSynonym = secondArg.getArgumentType() == SYNONYM_TYPE;
-    bool isVarWildcard = secondArg.getArgumentType() == WILDCARD_TYPE;
+    bool isStmtSynonym = firstArg.isSynonym();
+    bool isStmtWildcard = firstArg.isWildcard();
+    bool isVarIdentifier = secondArg.isIdent();
+    bool isVarSynonym = secondArg.isSynonym();
+    bool isVarWildcard = secondArg.isWildcard();
 
     string stmtValue = firstArg.getValue();
     StmtType stmtType = isStmtSynonym ?
