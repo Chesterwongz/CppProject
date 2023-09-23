@@ -63,7 +63,7 @@ StmtType PKBStorage::getStatementTypeFromStatementNumber(int statementNumber) {
 }
 
 bool PKBStorage::isStatementType(int statementNumber, StmtType statementType) {
-    return statementType == StmtType::STMT || statementStorage.getStatementTypeFromStatementNumber(statementNumber) == statementType;
+    return statementStorage.isStatementType(statementNumber, statementType);
 }
 
 int PKBStorage::getImmediateFollows(int statementNumber) {

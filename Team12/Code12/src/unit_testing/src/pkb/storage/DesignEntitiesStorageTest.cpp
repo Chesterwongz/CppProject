@@ -5,6 +5,9 @@ TEST_CASE("DesignEntitiesStorage Tests") {
 
     DesignEntitiesStorage storage;
 
+    storage.setProcedure("proc1", 1);
+    storage.setProcedure("proc2", 5);
+
     SECTION("Set and Get Variables") {
         storage.setVariable("x");
         storage.setVariable("y");
@@ -20,17 +23,11 @@ TEST_CASE("DesignEntitiesStorage Tests") {
         REQUIRE(storage.getAllConstants() == std::set<std::string>{"5", "10"});
     }
 
-    SECTION("Set and Get Procedures") {
-        storage.setProcedure("proc1", 1);
-        storage.setProcedure("proc2", 5);
-
+    SECTION("Get Procedures") {
         REQUIRE(storage.getAllProcedures() == std::set<std::string>{"proc1", "proc2"});
     }
 
     SECTION("Get Procedure Starting on Statement") {
-        storage.setProcedure("proc1", 1);
-        storage.setProcedure("proc2", 5);
-
         REQUIRE(storage.getProcedureStartingOnStatement(1) == "proc1");
         REQUIRE(storage.getProcedureStartingOnStatement(5) == "proc2");
         REQUIRE(storage.getProcedureStartingOnStatement(3) == "");
