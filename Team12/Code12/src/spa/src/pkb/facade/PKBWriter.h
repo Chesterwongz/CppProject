@@ -59,7 +59,7 @@ public:
     virtual void setCallsStarRelationship(const std::string& callerProc, const std::string& calleeProc);
 
     // Add an expression to storage
-    virtual void setAssignPattern(std::string& variableName, std::string& rpn, int statementNumber);
+    virtual void setAssignPattern(const std::string& variableName, const std::string& rpn, int statementNumber);
 
 private:
     PKBStorage& storage;
