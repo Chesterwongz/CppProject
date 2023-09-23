@@ -12,8 +12,11 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Synonym, Synonym_EMP
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, MODIFIES, *mockArgument1,
-                                          *mockArgument2, false);
+            = createMockAbstractionParams(mockReader,
+                                          MODIFIES_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
@@ -30,8 +33,11 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Synonym, Synonym)") 
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, MODIFIES, *mockArgument1,
-                                          *mockArgument2, false);
+            = createMockAbstractionParams(mockReader,
+                                          MODIFIES_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
@@ -50,8 +56,11 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Synonym, Wildcard)")
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, MODIFIES, *mockArgument1,
-                                          *mockArgument2, false);
+            = createMockAbstractionParams(mockReader,
+                                          MODIFIES_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
@@ -69,8 +78,11 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Synonym, Ident)") {
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, MODIFIES, *mockArgument1,
-                                          *mockArgument2, false);
+            = createMockAbstractionParams(mockReader,
+                                          MODIFIES_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
@@ -89,8 +101,11 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Wildcard, Synonym)")
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, MODIFIES, *mockArgument1,
-                                          *mockArgument2, false);
+            = createMockAbstractionParams(mockReader,
+                                          MODIFIES_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
@@ -108,8 +123,11 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Wildcard, Wildcard)"
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, MODIFIES, *mockArgument1,
-                                          *mockArgument2, false);
+            = createMockAbstractionParams(mockReader,
+                                          MODIFIES_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
@@ -125,8 +143,11 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(WILDCARD, Ident)") {
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, MODIFIES, *mockArgument1,
-                                          *mockArgument2, false);
+            = createMockAbstractionParams(mockReader,
+                                          MODIFIES_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
@@ -141,8 +162,11 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Wildcard, Wildcard)_
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, MODIFIES, *mockArgument1,
-                                          *mockArgument2, false);
+            = createMockAbstractionParams(mockReader,
+                                          MODIFIES_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
@@ -158,8 +182,11 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(WILDCARD, Ident)_EMP
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, MODIFIES, *mockArgument1,
-                                          *mockArgument2, false);
+            = createMockAbstractionParams(mockReader,
+                                          MODIFIES_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();

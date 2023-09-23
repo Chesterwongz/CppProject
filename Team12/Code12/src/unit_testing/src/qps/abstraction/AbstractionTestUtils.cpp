@@ -8,10 +8,10 @@ unique_ptr<AbstractionParams> createMockAbstractionParams(
         bool isTransitive) {
     Context mockContext = Context();
     if (!firstArgument.isWildcard()) {
-        mockContext.addToken(firstArgument.getValue(), "stmt");
+        mockContext.addSynonym(firstArgument.getValue(), "stmt");
     }
     if (!secondArgument.isWildcard()) {
-        mockContext.addToken(secondArgument.getValue(), "stmt");
+        mockContext.addSynonym(secondArgument.getValue(), "stmt");
     }
     unique_ptr<AbstractionParams> abstractionParams
             = std::make_unique<AbstractionParams>(

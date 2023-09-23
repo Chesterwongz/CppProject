@@ -12,8 +12,11 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Synonym)_EMPT
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, FOLLOWS, *mockArgument1,
-                                          *mockArgument2, false);
+            = createMockAbstractionParams(mockReader,
+                                          FOLLOWS_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          false);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
@@ -30,8 +33,11 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Synonym)") {
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, FOLLOWS, *mockArgument1,
-                                          *mockArgument2, false);
+            = createMockAbstractionParams(mockReader,
+                                          FOLLOWS_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          false);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
@@ -50,8 +56,11 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Wildcard)") {
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, FOLLOWS, *mockArgument1,
-                                          *mockArgument2, false);
+            = createMockAbstractionParams(mockReader,
+                                          FOLLOWS_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          false);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
@@ -69,8 +78,11 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Synonym)") {
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, FOLLOWS, *mockArgument1,
-                                          *mockArgument2, false);
+            = createMockAbstractionParams(mockReader,
+                                          FOLLOWS_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          false);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
@@ -88,8 +100,11 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Wildcard)") 
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, FOLLOWS, *mockArgument1,
-                                          *mockArgument2, false);
+            = createMockAbstractionParams(mockReader,
+                                          FOLLOWS_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          false);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
@@ -104,8 +119,11 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Wildcard)_EM
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, FOLLOWS, *mockArgument1,
-                                          *mockArgument2, false);
+            = createMockAbstractionParams(mockReader,
+                                          FOLLOWS_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          false);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
@@ -122,8 +140,11 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows*(Wildcard, Synonym)") 
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, FOLLOWS, *mockArgument1,
-                                          *mockArgument2, true);
+            = createMockAbstractionParams(mockReader,
+                                          FOLLOWS_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          true);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
