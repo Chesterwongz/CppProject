@@ -1,0 +1,40 @@
+#include "catch.hpp"
+#include "qps/abstraction/FollowsAbstraction/FollowsAbstraction.h"
+#include "../../mocks/MockPKBReader.h"
+#include "../../mocks/MockPKBReaderData.h"
+#include "../../intermediateTable/IntermediateTableTestUtils.h"
+
+unique_ptr<MockPKBReader> MOCK_PKB = MockPKBReader::buildMockPKBReader();
+Context MOCK_CONTEXT = Context();
+
+TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Synonym") {
+    unique_ptr<IArgument> MOCK_SYNONYM_ARG_1 = getMockSynonymArgument();
+    unique_ptr<IArgument> MOCK_SYNONYM_ARG_2 = getMockSynonymArgument();
+    MOCK_CONTEXT.addToken(MOCK_SYNONYM_NAME, "assign");
+    unique_ptr<AbstractionParams> abstractionParams
+        = std::make_unique<AbstractionParams>(
+                    *MOCK_PKB,
+                    MOCK_CONTEXT,
+                    FOLLOWS,
+                    *MOCK_SYNONYM_ARG_1,
+                    *MOCK_SYNONYM_ARG_2,
+                    false);
+    FollowsAbstraction abstraction(std::move(abstractionParams));
+    IntermediateTable resultTable = abstraction.getAbstractions();
+    resultTable.printTable();
+    REQUIRE(isVectorsSameAsPairs(
+            resultTable.getData(),
+            MOCK_FOLLOWS_PAIRS));
+}
+
+TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Wildcard") {
+
+}
+
+TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Synonym") {
+
+}
+
+TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Wildcard") {
+
+}
