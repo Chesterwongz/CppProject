@@ -84,4 +84,3 @@ std::vector<std::string> PatternStorage::getPartialAssignPattern(std::string var
 
 
 
-
