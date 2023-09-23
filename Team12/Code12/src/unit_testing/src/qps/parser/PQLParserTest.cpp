@@ -10,6 +10,10 @@
 #include "pkb/facade/PKBReader.h"
 #include "qps/parser/declarativeParserState/DeclarativeParserState.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
+#include "qps/clause/suchThatClause/SuchThatClause.h"
+#include "qps/argument/argumentFactory/ArgumentFactory.h"
+#include "qps/argument/integer/Integer.h"
+#include "qps/argument/wildcard/Wildcard.h"
 
 using std::unique_ptr, std::make_unique, std::move, std::vector;
 
@@ -87,5 +91,21 @@ TEST_CASE("valid simple transitive follows") {
     unique_ptr<DeclarativeParserState> declarativeParserState = make_unique<DeclarativeParserState>(parserContext);
     parserContext.transitionTo(move(declarativeParserState));
     parserContext.handleTokens();
-    // TODO: check if query equals
+
+    // expected query object
+    Query expected(pkbReader);
+    unique_ptr<Context> expectedContext = make_unique<Context>();
+    expectedContext->addSynonym("a", "assign");
+    expected.addContext(move(expectedContext));
+    unique_ptr<Integer> firstArg = ArgumentFactory::createIntegerArgument("5");
+    unique_ptr<Wildcard> secondArg = ArgumentFactory::createWildcardArgument();
+    unique_ptr<SuchThatClause> suchThatClause = make_unique<SuchThatClause>(
+            FOLLOWS_ENUM,
+            move(firstArg),
+            move(secondArg),
+            true);
+    expected.addClause(move(suchThatClause));
+
+    bool res = query == expected;
+    REQUIRE(res);
 }

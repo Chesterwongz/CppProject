@@ -32,3 +32,10 @@ bool SynonymArg::isSynonym() {
 bool SynonymArg::isWildcard() {
 	return false;
 }
+
+bool SynonymArg::operator==(const IArgument& other) const {
+    const auto* otherSynonym = dynamic_cast<const SynonymArg*>(&other);
+    if (!otherSynonym) return false;
+
+    return this->synonymValue == otherSynonym->synonymValue;
+}

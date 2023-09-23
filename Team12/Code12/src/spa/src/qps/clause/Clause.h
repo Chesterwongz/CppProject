@@ -15,4 +15,5 @@ public:
             Context& context,
             PKBReader& pkb) = 0;
     virtual ~Clause() = default;
+    virtual bool isEquals(const Clause& other) = 0;
 };

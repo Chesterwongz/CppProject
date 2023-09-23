@@ -29,4 +29,5 @@ public:
     IntermediateTable evaluate(
             Context& context,
             PKBReader &pkb) override;
+    bool isEquals(const Clause& other) override;
 };

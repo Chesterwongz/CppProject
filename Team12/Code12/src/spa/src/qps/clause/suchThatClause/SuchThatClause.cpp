@@ -33,9 +33,12 @@ IntermediateTable SuchThatClause::evaluate(
     return executableAbstraction->getAbstractions();
 }
 
-bool SuchThatClause::isEquals(const SuchThatClause& other) {
-    return relationship == other.relationship
-    && firstArg == other.firstArg
-    && secondArg == other.secondArg
-    && isTransitive == other.isTransitive;
+bool SuchThatClause::isEquals(const Clause& other) {
+    const auto* otherSuchThat = dynamic_cast<const SuchThatClause*>(&other);
+    if (!otherSuchThat) return false;
+
+    return relationship == otherSuchThat->relationship
+    && *firstArg == *otherSuchThat->firstArg
+    && *secondArg == *otherSuchThat->secondArg
+    && isTransitive == otherSuchThat->isTransitive;
 }

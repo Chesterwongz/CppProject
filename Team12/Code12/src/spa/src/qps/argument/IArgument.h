@@ -15,4 +15,5 @@ public:
 	virtual bool isSynonym() = 0;
 	virtual bool isWildcard() = 0;
     virtual ~IArgument() = default;
+    virtual bool operator==(const IArgument& other) const = 0;
 };

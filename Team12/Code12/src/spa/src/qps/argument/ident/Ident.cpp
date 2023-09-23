@@ -34,3 +34,10 @@ bool Ident::isSynonym() {
 bool Ident::isWildcard() {
 	return false;
 }
+
+bool Ident::operator==(const IArgument& other) const {
+	const auto* otherIdent = dynamic_cast<const Ident*>(&other);
+	if (!otherIdent) return false;
+
+	return this->identValue == otherIdent->identValue;
+}

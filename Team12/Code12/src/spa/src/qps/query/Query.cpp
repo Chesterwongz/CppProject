@@ -54,9 +54,10 @@ set<string> Query::returnAllPossibleQueriedSynonym() {
 bool Query::operator==(const Query &other) {
     bool res = this->context->getMap() == other.context->getMap();
 
-//    for (int i = 0; i < this->clauses.size(); i++) {
-//
-//    }
+    for (int i = 0; i < this->clauses.size(); i++) {
+        res = clauses.at(i)->isEquals(*(other.clauses.at(i)));
+        if (!res) return false;
+    }
 
     return res;
 }

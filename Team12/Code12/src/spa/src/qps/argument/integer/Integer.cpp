@@ -33,3 +33,10 @@ bool Integer::isSynonym() {
 bool Integer::isWildcard() {
 	return false;
 }
+
+bool Integer::operator==(const IArgument& other) const {
+    const auto* otherInteger = dynamic_cast<const Integer*>(&other);
+    if (!otherInteger) return false;
+
+    return this->integerValue == otherInteger->integerValue;
+}

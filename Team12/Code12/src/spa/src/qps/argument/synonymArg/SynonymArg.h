@@ -19,4 +19,5 @@ public:
 	bool isInteger() override;
 	bool isSynonym() override;
 	bool isWildcard() override;
+    bool operator==(const IArgument& other) const override;
 };

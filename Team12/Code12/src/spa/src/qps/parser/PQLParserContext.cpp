@@ -39,6 +39,7 @@ void PQLParserContext::handleTokens() {
     while (!tokenStream.isTokenStreamEnd()) {
         currState->handleToken();
     }
+    query.addContext(std::move(context));
 }
 
 void PQLParserContext::addSelectSynonym(const string& synonym) {
