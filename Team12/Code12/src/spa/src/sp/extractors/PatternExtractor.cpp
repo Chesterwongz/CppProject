@@ -11,7 +11,7 @@ std::string PatternExtractor::nodeToPostfixString(const TNode& node) {
     assert(node.getChildren().size() == 2);
     std::string left = nodeToPostfixString(node.getChildAt(0));
     std::string right = nodeToPostfixString(node.getChildAt(1));
-    return left + right + node.getValue();
+    return left + " " + right + " " + node.getValue();
 }
 
 void PatternExtractor::getControlVars(std::unordered_set<std::string>& vars, const TNode& node) {
