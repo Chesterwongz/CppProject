@@ -13,9 +13,6 @@
 using std::vector, std::set, std::string, std::pair;
 
 class MockPKBReader : public PKBReader {
-private:
-    PKBStorage mockStorage;
-
 public:
     set<string> mockAllVariables;
     set<string> mockAllConstants;
@@ -42,7 +39,7 @@ public:
     vector<string> mockExactAssignPatternStmts;
     vector<string> mockPartialAssignPatternStmts;
 
-    explicit MockPKBReader() : PKBReader(mockStorage){};
+    explicit MockPKBReader(PKBStorage &storage) : PKBReader(storage){};
 
     set<string> getAllVariables() override {
         return mockAllVariables;
