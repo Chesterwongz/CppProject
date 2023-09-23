@@ -17,6 +17,7 @@ TEST_CASE("test_createArgument_wildcard") {
 	REQUIRE(arg->isInteger() == false);
 	REQUIRE(arg->isSynonym() == false);
 	REQUIRE(arg->isWildcard());
+	REQUIRE(arg->getValue() == "_");
 }
 
 TEST_CASE("test_createArgument_synonym") {

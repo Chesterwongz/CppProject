@@ -6,7 +6,7 @@ string wildcardString = "_";
 string expectedWildcardValue = "_";
 string wildcardArgType = "wildcard";
 
-Wildcard wildcard = Wildcard(wildcardString);
+Wildcard wildcard = Wildcard();
 
 TEST_CASE("test_wildcard_getValue") {
 	string actual = wildcard.getValue();
@@ -15,9 +15,9 @@ TEST_CASE("test_wildcard_getValue") {
 }
 
 TEST_CASE("test_wildcard_getArgumentType") {
-	string actualWildcardArgType = wildcard.getArgumentType();
+	QPSStringUtils::ArgumentType actualWildcardArgType = wildcard.getArgumentType();
 
-	REQUIRE(actualWildcardArgType == wildcardArgType);
+	REQUIRE(actualWildcardArgType == QPSStringUtils::WILDCARD);
 }
 
 TEST_CASE("test_wildcard_isIdent_false") {

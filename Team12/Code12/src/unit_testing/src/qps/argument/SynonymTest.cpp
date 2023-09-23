@@ -15,9 +15,9 @@ TEST_CASE("test_synonym_getValue") {
 }
 
 TEST_CASE("test_synonym_getArgumentType") {
-	string actualSynonymArgType = synonym.getArgumentType();
+	QPSStringUtils::ArgumentType actualSynonymArgType = synonym.getArgumentType();
 
-	REQUIRE(actualSynonymArgType == synonymArgType);
+	REQUIRE(actualSynonymArgType == QPSStringUtils::SYNONYM);
 }
 
 TEST_CASE("test_synonym_isIdent_false") {

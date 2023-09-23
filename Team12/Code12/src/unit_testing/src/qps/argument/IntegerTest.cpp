@@ -15,9 +15,9 @@ TEST_CASE("test_integer_getValue") {
 }
 
 TEST_CASE("test_integer_getArgumentType") {
-	string actualIntegerArgType = integer.getArgumentType();
+	QPSStringUtils::ArgumentType actualIntegerArgType = integer.getArgumentType();
 
-	REQUIRE(actualIntegerArgType == integerArgType);
+	REQUIRE(actualIntegerArgType == QPSStringUtils::INTEGER);
 }
 
 TEST_CASE("test_integer_isIdent_false") {

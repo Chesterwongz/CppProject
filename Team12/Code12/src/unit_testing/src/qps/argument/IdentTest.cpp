@@ -9,15 +9,17 @@ string identArgType = "ident";
 Ident ident = Ident(identString);
 
 TEST_CASE("test_ident_getValue") {
+	// TODO: update ident constructor
+	// this one will fail for now bcos ident constructor doesnt remove '\"'
 	string actual = ident.getValue();
 
 	REQUIRE(actual == expectedIdentValue);
 }
 
 TEST_CASE("test_ident_getArgumentType") {
-	string actualIdentArgType = ident.getArgumentType();
+	QPSStringUtils::ArgumentType actualIdentArgType = ident.getArgumentType();
 
-	REQUIRE(actualIdentArgType == identArgType);
+	REQUIRE(actualIdentArgType == QPSStringUtils::IDENT);
 }
 
 TEST_CASE("test_ident_isIdent_true") {

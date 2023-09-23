@@ -3,13 +3,13 @@
 #include <string>
 
 #include "../IArgument.h"
-#include "common/utils/StringUtils.h"
+
 using std::string;
 
 class Wildcard : public IArgument {
 private:
 	const QPSStringUtils::ArgumentType argumentType = QPSStringUtils::WILDCARD;
-	string wildcardValue = StringUtils::WILDCARD;
+	const string wildcardValue = StringUtils::WILDCARD;
 
 public:
 	explicit Wildcard() {};
