@@ -15,7 +15,7 @@ TEST_CASE("ParentsAbstraction - getAbstractions - Parents(Synonym, Synonym_EMPTY
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    ParentsAbstraction abstraction(std::move(abstractionParams));
+    ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
@@ -33,7 +33,7 @@ TEST_CASE("ParentsAbstraction - getAbstractions - Parents(Synonym, Synonym)") {
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    ParentsAbstraction abstraction(std::move(abstractionParams));
+    ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_VECTORS);
@@ -53,7 +53,7 @@ TEST_CASE("ParentsAbstraction - getAbstractions - Parents(Synonym, Wildcard)") {
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    ParentsAbstraction abstraction(std::move(abstractionParams));
+    ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_COL_1);
@@ -72,7 +72,7 @@ TEST_CASE("ParentsAbstraction - getAbstractions - Parents(Wildcard, Synonym)") {
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    ParentsAbstraction abstraction(std::move(abstractionParams));
+    ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_COL_2);
@@ -91,7 +91,7 @@ TEST_CASE("ParentsAbstraction - getAbstractions - Parents(Wildcard, Wildcard)") 
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    ParentsAbstraction abstraction(std::move(abstractionParams));
+    ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.isTableWildcard());
@@ -107,7 +107,7 @@ TEST_CASE("ParentsAbstraction - getAbstractions - Parents(Wildcard, Wildcard)_EM
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    ParentsAbstraction abstraction(std::move(abstractionParams));
+    ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.isTableWildcard() == false);
@@ -125,7 +125,7 @@ TEST_CASE("ParentsAbstraction - getAbstractions - Parents*(Wildcard, Synonym)") 
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, true);
 
-    ParentsAbstraction abstraction(std::move(abstractionParams));
+    ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_STARS_COL_2);

@@ -15,7 +15,7 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Synonym)_EMPT
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    FollowsAbstraction abstraction(std::move(abstractionParams));
+    FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
@@ -33,7 +33,7 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Synonym)") {
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    FollowsAbstraction abstraction(std::move(abstractionParams));
+    FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.getData() == MOCK_FOLLOWS_VECTORS);
@@ -53,7 +53,7 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Wildcard)") {
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    FollowsAbstraction abstraction(std::move(abstractionParams));
+    FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.getData() == MOCK_FOLLOWS_COL_1);
@@ -72,7 +72,7 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Synonym)") {
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    FollowsAbstraction abstraction(std::move(abstractionParams));
+    FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.getData() == MOCK_FOLLOWS_COL_2);
@@ -91,7 +91,7 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Wildcard)") 
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    FollowsAbstraction abstraction(std::move(abstractionParams));
+    FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.isTableWildcard());
@@ -107,7 +107,7 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Wildcard)_EM
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    FollowsAbstraction abstraction(std::move(abstractionParams));
+    FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.isTableWildcard() == false);
@@ -125,7 +125,7 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows*(Wildcard, Synonym)") 
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, true);
 
-    FollowsAbstraction abstraction(std::move(abstractionParams));
+    FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.getData() == MOCK_FOLLOWS_STARS_COL_2);

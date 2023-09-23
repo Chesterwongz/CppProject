@@ -15,7 +15,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Synonym, Synonym)_EMPTY") {
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    UsesAbstraction abstraction(std::move(abstractionParams));
+    UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
@@ -33,7 +33,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Synonym, Synonym)") {
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    UsesAbstraction abstraction(std::move(abstractionParams));
+    UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.getData() == MOCK_USED_VECTORS);
@@ -53,7 +53,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Synonym, Wildcard)") {
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    UsesAbstraction abstraction(std::move(abstractionParams));
+    UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.getData() == MOCK_USED_VECTORS_COL_1);
@@ -72,7 +72,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Synonym, Ident)") {
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    UsesAbstraction abstraction(std::move(abstractionParams));
+    UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.getData().size() == 3);
@@ -92,7 +92,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Wildcard, Synonym)") {
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    UsesAbstraction abstraction(std::move(abstractionParams));
+    UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.getData() == MOCK_USED_VECTORS_COL_2);
@@ -111,7 +111,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Wildcard, Wildcard)") {
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    UsesAbstraction abstraction(std::move(abstractionParams));
+    UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.isTableWildcard());
@@ -128,7 +128,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(WILDCARD, Ident)") {
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    UsesAbstraction abstraction(std::move(abstractionParams));
+    UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.isTableWildcard());
@@ -144,7 +144,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Wildcard, Wildcard)_EMPTY") 
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    UsesAbstraction abstraction(std::move(abstractionParams));
+    UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.isTableWildcard() == false);
@@ -161,7 +161,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(WILDCARD, Ident)_EMPTY") {
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    UsesAbstraction abstraction(std::move(abstractionParams));
+    UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.isTableWildcard() == false);

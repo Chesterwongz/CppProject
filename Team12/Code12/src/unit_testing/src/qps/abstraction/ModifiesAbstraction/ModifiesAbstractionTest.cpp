@@ -15,7 +15,7 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Synonym, Synonym_EMP
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    ModifiesAbstraction abstraction(std::move(abstractionParams));
+    ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
@@ -33,7 +33,7 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Synonym, Synonym)") 
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    ModifiesAbstraction abstraction(std::move(abstractionParams));
+    ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTORS);
@@ -53,7 +53,7 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Synonym, Wildcard)")
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    ModifiesAbstraction abstraction(std::move(abstractionParams));
+    ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTORS_COL_1);
@@ -72,7 +72,7 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Synonym, Ident)") {
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    ModifiesAbstraction abstraction(std::move(abstractionParams));
+    ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.getData().size() == 3);
@@ -92,7 +92,7 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Wildcard, Synonym)")
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    ModifiesAbstraction abstraction(std::move(abstractionParams));
+    ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTORS_COL_2);
@@ -111,7 +111,7 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Wildcard, Wildcard)"
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    ModifiesAbstraction abstraction(std::move(abstractionParams));
+    ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.isTableWildcard());
@@ -128,7 +128,7 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(WILDCARD, Ident)") {
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    ModifiesAbstraction abstraction(std::move(abstractionParams));
+    ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.isTableWildcard());
@@ -144,7 +144,7 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Wildcard, Wildcard)_
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    ModifiesAbstraction abstraction(std::move(abstractionParams));
+    ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.isTableWildcard() == false);
@@ -161,7 +161,7 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(WILDCARD, Ident)_EMP
             = createMockAbstractionParams(mockReader, *mockArgument1,
                                           *mockArgument2, false);
 
-    ModifiesAbstraction abstraction(std::move(abstractionParams));
+    ModifiesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.getAbstractions();
 
     REQUIRE(resultTable.isTableWildcard() == false);
