@@ -41,7 +41,7 @@ void PatternParserState::processSynonymToken(PQLToken& curr) {
 
     if (prev == PQL_PATTERN_TOKEN) {
         if (synType == ASSIGN_KEYWORD) {
-            outerSynonym == curr.getValue();
+            outerSynonym = curr.getValue();
         } else {
             throw QPSInvalidQueryException(QPS_INVALID_QUERY_INVALID_PATTERN_SYNONYM);
         }

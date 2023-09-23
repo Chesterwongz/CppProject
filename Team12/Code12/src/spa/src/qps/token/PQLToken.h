@@ -19,10 +19,10 @@ protected:
 	explicit PQLToken(PQLTokenType type);
 
 public:
-	const PQLTokenType getType();
-	const TokenValue getValue();
-	void updateTokenType(PQLTokenType type);
-    PQLToken(PQLTokenType type, const TokenValue value);
+	PQLTokenType getType();
+	TokenValue getValue();
+	void updateTokenType(PQLTokenType tokenType);
+    PQLToken(PQLTokenType type, const TokenValue &value);
 };
 
 typedef vector<PQLToken> PQLTokenList;

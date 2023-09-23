@@ -19,7 +19,7 @@ void PQLParserContext::transitionTo(unique_ptr<IParserState> nextState)
 	currState = std::move(nextState);
 }
 
-void PQLParserContext::addToContext(string entity, string synonym) {
+void PQLParserContext::addToContext(string entity, const string& synonym) {
 	if (!PQLParserUtils::isSynonym(synonym)) {
 		throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_SYNONYM);
 	}
@@ -38,4 +38,13 @@ void PQLParserContext::handleTokens() {
     while (!tokenStream.isTokenStreamEnd()) {
         currState->handleToken();
     }
+}
+
+void PQLParserContext::addSelectSynonym(const string& synonym) {
+    try {
+        auto selectSynonym = context->getTokenEntity(synonym);
+    } catch (QPSInvalidQueryException e) {
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INVALID_SELECT_SYNONYM);
+    }
+    this->query.setSynonymToQuery(synonym);
 }

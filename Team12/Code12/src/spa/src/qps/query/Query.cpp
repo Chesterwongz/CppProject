@@ -14,6 +14,10 @@ void Query::addClause(unique_ptr<Clause> clause) {
     this->clauses.push_back(std::move(clause));
 }
 
+void Query::setSynonymToQuery(const string& selectSynonym) {
+    this->synonymToQuery = selectSynonym;
+}
+
 set<string> Query::evaluate() {
     // for "select *" requests without any clauses
     if (clauses.empty()) {
@@ -23,7 +27,7 @@ set<string> Query::evaluate() {
     // iteratively join results of each clause
     IntermediateTable currIntermediateTable = IntermediateTableFactory::buildWildcardIntermediateTable();
     for (unique_ptr<Clause> &clause : clauses) {
-        IntermediateTable clauseResult = clause->evaluate(this->context, pkb);
+        IntermediateTable clauseResult = clause->evaluate(*context, pkb);
         currIntermediateTable = currIntermediateTable.join(clauseResult);
     }
 
@@ -42,7 +46,7 @@ set<string> Query::evaluate() {
 // For case where there are no clauses (e.g. Select a).
 // Returns all possible results for queried synonym (a).
 set<string> Query::returnAllPossibleQueriedSynonym() {
-    Entity entity = context.get()->getTokenEntity(this->synonymToQuery);
+    Entity entity = context->getTokenEntity(this->synonymToQuery);
     StmtType stmtType = EntityToStatementType.at(entity);
     return pkb.getStatement(stmtType);
 }

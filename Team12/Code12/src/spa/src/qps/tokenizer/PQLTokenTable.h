@@ -45,10 +45,10 @@ const int ASCII_PERIOD = 46;
 
 class PQLTokenTable {
 private:
-	PQLTokenType tokens[256];
+	PQLTokenType tokens[256]{};
 
 public:
 	explicit PQLTokenTable();
-	PQLTokenType getTokenType(const char c);
+	PQLTokenType getTokenType(char c);
 };
 

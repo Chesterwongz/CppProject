@@ -26,8 +26,7 @@ public:
     explicit Query(PKBReader &pkb);
     void addContext(unique_ptr<Context> context);
     void addClause(unique_ptr<Clause> clause);
-    void setSynonymToQuery(SelectToken *token);
-    void addClause(std::unique_ptr<Clause> &clause);
+    void setSynonymToQuery(const string& selectSynonym);
     set<string> returnAllPossibleQueriedSynonym();
     set<string> evaluate();
     bool operator==(const Query &other);

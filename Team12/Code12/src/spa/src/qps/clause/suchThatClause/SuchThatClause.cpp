@@ -4,7 +4,7 @@
 #include "qps/argument/IArgument.h"
 
 SuchThatClause::SuchThatClause (
-        Abstraction &relationship,
+        Abstraction relationship,
         unique_ptr<IArgument> firstArg,
         unique_ptr<IArgument> secondArg,
         bool isTransitive) :
@@ -15,7 +15,7 @@ SuchThatClause::SuchThatClause (
 };
 
 IntermediateTable SuchThatClause::evaluate(
-        Context context,
+        Context& context,
         PKBReader &pkb) {
     unique_ptr<AbstractionParams> abstractionParams
             = std::make_unique<AbstractionParams>(

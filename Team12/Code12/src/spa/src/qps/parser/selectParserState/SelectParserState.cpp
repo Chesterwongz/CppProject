@@ -5,7 +5,6 @@
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/parser/suchThatParserState/SuchThatParserState.h"
 #include "qps/parser/patternParserState/PatternParserState.h"
-#include "qps/clause/selectClause/SelectClause.h"
 
 PredictiveMap SelectParserState::predictiveMap = {
     { PQL_NULL_TOKEN, { PQL_SELECT_TOKEN } }, // Select should have been processed by previous state to be transitioned here
@@ -47,18 +46,15 @@ void SelectParserState::handleToken() {
 
 		switch (curr.getType()) {
 		case PQL_SYNONYM_TOKEN:
-            std::cout << "Selecting synonym " << curr.getValue() << std::endl;
-            parserContext.addClause(make_unique<SelectClause>(curr.getValue()));
+            parserContext.addSelectSynonym(curr.getValue());
             break;
 		case PQL_SELECT_TOKEN:
             break;
         case PQL_SUCH_TOKEN:
             parserContext.transitionTo(make_unique<SuchThatParserState>(parserContext));
-            std::cout << "Transitioning to Such That Parser State" << std::endl;
             return;
         case PQL_PATTERN_TOKEN:
             parserContext.transitionTo(make_unique<PatternParserState>(parserContext));
-            std::cout << "Transitioning to Pattern Parser State" << std::endl;
             return;
 		default:
 			throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);

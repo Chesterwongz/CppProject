@@ -3,8 +3,6 @@
 #include "qps/common/PQLParserUtils.h"
 
 PQLTokenizer::PQLTokenizer(const string& query) :
-	buffer(""),
-    literalBuffer(""),
 	tokenList(make_unique<PQLTokenList>()),
     currPos(0),
 	tokenTable(),

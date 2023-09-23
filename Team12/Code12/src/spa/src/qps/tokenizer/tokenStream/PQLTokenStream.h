@@ -12,7 +12,7 @@ private:
 
 public:
 	explicit PQLTokenStream(PQLTokenList &tokenList);
-	const bool isTokenStreamEnd();
+	[[nodiscard]] bool isTokenStreamEnd() const;
 	void next();
     PQLToken& getCurrentToken();
     PQLToken& peek();

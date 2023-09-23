@@ -27,6 +27,6 @@ public:
                            bool isPartialMatch);
 
     IntermediateTable evaluate(
-            Context context,
+            Context& context,
             PKBReader &pkb) override;
 };

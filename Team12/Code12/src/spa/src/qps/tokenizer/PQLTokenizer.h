@@ -28,7 +28,7 @@ private:
     void processName();
     void processInt();
     void processLiteral();
-    void processSymbols(const PQLTokenType type);
+    void processSymbols(PQLTokenType type);
 
 public:
     explicit PQLTokenizer(const string& query);

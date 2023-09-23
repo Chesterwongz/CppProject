@@ -8,7 +8,7 @@ PQLTokenStream::PQLTokenStream(PQLTokenList &tokenList) :
 	tokenListSize = tokenList.size();
 }
 
-const bool PQLTokenStream::isTokenStreamEnd() {
+bool PQLTokenStream::isTokenStreamEnd() const {
 	return currIndex >= tokenListSize;
 }
 

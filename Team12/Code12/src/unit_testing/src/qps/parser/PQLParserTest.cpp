@@ -5,6 +5,7 @@
 
 #include "qps/tokenizer/PQLTokenType.h"
 #include "qps/query/Query.h"
+#include "qps/token/PQLToken.h"
 #include "qps/parser/PQLParserContext.h"
 #include "pkb/facade/PKBReader.h"
 #include "qps/parser/declarativeParserState/DeclarativeParserState.h"
@@ -58,8 +59,7 @@ TEST_CASE("invalid query - select invalid synonym") {
     PQLParserContext parserContext(tokenStream, query);
     unique_ptr<DeclarativeParserState> declarativeParserState = make_unique<DeclarativeParserState>(parserContext);
     parserContext.transitionTo(move(declarativeParserState));
-    parserContext.handleTokens();
-    // TODO: throw when Select Clause is added
+    REQUIRE_THROWS_WITH(parserContext.handleTokens(), QPS_INVALID_QUERY_INVALID_SELECT_SYNONYM);
 }
 
 TEST_CASE("valid simple transitive follows") {
@@ -67,7 +67,7 @@ TEST_CASE("valid simple transitive follows") {
                                    PQLToken(PQL_NAME_TOKEN, "a"),
                                    PQLToken(PQL_SEMICOLON_TOKEN, ";"),
                                    PQLToken(PQL_SELECT_TOKEN, "Select"),
-                                   PQLToken(PQL_NAME_TOKEN, "a1"),
+                                   PQLToken(PQL_NAME_TOKEN, "a"),
                                    PQLToken(PQL_NAME_TOKEN, "such"),
                                    PQLToken(PQL_NAME_TOKEN, "that"),
                                    PQLToken(PQL_NAME_TOKEN, "Follows"),

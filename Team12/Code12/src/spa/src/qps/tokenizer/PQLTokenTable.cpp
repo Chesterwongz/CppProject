@@ -1,9 +1,9 @@
 #include "PQLTokenTable.h"
 
 PQLTokenTable::PQLTokenTable() {
-	for (int i = 0; i < 256; i++)
+	for (auto & token : tokens)
 	{
-		tokens[i] = PQL_INVALID_TOKEN;
+		token = PQL_INVALID_TOKEN;
 	}
 
 	tokens[ASCII_TAB] = PQL_IGNORE_TOKEN;

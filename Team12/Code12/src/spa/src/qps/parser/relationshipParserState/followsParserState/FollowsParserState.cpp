@@ -3,7 +3,6 @@
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/parser/patternParserState/PatternParserState.h"
 
-// TODO: create such that clause after merge
 PredictiveMap FollowsParserState::predictiveMap = {
         { PQL_NULL_TOKEN, { PQL_FOLLOWS_TOKEN } },
         { PQL_FOLLOWS_TOKEN, { PQL_ASTERISKS_TOKEN, PQL_OPEN_BRACKET_TOKEN } },

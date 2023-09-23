@@ -15,6 +15,7 @@ const char QPS_INVALID_QUERY_INAVLID_INTEGER[] = "Invalid Integer";
 const char QPS_INVALID_QUERY_INVALID_ENTITY[] = "Invalid entity: ";
 const char QPS_INVALID_QUERY_INCOMPLETE_QUERY[] = "Incomplete query";
 const char QPS_INVALID_QUERY_INVALID_PATTERN_SYNONYM[] = "Invalid pattern synonym";
+const char QPS_INVALID_QUERY_INVALID_SELECT_SYNONYM[] = "Synonym you are selecting does not exist";
 
 class QPSInvalidQueryException : public QPSException {
 public:

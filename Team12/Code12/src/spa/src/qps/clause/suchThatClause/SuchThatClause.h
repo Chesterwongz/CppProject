@@ -17,11 +17,11 @@ private:
 
 public:
     explicit SuchThatClause(
-            Abstraction &relationship,
+            Abstraction relationship,
             unique_ptr<IArgument> firstArg,
             unique_ptr<IArgument> secondArg,
             bool isTransitive);
     IntermediateTable evaluate(
-            Context context,
-            PKBReader &pkb) override;
+            Context& context,
+            PKBReader& pkb) override;
 };
