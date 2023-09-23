@@ -1,5 +1,4 @@
 #include "qps/token/selectToken/SelectToken.h"
-#include "qps/clause/selectClause/SelectClause.h"
 
 SelectToken::SelectToken(SynonymType synonym) : synonym(synonym) {}
 

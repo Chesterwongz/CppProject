@@ -18,6 +18,6 @@ private:
     QueryBuilder queryBuilder;
 
 public:
-    explicit QPS(PKBReader& pkb);
+    explicit QPS(PKBReader &pkb);
     std::set<string> processQueryString(string queryString);
 };

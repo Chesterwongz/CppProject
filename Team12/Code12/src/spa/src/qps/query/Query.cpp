@@ -1,7 +1,8 @@
 #include "Query.h"
 #include "../clause/utils/ClauseConstants.h"
+#include "../intermediateTable/IntermediateTableFactory.h"
 
-Query::Query(PKBReader& pkb) : pkb(pkb) {}
+Query::Query(PKBReader &pkb) : pkb(pkb) {}
 
 using namespace std;
 
@@ -18,41 +19,28 @@ void Query::addClause(unique_ptr<Clause> &clause) {
 }
 
 set<string> Query::evaluate() {
-    set<int> intersectionResult;
-    // todo:
+    // for "select *" requests without any clauses
     if (clauses.empty()) {
         returnAllPossibleQueriedSynonym();
     }
-//    for (unique_ptr<Clause> &clause : clauses) {
-//        unordered_set<int> clauseResult = clause->evaluate(this->context, pkb);
-//        if (intersectionResult.empty()) {
-//            intersectionResult = clauseResult;
-//            continue;
-//        }
-//
-//        // Convert unordered_sets to vectors and sort
-//        std::vector<int> sortedIntersection(intersectionResult.begin(), intersectionResult.end());
-//        std::sort(sortedIntersection.begin(), sortedIntersection.end());
-//
-//        std::vector<int> sortedClauseResult(clauseResult.begin(), clauseResult.end());
-//        std::sort(sortedClauseResult.begin(), sortedClauseResult.end());
-//
-//        // Find the intersection
-//        std::vector<int> result;
-//        set_intersection(sortedIntersection.begin(), sortedIntersection.end(),
-//                         sortedClauseResult.begin(), sortedClauseResult.end(),
-//                         std::back_inserter(result));
-//
-//// If you need the result in an unordered_set
-//        intersectionResult = std::unordered_set<int>(result.begin(), result.end());
-//
-////
-////        set_intersection(intersectionResult.begin(), intersectionResult.end(),
-////                         clauseResult.begin(), clauseResult.end(),
-////                         inserter(intersectionResult, intersectionResult.begin()));
-//    }
-//    return intersectionResult;
-return {};
+
+    // iteratively join results of each clause
+    IntermediateTable currIntermediateTable = IntermediateTableFactory::buildWildcardIntermediateTable();
+    for (unique_ptr<Clause> &clause : clauses) {
+        IntermediateTable clauseResult = clause->evaluate(this->context, pkb);
+        currIntermediateTable = currIntermediateTable.join(clauseResult);
+    }
+
+    // if table evaluates to TRUE (i.e., wildcard),
+    // same as "select *" requests without any clauses
+    if (currIntermediateTable.isTableWildcard()) {
+        returnAllPossibleQueriedSynonym();
+    }
+
+    // get result vector
+    vector<string> resultVector = currIntermediateTable.getSingleCol(this->synonymToQuery);
+    return {resultVector.begin(), resultVector.end()};
+
 }
 
 // For case where there are no clauses (e.g. Select a).
@@ -60,10 +48,6 @@ return {};
 set<string> Query::returnAllPossibleQueriedSynonym() {
     Entity entity = context.getTokenEntity(this->synonymToQuery);
     StmtType stmtType = EntityToStatementType.at(entity);
-
-    //todo once pkb updates types
-//    set<string> results = pkb->getStatement(stmtType);
-
-    return {};
+    return pkb.getStatement(stmtType);
 }
 

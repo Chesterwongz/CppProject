@@ -8,7 +8,7 @@
 
 using std::string, std::vector, std::unique_ptr;
 
-QPS::QPS(PKBReader& pkb) :
+QPS::QPS(PKBReader &pkb) :
     pkb(pkb),
     tokeniser(Tokeniser()),
     validator(Validator()),

@@ -7,8 +7,8 @@ PatternClause::PatternClause(unique_ptr<IArgument> synonym, PatternArgsStreamPtr
 }
 
 
-//prolly will change method return type to set<string>
-QueryResult PatternClause::evaluate(Context context, PKBReader& pkbReader, string& synonymToQuery) {
+IntermediateTable PatternClause::evaluate(Context context,
+										  PKBReader& pkbReader) {
 	string synonymValue = synonym->getValue();
 	string entityType = context.getTokenEntity(synonymValue);
 
@@ -19,5 +19,4 @@ QueryResult PatternClause::evaluate(Context context, PKBReader& pkbReader, strin
 	}
 
 	return IEvaluatorPtr->evaluate();
-	//return std::unordered_set<int>();
 }

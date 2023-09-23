@@ -1,24 +1,24 @@
 #include "FollowsAbstraction.h"
 
-QueryResult FollowsAbstraction::getAbstractions() {
-    // TODO:
-//    if (first == WILDCARD && second == WILDCARD) {
-////        return pkb->getALl
-//    }
-//    Entity firstEntity;
-//    if (first != WILDCARD) {
-//        Entity firstEntity = context.getTokenEntity(first);
-//        const StatementType &firstStatementType =
-//                EntityToStatementType.at(firstEntity);
-//    }
-//    if (second != WILDCARD) {
-//        Entity secondEntity = context.getTokenEntity(second);
-//        const StatementType &secondStatementType =
-//                EntityToStatementType.at(secondEntity);
-//    }
-//
-//
-//
-//    return pkb->getFollowing(second, firstStatementType);
-    return {};
-}
+ IntermediateTable FollowsAbstraction::getAbstractions() {
+     bool isFirstStmtSynonym = firstArg.isSynonym();
+     bool isSecondStmtSynonym = secondArg.isSynonym();
+
+     string firstArgValue = firstArg.getValue();
+     StmtType firstStmtType = isFirstStmtSynonym ?
+                              EntityToStatementType.at(context.getTokenEntity(firstArgValue))
+                                                 : StmtType::STMT;
+     string secondArgValue = firstArg.getValue();
+     StmtType secondStmtType = isSecondStmtSynonym ?
+                              EntityToStatementType.at(context.getTokenEntity(secondArgValue))
+                                                 : StmtType::STMT;
+
+     vector<pair<string, string>> statementsModifyingVar = this->isTransitive ?
+             pkb.getFollowsStarPairs(firstStmtType, secondStmtType)
+             : pkb.getFollowsPairs(firstStmtType, secondStmtType);
+
+     return IntermediateTableFactory::buildIntermediateTable(
+             firstArgValue,
+             secondArgValue,
+             statementsModifyingVar);
+ }

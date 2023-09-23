@@ -10,7 +10,7 @@
 using std::unique_ptr, std::make_unique;
 
 unique_ptr<IAbstraction> AbstractionFactory::createAbstraction(
-        struct AbstractionParams &abstractionParams) {
+        AbstractionParams &abstractionParams) {
     AbstractionEnum abstractionEnum =
             AbstractionToEnumMap.at(abstractionParams.abstraction);
     switch (abstractionEnum) {

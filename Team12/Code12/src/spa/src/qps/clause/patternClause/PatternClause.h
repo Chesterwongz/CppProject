@@ -23,10 +23,11 @@ private:
 
 public:
     // prolly will have to add one more field that specifies if the pattern arg is a direct or partial match
-    explicit PatternClause(unique_ptr<IArgument> synonym, PatternArgsStreamPtr patternArgsStreamPtr, bool isPartialMatch);
+    explicit PatternClause(unique_ptr<IArgument> synonym,
+                           PatternArgsStreamPtr patternArgsStreamPtr,
+                           bool isPartialMatch);
 
-    QueryResult evaluate(
+    IntermediateTable evaluate(
             Context context,
-            PKBReader &pkb,
-            string &synonymToQuery) override;
+            PKBReader &pkb) override;
 };
