@@ -7,7 +7,7 @@
 using std::unique_ptr;
 
 class IParserState {
-private:
+protected:
     virtual void processNameToken(PQLToken& curr) = 0;
 public:
 	virtual void handleToken() = 0;

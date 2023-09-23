@@ -3,7 +3,6 @@
 #include <string>
 #include <unordered_set>
 #include "qps/clause/Clause.h"
-#include "qps/token/QueryToken.h"
 
 class SelectClause : public Clause {
 private:

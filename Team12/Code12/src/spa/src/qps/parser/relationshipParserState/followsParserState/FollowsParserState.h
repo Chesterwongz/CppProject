@@ -1,24 +1,22 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 #include "qps/parser/PQLParserContext.h"
-#include "qps/parser/IParserState.h"
+#include "qps/parser/relationshipParserState/RelationshipParserState.h"
 
-using std::make_unique, std::unique_ptr;
+using std::make_unique, std::unique_ptr, std::vector;
 
-class FollowsParserState : public IParserState {
+class FollowsParserState : public RelationshipParserState {
 private:
     PQLParserContext& parserContext;
     PQLTokenStream& tokenStream;
     PQLTokenType prev;
-    bool isInBracket;
     bool isTransitive;
     static PredictiveMap predictiveMap;
     static PQLTokenType exitToken;
-    static int maxNumberOfArgs;
-//    vector<IArguments> arguments;
-    void processNameToken(PQLToken& curr) override;
+    static size_t maxNumberOfArgs;
 
 public:
     explicit FollowsParserState(PQLParserContext& parserContext);

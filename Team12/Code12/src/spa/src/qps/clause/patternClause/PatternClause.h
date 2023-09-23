@@ -4,7 +4,6 @@
 #include <utility>
 #include <unordered_set>
 
-#include "qps/token/QueryToken.h"
 #include "qps/clause/Clause.h"
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/IArgument.h"

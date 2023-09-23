@@ -1,4 +1,7 @@
 #include "SelectParserState.h"
+
+#include <iostream>
+
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/parser/suchThatParserState/SuchThatParserState.h"
 #include "qps/parser/patternParserState/PatternParserState.h"
@@ -29,6 +32,7 @@ void SelectParserState::processNameToken(PQLToken& curr)
 }
 
 void SelectParserState::handleToken() {
+    std::cout << "Processing in Select Parser State" << std::endl;
 
 	while (!this->tokenStream.isTokenStreamEnd()) {
 		auto& curr = tokenStream.getCurrentToken();
@@ -43,8 +47,9 @@ void SelectParserState::handleToken() {
 
 		switch (curr.getType()) {
 		case PQL_SYNONYM_TOKEN:
-			this->parserContext.transitionTo(make_unique<SuchThatParserState>(parserContext));
+            std::cout << "Selecting synonym " << curr.getValue() << std::endl;
             parserContext.addClause(make_unique<SelectClause>(curr.getValue()));
+			this->parserContext.transitionTo(make_unique<SuchThatParserState>(parserContext));
 			return;
 		case PQL_SELECT_TOKEN:
             break;

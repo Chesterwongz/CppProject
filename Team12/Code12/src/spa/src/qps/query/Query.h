@@ -6,8 +6,8 @@
 #include <algorithm>
 #include <memory>
 
-#include "qps/token/QueryToken.h"
 #include "pkb/facade/PKBReader.h"
+#include "qps/clause/Clause.h"
 
 using std::set, std::vector, std::unique_ptr, std::string;
 
@@ -28,4 +28,5 @@ public:
     void addClause(unique_ptr<Clause> clause);
     set<string> returnAllPossibleQueriedSynonym();
     set<string> evaluate();
+    bool operator==(const Query &other);
 };

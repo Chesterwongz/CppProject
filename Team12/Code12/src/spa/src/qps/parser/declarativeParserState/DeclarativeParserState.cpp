@@ -1,5 +1,7 @@
 #include "DeclarativeParserState.h"
 
+#include <iostream>
+
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/parser/selectParserState/SelectParserState.h"
 
@@ -28,6 +30,7 @@ void DeclarativeParserState::processNameToken(PQLToken& curr)
 }
 
 void DeclarativeParserState::handleToken() {
+    std::cout << "Processing in Declarative Parser State" << std::endl;
 
 	while (!this->tokenStream.isTokenStreamEnd()) {
         PQLToken& curr = tokenStream.getCurrentToken();
@@ -46,6 +49,7 @@ void DeclarativeParserState::handleToken() {
 			this->currentEntity = curr.getValue();
 			break;
 		case PQL_SYNONYM_TOKEN:
+            std::cout << "Adding synonym: " << curr.getValue() << " of type: " << currentEntity << " to context" << std::endl;
 			this->parserContext.addToContext(this->currentEntity, curr.getValue());
             break;
 		case PQL_COMMA_TOKEN:
@@ -53,6 +57,7 @@ void DeclarativeParserState::handleToken() {
 			break;
 		case PQL_SELECT_TOKEN: // exit token
 			this->parserContext.transitionTo(make_unique<SelectParserState>(parserContext));
+            std::cout << "Transitioning to Select Parser State" << std::endl;
 			return;
 		default:
 			throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);

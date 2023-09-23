@@ -3,22 +3,19 @@
 #include <memory>
 
 #include "qps/parser/PQLParserContext.h"
-#include "qps/parser/IParserState.h"
+#include "qps/parser/relationshipParserState/RelationshipParserState.h"
 
 using std::make_unique, std::unique_ptr;
 
-class ParentsParserState : public IParserState {
+class ParentsParserState : public RelationshipParserState {
 private:
     PQLParserContext& parserContext;
     PQLTokenStream& tokenStream;
     PQLTokenType prev;
-    bool isInBracket;
     bool isTransitive;
     static PredictiveMap predictiveMap;
     static PQLTokenType exitToken;
-    static int maxNumberOfArgs;
-//    vector<IArguments> arguments;
-    void processNameToken(PQLToken& curr) override;
+    static size_t maxNumberOfArgs;
 
 public:
     explicit ParentsParserState(PQLParserContext& parserContext);

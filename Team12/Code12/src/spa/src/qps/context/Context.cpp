@@ -18,3 +18,7 @@ void Context::addSynonym(Synonym tokenSynonym, Entity tokenEntity) {
     }
     this->tokenNameToTokenMap[tokenSynonym] = tokenEntity;
 }
+
+unordered_map<Synonym, Entity> &Context::getMap() {
+    return tokenNameToTokenMap;
+}

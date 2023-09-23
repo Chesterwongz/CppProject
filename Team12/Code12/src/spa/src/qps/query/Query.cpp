@@ -63,3 +63,13 @@ set<string> Query::returnAllPossibleQueriedSynonym() {
     return {};
 }
 
+bool Query::operator==(const Query &other) {
+    bool res = this->context->getMap() == other.context->getMap();
+
+//    for (int i = 0; i < this->clauses.size(); i++) {
+//
+//    }
+
+    return res;
+}
+

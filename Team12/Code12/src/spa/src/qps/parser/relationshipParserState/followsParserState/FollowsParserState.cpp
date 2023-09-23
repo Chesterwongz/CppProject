@@ -18,22 +18,14 @@ PredictiveMap FollowsParserState::predictiveMap = {
 
 PQLTokenType FollowsParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
 
-int FollowsParserState::maxNumberOfArgs = 2;
+size_t FollowsParserState::maxNumberOfArgs = 2;
 
 FollowsParserState::FollowsParserState(PQLParserContext &parserContext) :
     parserContext(parserContext),
     tokenStream(this->parserContext.getTokenStream()),
     prev(PQL_NULL_TOKEN),
-    isInBracket(false),
+    RelationshipParserState(false),
     isTransitive(false) {};
-
-void FollowsParserState::processNameToken(PQLToken &curr) {
-    if (isInBracket) {
-        curr.updateTokenType(PQL_SYNONYM_TOKEN);
-        return;
-    }
-    curr.updateTokenType(PQLParserUtils::getTokenTypeFromKeyword(curr.getValue()));
-}
 
 void FollowsParserState::handleToken() {
     while (!this->tokenStream.isTokenStreamEnd()) {
@@ -75,7 +67,7 @@ void FollowsParserState::handleToken() {
         this->prev = curr.getType();
         tokenStream.next();
     }
-    if (prev != exitToken || isInBracket) {
-        throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNMATCHED_BRACKET);
+    if (!isSafeExit(maxNumberOfArgs, arguments.size())) {
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCOMPLETE_QUERY);
     }
 }

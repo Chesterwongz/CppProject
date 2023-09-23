@@ -17,7 +17,6 @@ PQLTokenStream& PQLParserContext::getTokenStream() const
 void PQLParserContext::transitionTo(unique_ptr<IParserState> nextState)
 {
 	currState = std::move(nextState);
-    currState->handleToken();
 }
 
 void PQLParserContext::addToContext(string entity, string synonym) {
@@ -33,4 +32,10 @@ void PQLParserContext::addClause(unique_ptr<Clause> clause) {
 
 string PQLParserContext::getSynonymType(const string &synonym) {
     return this->context->getTokenEntity(synonym);
+}
+
+void PQLParserContext::handleTokens() {
+    while (!tokenStream.isTokenStreamEnd()) {
+        currState->handleToken();
+    }
 }

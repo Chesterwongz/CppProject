@@ -15,4 +15,5 @@ public:
 	virtual bool isInteger() = 0;
 	virtual bool isSynonym() = 0;
 	virtual bool isWildcard() = 0;
+    virtual ~IArgument() = default;
 };

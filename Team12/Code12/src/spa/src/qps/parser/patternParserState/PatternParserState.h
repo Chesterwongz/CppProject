@@ -16,7 +16,7 @@ private:
     string outerSynonym;
     static PredictiveMap predictiveMap;
     static PQLTokenType exitToken;
-    static int maxNumberOfArgs;
+    static size_t maxNumberOfArgs;
     int argumentCount;
     // vector of arguments
     void processNameToken(PQLToken& curr) override;

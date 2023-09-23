@@ -5,6 +5,7 @@
 #include "qps/query/Query.h"
 #include "qps/context/Context.h"
 #include "qps/tokenizer/tokenStream/PQLTokenStream.h"
+#include "qps/clause/Clause.h"
 
 class PQLParserContext {
 private:
@@ -24,4 +25,5 @@ public:
 	[[nodiscard]] PQLTokenStream& getTokenStream() const;
 	void transitionTo(unique_ptr<IParserState> nextState);
     void addClause(unique_ptr<Clause> clause);
+    void handleTokens();
 };
