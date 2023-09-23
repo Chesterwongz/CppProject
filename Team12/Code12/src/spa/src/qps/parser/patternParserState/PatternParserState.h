@@ -2,6 +2,7 @@
 
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/IParserState.h"
+#include "qps/argument/IArgument.h"
 
 using std::make_unique, std::unique_ptr;
 
@@ -13,15 +14,14 @@ private:
     bool isInBracket;
     bool isPartialMatch;
     string matchPattern;
-    string outerSynonym;
+    unique_ptr<IArgument> outerSynonym;
     static PredictiveMap predictiveMap;
     static PQLTokenType exitToken;
     static size_t maxNumberOfArgs;
     int argumentCount;
-    // vector of arguments
+    unique_ptr<vector<unique_ptr<IArgument>>> patternArg;
     void processNameToken(PQLToken& curr) override;
     void processSynonymToken(PQLToken& curr);
-    void addAsArgument(PQLToken& curr);
 
 public:
     explicit PatternParserState(PQLParserContext& parserContext);
