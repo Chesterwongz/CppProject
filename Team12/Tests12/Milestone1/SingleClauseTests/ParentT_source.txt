@@ -8,7 +8,7 @@ procedure Parent {    read line1;
                   assign8 = line8;
                   assign9 = line9 * 9 + (9) * (line9 / line9);
                 } else {
-                    while((line10 < line10)){
+                    while(line10 < line10){
                         while((line11 < line11)&& ( line11 == line11)){
                             print line12;
                         }
@@ -27,5 +27,5 @@ procedure Parent {    read line1;
     } else {
         print line17;
     }
-    assign18 = line18
+    assign18 = line18;
 }

@@ -1,0 +1,105 @@
+====== 1 - Follows (_,_) pattern a (_,_) (+) ======
+stmt stmt; assign Follows;
+Select stmt such that Follows (_,_) pattern Follows (_,_)
+1, 2, 3, 4, 5, 6, 7, 8
+1000
+====== 2 - Follows (_,_) pattern a ("NA",_"NA"_) (-) ======
+stmt Follows; assign stmt;
+Select Follows such that Follows (_,_) pattern stmt("NA",_"NA"_)
+none
+1000
+====== 3 - Follows (stmt,_) pattern a (_,_"line7"_) (+) ======
+stmt stmt; assign a;
+Select stmt such that Follows (stmt ,_) pattern a(_,_"line7"_)
+1, 2, 3, 4
+1000
+====== 4 - Follows (stmt,_) pattern a (_,_"NA"_) (-) ======
+stmt stmt; assign a;
+Select stmt such that Follows (stmt ,_) pattern a(_,_"NA"_)
+none
+1000
+====== 5 - Follows (_,stmt) pattern a ("assign8", _) (+) ======
+stmt Select; assign a;
+Select Select such that Follows (_,Select) pattern a ("assign8", _)
+2, 5, 6, 8
+1000
+====== 6 - Follows (_,stmt) pattern a ("NA", _) (-) ======
+stmt Select; assign a;
+Select Select such that Follows (_,Select) pattern a ("NA", _)
+none
+1000
+====== 7 - Follows (stmt1,stmt1) pattern a ("assign7", _"line7"_) (-) ======
+stmt s, S;assign a;
+Select s such that Follows (s,s) pattern a ("assign7", _"line7"_)
+none
+1000
+====== 8 - Follows (stmt1,stmt2) pattern a ("assign7", _"line7"_) (+) ======
+stmt s, S; assign a;
+Select s such that Follows (s,S) pattern a ("assign7", _"line7"_)
+1, 2, 3, 4
+1000
+====== 9 - Follows (stmt1,stmt2) pattern a ("assign7", _"NA"_) (-) ======
+stmt s, S; assign a;
+Select s such that Follows (s,S) pattern a ("assign7", _"7"_)
+none
+1000
+====== 10 - Follows (1, stmt) pattern a ("assign7", _"line7"_) (+) ======
+if Follows; assign a;
+Select Follows such that Follows   ( 1,Follows )pattern a ("assign7", _"line7"_)
+2
+1000
+====== 11 - Follows (1, stmt) pattern a ("NA", _"line7"_) (-) ======
+if Follows; assign a;
+Select Follows such that Follows   ( 1,Follows )pattern a ("assign", _"line7"_)
+none
+1000
+====== 12 - Follows (3, 6)  pattern a ("assign7", _"line7"_) (+) ======
+procedure p; assign a;
+Select p such that Follows   ( 3,6 ) pattern a ("assign7", _"line7"_)
+FollowsPattern
+1000
+====== 13 - Follows (3, 6)  pattern a ("assign5", _"line7"_) (-) ======
+procedure p; assign a;
+Select p such that Follows   ( 3,6 ) pattern a ("assign5", _"line7"_)
+none
+1000
+====== 14 - Select v Follows (2, _) pattern a(v, _) (+) ======
+stmt s; assign a; variable v; constant c;
+Select v such that Follows(2,_) pattern a(v, _)
+assign5, assign7, assign8
+1000
+====== 15 -  Select v Follows (8, _) pattern a(v, _) (-) ======
+stmt s; assign a; variable v; constant c;
+Select v such that Follows(8,_) pattern a(v, _)
+none
+1000
+====== 16 -  Select v Follows (stmt,assign) pattern a(v, _) (+) ======
+stmt s; assign a; variable v; constant c;
+Select v such that Follows(s, a  ) pattern a(v, _)
+assign5, assign8
+1000
+====== 17 -  Select v Follows (stmt,assign) pattern a(v, _"line8"_) (+) ======
+stmt s; assign a; variable v; constant c;
+Select v such that Follows(s,a) pattern a(v, _"line8"_)
+assign8
+1000
+====== 18 - Select a Follows (stmt,assign) pattern a(v, _"line5"_) (+) ======
+stmt s;assign a;variable v;
+Select a such that Follows( s,a ) pattern a(v, _"line5"_)
+5
+1000
+====== 19 - Select a Follows (stmt,assign) pattern a("assign8", _"line5"_) (-) ======
+stmt s;assign a;variable v;
+Select a such that Follows( s,a ) pattern a("assign8", _"line5"_)
+none
+1000
+====== 20 - Select a Follows (stmt,assign) pattern a(v, _"line5"_) (+) ======
+stmt s;assign a1, a2;variable v;
+Select a2 such that Follows( s,a1 ) pattern a2(v, _"line5"_)
+5
+1000
+====== 21 - Select a Follows (stmt,assign) pattern a(_, _) (+) ======
+stmt s;assign a1, a2;
+Select a1 such that Follows( s,a1 ) pattern a2(_, _)
+5, 8
+1000

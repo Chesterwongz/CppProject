@@ -11,7 +11,7 @@ Select stmt such that Parent (stmt ,_)
 ====== 3 - Parent (_,stmt) (+) ======
 stmt Select;
 Select Select such that Parent (_,Select)
-3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
 1000
 ====== 4 - Parent (stmt1,stmt2) (+) ======
 stmt s, S;
@@ -96,7 +96,7 @@ Select w such that Parent (w,if)
 ====== 20 - Select while1 Parent (stmt,while) (+) ======
 while w; stmt s;
 Select s such that Parent (s,w)
-2, 7, 13
+2, 7, 10, 13
 1000
 ====== 21 -  Select while2 Parent (while,stmt) (+) ======
 while w; stmt s;
