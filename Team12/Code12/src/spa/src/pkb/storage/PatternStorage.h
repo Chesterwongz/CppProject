@@ -28,7 +28,7 @@ private:
     // variableName --> (RPN, stmtNum)
     std::unordered_map<std::string, std::vector<std::pair<std::string, int>>> variablePatternStorage;
 
-    // stmtNum --> (variableName, RPN)
+    // stmtNum --> (RPN, variableName)
     std::unordered_map<int, std::pair<std::string, std::string>> statementPatternStorage;
 
     std::string wildcard = "_";

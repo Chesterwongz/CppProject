@@ -42,16 +42,16 @@ TEST_CASE("PKBReader Tests") {
     writer.setModifiesRelationship("y", 5);
     writer.setModifiesRelationship("x", 6);
 
-    storage.setVariableUsage("x", 1);
-    storage.setVariableUsage("y", 1);
-    storage.setVariableUsage("x", 2);
-    storage.setVariableUsage("z", 3);
-    storage.setVariableUsage("x", 4);
+    writer.setUsesRelationship("x", 1);
+    writer.setUsesRelationship("y", 1);
+    writer.setUsesRelationship("x", 2);
+    writer.setUsesRelationship("z", 3);
+    writer.setUsesRelationship("x", 4);
 
-    storage.setAssignPattern("x", "abc*+", 1);
-    storage.setAssignPattern("y", "de+f+", 2);
-    storage.setAssignPattern("z", "ab*c*d+", 3);
-    storage.setAssignPattern("x", "a2+", 4);
+    writer.setAssignPattern("x", "abc*+", 1);
+    writer.setAssignPattern("y", "de+f+", 2);
+    writer.setAssignPattern("z", "ab*c*d+", 3);
+    writer.setAssignPattern("x", "a2+", 4);
 
     SECTION("getAllVariables") {
         REQUIRE(reader.getAllVariables() == std::set<std::string>{"x", "y", "z"});
