@@ -49,15 +49,7 @@ TEST_CASE("PKBReader Tests") {
     storage.setVariableUsage("x", 4);
 
     SECTION("getAllVariables") {
-        /*std::string query = "variable v; Select v";
-        writer.setVariable("x");
-        writer.setVariable("y");
-        writer.setVariable("z");*/
-
-        // std::list<std::string> expectedResults = {"x", "y", "z"};
-
-        //REQUIRE(QPS::queryEvaluate(query) == expectedResults);
-        REQUIRE(1 == 1);
+        REQUIRE(reader.getAllVariables() == std::set<std::string>{"x", "y", "z"});
     }
 
     SECTION("getAllConstants") {
