@@ -87,7 +87,8 @@ void PatternParserState::handleToken() {
                 break;
             case PQL_CLOSE_BRACKET_TOKEN:
                 isInBracket = false;
-                if (isPartialMatch && partialMatchWildCardCount < 2) {
+                if (partialMatchWildCardCount == 1 && matchPattern.empty()
+                || (isPartialMatch && partialMatchWildCardCount < 2)) {
                     throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCOMPLETE_PARTIAL_MATCH_PATTERN);
                 }
                 parserContext.addClause(make_unique<PatternClause>(
