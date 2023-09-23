@@ -1,44 +1,142 @@
 #pragma once
 
-#include "pkb/facade/PKBReader.h"
-#include "qps/argument/IArgument.h"
-#include "qps/argument/argumentFactory/ArgumentFactory.h"
+#include <iostream>
+#include <string>
+#include <utility>
+#include <vector>
+#include <map>
+#include <unordered_set>
+#include <unordered_map>
 
-using std::set, std::unique_ptr, std::string, std::vector, std::pair;
+#include "pkb/facade/PKBReader.h"
+
+using std::vector, std::set, std::string, std::pair;
 
 class MockPKBReader : public PKBReader {
+private:
+    PKBStorage mockStorage;
+
 public:
-    explicit MockPKBReader(struct PKBStorage& storage) : PKBReader(storage) {};
+    set<string> mockAllVariables;
+    set<string> mockAllConstants;
+    set<string> mockAllProcedures;
+    set<string> mockStatements;
+    string mockFollowing;
+    string mockFollowed;
+    vector<pair<string, string>> mockFollowsPairs;
+    vector<pair<string, string>> mockFollowsStarPairs;
+    vector<pair<string, string>> mockFollowedPairs;
+    vector<pair<string, string>> mockFollowedStarPairs;
+    vector<pair<string, string>> mockImmediateChildrenOf;
+    pair<string, string> mockImmediateParentOf;
+    vector<pair<string, string>> mockParentChildPairs;
+    vector<pair<string, string>> mockChildrenStar;
+    vector<pair<string, string>> mockParentStar;
+    vector<pair<string, string>> mockParentChildStarPairs;
+    vector<string> mockStatementsModifying;
+    vector<pair<string, string>> mockVariablesModifiedBy;
+    vector<string> mockStatementsUsing;
+    vector<pair<string, string>> mockVariablesUsedBy;
+    vector<pair<string, string>> mockAllModifiedVariables;
+    vector<pair<string, string>> mockAllUsedVariables;
+    vector<string> mockExactAssignPatternStmts;
+    vector<string> mockPartialAssignPatternStmts;
 
-    static unique_ptr<MockPKBReader> buildMockPKBReader();
+    explicit MockPKBReader() : PKBReader(mockStorage){};
 
-    // return the names of all variables in the program
-    set<string> getAllVariables() override;
+    set<string> getAllVariables() override {
+        return mockAllVariables;
+    }
 
-    // return the statement numbers of specified statement type
-    set<string> getStatement(StmtType statementType) override;
+    set<string> getAllConstants() override {
+        return mockAllConstants;
+    }
 
-    // return all pairs (s1,s2) that satisfy Follows(s1, s2) and satisfying statement type restriction
-    vector<pair<string, string>> getFollowsPairs(StmtType statementType1, StmtType statementType2) override;
+    set<string> getAllProcedures() override {
+        return mockAllProcedures;
+    }
 
-    // return all pairs (s1,s2) that satisfy Follows*(s1, s2) and satisfying statement type restriction
-    vector<pair<string, string>> getFollowsStarPairs(StmtType statementType1, StmtType statementType2) override;
+    set<string> getStatement(StmtType statementType) override {
+        return mockStatements;
+    }
 
-    // return all pairs (s1,s2) that satisfy Parent(s1, s2) and satisfying statement type restriction
-    vector<pair<string, string>> getParentChildPairs(StmtType parentType, StmtType childType) override;
+    string getFollowing(int statementNumber, StmtType statementType) override {
+        return mockFollowing;
+    }
 
-    // return all pairs (s1,s2) that satisfy Parent*(s1, s2) and satisfying statement type restriction
-    vector<pair<string, string>> getParentChildStarPairs(StmtType parentType, StmtType childType) override;
+    string getFollowed(int statementNumber, StmtType statementType) override {
+        return mockFollowed;
+    }
 
-    // return all s that satisfy Modifies(s, v) where v is variableName and s is of same type as statementType
-    vector<string> getStatementsModifying(string variableName, StmtType statementType) override;
+    vector<pair<string, string>> getFollowsPairs(StmtType statementType1, StmtType statementType2) override {
+        return mockFollowsPairs;
+    }
 
-    // return all s that satisfy Uses(s, v) where v is variableName and s is of same type as statementType
-    vector<string> getStatementsUsing(string variableName, StmtType statementType) override;
+    vector<pair<string, string>> getFollowsStar(int statementNumber, StmtType statementType) override {
+        return mockFollowsStarPairs;
+    }
 
-    // return all pairs (s, v) that satisfy Modifies (s, v) where s is of a particular type
-    vector<pair<string, string>> getAllModifiedVariables(StmtType statementType) override;
+    vector<pair<string, string>> getFollowedStar(int statementNumber, StmtType statementType) override {
+        return mockFollowedPairs;
+    }
 
-    // return all pairs (s, v) that satisfy Uses (s, v) where s is of a particular type
-    vector<pair<string, string>> getAllUsedVariables(StmtType statementType) override;
+    vector<pair<string, string>> getFollowsStarPairs(StmtType statementType1, StmtType statementType2) override {
+        return mockFollowedStarPairs;
+    }
+
+    vector<pair<string, string>> getImmediateChildrenOf(int statementNumber, StmtType statementType) override {
+        return mockImmediateChildrenOf;
+    }
+
+    pair<string, string> getImmediateParentOf(int statementNumber, StmtType statementType) override {
+        return mockImmediateParentOf;
+    }
+
+    vector<pair<string, string>> getParentChildPairs(StmtType parentType, StmtType childType) override {
+        return mockParentChildPairs;
+    }
+
+    vector<pair<string, string>> getChildrenStarOf(int statementNumber, StmtType statementType) override {
+        return mockChildrenStar;
+    }
+
+    vector<pair<string, string>> getParentStarOf(int statementNumber, StmtType statementType) override {
+        return mockParentStar;
+    }
+
+    vector<pair<string, string>> getParentChildStarPairs(StmtType parentType, StmtType childType) override {
+        return mockParentChildStarPairs;
+    }
+
+    vector<string> getStatementsModifying(const string& variableName, StmtType statementType) override {
+        return mockStatementsModifying;
+    }
+
+    vector<pair<string, string>> getVariablesModifiedBy(int statementNumber, StmtType statementType) override {
+        return mockVariablesModifiedBy;
+    }
+
+    vector<string> getStatementsUsing(const string& variableName, StmtType statementType) override {
+        return mockStatementsUsing;
+    }
+
+    vector<pair<string, string>> getVariablesUsedBy(int statementNumber, StmtType statementType) override {
+        return mockVariablesUsedBy;
+    }
+
+    vector<pair<string, string>> getAllModifiedVariables(StmtType statementType) override {
+        return mockAllModifiedVariables;
+    }
+
+    vector<pair<string, string>> getAllUsedVariables(StmtType statementType) override {
+        return mockAllUsedVariables;
+    }
+
+    vector<string> getExactAssignPattern(const string& variableName, const string& rpn) override {
+        return mockExactAssignPatternStmts;
+    }
+
+    vector<string> getPartialAssignPattern(const string& variableName, const string& rpn) override {
+        return mockPartialAssignPatternStmts;
+    }
 };
