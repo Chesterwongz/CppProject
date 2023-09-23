@@ -11,9 +11,7 @@ using std::unique_ptr, std::make_unique;
 
 unique_ptr<IAbstraction> AbstractionFactory::createAbstraction(
         AbstractionParams &abstractionParams) {
-    AbstractionEnum abstractionEnum =
-            AbstractionToEnumMap.at(abstractionParams.abstraction);
-    switch (abstractionEnum) {
+    switch (abstractionParams.abstraction) {
         case FOLLOWS_ENUM:
             return make_unique<FollowsAbstraction>(abstractionParams);
         case MODIFIES_ENUM:

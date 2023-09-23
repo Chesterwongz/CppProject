@@ -1,6 +1,3 @@
-#include <string>
-
-#include "../IArgument.h"
 #include "Ident.h"
 
 Ident::Ident(string argumentValue) {

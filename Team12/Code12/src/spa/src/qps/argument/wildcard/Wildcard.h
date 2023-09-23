@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "../IArgument.h"
+#include "qps/argument/IArgument.h"
 #include "common/utils/StringUtils.h"
 using std::string;
 

@@ -1,14 +1,11 @@
 #pragma once
 
 #include <string>
-#include <map>
-#include "qps/token/suchThatToken/SuchThatToken.h"
-#include "qps/token/declarativeToken/DeclarativeToken.h"
+#include <unordered_map>
 
-using std::string, std::map;
+using std::string, std::unordered_map;
 
-// Statement types
-const map<Entity, StmtType> EntityToStatementType = {
+const unordered_map<Entity, StmtType> EntityToStatementType = {
         {"assign", StmtType::ASSIGN},
         {"call", StmtType::CALL},
         {"if", StmtType::IF},
@@ -19,21 +16,9 @@ const map<Entity, StmtType> EntityToStatementType = {
 };
 
 // Abstractions
-enum AbstractionEnum {
+enum Abstraction {
     FOLLOWS_ENUM,
     MODIFIES_ENUM,
     PARENTS_ENUM,
     USES_ENUM,
-};
-
-const Abstraction FOLLOWS = "Follows";
-const Abstraction MODIFIES = "Modifies";
-const Abstraction PARENTS = "Parents";
-const Abstraction USES = "Uses";
-
-const map<Abstraction, AbstractionEnum> AbstractionToEnumMap = {
-        {FOLLOWS, FOLLOWS_ENUM},
-        {MODIFIES, MODIFIES_ENUM},
-        {PARENTS, PARENTS_ENUM},
-        {USES, USES_ENUM},
 };

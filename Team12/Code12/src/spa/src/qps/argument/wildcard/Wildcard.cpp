@@ -1,6 +1,3 @@
-#include <string>
-
-#include "../IArgument.h"
 #include "Wildcard.h"
 
 string Wildcard::getValue() {

@@ -1,12 +1,13 @@
 #pragma once
 
 #include <unordered_set>
+
 #include <utility>
 #include "pkb/facade/PKB.h"
-#include "qps/token/QueryToken.h"
 #include "pkb/facade/PKBReader.h"
-#include "qps/token/suchThatToken/SuchThatToken.h"
+#include "qps/query/Query.h"
 #include "qps/clause/utils/ClauseConstants.h"
+#include "qps/argument/IArgument.h"
 #include "qps/intermediateTable/IntermediateTable.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 

@@ -12,7 +12,7 @@ using std::string, std::set, std::map, std::pair, std::vector;
 class Clause {
 public:
     virtual IntermediateTable evaluate(
-            Context context,
-            PKBReader &pkb) = 0;
+            Context& context,
+            PKBReader& pkb) = 0;
     virtual ~Clause() = default;
 };

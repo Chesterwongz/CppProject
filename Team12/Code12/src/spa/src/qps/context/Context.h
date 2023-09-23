@@ -1,19 +1,19 @@
 #pragma once
 
 #include <string>
-#include <map>
+#include <unordered_map>
 
-using std::string, std::map;
+using std::string, std::unordered_map;
 
-typedef string SynonymType;
+typedef string Synonym;
 typedef string Entity;
 
 class Context {
 private:
-    map<string, Entity> tokenNameToTokenMap = {};
+    unordered_map<Synonym, Entity> tokenNameToTokenMap = {};
 
 public:
-    void addToken(SynonymType tokenSynonym, Entity tokenEntity);
-
-    Entity getTokenEntity(SynonymType&tokenName);
+    void addSynonym(Synonym tokenSynonym, Entity tokenEntity);
+    Entity getTokenEntity(const Synonym &tokenName);
+    unordered_map<Synonym, Entity>& getMap(); // for testing
 };

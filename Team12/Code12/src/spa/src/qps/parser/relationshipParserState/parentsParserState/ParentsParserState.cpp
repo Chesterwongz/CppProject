@@ -1,0 +1,73 @@
+#include "ParentsParserState.h"
+
+#include "qps/exceptions/QPSInvalidQueryException.h"
+#include "qps/parser/patternParserState/PatternParserState.h"
+
+// TODO: Consider merging with follows
+PredictiveMap ParentsParserState::predictiveMap = {
+        { PQL_NULL_TOKEN, { PQL_PARENT_TOKEN } },
+        { PQL_PARENT_TOKEN, { PQL_ASTERISKS_TOKEN, PQL_OPEN_BRACKET_TOKEN } },
+        { PQL_ASTERISKS_TOKEN, { PQL_OPEN_BRACKET_TOKEN } },
+        { PQL_OPEN_BRACKET_TOKEN, { PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_INTEGER_TOKEN } },
+        { PQL_SYNONYM_TOKEN, { PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN } },
+        { PQL_WILDCARD_TOKEN, { PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN } },
+        { PQL_INTEGER_TOKEN, { PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN } },
+        { PQL_COMMA_TOKEN, { PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_INTEGER_TOKEN } },
+        { PQL_CLOSE_BRACKET_TOKEN, { PQL_PATTERN_TOKEN } }
+};
+
+PQLTokenType ParentsParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
+
+size_t ParentsParserState::maxNumberOfArgs = 2;
+
+ParentsParserState::ParentsParserState(PQLParserContext &parserContext) :
+        parserContext(parserContext),
+        tokenStream(this->parserContext.getTokenStream()),
+        prev(PQL_NULL_TOKEN),
+        RelationshipParserState(false),
+        isTransitive(false) {};
+
+void ParentsParserState::handleToken() {
+    while (!this->tokenStream.isTokenStreamEnd()) {
+        auto& curr = tokenStream.getCurrentToken();
+
+        if (curr.getType() == PQL_NAME_TOKEN) {
+            processNameToken(curr);
+        }
+
+        if (!PQLParserUtils::isExpectedToken(predictiveMap, prev, curr.getType())) {
+            throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNEXPECTED_TOKEN);
+        }
+
+        switch (curr.getType()) {
+            case PQL_FOLLOWS_TOKEN:
+            case PQL_COMMA_TOKEN:
+                break;
+            case PQL_ASTERISKS_TOKEN:
+                isTransitive = true;
+                break;
+            case PQL_OPEN_BRACKET_TOKEN:
+                isInBracket = true;
+                return;
+            case PQL_CLOSE_BRACKET_TOKEN:
+                isInBracket = false;
+                // TODO: add clause
+                break;
+            case PQL_SYNONYM_TOKEN:
+            case PQL_INTEGER_TOKEN:
+            case PQL_WILDCARD_TOKEN:
+                // TODO: create arguments and add to arguments vector
+                break;
+            case PQL_PATTERN_TOKEN:
+                this->parserContext.transitionTo(make_unique<PatternParserState>(parserContext));
+                return;
+            default:
+                throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNEXPECTED_TOKEN);
+        }
+        this->prev = curr.getType();
+        tokenStream.next();
+    }
+    if (!isSafeExit(maxNumberOfArgs, arguments.size())) {
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNMATCHED_BRACKET);
+    }
+}

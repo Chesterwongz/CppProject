@@ -7,7 +7,7 @@ PatternClause::PatternClause(unique_ptr<IArgument> synonym, PatternArgsStreamPtr
 }
 
 
-IntermediateTable PatternClause::evaluate(Context context,
+IntermediateTable PatternClause::evaluate(Context& context,
 										  PKBReader& pkbReader) {
 	string synonymValue = synonym->getValue();
 	string entityType = context.getTokenEntity(synonymValue);

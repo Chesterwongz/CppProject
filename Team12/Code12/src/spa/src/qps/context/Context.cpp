@@ -1,9 +1,24 @@
 #include "Context.h"
 
-Entity Context::getTokenEntity(SynonymType&tokenName) {
-    return this->tokenNameToTokenMap[tokenName];
+#include "qps/exceptions/QPSInvalidQueryException.h"
+
+Entity Context::getTokenEntity(const Synonym &synonym) {
+    auto entity = tokenNameToTokenMap.find(synonym);
+
+    if (entity == tokenNameToTokenMap.end()) {
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_SYNONYM);
+    }
+
+    return entity->second;
 };
 
-void Context::addToken(SynonymType tokenSynonym, Entity tokenEntity) {
+void Context::addSynonym(Synonym tokenSynonym, Entity tokenEntity) {
+    if (tokenNameToTokenMap.find(tokenSynonym) != tokenNameToTokenMap.end()) {
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_REPEAT_SYNONYM_NAME);
+    }
     this->tokenNameToTokenMap[tokenSynonym] = tokenEntity;
-};
+}
+
+unordered_map<Synonym, Entity> &Context::getMap() {
+    return tokenNameToTokenMap;
+}
