@@ -6,7 +6,7 @@ Select Follows such that Parent (_,_)
 ====== 2 - Parent (stmt,_) (+) ======
 stmt stmt;
 Select stmt such that Parent (stmt ,_)
-2, 3, 4, 6, 7, 10, 11, 13, 14
+2, 3, 6, 7, 10, 11, 13, 14
 1000
 ====== 3 - Parent (_,stmt) (+) ======
 stmt Select;
@@ -16,9 +16,9 @@ Select Select such that Parent (_,Select)
 ====== 4 - Parent (stmt1,stmt2) (+) ======
 stmt s, S;
 Select s such that Parent (s,S)
-2, 3, 4, 6, 7, 10, 11, 13, 14
+2, 3, 6, 7, 10, 11, 13, 14
 1000
-====== 5 - Parent (1, stmt) (+) ======
+====== 5 - Parent (1, stmt) (-) ======
 if Parent;
 Select Parent such that Parent   ( 1,Parent )
 none
@@ -86,7 +86,7 @@ Select if2 such that Parent (if1,if2)
 ====== 18 - Select while Parent (if,while) (+) ======
 if if; while w;
 Select w such that Parent (if,w)
-2, 7, 13
+3, 10, 14
 1000
 ====== 19 - Select while Parent (while,if) (+) ======
 if if; while w;
