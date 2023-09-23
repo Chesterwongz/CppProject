@@ -67,8 +67,8 @@ public:
     //PatternStorage methods
     virtual void setAssignPattern(std::string variableName, std::string rpn, int statementNumber);
 
-    std::vector<std::string> getExactAssignPattern(std::string variableName, std::string rpn);
-    std::vector<std::string> getPartialAssignPattern(std::string variableName, std::string rpn);
+    std::vector<std::string> getExactAssignPattern(std::string variableName, std::string rpn, bool isSynonym);
+    std::vector<std::string> getPartialAssignPattern(std::string variableName, std::string rpn, bool isSynonym);
 
 private:
     DesignEntitiesStorage designEntitiesStorage;
