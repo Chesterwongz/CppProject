@@ -1,6 +1,6 @@
 #include "Ident.h"
 
-Ident::Ident(string argumentValue) {
+Ident::Ident(const string& argumentValue) {
 	// TODO: check its ident and remove '\"'
 	//if (!QPSStringUtils::isIdent(argumentValue)) {
 	//	throw std::runtime_error("argumentValue is not an ident");

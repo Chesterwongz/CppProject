@@ -11,11 +11,11 @@ private:
 	const QPSStringUtils::ArgumentType argumentType = QPSStringUtils::INTEGER;
 	string integerValue;
 public:
-	explicit Integer(string argumentValue);
+	explicit Integer(const string& argumentValue);
 	string getValue() override;
 	QPSStringUtils::ArgumentType getArgumentType() override;
-	virtual bool isIdent() override;
-	virtual bool isInteger() override;
-	virtual bool isSynonym() override;
-	virtual bool isWildcard() override;
+	bool isIdent() override;
+	bool isInteger() override;
+	bool isSynonym() override;
+	bool isWildcard() override;
 };

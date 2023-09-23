@@ -8,7 +8,6 @@ using std::string;
 
 class IArgument {
 public:
-
 	virtual string getValue() = 0;
 	virtual QPSStringUtils::ArgumentType getArgumentType() = 0;
 	virtual bool isIdent() = 0;

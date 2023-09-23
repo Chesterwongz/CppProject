@@ -1,7 +1,9 @@
 #include "UsesParserState.h"
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
+#include "qps/argument/argumentFactory/ArgumentFactory.h"
 #include "qps/parser/patternParserState/PatternParserState.h"
+#include "qps/clause/suchThatClause/SuchThatClause.h"
 
 PredictiveMap UsesParserState::predictiveMap = {
         { PQL_NULL_TOKEN, { PQL_USES_TOKEN } },
@@ -48,13 +50,24 @@ void UsesParserState::handleToken() {
                 break;
             case PQL_CLOSE_BRACKET_TOKEN:
                 isInBracket = false;
-                // TODO: add clause
+                parserContext.addClause(make_unique<SuchThatClause>(
+                        USES_ENUM,
+                        std::move(arguments.at(0)),
+                        std::move(arguments.at(1)),
+                        false
+                ));
                 break;
             case PQL_SYNONYM_TOKEN:
+                arguments.push_back(std::move(ArgumentFactory::createSynonymArgument(curr.getValue())));
+                break;
             case PQL_WILDCARD_TOKEN:
+                arguments.push_back(std::move(ArgumentFactory::createWildcardArgument()));
+                break;
             case PQL_LITERAL_REF_TOKEN:
+                arguments.push_back(std::move(ArgumentFactory::createIdentArgument(curr.getValue())));
+                break;
             case PQL_INTEGER_TOKEN:
-                // TODO: create arguments and add to arguments vector
+                arguments.push_back(std::move(ArgumentFactory::createIntegerArgument(curr.getValue())));
                 break;
             case PQL_PATTERN_TOKEN:
                 this->parserContext.transitionTo(make_unique<PatternParserState>(parserContext));

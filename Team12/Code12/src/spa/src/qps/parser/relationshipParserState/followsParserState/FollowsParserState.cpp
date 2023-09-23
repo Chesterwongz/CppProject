@@ -1,8 +1,11 @@
 #include "FollowsParserState.h"
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
+#include "qps/argument/argumentFactory/ArgumentFactory.h"
 #include "qps/parser/patternParserState/PatternParserState.h"
+#include "qps/clause/suchThatClause/SuchThatClause.h"
 
+// TODO: Can be merged with ParentParserState
 PredictiveMap FollowsParserState::predictiveMap = {
         { PQL_NULL_TOKEN, { PQL_FOLLOWS_TOKEN } },
         { PQL_FOLLOWS_TOKEN, { PQL_ASTERISKS_TOKEN, PQL_OPEN_BRACKET_TOKEN } },
@@ -24,7 +27,9 @@ FollowsParserState::FollowsParserState(PQLParserContext &parserContext) :
     tokenStream(this->parserContext.getTokenStream()),
     prev(PQL_NULL_TOKEN),
     RelationshipParserState(false),
-    isTransitive(false) {};
+    isTransitive(false) {
+
+};
 
 void FollowsParserState::handleToken() {
     while (!this->tokenStream.isTokenStreamEnd()) {
@@ -50,12 +55,21 @@ void FollowsParserState::handleToken() {
                 break;
             case PQL_CLOSE_BRACKET_TOKEN:
                 isInBracket = false;
-                // TODO: add clause
+                parserContext.addClause(make_unique<SuchThatClause>(
+                        FOLLOWS_ENUM,
+                        std::move(arguments.at(0)),
+                        std::move(arguments.at(1)),
+                        isTransitive
+                        ));
                 break;
             case PQL_SYNONYM_TOKEN:
+                arguments.push_back(std::move(ArgumentFactory::createSynonymArgument(curr.getValue())));
+                break;
             case PQL_INTEGER_TOKEN:
+                arguments.push_back(std::move(ArgumentFactory::createIntegerArgument(curr.getValue())));
+                break;
             case PQL_WILDCARD_TOKEN:
-                // TODO: create arguments and add to arguments vector
+                arguments.push_back(std::move(ArgumentFactory::createWildcardArgument()));
                 break;
             case PQL_PATTERN_TOKEN:
                 this->parserContext.transitionTo(make_unique<PatternParserState>(parserContext));

@@ -2,7 +2,7 @@
 
 #include "Integer.h"
 
-Integer::Integer(string argumentValue) {
+Integer::Integer(const string& argumentValue) {
 	if (!QPSStringUtils::isInteger(argumentValue)) {
 		throw std::runtime_error("argumentValue is not an integer");
 	}

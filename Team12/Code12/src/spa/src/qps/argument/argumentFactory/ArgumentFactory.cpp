@@ -2,7 +2,7 @@
 
 using std::unique_ptr, std::make_unique, std::string;
 
-unique_ptr<IArgument> ArgumentFactory::createArgument(string argument) {
+unique_ptr<IArgument> ArgumentFactory::createArgument(string& argument) {
 	if (QPSStringUtils::isWildcard(argument)) {
 		return make_unique<Wildcard>();
 	} 
@@ -12,7 +12,7 @@ unique_ptr<IArgument> ArgumentFactory::createArgument(string argument) {
 	}
 
 	if (QPSStringUtils::isSynonym(argument)) {
-		return make_unique<Synonym>(argument);
+		return make_unique<SynonymArg>(argument);
 	}
 	
 	if (QPSStringUtils::isInteger(argument)) {
@@ -22,15 +22,15 @@ unique_ptr<IArgument> ArgumentFactory::createArgument(string argument) {
 	return nullptr;
 }
 
-unique_ptr<Synonym> ArgumentFactory::createSynonymArgument(string argumentValue) {
-	return make_unique<Synonym>(argumentValue);
+unique_ptr<SynonymArg> ArgumentFactory::createSynonymArgument(const string& argumentValue) {
+	return make_unique<SynonymArg>(argumentValue);
 }
 
-unique_ptr<Ident> ArgumentFactory::createIdentArgument(string argumentValue) {
+unique_ptr<Ident> ArgumentFactory::createIdentArgument(const string& argumentValue) {
 	return make_unique<Ident>(argumentValue);
 }
 
-unique_ptr<Integer> ArgumentFactory::createIntegerArgument(string argumentValue) {
+unique_ptr<Integer> ArgumentFactory::createIntegerArgument(const string& argumentValue) {
 	return make_unique<Integer>(argumentValue);
 }
 
