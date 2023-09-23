@@ -28,7 +28,7 @@ IntermediateTable SuchThatClause::evaluate(
             );
 
     std::unique_ptr<IAbstraction> executableAbstraction =
-            AbstractionFactory::createAbstraction(std::move(abstractionParams));
+            AbstractionFactory::createAbstraction(*abstractionParams);
 
     return executableAbstraction->getAbstractions();
 }

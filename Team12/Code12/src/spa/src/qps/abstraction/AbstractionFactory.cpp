@@ -10,18 +10,18 @@
 using std::unique_ptr, std::make_unique;
 
 unique_ptr<IAbstraction> AbstractionFactory::createAbstraction(
-        unique_ptr<AbstractionParams> abstractionParams) {
+        AbstractionParams &abstractionParams) {
     AbstractionEnum abstractionEnum =
-            AbstractionToEnumMap.at(abstractionParams->abstraction);
+            AbstractionToEnumMap.at(abstractionParams.abstraction);
     switch (abstractionEnum) {
         case FOLLOWS_ENUM:
-            return make_unique<FollowsAbstraction>(std::move(abstractionParams));
+            return make_unique<FollowsAbstraction>(abstractionParams);
         case MODIFIES_ENUM:
-            return make_unique<ModifiesAbstraction>(std::move(abstractionParams));
+            return make_unique<ModifiesAbstraction>(abstractionParams);
         case PARENTS_ENUM:
-            return make_unique<ParentsAbstraction>(std::move(abstractionParams));
+            return make_unique<ParentsAbstraction>(abstractionParams);
         case USES_ENUM:
-            return make_unique<UsesAbstraction>(std::move(abstractionParams));
+            return make_unique<UsesAbstraction>(abstractionParams);
     }
     return nullptr;
 }

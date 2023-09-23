@@ -5,7 +5,7 @@
 
 class ParentsAbstraction : public IAbstraction {
 public:
-    explicit ParentsAbstraction(unique_ptr<AbstractionParams> abstractionParams) :
-            IAbstraction(std::move(abstractionParams)) {};
+    explicit ParentsAbstraction(AbstractionParams abstractionParams) :
+            IAbstraction(abstractionParams) {};
     IntermediateTable getAbstractions() override;
 };

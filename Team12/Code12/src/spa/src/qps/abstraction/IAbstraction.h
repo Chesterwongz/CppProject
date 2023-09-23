@@ -42,7 +42,7 @@ protected:
     IArgument &secondArg;
     bool isTransitive;
 
-    explicit IAbstraction(unique_ptr<AbstractionParams> params);
+    explicit IAbstraction(AbstractionParams &params);
 
 public:
     virtual IntermediateTable getAbstractions() = 0;
