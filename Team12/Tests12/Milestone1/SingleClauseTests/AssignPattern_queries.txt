@@ -28,18 +28,33 @@ assign a;
 Select a pattern a("line4",_)
 4
 1000
-====== 4 - Assign pattern a("line1", _"12"_) LHS IDENT RHS partial constant matching (-) ======
+====== 7 - Assign pattern a("line1", _"12"_) LHS IDENT RHS partial constant matching (-) ======
 assign a;
 Select a pattern a("line1", _"12"_)
 none
 1000
-====== 5 - Assign pattern a("line2", _"ab"_) LHS IDENT RHS partial variable matching (-) ======
+====== 8 - Assign pattern a("line2", _"ab"_) LHS IDENT RHS partial variable matching (-) ======
 assign a;
 Select a pattern a("line2", _"ab"_)
 none
 1000
-====== 7 - Assign pattern a("v",_) LHS IDENT RHS wildcard matching (-) ======
+====== 9 - Assign pattern a("v",_) LHS IDENT RHS wildcard matching (-) ======
 assign a; variable v;
 Select a pattern a("v",_)
 none
+1000
+====== 10 - Assign pattern a(v,_) LHS IDENT RHS variable matching (+) ======
+assign a; variable v;
+Select v pattern a(v,_)
+line1, line2, line4, line5, line7
+1000
+====== 11 - Select v Assign pattern a(v,_"1"_) LHS variable RHS partial constant matching (+) ======
+assign a; variable v;
+Select v pattern a(v,_"1"_)
+line1, line4, line7
+1000
+====== 12 - Select v Assign pattern a(v,_"a"_) LHS variable RHS partial constant matching (+) ======
+assign a; variable v;
+Select v pattern a(v,_"a"_)
+line2, line5, line7
 1000
