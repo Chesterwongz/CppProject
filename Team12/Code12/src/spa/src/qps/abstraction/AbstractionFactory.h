@@ -7,5 +7,5 @@
 class AbstractionFactory {
 public:
     static unique_ptr<IAbstraction> createAbstraction(
-            unique_ptr<AbstractionParams> abstractionParams);
+            AbstractionParams &abstractionParams);
 };

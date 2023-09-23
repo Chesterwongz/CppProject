@@ -5,7 +5,7 @@
 
 class UsesAbstraction : public IAbstraction {
 public:
-    explicit UsesAbstraction(unique_ptr<AbstractionParams> abstractionParams) :
-        IAbstraction(std::move(abstractionParams)) {};
+    explicit UsesAbstraction(AbstractionParams abstractionParams) :
+        IAbstraction(abstractionParams) {};
     IntermediateTable getAbstractions() override;
 };
