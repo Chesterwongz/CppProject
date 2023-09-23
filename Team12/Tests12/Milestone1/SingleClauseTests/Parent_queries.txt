@@ -1,0 +1,105 @@
+====== 1 - Parent (_,_) (+) ======
+stmt Follows;
+Select Follows such that Parent (_,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+1000
+====== 2 - Parent (stmt,_) (+) ======
+stmt stmt;
+Select stmt such that Parent (stmt ,_)
+2, 3, 4, 6, 7, 10, 11, 13, 14
+1000
+====== 3 - Parent (_,stmt) (+) ======
+stmt Select;
+Select Select such that Parent (_,Select)
+3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+1000
+====== 4 - Parent (stmt1,stmt2) (+) ======
+stmt s, S;
+Select s such that Parent (s,S)
+2, 3, 4, 6, 7, 10, 11, 13, 14
+1000
+====== 5 - Parent (1, stmt) (+) ======
+if Parent;
+Select Parent such that Parent   ( 1,Parent )
+none
+1000
+====== 6 - Parent (stmt, 6) (+) ======
+stmt if;
+Select if such that Parent   ( if,6 )
+3
+1000
+====== 7 - Parent (3, 8) (+) ======
+procedure p;
+Select p such that Parent(3,8)
+none
+1000
+====== 8 - Parent (11, _) (+) ======
+assign a;
+Select a such that Parent(11,_)
+8, 9, 16, 18
+1000
+====== 9 - Parent (5, _) (-) ======
+stmt s;
+Select s such that Parent(5,_ )
+none
+1000
+====== 10 - Parent (_, 18) (-) ======
+read read;
+Select read such that Parent ( _,18)
+none
+1000
+====== 11 - Parent (_, stmt) (+) ======
+assign Parent;
+Select Parent such that Parent( _,Parent)
+8, 9, 16
+1000
+====== 12 - Parent (print, _) (-) ======
+print pn;
+Select pn such that Parent ( pn,_)
+none
+1000
+====== 13 - Parent (read,stmt) (-) ======
+stmt s; print read;
+Select read such that Parent (read,s)
+none
+1000
+====== 14 - Select if Parent (if,while) (+) ======
+if while; while w;
+Select while such that Parent (while,w)
+2, 7, 13
+1000
+====== 15 - Select if Parent (while,if) (+) ======
+if if; while w;
+Select if such that Parent (w,if)
+6
+1000
+====== 16 - Select if1 Parent (if1,if2) (+) ======
+if if1; if if2;
+Select if1 such that Parent (if1,if2)
+6
+1000
+====== 17 -  Select if2 Parent (if1,if2) (+) ======
+if if1, if, if2;
+Select if2 such that Parent (if1,if2)
+7, 13
+1000
+====== 18 - Select while Parent (if,while) (+) ======
+if if; while w;
+Select w such that Parent (if,w)
+2, 7, 13
+1000
+====== 19 - Select while Parent (while,if) (+) ======
+if if; while w;
+Select w such that Parent (w,if)
+3
+1000
+====== 20 - Select while1 Parent (stmt,while) (+) ======
+while w; stmt s;
+Select s such that Parent (s,w)
+2, 7, 13
+1000
+====== 21 -  Select while2 Parent (while,stmt) (+) ======
+while w; stmt s;
+Select s such that Parent (w,s)
+4, 5, 6, 11, 12, 15
+1000

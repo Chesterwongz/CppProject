@@ -1,0 +1,70 @@
+====== 1 - Follows (_,_) (+) ======
+stmt Follows;
+Select Follows such that Follows (_,_)
+1, 2, 3, 4, 5
+1000
+====== 2 - Follows (stmt,_) (+) ======
+stmt stmt;
+Select stmt such that Follows (stmt ,_)
+1, 2
+1000
+====== 3 - Follows (_,stmt) (+) ======
+stmt Select;
+Select Select such that Follows (_,Select)
+2. 5
+1000
+====== 4 - Follows (stmt1,stmt1) (+) ======
+stmt s, S;
+Select s such that Follows (s,s)
+none
+1000
+====== 5 - Follows (stmt1,stmt2) (+) ======
+stmt s, S;
+Select s such that Follows (s,S)
+1, 2
+1000
+====== 6 - Follows (1, stmt) (+) ======
+if Follows;
+Select Follows such that Follows   ( 1,Follows )
+2
+1000
+====== 7 - Follows (stmt, 5) (+) ======
+stmt if;
+Select if such that Follows   ( if,5 )
+2
+1000
+====== 8 - Follows (2, 5) (+) ======
+procedure p;
+Select p such that Follows   ( 2,5 )
+Follows
+1000
+====== 9 - Follows (2, _) (+) ======
+stmt s;
+Select s such that Follows(2,_)
+1, 2, 3, 4, 5
+1000
+====== 10 - Follows (3, _) (-) ======
+stmt s;
+Select s such that Follows(3,_ )
+none
+1000
+====== 11 - Follows (_, 4) (-) ======
+stmt s;
+Select s such that Follows   ( _,4 )
+none
+1000
+====== 12 - Follows (_, stmt) (-) ======
+print p;
+Select p such that Follows( _,p)
+none
+1000
+====== 13 - Follows (stmt, _) (-) ======
+print pn;
+Select pn such that Follows ( pn,_)
+none
+1000
+====== 14 - Follows (stmt,assign) (+) ======
+stmt s;assign a;
+Select a such that Follows( s,a )
+6
+1000

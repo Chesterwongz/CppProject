@@ -1,0 +1,12 @@
+procedure AssignPattern {
+  line1 = 1 + 2 + 3 + 4;
+  line2 = a + b -c * d /  e %f;
+  if ((line3 + 1) == (a + 1)) then {
+    line4 = 1;
+  } else {
+    line5 = a;
+    while (((line6 - 1) > (a - 1)) && (!(1 != 1))) {
+        line7 = a + 1;
+    }
+  }
+}

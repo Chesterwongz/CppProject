@@ -1,0 +1,45 @@
+====== 1 - Assign pattern a(_, _"1"_) LHS wildcard RHS partial constant matching (+) ======
+assign a;
+Select a pattern a(_, _"1"_)
+1, 4, 9
+1000
+====== 2 - Assign pattern a(_, _"a"_) LHS wildcard RHS partial variable matching (+) ======
+assign a;
+Select a pattern a(_, _"a"_)
+2, 5, 9
+1000
+====== 3 - Assign pattern a(_,_) LHS wildcard RHS wildcard matching (+) ======
+assign a;
+Select a pattern a(_,_)
+1, 2, 4, 5, 7
+1000
+====== 4 - Assign pattern a("line1", _"1"_) LHS IDENT RHS partial constant matching (+) ======
+assign a;
+Select a pattern a("line1", _"1"_)
+1
+1000
+====== 5 - Assign pattern a("line2", _"a"_) LHS IDENT RHS partial variable matching (+) ======
+assign a;
+Select a pattern a("line2", _"a"_)
+2
+1000
+====== 6 - Assign pattern a("line4",_) LHS IDENT RHS wildcard matching (+) ======
+assign a;
+Select a pattern a("line4",_)
+4
+1000
+====== 4 - Assign pattern a("line1", _"12"_) LHS IDENT RHS partial constant matching (-) ======
+assign a;
+Select a pattern a("line1", _"12"_)
+none
+1000
+====== 5 - Assign pattern a("line2", _"ab"_) LHS IDENT RHS partial variable matching (-) ======
+assign a;
+Select a pattern a("line2", _"ab"_)
+none
+1000
+====== 7 - Assign pattern a("v",_) LHS IDENT RHS wildcard matching (-) ======
+assign a; variable v;
+Select a pattern a("v",_)
+none
+1000

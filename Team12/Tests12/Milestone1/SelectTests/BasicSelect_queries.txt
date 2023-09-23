@@ -1,70 +1,85 @@
-1 - Select read
+====== 1 - Select read
 read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ;
 Select read;
-none
+1, 7
 1000
-2 - Select read2
+====== 2 - Select read2
 read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ;
 Select read2
-none
+1, 7
 1000
-3 - Select print
+====== 3 - Select print
 read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ;
 Select print
-none
+2, 8
 1000
-4 - Select print2
+====== 4 - Select print2
 read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ;
 Select print2
-none
+2, 8
 1000
-5 - Select while
+====== 5 - Select while
 read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ;
 Select while
-none
+3, 9
 1000
-6 - Select while2
+====== 6 - Select while2
 read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ;
 Select while2
-none
+3, 9
 1000
-7 - Select if
+====== 7 - Select if
 read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt;stmt Select;
 Select if
-none
+4, 6
 1000
-8 - Select if2
+====== 8 - Select if2
 read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt;stmt Select;
 Select if2
-none
+4, 6
 1000
-9 - Select assign
+====== 9 - Select assign
 read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt;stmt Select;
 Select assign
-none
+5, 10
 1000
-10 - Select assign2
+====== 10 - Select assign2
 read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt ;stmt Select;
 Select assign2
-none
+5, 10
 1000
-11 - Select variable
+====== 11 - Select variable
 read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt;stmt Select;
 Select variable
-none
+read, read2, print, print2, while, while2, if, if2, assign, assign2, variable, variable2
 1000
-12 - Select variable2
+====== 12 - Select variable2
 read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt;stmt Select;
 Select variable2
-none
+read, read2, print, print2, while, while2, if, if2, assign, assign2, variable, variable2
 1000
-13 - Select stmt
+====== 13 - Select stmt
 read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt ;stmt Select;
 Select stmt
-none
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 1000
-14 - Select Select
+====== 14 - Select Select
 read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt ;stmt Select;
 Select Select
-none
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+1000
+====== 15 - Select constant
+constant constant; constant pattern; read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt ;stmt Select;
+Select constant
+5, 10
+1000
+====== 16 - Select constant "pattern"
+constant constant; constant pattern; read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt ;stmt Select;
+Select pattern
+5, 10
+1000
+====== 17 - Select procedure "constant"
+read read,read2;procedure constant;print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt ;stmt Select;
+Select constant
+procedure
 1000
