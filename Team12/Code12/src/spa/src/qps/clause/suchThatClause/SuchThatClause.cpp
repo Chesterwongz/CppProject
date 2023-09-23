@@ -5,8 +5,8 @@
 
 SuchThatClause::SuchThatClause (
         Abstraction &relationship,
-        unique_ptr<IArgument> &firstArg,
-        unique_ptr<IArgument> &secondArg,
+        unique_ptr<IArgument> firstArg,
+        unique_ptr<IArgument> secondArg,
         bool isTransitive) :
         relationship(relationship),
         firstArg(std::move(firstArg)),
