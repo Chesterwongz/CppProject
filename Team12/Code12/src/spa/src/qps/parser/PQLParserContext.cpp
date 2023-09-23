@@ -1,4 +1,6 @@
 #include "PQLParserContext.h"
+
+#include <utility>
 #include "qps/common/QPSStringUtils.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
@@ -24,7 +26,7 @@ void PQLParserContext::addToContext(string entity, const string& synonym) {
 	if (!QPSStringUtils::isSynonym(synonym)) {
 		throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_SYNONYM);
 	}
-	this->context->addSynonym(synonym, entity);
+	this->context->addSynonym(synonym, std::move(entity));
 }
 
 void PQLParserContext::addClause(unique_ptr<Clause> clause) {
@@ -43,10 +45,15 @@ void PQLParserContext::handleTokens() {
 }
 
 void PQLParserContext::addSelectSynonym(const string& synonym) {
+    checkValidSynonym(synonym);
+    this->query.setSynonymToQuery(synonym);
+}
+
+bool PQLParserContext::checkValidSynonym(const string &synonym) {
     try {
         auto selectSynonym = context->getTokenEntity(synonym);
     } catch (QPSInvalidQueryException e) {
-        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INVALID_SELECT_SYNONYM);
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_SYNONYM);
     }
-    this->query.setSynonymToQuery(synonym);
+    return true;
 }

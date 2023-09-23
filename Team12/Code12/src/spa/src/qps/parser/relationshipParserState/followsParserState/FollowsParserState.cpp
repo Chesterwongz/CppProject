@@ -63,6 +63,7 @@ void FollowsParserState::handleToken() {
                         ));
                 break;
             case PQL_SYNONYM_TOKEN:
+                parserContext.checkValidSynonym(curr.getValue());
                 arguments.push_back(std::move(ArgumentFactory::createSynonymArgument(curr.getValue())));
                 break;
             case PQL_INTEGER_TOKEN:

@@ -25,5 +25,6 @@ public:
 	void transitionTo(unique_ptr<IParserState> nextState);
     void addClause(unique_ptr<Clause> clause);
     void addSelectSynonym(const string& synonym);
+    bool checkValidSynonym(const string& synonym);
     void handleTokens();
 };

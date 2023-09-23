@@ -38,6 +38,7 @@ void PatternParserState::processNameToken(PQLToken &curr) {
 // feels like should change it up after ms2, not OOP
 void PatternParserState::processSynonymToken(PQLToken& curr) {
     string synType = parserContext.getSynonymType(curr.getValue());
+    parserContext.checkValidSynonym(curr.getValue());
 
     if (prev == PQL_PATTERN_TOKEN) {
         if (synType == ASSIGN_KEYWORD) {

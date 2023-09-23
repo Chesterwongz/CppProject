@@ -42,7 +42,7 @@ void ParentsParserState::handleToken() {
         }
 
         switch (curr.getType()) {
-            case PQL_FOLLOWS_TOKEN:
+            case PQL_PARENT_TOKEN:
             case PQL_COMMA_TOKEN:
                 break;
             case PQL_ASTERISKS_TOKEN:
@@ -50,7 +50,7 @@ void ParentsParserState::handleToken() {
                 break;
             case PQL_OPEN_BRACKET_TOKEN:
                 isInBracket = true;
-                return;
+                break;
             case PQL_CLOSE_BRACKET_TOKEN:
                 isInBracket = false;
                 parserContext.addClause(make_unique<SuchThatClause>(
@@ -61,6 +61,7 @@ void ParentsParserState::handleToken() {
                 ));
                 break;
             case PQL_SYNONYM_TOKEN:
+                parserContext.checkValidSynonym(curr.getValue());
                 arguments.push_back(std::move(ArgumentFactory::createSynonymArgument(curr.getValue())));
                 break;
             case PQL_INTEGER_TOKEN:
