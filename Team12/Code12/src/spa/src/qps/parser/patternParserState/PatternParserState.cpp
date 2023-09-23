@@ -26,7 +26,8 @@ PatternParserState::PatternParserState(PQLParserContext& parserContext) :
         tokenStream(parserContext.getTokenStream()),
         prev(PQL_NULL_TOKEN),
         isInBracket(false),
-        argumentCount(0) {}
+        argumentCount(0),
+        partialMatchWildCardCount(0) {}
 
 void PatternParserState::processNameToken(PQLToken &curr) {
     if (prev == PQL_PATTERN_TOKEN || prev == PQL_OPEN_BRACKET_TOKEN) {
@@ -50,7 +51,7 @@ void PatternParserState::processSynonymToken(PQLToken& curr) {
         }
     } else if (argumentCount == 0) {
         if (synType == VARIABLE_KEYWORD) {
-            patternArg->push_back(std::move(ArgumentFactory::createSynonymArgument(curr.getValue())));
+            patternArg.push_back(std::move(ArgumentFactory::createSynonymArgument(curr.getValue())));
         } else {
             throw QPSInvalidQueryException(QPS_INVALID_QUERY_INVALID_PATTERN_SYNONYM);
         }
@@ -86,9 +87,12 @@ void PatternParserState::handleToken() {
                 break;
             case PQL_CLOSE_BRACKET_TOKEN:
                 isInBracket = false;
+                if (isPartialMatch && partialMatchWildCardCount < 2) {
+                    throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCOMPLETE_PARTIAL_MATCH_PATTERN);
+                }
                 parserContext.addClause(make_unique<PatternClause>(
                         std::move(outerSynonym),
-                        std::move(patternArg),
+                        make_unique<vector<unique_ptr<IArgument>>>(std::move(patternArg)),
                         isPartialMatch
                         ));
                 break;
@@ -97,15 +101,17 @@ void PatternParserState::handleToken() {
                 return;
             case PQL_WILDCARD_TOKEN:
                 if (argumentCount > 0) {
+                    partialMatchWildCardCount++;
                     isPartialMatch = true;
+                } else {
+                    patternArg.push_back(std::move(ArgumentFactory::createWildcardArgument()));
                 }
-                patternArg->push_back(std::move(ArgumentFactory::createWildcardArgument()));
                 break;
             case PQL_LITERAL_REF_TOKEN:
                 if (argumentCount > 0) {
                     matchPattern = curr.getValue();
                 }
-                patternArg->push_back(std::move(ArgumentFactory::createIdentArgument(curr.getValue())));
+                patternArg.push_back(std::move(ArgumentFactory::createIdentArgument(curr.getValue())));
                 break;
             default:
                 throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);

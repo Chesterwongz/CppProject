@@ -16,6 +16,7 @@ const char QPS_INVALID_QUERY_INVALID_ENTITY[] = "Invalid entity: ";
 const char QPS_INVALID_QUERY_INCOMPLETE_QUERY[] = "Incomplete query";
 const char QPS_INVALID_QUERY_INVALID_PATTERN_SYNONYM[] = "Invalid pattern synonym";
 const char QPS_INVALID_QUERY_INVALID_SELECT_SYNONYM[] = "Synonym you are selecting does not exist";
+const char QPS_INVALID_QUERY_INCOMPLETE_PARTIAL_MATCH_PATTERN[] = "Your partial match should end and start with a wildcard";
 
 class QPSInvalidQueryException : public QPSException {
 public:

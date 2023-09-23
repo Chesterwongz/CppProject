@@ -11,6 +11,7 @@
 #include "qps/parser/declarativeParserState/DeclarativeParserState.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
+#include "qps/clause/patternClause/PatternClause.h"
 #include "qps/argument/argumentFactory/ArgumentFactory.h"
 #include "qps/argument/integer/Integer.h"
 #include "qps/argument/wildcard/Wildcard.h"
@@ -183,8 +184,6 @@ TEST_CASE("valid simple parent") {
     REQUIRE(res);
 }
 
-
-
 TEST_CASE("valid simple modifies") {
     vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, "variable"),
                                    PQLToken(PQL_NAME_TOKEN, "v"),
@@ -271,5 +270,104 @@ TEST_CASE("valid simple uses") {
     REQUIRE(res);
 }
 
+TEST_CASE("valid pattern partial match") {
+    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, "assign"),
+                                   PQLToken(PQL_NAME_TOKEN, "newa"),
+                                   PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                   PQLToken(PQL_SELECT_TOKEN, "Select"),
+                                   PQLToken(PQL_NAME_TOKEN, "newa"),
+                                   PQLToken(PQL_NAME_TOKEN, "pattern"),
+                                   PQLToken(PQL_NAME_TOKEN, "newa"),
+                                   PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+                                   PQLToken(PQL_LITERAL_REF_TOKEN, "cenX"),
+                                   PQLToken(PQL_COMMA_TOKEN, ","),
+                                   PQLToken(PQL_WILDCARD_TOKEN, "_"),
+                                   PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
+                                   PQLToken(PQL_WILDCARD_TOKEN, "_"),
+                                   PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+    };
+    PQLTokenStream tokenStream = PQLTokenStream(tokenList);
+
+    PKBStorage storage{};
+    PKBReader pkbReader(storage);
+    Query query(pkbReader);
+    PQLParserContext parserContext(tokenStream, query);
+    unique_ptr<DeclarativeParserState> declarativeParserState = make_unique<DeclarativeParserState>(parserContext);
+    parserContext.transitionTo(move(declarativeParserState));
+    parserContext.handleTokens();
+
+    // expected query object
+    Query expected(pkbReader);
+    unique_ptr<Context> expectedContext = make_unique<Context>();
+    expectedContext->addSynonym("newa", "assign");
+    expected.addContext(move(expectedContext));
+    unique_ptr<SynonymArg> outerSynonym = ArgumentFactory::createSynonymArgument("newa");
+    unique_ptr<Ident> firstArg = ArgumentFactory::createIdentArgument("cenX");
+    unique_ptr<Ident> secondArg = ArgumentFactory::createIdentArgument("x");
+    vector<unique_ptr<IArgument>> patternArg;
+    patternArg.push_back(move(firstArg));
+    patternArg.push_back(move(secondArg));
+    unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(
+            move(outerSynonym),
+            make_unique<vector<unique_ptr<IArgument>>>(move(patternArg)),
+            true
+            );
+    expected.addClause(move(patternClause));
+
+    bool res = query == expected;
+    REQUIRE(res);
+}
 
 
+TEST_CASE("invalid pattern partial match - front only") {
+    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, "assign"),
+                                   PQLToken(PQL_NAME_TOKEN, "newa"),
+                                   PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                   PQLToken(PQL_SELECT_TOKEN, "Select"),
+                                   PQLToken(PQL_NAME_TOKEN, "newa"),
+                                   PQLToken(PQL_NAME_TOKEN, "pattern"),
+                                   PQLToken(PQL_NAME_TOKEN, "newa"),
+                                   PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+                                   PQLToken(PQL_LITERAL_REF_TOKEN, "cenX"),
+                                   PQLToken(PQL_COMMA_TOKEN, ","),
+                                   PQLToken(PQL_WILDCARD_TOKEN, "_"),
+                                   PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
+                                   PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+    };
+    PQLTokenStream tokenStream = PQLTokenStream(tokenList);
+
+    PKBStorage storage{};
+    PKBReader pkbReader(storage);
+    Query query(pkbReader);
+    PQLParserContext parserContext(tokenStream, query);
+    unique_ptr<DeclarativeParserState> declarativeParserState = make_unique<DeclarativeParserState>(parserContext);
+    parserContext.transitionTo(move(declarativeParserState));
+    REQUIRE_THROWS_WITH(parserContext.handleTokens(), QPS_INVALID_QUERY_INCOMPLETE_PARTIAL_MATCH_PATTERN);
+}
+
+
+TEST_CASE("invalid pattern partial match - back only") {
+    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, "assign"),
+                                   PQLToken(PQL_NAME_TOKEN, "newa"),
+                                   PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                   PQLToken(PQL_SELECT_TOKEN, "Select"),
+                                   PQLToken(PQL_NAME_TOKEN, "newa"),
+                                   PQLToken(PQL_NAME_TOKEN, "pattern"),
+                                   PQLToken(PQL_NAME_TOKEN, "newa"),
+                                   PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+                                   PQLToken(PQL_LITERAL_REF_TOKEN, "cenX"),
+                                   PQLToken(PQL_COMMA_TOKEN, ","),
+                                   PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
+                                   PQLToken(PQL_WILDCARD_TOKEN, "_"),
+                                   PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+    };
+    PQLTokenStream tokenStream = PQLTokenStream(tokenList);
+
+    PKBStorage storage{};
+    PKBReader pkbReader(storage);
+    Query query(pkbReader);
+    PQLParserContext parserContext(tokenStream, query);
+    unique_ptr<DeclarativeParserState> declarativeParserState = make_unique<DeclarativeParserState>(parserContext);
+    parserContext.transitionTo(move(declarativeParserState));
+    REQUIRE_THROWS_WITH(parserContext.handleTokens(), QPS_INVALID_QUERY_INCOMPLETE_PARTIAL_MATCH_PATTERN);
+}
