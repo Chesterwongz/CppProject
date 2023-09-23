@@ -12,7 +12,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Synonym, Synonym)_EMPTY") {
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, *mockArgument1,
+            = createMockAbstractionParams(mockReader, USES, *mockArgument1,
                                           *mockArgument2, false);
 
     UsesAbstraction abstraction(*abstractionParams);
@@ -30,7 +30,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Synonym, Synonym)") {
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, *mockArgument1,
+            = createMockAbstractionParams(mockReader, USES, *mockArgument1,
                                           *mockArgument2, false);
 
     UsesAbstraction abstraction(*abstractionParams);
@@ -50,7 +50,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Synonym, Wildcard)") {
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, *mockArgument1,
+            = createMockAbstractionParams(mockReader, USES, *mockArgument1,
                                           *mockArgument2, false);
 
     UsesAbstraction abstraction(*abstractionParams);
@@ -69,7 +69,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Synonym, Ident)") {
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, *mockArgument1,
+            = createMockAbstractionParams(mockReader, USES, *mockArgument1,
                                           *mockArgument2, false);
 
     UsesAbstraction abstraction(*abstractionParams);
@@ -89,7 +89,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Wildcard, Synonym)") {
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, *mockArgument1,
+            = createMockAbstractionParams(mockReader, USES, *mockArgument1,
                                           *mockArgument2, false);
 
     UsesAbstraction abstraction(*abstractionParams);
@@ -108,7 +108,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Wildcard, Wildcard)") {
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, *mockArgument1,
+            = createMockAbstractionParams(mockReader, USES, *mockArgument1,
                                           *mockArgument2, false);
 
     UsesAbstraction abstraction(*abstractionParams);
@@ -125,7 +125,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(WILDCARD, Ident)") {
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, *mockArgument1,
+            = createMockAbstractionParams(mockReader, USES, *mockArgument1,
                                           *mockArgument2, false);
 
     UsesAbstraction abstraction(*abstractionParams);
@@ -141,7 +141,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Wildcard, Wildcard)_EMPTY") 
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, *mockArgument1,
+            = createMockAbstractionParams(mockReader, USES, *mockArgument1,
                                           *mockArgument2, false);
 
     UsesAbstraction abstraction(*abstractionParams);
@@ -158,7 +158,7 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(WILDCARD, Ident)_EMPTY") {
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, *mockArgument1,
+            = createMockAbstractionParams(mockReader, USES, *mockArgument1,
                                           *mockArgument2, false);
 
     UsesAbstraction abstraction(*abstractionParams);

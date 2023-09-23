@@ -7,6 +7,7 @@
 
 unique_ptr<AbstractionParams> createMockAbstractionParams(
         MockPKBReader &mockReader,
+        Abstraction abstraction,
         IArgument &firstArgument,
         IArgument &secondArgument,
         bool isTransitive);

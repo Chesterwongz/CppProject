@@ -12,7 +12,7 @@ TEST_CASE("ParentsAbstraction - getAbstractions - Parents(Synonym, Synonym_EMPTY
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, *mockArgument1,
+            = createMockAbstractionParams(mockReader, PARENTS, *mockArgument1,
                                           *mockArgument2, false);
 
     ParentsAbstraction abstraction(*abstractionParams);
@@ -30,7 +30,7 @@ TEST_CASE("ParentsAbstraction - getAbstractions - Parents(Synonym, Synonym)") {
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, *mockArgument1,
+            = createMockAbstractionParams(mockReader, PARENTS, *mockArgument1,
                                           *mockArgument2, false);
 
     ParentsAbstraction abstraction(*abstractionParams);
@@ -50,7 +50,7 @@ TEST_CASE("ParentsAbstraction - getAbstractions - Parents(Synonym, Wildcard)") {
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, *mockArgument1,
+            = createMockAbstractionParams(mockReader, PARENTS, *mockArgument1,
                                           *mockArgument2, false);
 
     ParentsAbstraction abstraction(*abstractionParams);
@@ -69,7 +69,7 @@ TEST_CASE("ParentsAbstraction - getAbstractions - Parents(Wildcard, Synonym)") {
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, *mockArgument1,
+            = createMockAbstractionParams(mockReader, PARENTS, *mockArgument1,
                                           *mockArgument2, false);
 
     ParentsAbstraction abstraction(*abstractionParams);
@@ -88,7 +88,7 @@ TEST_CASE("ParentsAbstraction - getAbstractions - Parents(Wildcard, Wildcard)") 
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, *mockArgument1,
+            = createMockAbstractionParams(mockReader, PARENTS, *mockArgument1,
                                           *mockArgument2, false);
 
     ParentsAbstraction abstraction(*abstractionParams);
@@ -104,7 +104,7 @@ TEST_CASE("ParentsAbstraction - getAbstractions - Parents(Wildcard, Wildcard)_EM
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, *mockArgument1,
+            = createMockAbstractionParams(mockReader, PARENTS, *mockArgument1,
                                           *mockArgument2, false);
 
     ParentsAbstraction abstraction(*abstractionParams);
@@ -122,7 +122,7 @@ TEST_CASE("ParentsAbstraction - getAbstractions - Parents*(Wildcard, Synonym)") 
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader, *mockArgument1,
+            = createMockAbstractionParams(mockReader, PARENTS, *mockArgument1,
                                           *mockArgument2, true);
 
     ParentsAbstraction abstraction(*abstractionParams);

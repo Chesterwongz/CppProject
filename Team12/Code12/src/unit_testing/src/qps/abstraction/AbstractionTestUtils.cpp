@@ -2,6 +2,7 @@
 
 unique_ptr<AbstractionParams> createMockAbstractionParams(
         MockPKBReader &mockReader,
+        Abstraction abstraction,
         IArgument &firstArgument,
         IArgument &secondArgument,
         bool isTransitive) {
@@ -16,7 +17,7 @@ unique_ptr<AbstractionParams> createMockAbstractionParams(
             = std::make_unique<AbstractionParams>(
                     mockReader,
                     std::move(mockContext),
-                    FOLLOWS,
+                    abstraction,
                     firstArgument,
                     secondArgument,
                     isTransitive);
