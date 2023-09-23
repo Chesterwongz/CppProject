@@ -77,7 +77,7 @@ public:
         statementStorage[statementType].insert(statementNumber);
     }
 
-    void setAssignPattern(std::string& variableName, std::string& expression, int lineNum) override {
+    void setAssignPattern(const std::string& variableName, const std::string& expression, int lineNum) override {
         assignPatternStorage[lineNum] = std::make_pair(variableName, expression);
     }
 

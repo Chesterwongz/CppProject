@@ -5,8 +5,8 @@
 #include "../../intermediateTable/IntermediateTableTestUtils.h"
 
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Synonym") {
-    PKBStorage MOCK_PKB_STORAGE = PKBStorage();
-    MockPKBReader MOCK_PKB = MockPKBReader(MOCK_PKB_STORAGE);
+//    PKBStorage MOCK_PKB_STORAGE = PKBStorage();
+    MockPKBReader MOCK_PKB = MockPKBReader();
     MOCK_PKB.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
     Context MOCK_CONTEXT = Context();
     unique_ptr<IArgument> MOCK_SYNONYM_ARG_1 = getMockSynonymArgument();
