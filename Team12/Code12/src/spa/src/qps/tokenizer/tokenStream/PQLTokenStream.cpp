@@ -1,11 +1,11 @@
 #include "PQLTokenStream.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-PQLTokenStream::PQLTokenStream(unique_ptr<PQLTokenList> tokenList) :
-	tokenList(std::move(tokenList))
+PQLTokenStream::PQLTokenStream(PQLTokenList &tokenList) :
+	tokenList(tokenList)
 {
 	currIndex = 0;
-	tokenListSize = tokenList->size();
+	tokenListSize = tokenList.size();
 }
 
 const bool PQLTokenStream::isTokenStreamEnd() {
@@ -20,7 +20,7 @@ void PQLTokenStream::next() {
 
 PQLToken& PQLTokenStream::peek() {
 	if (!isTokenStreamEnd()) {
-		return tokenList->at(currIndex);
+		return tokenList.at(currIndex);
 	}
     throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_OUT_OF_BOUNDS);
 }
@@ -30,5 +30,5 @@ PQLToken& PQLTokenStream::getCurrentToken() {
         throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_OUT_OF_BOUNDS);
     }
 
-	return tokenList->at(currIndex);
+	return tokenList.at(currIndex);
 }

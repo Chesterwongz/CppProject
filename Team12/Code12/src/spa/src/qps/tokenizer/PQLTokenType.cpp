@@ -15,7 +15,13 @@ unordered_map<string, PQLTokenType> keywordToTokenType = {
         { "Select", PQL_SELECT_TOKEN },
 
         { "such", PQL_SUCH_TOKEN },
-        { "that", PQL_THAT_TOKEN }
+        { "that", PQL_THAT_TOKEN },
+        { "Follows", PQL_FOLLOWS_TOKEN },
+        { "Parent", PQL_PARENT_TOKEN },
+        { "Uses", PQL_USES_TOKEN },
+        { "Modifies", PQL_MODIFIES_TOKEN },
+
+        { "pattern", PQL_PATTERN_TOKEN}
 };
 
 unordered_set<PQLTokenType> delimiterTokens = {

@@ -49,15 +49,16 @@ void SelectParserState::handleToken() {
 		case PQL_SYNONYM_TOKEN:
             std::cout << "Selecting synonym " << curr.getValue() << std::endl;
             parserContext.addClause(make_unique<SelectClause>(curr.getValue()));
-			this->parserContext.transitionTo(make_unique<SuchThatParserState>(parserContext));
-			return;
+            break;
 		case PQL_SELECT_TOKEN:
             break;
         case PQL_SUCH_TOKEN:
             parserContext.transitionTo(make_unique<SuchThatParserState>(parserContext));
+            std::cout << "Transitioning to Such That Parser State" << std::endl;
             return;
         case PQL_PATTERN_TOKEN:
             parserContext.transitionTo(make_unique<PatternParserState>(parserContext));
+            std::cout << "Transitioning to Pattern Parser State" << std::endl;
             return;
 		default:
 			throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);

@@ -13,7 +13,6 @@ private:
 	unique_ptr<Context> context;
 	PQLTokenStream& tokenStream; // token stream belongs to driver
 	unique_ptr<IParserState> currState;
-    ~PQLParserContext() = default;
 	
 public:
 	explicit PQLParserContext(
