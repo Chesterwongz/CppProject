@@ -1,4 +1,5 @@
 #include "PQLParserContext.h"
+#include "qps/common/QPSStringUtils.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
 PQLParserContext::PQLParserContext(
@@ -20,7 +21,7 @@ void PQLParserContext::transitionTo(unique_ptr<IParserState> nextState)
 }
 
 void PQLParserContext::addToContext(string entity, const string& synonym) {
-	if (!PQLParserUtils::isSynonym(synonym)) {
+	if (!QPSStringUtils::isSynonym(synonym)) {
 		throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_SYNONYM);
 	}
 	this->context->addSynonym(synonym, entity);

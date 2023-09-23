@@ -1,6 +1,7 @@
 #include "PQLTokenizer.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/common/PQLParserUtils.h"
+#include "qps/common/QPSStringUtils.h"
 
 PQLTokenizer::PQLTokenizer(const string& query) :
 	tokenList(make_unique<PQLTokenList>()),
@@ -88,7 +89,7 @@ void PQLTokenizer::processName() {
         buffer.push_back(c);
         currPos++;
     }
-    if (!PQLParserUtils::isValidName(buffer)) {
+    if (!QPSStringUtils::isIdent(buffer)) {
         throw QPSInvalidQueryException(QPS_INVALID_QUERY_INAVLID_NAME);
     }
     if (isProcessingLiteral) numberOfTokensInLiteral++;
@@ -105,7 +106,7 @@ void PQLTokenizer::processInt() {
         buffer.push_back(c);
         currPos++;
     }
-    if (!PQLParserUtils::isValidInteger(buffer)) {
+    if (!QPSStringUtils::isInteger(buffer)) {
         throw QPSInvalidQueryException(QPS_INVALID_QUERY_INAVLID_INTEGER);
     }
     if (isProcessingLiteral) numberOfTokensInLiteral++;
