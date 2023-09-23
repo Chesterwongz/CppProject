@@ -1,30 +1,53 @@
 #include "ModifiesAbstraction.h"
 
-QueryResult ModifiesAbstraction::getAbstractions() {
-    QueryResult queryResult = {};
+IntermediateTable ModifiesAbstraction::getAbstractions() {
+    bool isStmtSynonym = firstArg.isSynonym();
+    bool isStmtWildcard = firstArg.isWildcard();
+    bool isVarIdentifier = secondArg.isIdent();
+    bool isVarSynonym = secondArg.isSynonym();
+    bool isVarWildcard = secondArg.isWildcard();
 
-    // bool isStmtSynonym = firstArg->getArgumentType() == SYNONYM_TYPE; // @yq i change this
-    //bool isVarIdentifier = secondArg->getArgumentType() == IDENT_TYPE;
-    bool isStmtSynonym = firstArg->isSynonym();
-    bool isVarIdentifier = secondArg->isIdent();
+    string stmtValue = firstArg.getValue();
+    StmtType stmtType = isStmtSynonym ?
+            EntityToStatementType.at(context.getTokenEntity(stmtValue))
+            : StmtType::STMT;
 
-    // Modifies (StatementSynonym, VariableName)
-    if (isStmtSynonym && isVarIdentifier) {
-        string stmtSynonym = firstArg->getValue();
-        const StmtType stmtType =
-                EntityToStatementType.at(context.getTokenEntity(stmtSynonym));
+    // Modifies (StatementSynonym, VarSynonym)
+    bool isStmtSynonymAndVarSynonym = isStmtSynonym && isVarSynonym;
+    // Modifies (StatementSynonym, _)
+    bool isStmtSynonymAndVarWildcard = isStmtSynonym && isVarWildcard;
+    // Modifies (_, VarSynonym)
+    bool isStmtWildcardAndVarSynonym = isStmtWildcard && isVarSynonym;
+    // Modifies (_, _)
+    bool isStmtWildcardAndVarWildcard = isStmtWildcard && isVarWildcard;
+    if (isStmtSynonymAndVarSynonym
+            || isStmtSynonymAndVarWildcard
+            || isStmtWildcardAndVarSynonym
+            || isStmtWildcardAndVarWildcard) {
+        string varSynonym = secondArg.getValue();
+        vector<pair<string, string>> statementsModifyingVar =
+                pkb.getAllModifiedVariables(stmtType);
 
-        string varIdentifier = secondArg->getValue();
-// todo:
-//        set<string> statementsModifyingVar =
-//                pkb->getStatementsModifying(varIdentifier, stmtType);
-//
-//
-//        queryResult[stmtSynonym] = statementsModifyingVar;
+        return IntermediateTableFactory::buildIntermediateTable(
+                stmtValue,
+                varSynonym,
+                statementsModifyingVar);
+
     }
 
-    // bool isVarSynonym = secondArg->getArgumentType() == SYNONYM_TYPE; //@yq i changed this
-    bool isVarSynonym = secondArg->isSynonym();
+    // Modifies (StatementSynonym, VarIdentifierInSimple)
+    bool isStmtSynonymAndVarIdent = isStmtSynonym && isVarIdentifier;
+    // Modifies (_, VarIdentifierInSimple)
+    bool isStmtWildCardAndVarIdent = isStmtWildcard && isVarIdentifier;
+    if (isStmtSynonymAndVarIdent || isStmtWildCardAndVarIdent) {
+        string varIdentifier = secondArg.getValue();
+        vector<vector<string>> statementsModifyingVar =
+                { pkb.getStatementsModifying(varIdentifier, stmtType) };
+        vector<string> colName = { stmtValue };
+        return IntermediateTableFactory::buildIntermediateTable(
+                colName,
+                statementsModifyingVar);
+    }
 
-    return queryResult;
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
 }

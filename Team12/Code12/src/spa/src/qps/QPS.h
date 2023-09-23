@@ -14,6 +14,6 @@ private:
     PQLTokenizer tokenizer;
 
 public:
-    explicit QPS(PKBReader& pkb, const string& query);
+    explicit QPS(PKBReader &pkb, const string& query);
     std::set<string> processQueryString(string queryString);
 };

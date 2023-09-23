@@ -41,8 +41,8 @@ const Abstraction PARENTS = "Parents";
 const Abstraction USES = "Uses";
 
 const map<Abstraction, AbstractionEnum> AbstractionToEnumMap = {
-        {"FOLLOWS", FOLLOWS_ENUM},
-        {"MODIFIES", MODIFIES_ENUM},
-        {"PARENTS", PARENTS_ENUM},
-        {"USES", USES_ENUM},
+        {FOLLOWS, FOLLOWS_ENUM},
+        {MODIFIES, MODIFIES_ENUM},
+        {PARENTS, PARENTS_ENUM},
+        {USES, USES_ENUM},
 };
