@@ -1,7 +1,7 @@
 ====== 1 - Follows (_,_) (+) ======
 stmt Follows;
 Select Follows such that Follows (_,_)
-1, 2, 3, 4, 5
+1, 2, 3, 4, 5, 6
 1000
 ====== 2 - Follows (stmt,_) (+) ======
 stmt stmt;
@@ -11,9 +11,9 @@ Select stmt such that Follows (stmt ,_)
 ====== 3 - Follows (_,stmt) (+) ======
 stmt Select;
 Select Select such that Follows (_,Select)
-2. 5
+2, 6
 1000
-====== 4 - Follows (stmt1,stmt1) (+) ======
+====== 4 - Follows (stmt1,stmt1) (-) ======
 stmt s, S;
 Select s such that Follows (s,s)
 none
@@ -28,20 +28,20 @@ if Follows;
 Select Follows such that Follows   ( 1,Follows )
 2
 1000
-====== 7 - Follows (stmt, 5) (+) ======
+====== 7 - Follows (stmt, 6) (+) ======
 stmt if;
-Select if such that Follows   ( if,5 )
+Select if such that Follows   ( if,6 )
 2
 1000
-====== 8 - Follows (2, 5) (+) ======
+====== 8 - Follows (2, 6) (+) ======
 procedure p;
-Select p such that Follows   ( 2,5 )
+Select p such that Follows   ( 2,6 )
 Follows
 1000
 ====== 9 - Follows (2, _) (+) ======
 stmt s;
 Select s such that Follows(2,_)
-1, 2, 3, 4, 5
+1, 2, 3, 4, 5, 6
 1000
 ====== 10 - Follows (3, _) (-) ======
 stmt s;
