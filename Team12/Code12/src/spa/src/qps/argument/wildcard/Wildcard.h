@@ -3,18 +3,18 @@
 #include <string>
 
 #include "../IArgument.h"
-
+#include "common/utils/StringUtils.h"
 using std::string;
 
 class Wildcard : public IArgument {
 private:
-	const string argumentType = WILDCARD_TYPE;
-	string wildcardValue;
+	const QPSStringUtils::ArgumentType argumentType = QPSStringUtils::WILDCARD;
+	string wildcardValue = StringUtils::WILDCARD;
 
 public:
-	explicit Wildcard(string argumentValue) : wildcardValue(argumentValue) {};
+	explicit Wildcard() {};
 	string getValue() override;
-	string getArgumentType() override;
+	QPSStringUtils::ArgumentType getArgumentType() override;
 	virtual bool isIdent() override;
 	virtual bool isInteger() override;
 	virtual bool isSynonym() override;

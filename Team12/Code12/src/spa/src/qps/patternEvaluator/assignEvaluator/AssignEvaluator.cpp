@@ -1,17 +1,16 @@
 #include "AssignEvaluator.h"
-#include "../../argument/IArgument.h"
-#include "../../common/QPSStringUtils.h"
+#include "common/utils/StringUtils.h"
 
-QueryResult AssignEvaluator::evaluate() {
+IntermediateTable AssignEvaluator::evaluate() {
 	PatternArgsStream patternArgsStream = std::move(*patternArgsStreamPtr);
 
 	unique_ptr<IArgument> firstArg = std::move(patternArgsStream[0]);
 	unique_ptr<IArgument> secondArg = std::move(patternArgsStream[1]);
 
 	string firstArgValue;
-	
+
 	if (firstArg->isSynonym()) {
-		firstArgValue = QPSStringUtils::WILDCARD;
+		firstArgValue = StringUtils::WILDCARD;
 	}
 	else {
 		firstArgValue = firstArg->getValue();
@@ -19,10 +18,16 @@ QueryResult AssignEvaluator::evaluate() {
 
 	string secondArgRPNValue = QPSStringUtils::convertToRPN(secondArg->getValue());
 
-	vector<string> pkbResult = pkbReader->getExactPattern(firstArgValue, secondArgRPNValue);
+	vector<string> pkbResult;
 
-	//TODO: make intermediate table.
+	if (isPartialMatch) {
+		pkbResult = pkbReader.getPartialAssignPattern(firstArgValue, secondArgRPNValue);
+	}
+	else {
+		pkbResult = pkbReader.getExactAssignPattern(firstArgValue, secondArgRPNValue);
+	}
 
-	// return intermediate table.
-	return map<StmtSynonym, PossibleValues>(); //placeholder
+	vector<string> columnNames({firstArgValue});
+	vector<vector<string>> columns({ pkbResult });
+	return IntermediateTableFactory::buildIntermediateTable(columnNames, columns);
 }

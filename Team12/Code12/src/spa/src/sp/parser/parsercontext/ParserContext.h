@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <unordered_set>
+#include <stack>
 #include <string>
 #include "sp/exceptions/DuplicateProcNameException.h"
 #include "sp/exceptions/UnexpectedTokenException.h"
@@ -11,16 +12,11 @@
 class ParserContext {
 private:
     int lineNum{0};
-    std::unordered_set<std::string> seenVarNames;
-    std::unordered_set<std::string> seenProcNames;
+    std::stack<int> savePositionStack;
     std::unique_ptr<TokenStream> tokenStream;
 
 public:
     explicit ParserContext(const std::string &input);
-
-    bool addVarName(const std::string &newName);
-
-    bool addProcName(const std::string &newName);
 
     [[nodiscard]] int getLineNum() const;
 
@@ -46,4 +42,8 @@ public:
     std::string forceEatExpected(TokenType expectedType, const string &expectedValue);
 
     std::string forceEatExpected(TokenType expectedType);
+
+    void saveContext();
+
+    void loadPrevSavedContext();
 };

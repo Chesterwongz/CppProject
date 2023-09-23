@@ -12,12 +12,12 @@ using std::string;
 
 class QPS {
 private:
-    PKBReader *pkb;
+    PKBReader pkb;
     Tokeniser tokeniser;
     Validator validator;
     QueryBuilder queryBuilder;
 
 public:
-    explicit QPS(PKBReader *pkb);
+    explicit QPS(PKBReader &pkb);
     std::set<string> processQueryString(string queryString);
 };

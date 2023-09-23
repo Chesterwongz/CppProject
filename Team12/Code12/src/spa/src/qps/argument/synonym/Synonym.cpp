@@ -3,11 +3,19 @@
 #include "../IArgument.h"
 #include "Synonym.h"
 
+Synonym::Synonym(string argumentValue) {
+	if (!QPSStringUtils::isSynonym(argumentValue)) {
+		throw std::runtime_error("argumentValue is not a synonym");
+	}
+
+	synonymValue = argumentValue;
+}
+
 string Synonym::getValue() {
 	return synonymValue;
 }
 
-string Synonym::getArgumentType() {
+QPSStringUtils::ArgumentType Synonym::getArgumentType() {
 	return argumentType;
 }
 

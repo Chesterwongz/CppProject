@@ -1,13 +1,20 @@
 #include <string>
 
-#include "../IArgument.h"
 #include "Integer.h"
+
+Integer::Integer(string argumentValue) {
+	if (!QPSStringUtils::isInteger(argumentValue)) {
+		throw std::runtime_error("argumentValue is not an integer");
+	}
+
+	integerValue = argumentValue;
+}
 
 string Integer::getValue() {
 	return integerValue;
 }
 
-string Integer::getArgumentType() {
+QPSStringUtils::ArgumentType Integer::getArgumentType() {
 	return argumentType;
 }
 

@@ -2,9 +2,7 @@
 
 #include <string>
 #include <iostream>
-#include <set>
 #include <map>
-#include <string>
 #include <vector>
 #include <set>
 
@@ -18,8 +16,7 @@
 
 class PKBReader {
 public:
-    // Constructor
-    PKBReader(struct Storage& storage) : storage(storage) {};
+    PKBReader(PKBStorage& storage) : storage(storage) {};
 
     // return the names of all variables in the program
     std::set<std::string> getAllVariables();
@@ -59,8 +56,6 @@ public:
     // return a pair (s1, s2) that satisfy Parent(s1, s2) where s1 is of same type as statementType and s2 is statementNumber
     std::pair<std::string, std::string> getImmediateParentOf(int statementNumber, StmtType statementType);
 
-    std::vector<std::pair<std::string, std::string>> getRelationsHelper(int statementNumber, StmtType statementType, std::set<int>(ParentStorage::* relationFunction)(int));
-
     // return all pairs (s1,s2) that satisfy Parent(s1, s2) and satisfying statement type restriction
     std::vector<std::pair<std::string, std::string>> getParentChildPairs(StmtType parentType, StmtType childType);
 
@@ -91,11 +86,13 @@ public:
     // return all pairs (s, v) that satisfy Uses (s, v) where s is of a particular type
     std::vector<std::pair<std::string, std::string>> getAllUsedVariables(StmtType statementType);
 
-    std::vector<std::string> getExactPattern(std::string variableName, std::string rpn);
+    // return list of statement numbers which match the given pattern exactly
+    std::vector<std::string> getExactAssignPattern(std::string variableName, std::string rpn);
 
-    std::vector<std::string> getPartialPattern(std::string variableName, std::string rpn);
+    // return list of statement numbers which match the given pattern partially
+    std::vector<std::string> getPartialAssignPattern(std::string variableName, std::string rpn);
 
 private:
-    struct Storage& storage;
+    PKBStorage storage;
 };
 

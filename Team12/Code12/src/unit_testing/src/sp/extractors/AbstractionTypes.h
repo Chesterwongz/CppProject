@@ -6,4 +6,6 @@ enum class AbstractionType {
     MODIFIES,
     USES,
     PARENT,
+    PATTERN,
+    CALLS,
 };

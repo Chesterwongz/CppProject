@@ -23,7 +23,7 @@ const IArgument* SuchThatToken::getSecondArgument() {
     return secondArg.get();
 }
 
-const string SuchThatToken::getFirstArgumentType() {
+const QPSStringUtils::ArgumentType SuchThatToken::getFirstArgumentType() {
     return firstArg->getArgumentType();
 }
 
@@ -31,7 +31,7 @@ const string SuchThatToken::getFirstArgumentValue() {
     return firstArg->getValue();
 }
 
-const string SuchThatToken::getSecondArgumentType() {
+const QPSStringUtils::ArgumentType SuchThatToken::getSecondArgumentType() {
     return secondArg->getArgumentType();
 }
 
@@ -40,6 +40,9 @@ const string SuchThatToken::getSecondArgumentValue() {
 }
 
 unique_ptr<Clause> SuchThatToken::buildClause() {
-    return std::make_unique<SuchThatClause>(this->relationship, firstArg, secondArg);
+    // todo: need update isTransitive boolean
+    bool isTransitive = false;
+    // todo: moving ownership of arguments for future integration
+    return std::make_unique<SuchThatClause>(this->relationship, std::move(firstArg), std::move(firstArg), isTransitive);
 }
 

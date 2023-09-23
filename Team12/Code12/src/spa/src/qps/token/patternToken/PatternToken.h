@@ -15,7 +15,7 @@ private:
     PatternArgsStreamPtr patternArgsStreamPtr;
 public:
     explicit PatternToken(string synonym, vector<string> unvalidatedTokens);
-    Synonym getSynonym();
+    SynonymType getSynonym();
     /*Reference getFirstArgument();
     std::string getExpression();*/
     PatternArgsStreamPtr getPatternArgsStreamPtr();

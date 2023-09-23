@@ -17,7 +17,7 @@ typedef vector<unique_ptr<Clause>> ClauseList;
 
 class Query {
 private:
-    PKBReader *pkb;
+    PKBReader pkb;
     Context context = Context();
     ClauseList clauses = {};
     // e.g. `Select a such that ...`
@@ -25,7 +25,7 @@ private:
     string synonymToQuery;
 
 public:
-    explicit Query(PKBReader *pkb);
+    explicit Query(PKBReader &pkb);
     void setSynonymToQuery(SelectToken *token);
     void addSynonym(DeclarativeToken *token);
     void addClause(std::unique_ptr<Clause> &clause);

@@ -11,7 +11,7 @@ PatternToken::PatternToken(string synonym, vector<string> unvalidatedTokens) {
     }
 }
 
-Synonym PatternToken::getSynonym() {
+SynonymType PatternToken::getSynonym() {
     return synonym->getValue();
 }
 
@@ -28,5 +28,6 @@ unique_ptr<vector<unique_ptr<IArgument>>> PatternToken::getPatternArgsStreamPtr(
 }
 
 unique_ptr<Clause> PatternToken::buildClause() {
-    return std::make_unique<PatternClause>(std::move(synonym), std::move(patternArgsStreamPtr));
+    // patterntoken not going to be in use anyway, set isPartialMatch to true just for build
+    return std::make_unique<PatternClause>(std::move(synonym), std::move(patternArgsStreamPtr), true);
 }

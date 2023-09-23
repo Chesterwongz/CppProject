@@ -5,7 +5,7 @@
 
 using std::string, std::map;
 
-typedef string Synonym;
+typedef string SynonymType;
 typedef string Entity;
 
 class Context {
@@ -13,7 +13,7 @@ private:
     map<string, Entity> tokenNameToTokenMap = {};
 
 public:
-    void addToken(Synonym tokenSynonym, Entity tokenEntity);
+    void addToken(SynonymType tokenSynonym, Entity tokenEntity);
 
-    Entity getTokenEntity(Synonym &tokenName);
+    Entity getTokenEntity(SynonymType&tokenName);
 };

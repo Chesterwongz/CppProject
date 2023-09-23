@@ -6,21 +6,22 @@
 #include "qps/clause/Clause.h"
 #include "qps/argument/IArgument.h"
 
-using std::shared_ptr, std::unique_ptr;
+using std::unique_ptr;
 
 class SuchThatClause : public Clause {
 private:
     Abstraction relationship;
-    shared_ptr<IArgument> firstArg;
-    shared_ptr<IArgument> secondArg;
+    unique_ptr<IArgument> firstArg;
+    unique_ptr<IArgument> secondArg;
+    bool isTransitive;
 
 public:
     explicit SuchThatClause(
             Abstraction &relationship,
-            unique_ptr<IArgument> &firstArg,
-            unique_ptr<IArgument> &secondArg);
-    QueryResult evaluate(
+            unique_ptr<IArgument> firstArg,
+            unique_ptr<IArgument> secondArg,
+            bool isTransitive);
+    IntermediateTable evaluate(
             Context context,
-            PKBReader *pkb,
-            string &synonymToQuery) override;
+            PKBReader &pkb) override;
 };

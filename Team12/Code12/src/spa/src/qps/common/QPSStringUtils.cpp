@@ -1,10 +1,6 @@
-#include <stack>
 #include "QPSStringUtils.h"
 
 using std::string;
-
-
-const string QPSStringUtils::WILDCARD = "_";
 
 map<char, int> QPSStringUtils::precedence = {
     {'(', 0}, {')', 0},
@@ -32,7 +28,7 @@ bool QPSStringUtils::isIdent(string data) {
 }
 
 bool QPSStringUtils::isWildcard(string data) {
-    return data == WILDCARD;
+    return data == StringUtils::WILDCARD;
 }
 
 bool QPSStringUtils::isInteger(string data) {

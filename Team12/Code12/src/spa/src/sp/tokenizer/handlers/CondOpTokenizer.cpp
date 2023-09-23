@@ -1,15 +1,15 @@
 #include "CondOpTokenizer.h"
 
-Token CondOpTokenizer::tokenize(char nextCh, std::shared_ptr<InputStream> inputStream) {
+Token CondOpTokenizer::tokenize(char nextCh, InputStream &inputStream) {
     if (!matchesCondOp(nextCh))
         return BaseTokenizer::tokenize(nextCh, inputStream);
 
-    const std::string value = inputStream->peekWhile(matchesCondOp);
+    const std::string value = inputStream.peekWhile(matchesCondOp);
     // Note: ((cond_expr) && !(cond_expr)) is an invalid cond_expr because '&&' and '||' must be followed by a '('.
     if (!isCondOp(value))
         return BaseTokenizer::tokenize(nextCh, inputStream);
 
-    inputStream->readN((int) value.length());
+    inputStream.readN((int) value.length());
 
     return {TokenType::COND_OP, value};
 }

@@ -5,7 +5,7 @@
 
 class UsesAbstraction : public IAbstraction {
 public:
-    UsesAbstraction(AbstractionParams *abstractionParams) :
+    explicit UsesAbstraction(AbstractionParams abstractionParams) :
         IAbstraction(abstractionParams) {};
-    QueryResult getAbstractions() override;
+    IntermediateTable getAbstractions() override;
 };

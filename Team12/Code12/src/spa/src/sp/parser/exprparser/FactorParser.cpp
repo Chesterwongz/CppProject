@@ -8,9 +8,7 @@ std::optional<std::unique_ptr<TNode>> FactorParser::parse() {
     nodeOpt = ConstParser(context).parse();
     if (nodeOpt.has_value()) return nodeOpt;
 
-    context->forceEatExpected(TokenType::DELIM, delim::kOpenBracketString);
-    nodeOpt = requireTNode(TNodeType::TNODE_FACTOR)(ExprParser(context).parse());
-    context->forceEatExpected(TokenType::DELIM, delim::kCloseBracketString);
+    nodeOpt = ExprParser(context).parseWithBrackets();
 
     return nodeOpt;
 }

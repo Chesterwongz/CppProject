@@ -1,9 +1,9 @@
 #include "NameTokenizer.h"
 
-Token NameTokenizer::tokenize(char nextCh, std::shared_ptr<InputStream> inputStream) {
+Token NameTokenizer::tokenize(char nextCh, InputStream &inputStream) {
     if (!StringUtils::isAlpha(nextCh)) { // filter non-alphabets
         return BaseTokenizer::tokenize(nextCh, inputStream);
     }
 
-    return {TokenType::NAME, inputStream->readWhile(StringUtils::isAlphaNumeric)};
+    return {TokenType::NAME, inputStream.readWhile(StringUtils::isAlphaNumeric)};
 }

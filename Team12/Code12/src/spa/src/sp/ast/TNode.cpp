@@ -12,8 +12,18 @@ std::string TNode::getValue() const {
     return value;
 }
 
-TNodeType TNode::getType() {
+TNodeType TNode::getType() const {
     return type;
+}
+
+TNode& TNode::getChildAt(int index) const {
+    assert(index >= 0 && index < children.size());
+    return *children.at(index).get();
+}
+
+string TNode::getChildValueAt(int index) const {
+    assert(index >= 0 && index < children.size());
+    return children.at(index)->getValue();
 }
 
 vector<TNode*> TNode::getChildren() const {
@@ -54,6 +64,6 @@ bool operator!=(const TNode& lhs, const TNode& rhs) {
     return !(lhs == rhs);
 }
 
-void TNode::accept(Extractor *e) const {}
+void TNode::accept(Extractor& e) const {}
 
-void TNode::cleanup(Extractor *e) const {}
+void TNode::cleanup(Extractor& e) const {}

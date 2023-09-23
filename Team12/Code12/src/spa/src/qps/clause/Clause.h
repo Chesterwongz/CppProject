@@ -5,17 +5,14 @@
 #include <unordered_set>
 #include "qps/context/Context.h"
 #include "pkb/facade/PKBReader.h"
+#include "qps/intermediateTable/IntermediateTable.h"
 
-using std::string, std::set, std::map;
-
-typedef string StmtSynonym;
-typedef set<string> PossibleValues;
-typedef map<StmtSynonym, PossibleValues > QueryResult;
+using std::string, std::set, std::map, std::pair, std::vector;
 
 class Clause {
 public:
-    virtual QueryResult evaluate(
+    virtual IntermediateTable evaluate(
             Context context,
-            PKBReader *pkb,
-            string &synonymToQuery) = 0;
+            PKBReader &pkb) = 0;
+    virtual ~Clause() = default;
 };
