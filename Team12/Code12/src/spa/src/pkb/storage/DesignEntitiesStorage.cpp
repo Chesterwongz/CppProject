@@ -42,12 +42,12 @@ std::set<std::string> DesignEntitiesStorage::getAllProcedures() {
 
 // Get procedure starting on a statement
 std::string DesignEntitiesStorage::getProcedureStartingOnStatement(int statementNumber) {
-    std::set<std::string> procedures;
     for (const auto& entry : procedureData) {
         if (entry.second == statementNumber) {
             return entry.first;
         }
     }
+    return "";
 }
 
 // Get the starting statement of a procedure
