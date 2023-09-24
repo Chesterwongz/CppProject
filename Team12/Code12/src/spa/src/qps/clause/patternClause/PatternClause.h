@@ -14,8 +14,6 @@ using std::string, std::unique_ptr, std::vector;
 
 class PatternClause : public Clause {
 private:
-    const string PATTERN_ASSIGN_TYPE = "assign";
-
     unique_ptr<IArgument> synonym;
     PatternArgsStreamPtr patternArgsStreamPtr;
     bool isPartialMatch;

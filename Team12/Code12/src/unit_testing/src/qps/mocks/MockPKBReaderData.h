@@ -17,4 +17,4 @@ inline string MOCK_SYNONYM_VALUE_2 = "y";
 
 inline string MOCK_IDENT_VALUE_1 = "\"x\"";
 
-inline string MOCK_WILDCARD_VALUE = "_";
+inline string MOCK_WILDCARD_VALUE = WILDCARD_KEYWORD;

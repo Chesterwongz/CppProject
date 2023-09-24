@@ -11,7 +11,7 @@ inline string COL_NAME_3 = "column 3";
 inline string COL_NAME_4 = "column 4";
 inline string COL_NAME_5 = "column 5";
 inline string COL_NAME_6 = "column 6";
-inline string COL_NAME_WILDCARD = "_";
+inline string COL_NAME_WILDCARD = WILDCARD_KEYWORD;
 
 inline vector<string> DOUBLE_COL_NAME_VECTOR = {COL_NAME_1, COL_NAME_2};
 inline vector<pair<string, string>> PAIR_DATA = {

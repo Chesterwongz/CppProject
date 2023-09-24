@@ -62,8 +62,5 @@ enum PQLTokenType {
     PQL_PATTERN_TOKEN,
 };
 
-const string ASSIGN_KEYWORD = "assign";
-const string VARIABLE_KEYWORD = "variable";
-
 extern unordered_map<string, PQLTokenType> keywordToTokenType;
 extern unordered_set<PQLTokenType> delimiterTokens;
