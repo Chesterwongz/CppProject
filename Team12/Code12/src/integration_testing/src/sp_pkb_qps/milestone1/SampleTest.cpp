@@ -33,7 +33,7 @@ string sampleSource =
     "    while (i>0) {"         //14
     "      x = z * 3 + 2 * y;"  //15
     "      print q;"            //16
-    "      i = i - 1; }"        //17
+    "      i = i - 1; }"        //1715
     "    x = x + 1;"            //18
     "    z = x + z; }"          //19
     "  else {"
@@ -383,7 +383,7 @@ TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 23") {
     // get all if statements if there exists some if statement that uses a variable
     string query =
         "if if1, if2; variable v;\n"
-        "Select if1 such that Uses(if1, v)";
+        "Select if1 such that Uses(if2, v)";
 
     SourceProcessor sp;
     PKB pkb;
@@ -399,6 +399,81 @@ TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 24") {
     string query =
         "if if1, if2;\n"
         "Select if1 such that Uses(if2, \"g\")";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 25") {
+    // get all statements that use some variable
+    string query =
+        "stmt s; variable v;\n"
+        "Select s such that Uses(s, v)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "21", "22", "23", "24" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 26") {
+    // get all statements that use "y"
+    string query =
+        "stmt s;\n"
+        "Select s such that Uses(s, \"y\")";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "13", "14", "15" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 27") {
+    // get all statements that use some variable
+    string query =
+        "stmt s;\n"
+        "Select s such that Uses(s, _ )";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "21", "22", "23", "24" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 28") {
+    // get all statements if there exists some statement that uses a variable
+    string query =
+        "stmt s1, s2; variable v;\n"
+        "Select s1 such that Uses(s2, v)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 29") {
+    // get all statements if there exists a statement that uses "g"
+    string query =
+        "stmt s1, s2;\n"
+        "Select s1 such that Uses(s2, \"g\")";
 
     SourceProcessor sp;
     PKB pkb;
