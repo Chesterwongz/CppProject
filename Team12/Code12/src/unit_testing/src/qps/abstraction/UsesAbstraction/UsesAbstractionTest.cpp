@@ -11,8 +11,10 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Synonym, Synonym)_EMPTY") {
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
+    Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
+                                          mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
                                           *mockArgument2,
@@ -32,8 +34,10 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Synonym, Synonym)") {
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
+    Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
+                                          mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
                                           *mockArgument2,
@@ -55,8 +59,10 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Synonym, Wildcard)") {
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
+    Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
+                                          mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
                                           *mockArgument2,
@@ -77,8 +83,10 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Synonym, Ident)") {
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
+    Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
+                                          mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
                                           *mockArgument2,
@@ -100,8 +108,10 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Wildcard, Synonym)") {
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
+    Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
+                                          mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
                                           *mockArgument2,
@@ -122,8 +132,10 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Wildcard, Wildcard)") {
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
+    Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
+                                          mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
                                           *mockArgument2,
@@ -142,8 +154,10 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(WILDCARD, Ident)") {
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
+    Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
+                                          mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
                                           *mockArgument2,
@@ -161,8 +175,10 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(Wildcard, Wildcard)_EMPTY") 
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
+    Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
+                                          mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
                                           *mockArgument2,
@@ -181,8 +197,10 @@ TEST_CASE("UsesAbstraction - getAbstractions - Uses(WILDCARD, Ident)_EMPTY") {
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
+    Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
+                                          mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
                                           *mockArgument2,
