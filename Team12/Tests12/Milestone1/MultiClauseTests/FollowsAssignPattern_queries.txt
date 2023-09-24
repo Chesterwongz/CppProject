@@ -98,8 +98,13 @@ stmt s;assign a1, a2;variable v;
 Select a2 such that Follows( s,a1 ) pattern a2(v, _"line5"_)
 5
 1000
-====== 21 - Select a Follows (stmt,assign) pattern a(_, _) (+) ======
+====== 21 - Select assign1 Follows (stmt,assign1) pattern assign2(_, _) (+) ======
 stmt s;assign a1, a2;
 Select a1 such that Follows( s,a1 ) pattern a2(_, _)
 5, 8
+1000
+====== 22 - Select a pattern a(v, _"line5"_) Follows (stmt,a) (+) ======
+stmt s;assign a;variable v;
+Select a pattern a(v, _"line5"_)such that Follows( s,a )
+5
 1000
