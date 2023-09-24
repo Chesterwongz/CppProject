@@ -12,7 +12,7 @@
 
 using std::string, std::unordered_map,std::map, std::unordered_set, std::set, std::vector, std::pair;
         
-string source = 
+string followsStarSource = 
     "procedure FollowsT {"
     "  read line1;"
     "  if (line2 > line2)then {"
@@ -33,7 +33,7 @@ TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 
         "Select Follows such that Follows* (_,_)";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(followsStarSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"1", "2", "3", "4", "5", "6", "7", "8"};
@@ -46,7 +46,7 @@ TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 
         "Select stmt such that Follows *(stmt ,_)";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(followsStarSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"1", "2", "3", "4"};
@@ -59,7 +59,7 @@ TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 
         "Select Select such that Follows*(_,Select)";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(followsStarSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"2", "5", "6", "8"};
@@ -72,7 +72,7 @@ TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 
         "Select s such that Follows *(s,s)";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(followsStarSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {};
@@ -85,7 +85,7 @@ TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 
         "Select s such that Follows *(s,S)";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(followsStarSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"1", "2", "3", "4"};
@@ -98,7 +98,7 @@ TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 
         "Select Follows such that Follows *  ( 1,Follows )";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(followsStarSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"2", "8"};
@@ -111,7 +111,7 @@ TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 
         "Select if such that Follows  * ( if,5 )";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(followsStarSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"4"};
@@ -124,7 +124,7 @@ TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 
         "Select p such that Follows*   ( 3,6 )";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(followsStarSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"FollowsT"};
@@ -137,7 +137,7 @@ TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 
         "Select s such that Follows*(2,_)";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(followsStarSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"1", "2", "3", "4", "5", "6", "7", "8"};
@@ -150,7 +150,7 @@ TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 
         "Select s such that Follows*(5,_ )";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(followsStarSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {};
@@ -163,7 +163,7 @@ TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 
         "Select s such that Follows   *( _,4 )";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(followsStarSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {};
@@ -176,7 +176,7 @@ TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 
         "Select p such that Follows*( _,p)";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(followsStarSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {};
@@ -189,7 +189,7 @@ TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 
         "Select pn such that Follows ( pn,_)";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(followsStarSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"4"};
@@ -202,7 +202,7 @@ TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 
         "Select a such that Follows( s,a )";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(followsStarSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"5", "8"};
