@@ -16,6 +16,10 @@ void ParserContext::saveContext() {
     savePositionStack.push(tokenStream->getCursor());
 }
 
+void ParserContext::removePrevSavedContext() {
+    savePositionStack.pop();
+}
+
 void ParserContext::loadPrevSavedContext() {
     tokenStream->setCursor(savePositionStack.top());
     savePositionStack.pop();

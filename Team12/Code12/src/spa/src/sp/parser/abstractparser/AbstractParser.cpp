@@ -21,5 +21,6 @@ std::optional<std::unique_ptr<TNode>> AbstractParser::parseWithBrackets() {
         context->loadPrevSavedContext();
         return std::nullopt;
     }
+    context->removePrevSavedContext();
     return nodeOpt;
 }

@@ -44,6 +44,6 @@ public:
     std::string forceEatExpected(TokenType expectedType);
 
     void saveContext();
-
+    void removePrevSavedContext();
     void loadPrevSavedContext();
 };
