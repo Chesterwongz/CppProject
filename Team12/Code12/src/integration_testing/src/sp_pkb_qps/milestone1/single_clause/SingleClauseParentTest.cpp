@@ -317,3 +317,16 @@ TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/Parent_queries.txt - 21
     set<string> expected = {"4", "5", "6", "11", "12", "15"};
     REQUIRE(result == expected);
 }
+
+TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/Parent_queries.txt - 22") {
+    string query =
+        "stmt s, S;\n"
+        "Select s such that Parent (s,s)";
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(parentSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = {};
+    REQUIRE(result == expected);
+}

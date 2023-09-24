@@ -10,6 +10,10 @@ IntermediateTable ParentsAbstraction::getAbstractions() {
                               EntityToStatementType.at(context.getTokenEntity(secondArgValue))
                                                   : StmtType::STMT;
 
+    if (firstArgValue != WILDCARD_KEYWORD && (firstArgValue == secondArgValue)) {
+        return IntermediateTableFactory::buildEmptyIntermediateTable();
+    }
+
     if (firstArg.isInteger() || secondArg.isInteger()) {
         return handleIntegerArgs(firstArgValue, firstStmtType, secondArgValue, secondStmtType);
     }
