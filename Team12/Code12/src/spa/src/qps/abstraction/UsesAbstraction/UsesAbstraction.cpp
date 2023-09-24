@@ -57,7 +57,7 @@ IntermediateTable UsesAbstraction::getAbstractions() {
 };
 
 IntermediateTable UsesAbstraction::handleIntegerArgs(string stmtNumber) {
-    if (secondArg.isIdent() && pkb.isVariableUseBy(secondArg.getValue(), stmtNumber)) {
+    if (secondArg.isIdent() && pkb.isVariableUsedBy(secondArg.getValue(), stmtNumber)) {
         return IntermediateTableFactory::buildWildcardIntermediateTable();
     }
     if (secondArg.isSynonym() || secondArg.isWildcard()) {

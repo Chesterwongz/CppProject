@@ -96,7 +96,7 @@ public:
     virtual std::vector<std::pair<std::string, std::string>> getVariablesUsedBy(int statementNumber, StmtType statementType);
 
     // check if Used(s, v) is true where s is statementNumber and v is the variable name
-    virtual bool isVariableUseBy(const std::string& variableName, const std::string statementNumber);
+    virtual bool isVariableUsedBy(const std::string& variableName, const std::string statementNumber);
 
     // return all pairs (s, v) that satisfy Modifies (s, v) where s is of a particular type
     virtual std::vector<std::pair<std::string, std::string>> getAllModifiedVariables(StmtType statementType);

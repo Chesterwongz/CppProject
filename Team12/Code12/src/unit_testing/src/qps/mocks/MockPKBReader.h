@@ -163,7 +163,7 @@ public:
         return mockIsVariableModifiedBy;
     }
 
-    bool isVariableUseBy(const std::string& variableName, const std::string statementNumber) override {
+    bool isVariableUsedBy(const std::string& variableName, const std::string statementNumber) override {
         return mockIsVariableUsedBy;
     }
 };
