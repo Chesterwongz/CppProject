@@ -64,7 +64,6 @@ void PQLTokenizer::flushBuffer(PQLTokenType type) {
         tokenList->push_back(PQLToken(type, buffer));
     } else {
         literalBuffer.append(buffer);
-        literalBuffer += ' ';
     }
     buffer.clear();
 }
