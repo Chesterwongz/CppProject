@@ -12,7 +12,7 @@
 
 using std::string, std::unordered_map,std::map, std::unordered_set, std::set, std::vector, std::pair;
 
-string basicSelectSource =
+string basicSource =
     "procedure procedure {  read read;\n"
     "  print print;\n"
     "  while ((!(while != while))||(while<=while)) {\n"
@@ -32,7 +32,7 @@ TEST_CASE("SP-PKB-QPS integration - 1") {
         "Select read";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"1", "7", "11", "12"};
@@ -45,7 +45,7 @@ TEST_CASE("SP-PKB-QPS integration - 2") {
         "Select read2";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"1", "7", "11", "12"};
@@ -58,7 +58,7 @@ TEST_CASE("SP-PKB-QPS integration - 3") {
         "Select print";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"2", "8"};
@@ -71,7 +71,7 @@ TEST_CASE("SP-PKB-QPS integration - 4") {
         "Select print2";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"2", "8"};
@@ -84,7 +84,7 @@ TEST_CASE("SP-PKB-QPS integration - 5") {
         "Select while";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"3", "9"};
@@ -97,7 +97,7 @@ TEST_CASE("SP-PKB-QPS integration - 6") {
         "Select while2";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"3", "9"};
@@ -110,7 +110,7 @@ TEST_CASE("SP-PKB-QPS integration - 7") {
         "Select if";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"4", "6"};
@@ -123,7 +123,7 @@ TEST_CASE("SP-PKB-QPS integration - 8") {
         "Select if2";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"4", "6"};
@@ -136,7 +136,7 @@ TEST_CASE("SP-PKB-QPS integration - 9") {
         "Select assign";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"5", "10"};
@@ -149,7 +149,7 @@ TEST_CASE("SP-PKB-QPS integration - 10") {
         "Select assign2";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"5", "10"};
@@ -162,7 +162,7 @@ TEST_CASE("SP-PKB-QPS integration - 11") {
         "Select variable";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"read", "read2", "read3", "read4", "print", "print2", "while", "while2", "if", "if2", "assign", "assign2", "variable", "variable2"};
@@ -175,7 +175,7 @@ TEST_CASE("SP-PKB-QPS integration - 12") {
         "Select variable2";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"read", "read2", "read3", "read4", "print", "print2", "while", "while2", "if", "if2", "assign", "assign2", "variable", "variable2"};
@@ -188,7 +188,7 @@ TEST_CASE("SP-PKB-QPS integration - 13") {
         "Select stmt";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
@@ -201,7 +201,7 @@ TEST_CASE("SP-PKB-QPS integration - 14") {
         "Select Select";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
@@ -214,7 +214,7 @@ TEST_CASE("SP-PKB-QPS integration - 15") {
         "Select constant";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"5", "10"};
@@ -227,7 +227,7 @@ TEST_CASE("SP-PKB-QPS integration - 16") {
         "Select pattern";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
 
     auto result = qps.processQueryString(query);
@@ -241,7 +241,7 @@ TEST_CASE("SP-PKB-QPS integration - 17") {
         "Select constant";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(basicSelectSource, pkb.getWriter());
+    sp.processContent(basicSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"procedure"};
