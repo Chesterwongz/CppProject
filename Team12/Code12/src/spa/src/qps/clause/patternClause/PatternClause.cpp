@@ -19,8 +19,7 @@ IntermediateTable PatternClause::evaluate(Context& context,
 		IEvaluatorPtr =  PatternEvaluatorFactory::createAssignEvaluator(context, std::move(patternArgsStreamPtr), pkbReader, isPartialMatch);
 	}
 
-	auto res = IEvaluatorPtr->evaluate();
-    return std::move(res);
+	return IEvaluatorPtr->evaluate();
 }
 
 bool PatternClause::isEquals(const Clause& other) {
