@@ -1,37 +1,169 @@
 <?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
 <test_results>
 <info>
-<name>autotester</name><parsing_time_taken>0.960000</parsing_time_taken>
+<name>autotester</name><parsing_time_taken>4.627000</parsing_time_taken>
 </info>
 <queries>
 <query>
-<id ReturnTuple="1" CondNum="1" RelNum="0" comment="assignment">1</id><querystr><![CDATA[assign s; Select s]]></querystr>
-<stuans>2</stuans>
-<correct></correct>
-<time_taken>0.577000</time_taken>
+<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Select read">0</id><querystr><![CDATA[read read; Select read]]></querystr>
+<stuans>1,11,12,7</stuans>
+<correct>1,7,11,12</correct>
+<time_taken>0.795000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Select read2">0</id><querystr><![CDATA[read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign, assign2 ; variable variable, variable2     ; Select read2]]></querystr>
+<stuans>1,11,12,7</stuans>
+<correct>1,7,11,12</correct>
+<time_taken>1.429000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Select print">0</id><querystr><![CDATA[read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; Select print]]></querystr>
+<stuans>2,8</stuans>
+<correct>2,8</correct>
+<time_taken>1.314000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Select print2">0</id><querystr><![CDATA[read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; Select print2]]></querystr>
+<stuans>2,8</stuans>
+<correct>2,8</correct>
+<time_taken>1.282000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Select while">0</id><querystr><![CDATA[read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; Select while]]></querystr>
+<stuans>3,9</stuans>
+<correct>3,9</correct>
+<time_taken>1.462000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Select while2">0</id><querystr><![CDATA[read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; Select while2]]></querystr>
+<stuans>3,9</stuans>
+<correct>3,9</correct>
+<time_taken>1.493000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Select if">0</id><querystr><![CDATA[read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select; Select if]]></querystr>
+<stuans>4,6</stuans>
+<correct>4,6</correct>
+<time_taken>1.450000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Select if2">0</id><querystr><![CDATA[read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select; Select if2]]></querystr>
+<stuans>4,6</stuans>
+<correct>4,6</correct>
+<time_taken>1.439000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Select assign">0</id><querystr><![CDATA[read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select; Select assign]]></querystr>
+<stuans>10,5</stuans>
+<correct>5,10</correct>
+<time_taken>1.463000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Select assign2">0</id><querystr><![CDATA[read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select; Select assign2]]></querystr>
+<stuans>10,5</stuans>
+<correct>5,10</correct>
+<time_taken>1.432000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Select variable">0</id><querystr><![CDATA[read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select; Select variable]]></querystr>
+<stuans>Something went very wrong</stuans>
+<correct>read,read2,read3,read4,print,print2,while,while2,if,if2,assign,assign2,variable,variable2</correct>
+<time_taken>1.938000</time_taken>
 <failed>
-<missing></missing>
-<additional>2</additional>
+<missing>assign,assign2,if,if2,print,print2,read,read2,read3,read4,variable,variable2,while,while2</missing>
+<additional>Something went very wrong</additional>
 <summary>
-<expected>0</expected>
+<expected>14</expected>
 <matched>0</matched>
-<missing>0</missing>
+<missing>14</missing>
 <additional>1</additional>
 </summary>
 </failed>
 </query>
 <query>
-<id ReturnTuple="1" CondNum="1" RelNum="0" comment="read">2</id><querystr><![CDATA[read s; Select s]]></querystr>
-<stuans>1,3</stuans>
-<correct>1</correct>
-<time_taken>0.382000</time_taken>
+<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Select variable2">0</id><querystr><![CDATA[read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select; Select variable2]]></querystr>
+<stuans>Something went very wrong</stuans>
+<correct>read,read2,read3,read4,print,print2,while,while2,if,if2,assign,assign2,variable,variable2</correct>
+<time_taken>1.565000</time_taken>
 <failed>
-<missing></missing>
-<additional>3</additional>
+<missing>assign,assign2,if,if2,print,print2,read,read2,read3,read4,variable,variable2,while,while2</missing>
+<additional>Something went very wrong</additional>
+<summary>
+<expected>14</expected>
+<matched>0</matched>
+<missing>14</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Select stmt">0</id><querystr><![CDATA[read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select; Select stmt]]></querystr>
+<stuans>1,10,11,12,2,3,4,5,6,7,8,9</stuans>
+<correct>1,2,3,4,5,6,7,8,9,10,11,12</correct>
+<time_taken>1.633000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Select Select">0</id><querystr><![CDATA[read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select; Select Select]]></querystr>
+<stuans>1,10,11,12,2,3,4,5,6,7,8,9</stuans>
+<correct>1,2,3,4,5,6,7,8,9,10,11,12</correct>
+<time_taken>1.600000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Select constant">0</id><querystr><![CDATA[constant constant; constant pattern; read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select; Select constant]]></querystr>
+<stuans>Something went very wrong</stuans>
+<correct>5,10</correct>
+<time_taken>1.788000</time_taken>
+<failed>
+<missing>10,5</missing>
+<additional>Something went very wrong</additional>
+<summary>
+<expected>2</expected>
+<matched>0</matched>
+<missing>2</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" Pattern="1" CondNum="2" RelNum="0" comment="Select constant "pattern"">0</id><querystr><![CDATA[constant constant; constant pattern; read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select; Select pattern]]></querystr>
+<stuans>Something went very wrong</stuans>
+<correct>5,10</correct>
+<time_taken>1.690000</time_taken>
+<failed>
+<missing>10,5</missing>
+<additional>Something went very wrong</additional>
+<summary>
+<expected>2</expected>
+<matched>0</matched>
+<missing>2</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Select procedure "constant"">0</id><querystr><![CDATA[read read,read2;procedure constant;print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select; Select constant]]></querystr>
+<stuans>Something went very wrong</stuans>
+<correct>procedure</correct>
+<time_taken>1.454000</time_taken>
+<failed>
+<missing>procedure</missing>
+<additional>Something went very wrong</additional>
 <summary>
 <expected>1</expected>
-<matched>1</matched>
-<missing>0</missing>
+<matched>0</matched>
+<missing>1</missing>
 <additional>1</additional>
 </summary>
 </failed>
