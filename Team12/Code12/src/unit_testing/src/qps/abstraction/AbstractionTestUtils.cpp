@@ -3,11 +3,11 @@
 
 unique_ptr<AbstractionParams> createMockAbstractionParams(
         MockPKBReader &mockReader,
+        Context &mockContext,
         Abstraction abstraction,
         IArgument &firstArgument,
         IArgument &secondArgument,
         bool isTransitive) {
-    Context mockContext = Context();
     if (!firstArgument.isWildcard()) {
         mockContext.addSynonym(firstArgument.getValue(), STMT_ENTITY);
     }
@@ -17,7 +17,7 @@ unique_ptr<AbstractionParams> createMockAbstractionParams(
     unique_ptr<AbstractionParams> abstractionParams
             = std::make_unique<AbstractionParams>(
                     mockReader,
-                    std::move(mockContext),
+                    mockContext,
                     abstraction,
                     firstArgument,
                     secondArgument,
