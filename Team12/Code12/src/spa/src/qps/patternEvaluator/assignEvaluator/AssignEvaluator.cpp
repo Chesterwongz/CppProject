@@ -30,5 +30,8 @@ IntermediateTable AssignEvaluator::evaluate() {
 		pkbResult = pkbReader.getExactAssignPattern(firstArgValue, secondArgRPNValue, isFirstArgSynonym);
 	}
 
-	return IntermediateTableFactory::buildSingleColTable(firstArgValue, pkbResult);
+	IntermediateTable tmp = IntermediateTableFactory::buildSingleColTable("line", pkbResult);
+	vector<pair<string, string>> lineVariablePairs = pkbReader.getAllModifiedVariables(StmtType::ASSIGN);
+	IntermediateTable tmp2 = IntermediateTableFactory::buildIntermediateTable("line", firstArgValue, lineVariablePairs);
+	return tmp.join(tmp2);
 }
