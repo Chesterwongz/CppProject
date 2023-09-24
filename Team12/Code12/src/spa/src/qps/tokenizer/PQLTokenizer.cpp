@@ -89,7 +89,7 @@ void PQLTokenizer::processName() {
         buffer.push_back(c);
         currPos++;
     }
-    if (!QPSStringUtils::isIdent(buffer)) {
+    if (!QPSStringUtils::isSynonym(buffer)) {
         throw QPSInvalidQueryException(QPS_INVALID_QUERY_INAVLID_NAME);
     }
     if (isProcessingLiteral) numberOfTokensInLiteral++;
