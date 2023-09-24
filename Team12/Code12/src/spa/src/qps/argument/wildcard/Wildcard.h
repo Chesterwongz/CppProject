@@ -4,12 +4,14 @@
 
 #include "qps/argument/IArgument.h"
 #include "common/utils/StringUtils.h"
+#include "qps/common/Keywords.h"
+
 using std::string;
 
 class Wildcard : public IArgument {
 private:
 	const QPSStringUtils::ArgumentType argumentType = QPSStringUtils::WILDCARD;
-	string wildcardValue = StringUtils::WILDCARD;
+	string wildcardValue = WILDCARD_KEYWORD;
 
 public:
 	explicit Wildcard() = default;

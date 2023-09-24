@@ -1,7 +1,6 @@
 #include "catch.hpp"
 #include "../../../../spa/src/pkb/facade/PKBReader.h"
 #include "../../../../spa/src/pkb/facade/PKBWriter.h"
-#include "../../../../spa/src/pkb/facade/PKBStorage.h"
 
 TEST_CASE("PKBReader Tests") {
     PKBStorage storage;

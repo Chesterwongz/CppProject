@@ -1,4 +1,3 @@
-#include <iostream>
 #include "catch.hpp"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 #include "IntermediateTableTestData.h"

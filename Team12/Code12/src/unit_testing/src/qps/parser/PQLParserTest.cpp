@@ -3,7 +3,6 @@
 #include <memory>
 #include <vector>
 
-#include "qps/tokenizer/PQLTokenType.h"
 #include "qps/query/Query.h"
 #include "qps/token/PQLToken.h"
 #include "qps/parser/PQLParserContext.h"
@@ -33,7 +32,7 @@ TEST_CASE("Invalid parser state - declarative") {
 }
 
 TEST_CASE("incomplete query - only declarative clause") {
-    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, "assign"),
+    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
                                    PQLToken(PQL_NAME_TOKEN, "a"),
                                    PQLToken(PQL_SEMICOLON_TOKEN, ";"),
                                    };
@@ -50,10 +49,10 @@ TEST_CASE("incomplete query - only declarative clause") {
 }
 
 TEST_CASE("invalid query - select invalid synonym") {
-    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, "assign"),
+    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
                                    PQLToken(PQL_NAME_TOKEN, "a"),
                                    PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-                                   PQLToken(PQL_SELECT_TOKEN, "Select"),
+                                   PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
                                    PQLToken(PQL_NAME_TOKEN, "a1"),
     };
     PQLTokenStream tokenStream(tokenList);
@@ -68,19 +67,19 @@ TEST_CASE("invalid query - select invalid synonym") {
 }
 
 TEST_CASE("valid simple transitive follows") {
-    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, "assign"),
+    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
                                    PQLToken(PQL_NAME_TOKEN, "a"),
                                    PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-                                   PQLToken(PQL_SELECT_TOKEN, "Select"),
+                                   PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
                                    PQLToken(PQL_NAME_TOKEN, "a"),
-                                   PQLToken(PQL_NAME_TOKEN, "such"),
-                                   PQLToken(PQL_NAME_TOKEN, "that"),
-                                   PQLToken(PQL_NAME_TOKEN, "Follows"),
+                                   PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+                                   PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+                                   PQLToken(PQL_NAME_TOKEN, FOLLOWS_ABSTRACTION),
                                    PQLToken(PQL_ASTERISKS_TOKEN, "*"),
                                    PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
                                    PQLToken(PQL_INTEGER_TOKEN, "5"),
                                    PQLToken(PQL_COMMA_TOKEN, ","),
-                                   PQLToken(PQL_WILDCARD_TOKEN, "_"),
+                                   PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
                                    PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
     };
     PQLTokenStream tokenStream(tokenList);
@@ -96,7 +95,7 @@ TEST_CASE("valid simple transitive follows") {
     // expected query object
     Query expected(pkbReader);
     unique_ptr<Context> expectedContext = make_unique<Context>();
-    expectedContext->addSynonym("a", "assign");
+    expectedContext->addSynonym("a", ASSIGN_ENTITY);
     expected.addContext(std::move(expectedContext));
     unique_ptr<Integer> firstArg = ArgumentFactory::createIntegerArgument("5");
     unique_ptr<Wildcard> secondArg = ArgumentFactory::createWildcardArgument();
@@ -112,18 +111,18 @@ TEST_CASE("valid simple transitive follows") {
 }
 
 TEST_CASE("invalid simple parent - invalid synonym") {
-    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, "variable"),
+    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
                                    PQLToken(PQL_NAME_TOKEN, "v"),
                                    PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-                                   PQLToken(PQL_SELECT_TOKEN, "Select"),
+                                   PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
                                    PQLToken(PQL_NAME_TOKEN, "v"),
-                                   PQLToken(PQL_NAME_TOKEN, "such"),
-                                   PQLToken(PQL_NAME_TOKEN, "that"),
-                                   PQLToken(PQL_NAME_TOKEN, "Parent"),
+                                   PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+                                   PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+                                   PQLToken(PQL_NAME_TOKEN, PARENTS_ABSTRACTION),
                                    PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
                                    PQLToken(PQL_NAME_TOKEN, "a"),
                                    PQLToken(PQL_COMMA_TOKEN, ","),
-                                   PQLToken(PQL_WILDCARD_TOKEN, "_"),
+                                   PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
                                    PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
     };
     PQLTokenStream tokenStream(tokenList);
@@ -138,17 +137,17 @@ TEST_CASE("invalid simple parent - invalid synonym") {
 }
 
 TEST_CASE("valid simple parent") {
-    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, "assign"),
+    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
                                    PQLToken(PQL_NAME_TOKEN, "a"),
                                    PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-                                   PQLToken(PQL_NAME_TOKEN, "while"),
+                                   PQLToken(PQL_NAME_TOKEN, WHILE_ENTITY),
                                    PQLToken(PQL_NAME_TOKEN, "w"),
                                    PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-                                   PQLToken(PQL_SELECT_TOKEN, "Select"),
+                                   PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
                                    PQLToken(PQL_NAME_TOKEN, "a"),
-                                   PQLToken(PQL_NAME_TOKEN, "such"),
-                                   PQLToken(PQL_NAME_TOKEN, "that"),
-                                   PQLToken(PQL_NAME_TOKEN, "Parent"),
+                                   PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+                                   PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+                                   PQLToken(PQL_NAME_TOKEN, PARENTS_ABSTRACTION),
                                    PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
                                    PQLToken(PQL_NAME_TOKEN, "w"),
                                    PQLToken(PQL_COMMA_TOKEN, ","),
@@ -168,8 +167,8 @@ TEST_CASE("valid simple parent") {
     // expected query object
     Query expected(pkbReader);
     unique_ptr<Context> expectedContext = make_unique<Context>();
-    expectedContext->addSynonym("a", "assign");
-    expectedContext->addSynonym("w", "while");
+    expectedContext->addSynonym("a", ASSIGN_ENTITY);
+    expectedContext->addSynonym("w", WHILE_ENTITY);
     expected.addContext(std::move(expectedContext));
     unique_ptr<SynonymArg> firstArg = ArgumentFactory::createSynonymArgument("w");
     unique_ptr<SynonymArg> secondArg = ArgumentFactory::createSynonymArgument("a");
@@ -185,14 +184,14 @@ TEST_CASE("valid simple parent") {
 }
 
 TEST_CASE("valid simple modifies") {
-    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, "variable"),
+    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
                                    PQLToken(PQL_NAME_TOKEN, "v"),
                                    PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-                                   PQLToken(PQL_SELECT_TOKEN, "Select"),
+                                   PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
                                    PQLToken(PQL_NAME_TOKEN, "v"),
-                                   PQLToken(PQL_NAME_TOKEN, "such"),
-                                   PQLToken(PQL_NAME_TOKEN, "that"),
-                                   PQLToken(PQL_NAME_TOKEN, "Modifies"),
+                                   PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+                                   PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+                                   PQLToken(PQL_NAME_TOKEN, MODIFIES_ABSTRACTION),
                                    PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
                                    PQLToken(PQL_INTEGER_TOKEN, "6"),
                                    PQLToken(PQL_COMMA_TOKEN, ","),
@@ -212,7 +211,7 @@ TEST_CASE("valid simple modifies") {
     // expected query object
     Query expected(pkbReader);
     unique_ptr<Context> expectedContext = make_unique<Context>();
-    expectedContext->addSynonym("v", "variable");
+    expectedContext->addSynonym("v", VARIABLE_ENTITY);
     expected.addContext(std::move(expectedContext));
     unique_ptr<Integer> firstArg = ArgumentFactory::createIntegerArgument("6");
     unique_ptr<SynonymArg> secondArg = ArgumentFactory::createSynonymArgument("v");
@@ -228,14 +227,14 @@ TEST_CASE("valid simple modifies") {
 }
 
 TEST_CASE("valid simple uses") {
-    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, "variable"),
+    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
                                    PQLToken(PQL_NAME_TOKEN, "v"),
                                    PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-                                   PQLToken(PQL_SELECT_TOKEN, "Select"),
+                                   PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
                                    PQLToken(PQL_NAME_TOKEN, "v"),
-                                   PQLToken(PQL_NAME_TOKEN, "such"),
-                                   PQLToken(PQL_NAME_TOKEN, "that"),
-                                   PQLToken(PQL_NAME_TOKEN, "Uses"),
+                                   PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+                                   PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+                                   PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
                                    PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
                                    PQLToken(PQL_INTEGER_TOKEN, "14"),
                                    PQLToken(PQL_COMMA_TOKEN, ","),
@@ -255,7 +254,7 @@ TEST_CASE("valid simple uses") {
     // expected query object
     Query expected(pkbReader);
     unique_ptr<Context> expectedContext = make_unique<Context>();
-    expectedContext->addSynonym("v", "variable");
+    expectedContext->addSynonym("v", VARIABLE_ENTITY);
     expected.addContext(std::move(expectedContext));
     unique_ptr<Integer> firstArg = ArgumentFactory::createIntegerArgument("14");
     unique_ptr<SynonymArg> secondArg = ArgumentFactory::createSynonymArgument("v");
@@ -271,19 +270,19 @@ TEST_CASE("valid simple uses") {
 }
 
 TEST_CASE("valid pattern partial match") {
-    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, "assign"),
+    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
                                    PQLToken(PQL_NAME_TOKEN, "newa"),
                                    PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-                                   PQLToken(PQL_SELECT_TOKEN, "Select"),
+                                   PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
                                    PQLToken(PQL_NAME_TOKEN, "newa"),
-                                   PQLToken(PQL_NAME_TOKEN, "pattern"),
+                                   PQLToken(PQL_NAME_TOKEN, PATTERN_KEYWORD),
                                    PQLToken(PQL_NAME_TOKEN, "newa"),
                                    PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
                                    PQLToken(PQL_LITERAL_REF_TOKEN, "cenX"),
                                    PQLToken(PQL_COMMA_TOKEN, ","),
-                                   PQLToken(PQL_WILDCARD_TOKEN, "_"),
+                                   PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
                                    PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
-                                   PQLToken(PQL_WILDCARD_TOKEN, "_"),
+                                   PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
                                    PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
     };
     PQLTokenStream tokenStream(tokenList);
@@ -299,7 +298,7 @@ TEST_CASE("valid pattern partial match") {
     // expected query object
     Query expected(pkbReader);
     unique_ptr<Context> expectedContext = make_unique<Context>();
-    expectedContext->addSynonym("newa", "assign");
+    expectedContext->addSynonym("newa", ASSIGN_ENTITY);
     expected.addContext(std::move(expectedContext));
     unique_ptr<SynonymArg> outerSynonym = ArgumentFactory::createSynonymArgument("newa");
     unique_ptr<Ident> firstArg = ArgumentFactory::createIdentArgument("cenX");
@@ -320,17 +319,17 @@ TEST_CASE("valid pattern partial match") {
 
 
 TEST_CASE("invalid pattern partial match - front only") {
-    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, "assign"),
+    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
                                    PQLToken(PQL_NAME_TOKEN, "newa"),
                                    PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-                                   PQLToken(PQL_SELECT_TOKEN, "Select"),
+                                   PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
                                    PQLToken(PQL_NAME_TOKEN, "newa"),
-                                   PQLToken(PQL_NAME_TOKEN, "pattern"),
+                                   PQLToken(PQL_NAME_TOKEN, PATTERN_KEYWORD),
                                    PQLToken(PQL_NAME_TOKEN, "newa"),
                                    PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
                                    PQLToken(PQL_LITERAL_REF_TOKEN, "cenX"),
                                    PQLToken(PQL_COMMA_TOKEN, ","),
-                                   PQLToken(PQL_WILDCARD_TOKEN, "_"),
+                                   PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
                                    PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
                                    PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
     };
@@ -346,18 +345,18 @@ TEST_CASE("invalid pattern partial match - front only") {
 }
 
 TEST_CASE("invalid pattern partial match - back only") {
-    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, "assign"),
+    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
                                    PQLToken(PQL_NAME_TOKEN, "newa"),
                                    PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-                                   PQLToken(PQL_SELECT_TOKEN, "Select"),
+                                   PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
                                    PQLToken(PQL_NAME_TOKEN, "newa"),
-                                   PQLToken(PQL_NAME_TOKEN, "pattern"),
+                                   PQLToken(PQL_NAME_TOKEN, PATTERN_KEYWORD),
                                    PQLToken(PQL_NAME_TOKEN, "newa"),
                                    PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
                                    PQLToken(PQL_LITERAL_REF_TOKEN, "cenX"),
                                    PQLToken(PQL_COMMA_TOKEN, ","),
                                    PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
-                                   PQLToken(PQL_WILDCARD_TOKEN, "_"),
+                                   PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
                                    PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
     };
     PQLTokenStream tokenStream(tokenList);

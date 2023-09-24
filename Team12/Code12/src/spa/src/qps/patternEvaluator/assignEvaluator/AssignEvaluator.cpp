@@ -1,5 +1,6 @@
 #include "AssignEvaluator.h"
 #include "common/utils/StringUtils.h"
+#include "qps/common/Keywords.h"
 
 IntermediateTable AssignEvaluator::evaluate() {
 	PatternArgsStream patternArgsStream = std::move(*patternArgsStreamPtr);
@@ -10,7 +11,7 @@ IntermediateTable AssignEvaluator::evaluate() {
 	string firstArgValue;
 
 	if (firstArg->isSynonym()) {
-		firstArgValue = StringUtils::WILDCARD;
+		firstArgValue = WILDCARD_KEYWORD;
 	}
 	else {
 		firstArgValue = firstArg->getValue();

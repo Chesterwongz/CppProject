@@ -44,13 +44,13 @@ void PatternParserState::processSynonymToken(PQLToken& curr) {
     parserContext.checkValidSynonym(curr.getValue());
 
     if (prev == PQL_PATTERN_TOKEN) {
-        if (synType == ASSIGN_KEYWORD) {
+        if (synType == ASSIGN_ENTITY) {
             outerSynonym = std::move(ArgumentFactory::createSynonymArgument(curr.getValue()));
         } else {
             throw QPSInvalidQueryException(QPS_INVALID_QUERY_INVALID_PATTERN_SYNONYM);
         }
     } else if (argumentCount == 0) {
-        if (synType == VARIABLE_KEYWORD) {
+        if (synType == VARIABLE_ENTITY) {
             patternArg.push_back(std::move(ArgumentFactory::createSynonymArgument(curr.getValue())));
         } else {
             throw QPSInvalidQueryException(QPS_INVALID_QUERY_INVALID_PATTERN_SYNONYM);

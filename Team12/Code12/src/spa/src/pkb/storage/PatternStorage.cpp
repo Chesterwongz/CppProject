@@ -1,4 +1,5 @@
 #include "PatternStorage.h"
+#include "qps/common/Keywords.h"
 
 PatternStorage::PatternStorage() = default;
 
@@ -31,17 +32,17 @@ std::vector<std::string> PatternStorage::getAllStatementsWithVariable(const std:
 
 std::vector<std::string> PatternStorage::getExactAssignPattern(const std::string& variableName, const std::string& rpn, bool isSynonym) {
     std::vector<std::string> result;
-    if ((variableName == StringUtils::WILDCARD || isSynonym) && rpn == StringUtils::WILDCARD) {
+    if ((variableName == WILDCARD_KEYWORD || isSynonym) && rpn == WILDCARD_KEYWORD) {
         result = getAllStatements();
     }
-    else if (variableName == StringUtils::WILDCARD || isSynonym) {
+    else if (variableName == WILDCARD_KEYWORD || isSynonym) {
         for (const auto& entry : statementPatternStorage) {
             if (entry.second.first == rpn) {
                 result.push_back(std::to_string(entry.first));
             }
         }
     }
-    else if (rpn == StringUtils::WILDCARD) {
+    else if (rpn == WILDCARD_KEYWORD) {
         result = getAllStatementsWithVariable(variableName);
     }
     else {
@@ -57,17 +58,17 @@ std::vector<std::string> PatternStorage::getExactAssignPattern(const std::string
 
 std::vector<std::string> PatternStorage::getPartialAssignPattern(const std::string& variableName, const std::string& rpn, bool isSynonym) {
     std::vector<std::string> result;
-    if ((variableName == StringUtils::WILDCARD || isSynonym) && rpn == StringUtils::WILDCARD) {
+    if ((variableName == WILDCARD_KEYWORD || isSynonym) && rpn == WILDCARD_KEYWORD) {
         result = getAllStatements();
     }
-    else if (variableName == StringUtils::WILDCARD || isSynonym) {
+    else if (variableName == WILDCARD_KEYWORD || isSynonym) {
         for (const auto& entry : statementPatternStorage) {
             if (entry.second.first.find(rpn) != std::string::npos) {
                 result.push_back(std::to_string(entry.first));
             }
         }
     }
-    else if (rpn == StringUtils::WILDCARD) {
+    else if (rpn == WILDCARD_KEYWORD) {
         result = getAllStatementsWithVariable(variableName);
     }
     else {
@@ -80,7 +81,3 @@ std::vector<std::string> PatternStorage::getPartialAssignPattern(const std::stri
 
     return result;
 }
-
-
-
-

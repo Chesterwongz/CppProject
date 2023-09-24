@@ -1,4 +1,5 @@
 #include "PatternClause.h"
+#include "qps/common/Keywords.h"
 
 PatternClause::PatternClause(unique_ptr<IArgument> synonym, PatternArgsStreamPtr patternArgsStreamPtr, bool isPartialMatch) {
 	PatternClause::synonym = std::move(synonym);
@@ -14,7 +15,7 @@ IntermediateTable PatternClause::evaluate(Context& context,
 
 	unique_ptr<IPatternEvaluator> IEvaluatorPtr;
 
-	if (entityType == PATTERN_ASSIGN_TYPE) {
+	if (entityType == ASSIGN_ENTITY) {
 		IEvaluatorPtr =  PatternEvaluatorFactory::createAssignEvaluator(context, std::move(patternArgsStreamPtr), pkbReader, isPartialMatch);
 	}
 
