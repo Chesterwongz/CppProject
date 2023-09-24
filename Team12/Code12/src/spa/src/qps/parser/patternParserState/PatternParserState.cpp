@@ -62,6 +62,7 @@ void PatternParserState::processSynonymToken(PQLToken& curr) {
     }
 }
 
+// TODO: part of refactoring in ms2
 void PatternParserState::processLastArgument() {
     if (patternArg.size() == 1 && partialMatchWildCardCount == 1) { // secondArg = _
         patternArg.push_back(std::move(ArgumentFactory::createWildcardArgument()));
