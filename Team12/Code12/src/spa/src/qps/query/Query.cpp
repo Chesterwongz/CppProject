@@ -2,9 +2,9 @@
 #include "../clause/utils/ClauseConstants.h"
 #include "../intermediateTable/IntermediateTableFactory.h"
 
+
 Query::Query(PKBReader &pkb) : pkb(pkb) {}
 
-using namespace std;
 
 void Query::addContext(unique_ptr<Context> context) {
     this->context = std::move(context);

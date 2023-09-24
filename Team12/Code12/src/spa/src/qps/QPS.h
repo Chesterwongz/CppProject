@@ -15,5 +15,5 @@ private:
 
 public:
     explicit QPS(PKBReader &pkb, const string& query);
-    std::set<string> processQueryString(string queryString);
+//    std::set<string> processQueryString(string queryString);
 };

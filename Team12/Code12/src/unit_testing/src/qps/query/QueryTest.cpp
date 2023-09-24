@@ -10,9 +10,17 @@
 //    mockPkbReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
 //    unique_ptr<IArgument> mockArgument1 = ArgumentFactory::createArgument("x");
 //    unique_ptr<IArgument> mockArgument2 = ArgumentFactory::createArgument("y");
-//    SuchThatClause suchThatClause()
+//    unique_ptr<Context> mockContext = std::make_unique<Context>();
+//    mockContext->addSynonym("x", "assign");
+//    mockContext->addSynonym("y", "assign");
+//    unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
+//            FOLLOWS_ENUM,
+//            std::move(mockArgument1),
+//            std::move(mockArgument2),
+//            false);
 //
 //    Query query(mockPkbReader);
+//    query.addClause(std::move(suchThatClause))
 //
 //}
 //

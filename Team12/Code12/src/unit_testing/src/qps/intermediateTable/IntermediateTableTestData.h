@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "qps/common/Keywords.h"
 
 using std::string, std::pair, std::vector;
 

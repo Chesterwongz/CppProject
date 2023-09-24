@@ -1,4 +1,5 @@
 #include "AbstractionTestUtils.h"
+#include "qps/common/Keywords.h"
 
 unique_ptr<AbstractionParams> createMockAbstractionParams(
         MockPKBReader &mockReader,
@@ -8,10 +9,10 @@ unique_ptr<AbstractionParams> createMockAbstractionParams(
         bool isTransitive) {
     Context mockContext = Context();
     if (!firstArgument.isWildcard()) {
-        mockContext.addSynonym(firstArgument.getValue(), "stmt");
+        mockContext.addSynonym(firstArgument.getValue(), STMT_ENTITY);
     }
     if (!secondArgument.isWildcard()) {
-        mockContext.addSynonym(secondArgument.getValue(), "stmt");
+        mockContext.addSynonym(secondArgument.getValue(), STMT_ENTITY);
     }
     unique_ptr<AbstractionParams> abstractionParams
             = std::make_unique<AbstractionParams>(

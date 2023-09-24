@@ -1,7 +1,7 @@
 #include <string>
-#include "Synonym.h"
+#include "SynonymArg.h"
 
-Synonym::Synonym(string argumentValue) {
+SynonymArg::SynonymArg(string argumentValue) {
 	if (!QPSStringUtils::isSynonym(argumentValue)) {
 		throw std::runtime_error("argumentValue is not a synonym");
 	}
@@ -9,26 +9,26 @@ Synonym::Synonym(string argumentValue) {
 	synonymValue = argumentValue;
 }
 
-string Synonym::getValue() {
+string SynonymArg::getValue() {
 	return synonymValue;
 }
 
-QPSStringUtils::ArgumentType Synonym::getArgumentType() {
+QPSStringUtils::ArgumentType SynonymArg::getArgumentType() {
 	return argumentType;
 }
 
-bool Synonym::isIdent() {
+bool SynonymArg::isIdent() {
 	return false;
 }
 
-bool Synonym::isInteger() {
+bool SynonymArg::isInteger() {
 	return false;
 }
 
-bool Synonym::isSynonym() {
+bool SynonymArg::isSynonym() {
 	return true;
 }
 
-bool Synonym::isWildcard() {
+bool SynonymArg::isWildcard() {
 	return false;
 }

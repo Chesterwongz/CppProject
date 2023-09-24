@@ -1,7 +1,5 @@
 #include "catch.hpp"
 
-#include <iostream>
-
 #include "qps/tokenizer/PQLTokenizer.h"
 #include "qps/tokenizer/PQLTokenType.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"

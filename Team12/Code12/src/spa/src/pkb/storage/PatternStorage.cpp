@@ -1,4 +1,5 @@
 #include "PatternStorage.h"
+#include "qps/common/Keywords.h"
 
 PatternStorage::PatternStorage() = default;
 
@@ -31,17 +32,17 @@ std::vector<std::string> PatternStorage::getAllStatementsWithVariable(const std:
 
 std::vector<std::string> PatternStorage::getExactAssignPattern(std::string variableName, std::string rpn) {
     std::vector<std::string> result;
-    if (variableName == StringUtils::WILDCARD && rpn == StringUtils::WILDCARD) {
+    if (variableName == WILDCARD_KEYWORD && rpn == WILDCARD_KEYWORD) {
         result = getAllStatements();
     }
-    else if (variableName == StringUtils::WILDCARD) {
+    else if (variableName == WILDCARD_KEYWORD) {
         for (const auto& entry : statementPatternStorage) {
             if (entry.second.second == rpn) {
                 result.push_back(std::to_string(entry.first));
             }
         }
     }
-    else if (rpn == StringUtils::WILDCARD) {
+    else if (rpn == WILDCARD_KEYWORD) {
         result = getAllStatementsWithVariable(variableName);
     }
     else {
@@ -57,17 +58,17 @@ std::vector<std::string> PatternStorage::getExactAssignPattern(std::string varia
 
 std::vector<std::string> PatternStorage::getPartialAssignPattern(std::string variableName, std::string rpn) {
     std::vector<std::string> result;
-    if (variableName == StringUtils::WILDCARD && rpn == StringUtils::WILDCARD) {
+    if (variableName == WILDCARD_KEYWORD && rpn == WILDCARD_KEYWORD) {
         result = getAllStatements();
     }
-    else if (variableName == StringUtils::WILDCARD) {
+    else if (variableName == WILDCARD_KEYWORD) {
         for (const auto& entry : statementPatternStorage) {
             if (entry.second.second.find(rpn) != std::string::npos) {
                 result.push_back(std::to_string(entry.first));
             }
         }
     }
-    else if (rpn == StringUtils::WILDCARD) {
+    else if (rpn == WILDCARD_KEYWORD) {
         result = getAllStatementsWithVariable(variableName);
     }
     else {
