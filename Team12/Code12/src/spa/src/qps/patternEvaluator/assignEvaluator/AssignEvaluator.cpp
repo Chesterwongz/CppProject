@@ -32,12 +32,11 @@ IntermediateTable AssignEvaluator::evaluate() {
 
 	IntermediateTable linesSatisfyingPattern
             = IntermediateTableFactory::buildSingleColTable(synonymValue, pkbResult);
-    if ((firstArg->isWildcard() || firstArg->isIdent()) && !linesSatisfyingPattern.isTableEmptyAndNotWildcard()) {
-        return IntermediateTableFactory::buildWildcardIntermediateTable();
-    }
+    string colName = (firstArg->isWildcard() || firstArg->isIdent())
+			? WILDCARD_KEYWORD : firstArgValue;
 	vector<pair<string, string>> lineVariablePairs = pkbReader.getAllModifiedVariables(StmtType::ASSIGN);
 	IntermediateTable lineAndVarsModified
-            = IntermediateTableFactory::buildIntermediateTable(synonymValue, firstArgValue, lineVariablePairs);
+            = IntermediateTableFactory::buildIntermediateTable(synonymValue, colName, lineVariablePairs);
 	IntermediateTable linesSatisfyingPatternAndVarsModified = linesSatisfyingPattern.join(lineAndVarsModified);
     return linesSatisfyingPatternAndVarsModified;
 }
