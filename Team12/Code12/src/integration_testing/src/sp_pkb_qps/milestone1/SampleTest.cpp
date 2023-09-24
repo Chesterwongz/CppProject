@@ -33,7 +33,7 @@ string sampleSource =
     "    while (i>0) {"         //14
     "      x = z * 3 + 2 * y;"  //15
     "      print q;"            //16
-    "      i = i - 1; }"        //1715
+    "      i = i - 1; }"        //17
     "    x = x + 1;"            //18
     "    z = x + z; }"          //19
     "  else {"
@@ -474,6 +474,381 @@ TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 29") {
     string query =
         "stmt s1, s2;\n"
         "Select s1 such that Uses(s2, \"g\")";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 30") {
+    // get all assign statements that modify some variable
+    string query =
+        "assign a; variable v;\n"
+        "Select a such that Modifies(a, v)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "1", "2", "3", "5", "7", "8", "9", "11", "15", "17", "18", "19", "20", "21", "23", "24" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 31") {
+    // get all assign statements that modify "x"
+    string query =
+        "assign a;\n"
+        "Select a such that Modifies(a, \"x\")";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "1", "5", "15", "18", "24" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 32") {
+    // get all assign statements that modify some variable
+    string query =
+        "assign a;\n"
+        "Select a such that Modifies(a, _)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "1", "2", "3", "5", "7", "8", "9", "11", "15", "17", "18", "19", "20", "21", "23", "24" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 33") {
+    // get all assign statements if there exists some assign statement that modifies a variable
+    string query =
+        "assign a1, a2; variable v;\n"
+        "Select a1 such that Modifies(a2, v)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "1", "2", "3", "5", "7", "8", "9", "11", "15", "17", "18", "19", "20", "21", "23", "24" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 34") {
+    // get all assign statements if there exists some assign statement that Modifies "u"
+    string query =
+        "assign a1, a2;\n"
+        "Select a1 such that Modifies(a2, \"u\")";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 35") {
+    // get all read statements that modify some variable
+    string query =
+        "read re; variable v;\n"
+        "Select re such that Modifies(re, v)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "10"};
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 36") {
+    // get all read statements that modify "q"
+    string query =
+        "read re;\n"
+        "Select re such that Modifies(re, \"q\")";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "10" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 37") {
+    // get all read statements that modify some variable
+    string query =
+        "read re;\n"
+        "Select re such that Modifies(re, _)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "10" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 38") {
+    // get all read statements if there exists some read statement that modifies a variable
+    string query =
+        "read re1, re2; variable v;\n"
+        "Select re1 such that Modifies(re2, v)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "10" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 39") {
+    // get all read statements if there exists some read statement that Modifies "u"
+    string query =
+        "read re1, re2;\n"
+        "Select re1 such that Modifies(re2, \"u\")";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 40") {
+    // get all while statements that modify some variable
+    string query =
+        "while w; variable v;\n"
+        "Select w such that Modifies(w, v)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "4", "14"};
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 41") {
+    // get all while statements that modify "r"
+    string query =
+        "while w;\n"
+        "Select w such that Modifies(w, \"r\")";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 42") {
+    // get all while statements that modify some variable
+    string query =
+        "while w;\n"
+        "Select w such that Modifies(w, _)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "4", "14" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 43") {
+    // get all while statements if there exists some while statement that modifies a variable
+    string query =
+        "while w1, w2; variable v;\n"
+        "Select w1 such that Modifies(w2, v)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "4", "14"};
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 44") {
+    // get all while statements if there exists some while statement that Modifies "w"
+    string query =
+        "while w1, w2;\n"
+        "Select w1 such that Modifies(w2, \"w\")";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 45") {
+    // get all if statements that modify some variable
+    string query =
+        "if if; variable v;\n"
+        "Select if such that Modifies(if, v)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "6", "13", "22" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 46") {
+    // get all if statements that modify "y"
+    string query =
+        "if if;\n"
+        "Select if such that Modifies(if, \"y\")";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = {"6"};
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 47") {
+    // get all if statements that modify some variable
+    string query =
+        "if if;\n"
+        "Select if such that Modifies(if, _)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "6", "13", "22" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 48") {
+    // get all if statements if there exists some if statement that modifies a variable
+    string query =
+        "if if1, if2; variable v;\n"
+        "Select if1 such that Modifies(if2, v)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "6", "13", "22" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 49") {
+    // get all if statements if there exists some if statement that Modifies "w"
+    string query =
+        "if if1, if2;\n"
+        "Select if1 such that Modifies(if2, \"w\")";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 50") {
+    // get all statements that modify some variable
+    string query =
+        "stmt s; variable v;\n"
+        "Select s such that Modifies(s, v)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "13", "14", "15", "17", "18", "19", "20", "21", "22", "23", "24" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 51") {
+    // get all statements that modify "z"
+    string query =
+        "stmt s;\n"
+        "Select s such that Modifies(s, \"z\")";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "2", "4", "6", "7", "9", "13", "19", "20", "21", "22", "23" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 52") {
+    // get all statements that modify some variable
+    string query =
+        "stmt s;\n"
+        "Select s such that Modifies(s, _)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "13", "14", "15", "17", "18", "19", "20", "21", "22", "23", "24" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 53") {
+    // get all statements if there exists some statement that modifies a variable
+    string query =
+        "stmt s1, s2; variable v;\n"
+        "Select s1 such that Modifies(s2, v)";
+
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(sampleSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24" };
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 54") {
+    // get all statements there exists some if statement that Modifies "j"
+    string query =
+        "stmt s1, s2;\n"
+        "Select s1 such that Modifies(s2, \"j\")";
 
     SourceProcessor sp;
     PKB pkb;
