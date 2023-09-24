@@ -8,10 +8,10 @@ unique_ptr<AbstractionParams> createMockAbstractionParams(
         IArgument &firstArgument,
         IArgument &secondArgument,
         bool isTransitive) {
-    if (!firstArgument.isWildcard()) {
+    if (firstArgument.isSynonym()) {
         mockContext.addSynonym(firstArgument.getValue(), STMT_ENTITY);
     }
-    if (!secondArgument.isWildcard()) {
+    if (secondArgument.isSynonym()) {
         mockContext.addSynonym(secondArgument.getValue(), STMT_ENTITY);
     }
     unique_ptr<AbstractionParams> abstractionParams

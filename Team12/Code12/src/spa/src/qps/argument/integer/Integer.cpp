@@ -1,10 +1,11 @@
 #include <string>
 
 #include "Integer.h"
+#include "qps/exceptions/QPSInvalidQueryException.h"
 
 Integer::Integer(const string& argumentValue) {
 	if (!QPSStringUtils::isInteger(argumentValue)) {
-		throw std::runtime_error("argumentValue is not an integer");
+		throw QPSInvalidQueryException("argumentValue is not an integer");
 	}
 
 	integerValue = argumentValue;

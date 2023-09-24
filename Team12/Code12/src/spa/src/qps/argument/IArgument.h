@@ -3,6 +3,7 @@
 #include <string>
 
 #include "qps/common/QPSStringUtils.h"
+#include "common/utils/StringUtils.h"
 
 using std::string;
 

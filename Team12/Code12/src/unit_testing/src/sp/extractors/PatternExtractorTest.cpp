@@ -71,8 +71,8 @@ TEST_CASE("PatternExtractor for assign - 2 simple assign patterns") {
     extractAbstraction(*programNode, mockPKB, AbstractionType::PATTERN);
 
     unordered_map<int, pair<string, string>> expected = {};
-    expected[1] = {"x", "z 2 +"};
-    expected[2] = {"y", "x 1 +"};
+    expected[1] = {"x", " z 2 + "};
+    expected[2] = {"y", " x 1 + "};
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
 
@@ -89,8 +89,8 @@ TEST_CASE("PatternExtractor for assign with parser - 2 simple assign patterns") 
     extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
 
     unordered_map<int, pair<string, string>> expected = {};
-    expected[1] = {"x", "z 2 +"};
-    expected[2] = {"y", "x 1 +"};
+    expected[1] = {"x", " z 2 + "};
+    expected[2] = {"y", " x 1 + "};
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
 
@@ -106,8 +106,8 @@ TEST_CASE("PatternExtractor for assign with parser - 2 same assign patterns for 
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
     unordered_map<int, pair<string, string>> expected = {};
-    expected[1] = {"x", "a b c * -"};
-    expected[2] = {"x", "a b c * -"};
+    expected[1] = {"x", " a b c * - "};
+    expected[2] = {"x", " a b c * - "};
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
 
@@ -124,9 +124,9 @@ TEST_CASE("PatternExtractor for assign with parser - 3 diff assign patterns for 
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
     unordered_map<int, pair<string, string>> expected = {};
-    expected[1] = {"x", "a b c * -"};
-    expected[2] = {"x", "a b * c +"};
-    expected[3] = {"x", "a b / c d * -"};
+    expected[1] = {"x", " a b c * - "};
+    expected[2] = {"x", " a b * c + "};
+    expected[3] = {"x", " a b / c d * - "};
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
 
@@ -143,9 +143,9 @@ TEST_CASE("PatternExtractor for assign with parser - diff assign pattern for dif
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
     unordered_map<int, pair<string, string>> expected = {};
-    expected[1] = {"y", "a b + c *"};
-    expected[2] = {"z", "a b c + *"};
-    expected[3] = {"x", "a b + c d - *"};
+    expected[1] = {"y", " a b + c * "};
+    expected[2] = {"z", " a b c + * "};
+    expected[3] = {"x", " a b + c d - * "};
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
 
@@ -167,9 +167,9 @@ TEST_CASE("PatternExtractor for assign with parser - one container node") {
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
     unordered_map<int, pair<string, string>> expected = {};
-    expected[2] = {"z", "a b + c d + * e f / g * -"};
-    expected[4] = {"x", "a b c * + d e / -"};
-    expected[5] = {"y", "a b * c d / +"};
+    expected[2] = {"z", " a b + c d + * e f / g * - "};
+    expected[4] = {"x", " a b c * + d e / - "};
+    expected[5] = {"y", " a b * c d / + "};
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
 
@@ -192,11 +192,11 @@ TEST_CASE("PatternExtractor for assign with parser - nested container node") {
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
     unordered_map<int, pair<string, string>> expected = {};
-    expected[2] = {"y", "a b * c d % + e -"};
-    expected[5] = {"x", "a b c * d % + e -"};
-    expected[6] = {"w", "a b + c %"};
-    expected[7] = {"z", "a b % c + c d % +"};
-    expected[8] = {"num1", "a b c * + d %"};
+    expected[2] = {"y", " a b * c d % + e - "};
+    expected[5] = {"x", " a b c * d % + e - "};
+    expected[6] = {"w", " a b + c % "};
+    expected[7] = {"z", " a b % c + c d % + "};
+    expected[8] = {"num1", " a b c * + d % "};
 }
 
 TEST_CASE("PatternExtractor for assign with parser - assign pattern with all operators") {
@@ -220,16 +220,16 @@ TEST_CASE("PatternExtractor for assign with parser - assign pattern with all ope
     MockPKBWriter mockPKB(storage);
     extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
     unordered_map<int, pair<string, string>> expected = {};
-    expected[7] = {"x", "a b c * + d e / f % -"};
-    expected[8] = {"y", "a b + c d - * e f % /"};
-    expected[9] = {"z", "a b c d * + e f / - * g %"};
-    expected[10] = {"a", "a b c / d * - e f % g * +"};
-    expected[11] = {"b", "a b * c - d e f / + %"};
-    expected[12] = {"c", "a b c + / d * e f % - g +"};
-    expected[13] = {"d", "a b c d % e - * f / +"};
-    expected[14] = {"e", "a b % c * d e f + / -"};
-    expected[15] = {"f", "a b / c d + * e % f -"};
-    expected[16] = {"g", "a b c % + d e f / - *"};
+    expected[7] = {"x", " a b c * + d e / f % - "};
+    expected[8] = {"y", " a b + c d - * e f % / "};
+    expected[9] = {"z", " a b c d * + e f / - * g % "};
+    expected[10] = {"a", " a b c / d * - e f % g * + "};
+    expected[11] = {"b", " a b * c - d e f / + % "};
+    expected[12] = {"c", " a b c + / d * e f % - g + "};
+    expected[13] = {"d", " a b c d % e - * f / + "};
+    expected[14] = {"e", " a b % c * d e f + / - "};
+    expected[15] = {"f", " a b / c d + * e % f - "};
+    expected[16] = {"g", " a b c % + d e f / - * "};
     REQUIRE(mockPKB.isAssignPatternEqual(expected));
 }
 
@@ -513,16 +513,16 @@ TEST_CASE("PatternExtractor with all patterns") {
     unordered_map<int, pair<string, string>> expectedAssignStorage = {};
     unordered_map<int, unordered_set<string>> expectedWhileStorage = {};
     unordered_map<int, unordered_set<string>> expectedIfStorage = {};
-    expectedAssignStorage[7] = {"x", "a b c * + d e / f % -"};
-    expectedAssignStorage[9] = {"y", "a b + c d - * e f % /"};
-    expectedAssignStorage[11] = {"z", "a b c d * + e f / - * g %"};
-    expectedAssignStorage[12] = {"a", "a b c / d * - e f % g * +"};
-    expectedAssignStorage[14] = {"b", "a b * c - d e f / + %"};
-    expectedAssignStorage[15] = {"c", "a b c + / d * e f % - g +"};
-    expectedAssignStorage[18] = {"d", "a b c d % e - * f / +"};
-    expectedAssignStorage[19] = {"e", "a b % c * d e f + / -"};
-    expectedAssignStorage[20] = {"f", "a b / c d + * e % f -"};
-    expectedAssignStorage[21] = {"g", "a b c % + d e f / - *"};
+    expectedAssignStorage[7] = {"x", " a b c * + d e / f % - "};
+    expectedAssignStorage[9] = {"y", " a b + c d - * e f % / "};
+    expectedAssignStorage[11] = {"z", " a b c d * + e f / - * g % "};
+    expectedAssignStorage[12] = {"a", " a b c / d * - e f % g * + "};
+    expectedAssignStorage[14] = {"b", " a b * c - d e f / + % "};
+    expectedAssignStorage[15] = {"c", " a b c + / d * e f % - g + "};
+    expectedAssignStorage[18] = {"d", " a b c d % e - * f / + "};
+    expectedAssignStorage[19] = {"e", " a b % c * d e f + / - "};
+    expectedAssignStorage[20] = {"f", " a b / c d + * e % f - "};
+    expectedAssignStorage[21] = {"g", " a b c % + d e f / - * "};
     expectedWhileStorage[8] = {"a", "b"};
     expectedWhileStorage[13] = {"a", "b", "x", "y"};
     expectedWhileStorage[17] = {"a", "b"};

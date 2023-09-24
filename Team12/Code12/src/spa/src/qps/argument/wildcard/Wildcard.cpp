@@ -1,4 +1,5 @@
 #include "Wildcard.h"
+#include <iostream>
 
 string Wildcard::getValue() {
 	return wildcardValue;
