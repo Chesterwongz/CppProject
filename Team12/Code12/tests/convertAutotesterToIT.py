@@ -12,6 +12,7 @@ def extract_information(txt_content):
     test_cases = []
     for section in sections:
         lines = section.split("\n")
+        lines[1] = lines[1].replace('\"', '\\\"')
         query_lines = lines[:2]
         results = lines[2].split(", ") if lines[2] != "none" else []
         number += 1
