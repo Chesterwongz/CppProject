@@ -3,7 +3,7 @@
 
 SynonymArg::SynonymArg(const string& argumentValue) {
 	if (!QPSStringUtils::isSynonym(argumentValue)) {
-		throw std::runtime_error("argumentValue is not a synonymArg");
+		throw QPSInvalidQueryException("argumentValue is not a synonymArg");
 	}
 
 	synonymValue = argumentValue;

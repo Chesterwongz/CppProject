@@ -2,7 +2,7 @@
 
 Ident::Ident(const string& argumentValue, PQLTokenType tokenType) {
 	if (tokenType != PQL_LITERAL_REF_TOKEN) {
-		throw std::runtime_error("argumentVakye is not PQL_LITERAL_REF_TOKEN");
+		throw QPSInvalidQueryException("argumentValue is not PQL_LITERAL_REF_TOKEN");
 	}
 
 	identValue = argumentValue;
