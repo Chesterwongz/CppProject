@@ -1,0 +1,11 @@
+procedure Follows {
+  read line1;
+  if (line2 > line2)then {
+  while((line3 < line3)&& ( line3 == line3)){
+    print line4;
+  }
+  } else {
+    assign = line5;
+  }
+  assign = line6;
+}

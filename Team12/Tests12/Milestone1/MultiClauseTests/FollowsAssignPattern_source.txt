@@ -1,0 +1,13 @@
+procedure FollowsPattern{
+  read line1;
+  if (line2 > line2)then {
+  while((line3 < line3)&& ( line3 == line3)){
+    print line4;
+    assign5 = line5 + line5;
+  }
+      read line6;
+  } else {
+    assign7 = (line7+line7)/line7*line7-line7%(line7);
+  }
+  assign8 = line8;
+}

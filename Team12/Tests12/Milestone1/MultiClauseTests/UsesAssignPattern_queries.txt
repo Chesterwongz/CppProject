@@ -1,0 +1,4 @@
+1 - Uses (a, v) pattern a (v, _)
+assign a; variable v;
+Select a such that Uses (a, v) pattern a (v, _)
+6, 7, 8, 12, 13
