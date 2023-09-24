@@ -1,12 +1,12 @@
 #include "catch.hpp"
 
-#include "qps/argument/synonym/Synonym.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
 
 string synonymString = "test1234";
 string expectedSynonymValue = "test1234";
 string synonymArgType = "synonym";
 
-Synonym synonym = Synonym(synonymString);
+SynonymArg synonym = SynonymArg(synonymString);
 
 TEST_CASE("test_synonym_getValue") {
 	string actual = synonym.getValue();
