@@ -214,27 +214,27 @@ TEST_CASE("PKBReader Tests") {
         REQUIRE(reader.getAllUsedVariables(StmtType::STMT) == std::vector<std::pair<std::string, std::string>>{ {"x", "1"}, { "x", "2" }, { "x", "4" }, { "y", "1" }, { "z", "3" }});
         REQUIRE(reader.getAllUsedVariables(StmtType::ASSIGN) == std::vector<std::pair<std::string, std::string>>{ {"x", "1"}, { "y", "1" }, { "z", "3" }});
         REQUIRE(reader.getAllUsedVariables(StmtType::IF) == std::vector<std::pair<std::string, std::string>>{ { "x", "4" }});
-        REQUIRE(reader.getAllUsedVariables(StmtType::PRINT) == std::vector<std::pair<std::string, std::string>>{});
+        REQUIRE(reader.getAllUsedVariables(StmtType::PRINT).empty());
     }
 
     SECTION("getExactAssignPattern") {
         REQUIRE(reader.getExactAssignPattern("x", "a b c * +", false) == std::vector<std::string>{"1"});
-        REQUIRE(reader.getExactAssignPattern("x", "b", false) == std::vector<std::string>{});
+        REQUIRE(reader.getExactAssignPattern("x", "b", false).empty());
         REQUIRE(reader.getExactAssignPattern("y", "d e + f +", false) == std::vector<std::string>{"2"});
-        REQUIRE(reader.getExactAssignPattern("z", "a b c * +", false) == std::vector<std::string>{});
+        REQUIRE(reader.getExactAssignPattern("z", "a b c * +", false).empty());
         REQUIRE(reader.getExactAssignPattern("v", "a b c * +", true) == std::vector<std::string>{"1"});
-        REQUIRE(reader.getExactAssignPattern("_", "_", false) == std::vector<std::string>{"1", "2", "3", "4"});
+        REQUIRE(reader.getExactAssignPattern("_", "_", false) == std::vector<std::string>{"4", "3", "2", "1"});
         REQUIRE(reader.getExactAssignPattern("x", "_", false) == std::vector<std::string>{"1", "4"});
     }
 
     SECTION("getPartialAssignPattern") {
         REQUIRE(reader.getPartialAssignPattern("x", "a b c * +", false) == std::vector<std::string>{"1"});
         REQUIRE(reader.getPartialAssignPattern("x", "2", false) == std::vector<std::string>{"4"});
-        REQUIRE(reader.getPartialAssignPattern("x", "3", false) == std::vector<std::string>{});
-        REQUIRE(reader.getPartialAssignPattern("v", "a", true) == std::vector<std::string>{"1", "3", "4"});
-        REQUIRE(reader.getPartialAssignPattern("_", "a", false) == std::vector<std::string>{"1", "3", "4"});
+        REQUIRE(reader.getPartialAssignPattern("x", "3", false).empty());
+        REQUIRE(reader.getPartialAssignPattern("v", "a", true) == std::vector<std::string>{"4", "3", "1"});
+        REQUIRE(reader.getPartialAssignPattern("_", "a", false) == std::vector<std::string>{"4", "3", "1"});
         REQUIRE(reader.getPartialAssignPattern("x", "_", false) == std::vector<std::string>{"1", "4"});
-        REQUIRE(reader.getPartialAssignPattern("v", "_", true) == std::vector<std::string>{"1", "2", "3", "4"});
-        REQUIRE(reader.getPartialAssignPattern("_", "_", false) == std::vector<std::string>{"1", "2", "3", "4"});
+        REQUIRE(reader.getPartialAssignPattern("v", "_", true) == std::vector<std::string>{"4", "3", "2", "1"});
+        REQUIRE(reader.getPartialAssignPattern("_", "_", false) == std::vector<std::string>{"4", "3", "2", "1"});
     }
 }

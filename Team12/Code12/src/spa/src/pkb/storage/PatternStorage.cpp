@@ -2,7 +2,7 @@
 
 PatternStorage::PatternStorage() = default;
 
-void PatternStorage::setAssignPattern(std::string variableName, std::string rpn, int statementNumber) {
+void PatternStorage::setAssignPattern(const std::string& variableName, const std::string& rpn, int statementNumber) {
     variablePatternStorage[variableName].emplace_back(std::make_pair(rpn, statementNumber));
     statementPatternStorage[statementNumber] = std::make_pair(rpn, variableName);
 }
@@ -29,12 +29,12 @@ std::vector<std::string> PatternStorage::getAllStatementsWithVariable(const std:
     return result;
 }
 
-std::vector<std::string> PatternStorage::getExactAssignPattern(std::string variableName, std::string rpn, bool isSynonym) {
+std::vector<std::string> PatternStorage::getExactAssignPattern(const std::string& variableName, const std::string& rpn, bool isSynonym) {
     std::vector<std::string> result;
-    if ((variableName == wildcard || isSynonym) && rpn == wildcard) {
+    if ((variableName == StringUtils::WILDCARD || isSynonym) && rpn == StringUtils::WILDCARD) {
         result = getAllStatements();
     }
-    else if (variableName == wildcard || isSynonym) {
+    else if (variableName == StringUtils::WILDCARD || isSynonym) {
         for (const auto& entry : statementPatternStorage) {
             if (entry.second.first == rpn) {
                 result.push_back(std::to_string(entry.first));
@@ -55,12 +55,12 @@ std::vector<std::string> PatternStorage::getExactAssignPattern(std::string varia
     return result;
 }
 
-std::vector<std::string> PatternStorage::getPartialAssignPattern(std::string variableName, std::string rpn, bool isSynonym) {
+std::vector<std::string> PatternStorage::getPartialAssignPattern(const std::string& variableName, const std::string& rpn, bool isSynonym) {
     std::vector<std::string> result;
-    if ((variableName == wildcard || isSynonym) && rpn == wildcard) {
+    if ((variableName == StringUtils::WILDCARD || isSynonym) && rpn == StringUtils::WILDCARD) {
         result = getAllStatements();
     }
-    else if (variableName == wildcard || isSynonym) {
+    else if (variableName == StringUtils::WILDCARD || isSynonym) {
         for (const auto& entry : statementPatternStorage) {
             if (entry.second.first.find(rpn) != std::string::npos) {
                 result.push_back(std::to_string(entry.first));
