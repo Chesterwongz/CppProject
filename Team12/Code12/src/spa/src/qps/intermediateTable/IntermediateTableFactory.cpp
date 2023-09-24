@@ -82,6 +82,30 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
                              dataWithoutWildcardColumns);
 }
 
+IntermediateTable IntermediateTableFactory::buildSingleColTable(
+        const string &colName,
+        const vector<string> &data) {
+    // if data is empty, return empty table
+    // even if columns are wildcard
+    if (data.empty()) {
+        return IntermediateTable::makeEmptyTable();
+    }
+
+    if (colName == WILDCARD_KEYWORD) {
+        return IntermediateTable::makeWildcardTable();
+    }
+
+    vector<string> columnNames = { colName };
+    vector<vector<string>> dataColumn = {};
+    dataColumn.reserve(data.size());
+    for (int rowIndex = 0; rowIndex < data.size(); rowIndex++) {
+        vector<string> elementToAdd = {data.at(rowIndex)};
+        dataColumn.push_back(elementToAdd);
+    }
+    return IntermediateTable(columnNames,
+                             dataColumn);
+}
+
 IntermediateTable IntermediateTableFactory::buildEmptyIntermediateTable() {
     return IntermediateTable::makeEmptyTable();;
 }

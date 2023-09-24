@@ -13,18 +13,25 @@
 using std::string, std::unordered_map,std::map, std::unordered_set, std::set, std::vector, std::pair;
 
 string usesAssignSource =
-    "procedure procedure {  read read;\n"
-    "  print print;\n"
-    "  while ((!(while != while))||(while<=while)) {\n"
-    "    if ((if == if) && ( ! (if >= if))) then{\n"
-    "        assign = variable + 5;\n"
-    "        if ((if2 < if2) && ( ! (if2 > if2))) then{\n"
-    "                read read2;\n"
-    "                print print2;\n"
-    "                while ((while2 > while2)&&(!(while2<while2))) {\n"
-    "                    assign2 = variable2 + 10;\n"
-    "                }} else {read read3;\n"
-    "             }        }else{read read4;}}}";
+    "procedure computeCentroid {\n"
+    "  count = 0;\n"
+    "  cenX = 0;\n"
+    "  cenY = 0;\n"
+    "  call readPoint;\n"
+    "  while ((x != 0) && ((y != 0)) {\n"
+    "    count = count + 1;\n"
+    "    cenX = cenX + x;\n"
+    "    cenY = cenY + y;\n"
+    "    call readPoint;\n"
+    "  }\n"
+    "  if (count == 0) then {\n"
+    "    flag = 1;\n"
+    "  } else {\n"
+    "    cenX = cenX / count;\n"
+    "    cenY = cenY / count;\n"
+    "  }\n"
+    "  normSq = cenX * cenX + cenY * cenY;\n"
+    "}";
 
 TEST_CASE("SP-PKB-QPS Uses Assign Pattern - 1") {
     string query =
