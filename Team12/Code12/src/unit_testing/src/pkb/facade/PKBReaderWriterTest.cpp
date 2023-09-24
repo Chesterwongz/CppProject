@@ -91,6 +91,12 @@ TEST_CASE("PKBReader Tests") {
         REQUIRE(reader.getFollowed(1, StmtType::STMT) == "-1");
     }
 
+    SECTION("isFollows") {
+        REQUIRE(reader.isFollows(1, 2) == true);
+        REQUIRE(reader.isFollows(1, 4) == false);
+        REQUIRE(reader.isFollows(3, 5) == false);
+    }
+
     SECTION("getFollowsPairs") {
         REQUIRE(reader.getFollowsPairs(StmtType::STMT, StmtType::STMT) == std::vector<std::pair<std::string, std::string>>{ {"1", "2"}, { "3", "4" }, { "4", "5" }});
         REQUIRE(reader.getFollowsPairs(StmtType::ASSIGN, StmtType::STMT) == std::vector<std::pair<std::string, std::string>>{ {"1", "2"}, { "3", "4" }});
@@ -114,6 +120,11 @@ TEST_CASE("PKBReader Tests") {
         REQUIRE(reader.getFollowedStar(4, StmtType::STMT) == std::vector<std::pair<std::string, std::string>>{ {"3", "4"}});
         REQUIRE(reader.getFollowedStar(4, StmtType::PRINT) == std::vector<std::pair<std::string, std::string>>{});
         REQUIRE(reader.getFollowedStar(1, StmtType::STMT) == std::vector<std::pair<std::string, std::string>>{});
+    }
+
+    SECTION("isFollowsStar") {
+        REQUIRE(reader.isFollowsStar(3, 5) == true);
+        REQUIRE(reader.isFollowsStar(1, 4) == false);
     }
 
     SECTION("getFollowsStarPairs") {
@@ -141,6 +152,12 @@ TEST_CASE("PKBReader Tests") {
         REQUIRE(reader.getImmediateParentOf(5, StmtType::STMT) == std::pair<std::string, std::string>{"3", "5"});
     }
 
+    SECTION("isParent") {
+        REQUIRE(reader.isParent(1, 3) == true);
+        REQUIRE(reader.isParent(1, 4) == false);
+        REQUIRE(reader.isParent(3, 4) == true);
+    }
+
     SECTION("getParentChildPairs") {
         REQUIRE(reader.getParentChildPairs(StmtType::STMT, StmtType::STMT) == std::vector<std::pair<std::string, std::string>>{ {"1", "2"}, { "1", "3" }, { "3", "4" }, { "3", "5" }});
         REQUIRE(reader.getParentChildPairs(StmtType::READ, StmtType::STMT) == std::vector<std::pair<std::string, std::string>>{});
@@ -163,6 +180,12 @@ TEST_CASE("PKBReader Tests") {
         REQUIRE(reader.getParentStarOf(4, StmtType::STMT) == std::vector<std::pair<std::string, std::string>>{ {"1", "4"}, { "3", "4" }});
         REQUIRE(reader.getParentStarOf(4, StmtType::ASSIGN) == std::vector<std::pair<std::string, std::string>>{ {"1", "4"}, { "3", "4" }});
         REQUIRE(reader.getParentStarOf(5, StmtType::PRINT) == std::vector<std::pair<std::string, std::string>>{});
+    }
+
+    SECTION("isParentStar") {
+        REQUIRE(reader.isParentStar(1, 3) == true);
+        REQUIRE(reader.isParentStar(1, 5) == true);
+        REQUIRE(reader.isParentStar(2, 3) == false);
     }
 
     SECTION("getParentChildStarPairs") {
@@ -222,7 +245,7 @@ TEST_CASE("PKBReader Tests") {
         REQUIRE(reader.getExactAssignPattern("y", "d e + f +", false) == std::vector<std::string>{"2"});
         REQUIRE(reader.getExactAssignPattern("z", "a b c * +", false).empty());
         REQUIRE(reader.getExactAssignPattern("v", "a b c * +", true) == std::vector<std::string>{"1"});
-        REQUIRE(reader.getExactAssignPattern("_", "_", false) == std::vector<std::string>{"4", "3", "2", "1"});
+        REQUIRE(reader.getExactAssignPattern("_", "_", false) == std::vector<std::string>{"1", "2", "3", "4"});
         REQUIRE(reader.getExactAssignPattern("x", "_", false) == std::vector<std::string>{"1", "4"});
     }
 
@@ -230,10 +253,10 @@ TEST_CASE("PKBReader Tests") {
         REQUIRE(reader.getPartialAssignPattern("x", "a b c * +", false) == std::vector<std::string>{"1"});
         REQUIRE(reader.getPartialAssignPattern("x", "2", false) == std::vector<std::string>{"4"});
         REQUIRE(reader.getPartialAssignPattern("x", "3", false).empty());
-        REQUIRE(reader.getPartialAssignPattern("v", "a", true) == std::vector<std::string>{"4", "3", "1"});
-        REQUIRE(reader.getPartialAssignPattern("_", "a", false) == std::vector<std::string>{"4", "3", "1"});
+        REQUIRE(reader.getPartialAssignPattern("v", "a", true) == std::vector<std::string>{"1", "3", "4"});
+        REQUIRE(reader.getPartialAssignPattern("_", "a", false) == std::vector<std::string>{"1", "3", "4"});
         REQUIRE(reader.getPartialAssignPattern("x", "_", false) == std::vector<std::string>{"1", "4"});
-        REQUIRE(reader.getPartialAssignPattern("v", "_", true) == std::vector<std::string>{"4", "3", "2", "1"});
-        REQUIRE(reader.getPartialAssignPattern("_", "_", false) == std::vector<std::string>{"4", "3", "2", "1"});
+        REQUIRE(reader.getPartialAssignPattern("v", "_", true) == std::vector<std::string>{"1", "2", "3", "4"});
+        REQUIRE(reader.getPartialAssignPattern("_", "_", false) == std::vector<std::string>{"1", "2", "3", "4"});
     }
 }

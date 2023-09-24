@@ -38,6 +38,9 @@ public:
     // return s1 that satisfies Follows(s1, s2) and is of same type as statementType
     virtual std::string getFollowed(int statementNumber, StmtType statementType);
 
+    // return true if Follows(statementNumber, followingStatement) holds and false otherwise
+    bool PKBReader::isFollows(int statementNumber, int followingStatement);
+
     // return all pairs (s1,s2) that satisfy Follows(s1, s2) and satisfying statement type restriction
     virtual std::vector<std::pair<std::string, std::string>> getFollowsPairs(StmtType statementType1, StmtType statementType2);
 
@@ -46,6 +49,9 @@ public:
 
     // return all pairs (s1, s2) that satisfy Follows*(s1, s2) where s1 is of same type as statementType and s2 is statementNumber 
     virtual std::vector<std::pair<std::string, std::string>> getFollowedStar(int statementNumber, StmtType statementType);
+
+    // return true if Follows*(statementNumber, followingStatement) holds and false otherwise
+    bool PKBReader::isFollowsStar(int statementNumber, int followingStatement);
 
     // return all pairs (s1,s2) that satisfy Follows*(s1, s2) and satisfying statement type restriction
     virtual std::vector<std::pair<std::string, std::string>> getFollowsStarPairs(StmtType statementType1, StmtType statementType2);
@@ -56,6 +62,9 @@ public:
     // return a pair (s1, s2) that satisfy Parent(s1, s2) where s1 is of same type as statementType and s2 is statementNumber
     virtual std::pair<std::string, std::string> getImmediateParentOf(int statementNumber, StmtType statementType);
 
+    // return true if Parent(statementNumber, followingStatement) holds and false otherwise
+    bool PKBReader::isParent(int statementNumber, int childStatement);
+
     // return all pairs (s1,s2) that satisfy Parent(s1, s2) and satisfying statement type restriction
     virtual std::vector<std::pair<std::string, std::string>> getParentChildPairs(StmtType parentType, StmtType childType);
 
@@ -64,6 +73,9 @@ public:
 
     // return all pairs (s1, s2) that satisfy Parent*(s1, s2) where s1 is of same type as statementType and s2 is statementNumber
     virtual std::vector<std::pair<std::string, std::string>> getParentStarOf(int statementNumber, StmtType statementType);
+
+    // return true if Parent*(statementNumber, followingStatement) holds and false otherwise
+    bool isParentStar(int statementNumber, int childStatement);
 
     // return all pairs (s1,s2) that satisfy Parent*(s1, s2) and satisfying statement type restriction
     virtual std::vector<std::pair<std::string, std::string>> getParentChildStarPairs(StmtType parentType, StmtType childType);
