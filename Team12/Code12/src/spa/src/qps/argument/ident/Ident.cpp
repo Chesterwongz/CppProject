@@ -1,13 +1,10 @@
 #include "Ident.h"
 
-Ident::Ident(const string& argumentValue) {
-	// TODO: check its ident and remove '\"'
-	//if (!QPSStringUtils::isIdent(argumentValue)) {
-	//	throw std::runtime_error("argumentValue is not an ident");
-	//}
+Ident::Ident(const string& argumentValue, PQLTokenType tokenType) {
+	if (tokenType != PQL_LITERAL_REF_TOKEN) {
+		throw std::runtime_error("argumentVakye is not PQL_LITERAL_REF_TOKEN");
+	}
 
-	//// remove '\"' from value
-	//argumentValue.erase(std::remove(argumentValue.begin(), argumentValue.end(), '\"'), argumentValue.end());
 	identValue = argumentValue;
 }
 

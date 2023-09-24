@@ -2,11 +2,11 @@
 
 #include "qps/argument/ident/Ident.h"
 
-string identString = "\"test\"";
+string identString = "test";
 string expectedIdentValue = "test";
 string identArgType = "ident";
 
-Ident ident = Ident(identString);
+Ident ident = Ident(identString, PQL_LITERAL_REF_TOKEN);
 
 TEST_CASE("test_ident_getValue") {
 	// TODO: update ident constructor
@@ -47,13 +47,13 @@ TEST_CASE("test_ident_isWildcard_false") {
 }
 
 TEST_CASE("test_ident_operator==_true") {
-	Ident similarIdent = Ident(identString);
+	Ident similarIdent = Ident(identString, PQL_LITERAL_REF_TOKEN);
 
 	REQUIRE(ident == similarIdent);
 }
 
 TEST_CASE("test_ident_operator==_false") {
-	Ident diffIdent = Ident("randomstring");
+	Ident diffIdent = Ident("randomstring", PQL_LITERAL_REF_TOKEN);
 
 	REQUIRE(!(ident == diffIdent));
 }

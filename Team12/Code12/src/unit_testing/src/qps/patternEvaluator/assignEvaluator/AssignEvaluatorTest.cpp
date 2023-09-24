@@ -11,10 +11,10 @@ TEST_CASE("test_AssignEvaluator_evaluate") {
 	mockPKBReader.setMockExactAssignPatternStmts(mockExactAssignPatternStmts);
 	
 	SynonymArg synonym = SynonymArg("test");
-	Ident ident = Ident("x");
+	Ident ident = Ident("x", PQL_LITERAL_REF_TOKEN);
 
 	unique_ptr<SynonymArg> synonymPtr = make_unique<SynonymArg>(synonym.getValue());
-	unique_ptr<Ident> identPtr = make_unique<Ident>(ident.getValue());
+	unique_ptr<Ident> identPtr = make_unique<Ident>(ident.getValue(), PQL_LITERAL_REF_TOKEN);
 
 	PatternArgsStream patternArgsStreamTest;
 	patternArgsStreamTest.push_back(std::move(synonymPtr));

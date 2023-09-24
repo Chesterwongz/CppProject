@@ -52,3 +52,35 @@ TEST_CASE("test_createArgument_invalidString_returnsNullPtr") {
 
 	REQUIRE(arg == nullptr);
 }
+
+TEST_CASE("test_createWildcardArgument") {
+	unique_ptr<IArgument> arg = ArgumentFactory::createWildcardArgument();
+
+	REQUIRE(arg->isIdent() == false);
+	REQUIRE(arg->isInteger() == false);
+	REQUIRE(arg->isSynonym() == false);
+	REQUIRE(arg->isWildcard());
+	REQUIRE(arg->getValue() == "_");
+}
+
+TEST_CASE("test_createSynonymArgument") {
+	unique_ptr<IArgument> arg = ArgumentFactory::createSynonymArgument(testSynonym);
+
+	REQUIRE(arg->isIdent() == false);
+	REQUIRE(arg->isInteger() == false);
+	REQUIRE(arg->isSynonym());
+	REQUIRE(arg->isWildcard() == false);
+}
+
+TEST_CASE("test_createIdentArgument_PQL_LITERAL_REF_TOKEN_valid") {
+	unique_ptr<IArgument> arg = ArgumentFactory::createIdentArgument(testIdent, PQL_LITERAL_REF_TOKEN);
+
+	REQUIRE(arg->isIdent());
+	REQUIRE(arg->isInteger() == false);
+	REQUIRE(arg->isSynonym() == false);
+	REQUIRE(arg->isWildcard() == false);
+}
+
+TEST_CASE("test_createIdentArgument_notPQL_LITERAL_REF_TOKEN_invalid") {
+	REQUIRE_THROWS_AS(ArgumentFactory::createIdentArgument(testIdent, PQL_FOLLOWS_TOKEN), std::runtime_error);
+}
