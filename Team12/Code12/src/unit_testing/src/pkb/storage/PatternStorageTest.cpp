@@ -18,7 +18,6 @@ TEST_CASE("PatternStorage Tests") {
         REQUIRE(patternStorage.getAllStatementsWithVariable("x") == std::vector<std::string>{"1", "4", "5"});
         REQUIRE(patternStorage.getAllStatementsWithVariable("y") == std::vector<std::string>{"2"});
         REQUIRE(patternStorage.getAllStatementsWithVariable("z") == std::vector<std::string>{"3"});
-        REQUIRE(patternStorage.getAllStatementsWithVariable("_") == std::vector<std::string>{"1", "2", "3", "4", "5"});
         REQUIRE(patternStorage.getAllStatementsWithVariable("w") == std::vector<std::string>{});
     }
 

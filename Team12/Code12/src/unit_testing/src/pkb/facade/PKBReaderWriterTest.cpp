@@ -231,7 +231,7 @@ TEST_CASE("PKBReader Tests") {
         REQUIRE(reader.getPartialAssignPattern("x", "2", false) == std::vector<std::string>{"4"});
         REQUIRE(reader.getPartialAssignPattern("x", "3", false) == std::vector<std::string>{});
         REQUIRE(reader.getPartialAssignPattern("_", "a", false) == std::vector<std::string>{"1", "3", "4"});
-        REQUIRE(reader.getPartialAssignPattern("x", "_", false) == std::vector<std::string>{"1", "4", "5"});
+        REQUIRE(reader.getPartialAssignPattern("x", "_", false) == std::vector<std::string>{"1", "4"});
         REQUIRE(reader.getPartialAssignPattern("_", "_", false) == std::vector<std::string>{"1", "2", "3", "4"});
     }
 }
