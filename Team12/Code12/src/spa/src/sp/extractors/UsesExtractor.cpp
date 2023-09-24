@@ -7,19 +7,23 @@ void UsesExtractor::visitProcedure(const ProcNode& node) {
 }
 
 void UsesExtractor::visitAssign(const AssignNode& node) {
-    stmtStates.push_back({node.getLineNum(), {}, true});
+    stmtStates.push_back({TNodeType::TNODE_ASSIGN, node.getLineNum(), true});
 }
 
 void UsesExtractor::visitIf(const IfNode& node) {
-    stmtStates.push_back({node.getLineNum()});
+    stmtStates.push_back({TNodeType::TNODE_IF, node.getLineNum()});
 }
 
 void UsesExtractor::visitWhile(const WhileNode& node) {
-    stmtStates.push_back({node.getLineNum()});
+    stmtStates.push_back({TNodeType::TNODE_WHILE, node.getLineNum()});
 }
 
 void UsesExtractor::visitPrint(const PrintNode& node) {
-    stmtStates.push_back({node.getLineNum()});
+    stmtStates.push_back({TNodeType::TNODE_PRINT, node.getLineNum()});
+}
+
+void UsesExtractor::visitRead(const ReadNode& node) {
+    stmtStates.push_back({TNodeType::TNODE_READ, node.getLineNum(), true});
 }
 
 void UsesExtractor::visitVariable(const VarNode& node) {
@@ -28,9 +32,12 @@ void UsesExtractor::visitVariable(const VarNode& node) {
         return;
     }
     UsesStmtState& currState = stmtStates.back();
-    if (currState.isAnticipateAssignLhs) {
-        // LHS of assign statement, do not add to uses
-        currState.isAnticipateAssignLhs = false;
+    if (currState.shouldIgnoreVar) {
+        if (currState.nodeType == TNodeType::TNODE_ASSIGN) {
+            // LHS of assign statement, do not add to uses
+            currState.shouldIgnoreVar = false;
+        }
+        // ignore this variable
         return;
     }
     currState.varsUsed.insert(node.getValue());
@@ -64,6 +71,10 @@ void UsesExtractor::postVisitWhile(const WhileNode& node) {
 
 void UsesExtractor::postVisitPrint(const PrintNode& node) {
     postVisit();
+}
+
+void UsesExtractor::postVisitRead(const ReadNode &node) {
+    stmtStates.pop_back();
 }
 
 void UsesExtractor::addUses(int lineNum, const std::string &var) {

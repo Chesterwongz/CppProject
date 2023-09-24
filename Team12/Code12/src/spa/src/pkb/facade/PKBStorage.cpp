@@ -63,7 +63,7 @@ StmtType PKBStorage::getStatementTypeFromStatementNumber(int statementNumber) {
 }
 
 bool PKBStorage::isStatementType(int statementNumber, StmtType statementType) {
-    return statementType == StmtType::STMT || statementStorage.getStatementTypeFromStatementNumber(statementNumber) == statementType;
+    return statementStorage.isStatementType(statementNumber, statementType);
 }
 
 int PKBStorage::getImmediateFollows(int statementNumber) {
@@ -114,14 +114,10 @@ std::set<int> PKBStorage::getStatementNumbersForUsedVariable(std::string variabl
     return usesStorage.getStatementNumbersForVariable(variableName);
 }
 
-std::vector<std::string> PKBStorage::getExactAssignPattern(std::string variableName, std::string rpn) {
-    return  patternStorage.getExactAssignPattern(variableName, rpn);
+std::vector<std::string> PKBStorage::getExactAssignPattern(std::string variableName, std::string rpn, bool isSynonym) {
+    return  patternStorage.getExactAssignPattern(variableName, rpn, isSynonym);
 }
 
-std::vector<std::string> PKBStorage::getPartialAssignPattern(std::string variableName, std::string rpn) {
-    return patternStorage.getPartialAssignPattern(variableName, rpn);
+std::vector<std::string> PKBStorage::getPartialAssignPattern(std::string variableName, std::string rpn, bool isSynonym) {
+    return patternStorage.getPartialAssignPattern(variableName, rpn, isSynonym);
 }
-
-
-
-

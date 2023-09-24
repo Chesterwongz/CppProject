@@ -29,14 +29,14 @@ std::vector<std::string> PatternStorage::getAllStatementsWithVariable(const std:
     return result;
 }
 
-std::vector<std::string> PatternStorage::getExactAssignPattern(std::string variableName, std::string rpn) {
+std::vector<std::string> PatternStorage::getExactAssignPattern(std::string variableName, std::string rpn, bool isSynonym) {
     std::vector<std::string> result;
-    if (variableName == StringUtils::WILDCARD && rpn == StringUtils::WILDCARD) {
+    if ((variableName == wildcard || isSynonym) && rpn == wildcard) {
         result = getAllStatements();
     }
-    else if (variableName == StringUtils::WILDCARD) {
+    else if (variableName == wildcard || isSynonym) {
         for (const auto& entry : statementPatternStorage) {
-            if (entry.second.second == rpn) {
+            if (entry.second.first == rpn) {
                 result.push_back(std::to_string(entry.first));
             }
         }
@@ -55,14 +55,14 @@ std::vector<std::string> PatternStorage::getExactAssignPattern(std::string varia
     return result;
 }
 
-std::vector<std::string> PatternStorage::getPartialAssignPattern(std::string variableName, std::string rpn) {
+std::vector<std::string> PatternStorage::getPartialAssignPattern(std::string variableName, std::string rpn, bool isSynonym) {
     std::vector<std::string> result;
-    if (variableName == StringUtils::WILDCARD && rpn == StringUtils::WILDCARD) {
+    if ((variableName == wildcard || isSynonym) && rpn == wildcard) {
         result = getAllStatements();
     }
-    else if (variableName == StringUtils::WILDCARD) {
+    else if (variableName == wildcard || isSynonym) {
         for (const auto& entry : statementPatternStorage) {
-            if (entry.second.second.find(rpn) != std::string::npos) {
+            if (entry.second.first.find(rpn) != std::string::npos) {
                 result.push_back(std::to_string(entry.first));
             }
         }
@@ -80,7 +80,6 @@ std::vector<std::string> PatternStorage::getPartialAssignPattern(std::string var
 
     return result;
 }
-
 
 
 

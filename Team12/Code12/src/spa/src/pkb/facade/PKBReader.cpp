@@ -301,10 +301,10 @@ std::vector<std::pair<std::string, std::string>> PKBReader::getAllUsedVariables(
     return result;
 }
 
-std::vector<std::string> PKBReader::getExactAssignPattern(std::string variableName, std::string rpn) {
-    return storage.getExactAssignPattern(variableName, rpn);
+std::vector<std::string> PKBReader::getExactAssignPattern(std::string variableName, std::string rpn, bool isSynonym) {
+    return storage.getExactAssignPattern(variableName, rpn, isSynonym);
 }
 
-std::vector<std::string> PKBReader::getPartialAssignPattern(std::string variableName, std::string rpn) {
-    return storage.getPartialAssignPattern(variableName, rpn);
+std::vector<std::string> PKBReader::getPartialAssignPattern(std::string variableName, std::string rpn, bool isSynonym) {
+    return storage.getPartialAssignPattern(variableName, rpn, isSynonym);
 }
