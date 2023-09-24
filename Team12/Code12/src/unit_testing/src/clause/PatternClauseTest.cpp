@@ -67,19 +67,21 @@ TEST_CASE("test_PatternClause_evaluate") {
 
 	vector<string> mockExactAssignPatternStmts = { "1", "2", "3" };
 	mockPkbReader.setMockExactAssignPatternStmts(mockExactAssignPatternStmts);
+	vector<pair<string,string>> mockModifiedPairs = {{"1", "a"},
+													 {"3", "b"},
+													 {"5", "c"}};
+	mockPkbReader.mockAllModifiedVariables = mockModifiedPairs;
 
 	MockContext mockContext = MockContext();
 	mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
 	IntermediateTable actualTable = patternClause.evaluate(mockContext, mockPkbReader);
-
 	vector<string> actualColNames = actualTable.getColNames();
 	vector<vector<string>> actualTableData = actualTable.getData();
+	vector<vector<string>> expectedData = {{"1", "a"},
+											  {"3", "b"}};
 
-	REQUIRE(actualColNames.size() == 1);
-	REQUIRE(actualColNames[0] == firstArg.getValue());
-	REQUIRE(actualTableData.size() == 3);
-	REQUIRE(actualTableData[0][0] == mockExactAssignPatternStmts[0]);
-	REQUIRE(actualTableData[1][0] == mockExactAssignPatternStmts[1]);
-	REQUIRE(actualTableData[2][0] == mockExactAssignPatternStmts[2]);
+	REQUIRE(actualColNames.size() == 2);
+	REQUIRE(actualColNames[1] == firstArg.getValue());
+	REQUIRE(actualTableData == expectedData);
 }
