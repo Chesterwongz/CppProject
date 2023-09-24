@@ -5,7 +5,7 @@
 
 class FollowsAbstraction : public IAbstraction {
 public:
-    FollowsAbstraction(struct AbstractionParams *abstractionParams)  :
+    explicit FollowsAbstraction(AbstractionParams &abstractionParams)  :
             IAbstraction(abstractionParams) {};
-    std::unordered_set<int> getAbstractions() override;
+    IntermediateTable getAbstractions() override;
 };

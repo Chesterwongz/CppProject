@@ -5,7 +5,7 @@
 
 class UsesAbstraction : public IAbstraction {
 public:
-    UsesAbstraction(AbstractionParams *abstractionParams) :
+    explicit UsesAbstraction(AbstractionParams abstractionParams) :
         IAbstraction(abstractionParams) {};
-    std::unordered_set<int> getAbstractions() override;
+    IntermediateTable getAbstractions() override;
 };

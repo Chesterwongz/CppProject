@@ -1,15 +1,24 @@
 #include "ParentsAbstraction.h"
 
-std::unordered_set<int> ParentsAbstraction::getAbstractions() {
-//    Entity firstEntity = context.getTokenEntity(firstArg);
-//    const StatementType &firstStatementType =
-//            EntityToStatementType.at(firstEntity);
-//
-//    Entity secondEntity = context.getTokenEntity(secondArg);
-//    const StatementType &secondStatementType =
-//            EntityToStatementType.at(secondEntity);
-//    // Todo:
-////    return pkb->getStatementsParents(firstStatementType, secondStatementType);
-//    return std::unordered_set<int>();
-return {};
-};
+IntermediateTable ParentsAbstraction::getAbstractions() {
+    bool isFirstStmtSynonym = firstArg.isSynonym();
+    bool isSecondStmtSynonym = secondArg.isSynonym();
+
+    string firstArgValue = firstArg.getValue();
+    StmtType firstStmtType = isFirstStmtSynonym ?
+                             EntityToStatementType.at(context.getTokenEntity(firstArgValue))
+                                                : StmtType::STMT;
+    string secondArgValue = firstArg.getValue();
+    StmtType secondStmtType = isSecondStmtSynonym ?
+                              EntityToStatementType.at(context.getTokenEntity(secondArgValue))
+                                                  : StmtType::STMT;
+
+    vector<pair<string, string>> statementsModifyingVar = this->isTransitive ?
+            pkb.getParentChildStarPairs(firstStmtType, secondStmtType)
+            : pkb.getParentChildPairs(firstStmtType, secondStmtType);
+
+    return IntermediateTableFactory::buildIntermediateTable(
+            firstArgValue,
+            secondArgValue,
+            statementsModifyingVar);
+}

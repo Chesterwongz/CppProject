@@ -1,11 +1,35 @@
 #include "PatternClause.h"
 
-#include <utility>
+PatternClause::PatternClause(unique_ptr<IArgument> synonym, PatternArgsStreamPtr patternArgsStreamPtr, bool isPartialMatch) {
+	PatternClause::synonym = std::move(synonym);
+	PatternClause::patternArgsStreamPtr = std::move(patternArgsStreamPtr);
+	PatternClause::isPartialMatch = isPartialMatch;
+}
 
-PatternClause::PatternClause(
-        Synonym synonym,
-        Reference entRef,
-        std::string expression) :
-        synonym(synonym),
-        entRef(entRef),
-        expression(expression) {}
+
+IntermediateTable PatternClause::evaluate(Context& context,
+										  PKBReader& pkbReader) {
+	string synonymValue = synonym->getValue();
+	string entityType = context.getTokenEntity(synonymValue);
+
+	unique_ptr<IPatternEvaluator> IEvaluatorPtr;
+
+	if (entityType == PATTERN_ASSIGN_TYPE) {
+		IEvaluatorPtr =  PatternEvaluatorFactory::createAssignEvaluator(context, std::move(patternArgsStreamPtr), pkbReader, isPartialMatch);
+	}
+
+	return IEvaluatorPtr->evaluate();
+}
+
+bool PatternClause::isEquals(const Clause& other) {
+    const auto* otherPattern = dynamic_cast<const PatternClause*>(&other);
+    if (!otherPattern) return false;
+
+    for (int i = 0; i < patternArgsStreamPtr->size(); ++i) {
+        if (!(*patternArgsStreamPtr->at(i) == *otherPattern->patternArgsStreamPtr->at(i))) {
+            return false;
+        }
+    }
+    return isPartialMatch == otherPattern->isPartialMatch
+           && *synonym == *otherPattern->synonym;
+}

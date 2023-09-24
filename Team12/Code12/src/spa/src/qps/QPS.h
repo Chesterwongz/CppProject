@@ -4,20 +4,19 @@
 #include <unordered_set>
 
 #include "pkb/facade/PKBReader.h"
-#include "qps/tokeniser/Tokeniser.h"
-#include "qps/validator/Validator.h"
-#include "qps/queryBuilder/QueryBuilder.h"
+#include "qps/tokenizer/TokenizerFactory.h"
+#include "qps/parser/PQLParserContext.h"
+#include "qps/token/PQLToken.h"
 
 using std::string;
 
 class QPS {
 private:
-    PKBReader *pkb;
-    Tokeniser tokeniser;
-    Validator validator;
-    QueryBuilder queryBuilder;
+    PKBReader &pkb;
+    TokenizerFactory tokenizerFactory;
+    void setupParser(PQLParserContext& pc);
 
 public:
-    explicit QPS(PKBReader *pkb);
-    std::unordered_set<int> processQueryString(string queryString);
+    explicit QPS(PKBReader &pkb);
+    std::set<string> processQueryString(const string& query);
 };

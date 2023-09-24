@@ -2,21 +2,27 @@
 
 #include <string>
 #include <set>
-#include "qps/token/suchThatToken/SuchThatToken.h"
 #include "qps/clause/Clause.h"
+#include "qps/clause/utils/ClauseConstants.h"
+#include "qps/argument/IArgument.h"
+
+using std::unique_ptr;
 
 class SuchThatClause : public Clause {
 private:
     Abstraction relationship;
-    Reference firstArg;
-    Reference secondArg;
+    unique_ptr<IArgument> firstArg;
+    unique_ptr<IArgument> secondArg;
+    bool isTransitive;
 
 public:
     explicit SuchThatClause(
-            Abstraction &relationship,
-            Reference &firstArg,
-            Reference &secondArg);
-    std::unordered_set<int> evaluate(
-            Context context,
-            PKBReader *pkb) override;
+            Abstraction relationship,
+            unique_ptr<IArgument> firstArg,
+            unique_ptr<IArgument> secondArg,
+            bool isTransitive);
+    IntermediateTable evaluate(
+            Context& context,
+            PKBReader& pkb) override;
+    bool isEquals(const Clause& other) override;
 };
