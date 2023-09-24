@@ -94,8 +94,8 @@ TEST_CASE("SP-PKB integration - Non-nesting statements") {
     vector<pair<string, string>> expectedFollowsStarPairs = {{"1", "2"}, {"1", "3"}, {"2", "3"}};
     vector<pair<string, string>> expectedParentChildPairs = {};
     vector<pair<string, string>> expectedParentChildStarPairs = {};
-    vector<pair<string, string>> expectedModifiesPairs = {{"num1", "1"}, {"x", "3"}};
-    vector<pair<string, string>> expectedUsesPairs = {{"num2", "2"}, {"num1", "3"}};
+    vector<pair<string, string>> expectedModifiesPairs = {{"1", "num1"},  {"3", "x"}};
+    vector<pair<string, string>> expectedUsesPairs = {{"2", "num2"}, {"3", "num1"}};
     vector<string> expectedAssignPatternStmts = {"3"};
     validateEntities(reader, expectedVars, expectedConstants, expectedProcedures, expectedReadStmts,
                      expectedPrintStmts, expectedAssignStmts, expectedCallStmts, expectedWhileStmts, expectedIfStmts);
@@ -150,18 +150,8 @@ TEST_CASE("SP-PKB integration - if statement") {
                                                              {"3", "5"}};
     vector<pair<string, string>> expectedParentChildStarPairs = {{"3", "4"},
                                                                  {"3", "5"}};
-    vector<pair<string, string>> expectedModifiesPairs = {{"x", "5"},
-                                                          {"x", "3"},
-                                                          {"y", "1"}};
-    vector<pair<string, string>> expectedUsesPairs = {
-        {"x",    "2"},
-        {"num1", "3"},
-        {"num2", "3"},
-        {"y",    "5"},
-        {"y",    "3"},
-        {"z",    "4"},
-        {"z",    "3"}
-    };
+    vector<pair<string, string>> expectedModifiesPairs = {{"5", "x"}, {"3", "x"}, {"1", "y"}};
+    vector<pair<string, string>> expectedUsesPairs = {{"2", "x"}, {"3", "num1"}, {"3", "num2"}, {"5", "y"}, {"3", "y"}, {"4", "z"}, {"3", "z"}};
     vector<string> expectedAssignPatternStmts = {"5"};
     validateEntities(reader, expectedVars, expectedConstants, expectedProcedures, expectedReadStmts,
                      expectedPrintStmts, expectedAssignStmts, expectedCallStmts, expectedWhileStmts, expectedIfStmts);
@@ -224,10 +214,10 @@ TEST_CASE("SP-PKB integration - if in while statements") {
         {"4", "5"},{"4", "6"}
     };
     vector<pair<string, string>> expectedModifiesPairs = {
-        {"x", "1"}, {"x", "3"}, {"x", "4"}, {"x", "5"}, {"y", "2"}, {"num1", "8"},
+        {"1", "x"}, {"3", "x"}, {"4", "x"}, {"5", "x"}, {"2", "y"}, {"8", "num1"},
     };
     vector<pair<string, string>> expectedUsesPairs = {
-        {"x", "3"}, {"y", "3"}, {"x", "4"}, {"y", "4"}, {"y", "5"}, {"w", "3"}, {"w", "4"}, {"w", "6"}, {"z", "3"}, {"z", "7"}
+        {"3", "x"}, {"3", "y"}, {"4", "x"}, {"4", "y"}, {"5", "y"}, {"3", "w"}, {"4", "w"}, {"6", "w"}, {"3", "z"}, {"7", "z"}
     };
     vector<string> expectedAssignPatternStmts = {"5"};
     validateEntities(reader, expectedVars, expectedConstants, expectedProcedures, expectedReadStmts,
@@ -291,16 +281,16 @@ TEST_CASE("SP-PKB integration - 3 if statements") {
         {"7", "8"}, {"7", "9"}
     };
     vector<pair<string, string>> expectedModifiesPairs = {
-        {"v", "1"}, {"w", "2"}, {"x", "3"}, {"x", "4"},
-        {"y", "3"}, {"y", "5"}, {"y", "6"},
-        {"z", "3"}, {"z", "5"}, {"z", "7"}, {"z", "8"}
+        {"1", "v"}, {"2", "w"}, {"3", "x"}, {"4", "x"},
+        {"3", "y"}, {"5", "y"}, {"6", "y"},
+        {"3", "z"}, {"5", "z"}, {"7", "z"}, {"8", "z"}
     };
     vector<pair<string, string>> expectedUsesPairs = {
-        {"v", "3"}, {"v", "5"}, {"v", "11"},
-        {"w", "3"}, {"w", "5"},
-        {"x", "3"}, {"x", "5"}, {"x", "7"}, {"x", "9"},
-        {"y", "3"}, {"y", "5"}, {"y", "7"},
-        {"z", "3"}, {"z", "5"}, {"z", "10"},
+        {"3", "v"}, {"5", "v"}, {"11", "v"},
+        {"3", "w"}, {"5", "w"},
+        {"3", "x"}, {"5", "x"}, {"7", "x"}, {"9", "x"},
+        {"3", "y"}, {"5", "y"}, {"7", "y"},
+        {"3", "z"}, {"5", "z"}, {"10", "z"},
     };
     validateEntities(reader, expectedVars, expectedConstants, expectedProcedures, expectedReadStmts,
                      expectedPrintStmts, expectedAssignStmts, expectedCallStmts, expectedWhileStmts, expectedIfStmts);
@@ -357,16 +347,15 @@ TEST_CASE("SP-PKB integration - 3 while statements") {
         {"7", "8"}
     };
     vector<pair<string, string>> expectedModifiesPairs = {
-        {"v", "1"}, {"w", "2"},
-        {"x", "4"}, {"x", "3"},
-        {"y", "6"}, {"y", "5"}, {"y", "3"},
-        {"z", "8"}, {"z", "7"}, {"z", "5"}, {"z", "3"}
+        {"1", "v"}, {"2", "w"}, {"3", "x"}, {"4", "x"},
+        {"3", "y"}, {"5", "y"}, {"6", "y"},
+        {"3", "z"}, {"5", "z"}, {"7", "z"}, {"8", "z"}
     };
     vector<pair<string, string>> expectedUsesPairs = {
-        {"v", "3"}, {"v", "5"},
-        {"w", "5"}, {"w", "3"},
-        {"x", "7"}, {"x", "5"}, {"x", "3"},
-        {"y", "7"}, {"y", "5"}, {"y", "3"},
+        {"3", "v"}, {"5", "v"},
+        {"5", "w"}, {"3", "w"},
+        {"7", "x"}, {"5", "x"}, {"3", "x"},
+        {"7", "y"}, {"5", "y"}, {"3", "y"},
     };
     validateEntities(reader, expectedVars, expectedConstants, expectedProcedures, expectedReadStmts,
                      expectedPrintStmts, expectedAssignStmts, expectedCallStmts, expectedWhileStmts, expectedIfStmts);
@@ -415,13 +404,13 @@ TEST_CASE("SP-PKB integration - sequential if pattern") {
         {"2", "3"}, {"2", "4"}, {"6", "7"}, {"6", "8"}
     };
     vector<pair<string, string>> expectedModifiesPairs = {
-        {"i", "1"}, {"i", "4"}, {"i", "2"},
-        {"j", "3"}, {"j", "2"},
-        {"k", "5"},
-        {"l", "7"}, {"l", "6"}
+        {"1", "i"}, {"2", "i"}, {"4", "i"},
+        {"3", "j"}, {"2", "j"},
+        {"5", "k"},
+        {"7", "l"}, {"6", "l"}
     };
     vector<pair<string, string>> expectedUsesPairs = {
-        {"i", "2"}, {"i", "6"}, {"i", "8"}, {"k", "6"}
+        {"2", "i"}, {"6", "i"}, {"8", "i"}, {"6", "k"}
     };
     validateEntities(reader, expectedVars, expectedConstants, expectedProcedures, expectedReadStmts,
                      expectedPrintStmts, expectedAssignStmts, expectedCallStmts, expectedWhileStmts, expectedIfStmts);
@@ -466,12 +455,12 @@ TEST_CASE("SP-PKB integration - sequential while statements") {
     vector<pair<string, string>> expectedParentChildPairs = {{"2", "3"}, {"5", "6"}};
     vector<pair<string, string>> expectedParentChildStarPairs = {{"2", "3"}, {"5", "6"}};
     vector<pair<string, string>> expectedModifiesPairs = {
-        {"i", "1"},
-        {"j", "3"}, {"j", "2"},
-        {"k", "4"},
-        {"l", "6"}, {"l", "5"}
+        {"1", "i"},
+        {"2", "j"}, {"3", "j"},
+        {"4", "k"},
+        {"6", "l"}, {"5", "l"}
     };
-    vector<pair<string, string>> expectedUsesPairs = {{"i", "2"}, {"i", "5"}, {"k", "5"}};
+    vector<pair<string, string>> expectedUsesPairs = {{"2", "i"}, {"5", "i"}, {"5", "k"}};
     validateEntities(reader, expectedVars, expectedConstants, expectedProcedures, expectedReadStmts,
                      expectedPrintStmts, expectedAssignStmts, expectedCallStmts, expectedWhileStmts, expectedIfStmts);
     validateFollows(reader, expectedFollowsPairs, expectedFollowsStarPairs);
@@ -510,9 +499,9 @@ TEST_CASE("SP-PKB integration - multiple control variables in while statements")
     vector<pair<string, string>> expectedParentChildPairs = {{"3", "4"}};
     vector<pair<string, string>> expectedParentChildStarPairs = {{"3", "4"}};
     vector<pair<string, string>> expectedModifiesPairs = {
-        {"p", "1"}, {"q", "2"}, {"r", "4"}, {"r", "3"}
+        {"1", "p"}, {"2", "q"}, {"4", "r"}, {"3", "r"}
     };
-    vector<pair<string, string>> expectedUsesPairs = {{"p", "3"}, {"q", "3"}, {"x", "3"}, {"y", "3"}};
+    vector<pair<string, string>> expectedUsesPairs = {{"3", "p"}, {"3", "q"}, {"3", "x"}, {"3", "y"}};
     validateEntities(reader, expectedVars, expectedConstants, expectedProcedures, expectedReadStmts,
                      expectedPrintStmts, expectedAssignStmts, expectedCallStmts, expectedWhileStmts, expectedIfStmts);
     validateFollows(reader, expectedFollowsPairs, expectedFollowsStarPairs);
@@ -551,12 +540,10 @@ TEST_CASE("SP-PKB integration - multiple control variables in if statements") {
     vector<pair<string, string>> expectedParentChildPairs = {{"3", "4"}, {"3", "5"}};
     vector<pair<string, string>> expectedParentChildStarPairs = {{"3", "4"}, {"3", "5"}};
     vector<pair<string, string>> expectedModifiesPairs = {
-        {"p", "1"},
-        {"q", "2"},
-        {"r", "4"}, {"r", "3"}
+        {"1", "p"}, {"2", "q"}, {"4", "r"}, {"3", "r"}
     };
     vector<pair<string, string>> expectedUsesPairs = {
-        {"p", "3"}, {"p", "5"}, {"q", "3"}, {"x", "3"}, {"y", "3"}
+        {"3", "p"}, {"3", "q"}, {"3", "x"}, {"3", "y"}, {"5", "p"}
     };
     validateEntities(reader, expectedVars, expectedConstants, expectedProcedures, expectedReadStmts,
                      expectedPrintStmts, expectedAssignStmts, expectedCallStmts, expectedWhileStmts, expectedIfStmts);
@@ -648,19 +635,19 @@ TEST_CASE("SP-PKB integration - assign pattern with all operators") {
     vector<pair<string, string>> expectedParentChildPairs = {};
     vector<pair<string, string>> expectedParentChildStarPairs = {};
     vector<pair<string, string>> expectedModifiesPairs = {
-        {"a", "1"}, {"b", "2"}, {"c", "3"}, {"d", "4"}, {"e", "5"},
-        {"f", "6"}, {"x", "7"}, {"y", "8"}, {"z", "9"}, {"a", "10"},
-        {"b", "11"}, {"c", "12"}, {"d", "13"}, {"e", "14"}, {"f", "15"},
-        {"g", "16"}, {"x", "17"}, {"x", "18"}, {"x", "19"}, {"x", "20"}
+        {"1", "a"}, {"2", "b"}, {"3", "c"}, {"4", "d"}, {"5", "e"},
+        {"6", "f"}, {"7", "x"}, {"8", "y"}, {"9", "z"}, {"10", "a"},
+        {"11", "b"}, {"12", "c"}, {"13", "d"}, {"14", "e"}, {"15", "f"},
+        {"16", "g"}, {"17", "x"}, {"18", "x"}, {"19", "x"}, {"20", "x"}
     };
     vector<pair<string, string>> expectedUsesPairs = {
-        {"a", "7"}, {"a", "8"}, {"a", "9"}, {"a", "10"}, {"a", "11"}, {"a", "12"}, {"a", "13"}, {"a", "14"}, {"a", "15"}, {"a", "16"}, {"a", "17"}, {"a", "18"}, {"a", "19"}, {"a", "20"},
-        {"b", "7"}, {"b", "8"}, {"b", "9"}, {"b", "10"}, {"b", "11"}, {"b", "12"}, {"b", "13"}, {"b", "14"}, {"b", "15"}, {"b", "16"}, {"b", "17"}, {"b", "18"}, {"b", "19"}, {"b", "20"},
-        {"c", "7"}, {"c", "8"}, {"c", "9"}, {"c", "10"}, {"c", "11"}, {"c", "12"}, {"c", "13"}, {"c", "14"}, {"c", "15"}, {"c", "16"}, {"c", "17"}, {"c", "18"}, {"c", "19"}, {"c", "20"},
-        {"d", "7"}, {"d", "8"}, {"d", "9"}, {"d", "10"}, {"d", "11"}, {"d", "12"}, {"d", "13"}, {"d", "14"}, {"d", "15"}, {"d", "16"}, {"d", "20"},
-        {"e", "7"}, {"e", "8"}, {"e", "9"}, {"e", "10"}, {"e", "11"}, {"e", "12"}, {"e", "13"}, {"e", "14"}, {"e", "15"}, {"e", "16"},
-        {"f", "7"}, {"f", "8"}, {"f", "9"}, {"f", "10"}, {"f", "11"}, {"f", "12"}, {"f", "13"}, {"f", "14"}, {"f", "15"}, {"f", "16"},
-        {"g", "9"}, {"g", "10"}, {"g", "12"},
+        {"7", "a"}, {"8", "a"}, {"9", "a"}, {"10", "a"}, {"11", "a"}, {"12", "a"}, {"13", "a"}, {"14", "a"}, {"15", "a"}, {"16", "a"}, {"17", "a"}, {"18", "a"}, {"19", "a"}, {"20", "a"},
+        {"7", "b"}, {"8", "b"}, {"9", "b"}, {"10", "b"}, {"11", "b"}, {"12", "b"}, {"13", "b"}, {"14", "b"}, {"15", "b"}, {"16", "b"}, {"17", "b"}, {"18", "b"}, {"19", "b"}, {"20", "b"},
+        {"7", "c"}, {"8", "c"}, {"9", "c"}, {"10", "c"}, {"11", "c"}, {"12", "c"}, {"13", "c"}, {"14", "c"}, {"15", "c"}, {"16", "c"}, {"17", "c"}, {"18", "c"}, {"19", "c"}, {"20", "c"},
+        {"7", "d"}, {"8", "d"}, {"9", "d"}, {"10", "d"}, {"11", "d"}, {"12", "d"}, {"13", "d"}, {"14", "d"}, {"15", "d"}, {"16", "d"}, {"20", "d"},
+        {"7", "e"}, {"8", "e"}, {"9", "e"}, {"10", "e"}, {"11", "e"}, {"12", "e"}, {"13", "e"}, {"14", "e"}, {"15", "e"}, {"16", "e"},
+        {"7", "f"}, {"8", "f"}, {"9", "f"}, {"10", "f"}, {"11", "f"}, {"12", "f"}, {"13", "f"}, {"14", "f"}, {"15", "f"}, {"16", "f"},
+        {"9", "g"}, {"10", "g"}, {"12", "g"},
     };
     validateEntities(reader, expectedVars, expectedConstants, expectedProcedures, expectedReadStmts,
                      expectedPrintStmts, expectedAssignStmts, expectedCallStmts, expectedWhileStmts, expectedIfStmts);
@@ -780,26 +767,26 @@ TEST_CASE("SP-PKB integration - nested if-while, while-if and multiple assign/co
         {"17", "18"}
     };
     vector<pair<string, string>> expectedModifiesPairs = {
-        {"a", "1"}, {"a", "12"}, {"a", "10"}, {"a", "8"},
-        {"b", "2"}, {"b", "14"}, {"b", "13"}, {"b", "8"},
-        {"c", "3"}, {"c", "15"}, {"c", "13"}, {"c", "8"},
-        {"d", "4"}, {"d", "18"}, {"d", "17"}, {"d", "16"},
-        {"e", "5"}, {"e", "19"}, {"e", "16"},
-        {"f", "6"}, {"f", "20"}, {"f", "16"},
-        {"x", "7"},
-        {"y", "9"}, {"y", "8"},
-        {"z", "11"}, {"z", "10"}, {"z", "8"},
-        {"g", "21"}
+        {"1", "a"}, {"12", "a"}, {"10", "a"}, {"8", "a"},
+        {"2", "b"}, {"14", "b"}, {"13", "b"}, {"8", "b"},
+        {"3", "c"}, {"15", "c"}, {"13", "c"}, {"8", "c"},
+        {"4", "d"}, {"18", "d"}, {"17", "d"}, {"16", "d"},
+        {"5", "e"}, {"19", "e"}, {"16", "e"},
+        {"6", "f"}, {"20", "f"}, {"16", "f"},
+        {"7", "x"},
+        {"9", "y"}, {"8", "y"},
+        {"11", "z"}, {"10", "z"}, {"8", "z"},
+        {"21", "g"}
     };
     vector<pair<string, string>> expectedUsesPairs = {
-        {"a", "7"}, {"a", "8"}, {"a", "9"}, {"a", "10"}, {"a", "11"}, {"a", "12"}, {"a", "13"}, {"a", "14"}, {"a", "15"}, {"a", "16"}, {"a", "17"}, {"a", "18"}, {"a", "19"}, {"a", "20"}, {"a", "21"}, {"a", "22"},
-        {"b", "7"}, {"b", "8"}, {"b", "9"}, {"b", "10"}, {"b", "11"}, {"b", "12"}, {"b", "13"}, {"b", "14"}, {"b", "15"}, {"b", "16"}, {"b", "17"}, {"b", "18"}, {"b", "19"}, {"b", "20"}, {"b", "21"}, {"b", "23"},
-        {"c", "7"}, {"c", "8"}, {"c", "9"}, {"c", "10"}, {"c", "11"}, {"c", "12"}, {"c", "13"}, {"c", "14"}, {"c", "15"}, {"c", "16"}, {"c", "17"}, {"c", "18"}, {"c", "19"}, {"c", "20"}, {"c", "21"}, {"c", "24"},
-        {"d", "7"}, {"d", "8"}, {"d", "9"}, {"d", "10"}, {"d", "11"}, {"d", "12"}, {"d", "13"}, {"d", "14"}, {"d", "15"}, {"d", "16"}, {"d", "17"}, {"d", "18"}, {"d", "19"}, {"d", "20"}, {"d", "21"}, {"d", "25"},
-        {"e", "7"}, {"e", "8"}, {"e", "9"}, {"e", "10"}, {"e", "11"}, {"e", "12"}, {"e", "13"}, {"e", "14"}, {"e", "15"}, {"e", "16"}, {"e", "17"}, {"e", "18"}, {"e", "19"}, {"e", "20"}, {"e", "21"}, {"e", "26"},
-        {"f", "7"}, {"f", "8"}, {"f", "9"}, {"f", "10"}, {"f", "11"}, {"f", "12"}, {"f", "13"}, {"f", "14"}, {"f", "15"}, {"f", "16"}, {"f", "17"}, {"f", "18"}, {"f", "19"}, {"f", "20"}, {"f", "21"}, {"f", "27"},
-        {"g", "8"}, {"g", "10"}, {"g", "11"}, {"g", "12"}, {"g", "13"}, {"g", "15"}, {"g", "28"},
-        {"x", "13"}, {"x", "8"}, {"y", "8"}, {"y", "13"},
+        {"7", "a"}, {"8", "a"}, {"9", "a"}, {"10", "a"}, {"11", "a"}, {"12", "a"}, {"13", "a"}, {"14", "a"}, {"15", "a"}, {"16", "a"}, {"17", "a"}, {"18", "a"}, {"19", "a"}, {"20", "a"}, {"21", "a"}, {"22", "a"},
+        {"7", "b"}, {"8", "b"}, {"9", "b"}, {"10", "b"}, {"11", "b"}, {"12", "b"}, {"13", "b"}, {"14", "b"}, {"15", "b"}, {"16", "b"}, {"17", "b"}, {"18", "b"}, {"19", "b"}, {"20", "b"}, {"21", "b"}, {"23", "b"},
+        {"7", "c"}, {"8", "c"}, {"9", "c"}, {"10", "c"}, {"11", "c"}, {"12", "c"}, {"13", "c"}, {"14", "c"}, {"15", "c"}, {"16", "c"}, {"17", "c"}, {"18", "c"}, {"19", "c"}, {"20", "c"}, {"21", "c"}, {"24", "c"},
+        {"7", "d"}, {"8", "d"}, {"9", "d"}, {"10", "d"}, {"11", "d"}, {"12", "d"}, {"13", "d"}, {"14", "d"}, {"15", "d"}, {"16", "d"}, {"17", "d"}, {"18", "d"}, {"19", "d"}, {"20", "d"}, {"21", "d"}, {"25", "d"},
+        {"7", "e"}, {"8", "e"}, {"9", "e"}, {"10", "e"}, {"11", "e"}, {"12", "e"}, {"13", "e"}, {"14", "e"}, {"15", "e"}, {"16", "e"}, {"17", "e"}, {"18", "e"}, {"19", "e"}, {"20", "e"}, {"21", "e"}, {"26", "e"},
+        {"7", "f"}, {"8", "f"}, {"9", "f"}, {"10", "f"}, {"11", "f"}, {"12", "f"}, {"13", "f"}, {"14", "f"}, {"15", "f"}, {"16", "f"}, {"17", "f"}, {"18", "f"}, {"19", "f"}, {"20", "f"}, {"21", "f"}, {"27", "f"},
+        {"8", "g"}, {"10", "g"}, {"11", "g"}, {"12", "g"}, {"13", "g"}, {"15", "g"}, {"28", "g"},
+        {"13", "x"}, {"8", "x"}, {"8", "y"}, {"13", "y"},
     };
     validateEntities(reader, expectedVars, expectedConstants, expectedProcedures, expectedReadStmts,
                      expectedPrintStmts, expectedAssignStmts, expectedCallStmts, expectedWhileStmts, expectedIfStmts);

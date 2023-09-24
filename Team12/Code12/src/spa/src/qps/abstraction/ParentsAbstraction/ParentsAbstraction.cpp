@@ -10,6 +10,10 @@ IntermediateTable ParentsAbstraction::getAbstractions() {
                               EntityToStatementType.at(context.getTokenEntity(secondArgValue))
                                                   : StmtType::STMT;
 
+    if (firstArgValue != WILDCARD_KEYWORD && (firstArgValue == secondArgValue)) {
+        return IntermediateTableFactory::buildEmptyIntermediateTable();
+    }
+
     if (firstArg.isInteger() || secondArg.isInteger()) {
         return handleIntegerArgs(firstArgValue, firstStmtType, secondArgValue, secondStmtType);
     }
@@ -48,8 +52,11 @@ IntermediateTable ParentsAbstraction::handleIntegerArgs(
         if (this->isTransitive) {
             results = pkb.getParentStarOf(stoi(secondArgValue), firstStmtType);
         } else {
-            vector<pair<string,string>> tmp(
-                    {pkb.getImmediateParentOf(stoi(secondArgValue), firstStmtType)});
+            pair<string, string> immediateParent = pkb.getImmediateParentOf(stoi(secondArgValue), firstStmtType);
+            if (immediateParent.first.empty() && immediateParent.second.empty()) {
+                return IntermediateTableFactory::buildEmptyIntermediateTable();
+            }
+            vector<pair<string,string>> tmp({immediateParent});
             results = tmp;
         }
         // pass second col as wildcard so the table ignores that column
