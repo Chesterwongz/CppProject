@@ -4,26 +4,28 @@
 
 #include "QPS.h"
 #include "qps/parser/declarativeParserState/DeclarativeParserState.h"
+#include "qps/tokenizer/TokenizerFactory.h"
 
 using std::string, std::vector, std::unique_ptr;
 
 // TODO: test
-QPS::QPS(PKBReader &pkb, const string& query) :
+QPS::QPS(PKBReader &pkb) :
     pkb(pkb),
-    tokenizer(PQLTokenizer(query)) {}
+    tokenizerFactory() {}
 
-std::set<string> QPS::processQueryString() {
-    unique_ptr<PQLTokenList> tokenList = tokenizer.tokenize();
+std::set<string> QPS::processQueryString(const string& query) {
+    unique_ptr<PQLTokenizer> tokenizer = tokenizerFactory.makeTokenizer(query);
+    unique_ptr<PQLTokenList> tokenList = tokenizer->tokenize();
     PQLTokenStream tokenStream = PQLTokenStream(*tokenList);
 
-    Query query(pkb);
+    Query queryObj(pkb);
 
-    PQLParserContext parserContext(tokenStream, query);
+    PQLParserContext parserContext(tokenStream, queryObj);
     setupParser(parserContext);
 
     parserContext.handleTokens();
 
-    return query.evaluate();
+    return queryObj.evaluate();
 }
 
 void QPS::setupParser(PQLParserContext& pc) {
