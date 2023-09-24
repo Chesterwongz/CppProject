@@ -78,7 +78,7 @@ TEST_CASE("IntermediateTable - getSingleCol") {
     REQUIRE(DOUBLE_COLUMN_TABLE_FROM_VECTORS_2.getSingleCol(COL_NAME_4) == COL_4);
 
     // non-existent column name
-    REQUIRE_THROWS(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getSingleCol(COL_NAME_3));
+    REQUIRE(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getSingleCol(COL_NAME_3).empty());
 }
 
 TEST_CASE("IntermediateTable - isColExists") {
