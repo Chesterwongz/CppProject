@@ -2,21 +2,24 @@
 
 #include <string>
 
-#include "../IArgument.h"
+#include "qps/argument/IArgument.h"
+#include "common/utils/StringUtils.h"
+#include "qps/common/Keywords.h"
 
 using std::string;
 
 class Wildcard : public IArgument {
 private:
 	const QPSStringUtils::ArgumentType argumentType = QPSStringUtils::WILDCARD;
-	const string wildcardValue = StringUtils::WILDCARD;
+	string wildcardValue = WILDCARD_KEYWORD;
 
 public:
-	explicit Wildcard() {};
+	explicit Wildcard() = default;
 	string getValue() override;
 	QPSStringUtils::ArgumentType getArgumentType() override;
-	virtual bool isIdent() override;
-	virtual bool isInteger() override;
-	virtual bool isSynonym() override;
-	virtual bool isWildcard() override;
+	bool isIdent() override;
+	bool isInteger() override;
+	bool isSynonym() override;
+	bool isWildcard() override;
+    bool operator==(const IArgument& other) const override;
 };

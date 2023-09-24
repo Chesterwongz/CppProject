@@ -1,6 +1,3 @@
-#include <string>
-
-#include "../IArgument.h"
 #include "Wildcard.h"
 #include <iostream>
 
@@ -26,4 +23,9 @@ bool Wildcard::isSynonym() {
 
 bool Wildcard::isWildcard() {
 	return true;
+}
+
+bool Wildcard::operator==(const IArgument& other) const {
+    const auto* otherWildcard = dynamic_cast<const Wildcard*>(&other);
+    return otherWildcard;
 }

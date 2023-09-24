@@ -22,6 +22,8 @@ public:
     // Return the type of a particular statement
     StmtType getStatementTypeFromStatementNumber(int statementNumber);
 
+    bool isStatementType(int statementNumber, StmtType statementType);
+
 private:
     std::unordered_map<StmtType, std::set<int>> statements;
 };

@@ -8,7 +8,7 @@ IntermediateTable ParentsAbstraction::getAbstractions() {
     StmtType firstStmtType = isFirstStmtSynonym ?
                              EntityToStatementType.at(context.getTokenEntity(firstArgValue))
                                                 : StmtType::STMT;
-    string secondArgValue = firstArg.getValue();
+    string secondArgValue = secondArg.getValue();
     StmtType secondStmtType = isSecondStmtSynonym ?
                               EntityToStatementType.at(context.getTokenEntity(secondArgValue))
                                                   : StmtType::STMT;

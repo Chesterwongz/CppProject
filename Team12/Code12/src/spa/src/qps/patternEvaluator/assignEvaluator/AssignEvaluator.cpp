@@ -1,5 +1,6 @@
 #include "AssignEvaluator.h"
 #include "common/utils/StringUtils.h"
+#include "qps/common/Keywords.h"
 
 IntermediateTable AssignEvaluator::evaluate() {
 	PatternArgsStream patternArgsStream = std::move(*patternArgsStreamPtr);
@@ -10,7 +11,7 @@ IntermediateTable AssignEvaluator::evaluate() {
 	string firstArgValue;
 
 	if (firstArg->isSynonym()) {
-		firstArgValue = StringUtils::WILDCARD;
+		firstArgValue = WILDCARD_KEYWORD;
 	}
 	else {
 		firstArgValue = firstArg->getValue();
@@ -21,10 +22,10 @@ IntermediateTable AssignEvaluator::evaluate() {
 	vector<string> pkbResult;
 
 	if (isPartialMatch) {
-		pkbResult = pkbReader.getPartialAssignPattern(firstArgValue, secondArgRPNValue);
+		pkbResult = pkbReader.getPartialAssignPattern(firstArgValue, secondArgRPNValue, false);
 	}
 	else {
-		pkbResult = pkbReader.getExactAssignPattern(firstArgValue, secondArgRPNValue);
+		pkbResult = pkbReader.getExactAssignPattern(firstArgValue, secondArgRPNValue, false);
 	}
 
 	vector<string> columnNames({firstArgValue});

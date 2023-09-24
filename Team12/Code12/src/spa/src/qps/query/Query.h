@@ -4,12 +4,10 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <algorithm>
+#include <memory>
 
-#include "qps/token/QueryToken.h"
-#include "qps/validator/Validator.h"
 #include "pkb/facade/PKBReader.h"
-#include "qps/token/declarativeToken/DeclarativeToken.h"
-#include "qps/token/selectToken/SelectToken.h"
+#include "qps/clause/Clause.h"
 
 using std::set, std::vector, std::unique_ptr, std::string;
 
@@ -17,8 +15,8 @@ typedef vector<unique_ptr<Clause>> ClauseList;
 
 class Query {
 private:
-    PKBReader pkb;
-    Context context = Context();
+    PKBReader& pkb;
+    unique_ptr<Context> context;
     ClauseList clauses = {};
     // e.g. `Select a such that ...`
     //   -> `a` is the synonymToQuery
@@ -26,9 +24,10 @@ private:
 
 public:
     explicit Query(PKBReader &pkb);
-    void setSynonymToQuery(SelectToken *token);
-    void addSynonym(DeclarativeToken *token);
-    void addClause(std::unique_ptr<Clause> &clause);
+    void addContext(unique_ptr<Context> context);
+    void addClause(unique_ptr<Clause> clause);
+    void setSynonymToQuery(const string& selectSynonym);
     set<string> returnAllPossibleQueriedSynonym();
     set<string> evaluate();
+    bool operator==(const Query &other);
 };

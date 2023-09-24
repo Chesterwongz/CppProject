@@ -1,4 +1,5 @@
 #include "QPSStringUtils.h"
+#include "qps/common/Keywords.h"
 
 using std::string;
 
@@ -28,7 +29,7 @@ bool QPSStringUtils::isIdent(string data) {
 }
 
 bool QPSStringUtils::isWildcard(string data) {
-    return data == StringUtils::WILDCARD;
+    return data == WILDCARD_KEYWORD;
 }
 
 bool QPSStringUtils::isInteger(string data) {

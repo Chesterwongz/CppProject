@@ -1,30 +1,35 @@
 #include <utility>
 #include <vector>
 #include <memory>
-#include <algorithm>
 
-#include "qps/exceptions/QpsException.h"
 #include "QPS.h"
+#include "qps/parser/declarativeParserState/DeclarativeParserState.h"
+#include "qps/tokenizer/TokenizerFactory.h"
 
 using std::string, std::vector, std::unique_ptr;
 
+// TODO: test
 QPS::QPS(PKBReader &pkb) :
     pkb(pkb),
-    tokeniser(Tokeniser()),
-    validator(Validator()),
-    queryBuilder(QueryBuilder(pkb)) {}
+    tokenizerFactory() {}
 
-set<string> QPS::processQueryString(string queryString) {
-    queryString.erase(std::remove(queryString.begin(), queryString.end(), '\n'), queryString.end());
-    QPSTokenStream queryTokenVector = tokeniser.convertToTokens(std::move(queryString));
+std::set<string> QPS::processQueryString(const string& query) {
+    unique_ptr<PQLTokenizer> tokenizer = tokenizerFactory.makeTokenizer(query);
+    unique_ptr<PQLTokenList> tokenList = tokenizer->tokenize();
+    PQLTokenStream tokenStream(*tokenList);
 
-    bool isTokensValid = validator.validateTokens(queryTokenVector);
-    if (!isTokensValid) {
-        throw QpsException::InvalidQueryException();
-    }
+    Query queryObj(pkb);
 
-    // build query from validated tokens
-    Query query = queryBuilder.buildQuery(queryTokenVector);
+    PQLParserContext parserContext(tokenStream, queryObj);
+    setupParser(parserContext);
 
-     return query.evaluate();
+    parserContext.handleTokens();
+
+    return queryObj.evaluate();
+}
+
+void QPS::setupParser(PQLParserContext& pc) {
+    unique_ptr<DeclarativeParserState> declarativeParserState = make_unique<DeclarativeParserState>(pc);
+    pc.transitionTo(move(declarativeParserState));
+
 }

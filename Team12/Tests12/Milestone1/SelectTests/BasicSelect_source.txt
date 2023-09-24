@@ -1,0 +1,14 @@
+procedure procedure {
+  read read;
+  print print;
+  while ((!(while != while))||(while<=while)) {
+    if ((if == if) && ( ! (if >= if))) {
+        assign = variable + 5;
+        if ((if2 < if2) && ( ! (if2 > if2))) {
+                read read2
+                print print2
+                while ((while2 > while2)&&(!(while2<while2))) {
+                    assign2 = variable2 + 10
+                }
+             }
+        }}}

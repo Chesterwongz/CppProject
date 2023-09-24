@@ -10,11 +10,6 @@ IntermediateTable DOUBLE_COLUMN_TABLE_FROM_PAIR_1 = IntermediateTable(
         COL_NAME_2,
         PAIR_DATA);
 
-IntermediateTable DOUBLE_COLUMN_TABLE_FROM_PAIR_2 = IntermediateTable(
-        COL_NAME_2,
-        COL_NAME_1,
-        PAIR_DATA);
-
 IntermediateTable DOUBLE_COLUMN_TABLE_FROM_VECTORS_1 = IntermediateTable(
         DOUBLE_COL_NAME_VECTOR,
         DOUBLE_COL_VECTOR_DATA);

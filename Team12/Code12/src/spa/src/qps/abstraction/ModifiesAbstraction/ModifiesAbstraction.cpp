@@ -41,12 +41,17 @@ IntermediateTable ModifiesAbstraction::getAbstractions() {
     bool isStmtWildCardAndVarIdent = isStmtWildcard && isVarIdentifier;
     if (isStmtSynonymAndVarIdent || isStmtWildCardAndVarIdent) {
         string varIdentifier = secondArg.getValue();
-        vector<vector<string>> statementsModifyingVar =
-                { pkb.getStatementsModifying(varIdentifier, stmtType) };
+        vector<string> statementsModifyingVar =
+                pkb.getStatementsModifying(varIdentifier, stmtType);
         vector<string> colName = { stmtValue };
+        vector<vector<string>> tableData = {};
+        for (auto &stmt : statementsModifyingVar) {
+            vector<string> row = { stmt };
+            tableData.push_back(row);
+        }
         return IntermediateTableFactory::buildIntermediateTable(
                 colName,
-                statementsModifyingVar);
+                tableData);
     }
 
     return IntermediateTableFactory::buildEmptyIntermediateTable();

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../IPatternEvaluator.h"
+#include "qps/patternEvaluator/IPatternEvaluator.h"
 
 class AssignEvaluator : public IPatternEvaluator {
 public:

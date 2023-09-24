@@ -1,39 +1,25 @@
 #pragma once
 
 #include <string>
-#include <map>
-#include "qps/token/suchThatToken/SuchThatToken.h"
-#include "qps/token/declarativeToken/DeclarativeToken.h"
+#include <unordered_map>
+#include "qps/common/Keywords.h"
 
-using std::string, std::map;
+using std::string, std::unordered_map;
 
-// Statement types
-const map<Entity, StmtType> EntityToStatementType = {
-        {"assign", StmtType::ASSIGN},
-        {"call", StmtType::CALL},
-        {"if", StmtType::IF},
-        {"print", StmtType::PRINT},
-        {"read", StmtType::READ},
-        {"while", StmtType::WHILE},
-        {"stmt", StmtType::STMT},
+const unordered_map<Entity, StmtType> EntityToStatementType = {
+        {ASSIGN_ENTITY, StmtType::ASSIGN},
+        {CALL_ENTITY, StmtType::CALL},
+        {IF_ENTITY, StmtType::IF},
+        {PRINT_ENTITY, StmtType::PRINT},
+        {READ_ENTITY, StmtType::READ},
+        {WHILE_ENTITY, StmtType::WHILE},
+        {STMT_ENTITY, StmtType::STMT},
 };
 
 // Abstractions
-enum AbstractionEnum {
+enum Abstraction {
     FOLLOWS_ENUM,
     MODIFIES_ENUM,
     PARENTS_ENUM,
     USES_ENUM,
-};
-
-const Abstraction FOLLOWS = "Follows";
-const Abstraction MODIFIES = "Modifies";
-const Abstraction PARENTS = "Parents";
-const Abstraction USES = "Uses";
-
-const map<Abstraction, AbstractionEnum> AbstractionToEnumMap = {
-        {FOLLOWS, FOLLOWS_ENUM},
-        {MODIFIES, MODIFIES_ENUM},
-        {PARENTS, PARENTS_ENUM},
-        {USES, USES_ENUM},
 };
