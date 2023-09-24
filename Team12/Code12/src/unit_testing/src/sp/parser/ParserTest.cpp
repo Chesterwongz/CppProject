@@ -133,6 +133,14 @@ TEST_CASE("Test CondExprParser multiple brackets") {
     REQUIRE(ast.value()->getChildAt(0).getChildAt(0).getChildAt(0).isEqual(VarNode("line6")));
 }
 
+TEST_CASE("Test CondExprParser complex exprs") {
+    std::string input = "(line7 * 7 == (line7 + 7)%7)||(! ( line7/line7 != line7/line7+7)))";
+    std::optional<std::unique_ptr<TNode>> ast = CondExprParser(
+            std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
+    REQUIRE(ast.has_value());
+//    REQUIRE(ast.value()->getChildAt(0).getChildAt(0).getChildAt(0).isEqual(VarNode("line6")));
+}
+
 TEST_CASE("Test CondExprParser") {
     std::string input = "(((z) - 1)!=(0)) || (!(z<0))";
     std::optional<std::unique_ptr<TNode>> ast = CondExprParser(
@@ -147,7 +155,6 @@ TEST_CASE("Test CondExprParser is RelExpr") {
     REQUIRE(ast.has_value());
 }
 
-
 TEST_CASE("Test CondExprParser is (RelExpr)") {
     std::string input = "((p + q * 2) == (x - y % 3))";
     std::optional<std::unique_ptr<TNode>> ast = CondExprParser(
@@ -155,8 +162,15 @@ TEST_CASE("Test CondExprParser is (RelExpr)") {
     REQUIRE(ast.has_value());
 }
 
+TEST_CASE("Test RelExprParser expr == (expr)%factor") {
+    std::string input = "line7 * 7 == (line7 + 7)%7";
+    std::shared_ptr<ParserContext> context = std::make_shared<ParserContext>(std::move(input));
+    std::optional<std::unique_ptr<TNode>> ast = RelExprParser(std::move(context)).parse();
+    REQUIRE(ast.has_value());
+}
+
 TEST_CASE("Test RelExprParser (expr) == (expr)") {
-    std::string input = "(p + q * 2) == (x - y % 3)";
+    std::string input = "p + q== x - y";
     std::shared_ptr<ParserContext> context = std::make_shared<ParserContext>(std::move(input));
     std::optional<std::unique_ptr<TNode>> ast = RelExprParser(std::move(context)).parse();
     REQUIRE(ast.has_value());

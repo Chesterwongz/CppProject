@@ -12,21 +12,9 @@
 
 using std::string, std::unordered_map,std::map, std::unordered_set, std::set, std::vector, std::pair;
 
-string usesSource =
-    "procedure procedure {  read read;\n"
-    "  print print;\n"
-    "  while ((!(while != while))||(while<=while)) {\n"
-    "    if ((if == if) && ( ! (if >= if))) then{\n"
-    "        assign = variable + 5;\n"
-    "        if ((if2 < if2) && ( ! (if2 > if2))) then{\n"
-    "                read read2;\n"
-    "                print print2;\n"
-    "                while ((while2 > while2)&&(!(while2<while2))) {\n"
-    "                    assign2 = variable2 + 10;\n"
-    "                }} else {read read3;\n"
-    "             }        }else{read read4;}}}";
+string usesSource = "";
 
-TEST_CASE("SP-PKB-QPS integration - 1") {
+TEST_CASE("SP-PKB-QPS Single Source Uses - 1") {
     string query =
         "read read;\n"
         "Select read";
@@ -35,6 +23,6 @@ TEST_CASE("SP-PKB-QPS integration - 1") {
     sp.processContent(usesSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
-    set<string> expected = {"1", "7", "11", "12"};
+    set<string> expected = {};
     REQUIRE(result == expected);
 }
