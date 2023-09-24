@@ -46,7 +46,7 @@ inline vector<vector<string>>MOCK_FOLLOWS_STARS_COL_2(
          {"follows stars 8"}});
 
 inline string MOCK_FOLLOWED = "99";
-inline string MOCK_NO_FOLLOWED = "-1";
+inline string MOCK_NO_FOLLOWED = INVALID_STATEMENT_NUMBER;
 inline vector<pair<string, string>>MOCK_FOLLOWED_STAR (
         {{"1", "follows stars 2"},
          {"1", "follows stars 4"},

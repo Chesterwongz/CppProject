@@ -45,7 +45,7 @@ IntermediateTable FollowsAbstraction::handleIntegerArgs(
                      followStarPairs);
          } else {
              string followingStmt = pkb.getFollowing(stoi(firstArgValue), secondStmtType);
-             if (followingStmt != "-1") {
+             if (followingStmt != INVALID_STATEMENT_NUMBER) {
                  vector<string> dataCol = {followingStmt};
                  return IntermediateTableFactory::buildSingleColTable(secondArgValue, dataCol);
              }
@@ -61,7 +61,7 @@ IntermediateTable FollowsAbstraction::handleIntegerArgs(
                      followStarPairs);
          } else {
              string followedStmt = pkb.getFollowed(stoi(secondArgValue), firstStmtType);
-             if (followedStmt != "-1") {
+             if (followedStmt != INVALID_STATEMENT_NUMBER) {
                  vector<string> dataCol = {followedStmt};
                  return IntermediateTableFactory::buildSingleColTable(firstArgValue, dataCol);
              }

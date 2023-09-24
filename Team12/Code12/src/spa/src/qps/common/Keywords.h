@@ -28,3 +28,4 @@ inline const string PARENTS_ABSTRACTION = "Parent";
 inline const string USES_ABSTRACTION = "Uses";
 
 inline const string WILDCARD_KEYWORD = "_";
+inline const string INVALID_STATEMENT_NUMBER = "-1";
