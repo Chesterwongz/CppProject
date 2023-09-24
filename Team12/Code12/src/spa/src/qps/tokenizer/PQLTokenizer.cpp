@@ -74,6 +74,7 @@ void PQLTokenizer::flushLiteralBuffer(PQLTokenType type) {
         throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_EMPTY_LITERAL);
     }
     tokenList->push_back(PQLToken(type, literalBuffer));
+    numberOfTokensInLiteral = 0;
     literalBuffer.clear();
 }
 

@@ -13,18 +13,19 @@
 using std::string, std::unordered_map,std::map, std::unordered_set, std::set, std::vector, std::pair;
 
 string followsAssignSource =
-    "procedure procedure {  read read;\n"
-    "  print print;\n"
-    "  while ((!(while != while))||(while<=while)) {\n"
-    "    if ((if == if) && ( ! (if >= if))) then{\n"
-    "        assign = variable + 5;\n"
-    "        if ((if2 < if2) && ( ! (if2 > if2))) then{\n"
-    "                read read2;\n"
-    "                print print2;\n"
-    "                while ((while2 > while2)&&(!(while2<while2))) {\n"
-    "                    assign2 = variable2 + 10;\n"
-    "                }} else {read read3;\n"
-    "             }        }else{read read4;}}}";
+    "procedure FollowsPattern{\n"
+    "  read line1;\n"
+    "  if (line2 > line2)then {\n"
+    "  while((line3 < line3)&& ( line3 == line3)){\n"
+    "    print line4;\n"
+    "    assign5 = line5 + line5;\n"
+    "  }\n"
+    "      read line6;\n"
+    "  } else {\n"
+    "    assign7 = (line7+line7)/line7*line7-line7%(line7);\n"
+    "  }\n"
+    "  assign8 = line8;\n"
+    "}";
 
 TEST_CASE("SP-PKB-QPS Follows Assign - 1") {
     string query =
