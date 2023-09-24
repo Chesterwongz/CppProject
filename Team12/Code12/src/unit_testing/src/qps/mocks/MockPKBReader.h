@@ -38,6 +38,12 @@ public:
     vector<pair<string, string>> mockAllUsedVariables;
     vector<string> mockExactAssignPatternStmts;
     vector<string> mockPartialAssignPatternStmts;
+    bool mockIsFollowsStar;
+    bool mockIsParentsStar;
+    bool mockIsFollows;
+    bool mockIsParents;
+    bool mockIsVariableModifiedBy;
+    bool mockIsVariableUsedBy;
 
     explicit MockPKBReader(PKBStorage &storage) : PKBReader(storage){};
 
@@ -135,5 +141,29 @@ public:
 
     vector<string> getPartialAssignPattern(const string& variableName, const string& rpn, bool isSynonym) override {
         return mockPartialAssignPatternStmts;
+    }
+
+    bool isFollows(int statementNumber, int followingStatement) override {
+     return mockIsFollows;
+    }
+
+    bool isFollowsStar(int statementNumber, int followingStatement) override {
+        return mockIsFollowsStar;
+    }
+
+    bool isParent(int statementNumber, int followingStatement) override {
+        return mockIsParents;
+    }
+
+    bool isParentStar(int statementNumber, int followingStatement) override {
+        return mockIsParentsStar;
+    }
+
+    bool isVariableModifiedBy(const std::string& variableName, const std::string statementNumber) override {
+        return mockIsVariableModifiedBy;
+    }
+
+    bool isVariableUseBy(const std::string& variableName, const std::string statementNumber) override {
+        return mockIsVariableUsedBy;
     }
 };
