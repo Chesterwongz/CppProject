@@ -13,20 +13,39 @@
 using std::string, std::unordered_map,std::map, std::unordered_set, std::set, std::vector, std::pair;
 
 string parentSource =
-    "procedure procedure {  read read;\n"
-    "  print print;\n"
-    "  while ((!(while != while))||(while<=while)) {\n"
-    "    if ((if == if) && ( ! (if >= if))) then{\n"
-    "        assign = variable + 5;\n"
-    "        if ((if2 < if2) && ( ! (if2 > if2))) then{\n"
-    "                read read2;\n"
-    "                print print2;\n"
-    "                while ((while2 > while2)&&(!(while2<while2))) {\n"
-    "                    assign2 = variable2 + 10;\n"
-    "                }} else {read read3;\n"
-    "             }        }else{read read4;}}}";
+    "procedure Parent {    read line1;\n"
+    "    if (line2 > line2) then{\n"
+    "        while((line3 <= line3)&& ( line3 == line3)){\n"
+    "            read line4;\n"
+    "            print line5;\n"
+    "            if (line6 > line6) then{\n"
+    "                if ((line7 * 7 == (line7 + 7)%7)||(! ( line7/line7 != line7/line7+7)))then{\n"
+    "                  assign8 = line8;\n"
+    "                  assign9 = line9 * 9 + (9) * (line9 / line9);\n"
+    "                } else {\n"
+    "                    while(line10 < line10){\n"
+    "                        while((line11 < line11)&& ( line11 == line11)){\n"
+    "                            print line12;\n"
+    "                        }\n"
+    "                    }\n"
+    "                }\n"
+    "            } else {\n"
+    "                if (line13 > line13) then{\n"
+    "                    while((line14) < (line14)){\n"
+    "                      read line15;\n"
+    "                    }\n"
+    "                } else {\n"
+    "                    assign16 = line16/16;\n"
+    "                }\n"
+    "            }\n"
+    "        }\n"
+    "    } else {\n"
+    "        print line17;\n"
+    "    }\n"
+    "    assign18 = line18;\n"
+    "}";
 
-TEST_CASE("SP-PKB-QPS integration - 1") {
+TEST_CASE("SP-PKB-QPS Single Clause Parent - 1") {
     string query =
         "read read;\n"
         "Select read";

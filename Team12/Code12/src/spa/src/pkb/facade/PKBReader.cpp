@@ -42,6 +42,11 @@ std::string PKBReader::getFollowed(int statementNumber, StmtType statementType) 
     return std::to_string(-1);
 }
 
+bool PKBReader::isFollows(int statementNumber, int followingStatement) {
+    int followsStmt = storage.getImmediateFollows(statementNumber);
+    return followsStmt == followingStatement;
+}
+
 std::vector<std::pair<std::string, std::string>> PKBReader::getFollowsPairs(StmtType statementType1, StmtType statementType2) {
     std::set<int> firstStatementList = storage.getStatementNumbersFromStatementType(statementType1);
     std::set<int> secondStatementList = storage.getStatementNumbersFromStatementType(statementType2);
@@ -91,6 +96,12 @@ std::vector<std::pair<std::string, std::string>> PKBReader::getFollowedStar(int 
 
 }
 
+bool PKBReader::isFollowsStar(int statementNumber, int followingStatement) {
+    std::set<int> allFollowsStar = storage.getAllFollows(statementNumber);
+    return allFollowsStar.find(followingStatement) != allFollowsStar.end();
+}
+
+
 std::vector<std::pair<std::string, std::string>> PKBReader::getFollowsStarPairs(StmtType statementType1, StmtType statementType2) {
     std::set<int> firstStatementList = storage.getStatementNumbersFromStatementType(statementType1);
     std::set<int> secondStatementList = storage.getStatementNumbersFromStatementType(statementType2);
@@ -135,6 +146,11 @@ std::pair<std::string, std::string> PKBReader::getImmediateParentOf(int statemen
     }
 
     return result;
+}
+
+bool PKBReader::isParent(int statementNumber, int childStatement) {
+    std::set<int> allImmediateChildren = storage.getImmediateChildren(statementNumber);
+    return allImmediateChildren.find(childStatement) != allImmediateChildren.end();
 }
 
 std::vector<std::pair<std::string, std::string>> PKBReader::getParentChildPairs(StmtType parentType, StmtType childType) {
@@ -184,6 +200,11 @@ std::vector<std::pair<std::string, std::string>> PKBReader::getParentStarOf(int 
     }
 
     return result;
+}
+
+bool PKBReader::isParentStar(int statementNumber, int childStatement) {
+    std::set<int> allChildren = storage.getAllChildren(statementNumber);
+    return allChildren.find(childStatement) != allChildren.end();
 }
 
 std::vector<std::pair<std::string, std::string>> PKBReader::getParentChildStarPairs(StmtType parentType, StmtType childType) {
