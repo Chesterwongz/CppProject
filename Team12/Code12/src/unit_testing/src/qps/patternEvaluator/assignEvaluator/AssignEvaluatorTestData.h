@@ -17,3 +17,5 @@ vector<string> mockExactAssignPatternStmts = {"1", "2", "3"};
 MockContext mockContext = MockContext();
 
 bool isPartialMatchFalse = false;
+
+string synonymValue = "meow";

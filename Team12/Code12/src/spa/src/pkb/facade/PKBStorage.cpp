@@ -63,6 +63,9 @@ StmtType PKBStorage::getStatementTypeFromStatementNumber(int statementNumber) {
 }
 
 bool PKBStorage::isStatementType(int statementNumber, StmtType statementType) {
+    if (statementNumber < 0 || statementType == StmtType::INVALID) {
+        return false;
+    }
     return statementStorage.isStatementType(statementNumber, statementType);
 }
 

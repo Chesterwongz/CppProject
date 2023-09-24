@@ -37,6 +37,12 @@ set<string> Query::evaluate() {
         return returnAllPossibleQueriedSynonym();
     }
 
+    bool isColMissing = !currIntermediateTable.isColExists(this->synonymToQuery);
+    bool isTableNonEmpty = currIntermediateTable.getRowCount() != 0;
+    if (isColMissing && isTableNonEmpty) {
+        return returnAllPossibleQueriedSynonym();
+    }
+
     // get result vector
     vector<string> resultVector = currIntermediateTable.getSingleCol(this->synonymToQuery);
     return {resultVector.begin(), resultVector.end()};
