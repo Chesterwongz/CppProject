@@ -428,7 +428,7 @@ TEST_CASE("valid such that before pattern") {
     unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(
             std::move(outerSynonym),
             make_unique<vector<unique_ptr<IArgument>>>(std::move(patternArg)),
-            true
+            false
     );
     expected.addClause(std::move(patternClause));
 

@@ -8,7 +8,7 @@
 // MS2 split pattern parser up into AssignPatternParserState, IfPatternParserState, WhilePatternParserState
 PredictiveMap PatternParserState::predictiveMap = {
         { PQL_NULL_TOKEN, { PQL_PATTERN_TOKEN } },
-        { PQL_PATTERN_TOKEN, { PQL_SYNONYM_TOKEN } }, // must be assign for ms1
+        { PQL_PATTERN_TOKEN, { PQL_SYNONYM_TOKEN } },
         { PQL_SYNONYM_TOKEN, { PQL_OPEN_BRACKET_TOKEN, PQL_COMMA_TOKEN } },
         { PQL_OPEN_BRACKET_TOKEN, { PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN } },
         { PQL_WILDCARD_TOKEN, { PQL_COMMA_TOKEN, PQL_LITERAL_REF_TOKEN,
@@ -20,6 +20,8 @@ PredictiveMap PatternParserState::predictiveMap = {
 };
 
 PQLTokenType PatternParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
+
+size_t PatternParserState::maxNumberOfArgs = 2;
 
 PatternParserState::PatternParserState(PQLParserContext& parserContext) :
         parserContext(parserContext),
@@ -60,6 +62,17 @@ void PatternParserState::processSynonymToken(PQLToken& curr) {
     }
 }
 
+void PatternParserState::processLastArgument() {
+    if (patternArg.size() == 1 && partialMatchWildCardCount == 1) { // secondArg = _
+        patternArg.push_back(std::move(ArgumentFactory::createWildcardArgument()));
+    } else if ((patternArg.size() == maxNumberOfArgs && partialMatchWildCardCount == 0)  // secondArg = exact
+        || (partialMatchWildCardCount == 2 && patternArg.size() == maxNumberOfArgs)) { // secondArg = _"x"_
+        return;
+    } else {
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCOMPLETE_PARTIAL_MATCH_PATTERN);
+    }
+}
+
 void PatternParserState::handleToken() {
     while (!this->tokenStream.isTokenStreamEnd()) {
         auto& curr = tokenStream.getCurrentToken();
@@ -87,33 +100,26 @@ void PatternParserState::handleToken() {
                 break;
             case PQL_CLOSE_BRACKET_TOKEN:
                 isInBracket = false;
-                if (partialMatchWildCardCount == 1 && matchPattern.empty()
-                || (isPartialMatch && partialMatchWildCardCount < 2)) {
-                    throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCOMPLETE_PARTIAL_MATCH_PATTERN);
-                }
+                processLastArgument();
                 parserContext.addClause(make_unique<PatternClause>(
                         std::move(outerSynonym),
                         make_unique<vector<unique_ptr<IArgument>>>(std::move(patternArg)),
-                        isPartialMatch
+                        partialMatchWildCardCount == 2
                         ));
                 break;
-            case PQL_SUCH_TOKEN:
-                this->parserContext.transitionTo(make_unique<SuchThatParserState>(parserContext));
-                return;
             case PQL_WILDCARD_TOKEN:
                 if (argumentCount > 0) {
                     partialMatchWildCardCount++;
-                    isPartialMatch = true;
                 } else {
                     patternArg.push_back(std::move(ArgumentFactory::createWildcardArgument()));
                 }
                 break;
             case PQL_LITERAL_REF_TOKEN:
-                if (argumentCount > 0) {
-                    matchPattern = curr.getValue();
-                }
                 patternArg.push_back(std::move(ArgumentFactory::createIdentArgument(curr.getValue())));
                 break;
+            case PQL_SUCH_TOKEN:
+                this->parserContext.transitionTo(make_unique<SuchThatParserState>(parserContext));
+                return;
             default:
                 throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);
         }
