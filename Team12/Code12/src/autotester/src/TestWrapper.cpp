@@ -46,11 +46,11 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
       for(const auto& r : result) {
           results.push_back(r);
       }
-  } catch (QPSException& error) {
-      std::cout << error.what() << std::endl;
-      exit(1);
-  } catch (...) {
-      exit(2);
+  } catch (const QPSException& error) {
+      results.emplace_back(error.what());
+      return;
+  } catch (const Exception& error) {
+      results.emplace_back(error.what());
+      return;
   }
-
 }
