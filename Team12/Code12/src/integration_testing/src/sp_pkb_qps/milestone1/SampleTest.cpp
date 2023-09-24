@@ -107,7 +107,7 @@ TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 5") {
     sp.processContent(sampleSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
-    set<string> expected = {"3", "4", "11", "12", "13", "14", "17"};
+    set<string> expected = {"3", "4", "11", "13", "14", "17"};
     REQUIRE(result == expected);
 }
 
