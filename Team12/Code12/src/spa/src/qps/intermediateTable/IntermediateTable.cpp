@@ -2,6 +2,7 @@
 #include <iostream>
 #include "IntermediateTable.h"
 #include "IntermediateTableUtils.h"
+#include "qps/exceptions/QPSInvalidQueryException.h"
 
 IntermediateTable::IntermediateTable(bool isTableWildcard):
     isWildcard(isTableWildcard),
@@ -59,7 +60,7 @@ vector<vector<string>> IntermediateTable::getData() {
 
 vector<string> IntermediateTable::getSingleCol(const string &colName) {
     if (!isColExists(colName)) {
-        throw std::runtime_error("Non-existent column name");
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INVALID_SELECT_SYNONYM);
     }
     int colIndex = this->colNameToIndexMap.at(colName);
     vector<string> res = {};
