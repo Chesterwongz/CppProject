@@ -31,7 +31,7 @@ std::vector<std::string> PatternStorage::getAllStatementsWithVariable(const std:
 
 std::vector<std::string> PatternStorage::getExactAssignPattern(std::string variableName, std::string rpn, bool isSynonym) {
     std::vector<std::string> result;
-    if (variableName == wildcard && rpn == wildcard) {
+    if ((variableName == wildcard || isSynonym) && rpn == wildcard) {
         result = getAllStatements();
     }
     else if (variableName == wildcard || isSynonym) {
@@ -57,7 +57,7 @@ std::vector<std::string> PatternStorage::getExactAssignPattern(std::string varia
 
 std::vector<std::string> PatternStorage::getPartialAssignPattern(std::string variableName, std::string rpn, bool isSynonym) {
     std::vector<std::string> result;
-    if (variableName == wildcard && rpn == wildcard) {
+    if ((variableName == wildcard || isSynonym) && rpn == wildcard) {
         result = getAllStatements();
     }
     else if (variableName == wildcard || isSynonym) {

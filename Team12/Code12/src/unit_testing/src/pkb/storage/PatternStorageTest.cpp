@@ -27,6 +27,7 @@ TEST_CASE("PatternStorage Tests") {
         REQUIRE(patternStorage.getExactAssignPattern("x", "b", false) == std::vector<std::string>{});
         REQUIRE(patternStorage.getExactAssignPattern("y", "de+f+", false) == std::vector<std::string>{"2"});
         REQUIRE(patternStorage.getExactAssignPattern("z", "abc*+", false) == std::vector<std::string>{});
+        REQUIRE(patternStorage.getExactAssignPattern("v", "abc*+", true) == std::vector<std::string>{"1", "5"});
         REQUIRE(patternStorage.getExactAssignPattern("_", "_", false) == std::vector<std::string>{"1", "2", "3", "4", "5"});
         REQUIRE(patternStorage.getExactAssignPattern("x", "_", false) == std::vector<std::string>{"1", "4", "5"});
         REQUIRE(patternStorage.getExactAssignPattern("_", "abc*+", false) == std::vector<std::string>{"1", "5"});
@@ -38,7 +39,9 @@ TEST_CASE("PatternStorage Tests") {
         REQUIRE(patternStorage.getPartialAssignPattern("x", "3", false) == std::vector<std::string>{});
         REQUIRE(patternStorage.getPartialAssignPattern("y", "f", false) == std::vector<std::string>{"2"});
         REQUIRE(patternStorage.getPartialAssignPattern("_", "a", false) == std::vector<std::string>{"1", "3", "4", "5"});
+        REQUIRE(patternStorage.getPartialAssignPattern("v", "a", true) == std::vector<std::string>{"1", "3", "4", "5"});
         REQUIRE(patternStorage.getPartialAssignPattern("x", "_", false) == std::vector<std::string>{"1", "4", "5"});
+        REQUIRE(patternStorage.getPartialAssignPattern("v", "_", true) == std::vector<std::string>{"1", "2", "3", "4", "5"});
         REQUIRE(patternStorage.getPartialAssignPattern("_", "_", false) == std::vector<std::string>{"1", "2", "3", "4", "5"});
     }
 }
