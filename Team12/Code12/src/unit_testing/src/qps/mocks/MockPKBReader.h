@@ -136,4 +136,21 @@ public:
     vector<string> getPartialAssignPattern(const string& variableName, const string& rpn, bool isSynonym) override {
         return mockPartialAssignPatternStmts;
     }
+
+    void setMockExactAssignPatternStmts(vector<string> mockExactAssignPatternStmts) {
+        this->mockExactAssignPatternStmts = mockExactAssignPatternStmts;
+    }
+
+    void setMockPartialAssignPatternStmts(vector<string> mockPartialAssignPatternStmts) {
+        this->mockPartialAssignPatternStmts = mockPartialAssignPatternStmts;
+    }
+
+    void resetMockExactAssignPatternStmts() {
+        this->mockExactAssignPatternStmts = {};
+    }
+
+    void resetMockPartialAssignPatternStmts() {
+        this->mockPartialAssignPatternStmts = {};
+    }
+
 };
