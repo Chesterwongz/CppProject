@@ -82,6 +82,13 @@ TEST_CASE("Test BODMAS") {
     REQUIRE(ast.has_value());
 }
 
+TEST_CASE("Test assign multibrackets") {
+    std::string input = "hi = ((line6 )- 1);";
+    std::optional<std::unique_ptr<TNode>> ast = StmtParser(
+            std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
+    REQUIRE(ast.has_value());
+}
+
 TEST_CASE("Test invalid assign stmt") {
     std::string input = "hi = ();";
     try {
@@ -94,8 +101,40 @@ TEST_CASE("Test invalid assign stmt") {
     }
 }
 
+TEST_CASE("Test RelFactor multibrackets") {
+    std::string input = "((line6 )- 1) > (a - 1)";
+    std::optional<std::unique_ptr<TNode>> ast = RelExprParser(
+            std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
+    REQUIRE(ast.has_value());
+}
+
+TEST_CASE("Test WhileParser") {
+    std::string input = "while ((((line6 )- 1) > (a - 1)) && (!(1 != 1))) {\n"
+                        "        line7 = a + 1;\n"
+                        "    }";
+    std::optional<std::unique_ptr<TNode>> ast = StmtParser(
+            std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
+    REQUIRE(ast.has_value());
+    REQUIRE(ast.value()->getChildAt(0).getChildAt(0).getChildAt(0).getChildAt(0).isEqual(VarNode("line6")));
+}
+
+TEST_CASE("Test CondExprParser Not cond brackets") {
+    std::string input = "!(1 != 1)";
+    std::optional<std::unique_ptr<TNode>> ast = CondExprParser(
+            std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
+    REQUIRE(ast.has_value());
+}
+
+TEST_CASE("Test CondExprParser multiple brackets") {
+    std::string input = "(((line6 )- 1) > (a - 1)) && (!(1 != 1))";
+    std::optional<std::unique_ptr<TNode>> ast = CondExprParser(
+            std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
+    REQUIRE(ast.has_value());
+    REQUIRE(ast.value()->getChildAt(0).getChildAt(0).getChildAt(0).isEqual(VarNode("line6")));
+}
+
 TEST_CASE("Test CondExprParser") {
-    std::string input = "(z!=0) || (!(z<0))";
+    std::string input = "(((z) - 1)!=(0)) || (!(z<0))";
     std::optional<std::unique_ptr<TNode>> ast = CondExprParser(
             std::move(std::make_shared<ParserContext>(std::move(input)))).parse();
     REQUIRE(ast.has_value());
