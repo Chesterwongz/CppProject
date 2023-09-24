@@ -43,3 +43,9 @@ TEST_CASE("test_wildcard_isWildcard_true") {
 
 	REQUIRE(actualIsSynonym);
 }
+
+TEST_CASE("test_wildcard_operator==_true") {
+	Wildcard similarWildcard = Wildcard();
+
+	REQUIRE(wildcard == similarWildcard);
+}

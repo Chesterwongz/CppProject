@@ -43,3 +43,16 @@ TEST_CASE("test_integer_isWildcard_false") {
 
 	REQUIRE(actualIsInteger == false);
 }
+
+TEST_CASE("test_integer_operator==_true") {
+	Integer similarInteger = Integer(integerString);
+
+	REQUIRE(integer == similarInteger);
+}
+
+TEST_CASE("test_integer_operator==_false") {
+	string randomNum = "29384";
+	Integer diffInteger = Integer(randomNum);
+
+	REQUIRE(!(integer == diffInteger));
+}

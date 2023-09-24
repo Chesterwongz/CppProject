@@ -43,3 +43,15 @@ TEST_CASE("test_synonym_isWildcard_false") {
 
 	REQUIRE(actualIsSynonym == false);
 }
+
+TEST_CASE("test_synonym_operator==_true") {
+	SynonymArg similarSynonym = SynonymArg(synonymString);
+
+	REQUIRE(synonym == similarSynonym);
+}
+
+TEST_CASE("test_synonym_operator==_false") {
+	SynonymArg diffSynonym = SynonymArg("randomsynonym");
+
+	REQUIRE(!(synonym == diffSynonym));
+}

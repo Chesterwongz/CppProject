@@ -45,3 +45,15 @@ TEST_CASE("test_ident_isWildcard_false") {
 
 	REQUIRE(actualIsIdent == false);
 }
+
+TEST_CASE("test_ident_operator==_true") {
+	Ident similarIdent = Ident(identString);
+
+	REQUIRE(ident == similarIdent);
+}
+
+TEST_CASE("test_ident_operator==_false") {
+	Ident diffIdent = Ident("randomstring");
+
+	REQUIRE(!(ident == diffIdent));
+}
