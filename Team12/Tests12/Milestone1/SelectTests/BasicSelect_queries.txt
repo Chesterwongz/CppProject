@@ -1,85 +1,85 @@
 ====== 1 - Select read
-read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ;
-Select read;
-1, 7
+read read;
+Select read
+1, 7, 11, 12
 1000
 ====== 2 - Select read2
-read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ;
+read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign, assign2 ; variable variable, variable2     ;
 Select read2
-1, 7
+1, 7, 11, 12
 1000
 ====== 3 - Select print
-read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ;
+read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ;
 Select print
 2, 8
 1000
 ====== 4 - Select print2
-read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ;
+read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ;
 Select print2
 2, 8
 1000
 ====== 5 - Select while
-read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ;
+read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ;
 Select while
 3, 9
 1000
 ====== 6 - Select while2
-read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ;
+read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ;
 Select while2
 3, 9
 1000
 ====== 7 - Select if
-read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt;stmt Select;
+read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select;
 Select if
 4, 6
 1000
 ====== 8 - Select if2
-read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt;stmt Select;
+read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select;
 Select if2
 4, 6
 1000
 ====== 9 - Select assign
-read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt;stmt Select;
+read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select;
 Select assign
 5, 10
 1000
 ====== 10 - Select assign2
-read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt ;stmt Select;
+read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select;
 Select assign2
 5, 10
 1000
 ====== 11 - Select variable
-read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt;stmt Select;
+read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select;
 Select variable
-read, read2, print, print2, while, while2, if, if2, assign, assign2, variable, variable2
+read, read2, read3, read4, print, print2, while, while2, if, if2, assign, assign2, variable, variable2
 1000
 ====== 12 - Select variable2
-read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt;stmt Select;
+read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select;
 Select variable2
-read, read2, print, print2, while, while2, if, if2, assign, assign2, variable, variable2
+read, read2, read3, read4, print, print2, while, while2, if, if2, assign, assign2, variable, variable2
 1000
 ====== 13 - Select stmt
-read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt ;stmt Select;
+read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select;
 Select stmt
-1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
 1000
 ====== 14 - Select Select
-read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt ;stmt Select;
+read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select;
 Select Select
-1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
 1000
 ====== 15 - Select constant
-constant constant; constant pattern; read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt ;stmt Select;
+constant constant; constant pattern; read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select;
 Select constant
 5, 10
 1000
 ====== 16 - Select constant "pattern"
-constant constant; constant pattern; read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt ;stmt Select;
+constant constant; constant pattern; read read,read2; print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select;
 Select pattern
 5, 10
 1000
 ====== 17 - Select procedure "constant"
-read read,read2;procedure constant;print print ,print2; while while, while2 ; if if, if2; assign assign assign2 ; variable variable variable2     ; stmt stmt ;stmt Select;
+read read,read2;procedure constant;print print ,print2; while while, while2 ; if if, if2; assign assign ,assign2 ; variable variable, variable2     ; stmt stmt;stmt Select;
 Select constant
 procedure
 1000
