@@ -62,7 +62,7 @@ std::vector<std::string> PatternStorage::getPartialAssignPattern(std::string var
     }
     else if (variableName == wildcard) {
         for (const auto& entry : statementPatternStorage) {
-            if (entry.second.second.find(rpn) != std::string::npos) {
+            if (entry.second.first.find(rpn) != std::string::npos) {
                 result.push_back(std::to_string(entry.first));
             }
         }

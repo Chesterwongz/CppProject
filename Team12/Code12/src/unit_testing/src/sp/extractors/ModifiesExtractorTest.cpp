@@ -80,7 +80,7 @@ TEST_CASE("ModifiesExtractor - 2 read modifies") {
     PKBStorage storage{};
     MockPKBWriter mockPKB(storage);
     extractAbstraction(*programNode, mockPKB, AbstractionType::MODIFIES);
-    
+
     unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
     expectedVarToStmtNum["x"] = {1};
     expectedVarToStmtNum["y"] = {2};
@@ -366,5 +366,42 @@ TEST_CASE("ModifiesExtractor with parser - no proc call") {
     unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
     expectedVarToProcName["x"] = {"simple", "simple2"};
     expectedVarToProcName["y"] = {"simple", "simple3"};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToProcName));
+}
+
+TEST_CASE("ModifiesExtractor with parser - 3 nested if statements") {
+    string input =
+        "procedure multipleIf {"
+        "   read v;" // 1
+        "   read w;" // 2
+        "   if (v == 0) then {" // 3
+        "       read x;" // 4
+        "       if (w != v) then {" // 5
+        "           read y;" // 6
+        "           if (x > (y - 1)) then {" // 7
+        "               print z;" // 8
+        "           } else { print x; }" // 9
+        "       } else { read z; }" // 10
+        "   } else { print v; }" // 11
+        "}";
+
+    // extract
+    PKBStorage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::MODIFIES);
+    unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
+    expectedVarToStmtNum["v"] = {1};
+    expectedVarToStmtNum["w"] = {2};
+    expectedVarToStmtNum["x"] = {3, 4};
+    expectedVarToStmtNum["y"] = {3, 5, 6};
+    expectedVarToStmtNum["z"] = {3, 5, 10};
+    REQUIRE(mockPKB.isModifiesEqual(expectedVarToStmtNum));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["v"] = {"multipleIf"};
+    expectedVarToProcName["w"] = {"multipleIf"};
+    expectedVarToProcName["x"] = {"multipleIf"};
+    expectedVarToProcName["y"] = {"multipleIf"};
+    expectedVarToProcName["z"] = {"multipleIf"};
     REQUIRE(mockPKB.isModifiesEqual(expectedVarToProcName));
 }
