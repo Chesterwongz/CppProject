@@ -60,7 +60,7 @@ vector<vector<string>> IntermediateTable::getData() {
 
 vector<string> IntermediateTable::getSingleCol(const string &colName) {
     if (!isColExists(colName)) {
-        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INVALID_SELECT_SYNONYM);
+       return {};
     }
     int colIndex = this->colNameToIndexMap.at(colName);
     vector<string> res = {};
