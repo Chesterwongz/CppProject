@@ -15,19 +15,19 @@ using std::shared_ptr;
 
 struct AbstractionParams {
     PKBReader &pkb;
-    Context context;
+    Context &context;
     Abstraction abstraction;
     IArgument &firstArg;
     IArgument &secondArg;
     bool isTransitive;
     explicit AbstractionParams(PKBReader &pkb,
-                               Context context,
+                               Context &context,
                                Abstraction abstraction,
                                IArgument &firstArg,
                                IArgument &secondArg,
                                bool isTransitive) :
                                    pkb(pkb),
-                                   context(std::move(context)),
+                                   context(context),
                                    abstraction(std::move(abstraction)),
                                    firstArg(firstArg),
                                    secondArg(secondArg),
