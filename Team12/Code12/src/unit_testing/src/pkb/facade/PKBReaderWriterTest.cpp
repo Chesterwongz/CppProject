@@ -229,16 +229,16 @@ TEST_CASE("PKBReader Tests") {
     }
 
     SECTION("getAllModifiedVariables") {
-        REQUIRE(reader.getAllModifiedVariables(StmtType::STMT) == std::vector<std::pair<std::string, std::string>>{ {"x", "1"}, { "x", "3" }, { "x", "6" }, { "y", "2" }, { "y", "5" }, { "z", "4" }});
-        REQUIRE(reader.getAllModifiedVariables(StmtType::ASSIGN) == std::vector<std::pair<std::string, std::string>>{ {"x", "1"}, { "x", "3" }});
-        REQUIRE(reader.getAllModifiedVariables(StmtType::IF) == std::vector<std::pair<std::string, std::string>>{ { "z", "4" }});
+        REQUIRE(reader.getAllModifiedVariables(StmtType::STMT) == std::vector<std::pair<std::string, std::string>>{{"1", "x"}, { "3", "x" }, { "6", "x" }, { "2", "y" }, { "5", "y" }, { "4", "z" }});
+        REQUIRE(reader.getAllModifiedVariables(StmtType::ASSIGN) == std::vector<std::pair<std::string, std::string>>{ {"1", "x"}, { "3", "x" }});
+        REQUIRE(reader.getAllModifiedVariables(StmtType::IF) == std::vector<std::pair<std::string, std::string>>{ { "4", "z" }});
         REQUIRE(reader.getAllModifiedVariables(StmtType::PRINT) == std::vector<std::pair<std::string, std::string>>{});
     }
 
     SECTION("getAllUsedVariables") {
-        REQUIRE(reader.getAllUsedVariables(StmtType::STMT) == std::vector<std::pair<std::string, std::string>>{ {"x", "1"}, { "x", "2" }, { "x", "4" }, { "y", "1" }, { "z", "3" }});
-        REQUIRE(reader.getAllUsedVariables(StmtType::ASSIGN) == std::vector<std::pair<std::string, std::string>>{ {"x", "1"}, { "y", "1" }, { "z", "3" }});
-        REQUIRE(reader.getAllUsedVariables(StmtType::IF) == std::vector<std::pair<std::string, std::string>>{ { "x", "4" }});
+        REQUIRE(reader.getAllUsedVariables(StmtType::STMT) == std::vector<std::pair<std::string, std::string>>{ {"1", "x"}, { "2", "x" }, { "4", "x" }, { "1", "y" }, { "3", "z" }});
+        REQUIRE(reader.getAllUsedVariables(StmtType::ASSIGN) == std::vector<std::pair<std::string, std::string>>{ {"1", "x"}, { "1", "y" }, { "3", "z" }});
+        REQUIRE(reader.getAllUsedVariables(StmtType::IF) == std::vector<std::pair<std::string, std::string>>{ { "4", "x" }});
         REQUIRE(reader.getAllUsedVariables(StmtType::PRINT).empty());
     }
 
