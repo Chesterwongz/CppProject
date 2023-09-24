@@ -12,7 +12,14 @@ IntermediateTable AssignEvaluator::evaluate() {
 
 	bool isFirstArgSynonym = firstArg->isSynonym();
 
-	string secondArgRPNValue = QPSStringUtils::convertToRPN(secondArg->getValue());
+	string secondArgRPNValue;
+
+	if (secondArg->isWildcard()) {
+		secondArgRPNValue = secondArg->getValue();
+	}
+	else {
+		secondArgRPNValue = QPSStringUtils::convertToRPN(secondArg->getValue());
+	}
 
 	vector<string> pkbResult;
 
