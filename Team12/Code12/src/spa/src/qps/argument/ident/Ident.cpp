@@ -1,6 +1,6 @@
 #include "Ident.h"
 
-Ident::Ident(string argumentValue) {
+Ident::Ident(const string& argumentValue) {
 	// TODO: check its ident and remove '\"'
 	//if (!QPSStringUtils::isIdent(argumentValue)) {
 	//	throw std::runtime_error("argumentValue is not an ident");
@@ -33,4 +33,11 @@ bool Ident::isSynonym() {
 
 bool Ident::isWildcard() {
 	return false;
+}
+
+bool Ident::operator==(const IArgument& other) const {
+	const auto* otherIdent = dynamic_cast<const Ident*>(&other);
+	if (!otherIdent) return false;
+
+	return this->identValue == otherIdent->identValue;
 }

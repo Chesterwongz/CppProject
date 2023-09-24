@@ -33,3 +33,7 @@ StmtType StatementStorage::getStatementTypeFromStatementNumber(int statementNumb
     }
     return StmtType::INVALID;
 }
+
+bool StatementStorage::isStatementType(int statementNumber, StmtType statementType) {
+    return statementType == StmtType::STMT || getStatementTypeFromStatementNumber(statementNumber) == statementType;
+}

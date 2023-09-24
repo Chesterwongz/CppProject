@@ -3,7 +3,7 @@
 
 PatternStorage::PatternStorage() = default;
 
-void PatternStorage::setAssignPattern(std::string variableName, std::string rpn, int statementNumber) {
+void PatternStorage::setAssignPattern(const std::string& variableName, const std::string& rpn, int statementNumber) {
     variablePatternStorage[variableName].emplace_back(std::make_pair(rpn, statementNumber));
     statementPatternStorage[statementNumber] = std::make_pair(rpn, variableName);
 }
@@ -30,14 +30,14 @@ std::vector<std::string> PatternStorage::getAllStatementsWithVariable(const std:
     return result;
 }
 
-std::vector<std::string> PatternStorage::getExactAssignPattern(std::string variableName, std::string rpn) {
+std::vector<std::string> PatternStorage::getExactAssignPattern(const std::string& variableName, const std::string& rpn, bool isSynonym) {
     std::vector<std::string> result;
-    if (variableName == WILDCARD_KEYWORD && rpn == WILDCARD_KEYWORD) {
+    if ((variableName == WILDCARD_KEYWORD || isSynonym) && rpn == WILDCARD_KEYWORD) {
         result = getAllStatements();
     }
-    else if (variableName == WILDCARD_KEYWORD) {
+    else if (variableName == WILDCARD_KEYWORD || isSynonym) {
         for (const auto& entry : statementPatternStorage) {
-            if (entry.second.second == rpn) {
+            if (entry.second.first == rpn) {
                 result.push_back(std::to_string(entry.first));
             }
         }
@@ -56,14 +56,14 @@ std::vector<std::string> PatternStorage::getExactAssignPattern(std::string varia
     return result;
 }
 
-std::vector<std::string> PatternStorage::getPartialAssignPattern(std::string variableName, std::string rpn) {
+std::vector<std::string> PatternStorage::getPartialAssignPattern(const std::string& variableName, const std::string& rpn, bool isSynonym) {
     std::vector<std::string> result;
-    if (variableName == WILDCARD_KEYWORD && rpn == WILDCARD_KEYWORD) {
+    if ((variableName == WILDCARD_KEYWORD || isSynonym) && rpn == WILDCARD_KEYWORD) {
         result = getAllStatements();
     }
-    else if (variableName == WILDCARD_KEYWORD) {
+    else if (variableName == WILDCARD_KEYWORD || isSynonym) {
         for (const auto& entry : statementPatternStorage) {
-            if (entry.second.second.find(rpn) != std::string::npos) {
+            if (entry.second.first.find(rpn) != std::string::npos) {
                 result.push_back(std::to_string(entry.first));
             }
         }
@@ -81,8 +81,3 @@ std::vector<std::string> PatternStorage::getPartialAssignPattern(std::string var
 
     return result;
 }
-
-
-
-
-

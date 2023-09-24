@@ -12,11 +12,12 @@ private:
 	string identValue;
 
 public:
-	explicit Ident(string argumentValue);
+	explicit Ident(const string& argumentValue);
 	string getValue() override;
 	QPSStringUtils::ArgumentType getArgumentType() override;
-	virtual bool isIdent() override;
-	virtual bool isInteger() override;
-	virtual bool isSynonym() override;
-	virtual bool isWildcard() override;
+	bool isIdent() override;
+	bool isInteger() override;
+	bool isSynonym() override;
+	bool isWildcard() override;
+    bool operator==(const IArgument& other) const override;
 };

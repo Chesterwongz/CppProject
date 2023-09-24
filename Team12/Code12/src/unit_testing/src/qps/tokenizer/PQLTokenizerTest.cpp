@@ -12,7 +12,7 @@ bool isEqual(vector<PQLTokenType> expected, PQLTokenList tokenList) {
             if (token.getType() != expected[i]) {
                 return false;
             }
-        } catch (QPSInvalidQueryException e) {
+        } catch (QPSInvalidQueryException& e) {
             return false;
         }
     }
@@ -112,5 +112,5 @@ TEST_CASE("Invalid integer") {
     string integer = "4d500";
     PQLTokenizer tokenizer(integer);
 
-    REQUIRE_THROWS(tokenizer.tokenize(), QPS_INVALID_QUERY_INAVLID_INTEGER);
+    REQUIRE_THROWS_WITH(tokenizer.tokenize(), QPS_INVALID_QUERY_INAVLID_INTEGER);
 }

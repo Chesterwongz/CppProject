@@ -87,11 +87,11 @@ public:
     virtual std::vector<std::pair<std::string, std::string>> getAllUsedVariables(StmtType statementType);
 
     // return list of statement numbers which match the given pattern exactly
-    virtual std::vector<std::string> getExactAssignPattern(const std::string& variableName, const std::string& rpn);
+    virtual std::vector<std::string> getExactAssignPattern(const std::string& variableName, const std::string& rpn, bool isSynonym);
 
     // return list of statement numbers which match the given pattern partially
-    virtual std::vector<std::string> getPartialAssignPattern(const std::string& variableName, const std::string& rpn);
+    virtual std::vector<std::string> getPartialAssignPattern(const std::string& variableName, const std::string& rpn, bool isSynonym);
 
 private:
-    PKBStorage storage;
+    PKBStorage& storage;
 };

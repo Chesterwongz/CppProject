@@ -13,7 +13,7 @@ private:
     unordered_map<Synonym, Entity> tokenNameToTokenMap = {};
 
 public:
-    void addSynonym(Synonym tokenSynonym, Entity tokenEntity);
+    void addSynonym(const Synonym& tokenSynonym, Entity tokenEntity);
     Entity getTokenEntity(const Synonym &tokenName);
     unordered_map<Synonym, Entity>& getMap(); // for testing
 };

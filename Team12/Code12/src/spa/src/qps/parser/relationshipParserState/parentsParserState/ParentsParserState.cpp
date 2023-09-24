@@ -1,7 +1,9 @@
 #include "ParentsParserState.h"
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
+#include "qps/argument/argumentFactory/ArgumentFactory.h"
 #include "qps/parser/patternParserState/PatternParserState.h"
+#include "qps/clause/suchThatClause/SuchThatClause.h"
 
 // TODO: Consider merging with follows
 PredictiveMap ParentsParserState::predictiveMap = {
@@ -40,7 +42,7 @@ void ParentsParserState::handleToken() {
         }
 
         switch (curr.getType()) {
-            case PQL_FOLLOWS_TOKEN:
+            case PQL_PARENT_TOKEN:
             case PQL_COMMA_TOKEN:
                 break;
             case PQL_ASTERISKS_TOKEN:
@@ -48,15 +50,25 @@ void ParentsParserState::handleToken() {
                 break;
             case PQL_OPEN_BRACKET_TOKEN:
                 isInBracket = true;
-                return;
+                break;
             case PQL_CLOSE_BRACKET_TOKEN:
                 isInBracket = false;
-                // TODO: add clause
+                parserContext.addClause(make_unique<SuchThatClause>(
+                        PARENTS_ENUM,
+                        std::move(arguments.at(0)),
+                        std::move(arguments.at(1)),
+                        isTransitive
+                ));
                 break;
             case PQL_SYNONYM_TOKEN:
+                parserContext.checkValidSynonym(curr.getValue());
+                arguments.push_back(std::move(ArgumentFactory::createSynonymArgument(curr.getValue())));
+                break;
             case PQL_INTEGER_TOKEN:
+                arguments.push_back(std::move(ArgumentFactory::createIntegerArgument(curr.getValue())));
+                break;
             case PQL_WILDCARD_TOKEN:
-                // TODO: create arguments and add to arguments vector
+                arguments.push_back(std::move(ArgumentFactory::createWildcardArgument()));
                 break;
             case PQL_PATTERN_TOKEN:
                 this->parserContext.transitionTo(make_unique<PatternParserState>(parserContext));

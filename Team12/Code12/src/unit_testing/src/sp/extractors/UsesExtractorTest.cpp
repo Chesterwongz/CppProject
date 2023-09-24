@@ -311,3 +311,40 @@ TEST_CASE("UsesExtractor with parser - no proc call") {
     expectedVarToProcName["y"] = {"simple", "simple3"};
     REQUIRE(mockPKB.isUsesEqual(expectedVarToProcName));
 }
+
+TEST_CASE("UsesExtractor with parser - 3 nested if statements") {
+    string input =
+        "procedure multipleIf {"
+        "   read v;" // 1
+        "   read w;" // 2
+        "   if (v == 0) then {" // 3
+        "       read x;" // 4
+        "       if (w != v) then {" // 5
+        "           read y;" // 6
+        "           if (x > (y - 1)) then {" // 7
+        "               read z;" // 8
+        "           } else { print x; }" // 9
+        "       } else { print z; }" // 10
+        "   } else { print v; }" // 11
+        "}";
+
+    // extract
+    PKBStorage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::USES);
+    unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
+    expectedVarToStmtNum["v"] = {3, 5, 11};
+    expectedVarToStmtNum["w"] = {3, 5};
+    expectedVarToStmtNum["x"] = {3, 5, 7, 9};
+    expectedVarToStmtNum["y"] = {3, 5, 7};
+    expectedVarToStmtNum["z"] = {3, 5, 10};
+    REQUIRE(mockPKB.isUsesEqual(expectedVarToStmtNum));
+
+    unordered_map<string, unordered_set<string>> expectedVarToProcName = unordered_map<string, unordered_set<string>>();
+    expectedVarToProcName["v"] = {"multipleIf"};
+    expectedVarToProcName["w"] = {"multipleIf"};
+    expectedVarToProcName["x"] = {"multipleIf"};
+    expectedVarToProcName["y"] = {"multipleIf"};
+    expectedVarToProcName["z"] = {"multipleIf"};
+    REQUIRE(mockPKB.isUsesEqual(expectedVarToProcName));
+}
