@@ -4,7 +4,6 @@
 
 #include "qps/common/QPSStringUtils.h"
 #include "common/utils/StringUtils.h"
-#include "qps/exceptions/QPSInvalidQueryException.h"
 
 using std::string;
 

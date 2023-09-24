@@ -1,4 +1,5 @@
 #include "Ident.h"
+#include "qps/exceptions/QPSInvalidQueryException.h"
 
 Ident::Ident(const string& argumentValue, PQLTokenType tokenType) {
 	if (tokenType != PQL_LITERAL_REF_TOKEN) {

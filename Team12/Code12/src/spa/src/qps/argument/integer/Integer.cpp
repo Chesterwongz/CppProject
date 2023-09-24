@@ -1,6 +1,7 @@
 #include <string>
 
 #include "Integer.h"
+#include "qps/exceptions/QPSInvalidQueryException.h"
 
 Integer::Integer(const string& argumentValue) {
 	if (!QPSStringUtils::isInteger(argumentValue)) {

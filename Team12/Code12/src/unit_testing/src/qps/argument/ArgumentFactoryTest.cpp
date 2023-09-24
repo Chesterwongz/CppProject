@@ -1,6 +1,7 @@
 #include "catch.hpp"
 
 #include "qps/argument/argumentFactory/ArgumentFactory.h"
+#include "qps/exceptions/QPSInvalidQueryException.h"
 
 string testWildcard = "_";
 string testSynonym = "test1234";
@@ -82,5 +83,5 @@ TEST_CASE("test_createIdentArgument_PQL_LITERAL_REF_TOKEN_valid") {
 }
 
 TEST_CASE("test_createIdentArgument_notPQL_LITERAL_REF_TOKEN_invalid") {
-	REQUIRE_THROWS_AS(ArgumentFactory::createIdentArgument(testIdent, PQL_FOLLOWS_TOKEN), std::runtime_error);
+	REQUIRE_THROWS_AS(ArgumentFactory::createIdentArgument(testIdent, PQL_FOLLOWS_TOKEN), QPSInvalidQueryException);
 }

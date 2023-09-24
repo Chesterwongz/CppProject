@@ -1,5 +1,6 @@
 #include <string>
 #include "SynonymArg.h"
+#include "qps/exceptions/QPSInvalidQueryException.h"
 
 SynonymArg::SynonymArg(const string& argumentValue) {
 	if (!QPSStringUtils::isSynonym(argumentValue)) {
