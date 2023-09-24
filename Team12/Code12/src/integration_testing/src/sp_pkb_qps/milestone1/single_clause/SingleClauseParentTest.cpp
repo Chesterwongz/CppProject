@@ -26,7 +26,7 @@ string parentSource =
     "                }} else {read read3;\n"
     "             }        }else{read read4;}}}";
 
-TEST_CASE("SP-PKB-QPS integration - 1") {
+TEST_CASE("SP-PKB-QPS single clause parent - 1") {
     string query =
         "read read;\n"
         "Select read";
