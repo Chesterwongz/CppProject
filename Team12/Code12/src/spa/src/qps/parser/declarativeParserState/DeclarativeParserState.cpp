@@ -21,7 +21,7 @@ DeclarativeParserState::DeclarativeParserState(PQLParserContext& parserContext) 
 // To identify what type is the name token
 void DeclarativeParserState::processNameToken(PQLToken& curr)
 {
-    if (prev == PQL_ENTITY_TOKEN) {
+    if (prev == PQL_ENTITY_TOKEN || prev == PQL_COMMA_TOKEN) {
         curr.updateTokenType(PQL_SYNONYM_TOKEN);
     } else {
         auto tokenType = PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
