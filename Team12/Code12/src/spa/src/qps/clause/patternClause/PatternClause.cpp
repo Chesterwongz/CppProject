@@ -16,7 +16,12 @@ IntermediateTable PatternClause::evaluate(Context& context,
 	unique_ptr<IPatternEvaluator> IEvaluatorPtr;
 
 	if (entityType == ASSIGN_ENTITY) {
-		IEvaluatorPtr =  PatternEvaluatorFactory::createAssignEvaluator(context, std::move(patternArgsStreamPtr), pkbReader, isPartialMatch);
+		IEvaluatorPtr =  PatternEvaluatorFactory::createAssignEvaluator(
+				context,
+				std::move(patternArgsStreamPtr),
+				pkbReader,
+				isPartialMatch,
+				synonymValue);
 	}
 
 	return IEvaluatorPtr->evaluate();
