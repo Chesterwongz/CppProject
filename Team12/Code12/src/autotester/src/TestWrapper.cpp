@@ -52,5 +52,11 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
   } catch (const Exception& error) {
       results.emplace_back(error.what());
       return;
+  } catch (const std::runtime_error& error)  {
+      results.emplace_back(error.what());
+      return;
+  } catch (...) {
+      results.emplace_back("Something went very wrong");
+      return;
   }
 }
