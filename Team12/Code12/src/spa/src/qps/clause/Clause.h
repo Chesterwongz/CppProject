@@ -12,7 +12,8 @@ using std::string, std::set, std::map, std::pair, std::vector;
 class Clause {
 public:
     virtual IntermediateTable evaluate(
-            Context context,
-            PKBReader &pkb) = 0;
+            Context& context,
+            PKBReader& pkb) = 0;
     virtual ~Clause() = default;
+    virtual bool isEquals(const Clause& other) = 0;
 };

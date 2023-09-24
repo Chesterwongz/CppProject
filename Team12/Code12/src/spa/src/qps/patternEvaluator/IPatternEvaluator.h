@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 #include <set>
-#include "../context/Context.h"
+#include "qps/context/Context.h"
 #include "qps/argument/IArgument.h"
 #include "pkb/facade/PKBReader.h"
 #include "qps/intermediateTable/IntermediateTable.h"

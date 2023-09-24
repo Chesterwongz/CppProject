@@ -2,8 +2,8 @@
 
 #include <string>
 #include <set>
-#include "qps/token/suchThatToken/SuchThatToken.h"
 #include "qps/clause/Clause.h"
+#include "qps/clause/utils/ClauseConstants.h"
 #include "qps/argument/IArgument.h"
 
 using std::unique_ptr;
@@ -17,11 +17,12 @@ private:
 
 public:
     explicit SuchThatClause(
-            Abstraction &relationship,
+            Abstraction relationship,
             unique_ptr<IArgument> firstArg,
             unique_ptr<IArgument> secondArg,
             bool isTransitive);
     IntermediateTable evaluate(
-            Context context,
-            PKBReader &pkb) override;
+            Context& context,
+            PKBReader& pkb) override;
+    bool isEquals(const Clause& other) override;
 };
