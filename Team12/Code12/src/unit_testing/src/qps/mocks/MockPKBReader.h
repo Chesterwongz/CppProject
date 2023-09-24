@@ -143,6 +143,23 @@ public:
         return mockPartialAssignPatternStmts;
     }
 
+    void setMockExactAssignPatternStmts(vector<string> mockExactAssignPatternStmts) {
+        this->mockExactAssignPatternStmts = mockExactAssignPatternStmts;
+    }
+
+    void setMockPartialAssignPatternStmts(vector<string> mockPartialAssignPatternStmts) {
+        this->mockPartialAssignPatternStmts = mockPartialAssignPatternStmts;
+    }
+
+    void resetMockExactAssignPatternStmts() {
+        this->mockExactAssignPatternStmts = {};
+    }
+
+    void resetMockPartialAssignPatternStmts() {
+        this->mockPartialAssignPatternStmts = {};
+    }
+
+
     bool isFollows(int statementNumber, int followingStatement) override {
      return mockIsFollows;
     }
@@ -163,7 +180,7 @@ public:
         return mockIsVariableModifiedBy;
     }
 
-    bool isVariableUseBy(const std::string& variableName, const std::string statementNumber) override {
+    bool isVariableUsedBy(const std::string& variableName, const std::string statementNumber) override {
         return mockIsVariableUsedBy;
     }
 };

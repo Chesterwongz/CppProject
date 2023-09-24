@@ -214,7 +214,7 @@ TEST_CASE("test_isStmtRef_validIdent_false") {
 
 TEST_CASE("test_convertToRPN_basicAddition") {
 	string expression = "3 + 4";
-	string expected = "34+";
+	string expected = " 3 4 + ";
 	string actual = QPSStringUtils::convertToRPN(expression);
 
 	REQUIRE(actual == expected);
@@ -222,7 +222,7 @@ TEST_CASE("test_convertToRPN_basicAddition") {
 
 TEST_CASE("test_convertToRPN_basicSubtraction") {
 	string expression = "3 - 5";
-	string expected = "35-";
+	string expected = " 3 5 - ";
 	string actual = QPSStringUtils::convertToRPN(expression);
 
 	REQUIRE(actual == expected);
@@ -230,7 +230,7 @@ TEST_CASE("test_convertToRPN_basicSubtraction") {
 
 TEST_CASE("test_convertToRPN_basicMultiplication") {
 	string expression = "4 * 10";
-	string expected = "410*";
+	string expected = " 4 10 * ";
 	string actual = QPSStringUtils::convertToRPN(expression);
 
 	REQUIRE(actual == expected);
@@ -238,7 +238,7 @@ TEST_CASE("test_convertToRPN_basicMultiplication") {
 
 TEST_CASE("test_convertToRPN_basicDivision") {
 	string expression = "6 / 2";
-	string expected = "62/";
+	string expected = " 6 2 / ";
 	string actual = QPSStringUtils::convertToRPN(expression);
 
 	REQUIRE(actual == expected);
@@ -246,7 +246,7 @@ TEST_CASE("test_convertToRPN_basicDivision") {
 
 TEST_CASE("test_convertToRPN_parenthesis") {
 	string expression = "6 / (2 + 3)";
-	string expected = "623+/";
+	string expected = " 6 2 3 + / ";
 	string actual = QPSStringUtils::convertToRPN(expression);
 
 	REQUIRE(actual == expected);
@@ -254,7 +254,23 @@ TEST_CASE("test_convertToRPN_parenthesis") {
 
 TEST_CASE("test_convertToRPN_nestedParenthesis") {
 	string expression = "((3 + 4) * (8 - 2)) / (7 - 1)";
-	string expected = "34+82-*71-/";
+	string expected = " 3 4 + 8 2 - * 7 1 - / ";
+	string actual = QPSStringUtils::convertToRPN(expression);
+
+	REQUIRE(actual == expected);
+}
+
+TEST_CASE("test_convertToRPN_withVariableNames") {
+	string expression = "testVar1 - testVar2 * 5";
+	string expected = " testVar1 testVar2 5 * - ";
+	string actual = QPSStringUtils::convertToRPN(expression);
+
+	REQUIRE(actual == expected);
+}
+
+TEST_CASE("test_convertToRPN_withVariableNames_nestedParenthesis") {
+	string expression = "((myVar + 4) * (88 - test1)) / (7 - 1)";
+	string expected = " myVar 4 + 88 test1 - * 7 1 - / ";
 	string actual = QPSStringUtils::convertToRPN(expression);
 
 	REQUIRE(actual == expected);

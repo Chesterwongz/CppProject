@@ -3,6 +3,7 @@
 #include <string>
 
 #include "qps/argument/IArgument.h"
+#include "qps/tokenizer/PQLTokenType.h"
 
 using std::string;
 
@@ -12,7 +13,7 @@ private:
 	string identValue;
 
 public:
-	explicit Ident(const string& argumentValue);
+	explicit Ident(const string& argumentValue, PQLTokenType tokenType);
 	string getValue() override;
 	QPSStringUtils::ArgumentType getArgumentType() override;
 	bool isIdent() override;

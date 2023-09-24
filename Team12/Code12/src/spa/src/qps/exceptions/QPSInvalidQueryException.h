@@ -21,5 +21,5 @@ const char QPS_INVALID_QUERY_MISSING_ARGUMENTS[] = "Your clause is incomplete, y
 
 class QPSInvalidQueryException : public QPSException {
 public:
-	explicit QPSInvalidQueryException(const string &errorMsg) : QPSException(errorMsg) {}
+	explicit QPSInvalidQueryException(const std::string &errorMsg) : QPSException(errorMsg) {}
 };

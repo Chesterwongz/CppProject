@@ -25,7 +25,7 @@ void PatternExtractor::getControlVars(std::unordered_set<std::string>& vars, con
 
 void PatternExtractor::visitAssign(const AssignNode& node) {
     std::string varName = node.getChildValueAt(0);
-    std::string postfixExpr = nodeToPostfixString(node.getChildAt(1));
+    std::string postfixExpr = " " + nodeToPostfixString(node.getChildAt(1)) + " ";
     pkbWriter.setAssignPattern(varName, postfixExpr, node.getLineNum());
 }
 
