@@ -1,44 +1,38 @@
 #include "ModifiesAbstraction.h"
 
 IntermediateTable ModifiesAbstraction::getAbstractions() {
-    bool isStmtSynonym = firstArg.isSynonym();
-    bool isStmtWildcard = firstArg.isWildcard();
-    bool isVarIdentifier = secondArg.isIdent();
-    bool isVarSynonym = secondArg.isSynonym();
-    bool isVarWildcard = secondArg.isWildcard();
-
     string stmtValue = firstArg.getValue();
-    StmtType stmtType = isStmtSynonym ?
+    StmtType stmtType = firstArg.isSynonym() ?
             EntityToStatementType.at(context.getTokenEntity(stmtValue))
             : StmtType::STMT;
 
     // Modifies (StatementSynonym, VarSynonym)
-    bool isStmtSynonymAndVarSynonym = isStmtSynonym && isVarSynonym;
+    bool isStmtSynonymAndVarSynonym = firstArg.isSynonym() && secondArg.isSynonym();
     // Modifies (StatementSynonym, _)
-    bool isStmtSynonymAndVarWildcard = isStmtSynonym && isVarWildcard;
+    bool isStmtSynonymAndVarWildcard = firstArg.isSynonym() && secondArg.isWildcard();
     // Modifies (_, VarSynonym)
-    bool isStmtWildcardAndVarSynonym = isStmtWildcard && isVarSynonym;
+    bool isStmtWildcardAndVarSynonym = firstArg.isWildcard() && secondArg.isSynonym();
     // Modifies (_, _)
-    bool isStmtWildcardAndVarWildcard = isStmtWildcard && isVarWildcard;
+    bool isStmtWildcardAndVarWildcard = firstArg.isWildcard() && secondArg.isWildcard();
     if (isStmtSynonymAndVarSynonym
             || isStmtSynonymAndVarWildcard
             || isStmtWildcardAndVarSynonym
             || isStmtWildcardAndVarWildcard) {
         string varSynonym = secondArg.getValue();
-        vector<pair<string, string>> statementsModifyingVar =
+        vector<pair<string, string>> statementsModifiedVar =
                 pkb.getAllModifiedVariables(stmtType);
 
         return IntermediateTableFactory::buildIntermediateTable(
                 stmtValue,
                 varSynonym,
-                statementsModifyingVar);
+                statementsModifiedVar);
 
     }
 
     // Modifies (StatementSynonym, VarIdentifierInSimple)
-    bool isStmtSynonymAndVarIdent = isStmtSynonym && isVarIdentifier;
+    bool isStmtSynonymAndVarIdent = firstArg.isSynonym() && secondArg.isIdent();
     // Modifies (_, VarIdentifierInSimple)
-    bool isStmtWildCardAndVarIdent = isStmtWildcard && isVarIdentifier;
+    bool isStmtWildCardAndVarIdent = firstArg.isWildcard() && secondArg.isIdent();
     if (isStmtSynonymAndVarIdent || isStmtWildCardAndVarIdent) {
         string varIdentifier = secondArg.getValue();
         vector<string> statementsModifyingVar =
@@ -54,5 +48,27 @@ IntermediateTable ModifiesAbstraction::getAbstractions() {
                 tableData);
     }
 
+    // Modifies (StatementNumber, VarIdentifierInSimple)
+    // Modifies (StatementNumber, VarSynonym)
+    // Modifies (StatementNumber, _)
+    if (firstArg.isInteger()) {
+        return handleIntegerArgs(stmtValue);
+    }
+
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+}
+
+IntermediateTable ModifiesAbstraction::handleIntegerArgs(string stmtNumber) {
+    if (secondArg.isIdent() && pkb.isVariableModifiedBy(secondArg.getValue(), stmtNumber)) {
+        return IntermediateTableFactory::buildWildcardIntermediateTable();
+    }
+    if (secondArg.isSynonym() || secondArg.isWildcard()) {
+        vector<pair<string, string>> result
+                = pkb.getVariablesModifiedBy(stoi(stmtNumber), StmtType::STMT);
+        return IntermediateTableFactory::buildIntermediateTable(
+                WILDCARD_KEYWORD,
+                secondArg.getValue(),
+                result);
+    }
     return IntermediateTableFactory::buildEmptyIntermediateTable();
 }
