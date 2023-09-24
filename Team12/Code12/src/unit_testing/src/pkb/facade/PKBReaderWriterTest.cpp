@@ -1,6 +1,9 @@
 #include "catch.hpp"
+
+#include <unordered_set>
 #include "../../../../spa/src/pkb/facade/PKBReader.h"
 #include "../../../../spa/src/pkb/facade/PKBWriter.h"
+#include "../../common/utils/HelperFunctions.h"
 
 TEST_CASE("PKBReader Tests") {
     PKBStorage storage;
@@ -47,10 +50,10 @@ TEST_CASE("PKBReader Tests") {
     writer.setUsesRelationship("z", 3);
     writer.setUsesRelationship("x", 4);
 
-    writer.setAssignPattern("x", "a b c * +", 1);
-    writer.setAssignPattern("y", "d e + f +", 2);
-    writer.setAssignPattern("z", "a b * c * d +", 3);
-    writer.setAssignPattern("x", "a 2 +", 4);
+    writer.setAssignPattern("x", " a b c * + ", 1);
+    writer.setAssignPattern("y", " d e + f + ", 2);
+    writer.setAssignPattern("z", " a b * c * d + ", 3);
+    writer.setAssignPattern("x", " a 2 + ", 4);
 
     SECTION("getAllVariables") {
         REQUIRE(reader.getAllVariables() == std::set<std::string>{"x", "y", "z"});
@@ -240,23 +243,54 @@ TEST_CASE("PKBReader Tests") {
     }
 
     SECTION("getExactAssignPattern") {
-        REQUIRE(reader.getExactAssignPattern("x", "a b c * +", false) == std::vector<std::string>{"1"});
-        REQUIRE(reader.getExactAssignPattern("x", "b", false).empty());
-        REQUIRE(reader.getExactAssignPattern("y", "d e + f +", false) == std::vector<std::string>{"2"});
-        REQUIRE(reader.getExactAssignPattern("z", "a b c * +", false).empty());
-        REQUIRE(reader.getExactAssignPattern("v", "a b c * +", true) == std::vector<std::string>{"1"});
-        REQUIRE(reader.getExactAssignPattern("_", "_", false) == std::vector<std::string>{"1", "2", "3", "4"});
-        REQUIRE(reader.getExactAssignPattern("x", "_", false) == std::vector<std::string>{"1", "4"});
+        std::vector<std::string> resultVector1 = reader.getExactAssignPattern("x", " a b c * + ", false);
+        std::unordered_set<std::string> actual1 = convertStringVectorToUnorderedSet(resultVector1);
+        std::vector<std::string> resultVector2 = reader.getExactAssignPattern("x", " b ", false);
+        std::unordered_set<std::string> actual2 = convertStringVectorToUnorderedSet(resultVector2);
+        std::vector<std::string> resultVector3 = reader.getExactAssignPattern("y", " d e + f + ", false);
+        std::unordered_set<std::string> actual3 = convertStringVectorToUnorderedSet(resultVector3);
+        std::vector<std::string> resultVector4 = reader.getExactAssignPattern("z", " a b c * + ", false);
+        std::unordered_set<std::string> actual4 = convertStringVectorToUnorderedSet(resultVector4);
+        std::vector<std::string> resultVector5 = reader.getExactAssignPattern("v", " a b c * + ", true);
+        std::unordered_set<std::string> actual5 = convertStringVectorToUnorderedSet(resultVector5);
+        std::vector<std::string> resultVector6 = reader.getExactAssignPattern("_", "_", false);
+        std::unordered_set<std::string> actual6 = convertStringVectorToUnorderedSet(resultVector6);
+        std::vector<std::string> resultVector7 = reader.getExactAssignPattern("x", "_", false);
+        std::unordered_set<std::string> actual7 = convertStringVectorToUnorderedSet(resultVector7);
+        REQUIRE(actual1 == std::unordered_set<std::string>{"1"});
+        REQUIRE(actual2.empty());
+        REQUIRE(actual3 == std::unordered_set<std::string>{"2"});
+        REQUIRE(actual4.empty());
+        REQUIRE(actual5 == std::unordered_set<std::string>{"1"});
+        REQUIRE(actual6 == std::unordered_set<std::string>{"1", "2", "3", "4"});
+        REQUIRE(actual7 == std::unordered_set<std::string>{"1", "4"});
     }
 
     SECTION("getPartialAssignPattern") {
-        REQUIRE(reader.getPartialAssignPattern("x", "a b c * +", false) == std::vector<std::string>{"1"});
-        REQUIRE(reader.getPartialAssignPattern("x", "2", false) == std::vector<std::string>{"4"});
-        REQUIRE(reader.getPartialAssignPattern("x", "3", false).empty());
-        REQUIRE(reader.getPartialAssignPattern("v", "a", true) == std::vector<std::string>{"1", "3", "4"});
-        REQUIRE(reader.getPartialAssignPattern("_", "a", false) == std::vector<std::string>{"1", "3", "4"});
-        REQUIRE(reader.getPartialAssignPattern("x", "_", false) == std::vector<std::string>{"1", "4"});
-        REQUIRE(reader.getPartialAssignPattern("v", "_", true) == std::vector<std::string>{"1", "2", "3", "4"});
-        REQUIRE(reader.getPartialAssignPattern("_", "_", false) == std::vector<std::string>{"1", "2", "3", "4"});
+        std::vector<std::string> resultVector1 = reader.getPartialAssignPattern("x", " a b c * + ", false);
+        std::unordered_set<std::string> actual1 = convertStringVectorToUnorderedSet(resultVector1);
+        std::vector<std::string> resultVector2 = reader.getPartialAssignPattern("x", " 2 ", false);
+        std::unordered_set<std::string> actual2 = convertStringVectorToUnorderedSet(resultVector2);
+        std::vector<std::string> resultVector3 = reader.getPartialAssignPattern("x", " 3 ", false);
+        std::unordered_set<std::string> actual3 = convertStringVectorToUnorderedSet(resultVector3);
+        std::vector<std::string> resultVector4 = reader.getPartialAssignPattern("v", " a ", true);
+        std::unordered_set<std::string> actual4 = convertStringVectorToUnorderedSet(resultVector4);
+        std::vector<std::string> resultVector5 = reader.getPartialAssignPattern("_", " a ", false);
+        std::unordered_set<std::string> actual5 = convertStringVectorToUnorderedSet(resultVector5);
+        std::vector<std::string> resultVector6 = reader.getPartialAssignPattern("x", "_", false);
+        std::unordered_set<std::string> actual6 = convertStringVectorToUnorderedSet(resultVector6);
+        std::vector<std::string> resultVector7 = reader.getPartialAssignPattern("v", "_", true);
+        std::unordered_set<std::string> actual7 = convertStringVectorToUnorderedSet(resultVector7);
+        std::vector<std::string> resultVector8 = reader.getPartialAssignPattern("_", "_", false);
+        std::unordered_set<std::string> actual8 = convertStringVectorToUnorderedSet(resultVector8);
+
+        REQUIRE(actual1 == std::unordered_set<std::string>{"1"});
+        REQUIRE(actual2 == std::unordered_set<std::string>{"4"});
+        REQUIRE(actual3.empty());
+        REQUIRE(actual4 == std::unordered_set<std::string>{"1", "3", "4"});
+        REQUIRE(actual5 == std::unordered_set<std::string>{"1", "3", "4"});
+        REQUIRE(actual6 == std::unordered_set<std::string>{"1", "4"});
+        REQUIRE(actual7 == std::unordered_set<std::string>{"1", "2", "3", "4"});
+        REQUIRE(actual8 == std::unordered_set<std::string>{"1", "2", "3", "4"});
     }
 }
