@@ -12,6 +12,6 @@ public:
 											   std::move(patternArgsStreamPtr),
 											   pkbReader,
 											   isPartialMatch) {};
-
+    ~AssignEvaluator() override = default;
 	IntermediateTable evaluate() override;
 };

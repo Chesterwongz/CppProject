@@ -31,6 +31,6 @@ public:
 		patternArgsStreamPtr(std::move(patternArgsStreamPtr)),
 		pkbReader(pkbReader),
 		isPartialMatch(isPartialMatch) {};
-
+    virtual ~IPatternEvaluator() = default;
 	virtual IntermediateTable evaluate() = 0;
 };
