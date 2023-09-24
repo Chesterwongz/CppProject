@@ -50,10 +50,6 @@ void PQLParserContext::addSelectSynonym(const string& synonym) {
 }
 
 bool PQLParserContext::checkValidSynonym(const string &synonym) {
-    try {
-        auto selectSynonym = context->getTokenEntity(synonym);
-    } catch (QPSInvalidQueryException e) {
-        throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_SYNONYM);
-    }
-    return true;
+   auto selectSynonym = context->getTokenEntity(synonym);
+   return true;
 }

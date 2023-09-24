@@ -14,7 +14,7 @@ bool isEqual(vector<PQLTokenType> expected, PQLTokenList tokenList) {
             if (token.getType() != expected[i]) {
                 return false;
             }
-        } catch (QPSInvalidQueryException e) {
+        } catch (QPSInvalidQueryException& e) {
             return false;
         }
     }

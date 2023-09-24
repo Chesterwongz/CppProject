@@ -16,7 +16,7 @@ QPS::QPS(PKBReader &pkb) :
 std::set<string> QPS::processQueryString(const string& query) {
     unique_ptr<PQLTokenizer> tokenizer = tokenizerFactory.makeTokenizer(query);
     unique_ptr<PQLTokenList> tokenList = tokenizer->tokenize();
-    PQLTokenStream tokenStream = PQLTokenStream(*tokenList);
+    PQLTokenStream tokenStream(*tokenList);
 
     Query queryObj(pkb);
 
