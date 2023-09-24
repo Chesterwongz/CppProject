@@ -9,8 +9,10 @@ unique_ptr<IArgument> ArgumentFactory::createArgument(string& argument) {
 
 	if (QPSStringUtils::isIdent(argument)) {
 		// remove '\"' from value
-		argument.erase(std::remove(argument.begin(), argument.end(), '\"'), argument.end());
-		return make_unique<Ident>(argument, PQL_LITERAL_REF_TOKEN);
+		// create new string so as to not modify reference
+		string identString = argument;
+		identString.erase(std::remove(identString.begin(), identString.end(), '\"'), identString.end());
+		return make_unique<Ident>(identString, PQL_LITERAL_REF_TOKEN);
 	}
 
 	if (QPSStringUtils::isSynonym(argument)) {
