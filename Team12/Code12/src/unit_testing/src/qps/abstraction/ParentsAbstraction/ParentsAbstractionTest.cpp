@@ -76,6 +76,30 @@ TEST_CASE("ParentsAbstraction - getAbstractions - Parents(Synonym, Wildcard)") {
     REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
 
+TEST_CASE("ParentsAbstraction - getAbstractions - Parents(Synonym, Integer)") {
+    MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+    mockReader.mockImmediateParentOf = MOCK_IMMEDIATE_PARENT_OF;
+    unique_ptr<IArgument> mockArgument1
+            = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
+    unique_ptr<IArgument> mockArgument2
+            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
+    Context mockContext = Context();
+    unique_ptr<AbstractionParams> abstractionParams
+            = createMockAbstractionParams(mockReader,
+                                          mockContext,
+                                          FOLLOWS_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2,
+                                          false);
+
+    ParentsAbstraction abstraction(*abstractionParams);
+    IntermediateTable resultTable = abstraction.getAbstractions();
+resultTable.printTable();
+    REQUIRE(resultTable.getData().size() == 1);
+    REQUIRE(resultTable.getData().at(0).size() == 1);
+    REQUIRE(resultTable.getData().at(0).at(0) == MOCK_IMMEDIATE_PARENT_OF.first);
+}
+
 TEST_CASE("ParentsAbstraction - getAbstractions - Parents(Wildcard, Synonym)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockParentChildPairs = MOCK_PARENT_CHILD_PAIRS;

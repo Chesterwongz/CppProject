@@ -8,4 +8,5 @@ public:
     explicit UsesAbstraction(AbstractionParams abstractionParams) :
         IAbstraction(abstractionParams) {};
     IntermediateTable getAbstractions() override;
+    IntermediateTable handleIntegerArgs(string stmtNumber);
 };

@@ -39,7 +39,7 @@ public:
     virtual std::string getFollowed(int statementNumber, StmtType statementType);
 
     // return true if Follows(statementNumber, followingStatement) holds and false otherwise
-    bool isFollows(int statementNumber, int followingStatement);
+    virtual bool isFollows(int statementNumber, int followingStatement);
 
     // return all pairs (s1,s2) that satisfy Follows(s1, s2) and satisfying statement type restriction
     virtual std::vector<std::pair<std::string, std::string>> getFollowsPairs(StmtType statementType1, StmtType statementType2);
@@ -51,7 +51,7 @@ public:
     virtual std::vector<std::pair<std::string, std::string>> getFollowedStar(int statementNumber, StmtType statementType);
 
     // return true if Follows*(statementNumber, followingStatement) holds and false otherwise
-    bool isFollowsStar(int statementNumber, int followingStatement);
+    virtual bool isFollowsStar(int statementNumber, int followingStatement);
 
     // return all pairs (s1,s2) that satisfy Follows*(s1, s2) and satisfying statement type restriction
     virtual std::vector<std::pair<std::string, std::string>> getFollowsStarPairs(StmtType statementType1, StmtType statementType2);
@@ -63,7 +63,7 @@ public:
     virtual std::pair<std::string, std::string> getImmediateParentOf(int statementNumber, StmtType statementType);
 
     // return true if Parent(statementNumber, followingStatement) holds and false otherwise
-    bool isParent(int statementNumber, int childStatement);
+    virtual bool isParent(int statementNumber, int childStatement);
 
     // return all pairs (s1,s2) that satisfy Parent(s1, s2) and satisfying statement type restriction
     virtual std::vector<std::pair<std::string, std::string>> getParentChildPairs(StmtType parentType, StmtType childType);
@@ -75,7 +75,7 @@ public:
     virtual std::vector<std::pair<std::string, std::string>> getParentStarOf(int statementNumber, StmtType statementType);
 
     // return true if Parent*(statementNumber, followingStatement) holds and false otherwise
-    bool isParentStar(int statementNumber, int childStatement);
+    virtual bool isParentStar(int statementNumber, int childStatement);
 
     // return all pairs (s1,s2) that satisfy Parent*(s1, s2) and satisfying statement type restriction
     virtual std::vector<std::pair<std::string, std::string>> getParentChildStarPairs(StmtType parentType, StmtType childType);
@@ -86,11 +86,17 @@ public:
     // return all pairs (s, v) that satisfy Modifies(s, v) where s is statementNumber and also the correct statementType mentioned
     virtual std::vector<std::pair<std::string, std::string>> getVariablesModifiedBy(int statementNumber, StmtType statementType);
 
+    // check if Modifies(s, v) is true where s is statementNumber and v is the variable name
+    virtual bool isVariableModifiedBy(const std::string& variableName, const std::string statementNumber);
+
     // return all s that satisfy Uses(s, v) where v is variableName and s is of same type as statementType
     virtual std::vector<std::string> getStatementsUsing(const std::string& variableName, StmtType statementType);
 
     // return all pairs (s, v) that satisfy Uses(s, v) where s is statementNumber and also the correct statementType mentioned
     virtual std::vector<std::pair<std::string, std::string>> getVariablesUsedBy(int statementNumber, StmtType statementType);
+
+    // check if Used(s, v) is true where s is statementNumber and v is the variable name
+    virtual bool isVariableUsedBy(const std::string& variableName, const std::string statementNumber);
 
     // return all pairs (s, v) that satisfy Modifies (s, v) where s is of a particular type
     virtual std::vector<std::pair<std::string, std::string>> getAllModifiedVariables(StmtType statementType);

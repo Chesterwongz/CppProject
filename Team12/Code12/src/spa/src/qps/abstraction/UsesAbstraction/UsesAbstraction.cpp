@@ -1,25 +1,19 @@
 #include "UsesAbstraction.h"
 
 IntermediateTable UsesAbstraction::getAbstractions() {
-    bool isStmtSynonym = firstArg.isSynonym();
-    bool isStmtWildcard = firstArg.isWildcard();
-    bool isVarIdentifier = secondArg.isIdent();
-    bool isVarSynonym = secondArg.isSynonym();
-    bool isVarWildcard = secondArg.isWildcard();
-
     string stmtValue = firstArg.getValue();
-    StmtType stmtType = isStmtSynonym ?
+    StmtType stmtType = firstArg.isSynonym() ?
                         EntityToStatementType.at(context.getTokenEntity(stmtValue))
                                       : StmtType::STMT;
 
     // Uses (StatementSynonym, VarSynonym)
-    bool isStmtSynonymAndVarSynonym = isStmtSynonym && isVarSynonym;
+    bool isStmtSynonymAndVarSynonym = firstArg.isSynonym() && secondArg.isSynonym();
     // Uses (StatementSynonym, _)
-    bool isStmtSynonymAndVarWildcard = isStmtSynonym && isVarWildcard;
+    bool isStmtSynonymAndVarWildcard = firstArg.isSynonym() && secondArg.isWildcard();
     // Uses (_, VarSynonym)
-    bool isStmtWildcardAndVarSynonym = isStmtWildcard && isVarSynonym;
+    bool isStmtWildcardAndVarSynonym = firstArg.isWildcard() && secondArg.isSynonym();
     // Uses (_, _)
-    bool isStmtWildcardAndVarWildcard = isStmtWildcard && isVarWildcard;
+    bool isStmtWildcardAndVarWildcard = firstArg.isWildcard() && secondArg.isWildcard();
     if (isStmtSynonymAndVarSynonym
         || isStmtSynonymAndVarWildcard
         || isStmtWildcardAndVarSynonym
@@ -34,9 +28,9 @@ IntermediateTable UsesAbstraction::getAbstractions() {
     }
 
     // Uses (StatementSynonym, VarIdentifierInSimple)
-    bool isStmtSynonymAndVarIdent = isStmtSynonym && isVarIdentifier;
+    bool isStmtSynonymAndVarIdent = firstArg.isSynonym() && secondArg.isIdent();
     // Uses (_, VarIdentifierInSimple)
-    bool isStmtWildCardAndVarIdent = isStmtWildcard && isVarIdentifier;
+    bool isStmtWildCardAndVarIdent = firstArg.isWildcard() && secondArg.isIdent();
     if (isStmtSynonymAndVarIdent || isStmtWildCardAndVarIdent) {
         string varIdentifier = secondArg.getValue();
         vector<string> statementsUsingVar =
@@ -52,5 +46,27 @@ IntermediateTable UsesAbstraction::getAbstractions() {
                     tableData);
     }
 
+    // Uses (StatementNumber, VarIdentifierInSimple)
+    // Uses (StatementNumber, VarSynonym)
+    // Uses (StatementNumber, _)
+    if (firstArg.isInteger()) {
+        return handleIntegerArgs(stmtValue);
+    }
+
     return IntermediateTableFactory::buildEmptyIntermediateTable();
 };
+
+IntermediateTable UsesAbstraction::handleIntegerArgs(string stmtNumber) {
+    if (secondArg.isIdent() && pkb.isVariableUsedBy(secondArg.getValue(), stmtNumber)) {
+        return IntermediateTableFactory::buildWildcardIntermediateTable();
+    }
+    if (secondArg.isSynonym() || secondArg.isWildcard()) {
+        vector<pair<string, string>> result
+                = pkb.getVariablesUsedBy(stoi(stmtNumber), StmtType::STMT);
+        return IntermediateTableFactory::buildIntermediateTable(
+                WILDCARD_KEYWORD,
+                secondArg.getValue(),
+                result);
+    }
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+}
