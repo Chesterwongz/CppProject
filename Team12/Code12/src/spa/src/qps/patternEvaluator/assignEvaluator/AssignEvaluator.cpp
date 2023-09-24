@@ -23,11 +23,5 @@ IntermediateTable AssignEvaluator::evaluate() {
 		pkbResult = pkbReader.getExactAssignPattern(firstArgValue, secondArgRPNValue, isFirstArgSynonym);
 	}
 
-	//vector<string> columnNames({firstArgValue});
-	//vector<vector<string>> columns({ pkbResult });
-	/*for (string element : pkbResult) {
-		std::cout << element << " ";
-	}
-	std::cout << std::endl;*/
 	return IntermediateTableFactory::buildSingleColTable(firstArgValue, pkbResult);
 }

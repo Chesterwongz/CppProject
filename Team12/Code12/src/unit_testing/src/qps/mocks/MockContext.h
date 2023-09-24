@@ -14,23 +14,11 @@ public:
     Entity mockTokenEntity;
     Synonym mockTokenSynonym;
 
-    void addSynonym(const Synonym& tokenSynonym, Entity tokenEntity) {
-        if (mockTokenNameToTokenMap.find(tokenSynonym) != mockTokenNameToTokenMap.end()) {
-            throw QPSInvalidQueryException(QPS_INVALID_QUERY_REPEAT_SYNONYM_NAME);
-        }
-        this->mockTokenNameToTokenMap[tokenSynonym] = std::move(tokenEntity);
-    }
-
-
-    Entity getTokenEntity(const Synonym& tokenName) {
+    Entity getTokenEntity(const Synonym& tokenName) override {
         return mockTokenEntity;
     }
-
-    Synonym getTokenSynonym() {
-        return mockTokenSynonym;
-    }
     
-    unordered_map<Synonym, Entity>& getMap() {
+    unordered_map<Synonym, Entity>& getMap() override {
         return mockTokenNameToTokenMap;
     }
 };

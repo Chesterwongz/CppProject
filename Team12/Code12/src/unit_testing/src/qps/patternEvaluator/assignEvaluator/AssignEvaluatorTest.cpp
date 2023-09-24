@@ -1,17 +1,18 @@
 #include "catch.hpp"
 
 #include "qps/patternEvaluator/assignEvaluator/AssignEvaluator.h"
-#include "../PatternEvaluatorTestData.h"
+#include "../../patternEvaluator/assignEvaluator/AssignEvaluatorTestData.h"
 
 using std::make_unique;
 
 TEST_CASE("test_AssignEvaluator_evaluate") {
-
 	mockPKBReader.resetMockExactAssignPatternStmts();
 	mockPKBReader.resetMockPartialAssignPatternStmts();
 	mockPKBReader.setMockExactAssignPatternStmts(mockExactAssignPatternStmts);
+	
 	SynonymArg synonym = SynonymArg("test");
 	Ident ident = Ident("x");
+
 	unique_ptr<SynonymArg> synonymPtr = make_unique<SynonymArg>(synonym.getValue());
 	unique_ptr<Ident> identPtr = make_unique<Ident>(ident.getValue());
 
