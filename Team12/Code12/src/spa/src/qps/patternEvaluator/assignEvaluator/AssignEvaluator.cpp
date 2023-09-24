@@ -31,7 +31,7 @@ IntermediateTable AssignEvaluator::evaluate() {
 	}
 
 	IntermediateTable linesSatisfyingPattern = IntermediateTableFactory::buildSingleColTable("_line", pkbResult);
-    if (firstArg->isWildcard() && !linesSatisfyingPattern.isTableEmptyAndNotWildcard()) {
+    if ((firstArg->isWildcard() || firstArg->isIdent()) && !linesSatisfyingPattern.isTableEmptyAndNotWildcard()) {
         return IntermediateTableFactory::buildWildcardIntermediateTable();
     }
 	vector<pair<string, string>> lineVariablePairs = pkbReader.getAllModifiedVariables(StmtType::ASSIGN);
