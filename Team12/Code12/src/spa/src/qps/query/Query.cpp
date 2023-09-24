@@ -47,6 +47,15 @@ set<string> Query::evaluate() {
 // Returns all possible results for queried synonym (a).
 set<string> Query::returnAllPossibleQueriedSynonym() {
     Entity entity = context->getTokenEntity(this->synonymToQuery);
+    if (entity == PROCEDURE_ENTITY) {
+        return pkb.getAllProcedures();
+    }
+    if (entity == VARIABLE_ENTITY) {
+        return pkb.getAllVariables();
+    }
+    if (entity == CONSTANT_ENTITY) {
+        return pkb.getAllConstants();
+    }
     StmtType stmtType = EntityToStatementType.at(entity);
     return pkb.getStatement(stmtType);
 }
