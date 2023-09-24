@@ -15,6 +15,7 @@ private:
     static PredictiveMap predictiveMap;
     static PQLTokenType exitToken;
     static size_t maxNumberOfArgs;
+    void checkValidSecondArg(PQLToken(& curr));
 
 public:
     explicit ModifiesParserState(PQLParserContext& parserContext);

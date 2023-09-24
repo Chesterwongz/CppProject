@@ -65,6 +65,7 @@ void FollowsParserState::handleToken() {
                 break;
             case PQL_SYNONYM_TOKEN:
                 parserContext.checkValidSynonym(curr.getValue());
+                checkValidArgs(curr);
                 arguments.push_back(std::move(ArgumentFactory::createSynonymArgument(curr.getValue())));
                 break;
             case PQL_INTEGER_TOKEN:
@@ -84,4 +85,11 @@ void FollowsParserState::handleToken() {
     }
     // safety barrier for premature exit
     checkSafeExit(maxNumberOfArgs, arguments.size());
+}
+
+void FollowsParserState::checkValidArgs(PQLToken& curr) {
+    auto entityType = parserContext.getSynonymType(curr.getValue());
+    if (stmtEntities.find(entityType) == stmtEntities.end()) {
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCORRECT_ARGUMENT);
+    }
 }
