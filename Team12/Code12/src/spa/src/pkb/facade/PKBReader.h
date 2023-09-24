@@ -93,6 +93,6 @@ public:
     std::vector<std::string> getPartialAssignPattern(std::string variableName, std::string rpn, bool isSynonym);
 
 private:
-    PKBStorage storage;
+    PKBStorage& storage;
 };
 
