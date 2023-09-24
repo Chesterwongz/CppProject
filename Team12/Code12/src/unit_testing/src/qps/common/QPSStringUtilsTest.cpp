@@ -1,13 +1,13 @@
 #include "catch.hpp"
 
 #include "qps/common/QPSStringUtils.h"
+#include "qps/common/Keywords.h"
 
 string validAlphabeticSynonym = "sdfksjdnkjfn";
 string validAlphanumericSynonym = "rnj324jn2k43";
 string validAlphabeticIdent = "\"fkjdgn\"";
 string validAlphanumericIdent = "\"j1nkn4j2n\"";
 string validInteger = "234872";
-string wildcard = "_";
 
 TEST_CASE("test_isSynonym_allAlphabet_true") {
 	string testSynonym = validAlphabeticSynonym;
@@ -94,7 +94,7 @@ TEST_CASE("test_isIdent_no_'\"'_false") {
 }
 
 TEST_CASE("test_isWildcard_'_'_true") {
-	string testWildcard = wildcard;
+	string testWildcard = WILDCARD_KEYWORD;
 	bool result = QPSStringUtils::isWildcard(testWildcard);
 
 	REQUIRE(result);
@@ -171,7 +171,7 @@ TEST_CASE("test_isEntRef_validIdent_true") {
 }
 
 TEST_CASE("test_isEntRef_wildcard_true") {
-	string testEntRef = wildcard;
+	string testEntRef = WILDCARD_KEYWORD;
 	bool result = QPSStringUtils::isEntRef(testEntRef);
 
 	REQUIRE(result);
@@ -199,7 +199,7 @@ TEST_CASE("test_isStmtRef_validInteger_true") {
 }
 
 TEST_CASE("test_isStmtRef_wildcard_true") {
-	string testEntRef = wildcard;
+	string testEntRef = WILDCARD_KEYWORD;
 	bool result = QPSStringUtils::isStmtRef(testEntRef);
 
 	REQUIRE(result);

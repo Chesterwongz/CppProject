@@ -1,27 +1,28 @@
 #include "PQLTokenType.h"
+#include "qps/common/Keywords.h"
 
 unordered_map<string, PQLTokenType> keywordToTokenType = {
-        { "stmt", PQL_ENTITY_TOKEN },
-        { "read", PQL_ENTITY_TOKEN },
-        { "print", PQL_ENTITY_TOKEN },
-        { "call", PQL_ENTITY_TOKEN },
-        { "while", PQL_ENTITY_TOKEN },
-        { "if", PQL_ENTITY_TOKEN },
-        { "assign", PQL_ENTITY_TOKEN },
-        { "variable", PQL_ENTITY_TOKEN },
-        { "constant", PQL_ENTITY_TOKEN },
-        { "procedure", PQL_ENTITY_TOKEN },
+        { STMT_ENTITY, PQL_ENTITY_TOKEN },
+        { READ_ENTITY, PQL_ENTITY_TOKEN },
+        { PRINT_ENTITY, PQL_ENTITY_TOKEN },
+        { CALL_ENTITY, PQL_ENTITY_TOKEN },
+        { WHILE_ENTITY, PQL_ENTITY_TOKEN },
+        { IF_ENTITY, PQL_ENTITY_TOKEN },
+        { ASSIGN_ENTITY, PQL_ENTITY_TOKEN },
+        { VARIABLE_ENTITY, PQL_ENTITY_TOKEN },
+        { CONSTANT_ENTITY, PQL_ENTITY_TOKEN },
+        { PROCEDURE_ENTITY, PQL_ENTITY_TOKEN },
 
-        { "Select", PQL_SELECT_TOKEN },
+        { SELECT_KEYWORD, PQL_SELECT_TOKEN },
 
-        { "such", PQL_SUCH_TOKEN },
-        { "that", PQL_THAT_TOKEN },
-        { "Follows", PQL_FOLLOWS_TOKEN },
-        { "Parent", PQL_PARENT_TOKEN },
-        { "Uses", PQL_USES_TOKEN },
-        { "Modifies", PQL_MODIFIES_TOKEN },
+        { SUCH_KEYWORD, PQL_SUCH_TOKEN },
+        { THAT_KEYWORD, PQL_THAT_TOKEN },
+        { FOLLOWS_ABSTRACTION, PQL_FOLLOWS_TOKEN },
+        { PARENTS_ABSTRACTION, PQL_PARENT_TOKEN },
+        { USES_ABSTRACTION, PQL_USES_TOKEN },
+        { MODIFIES_ABSTRACTION, PQL_MODIFIES_TOKEN },
 
-        { "pattern", PQL_PATTERN_TOKEN}
+        { PATTERN_KEYWORD, PQL_PATTERN_TOKEN}
 };
 
 unordered_set<PQLTokenType> delimiterTokens = {

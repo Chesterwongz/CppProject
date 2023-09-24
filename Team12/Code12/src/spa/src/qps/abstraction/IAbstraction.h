@@ -36,7 +36,7 @@ struct AbstractionParams {
 
 class IAbstraction {
 protected:
-    PKBReader pkb;
+    PKBReader& pkb;
     Context context;
     Abstraction abstraction;
     IArgument &firstArg;

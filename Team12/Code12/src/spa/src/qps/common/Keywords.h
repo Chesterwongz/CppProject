@@ -6,33 +6,25 @@
 
 using std::string, std::vector, std::unordered_set;
 
-const unordered_set<string> designEntities = {
-        "stmt",
-        "read",
-        "print",
-        "call",
-        "while",
-        "if",
-        "assign",
-        "variable",
-        "constant",
-        "procedure"
-};
+inline const string ASSIGN_ENTITY = "assign";
+inline const string CALL_ENTITY = "call";
+inline const string CONSTANT_ENTITY = "constant";
+inline const string IF_ENTITY = "if";
+inline const string PRINT_ENTITY = "print";
+inline const string PROCEDURE_ENTITY = "procedure";
+inline const string READ_ENTITY = "read";
+inline const string STMT_ENTITY = "stmt";
+inline const string VARIABLE_ENTITY = "variable";
+inline const string WHILE_ENTITY = "while";
 
-const string select = "Select";
+inline const string SELECT_KEYWORD = "Select";
+inline const string SUCH_KEYWORD = "such";
+inline const string THAT_KEYWORD = "that";
+inline const string PATTERN_KEYWORD = "pattern";
 
-const string pattern = "pattern";
+inline const string FOLLOWS_ABSTRACTION = "Follows";
+inline const string MODIFIES_ABSTRACTION = "Modifies";
+inline const string PARENTS_ABSTRACTION = "Parent";
+inline const string USES_ABSTRACTION = "Uses";
 
-const vector<string> suchThat = {
-        "such",
-        "that"
-};
-
-enum TOKENTYPES {
-    ENTITY,
-    SELECT,
-    SUCH_THAT,
-    PATTERN
-};
-
-
+inline const string WILDCARD_KEYWORD = "_";

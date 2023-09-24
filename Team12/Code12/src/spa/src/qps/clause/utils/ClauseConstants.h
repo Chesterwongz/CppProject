@@ -2,17 +2,18 @@
 
 #include <string>
 #include <unordered_map>
+#include "qps/common/Keywords.h"
 
 using std::string, std::unordered_map;
 
 const unordered_map<Entity, StmtType> EntityToStatementType = {
-        {"assign", StmtType::ASSIGN},
-        {"call", StmtType::CALL},
-        {"if", StmtType::IF},
-        {"print", StmtType::PRINT},
-        {"read", StmtType::READ},
-        {"while", StmtType::WHILE},
-        {"stmt", StmtType::STMT},
+        {ASSIGN_ENTITY, StmtType::ASSIGN},
+        {CALL_ENTITY, StmtType::CALL},
+        {IF_ENTITY, StmtType::IF},
+        {PRINT_ENTITY, StmtType::PRINT},
+        {READ_ENTITY, StmtType::READ},
+        {WHILE_ENTITY, StmtType::WHILE},
+        {STMT_ENTITY, StmtType::STMT},
 };
 
 // Abstractions

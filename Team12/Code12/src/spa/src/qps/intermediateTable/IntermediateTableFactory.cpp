@@ -1,5 +1,5 @@
 #include "IntermediateTableFactory.h"
-#include "common/utils/StringUtils.h"
+#include "qps/common/Keywords.h"
 
  IntermediateTable IntermediateTableFactory::buildIntermediateTable(
         const string &firstColName,
@@ -11,8 +11,8 @@
         return IntermediateTable::makeEmptyTable();;
     }
 
-    bool isFirstColWildcard = firstColName == StringUtils::WILDCARD;
-    bool isSecondColWildcard = secondColName == StringUtils::WILDCARD;
+    bool isFirstColWildcard = firstColName == WILDCARD_KEYWORD;
+    bool isSecondColWildcard = secondColName == WILDCARD_KEYWORD;
     if (isFirstColWildcard && isSecondColWildcard) {
         return IntermediateTable::makeWildcardTable();
     }
@@ -55,7 +55,7 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
 
     bool isAllWildcardColumns = std::count(colNames.begin(),
                                            colNames.end(),
-                                           StringUtils::WILDCARD)
+                                           WILDCARD_KEYWORD)
                                                    == colNames.size();
     if (isAllWildcardColumns) {
         return IntermediateTable::makeWildcardTable();
@@ -67,7 +67,7 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     for ([[maybe_unused]] auto &row : data) { dataWithoutWildcardColumns.emplace_back(); }
     for (int colIndex = 0; colIndex < colNames.size(); colIndex++) {
         const string& colName = colNames.at(colIndex);
-        if (colName == StringUtils::WILDCARD) {
+        if (colName == WILDCARD_KEYWORD) {
             // ignore wildcard columns
             continue;
         }
