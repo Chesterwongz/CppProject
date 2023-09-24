@@ -1,5 +1,6 @@
 #include "RelationshipParserState.h"
 #include "qps/common/PQLParserUtils.h"
+#include "qps/exceptions/QPSInvalidQueryException.h"
 
 RelationshipParserState::RelationshipParserState(bool isInBracket) : isInBracket(isInBracket) {}
 
@@ -11,6 +12,8 @@ void RelationshipParserState::processNameToken(PQLToken &curr) {
     curr.updateTokenType(PQLParserUtils::getTokenTypeFromKeyword(curr.getValue()));
 }
 
-bool RelationshipParserState::isSafeExit(size_t expectedArgs, size_t actualArgs) {
-    return !isInBracket && expectedArgs == actualArgs;
+void RelationshipParserState::checkSafeExit(size_t expectedArgs, size_t actualArgs) {
+    if (isInBracket || expectedArgs != actualArgs) {
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_MISSING_ARGUMENTS);
+    }
 }
