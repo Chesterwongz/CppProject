@@ -31,8 +31,6 @@ void SelectParserState::processNameToken(PQLToken& curr)
 }
 
 void SelectParserState::handleToken() {
-    std::cout << "Processing in Select Parser State" << std::endl;
-
 	while (!this->tokenStream.isTokenStreamEnd()) {
 		auto& curr = tokenStream.getCurrentToken();
 

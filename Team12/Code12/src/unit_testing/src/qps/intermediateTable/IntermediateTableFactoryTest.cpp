@@ -57,6 +57,24 @@ TEST_CASE("IntermediateTableFactory - buildIntermediateTable - vectors_with_wild
     REQUIRE(tableFromVectorsWithWildcard.getData().at(0).size() == 3);
 }
 
+TEST_CASE("IntermediateTableFactory - buildSingleColTable") {
+    IntermediateTable tableFromVectorsWithWildcard = IntermediateTableFactory::buildSingleColTable(
+            COL_NAME_3,
+            COL_3);
+    REQUIRE(tableFromVectorsWithWildcard.getData() == COL_3_2D);
+    REQUIRE(tableFromVectorsWithWildcard.isTableEmpty() == false);
+    REQUIRE(tableFromVectorsWithWildcard.isTableEmptyAndNotWildcard() == false);
+    REQUIRE(tableFromVectorsWithWildcard.isTableWildcard() == false);
+    REQUIRE(tableFromVectorsWithWildcard.getData().at(0).size() == 1);
+}
+
+TEST_CASE("IntermediateTableFactory - buildSingleColTable - wildcard") {
+    IntermediateTable tableFromVectorsWithWildcard = IntermediateTableFactory::buildSingleColTable(
+            WILDCARD_KEYWORD,
+            COL_3);
+    REQUIRE(tableFromVectorsWithWildcard.isTableWildcard());
+}
+
 TEST_CASE("IntermediateTableFactory - buildEmptyTable") {
     IntermediateTable emptyTable = IntermediateTableFactory::buildEmptyIntermediateTable();
     REQUIRE(emptyTable.isTableEmpty());

@@ -50,6 +50,7 @@ void ModifiesParserState::handleToken() {
                 break;
             case PQL_CLOSE_BRACKET_TOKEN:
                 isInBracket = false;
+                checkSafeExit(maxNumberOfArgs, arguments.size());
                 parserContext.addClause(make_unique<SuchThatClause>(
                         MODIFIES_ENUM,
                         std::move(arguments.at(0)),
@@ -79,8 +80,7 @@ void ModifiesParserState::handleToken() {
         this->prev = curr.getType();
         tokenStream.next();
     }
-    if (!isSafeExit(maxNumberOfArgs, arguments.size())) {
-        throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNMATCHED_BRACKET);
-    }
+    // safety barrier for premature exit
+    checkSafeExit(maxNumberOfArgs, arguments.size());
 }
 

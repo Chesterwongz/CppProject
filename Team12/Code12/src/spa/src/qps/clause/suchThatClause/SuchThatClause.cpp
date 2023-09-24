@@ -16,11 +16,11 @@ SuchThatClause::SuchThatClause (
 
 IntermediateTable SuchThatClause::evaluate(
         Context& context,
-        PKBReader &pkb) {
+        PKBReader& pkb) {
     unique_ptr<AbstractionParams> abstractionParams
             = std::make_unique<AbstractionParams>(
                     pkb,
-                    std::move(context),
+                    context,
                     this->relationship,
                     *(this->firstArg),
                     *(this->secondArg),

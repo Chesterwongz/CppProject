@@ -21,7 +21,7 @@ void Query::setSynonymToQuery(const string& selectSynonym) {
 set<string> Query::evaluate() {
     // for "select *" requests without any clauses
     if (clauses.empty()) {
-        returnAllPossibleQueriedSynonym();
+        return returnAllPossibleQueriedSynonym();
     }
 
     // iteratively join results of each clause
@@ -34,7 +34,7 @@ set<string> Query::evaluate() {
     // if table evaluates to TRUE (i.e., wildcard),
     // same as "select *" requests without any clauses
     if (currIntermediateTable.isTableWildcard()) {
-        returnAllPossibleQueriedSynonym();
+        return returnAllPossibleQueriedSynonym();
     }
 
     // get result vector
