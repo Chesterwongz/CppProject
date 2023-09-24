@@ -8,27 +8,27 @@ IntermediateTable AssignEvaluator::evaluate() {
 	unique_ptr<IArgument> firstArg = std::move(patternArgsStream[0]);
 	unique_ptr<IArgument> secondArg = std::move(patternArgsStream[1]);
 
-	string firstArgValue;
+	string firstArgValue = firstArg->getValue();
 
-	if (firstArg->isSynonym()) {
-		firstArgValue = WILDCARD_KEYWORD;
+	bool isFirstArgSynonym = firstArg->isSynonym();
+
+	string secondArgRPNValue;
+
+	if (secondArg->isWildcard()) {
+		secondArgRPNValue = secondArg->getValue();
 	}
 	else {
-		firstArgValue = firstArg->getValue();
+		secondArgRPNValue = QPSStringUtils::convertToRPN(secondArg->getValue());
 	}
-
-	string secondArgRPNValue = QPSStringUtils::convertToRPN(secondArg->getValue());
 
 	vector<string> pkbResult;
 
 	if (isPartialMatch) {
-		pkbResult = pkbReader.getPartialAssignPattern(firstArgValue, secondArgRPNValue, false);
+		pkbResult = pkbReader.getPartialAssignPattern(firstArgValue, secondArgRPNValue, isFirstArgSynonym);
 	}
 	else {
-		pkbResult = pkbReader.getExactAssignPattern(firstArgValue, secondArgRPNValue, false);
+		pkbResult = pkbReader.getExactAssignPattern(firstArgValue, secondArgRPNValue, isFirstArgSynonym);
 	}
 
-	vector<string> columnNames({firstArgValue});
-	vector<vector<string>> columns({ pkbResult });
-	return IntermediateTableFactory::buildIntermediateTable(columnNames, columns);
+	return IntermediateTableFactory::buildSingleColTable(firstArgValue, pkbResult);
 }

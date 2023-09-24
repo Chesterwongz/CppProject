@@ -51,18 +51,19 @@ bool QPSStringUtils::isInteger(string data) {
 string QPSStringUtils::convertToRPN(string exp) {
     //shunting yard algo
 
-    std::string rpnResult;
+    std::string rpnResult = " ";
     std::stack<char> operators;
 
     for (char token : exp) {
-        if (isdigit(token)) {
+        if (std::isalnum(token)) {
             rpnResult += token;
-        }
+        } 
         else if (token == '(') {
             operators.push(token);
         }
         else if (token == ')') {
             while (!operators.empty() && operators.top() != '(') {
+                rpnResult += " ";
                 rpnResult += operators.top();
                 operators.pop();
             }
@@ -70,17 +71,23 @@ string QPSStringUtils::convertToRPN(string exp) {
         }
         else if (precedence.find(token) != precedence.end()) {
             while (!operators.empty() && precedence[operators.top()] >= precedence[token]) {
+                rpnResult += " ";
                 rpnResult += operators.top();
                 operators.pop();
             }
+            rpnResult += " ";
             operators.push(token);
+            
         }
     }
 
     while (!operators.empty()) {
+        rpnResult += " ";
         rpnResult += operators.top();
         operators.pop();
     }
+
+    rpnResult += " ";
 
     return rpnResult;
 }

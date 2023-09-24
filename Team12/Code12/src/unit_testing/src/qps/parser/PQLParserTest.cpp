@@ -301,8 +301,8 @@ TEST_CASE("valid pattern partial match") {
     expectedContext->addSynonym("newa", ASSIGN_ENTITY);
     expected.addContext(std::move(expectedContext));
     unique_ptr<SynonymArg> outerSynonym = ArgumentFactory::createSynonymArgument("newa");
-    unique_ptr<Ident> firstArg = ArgumentFactory::createIdentArgument("cenX");
-    unique_ptr<Ident> secondArg = ArgumentFactory::createIdentArgument("x");
+    unique_ptr<Ident> firstArg = ArgumentFactory::createIdentArgument("cenX", PQL_LITERAL_REF_TOKEN);
+    unique_ptr<Ident> secondArg = ArgumentFactory::createIdentArgument("x", PQL_LITERAL_REF_TOKEN);
     vector<unique_ptr<IArgument>> patternArg;
     patternArg.push_back(std::move(firstArg));
     patternArg.push_back(std::move(secondArg));
@@ -408,7 +408,7 @@ TEST_CASE("valid such that before pattern") {
     expectedContext->addSynonym("a", "assign");
     expected.addContext(std::move(expectedContext));
     unique_ptr<SynonymArg> firstSuchThatArg = ArgumentFactory::createSynonymArgument("a");
-    unique_ptr<Ident> secondSuchThatArg = ArgumentFactory::createIdentArgument("x");
+    unique_ptr<Ident> secondSuchThatArg = ArgumentFactory::createIdentArgument("x", PQL_LITERAL_REF_TOKEN);
     unique_ptr<SuchThatClause> suchThatClause = make_unique<SuchThatClause>(
             USES_ENUM,
             std::move(firstSuchThatArg),
@@ -417,7 +417,7 @@ TEST_CASE("valid such that before pattern") {
     expected.addClause(std::move(suchThatClause));
 
     unique_ptr<SynonymArg> outerSynonym = ArgumentFactory::createSynonymArgument("a");
-    unique_ptr<Ident> firstPatternArg = ArgumentFactory::createIdentArgument("x");
+    unique_ptr<Ident> firstPatternArg = ArgumentFactory::createIdentArgument("x", PQL_LITERAL_REF_TOKEN);
     unique_ptr<Wildcard> secondPatternArg = ArgumentFactory::createWildcardArgument();
     vector<unique_ptr<IArgument>> patternArg;
     patternArg.push_back(std::move(firstPatternArg));
@@ -580,7 +580,7 @@ TEST_CASE("valid pattern before such that") {
     Query expected(pkbReader);
 
     unique_ptr<SynonymArg> outerSynonym = ArgumentFactory::createSynonymArgument("a");
-    unique_ptr<Ident> firstPatternArg = ArgumentFactory::createIdentArgument("x");
+    unique_ptr<Ident> firstPatternArg = ArgumentFactory::createIdentArgument("x", PQL_LITERAL_REF_TOKEN);
     unique_ptr<Wildcard> secondPatternArg = ArgumentFactory::createWildcardArgument();
     vector<unique_ptr<IArgument>> patternArg;
     patternArg.push_back(std::move(firstPatternArg));
@@ -596,7 +596,7 @@ TEST_CASE("valid pattern before such that") {
     expectedContext->addSynonym("a", "assign");
     expected.addContext(std::move(expectedContext));
     unique_ptr<SynonymArg> firstSuchThatArg = ArgumentFactory::createSynonymArgument("a");
-    unique_ptr<Ident> secondSuchThatArg = ArgumentFactory::createIdentArgument("x");
+    unique_ptr<Ident> secondSuchThatArg = ArgumentFactory::createIdentArgument("x", PQL_LITERAL_REF_TOKEN);
     unique_ptr<SuchThatClause> suchThatClause = make_unique<SuchThatClause>(
             USES_ENUM,
             std::move(firstSuchThatArg),
