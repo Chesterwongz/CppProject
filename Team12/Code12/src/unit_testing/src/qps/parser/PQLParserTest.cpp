@@ -3,7 +3,6 @@
 #include <memory>
 #include <vector>
 
-#include "qps/tokenizer/PQLTokenType.h"
 #include "qps/query/Query.h"
 #include "qps/token/PQLToken.h"
 #include "qps/parser/PQLParserContext.h"

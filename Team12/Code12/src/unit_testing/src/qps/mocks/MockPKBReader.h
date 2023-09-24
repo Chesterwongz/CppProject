@@ -129,11 +129,11 @@ public:
         return mockAllUsedVariables;
     }
 
-    vector<string> getExactAssignPattern(const string& variableName, const string& rpn) override {
+    vector<string> getExactAssignPattern(const string& variableName, const string& rpn, bool isSynonym) override {
         return mockExactAssignPatternStmts;
     }
 
-    vector<string> getPartialAssignPattern(const string& variableName, const string& rpn) override {
+    vector<string> getPartialAssignPattern(const string& variableName, const string& rpn, bool isSynonym) override {
         return mockPartialAssignPatternStmts;
     }
 };
