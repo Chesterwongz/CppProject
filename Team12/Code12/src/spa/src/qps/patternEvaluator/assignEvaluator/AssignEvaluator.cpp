@@ -30,12 +30,14 @@ IntermediateTable AssignEvaluator::evaluate() {
 		pkbResult = pkbReader.getExactAssignPattern(firstArgValue, secondArgRPNValue, isFirstArgSynonym);
 	}
 
-	IntermediateTable linesSatisfyingPattern = IntermediateTableFactory::buildSingleColTable("_line", pkbResult);
+	IntermediateTable linesSatisfyingPattern
+            = IntermediateTableFactory::buildSingleColTable(synonymValue, pkbResult);
     if ((firstArg->isWildcard() || firstArg->isIdent()) && !linesSatisfyingPattern.isTableEmptyAndNotWildcard()) {
         return IntermediateTableFactory::buildWildcardIntermediateTable();
     }
 	vector<pair<string, string>> lineVariablePairs = pkbReader.getAllModifiedVariables(StmtType::ASSIGN);
-	IntermediateTable lineAndVarsModified = IntermediateTableFactory::buildIntermediateTable("_line", firstArgValue, lineVariablePairs);
+	IntermediateTable lineAndVarsModified
+            = IntermediateTableFactory::buildIntermediateTable(synonymValue, firstArgValue, lineVariablePairs);
 	IntermediateTable linesSatisfyingPatternAndVarsModified = linesSatisfyingPattern.join(lineAndVarsModified);
     return linesSatisfyingPatternAndVarsModified;
 }

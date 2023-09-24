@@ -21,16 +21,19 @@ protected:
 	PatternArgsStreamPtr patternArgsStreamPtr;
 	PKBReader& pkbReader;
 	bool isPartialMatch;
+	string synonymValue;
 public:
 	explicit IPatternEvaluator(
 			Context context,
 			PatternArgsStreamPtr patternArgsStreamPtr,
 			PKBReader& pkbReader,
-			bool isPartialMatch) :
+			bool isPartialMatch,
+			string synonymValue) :
 		context(context),
 		patternArgsStreamPtr(std::move(patternArgsStreamPtr)),
 		pkbReader(pkbReader),
-		isPartialMatch(isPartialMatch) {};
+		isPartialMatch(isPartialMatch),
+		synonymValue(synonymValue) {};
     virtual ~IPatternEvaluator() = default;
 	virtual IntermediateTable evaluate() = 0;
 };

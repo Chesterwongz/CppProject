@@ -26,8 +26,8 @@ TEST_CASE("test_AssignEvaluator_evaluate") {
 		mockContext,
 		std::move(patternArgsStreamPtrTest),
 		mockPKBReader,
-		isPartialMatchFalse
-	);
+		isPartialMatchFalse,
+		synonymValue);
 
 	IntermediateTable actualTable = assignEvaluator.evaluate();
 

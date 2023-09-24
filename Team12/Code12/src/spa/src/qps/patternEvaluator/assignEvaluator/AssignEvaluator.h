@@ -7,11 +7,13 @@ public:
 	explicit AssignEvaluator(Context context,
 							 PatternArgsStreamPtr patternArgsStreamPtr,
 							 PKBReader& pkbReader,
-							 bool isPartialMatch) :
+							 bool isPartialMatch,
+							 string synonymValue) :
 							 IPatternEvaluator(context,
 											   std::move(patternArgsStreamPtr),
 											   pkbReader,
-											   isPartialMatch) {};
+											   isPartialMatch,
+											   synonymValue) {};
     ~AssignEvaluator() override = default;
 	IntermediateTable evaluate() override;
 };
