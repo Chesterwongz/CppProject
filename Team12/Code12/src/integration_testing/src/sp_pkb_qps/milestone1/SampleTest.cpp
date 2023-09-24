@@ -24,7 +24,7 @@ string sampleSource =
     "    else {"        
     "      y = z + x; }"        //8
     "    z = z + x + i;"        //9
-    "    print q;"              //10
+    "    read q;"               //10
     "    i = i - 1; }"          //11
     "  print p; }"              //12
     ""
@@ -210,7 +210,7 @@ TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 11") {
     sp.processContent(sampleSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
-    set<string> expected = {"10", "12", "16"};
+    set<string> expected = {"12", "16"};
     REQUIRE(result == expected);
 }
 
@@ -225,7 +225,7 @@ TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 12") {
     sp.processContent(sampleSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
-    set<string> expected = { "10", "16"};
+    set<string> expected = {"16"};
     REQUIRE(result == expected);
 }
 
@@ -240,7 +240,7 @@ TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 13") {
     sp.processContent(sampleSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
-    set<string> expected = { "10", "12", "16" };
+    set<string> expected = {"12", "16" };
     REQUIRE(result == expected);
 }
 
@@ -420,7 +420,7 @@ TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 25") {
     sp.processContent(sampleSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
-    set<string> expected = { "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "21", "22", "23", "24" };
+    set<string> expected = { "4", "5", "6", "7", "8", "9", "11", "12", "13", "14", "15", "16", "17", "18", "19", "21", "22", "23", "24" };
     REQUIRE(result == expected);
 }
 
@@ -450,7 +450,7 @@ TEST_CASE("SP-PKB-QPS tests/Sample_queries.txt - 27") {
     sp.processContent(sampleSource, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
-    set<string> expected = { "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "21", "22", "23", "24" };
+    set<string> expected = { "4", "5", "6", "7", "8", "9", "11", "12", "13", "14", "15", "16", "17", "18", "19", "21", "22", "23", "24" };
     REQUIRE(result == expected);
 }
 
