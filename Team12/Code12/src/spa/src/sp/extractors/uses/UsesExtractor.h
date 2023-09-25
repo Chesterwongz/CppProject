@@ -5,7 +5,7 @@
 #include <map>
 #include <vector>
 #include <string>
-#include "Extractor.h"
+#include "sp/extractors/Extractor.h"
 #include "sp/ast/ProcNode.h"
 #include "sp/ast/statements/AssignNode.h"
 #include "sp/ast/statements/IfNode.h"

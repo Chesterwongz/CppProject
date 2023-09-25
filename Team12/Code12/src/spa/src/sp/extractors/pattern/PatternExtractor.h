@@ -2,7 +2,7 @@
 
 #include <string>
 #include <unordered_set>
-#include "Extractor.h"
+#include "sp/extractors/Extractor.h"
 #include "sp/ast/statements/AssignNode.h"
 #include "sp/ast/statements/WhileNode.h"
 #include "sp/ast/statements/IfNode.h"
