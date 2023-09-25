@@ -13,8 +13,11 @@
 #include "sp/validator/SemanticValidator.h"
 
 class SourceProcessor : public ISourceProcessor {
+private:
+    SemanticValidator semanticValidator;
+
 public:
-    explicit SourceProcessor() = default;;
+    SourceProcessor(): semanticValidator() {};
     void process(const std::string &fileName, PKBWriter &pkbWriter) override;
     void processContent(const std::string& fileContent, PKBWriter &pkbWriter);
 };
