@@ -5,8 +5,10 @@ on:
 #  push:
 #    branches:
 #      - master
+  workflow_dispatch:
   schedule:
     - cron:  '0 0 * * *'
+
 # For scheduled deployment with Cron Jobs.
 ## Examples of cron schedule expressions:
 ### '0 * * * *': hourly
