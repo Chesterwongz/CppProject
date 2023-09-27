@@ -8,7 +8,7 @@ std::optional<std::unique_ptr<TNode>> RelExprParser::parse() {
     std::optional<std::unique_ptr<TNode>> leftNodeOpt = relFactorParser.parse();
     if (!leftNodeOpt.has_value()) return std::nullopt;
 
-    std::optional<std::string> opOpt = context->tryEatExpected(TokenType::REL_OP);
+    std::optional<std::string> opOpt = context->tryEatExpected(SpTokenType::REL_OP);
     if (!opOpt.has_value()) return std::nullopt;
 
     std::optional<std::unique_ptr<TNode>> rightNodeOpt = relFactorParser.parse();

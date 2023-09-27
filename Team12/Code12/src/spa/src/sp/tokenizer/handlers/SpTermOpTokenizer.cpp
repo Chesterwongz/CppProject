@@ -1,14 +1,14 @@
-#include "TermOpTokenizer.h"
+#include "SpTermOpTokenizer.h"
 
-Token TermOpTokenizer::tokenize(char nextCh, InputStream &inputStream) {
+SpToken SpTermOpTokenizer::tokenize(char nextCh, InputStream &inputStream) {
     if (!matchesTermOp(nextCh)) { // filter non term operators
         return BaseTokenizer::tokenize(nextCh, inputStream);
     }
 
-    return {TokenType::TERM_OP, std::string(1, inputStream.read())};
+    return {SpTokenType::TERM_OP, inputStream.read()};
 }
 
-bool TermOpTokenizer::matchesTermOp(const char ch) {
+bool SpTermOpTokenizer::matchesTermOp(const char ch) {
     // regex("[*/%]")
     return ch == op::kTimesChar || ch == op::kDivChar || ch == op::kModChar;
 }
