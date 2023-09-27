@@ -1,4 +1,4 @@
-name: Deploy RepoSense report
+name: RepoSense Action
 
 on:
   # For active deployment on push to master branch
