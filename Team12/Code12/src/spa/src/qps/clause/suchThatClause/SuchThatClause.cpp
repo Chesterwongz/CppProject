@@ -30,7 +30,7 @@ IntermediateTable SuchThatClause::evaluate(
     std::unique_ptr<IAbstraction> executableAbstraction =
             AbstractionFactory::createAbstraction(*abstractionParams);
 
-    return executableAbstraction->getAbstractions();
+    return AbstractionEvaluator::evaluate(*executableAbstraction);
 }
 
 bool SuchThatClause::isEquals(const Clause& other) {

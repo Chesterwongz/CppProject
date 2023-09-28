@@ -5,6 +5,7 @@
 #include "qps/clause/Clause.h"
 #include "qps/clause/utils/ClauseConstants.h"
 #include "qps/argument/IArgument.h"
+#include "qps/abstractionEvaluator/AbstractionEvaluator.h"
 
 using std::unique_ptr;
 
