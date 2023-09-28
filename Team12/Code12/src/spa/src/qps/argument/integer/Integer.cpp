@@ -11,20 +11,8 @@ QPSStringUtils::ArgumentType Integer::getArgumentType() {
 	return argumentType;
 }
 
-bool Integer::isIdent() {
-	return false;
-}
-
 bool Integer::isInteger() {
 	return true;
-}
-
-bool Integer::isSynonym() {
-	return false;
-}
-
-bool Integer::isWildcard() {
-	return false;
 }
 
 bool Integer::operator==(const IArgument& other) const {

@@ -10,20 +10,8 @@ QPSStringUtils::ArgumentType SynonymArg::getArgumentType() {
 	return argumentType;
 }
 
-bool SynonymArg::isIdent() {
-	return false;
-}
-
-bool SynonymArg::isInteger() {
-	return false;
-}
-
 bool SynonymArg::isSynonym() {
 	return true;
-}
-
-bool SynonymArg::isWildcard() {
-	return false;
 }
 
 bool SynonymArg::operator==(const IArgument& other) const {

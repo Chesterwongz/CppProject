@@ -11,10 +11,10 @@ class IArgument {
 public:
 	virtual string getValue() = 0;
 	virtual QPSStringUtils::ArgumentType getArgumentType() = 0;
-	virtual bool isIdent() = 0;
-	virtual bool isInteger() = 0;
-	virtual bool isSynonym() = 0;
-	virtual bool isWildcard() = 0;
+	virtual bool isIdent() { return false; }
+	virtual bool isInteger() { return false; }
+	virtual bool isSynonym() { return false; }
+	virtual bool isWildcard() { return false; }
     virtual ~IArgument() = default;
     virtual bool operator==(const IArgument& other) const = 0;
 };

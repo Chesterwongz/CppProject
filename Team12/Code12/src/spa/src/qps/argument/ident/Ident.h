@@ -17,8 +17,5 @@ public:
 	string getValue() override;
 	QPSStringUtils::ArgumentType getArgumentType() override;
 	bool isIdent() override;
-	bool isInteger() override;
-	bool isSynonym() override;
-	bool isWildcard() override;
     bool operator==(const IArgument& other) const override;
 };
