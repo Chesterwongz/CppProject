@@ -66,7 +66,7 @@ TEST_CASE("test_PatternClause_evaluate") {
 	mockPkbReader.resetMockPartialAssignPatternStmts();
 
 	vector<string> mockExactAssignPatternStmts = { "1", "2", "3" };
-	mockPkbReader.setMockExactAssignPatternStmts(mockExactAssignPatternStmts);
+	mockPkbReader.mockExactAssignPatternStmts = mockExactAssignPatternStmts;
 	vector<pair<string,string>> mockModifiedPairs = {{"1", "a"},
 													 {"3", "b"},
 													 {"5", "c"}};

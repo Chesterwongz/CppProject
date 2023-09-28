@@ -8,16 +8,19 @@ using std::make_unique;
 TEST_CASE("test_AssignEvaluator_evaluate") {
 	mockPKBReader.resetMockExactAssignPatternStmts();
 	mockPKBReader.resetMockPartialAssignPatternStmts();
-	mockPKBReader.setMockExactAssignPatternStmts(mockExactAssignPatternStmts);
-	
-	SynonymArg synonym = SynonymArg("test");
+	mockPKBReader.mockExactAssignPatternStmts = mockExactAssignPatternStmts;
+	mockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
+
+	// assign meow; variable test; select meow pattern (test, "x");
+	SynonymArg selectedSynonym = SynonymArg(synonymValue);
+	SynonymArg variableSynonym = SynonymArg("test");
 	Ident ident = Ident("x", PQL_LITERAL_REF_TOKEN);
 
-	unique_ptr<SynonymArg> synonymPtr = make_unique<SynonymArg>(synonym.getValue());
+	unique_ptr<SynonymArg> variableSynonymPtr = make_unique<SynonymArg>(variableSynonym.getValue());
 	unique_ptr<Ident> identPtr = make_unique<Ident>(ident.getValue(), PQL_LITERAL_REF_TOKEN);
 
 	PatternArgsStream patternArgsStreamTest;
-	patternArgsStreamTest.push_back(std::move(synonymPtr));
+	patternArgsStreamTest.push_back(std::move(variableSynonymPtr));
 	patternArgsStreamTest.push_back(std::move(identPtr));
 
 	PatternArgsStreamPtr patternArgsStreamPtrTest = make_unique<PatternArgsStream>(std::move(patternArgsStreamTest));
@@ -27,17 +30,21 @@ TEST_CASE("test_AssignEvaluator_evaluate") {
 		std::move(patternArgsStreamPtrTest),
 		mockPKBReader,
 		isPartialMatchFalse,
-		synonymValue);
+		selectedSynonym.getValue());
 
 	IntermediateTable actualTable = assignEvaluator.evaluate();
 
 	vector<string> actualColNames = actualTable.getColNames();
 	vector<vector<string>> actualTableData = actualTable.getData();
 
-	REQUIRE(actualColNames.size() == 1);
-	REQUIRE(actualColNames[0] == synonym.getValue());
+	REQUIRE(actualColNames.size() == 2);
+	REQUIRE(actualColNames[0] == selectedSynonym.getValue());
+	REQUIRE(actualColNames[1] == variableSynonym.getValue());
 	REQUIRE(actualTableData.size() == 3);
 	REQUIRE(actualTableData[0][0] == mockExactAssignPatternStmts[0]);
 	REQUIRE(actualTableData[1][0] == mockExactAssignPatternStmts[1]);
 	REQUIRE(actualTableData[2][0] == mockExactAssignPatternStmts[2]);
+	REQUIRE(actualTableData[0][1] == mockAllModifiedVariables[0].second);
+	REQUIRE(actualTableData[1][1] == mockAllModifiedVariables[1].second);
+	REQUIRE(actualTableData[2][1] == mockAllModifiedVariables[2].second);
 }
