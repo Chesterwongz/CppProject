@@ -11,7 +11,7 @@ using std::set, std::unique_ptr, std::string, std::vector, std::pair;
 
 inline pair<string, string> MOCK_IMMEDIATE_PARENT_OF = {"98", "99"};
 
-inline string MOCK_INVALID_PARENT = "-1";
+inline pair<string, string> MOCK_INVALID_IMMEDIATE_PARENT = {"", ""};
 
 inline vector<pair<string, string>>MOCK_PARENT_CHILD_PAIRS(
         {{"pc 1", "pc 2"},

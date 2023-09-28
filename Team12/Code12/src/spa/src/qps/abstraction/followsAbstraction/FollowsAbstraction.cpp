@@ -129,7 +129,6 @@ IntermediateTable FollowsAbstraction::evaluateWildcardWildcard() {
 
 /**
  * For handling cases where both args are non-integer
- * @return
  */
 IntermediateTable FollowsAbstraction::handleNoArgsInteger() {
     StmtType firstStmtType = this->getFirstArgStmtType();
@@ -163,7 +162,7 @@ IntermediateTable FollowsAbstraction::handleFirstArgInteger() {
     if (this->isTransitive) {
         vector<pair<string, string>> followStarPairs
                 = pkb.getFollowsStar(firstArgInteger, secondStmtType);
-        // pass first col as wildcard so the table ignores that column
+        // pass first col as wildcard so the table ignores integer column
         return IntermediateTableFactory::buildIntermediateTable(
                 WILDCARD_KEYWORD,
                 this->secondArgValue,
@@ -183,7 +182,7 @@ IntermediateTable FollowsAbstraction::handleSecondArgInteger() {
     if (this->isTransitive) {
         vector<pair<string, string>> followedStarPairs
                 = pkb.getFollowedStar(secondArgInteger, firstArgStmtType);
-        // pass second col as wildcard so the table ignores that column
+        // pass second col as wildcard so the table ignores integer column
         return IntermediateTableFactory::buildIntermediateTable(
                 this->firstArgValue,
                 WILDCARD_KEYWORD,
