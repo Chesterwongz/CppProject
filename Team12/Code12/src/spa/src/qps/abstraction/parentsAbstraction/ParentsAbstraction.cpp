@@ -79,7 +79,7 @@ IntermediateTable ParentsAbstraction::evaluateSynonymSynonym() {
     if (this->firstArgValue == this->secondArgValue) {
         return IntermediateTableFactory::buildEmptyIntermediateTable();
     }
-    return handleNoArgsInteger();
+    return handleSynonymOrWildcardArgs();
 }
 
 // Parents (Synonym, Integer)
@@ -89,7 +89,7 @@ IntermediateTable ParentsAbstraction::evaluateSynonymInteger() {
 
 // Parents (Synonym, _)
 IntermediateTable ParentsAbstraction::evaluateSynonymWildcard() {
-    return handleNoArgsInteger();
+    return handleSynonymOrWildcardArgs();
 }
 
 //Parents (Integer, Synonym)
@@ -109,7 +109,7 @@ IntermediateTable ParentsAbstraction::evaluateIntegerWildcard() {
 
 //Parents (Integer, Synonym)
 IntermediateTable ParentsAbstraction::evaluateWildcardSynonym() {
-    return handleNoArgsInteger();
+    return handleSynonymOrWildcardArgs();
 }
 
 // Parents (Integer, Integer)
@@ -119,13 +119,13 @@ IntermediateTable ParentsAbstraction::evaluateWildcardInteger()  {
 
 // Parents (_, _)
 IntermediateTable ParentsAbstraction::evaluateWildcardWildcard() {
-    return handleNoArgsInteger();
+    return handleSynonymOrWildcardArgs();
 }
 
 /**
  * For handling cases where both args are non-integer
  */
-IntermediateTable ParentsAbstraction::handleNoArgsInteger() {
+IntermediateTable ParentsAbstraction::handleSynonymOrWildcardArgs() {
     StmtType firstStmtType = this->getFirstArgStmtType();
     StmtType secondStmtType =this->getSecondArgStmtType();
 

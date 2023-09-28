@@ -84,7 +84,7 @@ IntermediateTable FollowsAbstraction::evaluateSynonymSynonym() {
     if (this->firstArgValue == this->secondArgValue) {
         return IntermediateTableFactory::buildEmptyIntermediateTable();
     }
-    return handleNoArgsInteger();
+    return handleSynonymOrWildcardArgs();
 }
 
 // Follows (Synonym, Integer)
@@ -94,7 +94,7 @@ IntermediateTable FollowsAbstraction::evaluateSynonymInteger() {
 
 // Follows (Synonym, _)
 IntermediateTable FollowsAbstraction::evaluateSynonymWildcard() {
-    return handleNoArgsInteger();
+    return handleSynonymOrWildcardArgs();
 }
 
 //Follows (Integer, Synonym)
@@ -114,7 +114,7 @@ IntermediateTable FollowsAbstraction::evaluateIntegerWildcard() {
 
 //Follows (Integer, Synonym)
 IntermediateTable FollowsAbstraction::evaluateWildcardSynonym() {
-    return handleNoArgsInteger();
+    return handleSynonymOrWildcardArgs();
  }
 
 // Follows (Integer, Integer)
@@ -124,13 +124,13 @@ IntermediateTable FollowsAbstraction::evaluateWildcardInteger()  {
 
 // Follows (_, _)
 IntermediateTable FollowsAbstraction::evaluateWildcardWildcard() {
-    return handleNoArgsInteger();
+    return handleSynonymOrWildcardArgs();
 }
 
 /**
  * For handling cases where both args are non-integer
  */
-IntermediateTable FollowsAbstraction::handleNoArgsInteger() {
+IntermediateTable FollowsAbstraction::handleSynonymOrWildcardArgs() {
     StmtType firstStmtType = this->getFirstArgStmtType();
     StmtType secondStmtType =this->getSecondArgStmtType();
 

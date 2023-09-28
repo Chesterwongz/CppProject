@@ -5,7 +5,7 @@
 
 class FollowsAbstraction : public IAbstraction {
 private:
-    IntermediateTable handleNoArgsInteger();
+    IntermediateTable handleSynonymOrWildcardArgs();
     IntermediateTable handleBothArgsInteger();
     IntermediateTable handleFirstArgInteger();
     IntermediateTable handleSecondArgInteger();
