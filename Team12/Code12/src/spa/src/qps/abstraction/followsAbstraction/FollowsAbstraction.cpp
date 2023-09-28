@@ -146,8 +146,8 @@ IntermediateTable FollowsAbstraction::handleSynonymOrWildcardArgs() {
 }
 
 IntermediateTable FollowsAbstraction::handleBothArgsInteger() {
-    int firstArgInteger = stoi(firstArgValue);
-    int secondArgInteger = stoi(secondArgValue);
+    int firstArgInteger = stoi(this->firstArgValue);
+    int secondArgInteger = stoi(this->secondArgValue);
     bool isValid = isTransitive
                    ? pkb.isFollowsStar(firstArgInteger, secondArgInteger)
                    : pkb.isFollows(firstArgInteger, secondArgInteger);

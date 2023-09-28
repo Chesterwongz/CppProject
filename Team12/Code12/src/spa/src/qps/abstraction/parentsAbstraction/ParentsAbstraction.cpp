@@ -126,7 +126,9 @@ IntermediateTable ParentsAbstraction::evaluateWildcardWildcard() {
  * For handling cases where both args are non-integer
  */
 IntermediateTable ParentsAbstraction::handleSynonymOrWildcardArgs() {
+    string firstArgStmtSynonym = this->firstArgValue;
     StmtType firstStmtType = this->getFirstArgStmtType();
+    string secondArgStmtSynonym = this->secondArgValue;
     StmtType secondStmtType =this->getSecondArgStmtType();
 
     vector<pair<string, string>> parentChildPairs = this->isTransitive
@@ -135,15 +137,15 @@ IntermediateTable ParentsAbstraction::handleSynonymOrWildcardArgs() {
 
     //! If any of the args are "_", the column will be ignored.
     return IntermediateTableFactory::buildIntermediateTable(
-            this->firstArgValue,
-            this->secondArgValue,
+            firstArgStmtSynonym,
+            secondArgStmtSynonym,
             parentChildPairs);
 }
 
 IntermediateTable ParentsAbstraction::handleBothArgsInteger() {
-    int firstArgInteger = stoi(firstArgValue);
-    int secondArgInteger = stoi(secondArgValue);
-    bool isValid = isTransitive
+    int firstArgInteger = stoi(this->firstArgValue);
+    int secondArgInteger = stoi(this->secondArgValue);
+    bool isValid = this->isTransitive
            ? pkb.isParentStar(firstArgInteger, secondArgInteger)
            : pkb.isParent(firstArgInteger, secondArgInteger);
     return isValid
@@ -165,6 +167,7 @@ IntermediateTable ParentsAbstraction::handleFirstArgInteger() {
 }
 
 IntermediateTable ParentsAbstraction::handleSecondArgInteger() {
+    string firstArgStmtSynonym = this->firstArgValue;
     StmtType firstArgStmtType = this->getFirstArgStmtType();
     int secondArgInteger = stoi(this->secondArgValue);
     vector<pair<string, string>> results;
@@ -181,7 +184,7 @@ IntermediateTable ParentsAbstraction::handleSecondArgInteger() {
     }
     // pass second col as wildcard so the table ignores the integer column
     return IntermediateTableFactory::buildIntermediateTable(
-            firstArgValue,
+            firstArgStmtSynonym,
             WILDCARD_KEYWORD,
             results);
 }
