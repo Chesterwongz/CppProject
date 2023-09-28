@@ -11,15 +11,15 @@ using std::string, std::unique_ptr;
 class PatternEvaluatorFactory {
 private:
 	static unique_ptr<AssignEvaluator> createAssignEvaluator(
-		Context context,
+		Context& context,
 		PatternArgsStreamPtr patternArgsStreamPtr,
 		PKBReader& pkbReader,
 		bool isPartialMatch,
 		string synonymValue);
 public:
 	static unique_ptr<IPatternEvaluator> createEvaluator(
-		string entityType,
-		Context context,
+		string& entityType,
+		Context& context,
 		PatternArgsStreamPtr patternArgsStreamPtr,
 		PKBReader& pkbReader,
 		bool isPartialMatch,

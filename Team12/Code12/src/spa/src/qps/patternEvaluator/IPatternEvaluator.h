@@ -17,14 +17,14 @@ typedef unique_ptr<PatternArgsStream> PatternArgsStreamPtr;
 
 class IPatternEvaluator {
 protected:
-	Context context;
+	Context& context;
 	PatternArgsStreamPtr patternArgsStreamPtr;
 	PKBReader& pkbReader;
 	bool isPartialMatch;
 	string synonymValue;
 public:
 	explicit IPatternEvaluator(
-			Context context,
+			Context& context,
 			PatternArgsStreamPtr patternArgsStreamPtr,
 			PKBReader& pkbReader,
 			bool isPartialMatch,
