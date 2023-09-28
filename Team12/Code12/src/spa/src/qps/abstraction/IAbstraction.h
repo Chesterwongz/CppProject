@@ -31,7 +31,6 @@ protected:
 
 public:
     ArgumentPermutation getAbstractionPermutation();
-    virtual IntermediateTable getAbstractions() = 0;
     virtual ~IAbstraction() = default;
 
 

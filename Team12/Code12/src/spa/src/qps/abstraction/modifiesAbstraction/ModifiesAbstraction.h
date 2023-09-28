@@ -9,8 +9,6 @@ private:
 public:
     explicit ModifiesAbstraction(AbstractionParams abstractionParams)  :
             IAbstraction(abstractionParams) {};
-    IntermediateTable getAbstractions() override;
-    IntermediateTable handleIntegerArgs(string stmtNumber);
 
     IntermediateTable evaluateSynonymSynonym() override;
     IntermediateTable evaluateSynonymIdent() override;

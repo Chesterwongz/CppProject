@@ -13,12 +13,6 @@ public:
     explicit FollowsAbstraction(AbstractionParams &abstractionParams)  :
             IAbstraction(abstractionParams) {};
 
-    IntermediateTable getAbstractions() override;
-
-    IntermediateTable handleIntegerArgs(
-            string firstArgValue, StmtType firstStmtType,
-            string secondArgValue, StmtType secondStmtType);
-
     IntermediateTable evaluateSynonymSynonym() override;
     IntermediateTable evaluateSynonymInteger() override;
     IntermediateTable evaluateSynonymWildcard() override;
