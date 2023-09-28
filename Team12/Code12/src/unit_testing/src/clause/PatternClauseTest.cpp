@@ -42,7 +42,8 @@ TEST_CASE("test_PatternClause_isEqual") {
 	REQUIRE(patternClause2.isEquals(patternClause1));
 }
 
-TEST_CASE("test_PatternClause_evaluate") {
+TEST_CASE("test_PatternClause_evaluate_synonymFirstArg") {
+	// assign a; variable test; select a pattern (test, "x")
 	SynonymArg patternSynonym = SynonymArg("a");
 	SynonymArg firstArg = SynonymArg("test");
 	Ident secondArg = Ident("x");
@@ -83,5 +84,49 @@ TEST_CASE("test_PatternClause_evaluate") {
 
 	REQUIRE(actualColNames.size() == 2);
 	REQUIRE(actualColNames[1] == firstArg.getValue());
+	REQUIRE(actualTableData == expectedData);
+}
+
+TEST_CASE("test_PatternClause_evaluate_identFirstArg") {
+	// assign a; select a pattern ("b", "x")
+	SynonymArg patternSynonym = SynonymArg("a");
+	Ident firstArg = Ident("b");
+	Ident secondArg = Ident("x");
+
+	unique_ptr<SynonymArg> patternSynonymPtr = std::make_unique<SynonymArg>(patternSynonym.getValue());
+	unique_ptr<Ident> firstArgPtr = std::make_unique<Ident>(firstArg.getValue());
+	unique_ptr<Ident>secondArgPtr = make_unique<Ident>(secondArg.getValue());
+
+	PatternArgsStream patternArgsStreamTest;
+	patternArgsStreamTest.push_back(std::move(firstArgPtr));
+	patternArgsStreamTest.push_back(std::move(secondArgPtr));
+
+	PatternArgsStreamPtr patternArgsStreamPtrTest = make_unique<PatternArgsStream>(std::move(patternArgsStreamTest));
+
+	PatternClause patternClause = PatternClause(std::move(patternSynonymPtr), std::move(patternArgsStreamPtrTest), false);
+
+	PKBStorage pkbStorage = PKBStorage();
+	MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+
+	mockPkbReader.resetMockExactAssignPatternStmts();
+	mockPkbReader.resetMockPartialAssignPatternStmts();
+
+	vector<string> mockExactAssignPatternStmts = { "3" };
+	mockPkbReader.mockExactAssignPatternStmts = mockExactAssignPatternStmts;
+	vector<pair<string, string>> mockModifiedPairs = { {"1", "a"},
+													 {"3", "b"},
+													 {"5", "c"} };
+	mockPkbReader.mockAllModifiedVariables = mockModifiedPairs;
+
+	MockContext mockContext = MockContext();
+	mockContext.mockTokenEntity = ASSIGN_ENTITY;
+
+	IntermediateTable actualTable = patternClause.evaluate(mockContext, mockPkbReader);
+	vector<string> actualColNames = actualTable.getColNames();
+	vector<vector<string>> actualTableData = actualTable.getData();
+	vector<vector<string>> expectedData = { {"3"} };
+
+	REQUIRE(actualColNames.size() == 1);
+	REQUIRE(actualColNames[0] == patternSynonym.getValue());
 	REQUIRE(actualTableData == expectedData);
 }

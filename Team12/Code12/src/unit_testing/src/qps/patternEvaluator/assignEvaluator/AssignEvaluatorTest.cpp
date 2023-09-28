@@ -6,7 +6,7 @@
 
 using std::make_unique;
 
-TEST_CASE("test_AssignEvaluator_evaluate") {
+TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
 	mockPKBReader.resetMockExactAssignPatternStmts();
 	mockPKBReader.resetMockPartialAssignPatternStmts();
 	mockPKBReader.mockExactAssignPatternStmts = mockExactAssignPatternStmts;
@@ -48,4 +48,42 @@ TEST_CASE("test_AssignEvaluator_evaluate") {
 	REQUIRE(actualTableData[0][1] == mockAllModifiedVariables[0].second);
 	REQUIRE(actualTableData[1][1] == mockAllModifiedVariables[1].second);
 	REQUIRE(actualTableData[2][1] == mockAllModifiedVariables[2].second);
+}
+
+TEST_CASE("test_AssignEvaluator_evaluate_identFirstArg") {
+	mockPKBReader.resetMockExactAssignPatternStmts();
+	mockPKBReader.resetMockPartialAssignPatternStmts();
+	mockPKBReader.mockExactAssignPatternStmts = mockExactAssignPatternStmtsIdent;
+	mockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
+
+	// assign meow; select meow pattern ("a", "x");
+	SynonymArg selectedSynonym = SynonymArg(synonymValue);
+	Ident patternFirstArg = Ident("a");
+	Ident patternExp = Ident("x");
+
+	unique_ptr<Ident> patternFirstArgPtr = make_unique<Ident>(patternFirstArg.getValue());
+	unique_ptr<Ident> patternExpPtr = make_unique<Ident>(patternExp.getValue());
+
+	PatternArgsStream patternArgsStreamTest;
+	patternArgsStreamTest.push_back(std::move(patternFirstArgPtr));
+	patternArgsStreamTest.push_back(std::move(patternExpPtr));
+
+	PatternArgsStreamPtr patternArgsStreamPtrTest = make_unique<PatternArgsStream>(std::move(patternArgsStreamTest));
+
+	AssignEvaluator assignEvaluator = AssignEvaluator(
+		mockContext,
+		std::move(patternArgsStreamPtrTest),
+		mockPKBReader,
+		isPartialMatchFalse,
+		selectedSynonym.getValue());
+
+	IntermediateTable actualTable = assignEvaluator.evaluate();
+
+	vector<string> actualColNames = actualTable.getColNames();
+	vector<vector<string>> actualTableData = actualTable.getData();
+
+	REQUIRE(actualColNames.size() == 1);
+	REQUIRE(actualColNames[0] == selectedSynonym.getValue());
+	REQUIRE(actualTableData.size() == 1);
+	REQUIRE(actualTableData[0][0] == mockExactAssignPatternStmts[0]);
 }
