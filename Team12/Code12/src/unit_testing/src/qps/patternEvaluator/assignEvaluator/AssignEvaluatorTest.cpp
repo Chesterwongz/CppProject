@@ -2,6 +2,7 @@
 
 #include "qps/patternEvaluator/assignEvaluator/AssignEvaluator.h"
 #include "../../patternEvaluator/assignEvaluator/AssignEvaluatorTestData.h"
+#include "qps/common/Keywords.h"
 
 using std::make_unique;
 
@@ -14,10 +15,10 @@ TEST_CASE("test_AssignEvaluator_evaluate") {
 	// assign meow; variable test; select meow pattern (test, "x");
 	SynonymArg selectedSynonym = SynonymArg(synonymValue);
 	SynonymArg variableSynonym = SynonymArg("test");
-	Ident ident = Ident("x", PQL_LITERAL_REF_TOKEN);
+	Ident ident = Ident("x");
 
 	unique_ptr<SynonymArg> variableSynonymPtr = make_unique<SynonymArg>(variableSynonym.getValue());
-	unique_ptr<Ident> identPtr = make_unique<Ident>(ident.getValue(), PQL_LITERAL_REF_TOKEN);
+	unique_ptr<Ident> identPtr = make_unique<Ident>(ident.getValue());
 
 	PatternArgsStream patternArgsStreamTest;
 	patternArgsStreamTest.push_back(std::move(variableSynonymPtr));

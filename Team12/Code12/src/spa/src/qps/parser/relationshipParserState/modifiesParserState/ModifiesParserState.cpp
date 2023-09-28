@@ -67,7 +67,7 @@ void ModifiesParserState::handleToken() {
                 arguments.push_back(std::move(ArgumentFactory::createWildcardArgument()));
                 break;
             case PQL_LITERAL_REF_TOKEN:
-                arguments.push_back(std::move(ArgumentFactory::createIdentArgument(curr.getValue(), PQL_LITERAL_REF_TOKEN)));
+                arguments.push_back(std::move(ArgumentFactory::createIdentArgument(curr.getValue())));
                 break;
             case PQL_INTEGER_TOKEN:
                 arguments.push_back(std::move(ArgumentFactory::createIntegerArgument(curr.getValue())));

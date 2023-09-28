@@ -73,15 +73,11 @@ TEST_CASE("test_createSynonymArgument") {
 	REQUIRE(arg->isWildcard() == false);
 }
 
-TEST_CASE("test_createIdentArgument_PQL_LITERAL_REF_TOKEN_valid") {
-	unique_ptr<IArgument> arg = ArgumentFactory::createIdentArgument(testIdent, PQL_LITERAL_REF_TOKEN);
+TEST_CASE("test_createIdentArgument") {
+	unique_ptr<IArgument> arg = ArgumentFactory::createIdentArgument(testIdent);
 
 	REQUIRE(arg->isIdent());
 	REQUIRE(arg->isInteger() == false);
 	REQUIRE(arg->isSynonym() == false);
 	REQUIRE(arg->isWildcard() == false);
-}
-
-TEST_CASE("test_createIdentArgument_notPQL_LITERAL_REF_TOKEN_invalid") {
-	REQUIRE_THROWS_AS(ArgumentFactory::createIdentArgument(testIdent, PQL_FOLLOWS_TOKEN), QPSInvalidQueryException);
 }

@@ -13,7 +13,7 @@ private:
 	string identValue;
 
 public:
-	explicit Ident(const string& argumentValue, PQLTokenType tokenType);
+	explicit Ident(const string& argumentValue) : identValue(argumentValue) {};
 	string getValue() override;
 	QPSStringUtils::ArgumentType getArgumentType() override;
 	bool isIdent() override;

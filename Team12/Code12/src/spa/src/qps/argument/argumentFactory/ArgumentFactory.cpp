@@ -12,7 +12,7 @@ unique_ptr<IArgument> ArgumentFactory::createArgument(string& argument) {
 		// create new string so as to not modify reference
 		string identString = argument;
 		identString.erase(std::remove(identString.begin(), identString.end(), '\"'), identString.end());
-		return make_unique<Ident>(identString, PQL_LITERAL_REF_TOKEN);
+		return make_unique<Ident>(identString);
 	}
 
 	if (QPSStringUtils::isSynonym(argument)) {
@@ -30,8 +30,8 @@ unique_ptr<SynonymArg> ArgumentFactory::createSynonymArgument(const string& argu
 	return make_unique<SynonymArg>(argumentValue);
 }
 
-unique_ptr<Ident> ArgumentFactory::createIdentArgument(const string& argumentValue, PQLTokenType tokenType) {
-	return make_unique<Ident>(argumentValue, tokenType);
+unique_ptr<Ident> ArgumentFactory::createIdentArgument(const string& argumentValue) {
+	return make_unique<Ident>(argumentValue);
 }
 
 unique_ptr<Integer> ArgumentFactory::createIntegerArgument(const string& argumentValue) {

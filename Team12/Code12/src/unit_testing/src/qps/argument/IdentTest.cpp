@@ -6,7 +6,7 @@ string identString = "test";
 string expectedIdentValue = "test";
 string identArgType = "ident";
 
-Ident ident = Ident(identString, PQL_LITERAL_REF_TOKEN);
+Ident ident = Ident(identString);
 
 TEST_CASE("test_ident_getValue") {
 	// TODO: update ident constructor
@@ -47,13 +47,13 @@ TEST_CASE("test_ident_isWildcard_false") {
 }
 
 TEST_CASE("test_ident_operator==_true") {
-	Ident similarIdent = Ident(identString, PQL_LITERAL_REF_TOKEN);
+	Ident similarIdent = Ident(identString);
 
 	REQUIRE(ident == similarIdent);
 }
 
 TEST_CASE("test_ident_operator==_false") {
-	Ident diffIdent = Ident("randomstring", PQL_LITERAL_REF_TOKEN);
+	Ident diffIdent = Ident("randomstring");
 
 	REQUIRE(!(ident == diffIdent));
 }

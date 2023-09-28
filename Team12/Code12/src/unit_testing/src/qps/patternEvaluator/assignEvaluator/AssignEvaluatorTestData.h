@@ -14,6 +14,8 @@ MockPKBReader mockPKBReader = MockPKBReader(storage);
 
 vector<string> mockExactAssignPatternStmts = {"1", "2", "3"};
 
+vector<string> mockExactAssignPatternStmtsIdent = { "1" };
+
 vector<pair<string, string>> mockAllModifiedVariables = { 
 	make_pair("1", "a"),  
 	make_pair("2", "b"),

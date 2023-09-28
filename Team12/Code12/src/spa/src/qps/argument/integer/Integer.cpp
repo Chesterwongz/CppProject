@@ -3,14 +3,6 @@
 #include "Integer.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-Integer::Integer(const string& argumentValue) {
-	if (!QPSStringUtils::isInteger(argumentValue)) {
-		throw QPSInvalidQueryException("argumentValue is not an integer");
-	}
-
-	integerValue = argumentValue;
-}
-
 string Integer::getValue() {
 	return integerValue;
 }

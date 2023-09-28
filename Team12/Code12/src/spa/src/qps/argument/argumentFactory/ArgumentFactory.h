@@ -17,7 +17,7 @@ public:
     static std::unique_ptr<IArgument> createArgument(string& argument);
 
     static std::unique_ptr<SynonymArg> createSynonymArgument(const string& argumentValue);
-    static std::unique_ptr<Ident> createIdentArgument(const string& argumentValue, PQLTokenType tokenType);
+    static std::unique_ptr<Ident> createIdentArgument(const string& argumentValue);
     static std::unique_ptr<Integer> createIntegerArgument(const string& argumentValue);
     static std::unique_ptr<Wildcard> createWildcardArgument();
 };

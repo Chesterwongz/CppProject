@@ -12,11 +12,11 @@ using std::unique_ptr, std::make_unique;
 TEST_CASE("test_PatternClause_isEqual") {
 	SynonymArg patternSynonym = SynonymArg("a");
 	SynonymArg firstArg = SynonymArg("test");
-	Ident secondArg = Ident("x", PQL_LITERAL_REF_TOKEN);
+	Ident secondArg = Ident("x");
 
 	unique_ptr<SynonymArg> patternSynonymPtr1 = std::make_unique<SynonymArg>(patternSynonym.getValue());
 	unique_ptr<SynonymArg> firstArgPtr1 = std::make_unique<SynonymArg>(firstArg.getValue());
-	unique_ptr<Ident>secondArgPtr1 = make_unique<Ident>(secondArg.getValue(), PQL_LITERAL_REF_TOKEN);
+	unique_ptr<Ident>secondArgPtr1 = make_unique<Ident>(secondArg.getValue());
 
 	PatternArgsStream patternArgsStreamTest1;
 	patternArgsStreamTest1.push_back(std::move(firstArgPtr1));
@@ -28,7 +28,7 @@ TEST_CASE("test_PatternClause_isEqual") {
 
 	unique_ptr<SynonymArg> patternSynonymPtr2 = std::make_unique<SynonymArg>(patternSynonym.getValue());
 	unique_ptr<SynonymArg> firstArgPtr2 = std::make_unique<SynonymArg>(firstArg.getValue());
-	unique_ptr<Ident>secondArgPtr2 = make_unique<Ident>(secondArg.getValue(), PQL_LITERAL_REF_TOKEN);
+	unique_ptr<Ident>secondArgPtr2 = make_unique<Ident>(secondArg.getValue());
 
 	PatternArgsStream patternArgsStreamTest2;
 	patternArgsStreamTest2.push_back(std::move(firstArgPtr2));
@@ -45,11 +45,11 @@ TEST_CASE("test_PatternClause_isEqual") {
 TEST_CASE("test_PatternClause_evaluate") {
 	SynonymArg patternSynonym = SynonymArg("a");
 	SynonymArg firstArg = SynonymArg("test");
-	Ident secondArg = Ident("x", PQL_LITERAL_REF_TOKEN);
+	Ident secondArg = Ident("x");
 
 	unique_ptr<SynonymArg> patternSynonymPtr = std::make_unique<SynonymArg>(patternSynonym.getValue());
 	unique_ptr<SynonymArg> firstArgPtr = std::make_unique<SynonymArg>(firstArg.getValue());
-	unique_ptr<Ident>secondArgPtr = make_unique<Ident>(secondArg.getValue(), PQL_LITERAL_REF_TOKEN);
+	unique_ptr<Ident>secondArgPtr = make_unique<Ident>(secondArg.getValue());
 
 	PatternArgsStream patternArgsStreamTest;
 	patternArgsStreamTest.push_back(std::move(firstArgPtr));

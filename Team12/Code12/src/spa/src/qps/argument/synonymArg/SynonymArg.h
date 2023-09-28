@@ -12,7 +12,7 @@ private:
 	string synonymValue;
 
 public:
-	explicit SynonymArg(const string& argumentValue);
+	explicit SynonymArg(const string& argumentValue) : synonymValue(argumentValue) {};
 	string getValue() override;
 	QPSStringUtils::ArgumentType getArgumentType() override;
 	bool isIdent() override;

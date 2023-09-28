@@ -116,7 +116,7 @@ void PatternParserState::handleToken() {
                 }
                 break;
             case PQL_LITERAL_REF_TOKEN:
-                patternArg.push_back(std::move(ArgumentFactory::createIdentArgument(curr.getValue(), PQL_LITERAL_REF_TOKEN)));
+                patternArg.push_back(std::move(ArgumentFactory::createIdentArgument(curr.getValue())));
                 break;
             case PQL_SUCH_TOKEN:
                 this->parserContext.transitionTo(make_unique<SuchThatParserState>(parserContext));
