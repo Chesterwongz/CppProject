@@ -1,12 +1,5 @@
 #include "PatternClause.h"
 
-PatternClause::PatternClause(unique_ptr<IArgument> synonym, PatternArgsStreamPtr patternArgsStreamPtr, bool isPartialMatch) {
-	PatternClause::synonym = std::move(synonym);
-	PatternClause::patternArgsStreamPtr = std::move(patternArgsStreamPtr);
-	PatternClause::isPartialMatch = isPartialMatch;
-}
-
-
 IntermediateTable PatternClause::evaluate(Context& context,
 										  PKBReader& pkbReader) {
 	string synonymValue = synonym->getValue();
@@ -18,7 +11,7 @@ IntermediateTable PatternClause::evaluate(Context& context,
 	IEvaluatorPtr =  PatternEvaluatorFactory::createEvaluator(
 			entityType,
 			context,
-			std::move(patternArgsStreamPtr),
+			patternArgsStream,
 			pkbReader,
 			isPartialMatch,
 			synonymValue);
@@ -31,8 +24,8 @@ bool PatternClause::isEquals(const Clause& other) {
     const auto* otherPattern = dynamic_cast<const PatternClause*>(&other);
     if (!otherPattern) return false;
 
-    for (int i = 0; i < patternArgsStreamPtr->size(); ++i) {
-        if (!(*patternArgsStreamPtr->at(i) == *otherPattern->patternArgsStreamPtr->at(i))) {
+    for (int i = 0; i < patternArgsStream.size(); ++i) {
+        if (!(*patternArgsStream.at(i) == *otherPattern->patternArgsStream.at(i))) {
             return false;
         }
     }

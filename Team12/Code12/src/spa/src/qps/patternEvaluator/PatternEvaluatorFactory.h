@@ -12,7 +12,7 @@ class PatternEvaluatorFactory {
 private:
 	static unique_ptr<AssignEvaluator> createAssignEvaluator(
 		Context& context,
-		PatternArgsStreamPtr patternArgsStreamPtr,
+		PatternArgsStream& patternArgsStream,
 		PKBReader& pkbReader,
 		bool isPartialMatch,
 		string synonymValue);
@@ -20,7 +20,7 @@ public:
 	static unique_ptr<IPatternEvaluator> createEvaluator(
 		string& entityType,
 		Context& context,
-		PatternArgsStreamPtr patternArgsStreamPtr,
+		PatternArgsStream& patternArgsStream,
 		PKBReader& pkbReader,
 		bool isPartialMatch,
 		string synonymValue

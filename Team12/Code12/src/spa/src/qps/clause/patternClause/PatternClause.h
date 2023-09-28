@@ -15,14 +15,16 @@ using std::string, std::unique_ptr, std::vector;
 class PatternClause : public Clause {
 private:
     unique_ptr<IArgument> synonym;
-    PatternArgsStreamPtr patternArgsStreamPtr;
+    PatternArgsStream& patternArgsStream;
     bool isPartialMatch;
 
 public:
-    // prolly will have to add one more field that specifies if the pattern arg is a direct or partial match
     explicit PatternClause(unique_ptr<IArgument> synonym,
-                           PatternArgsStreamPtr patternArgsStreamPtr,
-                           bool isPartialMatch);
+        PatternArgsStream& patternArgsStream,
+        bool isPartialMatch) :
+        synonym(std::move(synonym)),
+        patternArgsStream(patternArgsStream),
+        isPartialMatch(isPartialMatch) {};
 
     IntermediateTable evaluate(
             Context& context,

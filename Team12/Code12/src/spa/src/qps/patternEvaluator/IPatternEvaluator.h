@@ -13,24 +13,23 @@
 using std::string, std::vector, std::unique_ptr, std::set;
 
 typedef vector<unique_ptr<IArgument>> PatternArgsStream;
-typedef unique_ptr<PatternArgsStream> PatternArgsStreamPtr;
 
 class IPatternEvaluator {
 protected:
 	Context& context;
-	PatternArgsStreamPtr patternArgsStreamPtr;
+	PatternArgsStream& patternArgsStream;
 	PKBReader& pkbReader;
 	bool isPartialMatch;
 	string synonymValue;
 public:
 	explicit IPatternEvaluator(
 			Context& context,
-			PatternArgsStreamPtr patternArgsStreamPtr,
+			PatternArgsStream& patternArgsStream,
 			PKBReader& pkbReader,
 			bool isPartialMatch,
 			string synonymValue) :
 		context(context),
-		patternArgsStreamPtr(std::move(patternArgsStreamPtr)),
+		patternArgsStream(patternArgsStream),
 		pkbReader(pkbReader),
 		isPartialMatch(isPartialMatch),
 		synonymValue(synonymValue) {};

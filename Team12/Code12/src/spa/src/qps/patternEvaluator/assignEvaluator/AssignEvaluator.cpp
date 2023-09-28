@@ -3,7 +3,6 @@
 #include "qps/common/Keywords.h"
 
 IntermediateTable AssignEvaluator::evaluate() {
-	PatternArgsStream patternArgsStream = std::move(*patternArgsStreamPtr);
 
 	unique_ptr<IArgument> firstArg = std::move(patternArgsStream[0]);
 	unique_ptr<IArgument> secondArg = std::move(patternArgsStream[1]);

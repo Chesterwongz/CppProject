@@ -1,12 +1,12 @@
 #include "PatternEvaluatorFactory.h"
 
 unique_ptr<IPatternEvaluator> PatternEvaluatorFactory::createEvaluator(
-	string& entityType, Context& context, PatternArgsStreamPtr patternArgsStreamPtr, PKBReader& pkbReader, bool isPartialMatch, string synonymValue) {
+	string& entityType, Context& context, PatternArgsStream& patternArgsStream, PKBReader& pkbReader, bool isPartialMatch, string synonymValue) {
 
 	if (entityType == ASSIGN_ENTITY) {
 		return createAssignEvaluator(
 			context,
-			std::move(patternArgsStreamPtr),
+			patternArgsStream,
 			pkbReader,
 			isPartialMatch,
 			synonymValue);
@@ -16,7 +16,7 @@ unique_ptr<IPatternEvaluator> PatternEvaluatorFactory::createEvaluator(
 }
 
 unique_ptr<AssignEvaluator> PatternEvaluatorFactory::createAssignEvaluator(
-	Context& context, PatternArgsStreamPtr patternArgsStreamPtr, PKBReader& pkbReader, bool isPartialMatch, string synonymValue) {
+	Context& context, PatternArgsStream& patternArgsStream, PKBReader& pkbReader, bool isPartialMatch, string synonymValue) {
 	
-	return std::make_unique<AssignEvaluator>(context, std::move(patternArgsStreamPtr), pkbReader, isPartialMatch, synonymValue);
+	return std::make_unique<AssignEvaluator>(context, patternArgsStream, pkbReader, isPartialMatch, synonymValue);
 }

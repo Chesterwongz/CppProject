@@ -5,7 +5,7 @@
 class AssignEvaluator : public IPatternEvaluator {
 public:
 	explicit AssignEvaluator(Context& context,
-							 PatternArgsStreamPtr patternArgsStreamPtr,
+							 PatternArgsStream& patternArgsStreamPtr,
 							 PKBReader& pkbReader,
 							 bool isPartialMatch,
 							 string synonymValue) :

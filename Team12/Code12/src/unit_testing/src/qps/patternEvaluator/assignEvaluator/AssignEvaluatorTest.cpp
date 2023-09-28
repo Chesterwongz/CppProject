@@ -24,11 +24,9 @@ TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
 	patternArgsStreamTest.push_back(std::move(variableSynonymPtr));
 	patternArgsStreamTest.push_back(std::move(identPtr));
 
-	PatternArgsStreamPtr patternArgsStreamPtrTest = make_unique<PatternArgsStream>(std::move(patternArgsStreamTest));
-
 	AssignEvaluator assignEvaluator = AssignEvaluator(
 		mockContext,
-		std::move(patternArgsStreamPtrTest),
+		patternArgsStreamTest,
 		mockPKBReader,
 		isPartialMatchFalse,
 		selectedSynonym.getValue());
@@ -68,11 +66,9 @@ TEST_CASE("test_AssignEvaluator_evaluate_identFirstArg") {
 	patternArgsStreamTest.push_back(std::move(patternFirstArgPtr));
 	patternArgsStreamTest.push_back(std::move(patternExpPtr));
 
-	PatternArgsStreamPtr patternArgsStreamPtrTest = make_unique<PatternArgsStream>(std::move(patternArgsStreamTest));
-
 	AssignEvaluator assignEvaluator = AssignEvaluator(
 		mockContext,
-		std::move(patternArgsStreamPtrTest),
+		patternArgsStreamTest,
 		mockPKBReader,
 		isPartialMatchFalse,
 		selectedSynonym.getValue());

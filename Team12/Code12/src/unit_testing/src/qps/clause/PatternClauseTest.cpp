@@ -22,9 +22,7 @@ TEST_CASE("test_PatternClause_isEqual") {
 	patternArgsStreamTest1.push_back(std::move(firstArgPtr1));
 	patternArgsStreamTest1.push_back(std::move(secondArgPtr1));
 
-	PatternArgsStreamPtr patternArgsStreamPtrTest1 = make_unique<PatternArgsStream>(std::move(patternArgsStreamTest1));
-
-	PatternClause patternClause1 = PatternClause(std::move(patternSynonymPtr1), std::move(patternArgsStreamPtrTest1), false);
+	PatternClause patternClause1 = PatternClause(std::move(patternSynonymPtr1), patternArgsStreamTest1, false);
 
 	unique_ptr<SynonymArg> patternSynonymPtr2 = std::make_unique<SynonymArg>(patternSynonym.getValue());
 	unique_ptr<SynonymArg> firstArgPtr2 = std::make_unique<SynonymArg>(firstArg.getValue());
@@ -34,9 +32,7 @@ TEST_CASE("test_PatternClause_isEqual") {
 	patternArgsStreamTest2.push_back(std::move(firstArgPtr2));
 	patternArgsStreamTest2.push_back(std::move(secondArgPtr2));
 
-	PatternArgsStreamPtr patternArgsStreamPtrTest2 = make_unique<PatternArgsStream>(std::move(patternArgsStreamTest2));
-
-	PatternClause patternClause2 = PatternClause(std::move(patternSynonymPtr2), std::move(patternArgsStreamPtrTest2), false);
+	PatternClause patternClause2 = PatternClause(std::move(patternSynonymPtr2), patternArgsStreamTest2, false);
 
 	REQUIRE(patternClause1.isEquals(patternClause2));
 	REQUIRE(patternClause2.isEquals(patternClause1));
@@ -56,9 +52,7 @@ TEST_CASE("test_PatternClause_evaluate_synonymFirstArg") {
 	patternArgsStreamTest.push_back(std::move(firstArgPtr));
 	patternArgsStreamTest.push_back(std::move(secondArgPtr));
 
-	PatternArgsStreamPtr patternArgsStreamPtrTest = make_unique<PatternArgsStream>(std::move(patternArgsStreamTest));
-
-	PatternClause patternClause = PatternClause(std::move(patternSynonymPtr), std::move(patternArgsStreamPtrTest), false);
+	PatternClause patternClause = PatternClause(std::move(patternSynonymPtr), patternArgsStreamTest, false);
 
 	PKBStorage pkbStorage = PKBStorage();
 	MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
@@ -101,9 +95,7 @@ TEST_CASE("test_PatternClause_evaluate_identFirstArg") {
 	patternArgsStreamTest.push_back(std::move(firstArgPtr));
 	patternArgsStreamTest.push_back(std::move(secondArgPtr));
 
-	PatternArgsStreamPtr patternArgsStreamPtrTest = make_unique<PatternArgsStream>(std::move(patternArgsStreamTest));
-
-	PatternClause patternClause = PatternClause(std::move(patternSynonymPtr), std::move(patternArgsStreamPtrTest), false);
+	PatternClause patternClause = PatternClause(std::move(patternSynonymPtr), patternArgsStreamTest, false);
 
 	PKBStorage pkbStorage = PKBStorage();
 	MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
