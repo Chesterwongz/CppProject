@@ -1,4 +1,5 @@
 #include "PatternEvaluatorFactory.h"
+#include "qps/exceptions/QPSInvalidQueryException.h"
 
 unique_ptr<IPatternEvaluator> PatternEvaluatorFactory::createEvaluator(
 	string& entityType, Context& context, PatternArgsStream& patternArgsStream, PKBReader& pkbReader, bool isPartialMatch, string synonymValue) {
@@ -12,7 +13,7 @@ unique_ptr<IPatternEvaluator> PatternEvaluatorFactory::createEvaluator(
 			synonymValue);
 	}
 	
-	return nullptr;
+	throw QPSInvalidQueryException("Unable to create PatternEvaluator of type: " + entityType);
 }
 
 unique_ptr<AssignEvaluator> PatternEvaluatorFactory::createAssignEvaluator(
