@@ -11,9 +11,9 @@
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
 #include "qps/clause/patternClause/PatternClause.h"
-#include "qps/argument/argumentFactory/ArgumentFactory.h"
 #include "qps/argument/integer/Integer.h"
 #include "qps/argument/wildcard/Wildcard.h"
+#include "../testUtils/argumentFactory/ArgumentFactory.h"
 
 using std::unique_ptr, std::make_unique, std::move, std::vector;
 

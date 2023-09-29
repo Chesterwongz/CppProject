@@ -2,8 +2,11 @@
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/parser/suchThatParserState/SuchThatParserState.h"
-#include "qps/argument/argumentFactory/ArgumentFactory.h"
 #include "qps/clause/patternClause/PatternClause.h"
+#include "qps/argument/ident/Ident.h"
+#include "qps/argument/integer/Integer.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/argument/wildcard/Wildcard.h"
 
 // MS2 split pattern parser up into AssignPatternParserState, IfPatternParserState, WhilePatternParserState
 PredictiveMap PatternParserState::predictiveMap = {
@@ -47,13 +50,13 @@ void PatternParserState::processSynonymToken(PQLToken& curr) {
 
     if (prev == PQL_PATTERN_TOKEN) {
         if (synType == ASSIGN_ENTITY) {
-            outerSynonym = std::move(ArgumentFactory::createSynonymArgument(curr.getValue()));
+            outerSynonym = std::make_unique<SynonymArg>(curr.getValue());
         } else {
             throw QPSInvalidQueryException(QPS_INVALID_QUERY_INVALID_PATTERN_SYNONYM);
         }
     } else if (argumentCount == 0) {
         if (synType == VARIABLE_ENTITY) {
-            patternArg.push_back(std::move(ArgumentFactory::createSynonymArgument(curr.getValue())));
+            patternArg.push_back(std::move(std::make_unique<SynonymArg>(curr.getValue())));
         } else {
             throw QPSInvalidQueryException(QPS_INVALID_QUERY_INVALID_PATTERN_SYNONYM);
         }
@@ -65,7 +68,7 @@ void PatternParserState::processSynonymToken(PQLToken& curr) {
 // TODO: part of refactoring in ms2
 void PatternParserState::processLastArgument() {
     if (patternArg.size() == 1 && partialMatchWildCardCount == 1) { // secondArg = _
-        patternArg.push_back(std::move(ArgumentFactory::createWildcardArgument()));
+        patternArg.push_back(std::move(std::make_unique<Wildcard>()));
     } else if ((patternArg.size() == maxNumberOfArgs && partialMatchWildCardCount == 0)  // secondArg = exact
         || (partialMatchWildCardCount == 2 && patternArg.size() == maxNumberOfArgs)) { // secondArg = _"x"_
         return;
@@ -112,11 +115,11 @@ void PatternParserState::handleToken() {
                 if (argumentCount > 0) {
                     partialMatchWildCardCount++;
                 } else {
-                    patternArg.push_back(std::move(ArgumentFactory::createWildcardArgument()));
+                    patternArg.push_back(std::move(std::make_unique<Wildcard>()));
                 }
                 break;
             case PQL_LITERAL_REF_TOKEN:
-                patternArg.push_back(std::move(ArgumentFactory::createIdentArgument(curr.getValue())));
+                patternArg.push_back(std::move(std::make_unique<Ident>(curr.getValue())));
                 break;
             case PQL_SUCH_TOKEN:
                 this->parserContext.transitionTo(make_unique<SuchThatParserState>(parserContext));
