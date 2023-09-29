@@ -11,7 +11,7 @@ private:
 	const QPSStringUtils::ArgumentType argumentType = QPSStringUtils::INTEGER;
 	string integerValue;
 public:
-	explicit Integer(const string& argumentValue) : integerValue(argumentValue) {};
+	explicit Integer(string argumentValue) : integerValue(std::move(argumentValue)) {};
 	string getValue() override;
 	QPSStringUtils::ArgumentType getArgumentType() override;
 	bool isInteger() override;
