@@ -1,5 +1,4 @@
 #include "catch.hpp"
-#include "qps/abstractionEvaluator/AbstractionEvaluator.h"
 #include "qps/abstraction/FollowsAbstraction/FollowsAbstraction.h"
 #include "../../mocks/MockPKBReader.h"
 #include "../../intermediateTable/IntermediateTableTestUtils.h"
@@ -22,7 +21,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Synonym)_EMPTY") {
                                           false);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
     REQUIRE(resultTable.isTableEmpty());
@@ -45,7 +44,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Synonym)") {
                                           false);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_FOLLOWS_VECTORS);
     REQUIRE(resultTable.getColNames().size() == 2);
@@ -71,7 +70,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Integer)") {
                                           false);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData().size() == 1);
     REQUIRE(resultTable.getData().at(0).size() == 1);
@@ -95,7 +94,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Integer) not followed") {
                                           false);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
@@ -118,7 +117,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Wildcard)") {
                                           false);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_FOLLOWS_COL_1);
     REQUIRE(resultTable.getColNames().size() == 1);
@@ -142,7 +141,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)") {
                                           false);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.getData().size() == 1);
     REQUIRE(resultTable.getData().at(0).size() == 1);
     REQUIRE(resultTable.getData().at(0).at(0) == MOCK_FOLLOWED);
@@ -165,7 +164,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)_no followed") {
                                           false);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
@@ -186,7 +185,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Wildcard)") {
                                           false);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.isTableWildcard());
 }
 
@@ -207,7 +206,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Wildcard)_no followed") {
                                           false);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
@@ -228,7 +227,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Integer)_true") {
                                           false);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.isTableWildcard());
 }
 
@@ -249,7 +248,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Integer)_false") {
                                           false);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
@@ -270,7 +269,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Synonym)") {
                                           false);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_FOLLOWS_COL_2);
     REQUIRE(resultTable.getColNames().size() == 1);
@@ -294,7 +293,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer)") {
                                           false);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.isTableWildcard());
 }
 
@@ -315,7 +314,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer) not followed") {
                                           false);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
@@ -336,7 +335,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Wildcard)") {
                                           false);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard());
 }
@@ -357,7 +356,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Wildcard)_EMPTY") {
                                           false);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard() == false);
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
@@ -380,7 +379,7 @@ TEST_CASE("FollowsAbstraction - Follows*(Wildcard, Synonym)") {
                                           true);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_FOLLOWS_STARS_COL_2);
     REQUIRE(resultTable.getColNames().size() == 1);
@@ -404,7 +403,7 @@ TEST_CASE("FollowsAbstraction - Follows*(Synonym, Integer)") {
                                           true);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.getData() == MOCK_FOLLOWS_COL_1);
     REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
@@ -426,7 +425,7 @@ TEST_CASE("FollowsAbstraction - Follows*(Integer, Synonym)") {
                                           true);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.getData() == MOCK_FOLLOWS_COL_2);
     REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
 }
@@ -448,7 +447,7 @@ TEST_CASE("FollowsAbstraction - Follows*(Integer, Integer)") {
                                           true);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.isTableWildcard());
 }
 
@@ -469,6 +468,6 @@ TEST_CASE("FollowsAbstraction - Follows*(Integer, Integer)_false") {
                                           true);
 
     FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }

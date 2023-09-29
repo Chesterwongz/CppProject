@@ -32,7 +32,7 @@ protected:
 public:
     ArgumentPermutation getAbstractionPermutation();
     virtual ~BaseAbstraction() = default;
-
+    IntermediateTable evaluate();
 
     virtual IntermediateTable evaluateSynonymSynonym();
     virtual IntermediateTable evaluateSynonymInteger();

@@ -36,6 +36,60 @@ StmtType BaseAbstraction::getSecondArgStmtType() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_NON_STATEMENT_TYPE);
 }
 
+IntermediateTable BaseAbstraction::evaluate() {
+    switch (this->getAbstractionPermutation()) {
+        case (ArgumentPermutation::SYNONYM_SYNONYM):
+            return this->evaluateSynonymSynonym();
+
+        case (ArgumentPermutation::SYNONYM_INTEGER):
+            return this->evaluateSynonymInteger();
+
+        case (ArgumentPermutation::SYNONYM_IDENT):
+            return this->evaluateSynonymIdent();
+
+        case (ArgumentPermutation::SYNONYM_WILDCARD):
+            return this->evaluateSynonymWildcard();
+
+        case (ArgumentPermutation::INTEGER_SYNONYM):
+            return this->evaluateIntegerSynonym();
+
+        case (ArgumentPermutation::INTEGER_INTEGER):
+            return this->evaluateIntegerInteger();
+
+        case (ArgumentPermutation::INTEGER_IDENT):
+            return this->evaluateIntegerIdent();
+
+        case (ArgumentPermutation::INTEGER_WILDCARD):
+            return this->evaluateIntegerWildcard();
+
+        case (ArgumentPermutation::IDENT_SYNONYM):
+            return this->evaluateIdentSynonym();
+
+        case (ArgumentPermutation::IDENT_INTEGER):
+            return this->evaluateIdentInteger();
+
+        case (ArgumentPermutation::IDENT_IDENT):
+            return this->evaluateIdentIdent();
+
+        case (ArgumentPermutation::IDENT_WILDCARD):
+            return this->evaluateIdentWildcard();
+
+        case (ArgumentPermutation::WILDCARD_SYNONYM):
+            return this->evaluateWildcardSynonym();
+
+        case (ArgumentPermutation::WILDCARD_INTEGER):
+            return this->evaluateWildcardInteger();
+
+        case (ArgumentPermutation::WILDCARD_IDENT):
+            return this->evaluateWildcardIdent();
+
+        case (ArgumentPermutation::WILDCARD_WILDCARD):
+            return this->evaluateWildcardWildcard();
+
+    throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNKNOWN_ARG_PERMUTATION);
+    }
+};
+
 /**
  * Template methods for each permutation of argument.
  * Classes implementing BaseAbstraction will only implement
@@ -63,7 +117,6 @@ IntermediateTable BaseAbstraction::evaluateSynonymWildcard() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
-
 // Abstraction (Integer, Synonym)
 IntermediateTable BaseAbstraction::evaluateIntegerSynonym() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
@@ -84,7 +137,6 @@ IntermediateTable BaseAbstraction::evaluateIntegerWildcard() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
-
 // Abstraction (Identifier, Synonym)
 IntermediateTable BaseAbstraction::evaluateIdentSynonym() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
@@ -104,7 +156,6 @@ IntermediateTable BaseAbstraction::evaluateIdentIdent() {
 IntermediateTable BaseAbstraction::evaluateIdentWildcard() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
-
 
 // Abstraction (_, Synonym)
 IntermediateTable BaseAbstraction::evaluateWildcardSynonym() {

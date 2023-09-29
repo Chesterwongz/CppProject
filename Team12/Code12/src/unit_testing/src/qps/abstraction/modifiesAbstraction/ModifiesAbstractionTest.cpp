@@ -4,7 +4,6 @@
 #include "../../intermediateTable/IntermediateTableTestUtils.h"
 #include "../AbstractionTestUtils.h"
 #include "ModifiesAbstractionTestData.h"
-#include "qps/abstractionEvaluator/AbstractionEvaluator.h"
 
 TEST_CASE("ModifiesAbstraction - Modifies(Synonym, Synonym)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
@@ -23,7 +22,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Synonym, Synonym)") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTORS);
     REQUIRE(resultTable.getColNames().size() == 2);
@@ -47,7 +46,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Synonym, Synonym_empty)") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
     REQUIRE(resultTable.isTableEmpty());
@@ -70,7 +69,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Synonym, Ident)") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData().size() == 3);
     REQUIRE(resultTable.getData() == MOCK_MODIFYING_STATEMENTS_COL);
@@ -94,7 +93,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Synonym, Ident)_empty") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
@@ -116,7 +115,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Synonym, Wildcard)") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTORS_COL_1);
     REQUIRE(resultTable.getColNames().size() == 1);
@@ -139,7 +138,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Synonym, Wildcard)_empty") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
@@ -161,7 +160,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Integer, Synonym)") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTORS_COL_2);
     REQUIRE(resultTable.getColNames().size() == 1);
@@ -184,7 +183,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Integer, Synonym)_empty") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
@@ -206,7 +205,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Integer, Ident)") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard());
 }
@@ -228,7 +227,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Integer, Ident)_not_modified") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
@@ -250,7 +249,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Integer, Wildcard)") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard());
 }
@@ -271,7 +270,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Integer, Wildcard)_empty") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
@@ -293,7 +292,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Synonym)") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTORS_COL_2);
     REQUIRE(resultTable.getColNames().size() == 1);
@@ -316,7 +315,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Synonym)_empty") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
@@ -338,7 +337,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Ident)") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard());
 }
@@ -359,7 +358,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Ident)_empty") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
@@ -381,7 +380,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Wildcard)") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard());
 }
@@ -402,7 +401,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Wildcard)_EMPTY") {
                                           false);
 
     ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard() == false);
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());

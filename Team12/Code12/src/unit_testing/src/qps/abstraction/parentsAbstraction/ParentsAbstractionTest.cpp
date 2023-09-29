@@ -1,5 +1,4 @@
 #include "catch.hpp"
-#include "qps/abstractionEvaluator/AbstractionEvaluator.h"
 #include "qps/abstraction/ParentsAbstraction/ParentsAbstraction.h"
 #include "../../mocks/MockPKBReader.h"
 #include "../../intermediateTable/IntermediateTableTestUtils.h"
@@ -22,7 +21,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)_EMPTY") {
                                           false);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
     REQUIRE(resultTable.isTableEmpty());
@@ -45,7 +44,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)") {
                                           false);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_VECTORS);
     REQUIRE(resultTable.getColNames().size() == 2);
@@ -70,7 +69,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Integer)") {
                                           false);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData().size() == 1);
     REQUIRE(resultTable.getData().at(0).size() == 1);
@@ -94,7 +93,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Integer)_no_immediate_parent") 
                                           false);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
@@ -115,7 +114,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Wildcard)") {
                                           false);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_COL_1);
     REQUIRE(resultTable.getColNames().size() == 1);
@@ -138,7 +137,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Synonym)_EMPTY") {
                                           false);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
     REQUIRE(resultTable.isTableEmpty());
@@ -161,7 +160,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Synonym)") {
                                           false);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_COL_2);
     REQUIRE(resultTable.getColNames().size() == 1);
@@ -185,7 +184,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Integer)") {
                                           false);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.isTableWildcard());
 }
 
@@ -206,7 +205,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Integer)_false") {
                                           false);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
@@ -227,7 +226,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Wildcard)") {
                                           false);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard());
 }
@@ -248,7 +247,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Wildcard)_empty") {
                                           false);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
@@ -270,7 +269,7 @@ TEST_CASE("ParentsAbstraction - Parents(Wildcard, Synonym)") {
                                           false);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_COL_2);
     REQUIRE(resultTable.getColNames().size() == 1);
@@ -294,7 +293,7 @@ TEST_CASE("ParentsAbstraction - Parents(Wildcard, Integer)") {
                                           false);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard());
 }
@@ -316,7 +315,7 @@ TEST_CASE("ParentsAbstraction - Parents(Wildcard, Integer)_no_immediate_parent")
                                           false);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
@@ -337,7 +336,7 @@ TEST_CASE("ParentsAbstraction - Parents(Wildcard, Wildcard)") {
                                           false);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard());
 }
@@ -358,7 +357,7 @@ TEST_CASE("ParentsAbstraction - Parents(Wildcard, Wildcard)_EMPTY") {
                                           false);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard() == false);
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
@@ -381,7 +380,7 @@ TEST_CASE("ParentsAbstraction - Parents*(Wildcard, Synonym)") {
                                           true);
 
     ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_STARS_COL_2);
     REQUIRE(resultTable.getColNames().size() == 1);

@@ -4,7 +4,6 @@
 #include "../../intermediateTable/IntermediateTableTestUtils.h"
 #include "../AbstractionTestUtils.h"
 #include "UsesAbstractionTestData.h"
-#include "qps/abstractionEvaluator/AbstractionEvaluator.h"
 
 TEST_CASE("UsesAbstraction - Uses(Synonym, Synonym)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
@@ -23,7 +22,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Synonym)") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_USED_VECTORS);
     REQUIRE(resultTable.getColNames().size() == 2);
@@ -47,7 +46,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Synonym)_empty") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
     REQUIRE(resultTable.isTableEmpty());
@@ -70,7 +69,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Ident)") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_USING_STATEMENTS_COL);
     REQUIRE(resultTable.getColNames().size() == 1);
@@ -93,7 +92,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Ident)_empty") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
@@ -115,7 +114,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Wildcard)") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_USED_VECTORS_COL_1);
     REQUIRE(resultTable.getColNames().size() == 1);
@@ -138,7 +137,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Wildcard)_empty") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
@@ -161,7 +160,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Synonym)") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_USED_VECTORS_COL_2);
     REQUIRE(resultTable.getColNames().size() == 1);
@@ -184,7 +183,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Synonym)_empty") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
     REQUIRE(resultTable.isTableEmpty());
@@ -207,7 +206,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Ident)") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard());
 }
@@ -229,7 +228,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Ident)_false") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
@@ -251,7 +250,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Wildcard)") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard());
 }
@@ -272,7 +271,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Wildcard)_empty") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
@@ -294,7 +293,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Synonym)") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.getData() == MOCK_USED_VECTORS_COL_2);
     REQUIRE(resultTable.getColNames().size() == 1);
@@ -317,7 +316,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Synonym)_empty") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
@@ -339,7 +338,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard());
 }
@@ -360,7 +359,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)_false") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
@@ -382,7 +381,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Wildcard)") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard());
 }
@@ -403,7 +402,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Wildcard)_empty") {
                                           false);
 
     UsesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = AbstractionEvaluator::evaluate(abstraction);
+    IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
