@@ -5,12 +5,12 @@
 class AssignEvaluator : public IPatternEvaluator {
 public:
 	explicit AssignEvaluator(Context& context,
-							 PatternArgsStream& patternArgsStreamPtr,
+							 PatternArgsStream& patternArgsStream,
 							 PKBReader& pkbReader,
 							 bool isPartialMatch,
 							 string synonymValue) :
 							 IPatternEvaluator(context,
-											   std::move(patternArgsStreamPtr),
+											   patternArgsStream,
 											   pkbReader,
 											   isPartialMatch,
 											   synonymValue) {};

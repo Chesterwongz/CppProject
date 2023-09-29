@@ -12,18 +12,20 @@
 
 using std::string, std::unique_ptr, std::vector;
 
+typedef unique_ptr<PatternArgsStream> PatternArgsStreamPtr;
+
 class PatternClause : public Clause {
 private:
     unique_ptr<IArgument> synonym;
-    PatternArgsStream& patternArgsStream;
+    PatternArgsStreamPtr patternArgsStreamPtr;
     bool isPartialMatch;
 
 public:
     explicit PatternClause(unique_ptr<IArgument> synonym,
-        PatternArgsStream& patternArgsStream,
+        PatternArgsStreamPtr patternArgsStreamPtr,
         bool isPartialMatch) :
         synonym(std::move(synonym)),
-        patternArgsStream(patternArgsStream),
+        patternArgsStreamPtr(std::move(patternArgsStreamPtr)),
         isPartialMatch(isPartialMatch) {};
 
     IntermediateTable evaluate(

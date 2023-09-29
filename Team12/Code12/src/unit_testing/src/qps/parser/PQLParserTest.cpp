@@ -308,7 +308,7 @@ TEST_CASE("valid pattern partial match") {
     patternArg.push_back(std::move(secondArg));
     unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(
             std::move(outerSynonym),
-            patternArg,
+            make_unique<vector<unique_ptr<IArgument>>>(std::move(patternArg)),
             true
             );
     expected.addClause(std::move(patternClause));
@@ -424,7 +424,7 @@ TEST_CASE("valid such that before pattern") {
     patternArg.push_back(std::move(secondPatternArg));
     unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(
             std::move(outerSynonym),
-            patternArg,
+            make_unique<vector<unique_ptr<IArgument>>>(std::move(patternArg)),
             false
     );
     expected.addClause(std::move(patternClause));
@@ -587,7 +587,7 @@ TEST_CASE("valid pattern before such that") {
     patternArg.push_back(std::move(secondPatternArg));
     unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(
             std::move(outerSynonym),
-            patternArg,
+            make_unique<vector<unique_ptr<IArgument>>>(std::move(patternArg)),
             false
     );
     expected.addClause(std::move(patternClause));

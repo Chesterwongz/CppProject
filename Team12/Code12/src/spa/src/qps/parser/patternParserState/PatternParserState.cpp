@@ -104,7 +104,7 @@ void PatternParserState::handleToken() {
                 processLastArgument();
                 parserContext.addClause(make_unique<PatternClause>(
                         std::move(outerSynonym),
-                        patternArg,
+                        make_unique<vector<unique_ptr<IArgument>>>(std::move(patternArg)),
                         partialMatchWildCardCount == 2
                         ));
                 break;
