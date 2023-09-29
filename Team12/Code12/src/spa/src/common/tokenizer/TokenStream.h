@@ -19,7 +19,7 @@ private:
     /**
      * Gets the next token from the inputStream and irreversibly moves the inputStream forward.
      */
-    static std::optional<T> nextToken(InputStream &inputStream, ITokenHandler<T> &tokenizerChain) {
+    static inline std::optional<T> nextToken(InputStream &inputStream, ITokenHandler<T> &tokenizerChain) {
         inputStream.readWhile(StringUtils::isWhiteSpace); // Skip whitespaces
 
         if (inputStream.isEnd()) {
@@ -29,7 +29,7 @@ private:
         return tokenizerChain.tokenize(inputStream.peek(), inputStream);
     };
 public:
-    static std::unique_ptr<TokenStream<T>> initialize(InputStream &inputStream, ITokenHandler<T> &tokenizerChain) {
+    static inline std::unique_ptr<TokenStream<T>> initialize(InputStream &inputStream, ITokenHandler<T> &tokenizerChain) {
         std::unique_ptr<TokenStream<T>> tokenStream = std::make_unique<TokenStream<T>>();
         // Prime the tokenizer with the first token
         std::optional<T> tokenOpt = nextToken(inputStream, tokenizerChain);
@@ -41,11 +41,11 @@ public:
         return tokenStream;
     };
 
-    [[nodiscard]] int getCursor() const {
+    [[nodiscard]] inline int getCursor() const {
         return cursor;
     };
 
-    void setCursor(int n) {
+    inline void setCursor(int n) {
         cursor = n;
         currToken = tokenLst[cursor];
     };
@@ -54,7 +54,7 @@ public:
      * Gets the current token.
      * Returns std::nullopt if end of input has been reached.
      */
-    [[nodiscard]] std::optional<T> peek() const {
+    [[nodiscard]] inline std::optional<T> peek() const {
         return currToken;
     };
 
@@ -62,7 +62,7 @@ public:
      * Returns the current token and moves to the nextToken token.
      * Returns std::nullopt if end of input has been reached.
      */
-    std::optional<T> eat() {
+    inline std::optional<T> eat() {
         if (!currToken.has_value()) return currToken;
 
         std::optional<T> temp = currToken;

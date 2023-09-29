@@ -4,8 +4,6 @@
 
 #include "common/tokenizer/InputStream.h"
 
-#include "sp/exceptions/SyntaxError.h"
-
 template <typename T>
 class ITokenHandler {
 public:
