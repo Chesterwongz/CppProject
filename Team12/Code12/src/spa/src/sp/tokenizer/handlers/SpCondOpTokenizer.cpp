@@ -1,6 +1,6 @@
-#include "CondOpTokenizer.h"
+#include "SpCondOpTokenizer.h"
 
-Token CondOpTokenizer::tokenize(char nextCh, InputStream &inputStream) {
+SpToken SpCondOpTokenizer::tokenize(char nextCh, InputStream &inputStream) {
     if (!matchesCondOp(nextCh))
         return BaseTokenizer::tokenize(nextCh, inputStream);
 
@@ -11,14 +11,14 @@ Token CondOpTokenizer::tokenize(char nextCh, InputStream &inputStream) {
 
     inputStream.readN((int) value.length());
 
-    return {TokenType::COND_OP, value};
+    return {SpTokenType::COND_OP, value};
 }
 
-bool CondOpTokenizer::matchesCondOp(const char ch) {
+bool SpCondOpTokenizer::matchesCondOp(const char ch) {
     // regex("[!&|]")
     return ch == op::kNotChar || ch == op::kAndChar || ch == op::kOrChar;
 }
 
-bool CondOpTokenizer::isCondOp(const std::string &str) {
+bool SpCondOpTokenizer::isCondOp(const std::string &str) {
     return str == op::kNot || str == op::kAnd || str == op::kOr;
 }

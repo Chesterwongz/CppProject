@@ -21,8 +21,8 @@ std::string InputStream::peekWhile(const std::function<bool(const char)> &predic
     return str;
 }
 
-char InputStream::read() {
-    return fileContents.at(cursor++);
+std::string InputStream::read() {
+    return std::string(1, fileContents.at(cursor++));
 }
 
 std::string InputStream::readN(int n) {

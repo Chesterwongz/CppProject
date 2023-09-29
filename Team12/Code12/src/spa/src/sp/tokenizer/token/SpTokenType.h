@@ -3,9 +3,8 @@
 #include <string>
 #include <unordered_map>
 
-enum class TokenType {
+enum class SpTokenType {
     NAME, // Identifier tokens, aka names
-    OP, // op tokens, e.g., ">"
     INT, // Constant tokens, aka integers
     DELIM,
     TERM_OP, // e.g., *, /, %
@@ -16,23 +15,21 @@ enum class TokenType {
 
 class TokenTypeUtils {
 public:
-    static std::string toString(TokenType tokenType) {
+    static std::string toString(SpTokenType tokenType) {
         switch (tokenType){
-            case TokenType::NAME:
+            case SpTokenType::NAME:
                 return "NAME";
-            case TokenType::OP:
-                return "OP";
-            case TokenType::INT:
+            case SpTokenType::INT:
                 return "INT";
-            case TokenType::DELIM:
+            case SpTokenType::DELIM:
                 return "DELIM";
-            case TokenType::TERM_OP:
+            case SpTokenType::TERM_OP:
                 return "TERM_OP";
-            case TokenType::EXPR_OP:
+            case SpTokenType::EXPR_OP:
                 return "EXPR_OP";
-            case TokenType::REL_OP:
+            case SpTokenType::REL_OP:
                 return "REL_OP";
-            case TokenType::COND_OP:
+            case SpTokenType::COND_OP:
                 return "COND_OP";
             default:
                 return "UNKNOWN";

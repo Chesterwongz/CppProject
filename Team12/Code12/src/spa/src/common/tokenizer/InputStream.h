@@ -2,7 +2,7 @@
 
 #include <functional>
 #include <string>
-#include "TokenType.h"
+#include "sp/tokenizer/token/SpTokenType.h"
 
 class InputStream {
 private:
@@ -15,7 +15,7 @@ public:
     char peek();
     std::string peekWhile(const std::function<bool(const char)> &predicate);
     std::string readN(int n);
-    char read();
+    std::string read();
     std::string readWhile(const std::function<bool(const char)> &predicate);
 
 };

@@ -12,7 +12,7 @@ protected:
 
     [[nodiscard]] virtual std::unique_ptr<AbstractParser> getNextParser() const = 0;
 
-    [[nodiscard]] virtual TokenType getExpectedTokenType() const = 0;
+    [[nodiscard]] virtual SpTokenType getExpectedTokenType() const = 0;
 
     [[nodiscard]] virtual TNodeType getExpectedTNodeType() const = 0;
 };

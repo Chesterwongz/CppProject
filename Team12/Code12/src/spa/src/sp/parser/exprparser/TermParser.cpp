@@ -4,8 +4,8 @@ std::unique_ptr<AbstractParser> TermParser::getNextParser() const {
     return std::make_unique<FactorParser>(context);
 }
 
-TokenType TermParser::getExpectedTokenType() const {
-    return TokenType::TERM_OP;
+SpTokenType TermParser::getExpectedTokenType() const {
+    return SpTokenType::TERM_OP;
 }
 
 TNodeType TermParser::getExpectedTNodeType() const {
