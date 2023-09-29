@@ -1,5 +1,5 @@
 #include "SuchThatClause.h"
-#include "qps/abstraction/IAbstraction.h"
+#include "qps/abstraction/BaseAbstraction.h"
 #include "qps/abstraction/AbstractionFactory.h"
 #include "qps/argument/IArgument.h"
 
@@ -27,7 +27,7 @@ IntermediateTable SuchThatClause::evaluate(
                     this->isTransitive
             );
 
-    std::unique_ptr<IAbstraction> executableAbstraction =
+    std::unique_ptr<BaseAbstraction> executableAbstraction =
             AbstractionFactory::createAbstraction(*abstractionParams);
 
     return AbstractionEvaluator::evaluate(*executableAbstraction);

@@ -1,6 +1,6 @@
-#include "IAbstraction.h"
+#include "BaseAbstraction.h"
 
-IAbstraction::IAbstraction(AbstractionParams &params) :
+BaseAbstraction::BaseAbstraction(AbstractionParams &params) :
         pkb(params.pkb),
         context(params.context),
         abstraction(params.abstraction),
@@ -12,11 +12,11 @@ IAbstraction::IAbstraction(AbstractionParams &params) :
                                            params.secondArg)),
         isTransitive(params.isTransitive) {};
 
-ArgumentPermutation IAbstraction::getAbstractionPermutation() {
+ArgumentPermutation BaseAbstraction::getAbstractionPermutation() {
     return this->argumentPermutation;
 }
 
-StmtType IAbstraction::getFirstArgStmtType() {
+StmtType BaseAbstraction::getFirstArgStmtType() {
     if (this->firstArg.isSynonym()) {
         Entity firstStmtEntity = this->context.getTokenEntity(this->firstArgValue);
         return EntityToStatementType.at(firstStmtEntity);
@@ -26,7 +26,7 @@ StmtType IAbstraction::getFirstArgStmtType() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_NON_STATEMENT_TYPE);
 }
 
-StmtType IAbstraction::getSecondArgStmtType() {
+StmtType BaseAbstraction::getSecondArgStmtType() {
     if (this->secondArg.isSynonym()) {
         Entity secondStmtEntity = this->context.getTokenEntity(this->secondArgValue);
         return EntityToStatementType.at(secondStmtEntity);
@@ -38,90 +38,90 @@ StmtType IAbstraction::getSecondArgStmtType() {
 
 /**
  * Template methods for each permutation of argument.
- * Classes implementing IAbstraction will only implement
+ * Classes implementing BaseAbstraction will only implement
  * the relevant methods applicable to its type.
  * @return IntermediateTable query results
  */
 
 // Abstraction (Synonym, Synonym)
-IntermediateTable IAbstraction::evaluateSynonymSynonym() {
+IntermediateTable BaseAbstraction::evaluateSynonymSynonym() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 // Abstraction (Synonym, Integer)
-IntermediateTable IAbstraction::evaluateSynonymInteger() {
+IntermediateTable BaseAbstraction::evaluateSynonymInteger() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 // Abstraction (Synonym, Identifier)
-IntermediateTable IAbstraction::evaluateSynonymIdent() {
+IntermediateTable BaseAbstraction::evaluateSynonymIdent() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 // Abstraction (Synonym, _)
-IntermediateTable IAbstraction::evaluateSynonymWildcard() {
+IntermediateTable BaseAbstraction::evaluateSynonymWildcard() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 
 // Abstraction (Integer, Synonym)
-IntermediateTable IAbstraction::evaluateIntegerSynonym() {
+IntermediateTable BaseAbstraction::evaluateIntegerSynonym() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 // Abstraction (Integer, Integer)
-IntermediateTable IAbstraction::evaluateIntegerInteger() {
+IntermediateTable BaseAbstraction::evaluateIntegerInteger() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 // Abstraction (Integer, Identifier)
-IntermediateTable IAbstraction::evaluateIntegerIdent() {
+IntermediateTable BaseAbstraction::evaluateIntegerIdent() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 // Abstraction (Integer, _)
-IntermediateTable IAbstraction::evaluateIntegerWildcard() {
+IntermediateTable BaseAbstraction::evaluateIntegerWildcard() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 
 // Abstraction (Identifier, Synonym)
-IntermediateTable IAbstraction::evaluateIdentSynonym() {
+IntermediateTable BaseAbstraction::evaluateIdentSynonym() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 // Abstraction (Identifier, Integer)
-IntermediateTable IAbstraction::evaluateIdentInteger() {
+IntermediateTable BaseAbstraction::evaluateIdentInteger() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 // Abstraction (Identifier, Identifier)
-IntermediateTable IAbstraction::evaluateIdentIdent() {
+IntermediateTable BaseAbstraction::evaluateIdentIdent() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 // Abstraction (Identifier, _)
-IntermediateTable IAbstraction::evaluateIdentWildcard() {
+IntermediateTable BaseAbstraction::evaluateIdentWildcard() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 
 // Abstraction (_, Synonym)
-IntermediateTable IAbstraction::evaluateWildcardSynonym() {
+IntermediateTable BaseAbstraction::evaluateWildcardSynonym() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 // Abstraction (_, Identifier)
-IntermediateTable IAbstraction::evaluateWildcardIdent() {
+IntermediateTable BaseAbstraction::evaluateWildcardIdent() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 // Abstraction (_, Integer)
-IntermediateTable IAbstraction::evaluateWildcardInteger() {
+IntermediateTable BaseAbstraction::evaluateWildcardInteger() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 // Abstraction (_, _)
-IntermediateTable IAbstraction::evaluateWildcardWildcard() {
+IntermediateTable BaseAbstraction::evaluateWildcardWildcard() {
     throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }

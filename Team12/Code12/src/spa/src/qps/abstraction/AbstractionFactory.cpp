@@ -9,7 +9,7 @@
 
 using std::unique_ptr, std::make_unique;
 
-unique_ptr<IAbstraction> AbstractionFactory::createAbstraction(
+unique_ptr<BaseAbstraction> AbstractionFactory::createAbstraction(
         AbstractionParams &abstractionParams) {
     switch (abstractionParams.abstraction) {
         case FOLLOWS_ENUM:

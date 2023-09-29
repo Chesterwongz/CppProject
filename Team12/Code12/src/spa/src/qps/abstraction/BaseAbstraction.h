@@ -12,7 +12,7 @@
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 #include "AbstractionUtils.h"
 
-class IAbstraction {
+class BaseAbstraction {
 protected:
     PKBReader& pkb;
     Context context;
@@ -24,14 +24,14 @@ protected:
     ArgumentPermutation argumentPermutation;
     bool isTransitive;
 
-    explicit IAbstraction(AbstractionParams &params);
+    explicit BaseAbstraction(AbstractionParams &params);
 
     StmtType getFirstArgStmtType();
     StmtType getSecondArgStmtType();
 
 public:
     ArgumentPermutation getAbstractionPermutation();
-    virtual ~IAbstraction() = default;
+    virtual ~BaseAbstraction() = default;
 
 
     virtual IntermediateTable evaluateSynonymSynonym();

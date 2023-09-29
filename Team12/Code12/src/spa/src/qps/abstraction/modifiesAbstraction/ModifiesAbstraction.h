@@ -1,14 +1,14 @@
 #pragma once
 
 #include "pkb/facade/PKB.h"
-#include "qps/abstraction/IAbstraction.h"
+#include "qps/abstraction/BaseAbstraction.h"
 
-class ModifiesAbstraction : public IAbstraction {
+class ModifiesAbstraction : public BaseAbstraction {
 private:
     IntermediateTable handleSynonymOrWildcardArgs();
 public:
     explicit ModifiesAbstraction(AbstractionParams abstractionParams)  :
-            IAbstraction(abstractionParams) {};
+            BaseAbstraction(abstractionParams) {};
 
     IntermediateTable evaluateSynonymSynonym() override;
     IntermediateTable evaluateSynonymIdent() override;

@@ -1,6 +1,6 @@
 #include "AbstractionEvaluator.h"
 
-IntermediateTable AbstractionEvaluator::evaluate(IAbstraction &abstraction) {
+IntermediateTable AbstractionEvaluator::evaluate(BaseAbstraction &abstraction) {
     switch (abstraction.getAbstractionPermutation()) {
         case (ArgumentPermutation::SYNONYM_SYNONYM):
             return abstraction.evaluateSynonymSynonym();

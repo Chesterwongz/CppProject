@@ -1,9 +1,9 @@
 #pragma once
 
 #include "pkb/facade/PKB.h"
-#include "qps/abstraction/IAbstraction.h"
+#include "qps/abstraction/BaseAbstraction.h"
 
-class ParentsAbstraction : public IAbstraction {
+class ParentsAbstraction : public BaseAbstraction {
 private:
     IntermediateTable handleSynonymOrWildcardArgs();
     IntermediateTable handleBothArgsInteger();
@@ -11,7 +11,7 @@ private:
     IntermediateTable handleSecondArgInteger();
 public:
     explicit ParentsAbstraction(AbstractionParams abstractionParams) :
-            IAbstraction(abstractionParams) {};
+            BaseAbstraction(abstractionParams) {};
 
     IntermediateTable evaluateSynonymSynonym() override;
     IntermediateTable evaluateSynonymInteger() override;
