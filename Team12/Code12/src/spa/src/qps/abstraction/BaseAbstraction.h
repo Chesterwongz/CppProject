@@ -1,8 +1,9 @@
 #pragma once
 
 #include <unordered_set>
-
+#include <functional>
 #include <utility>
+
 #include "pkb/facade/PKB.h"
 #include "pkb/facade/PKBReader.h"
 #include "qps/query/Query.h"
@@ -29,7 +30,6 @@ protected:
     StmtType getSecondArgStmtType();
 
 public:
-    ArgumentPermutation getAbstractionPermutation();
     virtual ~BaseAbstraction() = default;
     IntermediateTable evaluate();
 
@@ -52,4 +52,73 @@ public:
     virtual IntermediateTable evaluateWildcardInteger();
     virtual IntermediateTable evaluateWildcardIdent();
     virtual IntermediateTable evaluateWildcardWildcard();
+};
+
+
+typedef std::function<IntermediateTable(BaseAbstraction&)> AbstractionEvaluatorFunc;
+inline unordered_map<ArgumentPermutation, AbstractionEvaluatorFunc> argumentPermutationToEvalMap = {
+        {
+                ArgumentPermutation::SYNONYM_SYNONYM,
+                [](BaseAbstraction& abstraction) { return abstraction.evaluateSynonymSynonym(); }
+        },
+        {
+                ArgumentPermutation::SYNONYM_INTEGER,
+                [](BaseAbstraction& abstraction) { return abstraction.evaluateSynonymInteger(); }
+        },
+        {
+                ArgumentPermutation::SYNONYM_IDENT,
+                [](BaseAbstraction& abstraction) { return abstraction.evaluateSynonymIdent(); }
+        },
+        {
+                ArgumentPermutation::SYNONYM_WILDCARD,
+                [](BaseAbstraction& abstraction) { return abstraction.evaluateSynonymWildcard(); }
+        },
+        {
+                ArgumentPermutation::INTEGER_SYNONYM,
+                [](BaseAbstraction& abstraction) { return abstraction.evaluateIntegerSynonym(); }
+        },
+        {
+                ArgumentPermutation::INTEGER_INTEGER,
+                [](BaseAbstraction& abstraction) { return abstraction.evaluateIntegerInteger(); }
+        },
+        {
+                ArgumentPermutation::INTEGER_IDENT,
+                [](BaseAbstraction& abstraction) { return abstraction.evaluateIntegerIdent(); }
+        },
+        {
+                ArgumentPermutation::INTEGER_WILDCARD,
+                [](BaseAbstraction& abstraction) { return abstraction.evaluateIntegerWildcard(); }
+        },
+        {
+                ArgumentPermutation::IDENT_SYNONYM,
+                [](BaseAbstraction& abstraction) { return abstraction.evaluateIdentSynonym(); }
+        },
+        {
+                ArgumentPermutation::IDENT_INTEGER,
+                [](BaseAbstraction& abstraction) { return abstraction.evaluateIdentInteger(); }
+        },
+        {
+                ArgumentPermutation::IDENT_IDENT,
+                [](BaseAbstraction& abstraction) { return abstraction.evaluateIdentIdent(); }
+        },
+        {
+                ArgumentPermutation::IDENT_WILDCARD,
+                [](BaseAbstraction& abstraction) { return abstraction.evaluateIdentWildcard(); }
+        },
+        {
+                ArgumentPermutation::WILDCARD_SYNONYM,
+                [](BaseAbstraction& abstraction) { return abstraction.evaluateWildcardSynonym(); }
+        },
+        {
+                ArgumentPermutation::WILDCARD_INTEGER,
+                [](BaseAbstraction& abstraction) { return abstraction.evaluateWildcardInteger(); }
+        },
+        {
+                ArgumentPermutation::WILDCARD_IDENT,
+                [](BaseAbstraction& abstraction) { return abstraction.evaluateWildcardIdent(); }
+        },
+        {
+                ArgumentPermutation::WILDCARD_WILDCARD,
+                [](BaseAbstraction& abstraction) { return abstraction.evaluateWildcardWildcard(); }
+        },
 };

@@ -11,10 +11,6 @@ BaseAbstraction::BaseAbstraction(AbstractionParams &params) :
         argumentPermutation(getPermutation(params.firstArg,
                                            params.secondArg)) {};
 
-ArgumentPermutation BaseAbstraction::getAbstractionPermutation() {
-    return this->argumentPermutation;
-}
-
 StmtType BaseAbstraction::getFirstArgStmtType() {
     return getArgStmtType(this->firstArg, this->context);
 }
@@ -24,56 +20,7 @@ StmtType BaseAbstraction::getSecondArgStmtType() {
 }
 
 IntermediateTable BaseAbstraction::evaluate() {
-    switch (this->getAbstractionPermutation()) {
-        case (ArgumentPermutation::SYNONYM_SYNONYM):
-            return this->evaluateSynonymSynonym();
-
-        case (ArgumentPermutation::SYNONYM_INTEGER):
-            return this->evaluateSynonymInteger();
-
-        case (ArgumentPermutation::SYNONYM_IDENT):
-            return this->evaluateSynonymIdent();
-
-        case (ArgumentPermutation::SYNONYM_WILDCARD):
-            return this->evaluateSynonymWildcard();
-
-        case (ArgumentPermutation::INTEGER_SYNONYM):
-            return this->evaluateIntegerSynonym();
-
-        case (ArgumentPermutation::INTEGER_INTEGER):
-            return this->evaluateIntegerInteger();
-
-        case (ArgumentPermutation::INTEGER_IDENT):
-            return this->evaluateIntegerIdent();
-
-        case (ArgumentPermutation::INTEGER_WILDCARD):
-            return this->evaluateIntegerWildcard();
-
-        case (ArgumentPermutation::IDENT_SYNONYM):
-            return this->evaluateIdentSynonym();
-
-        case (ArgumentPermutation::IDENT_INTEGER):
-            return this->evaluateIdentInteger();
-
-        case (ArgumentPermutation::IDENT_IDENT):
-            return this->evaluateIdentIdent();
-
-        case (ArgumentPermutation::IDENT_WILDCARD):
-            return this->evaluateIdentWildcard();
-
-        case (ArgumentPermutation::WILDCARD_SYNONYM):
-            return this->evaluateWildcardSynonym();
-
-        case (ArgumentPermutation::WILDCARD_INTEGER):
-            return this->evaluateWildcardInteger();
-
-        case (ArgumentPermutation::WILDCARD_IDENT):
-            return this->evaluateWildcardIdent();
-
-        case (ArgumentPermutation::WILDCARD_WILDCARD):
-            return this->evaluateWildcardWildcard();
-    }
-    throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNKNOWN_ARG_PERMUTATION);
+    return argumentPermutationToEvalMap[this->argumentPermutation](*this);
 };
 
 /**
