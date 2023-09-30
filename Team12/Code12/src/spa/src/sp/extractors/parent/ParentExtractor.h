@@ -3,7 +3,7 @@
 #include <vector>
 #include <map>
 #include <set>
-#include "Extractor.h"
+#include "sp/extractors/Extractor.h"
 #include "sp/ast/statements/IfNode.h"
 #include "sp/ast/statements/WhileNode.h"
 #include "sp/ast/StmtListNode.h"
