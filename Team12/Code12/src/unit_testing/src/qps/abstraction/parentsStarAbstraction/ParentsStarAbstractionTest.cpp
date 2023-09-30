@@ -166,7 +166,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)") {
     unique_ptr<IArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
+            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
@@ -186,7 +186,27 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)_false") {
     unique_ptr<IArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     unique_ptr<IArgument> mockArgument2
+            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
+    Context mockContext = Context();
+    unique_ptr<AbstractionParams> abstractionParams
+            = createMockAbstractionParams(mockReader,
+                                          mockContext,
+                                          FOLLOWS_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2);
+
+    ParentsStarAbstraction abstraction(*abstractionParams);
+    IntermediateTable resultTable = abstraction.evaluate();
+    REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+}
+
+TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)_same_integer") {
+    MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+    mockReader.mockIsParentStar = false;
+    unique_ptr<IArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
+    unique_ptr<IArgument> mockArgument2
+            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
