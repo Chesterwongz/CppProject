@@ -58,20 +58,40 @@ TEST_CASE("IntermediateTableFactory - buildIntermediateTable - vectors_with_wild
 }
 
 TEST_CASE("IntermediateTableFactory - buildSingleColTable") {
-    IntermediateTable tableFromVectorsWithWildcard = IntermediateTableFactory::buildSingleColTable(
+    IntermediateTable table = IntermediateTableFactory::buildSingleColTable(
             COL_NAME_3,
             COL_3);
-    REQUIRE(tableFromVectorsWithWildcard.getData() == COL_3_2D);
-    REQUIRE(tableFromVectorsWithWildcard.isTableEmpty() == false);
-    REQUIRE(tableFromVectorsWithWildcard.isTableEmptyAndNotWildcard() == false);
-    REQUIRE(tableFromVectorsWithWildcard.isTableWildcard() == false);
-    REQUIRE(tableFromVectorsWithWildcard.getData().at(0).size() == 1);
+    REQUIRE(table.getData() == COL_3_2D);
+    REQUIRE(table.isTableEmpty() == false);
+    REQUIRE(table.isTableEmptyAndNotWildcard() == false);
+    REQUIRE(table.isTableWildcard() == false);
+    REQUIRE(table.getData().at(0).size() == 1);
 }
 
 TEST_CASE("IntermediateTableFactory - buildSingleColTable - wildcard") {
-    IntermediateTable tableFromVectorsWithWildcard = IntermediateTableFactory::buildSingleColTable(
+    IntermediateTable table = IntermediateTableFactory::buildSingleColTable(
             WILDCARD_KEYWORD,
             COL_3);
+    REQUIRE(table.isTableWildcard());
+}
+
+TEST_CASE("IntermediateTableFactory - buildIntermediateTable - single_col_from_set") {
+    IntermediateTable table = IntermediateTableFactory::buildIntermediateTable(
+            COL_NAME_4,
+            COL_4_SET);
+    for (auto &row : table.getData()) {
+        REQUIRE(count(COL_4_2D.begin(), COL_4_2D.end(), row) == 1);
+    }
+    REQUIRE(table.isTableEmptyAndNotWildcard() == false);
+    REQUIRE(table.isTableWildcard() == false);
+    REQUIRE(table.getColNames().size() == 1);
+    REQUIRE(table.getColNames().at(0) == COL_NAME_4);
+}
+
+TEST_CASE("IntermediateTableFactory - buildIntermediateTable - single_col_from_set_wildcard") {
+    IntermediateTable tableFromVectorsWithWildcard = IntermediateTableFactory::buildIntermediateTable(
+            WILDCARD_KEYWORD,
+            COL_4_SET);
     REQUIRE(tableFromVectorsWithWildcard.isTableWildcard());
 }
 

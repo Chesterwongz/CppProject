@@ -1,6 +1,9 @@
 #pragma once
 
 #include "IntermediateTable.h"
+#include <set>
+
+using std::set;
 
 class IntermediateTableFactory {
 public:
@@ -26,6 +29,14 @@ public:
     static IntermediateTable buildSingleColTable(
             const string &firstColName,
             const vector<string> &data);
+
+    /**
+     * Builds intermediate table without any WILDCARD columns
+     * and only one column
+     */
+    static IntermediateTable buildIntermediateTable(
+            const string &firstColName,
+            const set<string> &data);
 
     /**
      * Builds intermediate table without any WILDCARD columns
