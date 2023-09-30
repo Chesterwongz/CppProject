@@ -4,8 +4,8 @@
 
 IntermediateTable AssignEvaluator::evaluate() {
 
-	unique_ptr<IArgument> firstArg = std::move(patternArgsStream[0]);
-	unique_ptr<IArgument> secondArg = std::move(patternArgsStream[1]);
+	unique_ptr<AbstractArgument> firstArg = std::move(patternArgsStream[0]);
+	unique_ptr<AbstractArgument> secondArg = std::move(patternArgsStream[1]);
 
 	string firstArgValue = firstArg->getValue();
 

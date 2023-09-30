@@ -13,7 +13,7 @@ bool Ident::isIdent() {
 	return true;
 }
 
-bool Ident::operator==(const IArgument& other) const {
+bool Ident::operator==(const AbstractArgument& other) const {
 	const auto* otherIdent = dynamic_cast<const Ident*>(&other);
 	if (!otherIdent) return false;
 

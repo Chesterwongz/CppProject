@@ -5,14 +5,14 @@
 #include <memory>
 #include <set>
 #include "qps/context/Context.h"
-#include "qps/argument/IArgument.h"
+#include "qps/argument/AbstractArgument.h"
 #include "pkb/facade/PKBReader.h"
 #include "qps/intermediateTable/IntermediateTable.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 
 using std::string, std::vector, std::unique_ptr, std::set;
 
-typedef vector<unique_ptr<IArgument>> PatternArgsStream;
+typedef vector<unique_ptr<AbstractArgument>> PatternArgsStream;
 
 class IPatternEvaluator {
 protected:

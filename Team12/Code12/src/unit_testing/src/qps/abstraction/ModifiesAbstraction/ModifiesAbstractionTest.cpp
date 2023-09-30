@@ -7,9 +7,9 @@
 
 TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Synonym, Synonym_EMPTY)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -30,9 +30,9 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Synonym, Synonym_EMP
 TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Synonym, Synonym)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockAllModifiedVariables = MOCK_MODIFIED_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -55,9 +55,9 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Synonym, Synonym)") 
 TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Synonym, Wildcard)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockAllModifiedVariables = MOCK_MODIFIED_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -79,9 +79,9 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Synonym, Wildcard)")
 TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Synonym, Ident)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockStatementsModifying = MOCK_MODIFYING_STATEMENTS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -104,9 +104,9 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Synonym, Ident)") {
 TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Wildcard, Synonym)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockAllModifiedVariables = MOCK_MODIFIED_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -128,9 +128,9 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Wildcard, Synonym)")
 TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Wildcard, Wildcard)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockAllModifiedVariables = MOCK_MODIFIED_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -150,9 +150,9 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Wildcard, Wildcard)"
 TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(WILDCARD, Ident)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockStatementsModifying = MOCK_MODIFYING_STATEMENTS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -171,9 +171,9 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(WILDCARD, Ident)") {
 
 TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Wildcard, Wildcard)_EMPTY") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -193,9 +193,9 @@ TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(Wildcard, Wildcard)_
 
 TEST_CASE("ModifiesAbstraction - getAbstractions - Modifies(WILDCARD, Ident)_EMPTY") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams

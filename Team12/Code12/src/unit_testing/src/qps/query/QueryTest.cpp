@@ -8,8 +8,8 @@
 //    PKBStorage mockStorage = PKBStorage();
 //    MockPKBReader mockPkbReader = MockPKBReader(mockStorage);
 //    mockPkbReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
-//    unique_ptr<IArgument> mockArgument1 = ArgumentFactory::createArgument("x");
-//    unique_ptr<IArgument> mockArgument2 = ArgumentFactory::createArgument("y");
+//    unique_ptr<AbstractArgument> mockArgument1 = ArgumentFactory::createArgument("x");
+//    unique_ptr<AbstractArgument> mockArgument2 = ArgumentFactory::createArgument("y");
 //    unique_ptr<Context> mockContext = std::make_unique<Context>();
 //    mockContext->addSynonym("x", "assign");
 //    mockContext->addSynonym("y", "assign");

@@ -15,7 +15,7 @@ bool Integer::isInteger() {
 	return true;
 }
 
-bool Integer::operator==(const IArgument& other) const {
+bool Integer::operator==(const AbstractArgument& other) const {
     const auto* otherInteger = dynamic_cast<const Integer*>(&other);
     if (!otherInteger) return false;
 

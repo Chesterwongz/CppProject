@@ -3,7 +3,7 @@
 #include <set>
 #include <vector>
 #include <memory>
-#include "qps/argument/IArgument.h"
+#include "qps/argument/AbstractArgument.h"
 #include "common/utils/StringUtils.h"
 #include "../../testUtils/argumentFactory/ArgumentFactory.h"
 

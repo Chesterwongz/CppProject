@@ -303,7 +303,7 @@ TEST_CASE("valid pattern partial match") {
     unique_ptr<SynonymArg> outerSynonym = ArgumentFactory::createSynonymArgument("newa");
     unique_ptr<Ident> firstArg = ArgumentFactory::createIdentArgument("cenX");
     unique_ptr<Ident> secondArg = ArgumentFactory::createIdentArgument("x");
-    vector<unique_ptr<IArgument>> patternArg;
+    vector<unique_ptr<AbstractArgument>> patternArg;
     patternArg.push_back(std::move(firstArg));
     patternArg.push_back(std::move(secondArg));
     unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(
@@ -419,7 +419,7 @@ TEST_CASE("valid such that before pattern") {
     unique_ptr<SynonymArg> outerSynonym = ArgumentFactory::createSynonymArgument("a");
     unique_ptr<Ident> firstPatternArg = ArgumentFactory::createIdentArgument("x");
     unique_ptr<Wildcard> secondPatternArg = ArgumentFactory::createWildcardArgument();
-    vector<unique_ptr<IArgument>> patternArg;
+    vector<unique_ptr<AbstractArgument>> patternArg;
     patternArg.push_back(std::move(firstPatternArg));
     patternArg.push_back(std::move(secondPatternArg));
     unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(
@@ -582,7 +582,7 @@ TEST_CASE("valid pattern before such that") {
     unique_ptr<SynonymArg> outerSynonym = ArgumentFactory::createSynonymArgument("a");
     unique_ptr<Ident> firstPatternArg = ArgumentFactory::createIdentArgument("x");
     unique_ptr<Wildcard> secondPatternArg = ArgumentFactory::createWildcardArgument();
-    vector<unique_ptr<IArgument>> patternArg;
+    vector<unique_ptr<AbstractArgument>> patternArg;
     patternArg.push_back(std::move(firstPatternArg));
     patternArg.push_back(std::move(secondPatternArg));
     unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(

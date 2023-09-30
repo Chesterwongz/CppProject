@@ -2,13 +2,13 @@
 
 #include <string>
 
-#include "qps/argument/IArgument.h"
+#include "qps/argument/AbstractArgument.h"
 #include "common/utils/StringUtils.h"
 #include "qps/common/Keywords.h"
 
 using std::string;
 
-class Wildcard : public IArgument {
+class Wildcard : public AbstractArgument {
 private:
 	const QPSStringUtils::ArgumentType argumentType = QPSStringUtils::WILDCARD;
 	string wildcardValue = WILDCARD_KEYWORD;
@@ -18,5 +18,5 @@ public:
 	string getValue() override;
 	QPSStringUtils::ArgumentType getArgumentType() override;
 	bool isWildcard() override;
-    bool operator==(const IArgument& other) const override;
+    bool operator==(const AbstractArgument& other) const override;
 };

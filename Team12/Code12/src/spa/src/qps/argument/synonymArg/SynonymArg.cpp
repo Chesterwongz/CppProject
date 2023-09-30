@@ -14,7 +14,7 @@ bool SynonymArg::isSynonym() {
 	return true;
 }
 
-bool SynonymArg::operator==(const IArgument& other) const {
+bool SynonymArg::operator==(const AbstractArgument& other) const {
     const auto* otherSynonym = dynamic_cast<const SynonymArg*>(&other);
     if (!otherSynonym) return false;
 

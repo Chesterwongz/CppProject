@@ -7,9 +7,9 @@
 
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Synonym)_EMPTY") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -30,9 +30,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Synonym)_EMPT
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Synonym)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -55,9 +55,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Synonym)") {
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Wildcard)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -79,9 +79,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Wildcard)") {
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Integer)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockFollowed = MOCK_FOLLOWED;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -103,9 +103,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Integer)") {
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Integer) not followed") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockFollowed = MOCK_NO_FOLLOWED;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -125,9 +125,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Synonym, Integer) not 
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Synonym)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -149,9 +149,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Synonym)") {
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Wildcard)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -170,9 +170,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Wildcard)") 
 
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Wildcard)_EMPTY") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -193,9 +193,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Wildcard)_EM
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Integer)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockFollowed = MOCK_FOLLOWED;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -215,9 +215,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Integer)") {
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Integer) not followed") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockFollowed = MOCK_NO_FOLLOWED;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -236,9 +236,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Wildcard, Integer) not
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Integer, Synonym)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockFollowing = MOCK_FOLLOWED;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -259,9 +259,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Integer, Synonym)") {
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Integer, Synonym)_no followed") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockFollowing = MOCK_NO_FOLLOWED;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -280,9 +280,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Integer, Synonym)_no f
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Integer, Wildcard)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockFollowing = MOCK_FOLLOWED;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -301,9 +301,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Integer, Wildcard)") {
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Integer, MOCK_WILDCARD_VALUE)_no followed") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockFollowing = MOCK_NO_FOLLOWED;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -322,9 +322,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Integer, MOCK_WILDCARD
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Integer, Integer)_true") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockIsFollows = true;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -343,9 +343,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Integer, Integer)_true
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Integer, Integer)_false") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockIsFollows = false;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -364,9 +364,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows(Integer, Integer)_fals
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows*(Wildcard, Synonym)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockFollowedStarPairs = MOCK_FOLLOWS_STARS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -388,9 +388,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows*(Wildcard, Synonym)") 
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows*(Synonym, Integer)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockFollowedPairs = MOCK_FOLLOWS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -411,9 +411,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows*(Synonym, Integer)") {
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows*(Integer, Synonym)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockFollowsStarPairs = MOCK_FOLLOWS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -434,9 +434,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows*(Integer, Synonym)") {
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows*(Integer, Integer)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockIsFollowsStar = true;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -455,9 +455,9 @@ TEST_CASE("FollowsAbstraction - getAbstractions - Follows*(Integer, Integer)") {
 TEST_CASE("FollowsAbstraction - getAbstractions - Follows*(Integer, Integer)_false") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockIsFollowsStar = false;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams

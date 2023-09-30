@@ -1,12 +1,12 @@
 #include "SuchThatClause.h"
 #include "qps/abstraction/IAbstraction.h"
 #include "qps/abstraction/AbstractionFactory.h"
-#include "qps/argument/IArgument.h"
+#include "qps/argument/AbstractArgument.h"
 
 SuchThatClause::SuchThatClause (
         Abstraction relationship,
-        unique_ptr<IArgument> firstArg,
-        unique_ptr<IArgument> secondArg,
+        unique_ptr<AbstractArgument> firstArg,
+        unique_ptr<AbstractArgument> secondArg,
         bool isTransitive) :
         relationship(relationship),
         firstArg(std::move(firstArg)),

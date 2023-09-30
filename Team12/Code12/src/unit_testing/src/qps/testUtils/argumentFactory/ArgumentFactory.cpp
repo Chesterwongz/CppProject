@@ -2,7 +2,7 @@
 
 using std::unique_ptr, std::make_unique, std::string;
 
-unique_ptr<IArgument> ArgumentFactory::createArgument(string& argument) {
+unique_ptr<AbstractArgument> ArgumentFactory::createArgument(string& argument) {
 	if (QPSStringUtils::isWildcard(argument)) {
 		return make_unique<Wildcard>();
 	} 
