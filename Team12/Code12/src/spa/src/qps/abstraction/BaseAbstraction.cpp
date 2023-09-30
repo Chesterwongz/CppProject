@@ -16,23 +16,11 @@ ArgumentPermutation BaseAbstraction::getAbstractionPermutation() {
 }
 
 StmtType BaseAbstraction::getFirstArgStmtType() {
-    if (this->firstArg.isSynonym()) {
-        Entity firstStmtEntity = this->context.getTokenEntity(this->firstArgValue);
-        return EntityToStatementType.at(firstStmtEntity);
-    } else if (this->firstArg.isWildcard()) {
-        return StmtType::STMT;
-    }
-    throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_NON_STATEMENT_TYPE);
+    return getArgStmtType(this->firstArg, this->context);
 }
 
 StmtType BaseAbstraction::getSecondArgStmtType() {
-    if (this->secondArg.isSynonym()) {
-        Entity secondStmtEntity = this->context.getTokenEntity(this->secondArgValue);
-        return EntityToStatementType.at(secondStmtEntity);
-    } else if (this->secondArg.isWildcard()) {
-        return StmtType::STMT;
-    }
-    throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_NON_STATEMENT_TYPE);
+    return getArgStmtType(this->secondArg, this->context);
 }
 
 IntermediateTable BaseAbstraction::evaluate() {

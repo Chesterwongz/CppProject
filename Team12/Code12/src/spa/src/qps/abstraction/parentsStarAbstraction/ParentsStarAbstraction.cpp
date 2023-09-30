@@ -74,6 +74,10 @@ IntermediateTable ParentsStarAbstraction::handleSynonymOrWildcardArgs() {
 }
 
 IntermediateTable ParentsStarAbstraction::handleBothArgsInteger() {
+    if (this->firstArgValue == this->secondArgValue) {
+        return IntermediateTableFactory::buildEmptyIntermediateTable();
+    }
+
     int firstArgStmtNumber = stoi(this->firstArgValue);
     int secondArgStmtNumber = stoi(this->secondArgValue);
 

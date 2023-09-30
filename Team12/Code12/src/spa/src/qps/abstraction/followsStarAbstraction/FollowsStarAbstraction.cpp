@@ -72,9 +72,15 @@ IntermediateTable FollowsStarAbstraction::handleSynonymOrWildcardArgs() {
 }
 
 IntermediateTable FollowsStarAbstraction::handleBothArgsInteger() {
+    if (this->firstArgValue == this->secondArgValue) {
+        return IntermediateTableFactory::buildEmptyIntermediateTable();
+    }
+
     int firstStmtNumber = stoi(this->firstArgValue);
     int secondStmtNumber = stoi(this->secondArgValue);
+
     bool isValid = pkb.isFollowsStar(firstStmtNumber, secondStmtNumber);
+
     return isValid
            ? IntermediateTableFactory::buildWildcardIntermediateTable()
            : IntermediateTableFactory::buildEmptyIntermediateTable();

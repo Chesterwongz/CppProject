@@ -99,3 +99,13 @@ inline ArgumentPermutation getPermutation(
 
     }
 };
+
+inline StmtType getArgStmtType(IArgument &argument, Context &context) {
+    if (argument.isSynonym()) {
+        Entity firstStmtEntity = context.getTokenEntity(argument.getValue());
+        return EntityToStatementType.at(firstStmtEntity);
+    } else if (argument.isWildcard()) {
+        return StmtType::STMT;
+    }
+    throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_NON_STATEMENT_TYPE);
+}

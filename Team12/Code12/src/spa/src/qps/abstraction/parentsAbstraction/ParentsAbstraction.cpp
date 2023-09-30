@@ -74,9 +74,15 @@ IntermediateTable ParentsAbstraction::handleSynonymOrWildcardArgs() {
 }
 
 IntermediateTable ParentsAbstraction::handleBothArgsInteger() {
+    if (this->firstArgValue == this->secondArgValue) {
+        return IntermediateTableFactory::buildEmptyIntermediateTable();
+    }
+
     int firstArgStmtNumber = stoi(this->firstArgValue);
     int secondArgStmtNumber = stoi(this->secondArgValue);
+
     bool isValid = pkb.isParent(firstArgStmtNumber, secondArgStmtNumber);
+
     return isValid
            ? IntermediateTableFactory::buildWildcardIntermediateTable()
            : IntermediateTableFactory::buildEmptyIntermediateTable();
