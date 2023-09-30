@@ -1,9 +1,6 @@
 #pragma once
 
-#include <queue>
 #include <string>
-#include <unordered_map>
-#include <unordered_set>
 #include "sp/extractors/Extractor.h"
 #include "sp/ast/ProgramNode.h"
 #include "sp/ast/ProcNode.h"
@@ -15,12 +12,9 @@
 class CallsExtractor : public Extractor {
 private:
     std::string currProc;
-    std::unordered_map<std::string, std::unordered_set<std::string>> callerToCalleeMap;
-    void addCallsStar();
 
 public:
     explicit CallsExtractor(PKBWriter& pkbWriter);
     void visitProcedure(const ProcNode& node) override;
     void visitCall(const CallNode& node) override;
-    void postVisitProgram(const ProgramNode& node) override;
 };

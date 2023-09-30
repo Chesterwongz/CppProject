@@ -8,6 +8,7 @@
 #include "pkb/storage/ParentStorage.h"
 #include "pkb/storage/StatementStorage.h"
 #include "pkb/storage/UsesStorage.h"
+#include "pkb/storage/CallsStorage.h"
 
 class PKBStorage {
 public:
@@ -53,14 +54,22 @@ public:
     // ModifiesStorage methods
     void setVariableModification(const std::string& variableName, int statementNumber);
 
+    void setVariableModification(const std::string& variableName, const std::string& procName);
+
     std::set<std::string> getModifiedVariablesForStatement(int statementNumber);
+
+    std::unordered_set<std::string> getModifiedVariablesForProc(const std::string& procName);
 
     std::set<int> getStatementNumbersForModifiedVariable(std::string variableName);
 
     // UsesStorage methods
     void setVariableUsage(const std::string& variableName, int statementNumber);
 
+    void setVariableUsage(const std::string& variableName, const std::string& procName);
+
     std::set<std::string> getUsedVariablesForStatement(int statementNumber);
+
+    std::unordered_set<std::string> getUsedVariablesForProc(const std::string& procName);
 
     std::set<int> getStatementNumbersForUsedVariable(std::string variableName);
 
@@ -70,6 +79,13 @@ public:
     std::vector<std::string> getExactAssignPattern(std::string variableName, std::string rpn, bool isSynonym);
     std::vector<std::string> getPartialAssignPattern(std::string variableName, std::string rpn, bool isSynonym);
 
+    // CallsStorage methods
+    void setCalls(const std::string& callerProc, const std::string& calleeProc);
+    void setCallsStar(const std::string& callerProc, const std::string& calleeProc);
+    const std::unordered_map<std::string, std::unordered_set<std::string>>& getCallsMap();
+    std::unordered_set<std::string> getDirectProcsCalledBy(const std::string& callerProc);
+    std::unordered_set<std::string> getAllProcsCalledBy(const std::string& callerProc);
+
 private:
     DesignEntitiesStorage designEntitiesStorage;
     FollowsStorage followsStorage;
@@ -78,4 +94,5 @@ private:
     ParentStorage parentStorage;
     StatementStorage statementStorage;
     UsesStorage usesStorage;
+    CallsStorage callsStorage;
 };

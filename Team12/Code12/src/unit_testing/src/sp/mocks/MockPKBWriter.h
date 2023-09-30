@@ -27,7 +27,6 @@ private:
     std::unordered_map<int, std::unordered_set<std::string>> whilePatternStorage;
     std::unordered_map<int, std::unordered_set<std::string>> ifPatternStorage;
     std::unordered_map<std::string, std::unordered_set<std::string>> callsStorage;
-    std::unordered_map<std::string, std::unordered_set<std::string>> callsStarStorage;
 
 public:
     explicit MockPKBWriter(PKBStorage &storage) : PKBWriter(storage){};
@@ -91,10 +90,6 @@ public:
 
     void setCallsRelationship(const std::string &caller, const std::string &callee) override {
         callsStorage[caller].insert(callee);
-    }
-
-    void setCallsStarRelationship(const std::string &caller, const std::string &callee) override {
-        callsStarStorage[caller].insert(callee);
     }
 
     [[nodiscard]] bool isVariablesEqual(const std::unordered_set<std::string> &variables) const {
@@ -161,7 +156,4 @@ public:
         return callsStorage == calls;
     }
 
-    [[nodiscard]] bool isCallsStarEqual(std::unordered_map<std::string, std::unordered_set<std::string>> &callsStar) const {
-        return callsStarStorage == callsStar;
-    }
 };

@@ -7,6 +7,11 @@ void UsesStorage::setVariableUsage(const std::string& variableName, int statemen
     statementToVariables[statementNumber].insert(variableName);
 }
 
+void UsesStorage::setVariableUsage(const std::string& variableName, const std::string& procName) {
+    variableToProc[variableName].insert(procName);
+    procToVariables[procName].insert(variableName);
+}
+
 std::set<int> UsesStorage::getStatementNumbersForVariable(const std::string& variableName) {
     if (variableToStatements.find(variableName) == variableToStatements.end()) {
         return {};
@@ -19,6 +24,13 @@ std::set<std::string> UsesStorage::getVariablesForStatement(int statementNumber)
         return {};
     }
     return statementToVariables[statementNumber];
+}
+
+std::unordered_set<std::string> UsesStorage::getVariablesForProc(const std::string& procName) {
+    if (procToVariables.find(procName) == procToVariables.end()) {
+        return {};
+    }
+    return procToVariables[procName];
 }
 
 std::set<std::string> UsesStorage::getAllVariables() {

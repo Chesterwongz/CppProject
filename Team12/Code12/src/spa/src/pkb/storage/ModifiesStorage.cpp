@@ -1,10 +1,15 @@
 #include "ModifiesStorage.h"
 
-ModifiesStorage::ModifiesStorage() {}
+ModifiesStorage::ModifiesStorage() = default;
 
 void ModifiesStorage::setVariableModification(const std::string& variableName, int statementNumber) {
     variableToStatements[variableName].insert(statementNumber);
     statementToVariables[statementNumber].insert(variableName);
+}
+
+void ModifiesStorage::setVariableModification(const std::string& variableName, const std::string& procName) {
+    variableToProc[variableName].insert(procName);
+    procToVariables[procName].insert(variableName);
 }
 
 std::set<int> ModifiesStorage::getStatementNumbersForVariable(const std::string& variableName) {
@@ -12,6 +17,13 @@ std::set<int> ModifiesStorage::getStatementNumbersForVariable(const std::string&
         return {};
     }
     return variableToStatements[variableName];
+}
+
+std::unordered_set<std::string> ModifiesStorage::getVariablesForProc(const std::string& procName) {
+    if (procToVariables.find(procName) == procToVariables.end()) {
+        return {};
+    }
+    return procToVariables[procName];
 }
 
 std::set<std::string> ModifiesStorage::getVariablesForStatement(int statementNumber) {

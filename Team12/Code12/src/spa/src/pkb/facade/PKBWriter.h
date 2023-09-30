@@ -2,6 +2,10 @@
 
 #include <string>
 #include <memory>
+#include <unordered_map>
+#include <unordered_set>
+#include <set>
+#include <queue>
 
 #include "pkb/facade/PKBStorage.h"
 #include "pkb/storage/DesignEntitiesStorage.h"
@@ -29,9 +33,11 @@ public:
 
     // Add modifies relationship
     virtual void setModifiesRelationship(const std::string& variableName, int statementNumber);
+    virtual void setModifiesRelationship(const std::string& variableName, const std::string& procName);
 
     // Add uses relationship
     virtual void setUsesRelationship(const std::string& variableName, int statementNumber);
+    virtual void setUsesRelationship(const std::string& variableName, const std::string& procName);
 
     // Add variable name to storage
     virtual void setVariable(const std::string& variableName);
@@ -49,10 +55,6 @@ public:
 
     virtual void setIfPattern(int statementNumber, const std::string& varName);
 
-    virtual void setUsesRelationship(const std::string& variableName, const std::string& procedureName);
-
-    virtual void setModifiesRelationship(const std::string& variableName, const std::string& procedureName);
-
     // direct calls, not transitive
     virtual void setCallsRelationship(const std::string& callerProc, const std::string& calleeProc);
 
@@ -63,4 +65,9 @@ public:
 
 private:
     PKBStorage& storage;
+    void setUsesForCalls(const std::string &callerProc, const std::string &calleeProc);
+    void setModifiesForCalls(const std::string &callerProc, const std::string &calleeProc);
+    void setRelationshipsForIndirectCalls(const string &caller,
+                                          const std::unordered_set<std::string> &visitedCallees);
+    void setIndirectCallsRelationship();
 };
