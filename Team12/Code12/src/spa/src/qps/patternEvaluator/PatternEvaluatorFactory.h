@@ -10,7 +10,7 @@ using std::string, std::unique_ptr;
 
 class PatternEvaluatorFactory {
 public:
-	static unique_ptr<IPatternEvaluator> createEvaluator(
+	static unique_ptr<PatternEvaluator> createEvaluator(
 		string& entityType,
 		Context& context,
 		PatternArgsStream& patternArgsStream,

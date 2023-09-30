@@ -1,19 +1,20 @@
 #pragma once
 
-#include "qps/patternEvaluator/IPatternEvaluator.h"
+#include "qps/patternEvaluator/PatternEvaluator.h"
 
-class AssignEvaluator : public IPatternEvaluator {
+class AssignEvaluator : public PatternEvaluator {
 public:
 	explicit AssignEvaluator(Context& context,
 							 PatternArgsStream& patternArgsStream,
 							 PKBReader& pkbReader,
 							 bool isPartialMatch,
 							 string synonymValue) :
-							 IPatternEvaluator(context,
+							 PatternEvaluator(context,
 											   patternArgsStream,
 											   pkbReader,
 											   isPartialMatch,
 											   synonymValue) {};
     ~AssignEvaluator() override = default;
-	IntermediateTable evaluate() override;
+	vector<string> processArguments() override;
+	IntermediateTable buildResultTable(vector<string> pkbResult) override;
 };

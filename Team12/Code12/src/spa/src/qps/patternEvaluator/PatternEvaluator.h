@@ -14,7 +14,7 @@ using std::string, std::vector, std::unique_ptr, std::set;
 
 typedef vector<unique_ptr<AbstractArgument>> PatternArgsStream;
 
-class IPatternEvaluator {
+class PatternEvaluator {
 protected:
 	Context& context;
 	PatternArgsStream& patternArgsStream;
@@ -22,7 +22,7 @@ protected:
 	bool isPartialMatch;
 	string synonymValue;
 public:
-	explicit IPatternEvaluator(
+	explicit PatternEvaluator(
 			Context& context,
 			PatternArgsStream& patternArgsStream,
 			PKBReader& pkbReader,
@@ -33,6 +33,8 @@ public:
 		pkbReader(pkbReader),
 		isPartialMatch(isPartialMatch),
 		synonymValue(synonymValue) {};
-    virtual ~IPatternEvaluator() = default;
-	virtual IntermediateTable evaluate() = 0;
+	virtual IntermediateTable evaluate();
+	virtual vector<string> processArguments() = 0;
+	virtual IntermediateTable buildResultTable(vector<string> pkbResult) = 0;
+    virtual ~PatternEvaluator() = default;
 };

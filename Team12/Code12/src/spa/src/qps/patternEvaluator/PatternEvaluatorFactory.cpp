@@ -1,7 +1,7 @@
 #include "PatternEvaluatorFactory.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-unique_ptr<IPatternEvaluator> PatternEvaluatorFactory::createEvaluator(
+unique_ptr<PatternEvaluator> PatternEvaluatorFactory::createEvaluator(
 	string& entityType, Context& context, PatternArgsStream& patternArgsStream, PKBReader& pkbReader, bool isPartialMatch, string synonymValue) {
 
 	if (entityType == ASSIGN_ENTITY) {

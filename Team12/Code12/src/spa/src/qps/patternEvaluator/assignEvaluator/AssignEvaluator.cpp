@@ -2,22 +2,20 @@
 #include "common/utils/StringUtils.h"
 #include "qps/common/Keywords.h"
 
-IntermediateTable AssignEvaluator::evaluate() {
+vector<string> AssignEvaluator::processArguments() {
+	string firstArgValue = patternArgsStream[0]->getValue();
+	string secondArgValue = patternArgsStream[1]->getValue();
 
-	unique_ptr<AbstractArgument> firstArg = std::move(patternArgsStream[0]);
-	unique_ptr<AbstractArgument> secondArg = std::move(patternArgsStream[1]);
-
-	string firstArgValue = firstArg->getValue();
-
-	bool isFirstArgSynonym = firstArg->isSynonym();
-
+	bool isFirstArgSynonym = patternArgsStream[0]->isSynonym();
+	bool isSecondArgWildcard = patternArgsStream[1]->isWildcard();
+	
 	string secondArgRPNValue;
 
-	if (secondArg->isWildcard()) {
-		secondArgRPNValue = secondArg->getValue();
+	if (isSecondArgWildcard) {
+		secondArgRPNValue = secondArgValue;
 	}
 	else {
-		secondArgRPNValue = QPSStringUtils::convertToRPN(secondArg->getValue());
+		secondArgRPNValue = QPSStringUtils::convertToRPN(secondArgValue);
 	}
 
 	vector<string> pkbResult;
@@ -29,13 +27,31 @@ IntermediateTable AssignEvaluator::evaluate() {
 		pkbResult = pkbReader.getExactAssignPattern(firstArgValue, secondArgRPNValue, isFirstArgSynonym);
 	}
 
+	return pkbResult;
+}
+
+IntermediateTable AssignEvaluator::buildResultTable(vector<string> pkbResult) {
+	bool isFirstArgSynonym = patternArgsStream[0]->isSynonym();
+
+	string firstArgValue = patternArgsStream[0]->getValue();
+
 	IntermediateTable linesSatisfyingPattern
-            = IntermediateTableFactory::buildSingleColTable(synonymValue, pkbResult);
-    string colName = (firstArg->isWildcard() || firstArg->isIdent())
-			? WILDCARD_KEYWORD : firstArgValue;
-	vector<pair<string, string>> lineVariablePairs = pkbReader.getAllModifiedVariables(StmtType::ASSIGN);
-	IntermediateTable lineAndVarsModified
-            = IntermediateTableFactory::buildIntermediateTable(synonymValue, colName, lineVariablePairs);
-	IntermediateTable linesSatisfyingPatternAndVarsModified = linesSatisfyingPattern.join(lineAndVarsModified);
-    return linesSatisfyingPatternAndVarsModified;
+		= IntermediateTableFactory::buildSingleColTable(synonymValue, pkbResult);
+
+	if (isFirstArgSynonym) {
+		// need to add additional variable column to result
+		string varColName = firstArgValue;
+
+		vector<pair<string, string>> lineVariablePairs = pkbReader.getAllModifiedVariables(StmtType::ASSIGN);
+
+		IntermediateTable lineAndVarsModified
+			= IntermediateTableFactory::buildIntermediateTable(synonymValue, varColName, lineVariablePairs);
+
+		IntermediateTable linesSatisfyingPatternAndVarsModified = linesSatisfyingPattern.join(lineAndVarsModified);
+		
+		return linesSatisfyingPatternAndVarsModified;
+	}
+
+	// otherwise just return the single column table
+	return linesSatisfyingPattern;
 }

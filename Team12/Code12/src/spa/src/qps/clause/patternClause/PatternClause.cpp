@@ -5,10 +5,10 @@ IntermediateTable PatternClause::evaluate(Context& context,
 	string synonymValue = synonym->getValue();
 	string entityType = context.getTokenEntity(synonymValue);
 
-	unique_ptr<IPatternEvaluator> IEvaluatorPtr;
+	unique_ptr<PatternEvaluator> evaluatorPtr;
 
 
-	IEvaluatorPtr =  PatternEvaluatorFactory::createEvaluator(
+	evaluatorPtr =  PatternEvaluatorFactory::createEvaluator(
 			entityType,
 			context,
 			patternArgsStream,
@@ -17,7 +17,7 @@ IntermediateTable PatternClause::evaluate(Context& context,
 			synonymValue);
 
 
-	return IEvaluatorPtr->evaluate();
+	return evaluatorPtr->evaluate();
 }
 
 bool PatternClause::isEquals(const Clause& other) {

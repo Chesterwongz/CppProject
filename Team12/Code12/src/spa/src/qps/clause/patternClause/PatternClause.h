@@ -8,7 +8,7 @@
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"
 #include "qps/patternEvaluator/PatternEvaluatorFactory.h"
-#include "qps/patternEvaluator/IPatternEvaluator.h"
+#include "qps/patternEvaluator/PatternEvaluator.h"
 
 using std::string, std::unique_ptr, std::vector;
 
