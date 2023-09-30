@@ -17,19 +17,16 @@ struct AbstractionParams {
     Abstraction abstraction;
     IArgument &firstArg;
     IArgument &secondArg;
-    bool isTransitive;
     explicit AbstractionParams(PKBReader &pkb,
                                Context &context,
                                Abstraction abstraction,
                                IArgument &firstArg,
-                               IArgument &secondArg,
-                               bool isTransitive) :
+                               IArgument &secondArg) :
             pkb(pkb),
             context(context),
             abstraction((abstraction)),
             firstArg(firstArg),
-            secondArg(secondArg),
-            isTransitive(isTransitive) {};
+            secondArg(secondArg) {};
 };
 
 enum ArgumentPermutation {

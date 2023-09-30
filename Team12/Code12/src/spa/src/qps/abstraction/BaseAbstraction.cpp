@@ -9,8 +9,7 @@ BaseAbstraction::BaseAbstraction(AbstractionParams &params) :
         firstArgValue(params.firstArg.getValue()),
         secondArgValue(params.secondArg.getValue()),
         argumentPermutation(getPermutation(params.firstArg,
-                                           params.secondArg)),
-        isTransitive(params.isTransitive) {};
+                                           params.secondArg)) {};
 
 ArgumentPermutation BaseAbstraction::getAbstractionPermutation() {
     return this->argumentPermutation;
@@ -85,9 +84,8 @@ IntermediateTable BaseAbstraction::evaluate() {
 
         case (ArgumentPermutation::WILDCARD_WILDCARD):
             return this->evaluateWildcardWildcard();
-
-    throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNKNOWN_ARG_PERMUTATION);
     }
+    throw QPSInvalidAbstractionException(QPS_INVALID_ABSTRACTION_ERR_UNKNOWN_ARG_PERMUTATION);
 };
 
 /**

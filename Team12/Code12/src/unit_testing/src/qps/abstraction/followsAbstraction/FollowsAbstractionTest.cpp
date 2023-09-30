@@ -17,8 +17,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Synonym)_EMPTY") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -40,8 +39,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Synonym)") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -66,8 +64,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Integer)") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -90,8 +87,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Integer) not followed") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -113,8 +109,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Wildcard)") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -137,8 +132,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -160,8 +154,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)_no followed") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -181,8 +174,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Wildcard)") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -202,8 +194,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Wildcard)_no followed") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -223,8 +214,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Integer)_true") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -244,8 +234,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Integer)_false") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -265,8 +254,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Synonym)") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -289,8 +277,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer)") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -310,8 +297,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer) not followed") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -331,8 +317,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Wildcard)") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -352,122 +337,11 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Wildcard)_EMPTY") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     FollowsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard() == false);
-    REQUIRE(resultTable.isTableEmptyAndNotWildcard());
-}
-
-TEST_CASE("FollowsAbstraction - Follows*(Wildcard, Synonym)") {
-    MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    mockReader.mockFollowsStarPairs = MOCK_FOLLOWS_STARS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
-            = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
-    Context mockContext = Context();
-    unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader,
-                                          mockContext,
-                                          FOLLOWS_ENUM,
-                                          *mockArgument1,
-                                          *mockArgument2,
-                                          true);
-
-    FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = abstraction.evaluate();
-
-    REQUIRE(resultTable.getData() == MOCK_FOLLOWS_STARS_COL_2);
-    REQUIRE(resultTable.getColNames().size() == 1);
-    REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
-}
-
-TEST_CASE("FollowsAbstraction - Follows*(Synonym, Integer)") {
-    MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    mockReader.mockFollowedPairs = MOCK_FOLLOWS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
-            = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    Context mockContext = Context();
-    unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader,
-                                          mockContext,
-                                          FOLLOWS_ENUM,
-                                          *mockArgument1,
-                                          *mockArgument2,
-                                          true);
-
-    FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = abstraction.evaluate();
-    REQUIRE(resultTable.getData() == MOCK_FOLLOWS_COL_1);
-    REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
-}
-
-TEST_CASE("FollowsAbstraction - Follows*(Integer, Synonym)") {
-    MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    mockReader.mockFollowsStar = MOCK_FOLLOWS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
-            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
-    Context mockContext = Context();
-    unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader,
-                                          mockContext,
-                                          FOLLOWS_ENUM,
-                                          *mockArgument1,
-                                          *mockArgument2,
-                                          true);
-
-    FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = abstraction.evaluate();
-    REQUIRE(resultTable.getData() == MOCK_FOLLOWS_COL_2);
-    REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
-}
-
-TEST_CASE("FollowsAbstraction - Follows*(Integer, Integer)") {
-    MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    mockReader.mockIsFollowsStar = true;
-    unique_ptr<IArgument> mockArgument1
-            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
-    Context mockContext = Context();
-    unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader,
-                                          mockContext,
-                                          FOLLOWS_ENUM,
-                                          *mockArgument1,
-                                          *mockArgument2,
-                                          true);
-
-    FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = abstraction.evaluate();
-    REQUIRE(resultTable.isTableWildcard());
-}
-
-TEST_CASE("FollowsAbstraction - Follows*(Integer, Integer)_false") {
-    MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    mockReader.mockIsFollowsStar = false;
-    unique_ptr<IArgument> mockArgument1
-            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
-    Context mockContext = Context();
-    unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader,
-                                          mockContext,
-                                          FOLLOWS_ENUM,
-                                          *mockArgument1,
-                                          *mockArgument2,
-                                          true);
-
-    FollowsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = abstraction.evaluate();
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }

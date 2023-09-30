@@ -6,8 +6,7 @@ unique_ptr<AbstractionParams> createMockAbstractionParams(
         Context &mockContext,
         Abstraction abstraction,
         IArgument &firstArgument,
-        IArgument &secondArgument,
-        bool isTransitive) {
+        IArgument &secondArgument) {
     if (firstArgument.isSynonym()) {
         mockContext.addSynonym(firstArgument.getValue(), STMT_ENTITY);
     }
@@ -20,7 +19,6 @@ unique_ptr<AbstractionParams> createMockAbstractionParams(
                     mockContext,
                     abstraction,
                     firstArgument,
-                    secondArgument,
-                    isTransitive);
+                    secondArgument);
     return abstractionParams;
 }

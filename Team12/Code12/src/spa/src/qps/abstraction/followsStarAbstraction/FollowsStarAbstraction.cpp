@@ -1,13 +1,13 @@
-#include "FollowsAbstraction.h"
+#include "FollowsStarAbstraction.h"
 
  /**
-  * Follows abstraction:
+  * Follows Star abstraction:
   * firstArg: Synonym OR Integer OR Wildcard
   * secondArg: Synonym OR Integer OR Wildcard
   */
 
 // Follows (StmtSynonym, StmtSynonym)
-IntermediateTable FollowsAbstraction::evaluateSynonymSynonym() {
+IntermediateTable FollowsStarAbstraction::evaluateSynonymSynonym() {
     if (this->firstArgValue == this->secondArgValue) {
         return IntermediateTableFactory::buildEmptyIntermediateTable();
     }
@@ -15,54 +15,54 @@ IntermediateTable FollowsAbstraction::evaluateSynonymSynonym() {
 }
 
 // Follows (StmtSynonym, StmtNumber)
-IntermediateTable FollowsAbstraction::evaluateSynonymInteger() {
+IntermediateTable FollowsStarAbstraction::evaluateSynonymInteger() {
      return handleSecondArgInteger();
 }
 
 // Follows (StmtSynonym, _)
-IntermediateTable FollowsAbstraction::evaluateSynonymWildcard() {
+IntermediateTable FollowsStarAbstraction::evaluateSynonymWildcard() {
     return handleSynonymOrWildcardArgs();
 }
 
 //Follows (StmtNumber, StmtSynonym)
-IntermediateTable FollowsAbstraction::evaluateIntegerSynonym() {
+IntermediateTable FollowsStarAbstraction::evaluateIntegerSynonym() {
     return handleFirstArgInteger();
 }
 
 // Follows (StmtNumber, StmtNumber)
-IntermediateTable FollowsAbstraction::evaluateIntegerInteger()  {
+IntermediateTable FollowsStarAbstraction::evaluateIntegerInteger()  {
     return handleBothArgsInteger();
 }
 
 // Follows (StmtNumber, _)
-IntermediateTable FollowsAbstraction::evaluateIntegerWildcard() {
+IntermediateTable FollowsStarAbstraction::evaluateIntegerWildcard() {
     return handleFirstArgInteger();
 }
 
 //Follows (StmtNumber, StmtSynonym)
-IntermediateTable FollowsAbstraction::evaluateWildcardSynonym() {
+IntermediateTable FollowsStarAbstraction::evaluateWildcardSynonym() {
     return handleSynonymOrWildcardArgs();
  }
 
 // Follows (_, StmtNumber)
-IntermediateTable FollowsAbstraction::evaluateWildcardInteger()  {
+IntermediateTable FollowsStarAbstraction::evaluateWildcardInteger()  {
     return handleSecondArgInteger();
  }
 
 // Follows (_, _)
-IntermediateTable FollowsAbstraction::evaluateWildcardWildcard() {
+IntermediateTable FollowsStarAbstraction::evaluateWildcardWildcard() {
     return handleSynonymOrWildcardArgs();
 }
 
 /**
  * For handling cases where both args are non-integer
  */
-IntermediateTable FollowsAbstraction::handleSynonymOrWildcardArgs() {
+IntermediateTable FollowsStarAbstraction::handleSynonymOrWildcardArgs() {
     StmtType firstStmtType = this->getFirstArgStmtType();
     StmtType secondStmtType =this->getSecondArgStmtType();
 
     vector<pair<string, string>> followPairs
-            = pkb.getFollowsPairs(firstStmtType, secondStmtType);
+            = pkb.getFollowsStarPairs(firstStmtType, secondStmtType);
 
     //! If any of the args are "_", the column will be ignored.
     return IntermediateTableFactory::buildIntermediateTable(
@@ -71,35 +71,38 @@ IntermediateTable FollowsAbstraction::handleSynonymOrWildcardArgs() {
             followPairs);
 }
 
-IntermediateTable FollowsAbstraction::handleBothArgsInteger() {
+IntermediateTable FollowsStarAbstraction::handleBothArgsInteger() {
     int firstArgInteger = stoi(this->firstArgValue);
     int secondArgInteger = stoi(this->secondArgValue);
-    bool isValid = pkb.isFollows(firstArgInteger, secondArgInteger);
+    bool isValid = pkb.isFollowsStar(firstArgInteger, secondArgInteger);
     return isValid
            ? IntermediateTableFactory::buildWildcardIntermediateTable()
            : IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
-IntermediateTable FollowsAbstraction::handleFirstArgInteger() {
+IntermediateTable FollowsStarAbstraction::handleFirstArgInteger() {
     int firstArgInteger = stoi(this->firstArgValue);
     StmtType secondStmtType = this->getSecondArgStmtType();
 
-    string followingStmt = pkb.getFollowing(firstArgInteger, secondStmtType);
-    if (followingStmt != INVALID_STATEMENT_NUMBER) {
-        return IntermediateTableFactory::buildIntermediateTable(this->secondArgValue, followingStmt);
-    }
-
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
+    vector<pair<string, string>> followStarPairs
+            = pkb.getFollowsStar(firstArgInteger, secondStmtType);
+    // pass first col as wildcard so the table ignores integer column
+    return IntermediateTableFactory::buildIntermediateTable(
+            WILDCARD_KEYWORD,
+            this->secondArgValue,
+            followStarPairs);
 }
 
-IntermediateTable FollowsAbstraction::handleSecondArgInteger() {
+IntermediateTable FollowsStarAbstraction::handleSecondArgInteger() {
     StmtType firstArgStmtType = this->getFirstArgStmtType();
     int secondArgInteger = stoi(this->secondArgValue);
 
-    string followedStmt = pkb.getFollowed(secondArgInteger, firstArgStmtType);
-    if (followedStmt != INVALID_STATEMENT_NUMBER) {
-        return IntermediateTableFactory::buildIntermediateTable(this->firstArgValue, followedStmt);
-    }
+    vector<pair<string, string>> followedStarPairs
+            = pkb.getFollowedStar(secondArgInteger, firstArgStmtType);
 
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
+    // pass second col as wildcard so the table ignores integer column
+    return IntermediateTableFactory::buildIntermediateTable(
+            this->firstArgValue,
+            WILDCARD_KEYWORD,
+            followedStarPairs);
 }

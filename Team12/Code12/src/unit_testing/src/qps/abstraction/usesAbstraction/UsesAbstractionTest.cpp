@@ -18,8 +18,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Synonym)") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -42,8 +41,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Synonym)_empty") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -65,8 +63,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Ident)") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -88,8 +85,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Ident)_empty") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -110,8 +106,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Wildcard)") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -133,8 +128,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Wildcard)_empty") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -156,8 +150,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Synonym)") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -179,8 +172,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Synonym)_empty") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -202,8 +194,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Ident)") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -224,8 +215,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Ident)_false") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -246,8 +236,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Wildcard)") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -267,8 +256,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Wildcard)_empty") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -289,8 +277,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Synonym)") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -312,8 +299,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Synonym)_empty") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -334,8 +320,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -355,8 +340,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)_false") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -377,8 +361,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Wildcard)") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -398,8 +381,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Wildcard)_empty") {
                                           mockContext,
                                           USES_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     UsesAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();

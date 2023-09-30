@@ -1,35 +1,11 @@
 #include "catch.hpp"
-#include "qps/abstraction/ModifiesAbstraction/ModifiesAbstraction.h"
+#include "qps/abstraction/ParentsStarAbstraction/ParentsStarAbstraction.h"
 #include "../../mocks/MockPKBReader.h"
 #include "../../intermediateTable/IntermediateTableTestUtils.h"
 #include "../AbstractionTestUtils.h"
-#include "ModifiesAbstractionTestData.h"
+#include "ParentsStarAbstractionTestData.h"
 
-TEST_CASE("ModifiesAbstraction - Modifies(Synonym, Synonym)") {
-    MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    mockReader.mockAllModifiedVariables = MOCK_MODIFIED_PAIRS;
-    unique_ptr<IArgument> mockArgument1
-            = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
-    Context mockContext = Context();
-    unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader,
-                                          mockContext,
-                                          MODIFIES_ENUM,
-                                          *mockArgument1,
-                                          *mockArgument2);
-
-    ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = abstraction.evaluate();
-
-    REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTORS);
-    REQUIRE(resultTable.getColNames().size() == 2);
-    REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
-    REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
-}
-
-TEST_CASE("ModifiesAbstraction - Modifies(Synonym, Synonym_empty)") {
+TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Synonym)_EMPTY") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     unique_ptr<IArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
@@ -39,64 +15,87 @@ TEST_CASE("ModifiesAbstraction - Modifies(Synonym, Synonym_empty)") {
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
                                           mockContext,
-                                          MODIFIES_ENUM,
+                                          PARENTS_STAR_ENUM,
                                           *mockArgument1,
                                           *mockArgument2);
 
-    ModifiesAbstraction abstraction(*abstractionParams);
+    ParentsStarAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
     REQUIRE(resultTable.isTableEmpty());
 }
 
-TEST_CASE("ModifiesAbstraction - Modifies(Synonym, Ident)") {
+TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Synonym)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    mockReader.mockStatementsModifying = MOCK_MODIFYING_STATEMENTS;
+    mockReader.mockParentChildStarPairs = MOCK_PARENT_CHILD_STARS_PAIRS;
     unique_ptr<IArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
     unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
+            = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
                                           mockContext,
-                                          MODIFIES_ENUM,
+                                          PARENTS_STAR_ENUM,
                                           *mockArgument1,
                                           *mockArgument2);
 
-    ModifiesAbstraction abstraction(*abstractionParams);
+    ParentsStarAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
 
-    REQUIRE(resultTable.getData().size() == 3);
-    REQUIRE(resultTable.getData() == MOCK_MODIFYING_STATEMENTS_COL);
+    REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_STARS_VECTOR);
+    REQUIRE(resultTable.getColNames().size() == 2);
+    REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+    REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
+}
+
+TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Integer)") {
+    MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+    mockReader.mockParentStarOf = MOCK_PARENT_CHILD_STARS_PAIRS;
+    unique_ptr<IArgument> mockArgument1
+            = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
+    unique_ptr<IArgument> mockArgument2
+            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
+    Context mockContext = Context();
+    unique_ptr<AbstractionParams> abstractionParams
+            = createMockAbstractionParams(mockReader,
+                                          mockContext,
+                                          FOLLOWS_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2);
+
+    ParentsStarAbstraction abstraction(*abstractionParams);
+    IntermediateTable resultTable = abstraction.evaluate();
+
+    REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_STARS_COL_1);
     REQUIRE(resultTable.getColNames().size() == 1);
     REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
 
-TEST_CASE("ModifiesAbstraction - Modifies(Synonym, Ident)_empty") {
+TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Integer)_no_immediate_parent") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+    mockReader.mockParentStarOf = {};
     unique_ptr<IArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
     unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
+            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
                                           mockContext,
-                                          MODIFIES_ENUM,
+                                          FOLLOWS_ENUM,
                                           *mockArgument1,
                                           *mockArgument2);
 
-    ModifiesAbstraction abstraction(*abstractionParams);
+    ParentsStarAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
-
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
-TEST_CASE("ModifiesAbstraction - Modifies(Synonym, Wildcard)") {
+TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Wildcard)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    mockReader.mockAllModifiedVariables = MOCK_MODIFIED_PAIRS;
+    mockReader.mockParentChildStarPairs = MOCK_PARENT_CHILD_STARS_PAIRS;
     unique_ptr<IArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
     unique_ptr<IArgument> mockArgument2
@@ -105,41 +104,20 @@ TEST_CASE("ModifiesAbstraction - Modifies(Synonym, Wildcard)") {
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
                                           mockContext,
-                                          MODIFIES_ENUM,
+                                          PARENTS_STAR_ENUM,
                                           *mockArgument1,
                                           *mockArgument2);
 
-    ModifiesAbstraction abstraction(*abstractionParams);
+    ParentsStarAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
 
-    REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTORS_COL_1);
+    REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_STARS_COL_1);
     REQUIRE(resultTable.getColNames().size() == 1);
     REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
 
-TEST_CASE("ModifiesAbstraction - Modifies(Synonym, Wildcard)_empty") {
+TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Synonym)_EMPTY") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    unique_ptr<IArgument> mockArgument1
-            = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    Context mockContext = Context();
-    unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader,
-                                          mockContext,
-                                          MODIFIES_ENUM,
-                                          *mockArgument1,
-                                          *mockArgument2);
-
-    ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = abstraction.evaluate();
-
-    REQUIRE(resultTable.isTableEmptyAndNotWildcard());
-}
-
-TEST_CASE("ModifiesAbstraction - Modifies(Integer, Synonym)") {
-    MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    mockReader.mockVariablesModifiedBy = MOCK_MODIFIED_PAIRS;
     unique_ptr<IArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     unique_ptr<IArgument> mockArgument2
@@ -148,83 +126,83 @@ TEST_CASE("ModifiesAbstraction - Modifies(Integer, Synonym)") {
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
                                           mockContext,
-                                          MODIFIES_ENUM,
+                                          PARENTS_STAR_ENUM,
                                           *mockArgument1,
                                           *mockArgument2);
 
-    ModifiesAbstraction abstraction(*abstractionParams);
+    ParentsStarAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
 
-    REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTORS_COL_2);
+    REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+    REQUIRE(resultTable.isTableEmpty());
+}
+
+TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Synonym)") {
+    MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+    mockReader.mockChildrenStar = MOCK_PARENT_CHILD_STARS_PAIRS;
+    unique_ptr<IArgument> mockArgument1
+            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
+    unique_ptr<IArgument> mockArgument2
+            = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
+    Context mockContext = Context();
+    unique_ptr<AbstractionParams> abstractionParams
+            = createMockAbstractionParams(mockReader,
+                                          mockContext,
+                                          PARENTS_STAR_ENUM,
+                                          *mockArgument1,
+                                          *mockArgument2);
+
+    ParentsStarAbstraction abstraction(*abstractionParams);
+    IntermediateTable resultTable = abstraction.evaluate();
+
+    REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_STARS_COL_2);
     REQUIRE(resultTable.getColNames().size() == 1);
     REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
 }
 
-TEST_CASE("ModifiesAbstraction - Modifies(Integer, Synonym)_empty") {
+TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+    mockReader.mockIsParentStar = true;
     unique_ptr<IArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
+            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
                                           mockContext,
-                                          MODIFIES_ENUM,
+                                          FOLLOWS_ENUM,
                                           *mockArgument1,
                                           *mockArgument2);
 
-    ModifiesAbstraction abstraction(*abstractionParams);
+    ParentsStarAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
-
-    REQUIRE(resultTable.isTableEmptyAndNotWildcard());
-}
-
-TEST_CASE("ModifiesAbstraction - Modifies(Integer, Ident)") {
-    MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    mockReader.mockIsVariableModifiedBy = true;
-    unique_ptr<IArgument> mockArgument1
-            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_2);
-    Context mockContext = Context();
-    unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader,
-                                          mockContext,
-                                          MODIFIES_ENUM,
-                                          *mockArgument1,
-                                          *mockArgument2);
-
-    ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = abstraction.evaluate();
-
     REQUIRE(resultTable.isTableWildcard());
 }
 
-TEST_CASE("ModifiesAbstraction - Modifies(Integer, Ident)_not_modified") {
+TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)_false") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+    mockReader.mockIsParentStar = false;
     unique_ptr<IArgument> mockArgument1
-            = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
+            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
-    mockReader.mockIsVariableModifiedBy = false;
+            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
                                           mockContext,
-                                          MODIFIES_ENUM,
+                                          FOLLOWS_ENUM,
                                           *mockArgument1,
                                           *mockArgument2);
 
-    ModifiesAbstraction abstraction(*abstractionParams);
+    ParentsStarAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
-
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
-TEST_CASE("ModifiesAbstraction - Modifies(Integer, Wildcard)") {
+TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Wildcard)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    mockReader.mockVariablesModifiedBy = MOCK_MODIFIED_PAIRS;
+    mockReader.mockChildrenStar = MOCK_PARENT_CHILD_STARS_PAIRS;
     unique_ptr<IArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     unique_ptr<IArgument> mockArgument2
@@ -233,39 +211,39 @@ TEST_CASE("ModifiesAbstraction - Modifies(Integer, Wildcard)") {
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
                                           mockContext,
-                                          MODIFIES_ENUM,
+                                          PARENTS_STAR_ENUM,
                                           *mockArgument1,
                                           *mockArgument2);
 
-    ModifiesAbstraction abstraction(*abstractionParams);
+    ParentsStarAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard());
 }
 
-TEST_CASE("ModifiesAbstraction - Modifies(Integer, Wildcard)_empty") {
+TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Wildcard)_empty") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     unique_ptr<IArgument> mockArgument1
-            = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
+            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     unique_ptr<IArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
                                           mockContext,
-                                          MODIFIES_ENUM,
+                                          PARENTS_STAR_ENUM,
                                           *mockArgument1,
                                           *mockArgument2);
 
-    ModifiesAbstraction abstraction(*abstractionParams);
+    ParentsStarAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
-TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Synonym)") {
+TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Synonym)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    mockReader.mockAllModifiedVariables = MOCK_MODIFIED_PAIRS;
+    mockReader.mockParentChildStarPairs = MOCK_PARENT_CHILD_STARS_PAIRS;
     unique_ptr<IArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<IArgument> mockArgument2
@@ -274,82 +252,61 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Synonym)") {
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
                                           mockContext,
-                                          MODIFIES_ENUM,
+                                          PARENTS_STAR_ENUM,
                                           *mockArgument1,
                                           *mockArgument2);
 
-    ModifiesAbstraction abstraction(*abstractionParams);
+    ParentsStarAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
 
-    REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTORS_COL_2);
+    REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_STARS_COL_2);
     REQUIRE(resultTable.getColNames().size() == 1);
     REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
 }
 
-TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Synonym)_empty") {
+TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Integer)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+    mockReader.mockParentStarOf = MOCK_PARENT_CHILD_STARS_PAIRS;
     unique_ptr<IArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
+            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
                                           mockContext,
-                                          MODIFIES_ENUM,
+                                          FOLLOWS_ENUM,
                                           *mockArgument1,
                                           *mockArgument2);
 
-    ModifiesAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = abstraction.evaluate();
-
-    REQUIRE(resultTable.isTableEmptyAndNotWildcard());
-}
-
-TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Ident)") {
-    MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    mockReader.mockStatementsModifying = MOCK_MODIFYING_STATEMENTS;
-    unique_ptr<IArgument> mockArgument1
-            = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
-    Context mockContext = Context();
-    unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader,
-                                          mockContext,
-                                          MODIFIES_ENUM,
-                                          *mockArgument1,
-                                          *mockArgument2);
-
-    ModifiesAbstraction abstraction(*abstractionParams);
+    ParentsStarAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard());
 }
 
-TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Ident)_empty") {
+TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Integer)_no_immediate_parent") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     unique_ptr<IArgument> mockArgument1
-            = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
+            = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
     unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
+            = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
                                           mockContext,
-                                          MODIFIES_ENUM,
+                                          FOLLOWS_ENUM,
                                           *mockArgument1,
                                           *mockArgument2);
 
-    ModifiesAbstraction abstraction(*abstractionParams);
+    ParentsStarAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
-
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
-TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Wildcard)") {
+TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Wildcard)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    mockReader.mockAllModifiedVariables = MOCK_MODIFIED_PAIRS;
+    mockReader.mockParentChildStarPairs = MOCK_PARENT_CHILD_STARS_PAIRS;
     unique_ptr<IArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     unique_ptr<IArgument> mockArgument2
@@ -358,17 +315,17 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Wildcard)") {
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
                                           mockContext,
-                                          MODIFIES_ENUM,
+                                          PARENTS_STAR_ENUM,
                                           *mockArgument1,
                                           *mockArgument2);
 
-    ModifiesAbstraction abstraction(*abstractionParams);
+    ParentsStarAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard());
 }
 
-TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Wildcard)_EMPTY") {
+TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Wildcard)_EMPTY") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     unique_ptr<IArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
@@ -378,11 +335,11 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Wildcard)_EMPTY") {
     unique_ptr<AbstractionParams> abstractionParams
             = createMockAbstractionParams(mockReader,
                                           mockContext,
-                                          MODIFIES_ENUM,
+                                          PARENTS_STAR_ENUM,
                                           *mockArgument1,
                                           *mockArgument2);
 
-    ModifiesAbstraction abstraction(*abstractionParams);
+    ParentsStarAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard() == false);

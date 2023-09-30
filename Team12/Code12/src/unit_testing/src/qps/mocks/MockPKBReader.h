@@ -22,6 +22,7 @@ public:
     string mockFollowed;
     vector<pair<string, string>> mockFollowsPairs;
     vector<pair<string, string>> mockFollowsStar;
+    vector<pair<string, string>> mockFollowedStar;
     vector<pair<string, string>> mockFollowedPairs;
     vector<pair<string, string>> mockFollowsStarPairs;
     vector<pair<string, string>> mockImmediateChildrenOf;
@@ -80,7 +81,7 @@ public:
     }
 
     vector<pair<string, string>> getFollowedStar(int statementNumber, StmtType statementType) override {
-        return mockFollowedPairs;
+        return mockFollowedStar;
     }
 
     vector<pair<string, string>> getFollowsStarPairs(StmtType statementType1, StmtType statementType2) override {

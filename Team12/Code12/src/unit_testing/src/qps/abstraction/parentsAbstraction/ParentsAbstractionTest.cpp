@@ -17,8 +17,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)_EMPTY") {
                                           mockContext,
                                           PARENTS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -40,8 +39,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)") {
                                           mockContext,
                                           PARENTS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -65,8 +63,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Integer)") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -89,8 +86,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Integer)_no_immediate_parent") 
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -110,8 +106,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Wildcard)") {
                                           mockContext,
                                           PARENTS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -133,8 +128,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Synonym)_EMPTY") {
                                           mockContext,
                                           PARENTS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -156,8 +150,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Synonym)") {
                                           mockContext,
                                           PARENTS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -180,8 +173,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Integer)") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -201,8 +193,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Integer)_false") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -222,8 +213,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Wildcard)") {
                                           mockContext,
                                           PARENTS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -243,8 +233,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Wildcard)_empty") {
                                           mockContext,
                                           PARENTS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -265,8 +254,7 @@ TEST_CASE("ParentsAbstraction - Parents(Wildcard, Synonym)") {
                                           mockContext,
                                           PARENTS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -289,8 +277,7 @@ TEST_CASE("ParentsAbstraction - Parents(Wildcard, Integer)") {
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -311,8 +298,7 @@ TEST_CASE("ParentsAbstraction - Parents(Wildcard, Integer)_no_immediate_parent")
                                           mockContext,
                                           FOLLOWS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -332,8 +318,7 @@ TEST_CASE("ParentsAbstraction - Parents(Wildcard, Wildcard)") {
                                           mockContext,
                                           PARENTS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
@@ -353,36 +338,11 @@ TEST_CASE("ParentsAbstraction - Parents(Wildcard, Wildcard)_EMPTY") {
                                           mockContext,
                                           PARENTS_ENUM,
                                           *mockArgument1,
-                                          *mockArgument2,
-                                          false);
+                                          *mockArgument2);
 
     ParentsAbstraction abstraction(*abstractionParams);
     IntermediateTable resultTable = abstraction.evaluate();
 
     REQUIRE(resultTable.isTableWildcard() == false);
     REQUIRE(resultTable.isTableEmptyAndNotWildcard());
-}
-
-TEST_CASE("ParentsAbstraction - Parents*(Wildcard, Synonym)") {
-    MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    mockReader.mockParentChildStarPairs = MOCK_PARENT_CHILD_STARS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
-            = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
-            = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
-    Context mockContext = Context();
-    unique_ptr<AbstractionParams> abstractionParams
-            = createMockAbstractionParams(mockReader,
-                                          mockContext,
-                                          PARENTS_ENUM,
-                                          *mockArgument1,
-                                          *mockArgument2,
-                                          true);
-
-    ParentsAbstraction abstraction(*abstractionParams);
-    IntermediateTable resultTable = abstraction.evaluate();
-
-    REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_STARS_COL_2);
-    REQUIRE(resultTable.getColNames().size() == 1);
-    REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
 }

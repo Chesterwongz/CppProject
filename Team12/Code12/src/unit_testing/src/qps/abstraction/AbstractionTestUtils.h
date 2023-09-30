@@ -10,5 +10,4 @@ unique_ptr<AbstractionParams> createMockAbstractionParams(
         Context &mockContext,
         Abstraction abstraction,
         IArgument &firstArgument,
-        IArgument &secondArgument,
-        bool isTransitive);
+        IArgument &secondArgument);

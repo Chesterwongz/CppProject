@@ -22,7 +22,6 @@ protected:
     string firstArgValue;
     string secondArgValue;
     ArgumentPermutation argumentPermutation;
-    bool isTransitive;
 
     explicit BaseAbstraction(AbstractionParams &params);
 
