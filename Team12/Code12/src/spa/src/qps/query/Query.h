@@ -24,7 +24,7 @@ private:
 
 public:
     explicit Query(PKBReader &pkb);
-    void addContext(unique_ptr<Context> context);
+    void addContext(unique_ptr<Context> contextToAdd);
     void addClause(unique_ptr<Clause> clause);
     void setSynonymToQuery(const string& selectSynonym);
     set<string> returnAllPossibleQueriedSynonym();

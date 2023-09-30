@@ -15,7 +15,7 @@ const char QPS_INVALID_QUERY_INAVLID_INTEGER[] = "Invalid Integer";
 const char QPS_INVALID_QUERY_INVALID_ENTITY[] = "Invalid entity: ";
 const char QPS_INVALID_QUERY_INCOMPLETE_QUERY[] = "Incomplete query";
 const char QPS_INVALID_QUERY_INVALID_PATTERN_SYNONYM[] = "Invalid pattern synonym";
-const char QPS_INVALID_QUERY_INVALID_SELECT_SYNONYM[] = "Synonym you are selecting does not exist";
+const char QPS_INVALID_QUERY_NO_SELECT_SYNONYM[] = "No synonyms to  select";
 const char QPS_INVALID_QUERY_INCOMPLETE_PARTIAL_MATCH_PATTERN[] = "Your partial match should end and start with a wildcard";
 const char QPS_INVALID_QUERY_MISSING_ARGUMENTS[] = "Your clause is incomplete, you might have missing arguments";
 

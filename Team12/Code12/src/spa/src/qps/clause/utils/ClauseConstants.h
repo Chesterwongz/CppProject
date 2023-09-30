@@ -6,7 +6,7 @@
 
 using std::string, std::unordered_map;
 
-const unordered_map<Entity, StmtType> EntityToStatementType = {
+const unordered_map<Entity, StmtType> StmtEntityToStatementType = {
         {ASSIGN_ENTITY, StmtType::ASSIGN},
         {CALL_ENTITY, StmtType::CALL},
         {IF_ENTITY, StmtType::IF},

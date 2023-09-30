@@ -103,7 +103,7 @@ inline ArgumentPermutation getPermutation(
 inline StmtType getArgStmtType(IArgument &argument, Context &context) {
     if (argument.isSynonym()) {
         Entity firstStmtEntity = context.getTokenEntity(argument.getValue());
-        return EntityToStatementType.at(firstStmtEntity);
+        return StmtEntityToStatementType.at(firstStmtEntity);
     } else if (argument.isWildcard()) {
         return StmtType::STMT;
     }

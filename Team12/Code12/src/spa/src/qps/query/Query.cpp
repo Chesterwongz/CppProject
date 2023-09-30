@@ -6,8 +6,8 @@
 Query::Query(PKBReader &pkb) : pkb(pkb) {}
 
 
-void Query::addContext(unique_ptr<Context> context) {
-    this->context = std::move(context);
+void Query::addContext(unique_ptr<Context> contextToAdd) {
+    this->context = std::move(contextToAdd);
 }
 
 void Query::addClause(unique_ptr<Clause> clause) {
@@ -25,10 +25,15 @@ set<string> Query::evaluate() {
     }
 
     // iteratively join results of each clause
-    IntermediateTable currIntermediateTable = IntermediateTableFactory::buildWildcardIntermediateTable();
+    IntermediateTable currIntermediateTable
+            = IntermediateTableFactory::buildWildcardIntermediateTable();
     for (unique_ptr<Clause> &clause : clauses) {
         IntermediateTable clauseResult = clause->evaluate(*context, pkb);
         currIntermediateTable = currIntermediateTable.join(clauseResult);
+        if (currIntermediateTable.isTableEmptyAndNotWildcard()) {
+            // do not continue evaluating once we have an empty table
+            return {};
+        }
     }
 
     // if table evaluates to TRUE (i.e., wildcard),
@@ -36,9 +41,6 @@ set<string> Query::evaluate() {
     if (currIntermediateTable.isTableWildcard()) {
         return returnAllPossibleQueriedSynonym();
     }
-// select a such that  claue1 clause2...
-// select a such that uses(1, "x")
-// select a such that uses(_, _)
     bool isColMissing = !currIntermediateTable.isColExists(this->synonymToQuery);
     bool isTableNonEmpty = currIntermediateTable.getRowCount() != 0;
     if (isColMissing && isTableNonEmpty) {
@@ -64,7 +66,7 @@ set<string> Query::returnAllPossibleQueriedSynonym() {
     if (entity == CONSTANT_ENTITY) {
         return pkb.getAllConstants();
     }
-    StmtType stmtType = EntityToStatementType.at(entity);
+    StmtType stmtType = StmtEntityToStatementType.at(entity);
     return pkb.getStatement(stmtType);
 }
 
