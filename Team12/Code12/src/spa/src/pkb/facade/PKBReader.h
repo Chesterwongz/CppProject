@@ -7,16 +7,22 @@
 #include <set>
 
 #include "pkb/facade/PKBStorage.h"
-#include "pkb/storage/DesignEntitiesStorage.h"
-#include "pkb/storage/FollowsStorage.h"
-#include "pkb/storage/ModifiesStorage.h"
-#include "pkb/storage/ParentStorage.h"
-#include "pkb/storage/StatementStorage.h"
-#include "pkb/storage/UsesStorage.h"
 
-class PKBReader {
+#include "../interfaces/readers/IDesignEntitiesReader.h"
+#include "../interfaces/readers/IFollowsReader.h"
+#include "../interfaces/readers/IParentReader.h"
+#include "../interfaces/readers/IPatternReader.h"
+#include "../interfaces/readers/IUsesReader.h"
+#include "../interfaces/readers/IModifiesReader.h"
+#include "../interfaces/readers/IStatementReader.h"
+
+class PKBReader : public virtual IDesignEntitiesReader, public virtual IFollowsReader,
+    public virtual IParentReader, public virtual IPatternReader, 
+    public virtual IUsesReader, public virtual IModifiesReader, public virtual IStatementReader {
+
 public:
     explicit PKBReader(PKBStorage& storage) : storage(storage) {};
+    virtual ~PKBReader() = default;
 
     // return the names of all variables in the program
     virtual std::set<std::string> getAllVariables();
