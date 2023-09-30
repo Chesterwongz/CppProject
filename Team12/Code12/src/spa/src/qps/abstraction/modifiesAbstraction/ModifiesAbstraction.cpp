@@ -32,8 +32,10 @@ IntermediateTable ModifiesAbstraction::evaluateSynonymWildcard() {
 IntermediateTable ModifiesAbstraction::evaluateIntegerSynonym() {
     int firstArgStmtNumber = stoi(this->firstArgValue);
     string secondArgVarSynonym = this->secondArgValue;
+
     vector<pair<string, string>> result
             = pkb.getVariablesModifiedBy(firstArgStmtNumber, StmtType::STMT);
+
     return IntermediateTableFactory::buildIntermediateTable(
             WILDCARD_KEYWORD,
             secondArgVarSynonym,
@@ -43,6 +45,7 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerSynonym() {
 // Modifies (StmtNumber, VarIdentifier)
 IntermediateTable ModifiesAbstraction::evaluateIntegerIdent() {
     string stmtNumber = this->firstArgValue;
+
     if (pkb.isVariableModifiedBy(this->secondArgValue,
                                  stmtNumber)) {
         return IntermediateTableFactory::buildWildcardIntermediateTable();
@@ -53,8 +56,10 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerIdent() {
 // Modifies (StmtNumber, _)
 IntermediateTable ModifiesAbstraction::evaluateIntegerWildcard() {
     int firstArgStmtNumber = stoi(this->firstArgValue);
+
     vector<pair<string, string>> result
             = pkb.getVariablesModifiedBy(firstArgStmtNumber, StmtType::STMT);
+
     if (result.empty()) {
         return IntermediateTableFactory::buildEmptyIntermediateTable();
     }
@@ -68,13 +73,14 @@ IntermediateTable ModifiesAbstraction::evaluateWildcardSynonym() {
 
 // Modifies (_, VarIdentifier)
 IntermediateTable ModifiesAbstraction::evaluateWildcardIdent() {
-    string firstArgStmtSynonym = this->firstArgValue;
     StmtType firstArgStmtType = getFirstArgStmtType();
     string secondArgIdent = this->secondArgValue;
+
     vector<string> statementsModifyingVar =
             pkb.getStatementsModifying(secondArgIdent, firstArgStmtType);
+
     return IntermediateTableFactory::buildSingleColTable(
-            firstArgStmtSynonym,
+            WILDCARD_KEYWORD,
             statementsModifyingVar);
 }
 
@@ -87,8 +93,10 @@ IntermediateTable ModifiesAbstraction::handleSynonymOrWildcardArgs() {
     string firstArgStmtSynonym = this->firstArgValue;
     StmtType firstArgStmtType = getFirstArgStmtType();
     string secondArgVarSynonym = this->secondArgValue;
+
     vector<pair<string, string>> statementsModifiedVar =
             pkb.getAllModifiedVariables(firstArgStmtType);
+
     //! If any of the args are "_", the column will be ignored.
     return IntermediateTableFactory::buildIntermediateTable(
             firstArgStmtSynonym,

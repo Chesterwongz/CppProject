@@ -85,12 +85,15 @@ IntermediateTable ParentsAbstraction::handleBothArgsInteger() {
 IntermediateTable ParentsAbstraction::handleFirstArgInteger() {
     int firstArgStmtNumber = stoi(this->firstArgValue);
     StmtType secondStmtType = this->getSecondArgStmtType();
+    string secondStmtSynonym = this->secondArgValue;
+
     vector<pair<string, string>> results
             = pkb.getImmediateChildrenOf(firstArgStmtNumber, secondStmtType);
+
     // pass first col as wildcard so the table ignores integer column
     return IntermediateTableFactory::buildIntermediateTable(
             WILDCARD_KEYWORD,
-            this->secondArgValue,
+            secondStmtSynonym,
             results);
 }
 

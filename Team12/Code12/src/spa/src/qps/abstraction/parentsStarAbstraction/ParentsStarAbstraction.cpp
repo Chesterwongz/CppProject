@@ -76,7 +76,9 @@ IntermediateTable ParentsStarAbstraction::handleSynonymOrWildcardArgs() {
 IntermediateTable ParentsStarAbstraction::handleBothArgsInteger() {
     int firstArgStmtNumber = stoi(this->firstArgValue);
     int secondArgStmtNumber = stoi(this->secondArgValue);
+
     bool isValid = pkb.isParentStar(firstArgStmtNumber, secondArgStmtNumber);
+
     return isValid
            ? IntermediateTableFactory::buildWildcardIntermediateTable()
            : IntermediateTableFactory::buildEmptyIntermediateTable();
@@ -85,12 +87,15 @@ IntermediateTable ParentsStarAbstraction::handleBothArgsInteger() {
 IntermediateTable ParentsStarAbstraction::handleFirstArgInteger() {
     int firstArgStmtNumber = stoi(this->firstArgValue);
     StmtType secondArgStmtNumber = this->getSecondArgStmtType();
+    string secondStmtSynonym = this->secondArgValue;
+
     vector<pair<string, string>> results
             = pkb.getChildrenStarOf(firstArgStmtNumber, secondArgStmtNumber);
+
     // pass first col as wildcard so the table ignores integer column
     return IntermediateTableFactory::buildIntermediateTable(
             WILDCARD_KEYWORD,
-            this->secondArgValue,
+            secondStmtSynonym,
             results);
 }
 
@@ -98,8 +103,10 @@ IntermediateTable ParentsStarAbstraction::handleSecondArgInteger() {
     string firstArgStmtSynonym = this->firstArgValue;
     StmtType firstArgStmtType = this->getFirstArgStmtType();
     int secondArgStmtNumber = stoi(this->secondArgValue);
+
     vector<pair<string, string>> results
             = pkb.getParentStarOf(secondArgStmtNumber, firstArgStmtType);
+
     // pass second col as wildcard so the table ignores the integer column
     return IntermediateTableFactory::buildIntermediateTable(
             firstArgStmtSynonym,
