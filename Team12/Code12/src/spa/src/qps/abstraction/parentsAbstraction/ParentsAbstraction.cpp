@@ -74,19 +74,19 @@ IntermediateTable ParentsAbstraction::handleSynonymOrWildcardArgs() {
 }
 
 IntermediateTable ParentsAbstraction::handleBothArgsInteger() {
-    int firstArgInteger = stoi(this->firstArgValue);
-    int secondArgInteger = stoi(this->secondArgValue);
-    bool isValid = pkb.isParent(firstArgInteger, secondArgInteger);
+    int firstArgStmtNumber = stoi(this->firstArgValue);
+    int secondArgStmtNumber = stoi(this->secondArgValue);
+    bool isValid = pkb.isParent(firstArgStmtNumber, secondArgStmtNumber);
     return isValid
            ? IntermediateTableFactory::buildWildcardIntermediateTable()
            : IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
 IntermediateTable ParentsAbstraction::handleFirstArgInteger() {
-    int firstArgInteger = stoi(this->firstArgValue);
+    int firstArgStmtNumber = stoi(this->firstArgValue);
     StmtType secondStmtType = this->getSecondArgStmtType();
     vector<pair<string, string>> results
-            = pkb.getImmediateChildrenOf(firstArgInteger, secondStmtType);
+            = pkb.getImmediateChildrenOf(firstArgStmtNumber, secondStmtType);
     // pass first col as wildcard so the table ignores integer column
     return IntermediateTableFactory::buildIntermediateTable(
             WILDCARD_KEYWORD,
@@ -97,10 +97,10 @@ IntermediateTable ParentsAbstraction::handleFirstArgInteger() {
 IntermediateTable ParentsAbstraction::handleSecondArgInteger() {
     string firstArgStmtSynonym = this->firstArgValue;
     StmtType firstArgStmtType = this->getFirstArgStmtType();
-    int secondArgInteger = stoi(this->secondArgValue);
+    int secondArgStmtNumber = stoi(this->secondArgValue);
     vector<pair<string, string>> results;
 
-    pair<string, string> immediateParent = pkb.getImmediateParentOf(secondArgInteger, firstArgStmtType);
+    pair<string, string> immediateParent = pkb.getImmediateParentOf(secondArgStmtNumber, firstArgStmtType);
     if (immediateParent.first.empty() && immediateParent.second.empty()) {
         return IntermediateTableFactory::buildEmptyIntermediateTable();
     }

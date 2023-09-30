@@ -72,20 +72,20 @@ IntermediateTable FollowsStarAbstraction::handleSynonymOrWildcardArgs() {
 }
 
 IntermediateTable FollowsStarAbstraction::handleBothArgsInteger() {
-    int firstArgInteger = stoi(this->firstArgValue);
-    int secondArgInteger = stoi(this->secondArgValue);
-    bool isValid = pkb.isFollowsStar(firstArgInteger, secondArgInteger);
+    int firstStmtNumber = stoi(this->firstArgValue);
+    int secondStmtNumber = stoi(this->secondArgValue);
+    bool isValid = pkb.isFollowsStar(firstStmtNumber, secondStmtNumber);
     return isValid
            ? IntermediateTableFactory::buildWildcardIntermediateTable()
            : IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
 IntermediateTable FollowsStarAbstraction::handleFirstArgInteger() {
-    int firstArgInteger = stoi(this->firstArgValue);
+    int firstStmtNumber = stoi(this->firstArgValue);
     StmtType secondStmtType = this->getSecondArgStmtType();
 
     vector<pair<string, string>> followStarPairs
-            = pkb.getFollowsStar(firstArgInteger, secondStmtType);
+            = pkb.getFollowsStar(firstStmtNumber, secondStmtType);
     // pass first col as wildcard so the table ignores integer column
     return IntermediateTableFactory::buildIntermediateTable(
             WILDCARD_KEYWORD,
@@ -94,11 +94,11 @@ IntermediateTable FollowsStarAbstraction::handleFirstArgInteger() {
 }
 
 IntermediateTable FollowsStarAbstraction::handleSecondArgInteger() {
-    StmtType firstArgStmtType = this->getFirstArgStmtType();
-    int secondArgInteger = stoi(this->secondArgValue);
+    StmtType firstStmtType = this->getFirstArgStmtType();
+    int secondStmtNumber = stoi(this->secondArgValue);
 
     vector<pair<string, string>> followedStarPairs
-            = pkb.getFollowedStar(secondArgInteger, firstArgStmtType);
+            = pkb.getFollowedStar(secondStmtNumber, firstStmtType);
 
     // pass second col as wildcard so the table ignores integer column
     return IntermediateTableFactory::buildIntermediateTable(

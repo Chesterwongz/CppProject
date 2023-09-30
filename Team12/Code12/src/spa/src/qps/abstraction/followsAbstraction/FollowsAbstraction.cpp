@@ -72,19 +72,19 @@ IntermediateTable FollowsAbstraction::handleSynonymOrWildcardArgs() {
 }
 
 IntermediateTable FollowsAbstraction::handleBothArgsInteger() {
-    int firstArgInteger = stoi(this->firstArgValue);
-    int secondArgInteger = stoi(this->secondArgValue);
-    bool isValid = pkb.isFollows(firstArgInteger, secondArgInteger);
+    int firstStmtNumber = stoi(this->firstArgValue);
+    int secondStmtNumber = stoi(this->secondArgValue);
+    bool isValid = pkb.isFollows(firstStmtNumber, secondStmtNumber);
     return isValid
            ? IntermediateTableFactory::buildWildcardIntermediateTable()
            : IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
 IntermediateTable FollowsAbstraction::handleFirstArgInteger() {
-    int firstArgInteger = stoi(this->firstArgValue);
+    int firstStmtNumber = stoi(this->firstArgValue);
     StmtType secondStmtType = this->getSecondArgStmtType();
 
-    string followingStmt = pkb.getFollowing(firstArgInteger, secondStmtType);
+    string followingStmt = pkb.getFollowing(firstStmtNumber, secondStmtType);
     if (followingStmt != INVALID_STATEMENT_NUMBER) {
         return IntermediateTableFactory::buildIntermediateTable(this->secondArgValue, followingStmt);
     }
@@ -93,10 +93,10 @@ IntermediateTable FollowsAbstraction::handleFirstArgInteger() {
 }
 
 IntermediateTable FollowsAbstraction::handleSecondArgInteger() {
-    StmtType firstArgStmtType = this->getFirstArgStmtType();
-    int secondArgInteger = stoi(this->secondArgValue);
+    StmtType firstStmtType = this->getFirstArgStmtType();
+    int secondStmtNumber = stoi(this->secondArgValue);
 
-    string followedStmt = pkb.getFollowed(secondArgInteger, firstArgStmtType);
+    string followedStmt = pkb.getFollowed(secondStmtNumber, firstStmtType);
     if (followedStmt != INVALID_STATEMENT_NUMBER) {
         return IntermediateTableFactory::buildIntermediateTable(this->firstArgValue, followedStmt);
     }
