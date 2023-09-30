@@ -21,6 +21,7 @@ class DesignExtractor {
 private:
     std::vector<std::unique_ptr<Extractor>> extractors;
     Populator populator;
+    PKBWriter& pkbWriter;
 
 public:
     explicit DesignExtractor(PKBWriter& pkbWriter);

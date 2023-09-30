@@ -63,11 +63,12 @@ public:
     // Add an expression to storage
     virtual void setAssignPattern(const std::string& variableName, const std::string& rpn, int statementNumber);
 
+    void setIndirectCallsRelationship();
+
 private:
     PKBStorage& storage;
     void setUsesForCalls(const std::string &callerProc, const std::string &calleeProc);
     void setModifiesForCalls(const std::string &callerProc, const std::string &calleeProc);
     void setRelationshipsForIndirectCalls(const string &caller,
                                           const std::unordered_set<std::string> &visitedCallees);
-    void setIndirectCallsRelationship();
 };
