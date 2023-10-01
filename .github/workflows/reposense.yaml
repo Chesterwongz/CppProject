@@ -29,7 +29,7 @@ jobs:
           where RepoSense.jar
 
       - name: Run Reposense
-        run: java -jar RepoSense.jar -r ./target --view
+        run: java -jar RepoSense.jar -r ./target
 
       - name: Delete Unnecessary Files
         run: rm -r ./reposense-report/target*
