@@ -36,7 +36,9 @@ set<string> Query::evaluate() {
     if (currIntermediateTable.isTableWildcard()) {
         return returnAllPossibleQueriedSynonym();
     }
-
+// select a such that  claue1 clause2...
+// select a such that uses(1, "x")
+// select a such that uses(_, _)
     bool isColMissing = !currIntermediateTable.isColExists(this->synonymToQuery);
     bool isTableNonEmpty = currIntermediateTable.getRowCount() != 0;
     if (isColMissing && isTableNonEmpty) {

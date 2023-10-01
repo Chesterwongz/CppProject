@@ -75,6 +75,25 @@ TEST_CASE("IntermediateTableFactory - buildSingleColTable - wildcard") {
     REQUIRE(tableFromVectorsWithWildcard.isTableWildcard());
 }
 
+TEST_CASE("IntermediateTableFactory - buildIntermediateTable - singleton") {
+    IntermediateTable singletonTable = IntermediateTableFactory::buildIntermediateTable(
+            COL_NAME_3,
+            COL_SINGLETON);
+    REQUIRE(singletonTable.getData() == COL_SINGLETON_2D);
+    REQUIRE(singletonTable.isTableEmpty() == false);
+    REQUIRE(singletonTable.isTableEmptyAndNotWildcard() == false);
+    REQUIRE(singletonTable.isTableWildcard() == false);
+    REQUIRE(singletonTable.getData().size() == 1);
+    REQUIRE(singletonTable.getData().at(0).size() == 1);
+}
+
+TEST_CASE("IntermediateTableFactory - buildIntermediateTable - singleton wildcard") {
+    IntermediateTable tableFromVectorsWithWildcard = IntermediateTableFactory::buildIntermediateTable(
+            WILDCARD_KEYWORD,
+            COL_SINGLETON);
+    REQUIRE(tableFromVectorsWithWildcard.isTableWildcard());
+}
+
 TEST_CASE("IntermediateTableFactory - buildEmptyTable") {
     IntermediateTable emptyTable = IntermediateTableFactory::buildEmptyIntermediateTable();
     REQUIRE(emptyTable.isTableEmpty());
