@@ -176,7 +176,7 @@ public:
         return mockIsParentsStar;
     }
 
-    bool isVariableModifiedBy(const std::string& variableName, const std::string statementNumber) override {
+    bool isVariableModifiedBy(const std::string& variableName, const std::string& statementNumber) override {
         return mockIsVariableModifiedBy;
     }
 

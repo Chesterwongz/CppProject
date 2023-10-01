@@ -255,7 +255,7 @@ std::vector<std::pair<std::string, std::string>> PKBReader::getVariablesModified
     return result;
 }
 
-bool PKBReader::isVariableModifiedBy(const std::string& variableName, const std::string statementNumber) {
+bool PKBReader::isVariableModifiedBy(const std::string& variableName, const std::string& statementNumber) {
     std::vector<std::string> allStatementsModifying = getStatementsModifying(variableName, StmtType::STMT);
     return std::find(allStatementsModifying.begin(), allStatementsModifying.end(), statementNumber) != allStatementsModifying.end();
 }

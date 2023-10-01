@@ -93,7 +93,7 @@ public:
     virtual std::vector<std::pair<std::string, std::string>> getVariablesModifiedBy(int statementNumber, StmtType statementType);
 
     // check if Modifies(s, v) is true where s is statementNumber and v is the variable name
-    virtual bool isVariableModifiedBy(const std::string& variableName, const std::string statementNumber);
+    virtual bool isVariableModifiedBy(const std::string& variableName, const std::string& statementNumber);
 
     // return all s that satisfy Uses(s, v) where v is variableName and s is of same type as statementType
     virtual std::vector<std::string> getStatementsUsing(const std::string& variableName, StmtType statementType);
