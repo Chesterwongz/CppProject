@@ -83,9 +83,7 @@ void PKBWriter::setRelationshipsForIndirectCalls(
 
 void PKBWriter::setIndirectCallsRelationship() {
     const auto &callerToCalleeMap = storage.getCallsMap();
-    for (const auto &pair : callerToCalleeMap) {
-        std::string caller = pair.first;
-        std::unordered_set<std::string> directCallees = pair.second;
+    for (const auto &[caller, directCallees] : callerToCalleeMap) {
         std::unordered_set<std::string> visitedCallees;
         std::queue<std::string> toVisit;
         for (const auto &callee : directCallees) {
