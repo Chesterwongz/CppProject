@@ -40,7 +40,7 @@ IntermediateTable AssignEvaluator::buildResultTable(vector<string> pkbResult) {
 
 	if (isFirstArgSynonym) {
 		// need to add additional variable column to result
-		string varColName = firstArgValue;
+		const string& varColName = firstArgValue;
 
 		vector<pair<string, string>> lineVariablePairs = pkbReader.getAllModifiedVariables(StmtType::ASSIGN);
 
