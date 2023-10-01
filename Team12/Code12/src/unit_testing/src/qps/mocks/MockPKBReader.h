@@ -168,11 +168,11 @@ public:
         return mockIsParentsStar;
     }
 
-    bool isVariableModifiedBy(const std::string& variableName, const std::string statementNumber) override {
+    bool isVariableModifiedBy(const std::string& variableName, const std::string& statementNumber) override {
         return mockIsVariableModifiedBy;
     }
 
-    bool isVariableUsedBy(const std::string& variableName, const std::string statementNumber) override {
+    bool isVariableUsedBy(const std::string& variableName, const std::string& statementNumber) override {
         return mockIsVariableUsedBy;
     }
 };

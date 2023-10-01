@@ -9,7 +9,7 @@ public:
 protected:
     [[nodiscard]] std::unique_ptr<AbstractParser> getNextParser() const override;
 
-    [[nodiscard]] TokenType getExpectedTokenType() const override;
+    [[nodiscard]] SpTokenType getExpectedTokenType() const override;
 
     [[nodiscard]] TNodeType getExpectedTNodeType() const override;
 };

@@ -7,8 +7,8 @@
 
 TEST_CASE("PKBReader Tests") {
     PKBStorage storage;
-    PKBReader reader(storage);
     PKBWriter writer(storage);
+    PKBReader reader(storage);
 
     writer.setVariable("x");
     writer.setVariable("y");
