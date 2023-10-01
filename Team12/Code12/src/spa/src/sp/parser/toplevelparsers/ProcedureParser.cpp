@@ -11,10 +11,10 @@
  * return node
  */
 std::optional<std::unique_ptr<TNode>> ProcedureParser::parse() {
-    if (!context->tryEatExpected(TokenType::NAME, keyword::kProcedure).has_value())
+    if (!context->tryEatExpected(SpTokenType::NAME, keyword::kProcedure).has_value())
         return std::nullopt;
 
-    std::string procName = context->forceEatExpected(TokenType::NAME);
+    std::string procName = context->forceEatExpected(SpTokenType::NAME);
 
     std::optional<std::unique_ptr<TNode>> stmtLstNodeOpt = StmtLstParser(context).parse();
     requireTNodeOpt(TNodeType::TNODE_PROCEDURE)(stmtLstNodeOpt);
