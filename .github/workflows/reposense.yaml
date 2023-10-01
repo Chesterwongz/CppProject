@@ -6,6 +6,9 @@ on:
 jobs:
   reposense:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: true
     steps:
       - name: Install JRE
         run: sudo apt install -y default-jre wget git
@@ -24,7 +27,7 @@ jobs:
           ls .
           java --version
           where RepoSense.jar
-          
+
       - name: Run Reposense
         run: java -jar RepoSense.jar -r ./target --view
 
