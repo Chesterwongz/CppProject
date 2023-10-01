@@ -79,7 +79,7 @@ TEST_CASE("invalid name") {
     string query = "stmt sa&;";
     PQLTokenizer tokenizer(query);
 
-    REQUIRE_THROWS_WITH(tokenizer.tokenize(), QPS_INVALID_QUERY_INAVLID_NAME);
+    REQUIRE_THROWS_WITH(tokenizer.tokenize(), QPS_INVALID_QUERY_INVALID_NAME);
 }
 
 TEST_CASE("query with literals and many whitespaces") {
@@ -112,5 +112,5 @@ TEST_CASE("Invalid integer") {
     string integer = "4d500";
     PQLTokenizer tokenizer(integer);
 
-    REQUIRE_THROWS_WITH(tokenizer.tokenize(), QPS_INVALID_QUERY_INAVLID_INTEGER);
+    REQUIRE_THROWS_WITH(tokenizer.tokenize(), QPS_INVALID_QUERY_INVALID_INTEGER);
 }

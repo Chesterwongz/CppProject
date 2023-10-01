@@ -1,6 +1,7 @@
 #include "Query.h"
 #include "../clause/utils/ClauseConstants.h"
 #include "../intermediateTable/IntermediateTableFactory.h"
+#include "qps/exceptions/QPSInvalidQueryException.h"
 
 
 Query::Query(PKBReader &pkb) : pkb(pkb) {}
@@ -15,13 +16,25 @@ void Query::addClause(unique_ptr<Clause> clause) {
 }
 
 void Query::setSynonymToQuery(const string& selectSynonym) {
-    this->synonymToQuery = selectSynonym;
+    this->synonymsToQuery.push_back(selectSynonym);
+}
+
+void Query::setSynonymToQuery(vector<string>& selectSynonyms) {
+    for (auto &synonym : selectSynonyms) {
+        this->synonymsToQuery.push_back(synonym);
+    }
 }
 
 set<string> Query::evaluate() {
-    // for "select *" requests without any clauses
+    // todo 1: query optimisation
+    // if at least 1 of selected synonyms exist in table or if table is wildcard, join and return
+    // else if cols not exist and not empty, return all select columns
+    // else return empty
+
+    // todo 2: abstract out evaluation to evaluator
+
     if (clauses.empty()) {
-        return returnAllPossibleQueriedSynonym();
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_NO_CLAUSES);;
     }
 
     // iteratively join results of each clause
@@ -36,38 +49,7 @@ set<string> Query::evaluate() {
         }
     }
 
-    // if table evaluates to TRUE (i.e., wildcard),
-    // same as "select *" requests without any clauses
-    if (currIntermediateTable.isTableWildcard()) {
-        return returnAllPossibleQueriedSynonym();
-    }
-    bool isColMissing = !currIntermediateTable.isColExists(this->synonymToQuery);
-    bool isTableNonEmpty = currIntermediateTable.getRowCount() != 0;
-    if (isColMissing && isTableNonEmpty) {
-        return returnAllPossibleQueriedSynonym();
-    }
-
-    // get result vector
-    vector<string> resultVector = currIntermediateTable.getSingleCol(this->synonymToQuery);
-    return {resultVector.begin(), resultVector.end()};
-
-}
-
-// For case where there are no clauses (e.g. Select a).
-// Returns all possible results for queried synonym (a).
-set<string> Query::returnAllPossibleQueriedSynonym() {
-    Entity entity = context->getTokenEntity(this->synonymToQuery);
-    if (entity == PROCEDURE_ENTITY) {
-        return pkb.getAllProcedures();
-    }
-    if (entity == VARIABLE_ENTITY) {
-        return pkb.getAllVariables();
-    }
-    if (entity == CONSTANT_ENTITY) {
-        return pkb.getAllConstants();
-    }
-    StmtType stmtType = StmtEntityToStatementType.at(entity);
-    return pkb.getStatement(stmtType);
+    return currIntermediateTable.getColumns(synonymsToQuery);
 }
 
 bool Query::operator==(const Query &other) {

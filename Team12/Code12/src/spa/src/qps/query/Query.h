@@ -18,16 +18,15 @@ private:
     PKBReader& pkb;
     unique_ptr<Context> context;
     ClauseList clauses = {};
-    // e.g. `Select a such that ...`
-    //   -> `a` is the synonymToQuery
-    string synonymToQuery;
+    vector<string> synonymsToQuery = {};
 
 public:
     explicit Query(PKBReader &pkb);
     void addContext(unique_ptr<Context> contextToAdd);
     void addClause(unique_ptr<Clause> clause);
     void setSynonymToQuery(const string& selectSynonym);
-    set<string> returnAllPossibleQueriedSynonym();
+    void setSynonymToQuery(vector<string>& selectSynonyms);
+
     set<string> evaluate();
     bool operator==(const Query &other);
 };

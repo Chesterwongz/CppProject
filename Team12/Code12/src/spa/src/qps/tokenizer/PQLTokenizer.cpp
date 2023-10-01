@@ -90,7 +90,7 @@ void PQLTokenizer::processName() {
         currPos++;
     }
     if (!QPSStringUtils::isSynonym(buffer)) {
-        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INAVLID_NAME);
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INVALID_NAME);
     }
     if (isProcessingLiteral) numberOfTokensInLiteral++;
     flushBuffer(PQL_NAME_TOKEN);
@@ -107,7 +107,7 @@ void PQLTokenizer::processInt() {
         currPos++;
     }
     if (!QPSStringUtils::isInteger(buffer)) {
-        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INAVLID_INTEGER);
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INVALID_INTEGER);
     }
     if (isProcessingLiteral) numberOfTokensInLiteral++;
     flushBuffer(PQL_INTEGER_TOKEN);
