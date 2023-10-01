@@ -4,16 +4,19 @@
 #include <memory>
 
 #include "pkb/facade/PKBStorage.h"
-#include "pkb/storage/DesignEntitiesStorage.h"
-#include "pkb/storage/FollowsStorage.h"
-#include "pkb/storage/ModifiesStorage.h"
-#include "pkb/storage/ParentStorage.h"
-#include "pkb/storage/StatementStorage.h"
-#include "pkb/storage/UsesStorage.h"
+#include "pkb/interfaces/writers/IFollowsWriter.h"
+#include "pkb/interfaces/writers/IParentWriter.h"
+#include "pkb/interfaces/writers/IModifiesWriter.h"
+#include "pkb/interfaces/writers/IUsesWriter.h"
+#include "pkb/interfaces/writers/IStatementWriter.h"
+#include "pkb/interfaces/writers/IDesignEntitiesWriter.h"
+#include "pkb/interfaces/writers/IPatternWriter.h"
 
 using std::unique_ptr;
 
-class PKBWriter {
+class PKBWriter : public virtual IDesignEntitiesWriter, public virtual IFollowsWriter,
+    public virtual IParentWriter, public virtual IModifiesWriter, 
+    public virtual IUsesWriter, public virtual IStatementWriter, public virtual IPatternWriter {
 public:
     explicit PKBWriter(PKBStorage& storage) : storage(storage) {};
     virtual ~PKBWriter() = default;
