@@ -22,12 +22,6 @@ jobs:
       - name: Download reposense
         run: wget -O RepoSense.jar https://github.com/reposense/RepoSense/releases/download/v2.5/RepoSense.jar
 
-      - name: Checkpoint
-        run: |
-          ls .
-          java --version
-          where RepoSense.jar
-
       - name: Run Reposense
         run: java -jar RepoSense.jar -r ./target
 
