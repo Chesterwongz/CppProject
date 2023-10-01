@@ -1,6 +1,6 @@
 #pragma once
 #include <set>
-#include "../../../common/StmtTypes.h"
+#include "common/StmtTypes.h"
 
 class IStatementReader {
 public:

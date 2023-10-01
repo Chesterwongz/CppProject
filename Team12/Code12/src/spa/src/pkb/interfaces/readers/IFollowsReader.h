@@ -3,7 +3,7 @@
 #include <set>
 #include <vector>
 
-#include "../../../common/StmtTypes.h"
+#include "common/StmtTypes.h"
 
 class IFollowsReader {
 public:
