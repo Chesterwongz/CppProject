@@ -3,10 +3,11 @@
 #include <utility>
 #include <string>
 #include <vector>
+#include <set>
 #include <unordered_map>
 #include <unordered_set>
 
-using std::pair, std::unordered_map, std::string, std::vector;
+using std::pair, std::unordered_map, std::string, std::vector, std::set;
 class IntermediateTable {
 private:
     unordered_map<string, int> colNameToIndexMap = {};
@@ -66,16 +67,11 @@ public:
     vector<vector<string>> getData();
 
     /**
-     * @param colName
-     * @return data in specified column as vector
-     */
-    vector<string> getSingleCol(const string& colName);
-
-    /**
      * @param colNameVector vector of column names to retrieve
-     * @return vector of columns, with each column as a vector
+     * @return set of tuples string. elements in tuple delimited by space.
+     *         e.g. { "a b c", "a b d", ... }
      */
-    vector<vector<string>> getCol(const vector<string>& colNameVector);
+    set<string> getColumns(const vector<string>& colNameVector);
 
 
     /**

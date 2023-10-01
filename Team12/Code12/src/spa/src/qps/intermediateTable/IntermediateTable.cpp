@@ -58,34 +58,27 @@ vector<vector<string>> IntermediateTable::getData() {
     return this->tableData;
 }
 
-vector<string> IntermediateTable::getSingleCol(const string &colName) {
-    if (!isColExists(colName)) {
-       return {};
-    }
-    int colIndex = this->colNameToIndexMap.at(colName);
-    vector<string> res = {};
-    res.reserve(this->getRowCount());
-    for (auto &row : this->tableData) {
-        res.push_back(row.at(colIndex));
-    }
-    return res;
-}
-
-vector<vector<string>> IntermediateTable::getCol(
+set<string> IntermediateTable::getColumns(
         const vector<string> &colNameVector) {
-    vector<vector<string>> res = {};
-    res.reserve(this->getRowCount());
-    for (int rowIndex = 0; rowIndex < this->getRowCount(); rowIndex++) {
-        vector<string> row = {};
-        row.reserve(colNameVector.size());
-        for (const string &colName : colNameVector) {
-            if (this->colNameToIndexMap.find(colName) == this->colNameToIndexMap.end()) {
-                throw std::runtime_error("Non-existent column name");
-            }
-            int colIndex = this->colNameToIndexMap.at((colName));
-            row.push_back(this->tableData.at(rowIndex).at(colIndex));
+    if (colNameVector.empty()) {
+        return {};
+    }
+
+    for (const string &colName : colNameVector) {
+        // return empty if any column requested does not exist
+        if (!this->isColExists(colName)) {
+            return {};
         }
-        res.push_back(row);
+    }
+
+    set<string> res = {};
+    for (int rowIndex = 0; rowIndex < this->getRowCount(); rowIndex++) {
+        string row = "";
+        for (const string &colName : colNameVector) {
+            int colIndex = this->colNameToIndexMap.at(colName);
+            row += (row.empty() ? "" : " ") + this->tableData.at(rowIndex).at(colIndex);
+        }
+        res.insert(row);
     }
     return res;
 }
@@ -152,7 +145,10 @@ IntermediateTable IntermediateTable::join(const IntermediateTable& intermediateT
 
 void IntermediateTable::printTable() {
     std::cout << "table: " << std::endl;
-
+    if (this->isWildcard || this->isEmpty) {
+        std::cout << (isWildcard ? "WILDCARD" : "EMPTY") << std::endl;
+        return;
+    }
     string colNamesToPrint;
     for (auto &colName : this->getColNames()) {
         colNamesToPrint += colName + " | ";
