@@ -11,7 +11,7 @@ jobs:
         run: sudo apt install -y default-jre wget git
 
       - name: Checkout source repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           path: target
@@ -20,7 +20,7 @@ jobs:
         run: wget -O RepoSense.jar https://github.com/reposense/RepoSense/releases/download/v2.5/RepoSense.jar
 
       - name: Run Reposense
-        run: java -jar RepoSense.jar -r ./target
+        run: java -jar RepoSense.jar -r ./target --view
 
       - name: Delete Unnecessary Files
         run: rm -r ./reposense-report/target*
