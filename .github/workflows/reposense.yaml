@@ -1,28 +1,33 @@
-name: RepoSense Action
-
+name: Reposense
 on:
-  # For active deployment on push to master branch
-#  push:
-#    branches:
-#      - master
   workflow_dispatch:
   schedule:
     - cron:  '0 0 * * *'
-
-# For scheduled deployment with Cron Jobs.
-## Examples of cron schedule expressions:
-### '0 * * * *': hourly
-### '0 0 * * *': daily
-### '0 0 1 * *': monthly
-
 jobs:
-  deploy:
+  reposense:
     runs-on: ubuntu-latest
     steps:
-      - uses: reposense/reposense-action@v1.1.0
+      - name: Install JRE
+        run: sudo apt install -y default-jre wget git
+
+      - name: Checkout source repo
+        uses: actions/checkout@v4
         with:
-          token: ${{ secrets.SURGE_TOKEN  }} # Required
-          version: 'release' # Optional | Default: release | Other: master/tag v1.6.1/etc
-          service: 'surge' # Optional | Default: gh-pages | Other: surge
-          domain: '23s1-cp-spa-team-12.surge.sh' # Optional (Required if service = surge) | Default: '' | Other: '<subDomain>.surge.sh'
-          cliArgs: '--since d1'
+          fetch-depth: 0
+          path: target
+
+      - name: Download reposense
+        run: wget -O RepoSense.jar https://github.com/reposense/RepoSense/releases/download/v2.5/RepoSense.jar
+
+      - name: Run Reposense
+        run: java -jar RepoSense.jar -r ./target --view
+
+      - name: Delete Unnecessary Files
+        run: rm -r ./reposense-report/target*
+
+      - name: Upload Reposense Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: reposense-report
+          path: ./reposense-report/*
+          retention-days: 1
