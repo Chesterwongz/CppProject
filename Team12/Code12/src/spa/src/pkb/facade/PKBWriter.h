@@ -4,17 +4,19 @@
 #include <memory>
 
 #include "pkb/facade/PKBStorage.h"
-#include "../interfaces/writers/IFollowsWriter.h"
-#include "../interfaces/writers/IParentWriter.h"
-#include "../interfaces/writers/IModifiesWriter.h"
-#include "../interfaces/writers/IUsesWriter.h"
-#include "../interfaces/writers/IStatementWriter.h"
-#include "../interfaces/writers/IDesignEntitiesWriter.h"
-#include "../interfaces/writers/IPatternWriter.h"
+#include "pkb/interfaces/writers/IFollowsWriter.h"
+#include "pkb/interfaces/writers/IParentWriter.h"
+#include "pkb/interfaces/writers/IModifiesWriter.h"
+#include "pkb/interfaces/writers/IUsesWriter.h"
+#include "pkb/interfaces/writers/IStatementWriter.h"
+#include "pkb/interfaces/writers/IDesignEntitiesWriter.h"
+#include "pkb/interfaces/writers/IPatternWriter.h"
 
 using std::unique_ptr;
 
-class PKBWriter : public virtual IFollowsWriter, public virtual IParentWriter, public virtual IModifiesWriter, public virtual IUsesWriter, public virtual IStatementWriter, public virtual IDesignEntitiesWriter, public virtual IPatternWriter {
+class PKBWriter : public virtual IDesignEntitiesWriter, public virtual IFollowsWriter,
+    public virtual IParentWriter, public virtual IModifiesWriter, 
+    public virtual IUsesWriter, public virtual IStatementWriter, public virtual IPatternWriter {
 public:
     explicit PKBWriter(PKBStorage& storage) : storage(storage) {};
     virtual ~PKBWriter() = default;

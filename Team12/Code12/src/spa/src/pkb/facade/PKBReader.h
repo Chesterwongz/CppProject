@@ -8,13 +8,13 @@
 
 #include "pkb/facade/PKBStorage.h"
 
-#include "../interfaces/readers/IDesignEntitiesReader.h"
-#include "../interfaces/readers/IFollowsReader.h"
-#include "../interfaces/readers/IParentReader.h"
-#include "../interfaces/readers/IPatternReader.h"
-#include "../interfaces/readers/IUsesReader.h"
-#include "../interfaces/readers/IModifiesReader.h"
-#include "../interfaces/readers/IStatementReader.h"
+#include "pkb/interfaces/readers/IDesignEntitiesReader.h"
+#include "pkb/interfaces/readers/IFollowsReader.h"
+#include "pkb/interfaces/readers/IParentReader.h"
+#include "pkb/interfaces/readers/IPatternReader.h"
+#include "pkb/interfaces/readers/IUsesReader.h"
+#include "pkb/interfaces/readers/IModifiesReader.h"
+#include "pkb/interfaces/readers/IStatementReader.h"
 
 class PKBReader : public virtual IDesignEntitiesReader, public virtual IFollowsReader,
     public virtual IParentReader, public virtual IPatternReader, 
@@ -102,7 +102,7 @@ public:
     virtual std::vector<std::pair<std::string, std::string>> getVariablesUsedBy(int statementNumber, StmtType statementType);
 
     // check if Used(s, v) is true where s is statementNumber and v is the variable name
-    virtual bool isVariableUsedBy(const std::string& variableName, const std::string statementNumber);
+    virtual bool isVariableUsedBy(const std::string& variableName, const std::string& statementNumber);
 
     // return all pairs (s, v) that satisfy Modifies (s, v) where s is of a particular type
     virtual std::vector<std::pair<std::string, std::string>> getAllModifiedVariables(StmtType statementType);

@@ -180,7 +180,7 @@ public:
         return mockIsVariableModifiedBy;
     }
 
-    bool isVariableUsedBy(const std::string& variableName, const std::string statementNumber) override {
+    bool isVariableUsedBy(const std::string& variableName, const std::string& statementNumber) override {
         return mockIsVariableUsedBy;
     }
 };
