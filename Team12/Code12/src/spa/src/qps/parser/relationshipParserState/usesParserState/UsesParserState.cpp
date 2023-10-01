@@ -8,7 +8,7 @@
 PredictiveMap UsesParserState::predictiveMap = {
         { PQL_NULL_TOKEN, { PQL_USES_TOKEN } },
         { PQL_USES_TOKEN, { PQL_OPEN_BRACKET_TOKEN } },
-        { PQL_OPEN_BRACKET_TOKEN, { PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN,
+        { PQL_OPEN_BRACKET_TOKEN, { PQL_SYNONYM_TOKEN,
                                     PQL_LITERAL_REF_TOKEN, PQL_INTEGER_TOKEN} },
         { PQL_COMMA_TOKEN, { PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN,
                             PQL_LITERAL_REF_TOKEN } },
@@ -60,6 +60,7 @@ void UsesParserState::handleToken() {
                 break;
             case PQL_SYNONYM_TOKEN:
                 parserContext.checkValidSynonym(curr.getValue());
+                checkValidSecondArg(curr);
                 arguments.push_back(std::move(ArgumentFactory::createSynonymArgument(curr.getValue())));
                 break;
             case PQL_WILDCARD_TOKEN:
@@ -82,4 +83,13 @@ void UsesParserState::handleToken() {
     }
     // safety barrier for premature exit
     checkSafeExit(maxNumberOfArgs, arguments.size());
+}
+
+void UsesParserState::checkValidSecondArg(PQLToken(& curr)) {
+    if (arguments.size() == 0) return;
+
+    auto entity = parserContext.getSynonymType(curr.getValue());
+    if (entity != VARIABLE_ENTITY) {
+        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCORRECT_ARGUMENT);
+    }
 }

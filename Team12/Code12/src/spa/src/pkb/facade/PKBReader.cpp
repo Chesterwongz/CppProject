@@ -255,7 +255,7 @@ std::vector<std::pair<std::string, std::string>> PKBReader::getVariablesModified
     return result;
 }
 
-bool PKBReader::isVariableModifiedBy(const std::string& variableName, const std::string statementNumber) {
+bool PKBReader::isVariableModifiedBy(const std::string& variableName, const std::string& statementNumber) {
     std::vector<std::string> allStatementsModifying = getStatementsModifying(variableName, StmtType::STMT);
     return std::find(allStatementsModifying.begin(), allStatementsModifying.end(), statementNumber) != allStatementsModifying.end();
 }
@@ -290,7 +290,7 @@ std::vector<std::pair<std::string, std::string>> PKBReader::getVariablesUsedBy(i
     return result;
 }
 
-bool PKBReader::isVariableUsedBy(const std::string& variableName, const std::string statementNumber) {
+bool PKBReader::isVariableUsedBy(const std::string& variableName, const std::string& statementNumber) {
     std::vector<std::string> allStatementsUsing = getStatementsUsing(variableName, StmtType::STMT);
     return std::find(allStatementsUsing.begin(), allStatementsUsing.end(), statementNumber) != allStatementsUsing.end();
 }

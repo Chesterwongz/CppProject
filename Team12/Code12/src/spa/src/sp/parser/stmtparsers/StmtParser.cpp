@@ -16,10 +16,10 @@
  * else: return NULL
  */
 std::optional<std::unique_ptr<TNode>> StmtParser::parse() {
-    if (context->isExpected(TokenType::DELIM, delim::kCloseCurlyString))
+    if (context->isExpected(SpTokenType::DELIM, delim::kCloseCurlyString))
         return std::nullopt; // End of stmt block
 
-    std::string keyword = context->forceEatExpected(TokenType::NAME);
+    std::string keyword = context->forceEatExpected(SpTokenType::NAME);
     context->incrementLineNum();
 
     std::unique_ptr<AbstractParser> parser = StmtParserFactory::makeParser(keyword, context);

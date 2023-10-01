@@ -7,16 +7,22 @@
 #include <set>
 
 #include "pkb/facade/PKBStorage.h"
-#include "pkb/storage/DesignEntitiesStorage.h"
-#include "pkb/storage/FollowsStorage.h"
-#include "pkb/storage/ModifiesStorage.h"
-#include "pkb/storage/ParentStorage.h"
-#include "pkb/storage/StatementStorage.h"
-#include "pkb/storage/UsesStorage.h"
 
-class PKBReader {
+#include "pkb/interfaces/readers/IDesignEntitiesReader.h"
+#include "pkb/interfaces/readers/IFollowsReader.h"
+#include "pkb/interfaces/readers/IParentReader.h"
+#include "pkb/interfaces/readers/IPatternReader.h"
+#include "pkb/interfaces/readers/IUsesReader.h"
+#include "pkb/interfaces/readers/IModifiesReader.h"
+#include "pkb/interfaces/readers/IStatementReader.h"
+
+class PKBReader : public virtual IDesignEntitiesReader, public virtual IFollowsReader,
+    public virtual IParentReader, public virtual IPatternReader, 
+    public virtual IUsesReader, public virtual IModifiesReader, public virtual IStatementReader {
+
 public:
     explicit PKBReader(PKBStorage& storage) : storage(storage) {};
+    virtual ~PKBReader() = default;
 
     // return the names of all variables in the program
     virtual std::set<std::string> getAllVariables();
@@ -87,7 +93,7 @@ public:
     virtual std::vector<std::pair<std::string, std::string>> getVariablesModifiedBy(int statementNumber, StmtType statementType);
 
     // check if Modifies(s, v) is true where s is statementNumber and v is the variable name
-    virtual bool isVariableModifiedBy(const std::string& variableName, const std::string statementNumber);
+    virtual bool isVariableModifiedBy(const std::string& variableName, const std::string& statementNumber);
 
     // return all s that satisfy Uses(s, v) where v is variableName and s is of same type as statementType
     virtual std::vector<std::string> getStatementsUsing(const std::string& variableName, StmtType statementType);
@@ -96,7 +102,7 @@ public:
     virtual std::vector<std::pair<std::string, std::string>> getVariablesUsedBy(int statementNumber, StmtType statementType);
 
     // check if Used(s, v) is true where s is statementNumber and v is the variable name
-    virtual bool isVariableUsedBy(const std::string& variableName, const std::string statementNumber);
+    virtual bool isVariableUsedBy(const std::string& variableName, const std::string& statementNumber);
 
     // return all pairs (s, v) that satisfy Modifies (s, v) where s is of a particular type
     virtual std::vector<std::pair<std::string, std::string>> getAllModifiedVariables(StmtType statementType);
