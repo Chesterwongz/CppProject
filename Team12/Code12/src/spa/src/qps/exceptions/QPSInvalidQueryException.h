@@ -18,6 +18,7 @@ const char QPS_INVALID_QUERY_INVALID_PATTERN_SYNONYM[] = "Invalid pattern synony
 const char QPS_INVALID_QUERY_INVALID_SELECT_SYNONYM[] = "Synonym you are selecting does not exist";
 const char QPS_INVALID_QUERY_INCOMPLETE_PARTIAL_MATCH_PATTERN[] = "Your partial match should end and start with a wildcard";
 const char QPS_INVALID_QUERY_MISSING_ARGUMENTS[] = "Your clause is incomplete, you might have missing arguments";
+const char QPS_INVALID_QUERY_INCORRECT_ARGUMENT[] = "Argument type is incorrect for Such That clause";
 
 class QPSInvalidQueryException : public QPSException {
 public:

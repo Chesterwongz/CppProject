@@ -36,3 +36,13 @@ unordered_set<PQLTokenType> delimiterTokens = {
         PQL_WILDCARD_TOKEN,
         PQL_OPERATOR_TOKEN
 };
+
+unordered_set<string> stmtEntities = {
+        STMT_ENTITY,
+        READ_ENTITY,
+        PRINT_ENTITY,
+        ASSIGN_ENTITY,
+        CALL_ENTITY,
+        WHILE_ENTITY,
+        IF_ENTITY
+};

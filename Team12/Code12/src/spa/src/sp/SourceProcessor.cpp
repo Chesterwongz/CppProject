@@ -13,7 +13,6 @@ void SourceProcessor::processContent(const std::string& fileContent, PKBWriter &
         throw SpException("Failed to parse input");
     }
     TNode& root = *abstractSyntaxTree.value();
-    SemanticValidator semanticValidator;
     semanticValidator.validate(root);
     DesignExtractor designExtractor(pkbWriter);
     designExtractor.extract(root);

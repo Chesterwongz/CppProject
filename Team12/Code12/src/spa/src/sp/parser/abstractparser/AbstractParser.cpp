@@ -10,14 +10,14 @@ AbstractParser::requireTNodeOpt(TNodeType nodeType) {
 
 std::optional<std::unique_ptr<TNode>> AbstractParser::parseWithBrackets() {
     context->saveContext();
-    if (!context->tryEatExpected(TokenType::DELIM, delim::kOpenBracketString).has_value()) {
+    if (!context->tryEatExpected(SpTokenType::DELIM, delim::kOpenBracketString).has_value()) {
         context->loadPrevSavedContext();
         return std::nullopt;
     }
 
     std::optional<std::unique_ptr<TNode>> nodeOpt = parse();
 
-    if (!nodeOpt.has_value() || !context->tryEatExpected(TokenType::DELIM, delim::kCloseBracketString).has_value()) {
+    if (!nodeOpt.has_value() || !context->tryEatExpected(SpTokenType::DELIM, delim::kCloseBracketString).has_value()) {
         context->loadPrevSavedContext();
         return std::nullopt;
     }
