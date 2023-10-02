@@ -20,7 +20,6 @@ unique_ptr<AbstractionParams> createMockAbstractionParams(
                     mockContext,
                     abstraction,
                     firstArgument,
-                    secondArgument,
-                    isTransitive);
+                    secondArgument);
     return abstractionParams;
 }

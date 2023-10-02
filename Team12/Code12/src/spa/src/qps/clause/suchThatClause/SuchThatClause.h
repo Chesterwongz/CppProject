@@ -18,6 +18,11 @@ private:
 public:
     explicit SuchThatClause(
             Abstraction relationship,
+            unique_ptr<IArgument> firstArg,
+            unique_ptr<IArgument> secondArg);
+    // todo: remove after integration
+    explicit SuchThatClause(
+            Abstraction relationship,
             unique_ptr<AbstractArgument> firstArg,
             unique_ptr<AbstractArgument> secondArg,
             bool isTransitive);

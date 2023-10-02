@@ -21,14 +21,15 @@ public:
     string mockFollowing;
     string mockFollowed;
     vector<pair<string, string>> mockFollowsPairs;
-    vector<pair<string, string>> mockFollowsStarPairs;
+    vector<pair<string, string>> mockFollowsStar;
+    vector<pair<string, string>> mockFollowedStar;
     vector<pair<string, string>> mockFollowedPairs;
-    vector<pair<string, string>> mockFollowedStarPairs;
+    vector<pair<string, string>> mockFollowsStarPairs;
     vector<pair<string, string>> mockImmediateChildrenOf;
     pair<string, string> mockImmediateParentOf;
     vector<pair<string, string>> mockParentChildPairs;
     vector<pair<string, string>> mockChildrenStar;
-    vector<pair<string, string>> mockParentStar;
+    vector<pair<string, string>> mockParentStarOf;
     vector<pair<string, string>> mockParentChildStarPairs;
     vector<string> mockStatementsModifying;
     vector<pair<string, string>> mockVariablesModifiedBy;
@@ -36,12 +37,12 @@ public:
     vector<pair<string, string>> mockVariablesUsedBy;
     vector<pair<string, string>> mockAllModifiedVariables;
     vector<pair<string, string>> mockAllUsedVariables;
-    vector<string> mockExactAssignPatternStmts;
-    vector<string> mockPartialAssignPatternStmts;
+    vector<string> mockExactAssignPattern;
+    vector<string> mockPartialAssignPattern;
     bool mockIsFollowsStar;
-    bool mockIsParentsStar;
+    bool mockIsParentStar;
     bool mockIsFollows;
-    bool mockIsParents;
+    bool mockIsParent;
     bool mockIsVariableModifiedBy;
     bool mockIsVariableUsedBy;
 
@@ -76,15 +77,15 @@ public:
     }
 
     vector<pair<string, string>> getFollowsStar(int statementNumber, StmtType statementType) override {
-        return mockFollowsStarPairs;
+        return mockFollowsStar;
     }
 
     vector<pair<string, string>> getFollowedStar(int statementNumber, StmtType statementType) override {
-        return mockFollowedPairs;
+        return mockFollowedStar;
     }
 
     vector<pair<string, string>> getFollowsStarPairs(StmtType statementType1, StmtType statementType2) override {
-        return mockFollowedStarPairs;
+        return mockFollowsStarPairs;
     }
 
     vector<pair<string, string>> getImmediateChildrenOf(int statementNumber, StmtType statementType) override {
@@ -104,7 +105,7 @@ public:
     }
 
     vector<pair<string, string>> getParentStarOf(int statementNumber, StmtType statementType) override {
-        return mockParentStar;
+        return mockParentStarOf;
     }
 
     vector<pair<string, string>> getParentChildStarPairs(StmtType parentType, StmtType childType) override {
@@ -136,19 +137,19 @@ public:
     }
 
     vector<string> getExactAssignPattern(const string& variableName, const string& rpn, bool isSynonym) override {
-        return mockExactAssignPatternStmts;
+        return mockExactAssignPattern;
     }
 
     vector<string> getPartialAssignPattern(const string& variableName, const string& rpn, bool isSynonym) override {
-        return mockPartialAssignPatternStmts;
+        return mockPartialAssignPattern;
     }
 
     void resetMockExactAssignPatternStmts() {
-        this->mockExactAssignPatternStmts = {};
+        this->mockExactAssignPattern = {};
     }
 
     void resetMockPartialAssignPatternStmts() {
-        this->mockPartialAssignPatternStmts = {};
+        this->mockPartialAssignPattern = {};
     }
 
 
@@ -161,11 +162,11 @@ public:
     }
 
     bool isParent(int statementNumber, int followingStatement) override {
-        return mockIsParents;
+        return mockIsParent;
     }
 
     bool isParentStar(int statementNumber, int followingStatement) override {
-        return mockIsParentsStar;
+        return mockIsParentStar;
     }
 
     bool isVariableModifiedBy(const std::string& variableName, const std::string& statementNumber) override {
