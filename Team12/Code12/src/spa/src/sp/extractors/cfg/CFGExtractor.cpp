@@ -48,7 +48,7 @@ void CFGExtractor::visitRead(const ReadNode& node) {
 }
 
 void CFGExtractor::visitIf(const IfNode& node) {
-    processStmt(node);
+    addEdgesForCurrLines(node.getLineNum());
     stmtListStates.emplace_back(StmtListState{node.getLineNum(), true});
 }
 
