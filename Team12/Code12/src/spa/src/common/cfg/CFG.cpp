@@ -11,14 +11,3 @@ void CFG::addEdge(int from, int to) {
 bool CFG::operator==(const CFG &other) const {
     return adjList == other.adjList;
 }
-
-void CFG::printAdjList() {
-    for (const auto &[from, toLines] : adjList) {
-        std::cout << from << ": ";
-        for (const auto &to : toLines) {
-            std::cout << to << ", ";
-        }
-        std::cout << std::endl;
-    }
-}
-

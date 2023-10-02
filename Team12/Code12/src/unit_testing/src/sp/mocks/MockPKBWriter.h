@@ -171,12 +171,6 @@ public:
     }
 
     [[nodiscard]] bool isCFGEqual(const std::unordered_map<std::string, std::unique_ptr<CFG>>& other) const {
-        for (const auto& [procName, cfgPtr] : cfgStorage) {
-            std::cout << "procName: " << procName << std::endl;
-            cfgPtr->printAdjList();
-            std::cout << "-------------------" << std::endl;
-        }
-
         if (cfgStorage.size() != other.size()) {
             return false;
         }
