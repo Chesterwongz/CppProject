@@ -65,7 +65,7 @@ public:
     // Add an expression to storage
     virtual void setAssignPattern(const std::string& variableName, const std::string& rpn, int statementNumber);
 
-    virtual void setCFG(const std:string& procName, unique_ptr<CFG> cfg);
+    virtual void setCFG(const std::string& procName, unique_ptr<CFG> cfg);
 
 private:
     PKBStorage& storage;

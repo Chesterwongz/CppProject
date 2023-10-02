@@ -8,6 +8,7 @@
 #include "Extractor.h"
 #include "sp/ast/TNode.h"
 #include "sp/extractors/calls/CallsExtractor.h"
+#include "sp/extractors/cfg/CFGExtractor.h"
 #include "sp/extractors/follows/FollowsExtractor.h"
 #include "sp/extractors/parent/ParentExtractor.h"
 #include "sp/extractors/uses/UsesExtractor.h"
