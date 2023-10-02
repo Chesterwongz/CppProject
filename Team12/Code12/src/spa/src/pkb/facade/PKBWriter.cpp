@@ -50,3 +50,5 @@ void PKBWriter::setModifiesRelationship(const std::string &variableName, const s
 void PKBWriter::setCallsRelationship(const std::string &callerProc, const std::string &calleeProc) {}
 
 void PKBWriter::setCallsStarRelationship(const std::string &callerProc, const std::string &calleeProc) {}
+
+void PKBWriter::setCFG(const std::string &procName, unique_ptr<CFG> cfg) {}

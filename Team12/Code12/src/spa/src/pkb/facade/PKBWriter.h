@@ -11,6 +11,7 @@
 #include "pkb/interfaces/writers/IStatementWriter.h"
 #include "pkb/interfaces/writers/IDesignEntitiesWriter.h"
 #include "pkb/interfaces/writers/IPatternWriter.h"
+#include "common/cfg/CFG.h"
 
 using std::unique_ptr;
 
@@ -63,6 +64,8 @@ public:
 
     // Add an expression to storage
     virtual void setAssignPattern(const std::string& variableName, const std::string& rpn, int statementNumber);
+
+    virtual void setCFG(const std:string& procName, unique_ptr<CFG> cfg);
 
 private:
     PKBStorage& storage;
