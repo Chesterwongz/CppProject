@@ -29,7 +29,7 @@ private:
     vector<StmtListState> stmtListStates;
     unique_ptr<CFG> cfg;
     void processStmt(const StmtNode& node);
-    void addEdges(stack<int>& fromLines, int toLine);
+    void addEdgesForCurrLines(int toLine);
     static void transferLines(stack<int>& from, stack<int>& to);
 
 public:

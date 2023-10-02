@@ -7,17 +7,17 @@ void CFGExtractor::visitProcedure(const ProcNode& node) {
     cfg = std::make_unique<CFG>();
 }
 
-void CFGExtractor::addEdges(stack<int>& fromLines, int toLine) {
-    while (!fromLines.empty()) {
-        int line = fromLines.top();
+void CFGExtractor::addEdgesForCurrLines(int toLine) {
+    stack<int>& currLines = stmtListStates.back().lineNums;
+    while (!currLines.empty()) {
+        int line = currLines.top();
         cfg->addEdge(line, toLine);
-        fromLines.pop();
+        currLines.pop();
     }
 }
 
 void CFGExtractor::postVisitProcedure(const ProcNode& node) {
-    stack<int>& currLines = stmtListStates.back().lineNums;
-    addEdges(currLines, common::CFG_END_STMT_NUM);
+    addEdgesForCurrLines(common::CFG_END_STMT_NUM);
     stmtListStates.pop_back();
 
     string procName = node.getValue();
@@ -26,8 +26,8 @@ void CFGExtractor::postVisitProcedure(const ProcNode& node) {
 
 void CFGExtractor::processStmt(const StmtNode& node) {
     int currLine = node.getLineNum();
+    addEdgesForCurrLines(currLine);
     stack<int>& currLines = stmtListStates.back().lineNums;
-    addEdges(currLines, currLine);
     currLines.push(currLine);
 }
 
@@ -65,8 +65,7 @@ void CFGExtractor::postVisitIf(const IfNode& node) {
 }
 
 void CFGExtractor::postVisitWhile(const WhileNode& node) {
-    stack<int>& currLines = stmtListStates.back().lineNums;
-    addEdges(currLines, node.getLineNum());
+    addEdgesForCurrLines(node.getLineNum());
     stmtListStates.pop_back();
 }
 
