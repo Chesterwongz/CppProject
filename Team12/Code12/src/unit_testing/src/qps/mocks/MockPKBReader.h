@@ -144,14 +144,6 @@ public:
         return mockPartialAssignPattern;
     }
 
-    void setMockExactAssignPatternStmts(vector<string> mockExactAssignPatternStmts) {
-        this->mockExactAssignPattern = mockExactAssignPatternStmts;
-    }
-
-    void setMockPartialAssignPatternStmts(vector<string> mockPartialAssignPatternStmts) {
-        this->mockPartialAssignPattern = mockPartialAssignPatternStmts;
-    }
-
     void resetMockExactAssignPatternStmts() {
         this->mockExactAssignPattern = {};
     }

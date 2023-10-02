@@ -3,8 +3,8 @@
 #include <set>
 #include <vector>
 #include <memory>
-#include "qps/argument/argumentFactory/ArgumentFactory.h"
-#include "qps/argument/IArgument.h"
+#include "../../unit_testing/src/qps/testUtils/argumentFactory/ArgumentFactory.h"
+#include "qps/argument/AbstractArgument.h"
 #include "common/utils/StringUtils.h"
 
 using std::set, std::unique_ptr, std::string, std::vector, std::pair;

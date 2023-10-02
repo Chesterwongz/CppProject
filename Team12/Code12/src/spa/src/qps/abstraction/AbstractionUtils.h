@@ -1,6 +1,6 @@
 #pragma once
 
-#include "qps/argument/IArgument.h"
+#include "qps/argument/AbstractArgument.h"
 #include "pkb/facade/PKBReader.h"
 #include "qps/context/Context.h"
 #include "qps/clause/utils/ClauseConstants.h"
@@ -15,13 +15,13 @@ struct AbstractionParams {
     PKBReader &pkb;
     Context &context;
     Abstraction abstraction;
-    IArgument &firstArg;
-    IArgument &secondArg;
+    AbstractArgument &firstArg;
+    AbstractArgument &secondArg;
     explicit AbstractionParams(PKBReader &pkb,
                                Context &context,
                                Abstraction abstraction,
-                               IArgument &firstArg,
-                               IArgument &secondArg) :
+                               AbstractArgument &firstArg,
+                               AbstractArgument &secondArg) :
             pkb(pkb),
             context(context),
             abstraction((abstraction)),
@@ -89,7 +89,7 @@ inline unordered_map<QPSStringUtils::ArgumentType,
 };
 
 inline ArgumentPermutation getPermutation(
-        IArgument &firstArg, IArgument &secondArg) {
+        AbstractArgument &firstArg, AbstractArgument &secondArg) {
     try {
         QPSStringUtils::ArgumentType firstArgType = firstArg.getArgumentType();
         QPSStringUtils::ArgumentType secondArgType = secondArg.getArgumentType();
@@ -100,7 +100,7 @@ inline ArgumentPermutation getPermutation(
     }
 };
 
-inline StmtType getArgStmtType(IArgument &argument, Context &context) {
+inline StmtType getArgStmtType(AbstractArgument &argument, Context &context) {
     if (argument.isSynonym()) {
         Entity firstStmtEntity = context.getTokenEntity(argument.getValue());
         return EntityToStatementType.at(firstStmtEntity);

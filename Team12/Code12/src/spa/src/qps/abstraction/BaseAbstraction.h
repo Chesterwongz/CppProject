@@ -8,7 +8,7 @@
 #include "pkb/facade/PKBReader.h"
 #include "qps/query/Query.h"
 #include "qps/clause/utils/ClauseConstants.h"
-#include "qps/argument/IArgument.h"
+#include "qps/argument/AbstractArgument.h"
 #include "qps/intermediateTable/IntermediateTable.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 #include "AbstractionUtils.h"
@@ -18,8 +18,8 @@ protected:
     PKBReader& pkb;
     Context context;
     Abstraction abstraction;
-    IArgument &firstArg;
-    IArgument &secondArg;
+    AbstractArgument &firstArg;
+    AbstractArgument &secondArg;
     string firstArgValue;
     string secondArgValue;
     ArgumentPermutation argumentPermutation;
