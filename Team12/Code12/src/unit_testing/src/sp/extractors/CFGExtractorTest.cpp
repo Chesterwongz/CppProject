@@ -350,3 +350,48 @@ TEST_CASE("CFGExtractor - multiple nesting") {
     expected.emplace("multipleNesting", std::make_unique<MockCFG>(expectedCfg));
     REQUIRE(mockPKB.isCFGEqual(expected));
 }
+
+TEST_CASE("CFGExtractor - wiki code 6") {
+    string input =
+        "procedure Second {"
+        "    x = 0;" // 1
+        "    i = 5;" // 2
+        "    while (i!=0) {" // 3
+        "        x = x + 2*y;" // 4
+        "        call Third;" // 5
+        "        i = i - 1; " // 6
+        "    }"
+        "    if (x==1) then {" // 7
+        "        x = x+1; }" // 8
+        "    else { z = 1; }" // 9
+        "    z= z + x + i; " // 10
+        "    y= z + 2;" // 11
+        "    x= x * y + z; }" // 12
+        "procedure Third {read x;}"; //13
+    // extract
+    PKBStorage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::CFG);
+
+    unordered_map<int, vector<int>> expectedCfgSecond = {
+        {1, {2}},
+        {2, {3}},
+        {3, {4, 7}},
+        {4, {5}},
+        {5, {6}},
+        {6, {3}},
+        {7, {8, 9}},
+        {8, {10}},
+        {9, {10}},
+        {10, {11}},
+        {11, {12}},
+        {12, {common::CFG_END_STMT_NUM}}
+    };
+    unordered_map<int, vector<int>> expectedCfgThird = {
+        {13, {common::CFG_END_STMT_NUM}}
+    };
+    unordered_map<string, unique_ptr<CFG>> expected;
+    expected.emplace("Second", std::make_unique<MockCFG>(expectedCfgSecond));
+    expected.emplace("Third", std::make_unique<MockCFG>(expectedCfgThird));
+    REQUIRE(mockPKB.isCFGEqual(expected));
+}
