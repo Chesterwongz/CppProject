@@ -5,8 +5,8 @@
 
 SuchThatClause::SuchThatClause (
         Abstraction relationship,
-        unique_ptr<IArgument> firstArg,
-        unique_ptr<IArgument> secondArg) :
+        unique_ptr<AbstractArgument> firstArg,
+        unique_ptr<AbstractArgument> secondArg) :
         relationship(relationship),
         firstArg(std::move(firstArg)),
         secondArg(std::move(secondArg)) {};
@@ -14,8 +14,8 @@ SuchThatClause::SuchThatClause (
 // todo: remove after integration
 SuchThatClause::SuchThatClause(
         Abstraction relationship,
-        unique_ptr<IArgument> firstArg,
-        unique_ptr<IArgument> secondArg,
+        unique_ptr<AbstractArgument> firstArg,
+        unique_ptr<AbstractArgument> secondArg,
         bool isTransitive) :
         relationship(relationship),
         firstArg(std::move(firstArg)),

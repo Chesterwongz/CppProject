@@ -7,9 +7,9 @@
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Synonym)_EMPTY") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -29,9 +29,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Synonym)_EMPTY") {
 TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Synonym)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockParentChildStarPairs = MOCK_PARENT_CHILD_STARS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -53,9 +53,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Synonym)") {
 TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Integer)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockParentStarOf = MOCK_PARENT_CHILD_STARS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -76,9 +76,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Integer)") {
 TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Integer)_no_immediate_parent") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockParentStarOf = {};
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -96,9 +96,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Integer)_no_immediate_pare
 TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Wildcard)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockParentChildStarPairs = MOCK_PARENT_CHILD_STARS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -118,9 +118,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Wildcard)") {
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Synonym)_EMPTY") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -140,9 +140,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Synonym)_EMPTY") {
 TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Synonym)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockChildrenStar = MOCK_PARENT_CHILD_STARS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -163,9 +163,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Synonym)") {
 TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockIsParentStar = true;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -183,9 +183,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)") {
 TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)_false") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockIsParentStar = false;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -203,9 +203,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)_false") {
 TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)_same_integer") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockIsParentStar = false;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -223,9 +223,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)_same_integer") {
 TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Wildcard)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockChildrenStar = MOCK_PARENT_CHILD_STARS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -243,9 +243,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Wildcard)") {
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Wildcard)_empty") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -264,9 +264,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Wildcard)_empty") {
 TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Synonym)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockParentChildStarPairs = MOCK_PARENT_CHILD_STARS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -287,9 +287,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Synonym)") {
 TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Integer)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockParentStarOf = MOCK_PARENT_CHILD_STARS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -307,9 +307,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Integer)") {
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Integer)_no_immediate_parent") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -327,9 +327,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Integer)_no_immediate_par
 TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Wildcard)") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
     mockReader.mockParentChildStarPairs = MOCK_PARENT_CHILD_STARS_PAIRS;
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams
@@ -347,9 +347,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Wildcard)") {
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Wildcard)_EMPTY") {
     MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-    unique_ptr<IArgument> mockArgument1
+    unique_ptr<AbstractArgument> mockArgument1
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-    unique_ptr<IArgument> mockArgument2
+    unique_ptr<AbstractArgument> mockArgument2
             = ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
     Context mockContext = Context();
     unique_ptr<AbstractionParams> abstractionParams

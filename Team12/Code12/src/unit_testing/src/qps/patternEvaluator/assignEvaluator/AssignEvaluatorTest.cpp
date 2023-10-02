@@ -9,7 +9,7 @@ using std::make_unique;
 TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
 	mockPKBReader.resetMockExactAssignPatternStmts();
 	mockPKBReader.resetMockPartialAssignPatternStmts();
-	mockPKBReader.mockExactAssignPatternStmts = mockExactAssignPatternStmts;
+	mockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmts;
 	mockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
 
 	// assign meow; variable test; select meow pattern (test, "x");
@@ -51,7 +51,7 @@ TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
 TEST_CASE("test_AssignEvaluator_evaluate_identFirstArg") {
 	mockPKBReader.resetMockExactAssignPatternStmts();
 	mockPKBReader.resetMockPartialAssignPatternStmts();
-	mockPKBReader.mockExactAssignPatternStmts = mockExactAssignPatternStmtsIdent;
+	mockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmtsIdent;
 	mockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
 
 	// assign meow; select meow pattern ("a", "x");
