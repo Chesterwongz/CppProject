@@ -16,17 +16,17 @@ void CFGExtractor::addEdges(stack<int>& fromLines, int toLine) {
 }
 
 void CFGExtractor::postVisitProcedure(const ProcNode& node) {
+    stack<int>& currLines = stmtListStates.back().lineNums;
+    addEdges(currLines, common::CFG_END_STMT_NUM);
+    stmtListStates.pop_back();
+
     string procName = node.getValue();
     pkbWriter.setCFG(procName, std::move(cfg));
-
-    stack<int> remainingLines = stmtListStates.back().lineNums;
-    stmtListStates.pop_back();
-    addEdges(remainingLines, common::CFG_END_STMT_NUM);
 }
 
 void CFGExtractor::processStmt(const StmtNode& node) {
     int currLine = node.getLineNum();
-    stack<int> currLines = stmtListStates.back().lineNums;
+    stack<int>& currLines = stmtListStates.back().lineNums;
     addEdges(currLines, currLine);
     currLines.push(currLine);
 }
@@ -65,9 +65,9 @@ void CFGExtractor::postVisitIf(const IfNode& node) {
 }
 
 void CFGExtractor::postVisitWhile(const WhileNode& node) {
-    stack<int> currLines = stmtListStates.back().lineNums;
-    stmtListStates.pop_back();
+    stack<int>& currLines = stmtListStates.back().lineNums;
     addEdges(currLines, node.getLineNum());
+    stmtListStates.pop_back();
 }
 
 void CFGExtractor::visitStmtList(const StmtListNode &node) {
@@ -82,7 +82,7 @@ void CFGExtractor::postVisitStmtList(const StmtListNode& node) {
     if (!curr.hasAdditionalStmtList) return;
 
     curr.hasAdditionalStmtList = false;
-    StmtListState& prev = stmtListStates.rbegin()[1];
+    StmtListState& prev = stmtListStates.rbegin()[REVERSE_INDEX_ONE];
     transferLines(curr.lineNums, prev.lineNums);
 }
 

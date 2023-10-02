@@ -33,6 +33,7 @@ private:
     static void transferLines(stack<int>& from, stack<int>& to);
 
 public:
+    static constexpr int REVERSE_INDEX_ONE = 1;
     explicit CFGExtractor(PKBWriter& pkbWriter);
     void visitProcedure(const ProcNode& node) override;
     void postVisitProcedure(const ProcNode& node) override;

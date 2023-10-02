@@ -28,6 +28,7 @@ private:
     std::unordered_map<int, std::unordered_set<std::string>> ifPatternStorage;
     std::unordered_map<std::string, std::unordered_set<std::string>> callsStorage;
     std::unordered_map<std::string, std::unordered_set<std::string>> callsStarStorage;
+    std::unordered_map<std::string, std::unique_ptr<CFG>> cfgStorage;
 
 public:
     explicit MockPKBWriter(PKBStorage &storage) : PKBWriter(storage){};
@@ -97,6 +98,10 @@ public:
         callsStarStorage[caller].insert(callee);
     }
 
+    void setCFG(const std::string& procName, std::unique_ptr<CFG> cfg) override {
+        cfgStorage[procName] = std::move(cfg);
+    }
+
     [[nodiscard]] bool isVariablesEqual(const std::unordered_set<std::string> &variables) const {
         return variableStorage == variables;
     }
@@ -164,4 +169,23 @@ public:
     [[nodiscard]] bool isCallsStarEqual(std::unordered_map<std::string, std::unordered_set<std::string>> &callsStar) const {
         return callsStarStorage == callsStar;
     }
+
+    [[nodiscard]] bool isCFGEqual(const std::unordered_map<std::string, std::unique_ptr<CFG>>& other) const {
+        for (const auto& [procName, cfgPtr] : cfgStorage) {
+            std::cout << "procName: " << procName << std::endl;
+            cfgPtr->printAdjList();
+            std::cout << "-------------------" << std::endl;
+        }
+
+        if (cfgStorage.size() != other.size()) {
+            return false;
+        }
+
+        return std::all_of(cfgStorage.begin(), cfgStorage.end(), [&](const auto& pair) {
+            const std::string& procName = pair.first;
+            const std::unique_ptr<CFG>& cfgPtr = pair.second;
+            return other.find(procName) != other.end() && *cfgPtr == *other.at(procName);
+        });
+    }
+
 };

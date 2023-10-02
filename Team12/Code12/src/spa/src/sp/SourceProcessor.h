@@ -11,6 +11,7 @@
 #include "sp/tokenizer/SpTokenizer.h"
 #include "sp/extractors/DesignExtractor.h"
 #include "sp/validator/SemanticValidator.h"
+#include "sp/exceptions/SpParsingFailedException.h"
 
 class SourceProcessor : public ISourceProcessor {
 private:

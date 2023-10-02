@@ -10,7 +10,7 @@ void SourceProcessor::processContent(const std::string& fileContent, PKBWriter &
         ProgramParser(std::move(std::make_shared<ParserContext>(fileContent))).parse();
 
     if (!abstractSyntaxTree.has_value()) {
-        throw SpException("Failed to parse input");
+        throw SpParsingFailedException();
     }
     TNode& root = *abstractSyntaxTree.value();
     semanticValidator.validate(root);
