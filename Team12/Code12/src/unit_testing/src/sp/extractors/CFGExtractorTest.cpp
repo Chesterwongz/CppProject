@@ -449,6 +449,288 @@ TEST_CASE("CFGExtractor - multiple nesting with while-if-while") {
     REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
+TEST_CASE("CFGExtractor - multiple nesting with while-if-if") {
+    string input =
+        "procedure nestedIfInWhile {"
+        "  while (x > 1) {" // 1
+        "    if (y != 2) then {" // 2
+        "       if (z <= 1) then {" // 3
+        "           abc = xyz;" // 4
+        "       } else {"
+        "           qwe = 1234;" // 5
+        "       }"
+        "    } else {"
+        "       if (w == 3) then {" // 6
+        "           x = qwe;" // 7
+        "       } else {"
+        "           rty = 5678;" // 8
+        "       }"
+        "    }"
+        "    read y;" // 9
+        "  }"
+        "}";
+    // extract
+    PKBStorage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::CFG);
+
+    unordered_map<int, vector<int>> expectedCfg = {
+        {1, {2, common::CFG_END_STMT_NUM}},
+        {2, {3, 6}},
+        {3, {4, 5}},
+        {4, {9}},
+        {5, {9}},
+        {6, {7, 8}},
+        {7, {9}},
+        {8, {9}},
+        {9, {1}},
+    };
+    unordered_map<int, vector<int>> expectedReversedCfg = {
+        {common::CFG_END_STMT_NUM, {1}},
+        {9, {7, 8, 4, 5}},
+        {8, {6}},
+        {7, {6}},
+        {6, {2}},
+        {5, {3}},
+        {4, {3}},
+        {3, {2}},
+        {2, {1}},
+        {1, {9}}
+    };
+    unordered_map<string, unique_ptr<CFG>> expected;
+    expected.emplace("nestedIfInWhile", std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+    REQUIRE(mockPKB.isCFGEqual(expected));
+}
+
+TEST_CASE("CFGExtractor - multiple nesting with if-if-while") {
+    string input =
+        "procedure nestedWhileInIf {"
+        "  if (x > 1) then {" // 1
+        "    if (y != 2) then {" // 2
+        "       while (z <= 1) {" // 3
+        "           abc = xyz;" // 4
+        "       }"
+        "       qwe = 1234;" // 5
+        "    } else {"
+        "       while (w == 3) {" // 6
+        "           x = qwe;" // 7
+        "       }"
+        "    }"
+        "    read y;" // 8
+        "  } else {"
+        "    print z;" // 9
+        "  }"
+        "}";
+    // extract
+    PKBStorage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::CFG);
+
+    unordered_map<int, vector<int>> expectedCfg = {
+        {1, {2, 9}},
+        {2, {3, 6}},
+        {3, {4, 5}},
+        {4, {3}},
+        {5, {8}},
+        {6, {7, 8}},
+        {7, {6}},
+        {8, {common::CFG_END_STMT_NUM}},
+        {9, {common::CFG_END_STMT_NUM}}
+    };
+    unordered_map<int, vector<int>> expectedReversedCfg = {
+        {common::CFG_END_STMT_NUM, {9, 8}},
+        {9, {1}},
+        {8, {6, 5}},
+        {7, {6}},
+        {6, {2, 7}},
+        {5, {3}},
+        {4, {3}},
+        {3, {2, 4}},
+        {2, {1}},
+    };
+    unordered_map<string, unique_ptr<CFG>> expected;
+    expected.emplace("nestedWhileInIf", std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+    REQUIRE(mockPKB.isCFGEqual(expected));
+}
+
+TEST_CASE("CFGExtractor - multiple nesting with while-while-if") {
+    string input =
+        "procedure nestedIfInDoubleWhile {"
+        "  while (x > 1) {" // 1
+        "    while (y != 2) {" // 2
+        "       if (z <= 1) then {" // 3
+        "           abc = xyz;" // 4
+        "       } else {"
+        "           qwe = 1234;" // 5
+        "       }"
+        "    }"
+        "    read y;" // 6
+        "  }"
+        "  print x;" // 7
+        "}";
+    // extract
+    PKBStorage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::CFG);
+
+    unordered_map<int, vector<int>> expectedCfg = {
+        {1, {2, 7}},
+        {2, {3, 6}},
+        {3, {4, 5}},
+        {4, {2}},
+        {5, {2}},
+        {6, {1}},
+        {7, {common::CFG_END_STMT_NUM}}
+    };
+    unordered_map<int, vector<int>> expectedReversedCfg = {
+        {common::CFG_END_STMT_NUM, {7}},
+        {7, {1}},
+        {6, {2}},
+        {5, {3}},
+        {4, {3}},
+        {3, {2}},
+        {2, {1, 5, 4}},
+        {1, {6}}
+    };
+    unordered_map<string, unique_ptr<CFG>> expected;
+    expected.emplace("nestedIfInDoubleWhile", std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+    REQUIRE(mockPKB.isCFGEqual(expected));
+}
+
+TEST_CASE("CFGExtractor - multiple nesting with if-if-if") {
+    string input =
+        "procedure tripleNestedIf {"
+        "  if (x > 1) then {" // 1
+        "    if (y != 2) then {" // 2
+        "       if (z <= 1) then {" // 3
+        "           abc = xyz;" // 4
+        "       } else {"
+        "           qwe = 1234;" // 5
+        "       }"
+        "    } else {"
+        "       print w;" // 6
+        "    }"
+        "    read y;" // 7
+        "  } else {"
+        "    print z;" // 8
+        "  }"
+        "}";
+    // extract
+    PKBStorage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::CFG);
+
+    unordered_map<int, vector<int>> expectedCfg = {
+        {1, {2, 8}},
+        {2, {3, 6}},
+        {3, {4, 5}},
+        {4, {7}},
+        {5, {7}},
+        {6, {7}},
+        {7, {common::CFG_END_STMT_NUM}},
+        {8, {common::CFG_END_STMT_NUM}}
+    };
+    unordered_map<int, vector<int>> expectedReversedCfg = {
+        {common::CFG_END_STMT_NUM, {8, 7}},
+        {8, {1}},
+        {7, {6, 4, 5}},
+        {6, {2}},
+        {5, {3}},
+        {4, {3}},
+        {3, {2}},
+        {2, {1}},
+    };
+    unordered_map<string, unique_ptr<CFG>> expected;
+    expected.emplace("tripleNestedIf", std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+    REQUIRE(mockPKB.isCFGEqual(expected));
+}
+
+TEST_CASE("CFGExtractor - multiple nesting with while-while-while") {
+    string input =
+        "procedure tripleNestedWhile {"
+        "  while (x > 1) {" // 1
+        "    while (y != 2) {" // 2
+        "       while (z <= 1) {" // 3
+        "           abc = xyz;" // 4
+        "       }"
+        "       qwe = 1234;" // 5
+        "    }"
+        "    read y;" // 6
+        "  }"
+        "  print x;" // 7
+        "}";
+    // extract
+    PKBStorage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::CFG);
+
+    unordered_map<int, vector<int>> expectedCfg = {
+        {1, {2, 7}},
+        {2, {3, 6}},
+        {3, {4, 5}},
+        {4, {3}},
+        {5, {2}},
+        {6, {1}},
+        {7, {common::CFG_END_STMT_NUM}}
+    };
+    unordered_map<int, vector<int>> expectedReversedCfg = {
+        {common::CFG_END_STMT_NUM, {7}},
+        {7, {1}},
+        {6, {2}},
+        {5, {3}},
+        {4, {3}},
+        {3, {2, 4}},
+        {2, {1, 5}},
+        {1, {6}}
+    };
+    unordered_map<string, unique_ptr<CFG>> expected;
+    expected.emplace("tripleNestedWhile", std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+    REQUIRE(mockPKB.isCFGEqual(expected));
+}
+
+TEST_CASE("CFGExtractor - multiple nesting with if-while-while") {
+    string input =
+        "procedure doubleNestedWhileInIf {"
+        "  if (x > 1) then {" // 1
+        "    while (y != 2) {" // 2
+        "       while (z <= 1) {" // 3
+        "           abc = xyz;" // 4
+        "       }"
+        "       qwe = 1234;" // 5
+        "    }"
+        "    read y;" // 6
+        "  } else {"
+        "    print z;" // 7
+        "  }"
+        "}";
+    // extract
+    PKBStorage storage{};
+    MockPKBWriter mockPKB(storage);
+    extractAbstraction(input, mockPKB, AbstractionType::CFG);
+
+    unordered_map<int, vector<int>> expectedCfg = {
+        {1, {2, 7}},
+        {2, {3, 6}},
+        {3, {4, 5}},
+        {4, {3}},
+        {5, {2}},
+        {6, {common::CFG_END_STMT_NUM}},
+        {7, {common::CFG_END_STMT_NUM}}
+    };
+    unordered_map<int, vector<int>> expectedReversedCfg = {
+        {common::CFG_END_STMT_NUM, {7, 6}},
+        {7, {1}},
+        {6, {2}},
+        {5, {3}},
+        {4, {3}},
+        {3, {2, 4}},
+        {2, {1, 5}},
+    };
+    unordered_map<string, unique_ptr<CFG>> expected;
+    expected.emplace("doubleNestedWhileInIf", std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+    REQUIRE(mockPKB.isCFGEqual(expected));
+}
+
 TEST_CASE("CFGExtractor - wiki code 6") {
     string input =
         "procedure Second {"
