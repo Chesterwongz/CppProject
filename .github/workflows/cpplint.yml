@@ -1,0 +1,12 @@
+# Runs CPP Lint for pushes and pulls, referenced from: https://github.com/cpplint/GitHub-Action-for-cpplint
+
+name: cpplint
+on: [push, pull_request]
+jobs:
+  cpplint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - run: pip3 install cpplint
+      - run: cpplint --filter=-legal/copyright,-runtime/string,-runtime/references,-build/c++11,-build/header_guard,+build/pragma_once --exclude=./build --exclude=./Team12/Code12/lib --exclude=./Team12/Code12/src/autotester_gui --exclude=./Team12/Code12/src/system_testing --recursive ..
