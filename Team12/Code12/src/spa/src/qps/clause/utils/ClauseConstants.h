@@ -6,6 +6,7 @@
 #include "qps/common/Keywords.h"
 
 using std::string, std::unordered_map;
+typedef string Entity;
 
 const unordered_map<Entity, StmtType> EntityToStatementType = {
     {ASSIGN_ENTITY, StmtType::ASSIGN}, {CALL_ENTITY, StmtType::CALL},
