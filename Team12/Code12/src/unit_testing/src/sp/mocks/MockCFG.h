@@ -6,5 +6,7 @@
 
 class MockCFG : public CFG {
 public:
-    explicit MockCFG(unordered_map<int, vector<int>> adjList) : CFG(std::move(adjList)) {};
+    explicit MockCFG(unordered_map<int, vector<int>> adjList,
+                     unordered_map<int, vector<int>> reversedAdjList) :
+                     CFG(std::move(adjList), std::move(reversedAdjList)) {};
 };

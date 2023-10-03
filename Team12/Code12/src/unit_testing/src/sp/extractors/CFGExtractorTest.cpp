@@ -22,8 +22,11 @@ TEST_CASE("CFGExtractor - 1 procedure with 1 read") {
     unordered_map<int, vector<int>> expectedCfg = {
         {1, {common::CFG_END_STMT_NUM}}
     };
+    unordered_map<int, vector<int>> expectedReversedCfg = {
+        {common::CFG_END_STMT_NUM, {1}}
+    };
     unordered_map<string, unique_ptr<CFG>> expected;
-    expected.emplace("simple", std::make_unique<MockCFG>(expectedCfg));
+    expected.emplace("simple", std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
     REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -44,8 +47,13 @@ TEST_CASE("CFGExtractor - 1 procedure with different non-nesting statements") {
         {2, {3}},
         {3, {common::CFG_END_STMT_NUM}}
     };
+    unordered_map<int, vector<int>> expectedReversedCfg = {
+        {common::CFG_END_STMT_NUM, {3}},
+        {3, {2}},
+        {2, {1}}
+    };
     unordered_map<string, unique_ptr<CFG>> expected;
-    expected.emplace("simple", std::make_unique<MockCFG>(expectedCfg));
+    expected.emplace("simple", std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
     REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -71,8 +79,15 @@ TEST_CASE("CFGExtractor - 1 procedure with a while loop") {
         {4, {2}},
         {5, {common::CFG_END_STMT_NUM}}
     };
+    unordered_map<int, vector<int>> expectedReversedCfg = {
+        {common::CFG_END_STMT_NUM, {5}},
+        {5, {2}},
+        {4, {3}},
+        {3, {2}},
+        {2, {1, 4}}
+    };
     unordered_map<string, unique_ptr<CFG>> expected;
-    expected.emplace("simpleLoop", std::make_unique<MockCFG>(expectedCfg));
+    expected.emplace("simpleLoop", std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
     REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -99,8 +114,15 @@ TEST_CASE("CFGExtractor - 1 procedure with an if statement") {
         {4, {5}},
         {5, {common::CFG_END_STMT_NUM}}
     };
+    unordered_map<int, vector<int>> expectedReverseCfg = {
+        {common::CFG_END_STMT_NUM, {5}},
+        {5, {4, 3}},
+        {4, {2}},
+        {3, {2}},
+        {2, {1}}
+    };
     unordered_map<string, unique_ptr<CFG>> expected;
-    expected.emplace("simpleIf", std::make_unique<MockCFG>(expectedCfg));
+    expected.emplace("simpleIf", std::make_unique<MockCFG>(expectedCfg, expectedReverseCfg));
     REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -135,8 +157,19 @@ TEST_CASE("CFGExtractor - 1 procedure with multiple statements in if") {
         {8, {9}},
         {9, {common::CFG_END_STMT_NUM}}
     };
+    unordered_map<int, vector<int>> expectedReversedCfg = {
+        {common::CFG_END_STMT_NUM, {9}},
+        {9, {8, 5}},
+        {8, {7}},
+        {7, {6}},
+        {6, {2}},
+        {5, {4}},
+        {4, {3}},
+        {3, {2}},
+        {2, {1}}
+    };
     unordered_map<string, unique_ptr<CFG>> expected;
-    expected.emplace("multiStmts", std::make_unique<MockCFG>(expectedCfg));
+    expected.emplace("multiStmts", std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
     REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -173,8 +206,21 @@ TEST_CASE("CFGExtractor - 1 procedure with nested if statements") {
         {10, {common::CFG_END_STMT_NUM}},
         {11, {common::CFG_END_STMT_NUM}}
     };
+    unordered_map<int, vector<int>> expectedReversedCfg = {
+        {common::CFG_END_STMT_NUM, {11, 9, 8, 10}},
+        {11, {3}},
+        {10, {5}},
+        {9, {7}},
+        {8, {7}},
+        {7, {6}},
+        {6, {5}},
+        {5, {4}},
+        {4, {3}},
+        {3, {2}},
+        {2, {1}}
+    };
     unordered_map<string, unique_ptr<CFG>> expected;
-    expected.emplace("multipleIf", std::make_unique<MockCFG>(expectedCfg));
+    expected.emplace("multipleIf", std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
     REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -207,8 +253,18 @@ TEST_CASE("CFGExtractor - 1 procedure with nested while statements") {
         {7, {2}},
         {8, {common::CFG_END_STMT_NUM}}
     };
+    unordered_map<int, vector<int>> expectedReversedCfg = {
+        {common::CFG_END_STMT_NUM, {8}},
+        {8, {2}},
+        {7, {4}},
+        {6, {5}},
+        {5, {4}},
+        {4, {3, 6}},
+        {3, {2}},
+        {2, {1, 7}}
+    };
     unordered_map<string, unique_ptr<CFG>> expected;
-    expected.emplace("nestedWhile", std::make_unique<MockCFG>(expectedCfg));
+    expected.emplace("nestedWhile", std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
     REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -240,8 +296,18 @@ TEST_CASE("CFGExtractor - 1 procedure with if in while statement") {
         {7, {2}},
         {8, {common::CFG_END_STMT_NUM}}
     };
+    unordered_map<int, vector<int>> expectedReversedCfg = {
+        {common::CFG_END_STMT_NUM, {8}},
+        {8, {2}},
+        {7, {4}},
+        {6, {5}},
+        {5, {4}},
+        {4, {3}},
+        {3, {2}},
+        {2, {1, 7, 6}}
+    };
     unordered_map<string, unique_ptr<CFG>> expected;
-    expected.emplace("ifInWhile", std::make_unique<MockCFG>(expectedCfg));
+    expected.emplace("ifInWhile", std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
     REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -271,8 +337,17 @@ TEST_CASE("CFGExtractor - 1 procedure with while in if statement") {
         {6, {4}},
         {7, {common::CFG_END_STMT_NUM}}
     };
+    unordered_map<int, vector<int>> expectedReversedCfg = {
+        {common::CFG_END_STMT_NUM, {7, 4}},
+        {7, {2}},
+        {6, {5}},
+        {5, {4}},
+        {4, {3, 6}},
+        {3, {2}},
+        {2, {1}}
+    };
     unordered_map<string, unique_ptr<CFG>> expected;
-    expected.emplace("whileInIf", std::make_unique<MockCFG>(expectedCfg));
+    expected.emplace("whileInIf", std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
     REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -302,19 +377,31 @@ TEST_CASE("CFGExtractor - multiple procedures") {
         {3, {common::CFG_END_STMT_NUM}},
         {4, {common::CFG_END_STMT_NUM}}
     };
+    unordered_map<int, vector<int>> expectedReversedCfgFirst = {
+        {common::CFG_END_STMT_NUM, {4, 3}},
+        {4, {2}},
+        {3, {2}},
+        {2, {1}}
+    };
     unordered_map<int, vector<int>> expectedCfgSecond = {
         {5, {6}},
         {6, {7, common::CFG_END_STMT_NUM}},
         {7, {8}},
         {8, {6}},
     };
+    unordered_map<int, vector<int>> expectedReversedCfgSecond = {
+        {common::CFG_END_STMT_NUM, {6}},
+        {8, {7}},
+        {7, {6}},
+        {6, {5, 8}}
+    };
     unordered_map<string, unique_ptr<CFG>> expected;
-    expected.emplace("first", std::make_unique<MockCFG>(expectedCfgFirst));
-    expected.emplace("second", std::make_unique<MockCFG>(expectedCfgSecond));
+    expected.emplace("first", std::make_unique<MockCFG>(expectedCfgFirst, expectedReversedCfgFirst));
+    expected.emplace("second", std::make_unique<MockCFG>(expectedCfgSecond, expectedReversedCfgSecond));
     REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
-TEST_CASE("CFGExtractor - multiple nesting") {
+TEST_CASE("CFGExtractor - multiple nesting with while-if-while") {
     string input = 
         "procedure multipleNesting {"
         "  while (x > 1) {" // 1
@@ -346,8 +433,19 @@ TEST_CASE("CFGExtractor - multiple nesting") {
         {7, {6}},
         {8, {1}},
     };
+    unordered_map<int, vector<int>> expectedReversedCfg = {
+        {common::CFG_END_STMT_NUM, {1}},
+        {8, {6, 5}},
+        {7, {6}},
+        {6, {2, 7}},
+        {5, {3}},
+        {4, {3}},
+        {3, {2, 4}},
+        {2, {1}},
+        {1, {8}}
+    };
     unordered_map<string, unique_ptr<CFG>> expected;
-    expected.emplace("multipleNesting", std::make_unique<MockCFG>(expectedCfg));
+    expected.emplace("multipleNesting", std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
     REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -387,11 +485,28 @@ TEST_CASE("CFGExtractor - wiki code 6") {
         {11, {12}},
         {12, {common::CFG_END_STMT_NUM}}
     };
+    unordered_map<int, vector<int>> expectedReversedCfgSecond = {
+        {common::CFG_END_STMT_NUM, {12}},
+        {12, {11}},
+        {11, {10}},
+        {10, {9, 8}},
+        {9, {7}},
+        {8, {7}},
+        {7, {3}},
+        {6, {5}},
+        {5, {4}},
+        {4, {3}},
+        {3, {2, 6}},
+        {2, {1}},
+    };
     unordered_map<int, vector<int>> expectedCfgThird = {
         {13, {common::CFG_END_STMT_NUM}}
     };
+    unordered_map<int, vector<int>> expectedReversedCfgThird = {
+        {common::CFG_END_STMT_NUM, {13}},
+    };
     unordered_map<string, unique_ptr<CFG>> expected;
-    expected.emplace("Second", std::make_unique<MockCFG>(expectedCfgSecond));
-    expected.emplace("Third", std::make_unique<MockCFG>(expectedCfgThird));
+    expected.emplace("Second", std::make_unique<MockCFG>(expectedCfgSecond, expectedReversedCfgSecond));
+    expected.emplace("Third", std::make_unique<MockCFG>(expectedCfgThird, expectedReversedCfgThird));
     REQUIRE(mockPKB.isCFGEqual(expected));
 }

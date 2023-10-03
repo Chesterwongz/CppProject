@@ -21,7 +21,7 @@ using std::unique_ptr, std::stack, std::vector;
 struct StmtListState {
     int decisionLine;
     bool hasAdditionalStmtList = false;
-    stack<int> lineNums = stack<int>();
+    stack<int> prevLines = stack<int>();
 };
 
 class CFGExtractor : public Extractor {
@@ -29,7 +29,7 @@ private:
     vector<StmtListState> stmtListStates;
     unique_ptr<CFG> cfg;
     void processStmt(const StmtNode& node);
-    void addEdgesForCurrLines(int toLine);
+    void addEdgesToLine(int toLine);
     static void transferLines(stack<int>& from, stack<int>& to);
 
 public:

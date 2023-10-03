@@ -13,7 +13,8 @@ private:
     unordered_map<int, vector<int>> reversedAdjList;
 
 protected:
-    explicit CFG(unordered_map<int, vector<int>> adjList);
+    explicit CFG(unordered_map<int, vector<int>> adjList,
+                 unordered_map<int, vector<int>> reversedAdjList);
 
 public:
     CFG();

@@ -7,8 +7,8 @@ void CFGExtractor::visitProcedure(const ProcNode& node) {
     cfg = std::make_unique<CFG>();
 }
 
-void CFGExtractor::addEdgesForCurrLines(int toLine) {
-    stack<int>& currLines = stmtListStates.back().lineNums;
+void CFGExtractor::addEdgesToLine(int toLine) {
+    stack<int>& currLines = stmtListStates.back().prevLines;
     while (!currLines.empty()) {
         int line = currLines.top();
         cfg->addEdge(line, toLine);
@@ -17,7 +17,7 @@ void CFGExtractor::addEdgesForCurrLines(int toLine) {
 }
 
 void CFGExtractor::postVisitProcedure(const ProcNode& node) {
-    addEdgesForCurrLines(common::CFG_END_STMT_NUM);
+    addEdgesToLine(common::CFG_END_STMT_NUM);
     stmtListStates.pop_back();
 
     string procName = node.getValue();
@@ -26,8 +26,8 @@ void CFGExtractor::postVisitProcedure(const ProcNode& node) {
 
 void CFGExtractor::processStmt(const StmtNode& node) {
     int currLine = node.getLineNum();
-    addEdgesForCurrLines(currLine);
-    stack<int>& currLines = stmtListStates.back().lineNums;
+    addEdgesToLine(currLine);
+    stack<int>& currLines = stmtListStates.back().prevLines;
     currLines.push(currLine);
 }
 
@@ -48,7 +48,7 @@ void CFGExtractor::visitRead(const ReadNode& node) {
 }
 
 void CFGExtractor::visitIf(const IfNode& node) {
-    addEdgesForCurrLines(node.getLineNum());
+    addEdgesToLine(node.getLineNum());
     stmtListStates.emplace_back(StmtListState{node.getLineNum(), true});
 }
 
@@ -61,11 +61,11 @@ void CFGExtractor::postVisitIf(const IfNode& node) {
     StmtListState curr = stmtListStates.back();
     stmtListStates.pop_back();
     StmtListState& prev = stmtListStates.back();
-    transferLines(curr.lineNums, prev.lineNums);
+    transferLines(curr.prevLines, prev.prevLines);
 }
 
 void CFGExtractor::postVisitWhile(const WhileNode& node) {
-    addEdgesForCurrLines(node.getLineNum());
+    addEdgesToLine(node.getLineNum());
     stmtListStates.pop_back();
 }
 
@@ -82,7 +82,7 @@ void CFGExtractor::postVisitStmtList(const StmtListNode& node) {
 
     curr.hasAdditionalStmtList = false;
     StmtListState& prev = stmtListStates.rbegin()[REVERSE_INDEX_ONE];
-    transferLines(curr.lineNums, prev.lineNums);
+    transferLines(curr.prevLines, prev.prevLines);
 }
 
 void CFGExtractor::transferLines(stack<int>& from, stack<int>& to) {

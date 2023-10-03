@@ -2,7 +2,9 @@
 
 CFG::CFG() = default;
 
-CFG::CFG(unordered_map<int, vector<int>> adjList) : adjList(std::move(adjList)) {}
+CFG::CFG(unordered_map<int, vector<int>> adjList,
+         unordered_map<int, vector<int>> reversedAdjList) :
+         adjList(std::move(adjList)), reversedAdjList(std::move(reversedAdjList)) {}
 
 void CFG::addEdge(int from, int to) {
     adjList[from].push_back(to);
