@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+#include <utility>
+
 #include "ArithmNode.h"
 #include "sp/constants/OperatorConstants.h"
 

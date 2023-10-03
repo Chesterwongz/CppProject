@@ -1,5 +1,9 @@
 #pragma once
 
+#include <memory>
+#include <string>
+#include <utility>
+
 #include "sp/ast/expressions/ExprNode.h"
 #include "sp/ast/expressions/arithmetic/ArithmNode.h"
 #include "sp/ast/expressions/arithmetic/DivNode.h"

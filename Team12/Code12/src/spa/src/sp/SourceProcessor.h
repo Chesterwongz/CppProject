@@ -1,7 +1,9 @@
 #pragma once
 
+#include <memory>
 #include <optional>
 #include <string>
+#include <utility>
 
 #include "ISourceProcessor.h"
 #include "SourceProcessor.h"
@@ -19,7 +21,7 @@ class SourceProcessor : public ISourceProcessor {
   SemanticValidator semanticValidator;
 
  public:
-  SourceProcessor() : semanticValidator(){};
+  SourceProcessor() : semanticValidator() {}
   void process(const std::string &fileName, PKBWriter &pkbWriter) override;
   void processContent(const std::string &fileContent, PKBWriter &pkbWriter);
 };

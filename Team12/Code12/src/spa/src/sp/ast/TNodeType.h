@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 enum class TNodeType {
   TNODE_PROGRAM,
   TNODE_PROCEDURE,
