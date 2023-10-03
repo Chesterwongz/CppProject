@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+#include <utility>
+
 #include "sp/ast/expressions/ExprNode.h"
 
 class CondNode : public ExprNode {
