@@ -13,6 +13,7 @@
 #include "sp/ast/StmtListNode.h"
 #include "sp/ast/statements/IfNode.h"
 #include "sp/ast/statements/WhileNode.h"
+#include "sp/exceptions/SpParsingFailedException.h"
 #include "sp/parser/toplevelparsers/ProgramParser.h"
 #include "sp/parser/condexprparser/CondExprParser.h"
 #include "../mocks/MockPKBWriter.h"

@@ -23,6 +23,9 @@ unique_ptr<Extractor> getExtractor(MockPKBWriter &mockPKBWriter, AbstractionType
         case AbstractionType::CALLS:
             return make_unique<CallsExtractor>(mockPKBWriter);
 
+        case AbstractionType::CFG:
+            return make_unique<CFGExtractor>(mockPKBWriter);
+
         default:
             throw SpException("Unknown abstraction type");
     }
@@ -39,7 +42,7 @@ void extractAbstraction(TNode &node, MockPKBWriter &mockPKBWriter, AbstractionTy
 void extractAbstraction(const string& input, MockPKBWriter &mockPKBWriter, AbstractionType abstractionType) {
     std::optional<std::unique_ptr<TNode>> nodeOpt = ProgramParser(std::move(std::make_shared<ParserContext>(input))).parse();
     if (!nodeOpt.has_value()) {
-        throw SpException("Failed to parse input");
+        throw SpParsingFailedException();
     }
     extractAbstraction(*nodeOpt.value(), mockPKBWriter, abstractionType);
 }
