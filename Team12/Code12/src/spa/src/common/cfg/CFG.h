@@ -10,6 +10,7 @@ using std::unordered_map, std::vector;
 class CFG {
 private:
     unordered_map<int, vector<int>> adjList;
+    unordered_map<int, vector<int>> reversedAdjList;
 
 protected:
     explicit CFG(unordered_map<int, vector<int>> adjList);
