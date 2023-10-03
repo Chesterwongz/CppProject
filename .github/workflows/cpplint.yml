@@ -9,4 +9,4 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
       - run: pip3 install cpplint
-      - run: cpplint --filter=-legal/copyright,-runtime/string,-runtime/references,-build/c++11,-build/header_guard,+build/pragma_once --exclude=./build --exclude=./Team12/Code12/lib --exclude=./Team12/Code12/src/autotester_gui --exclude=./Team12/Code12/src/system_testing --recursive ..
+      - run: cpplint --filter=-legal/copyright,-runtime/string,-runtime/references,-build/c++11,-build/header_guard,+build/pragma_once --exclude=./build --exclude=./Team12/Code12/lib --exclude=./Team12/Code12/cmake-build-debug --exclude=./Team12/Code12/src/autotester_gui --exclude=./Team12/Code12/src/system_testing --recursive ..
