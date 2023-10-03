@@ -1,9 +1,9 @@
 #include "PatternEvaluator.h"
 
 IntermediateTable PatternEvaluator::evaluate() {
-	vector<string> pkbResult = processArguments();
+  vector<string> pkbResult = processArguments();
 
-	IntermediateTable result = buildResultTable(pkbResult);
-	
-	return result;
+  IntermediateTable result = buildResultTable(pkbResult);
+
+  return result;
 }
