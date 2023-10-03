@@ -20,6 +20,4 @@ public:
     CFG();
     void addEdge(int from, int to);
     bool operator== (const CFG& other) const;
-    void printAdjList() const;
-    void printReversedAdjList() const;
 };
