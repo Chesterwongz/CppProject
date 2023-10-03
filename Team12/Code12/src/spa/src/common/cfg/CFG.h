@@ -2,19 +2,19 @@
 
 #include <iostream>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
-#include <vector>
 
-using std::unordered_map, std::vector;
+using std::unordered_map, std::unordered_set;
 
 class CFG {
  private:
-  unordered_map<int, vector<int>> adjList;
-  unordered_map<int, vector<int>> reversedAdjList;
+  unordered_map<int, unordered_set<int>> adjList;
+  unordered_map<int, unordered_set<int>> reversedAdjList;
 
  protected:
-  explicit CFG(unordered_map<int, vector<int>> adjList,
-               unordered_map<int, vector<int>> reversedAdjList);
+  explicit CFG(unordered_map<int, unordered_set<int>> adjList,
+               unordered_map<int, unordered_set<int>> reversedAdjList);
 
  public:
   CFG();

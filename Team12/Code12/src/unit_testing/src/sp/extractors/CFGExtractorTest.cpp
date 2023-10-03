@@ -1,4 +1,3 @@
-#include <catch.hpp>
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
@@ -6,6 +5,7 @@
 
 #include "../mocks/MockCFG.h"
 #include "ExtractorUtils.h"
+#include "catch.hpp"
 #include "sp/ast/ProgramNode.h"
 
 using std::unique_ptr, std::make_unique, std::vector, std::string,
@@ -21,9 +21,9 @@ TEST_CASE("CFGExtractor - 1 procedure with 1 read") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfg = {
+  unordered_map<int, unordered_set<int>> expectedCfg = {
       {1, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReversedCfg = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfg = {
       {common::CFG_END_STMT_NUM, {1}}};
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("simple",
@@ -43,9 +43,9 @@ TEST_CASE("CFGExtractor - 1 procedure with different non-nesting statements") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfg = {
+  unordered_map<int, unordered_set<int>> expectedCfg = {
       {1, {2}}, {2, {3}}, {3, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReversedCfg = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfg = {
       {common::CFG_END_STMT_NUM, {3}}, {3, {2}}, {2, {1}}};
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("simple",
@@ -68,13 +68,13 @@ TEST_CASE("CFGExtractor - 1 procedure with a while loop") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfg = {
+  unordered_map<int, unordered_set<int>> expectedCfg = {
       {1, {2}},
       {2, {3, 5}},
       {3, {4}},
       {4, {2}},
       {5, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReversedCfg = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfg = {
       {common::CFG_END_STMT_NUM, {5}},
       {5, {2}},
       {4, {3}},
@@ -102,13 +102,13 @@ TEST_CASE("CFGExtractor - 1 procedure with an if statement") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfg = {
+  unordered_map<int, unordered_set<int>> expectedCfg = {
       {1, {2}},
       {2, {3, 4}},
       {3, {5}},
       {4, {5}},
       {5, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReverseCfg = {
+  unordered_map<int, unordered_set<int>> expectedReverseCfg = {
       {common::CFG_END_STMT_NUM, {5}},
       {5, {4, 3}},
       {4, {2}},
@@ -140,11 +140,11 @@ TEST_CASE("CFGExtractor - 1 procedure with multiple statements in if") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfg = {
+  unordered_map<int, unordered_set<int>> expectedCfg = {
       {1, {2}}, {2, {3, 6}}, {3, {4}},
       {4, {5}}, {5, {9}},    {6, {7}},
       {7, {8}}, {8, {9}},    {9, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReversedCfg = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfg = {
       {common::CFG_END_STMT_NUM, {9}},
       {9, {8, 5}},
       {8, {7}},
@@ -180,7 +180,7 @@ TEST_CASE("CFGExtractor - 1 procedure with nested if statements") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfg = {
+  unordered_map<int, unordered_set<int>> expectedCfg = {
       {1, {2}},
       {2, {3}},
       {3, {4, 11}},
@@ -192,7 +192,7 @@ TEST_CASE("CFGExtractor - 1 procedure with nested if statements") {
       {9, {common::CFG_END_STMT_NUM}},
       {10, {common::CFG_END_STMT_NUM}},
       {11, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReversedCfg = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfg = {
       {common::CFG_END_STMT_NUM, {11, 9, 8, 10}},
       {11, {3}},
       {10, {5}},
@@ -229,10 +229,10 @@ TEST_CASE("CFGExtractor - 1 procedure with nested while statements") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfg = {
+  unordered_map<int, unordered_set<int>> expectedCfg = {
       {1, {2}}, {2, {3, 8}}, {3, {4}}, {4, {5, 7}},
       {5, {6}}, {6, {4}},    {7, {2}}, {8, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReversedCfg = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfg = {
       {common::CFG_END_STMT_NUM, {8}},
       {8, {2}},
       {7, {4}},
@@ -265,10 +265,10 @@ TEST_CASE("CFGExtractor - 1 procedure with if in while statement") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfg = {
+  unordered_map<int, unordered_set<int>> expectedCfg = {
       {1, {2}}, {2, {3, 8}}, {3, {4}}, {4, {5, 7}},
       {5, {6}}, {6, {2}},    {7, {2}}, {8, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReversedCfg = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfg = {
       {common::CFG_END_STMT_NUM, {8}},
       {8, {2}},
       {7, {4}},
@@ -300,7 +300,7 @@ TEST_CASE("CFGExtractor - 1 procedure with while in if statement") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfg = {
+  unordered_map<int, unordered_set<int>> expectedCfg = {
       {1, {2}},
       {2, {3, 7}},
       {3, {4}},
@@ -308,7 +308,7 @@ TEST_CASE("CFGExtractor - 1 procedure with while in if statement") {
       {5, {6}},
       {6, {4}},
       {7, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReversedCfg = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfg = {
       {common::CFG_END_STMT_NUM, {7, 4}},
       {7, {2}},
       {6, {5}},
@@ -342,20 +342,20 @@ TEST_CASE("CFGExtractor - multiple procedures") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfgFirst = {
+  unordered_map<int, unordered_set<int>> expectedCfgFirst = {
       {1, {2}},
       {2, {3, 4}},
       {3, {common::CFG_END_STMT_NUM}},
       {4, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReversedCfgFirst = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfgFirst = {
       {common::CFG_END_STMT_NUM, {4, 3}}, {4, {2}}, {3, {2}}, {2, {1}}};
-  unordered_map<int, vector<int>> expectedCfgSecond = {
+  unordered_map<int, unordered_set<int>> expectedCfgSecond = {
       {5, {6}},
       {6, {7, common::CFG_END_STMT_NUM}},
       {7, {8}},
       {8, {6}},
   };
-  unordered_map<int, vector<int>> expectedReversedCfgSecond = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfgSecond = {
       {common::CFG_END_STMT_NUM, {6}}, {8, {7}}, {7, {6}}, {6, {5, 8}}};
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("first", std::make_unique<MockCFG>(
@@ -387,7 +387,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-if-while") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfg = {
+  unordered_map<int, unordered_set<int>> expectedCfg = {
       {1, {2, common::CFG_END_STMT_NUM}},
       {2, {3, 6}},
       {3, {4, 5}},
@@ -397,7 +397,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-if-while") {
       {7, {6}},
       {8, {1}},
   };
-  unordered_map<int, vector<int>> expectedReversedCfg = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfg = {
       {common::CFG_END_STMT_NUM, {1}},
       {8, {6, 5}},
       {7, {6}},
@@ -438,7 +438,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-if-if") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfg = {
+  unordered_map<int, unordered_set<int>> expectedCfg = {
       {1, {2, common::CFG_END_STMT_NUM}},
       {2, {3, 6}},
       {3, {4, 5}},
@@ -449,7 +449,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-if-if") {
       {8, {9}},
       {9, {1}},
   };
-  unordered_map<int, vector<int>> expectedReversedCfg = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfg = {
       {common::CFG_END_STMT_NUM, {1}},
       {9, {7, 8, 4, 5}},
       {8, {6}},
@@ -490,7 +490,7 @@ TEST_CASE("CFGExtractor - multiple nesting with if-if-while") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfg = {
+  unordered_map<int, unordered_set<int>> expectedCfg = {
       {1, {2, 9}},
       {2, {3, 6}},
       {3, {4, 5}},
@@ -500,7 +500,7 @@ TEST_CASE("CFGExtractor - multiple nesting with if-if-while") {
       {7, {6}},
       {8, {common::CFG_END_STMT_NUM}},
       {9, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReversedCfg = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfg = {
       {common::CFG_END_STMT_NUM, {9, 8}},
       {9, {1}},
       {8, {6, 5}},
@@ -537,7 +537,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-while-if") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfg = {
+  unordered_map<int, unordered_set<int>> expectedCfg = {
       {1, {2, 7}},
       {2, {3, 6}},
       {3, {4, 5}},
@@ -545,7 +545,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-while-if") {
       {5, {2}},
       {6, {1}},
       {7, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReversedCfg = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfg = {
       {common::CFG_END_STMT_NUM, {7}},
       {7, {1}},
       {6, {2}},
@@ -583,7 +583,7 @@ TEST_CASE("CFGExtractor - multiple nesting with if-if-if") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfg = {
+  unordered_map<int, unordered_set<int>> expectedCfg = {
       {1, {2, 8}},
       {2, {3, 6}},
       {3, {4, 5}},
@@ -592,7 +592,7 @@ TEST_CASE("CFGExtractor - multiple nesting with if-if-if") {
       {6, {7}},
       {7, {common::CFG_END_STMT_NUM}},
       {8, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReversedCfg = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfg = {
       {common::CFG_END_STMT_NUM, {8, 7}},
       {8, {1}},
       {7, {6, 4, 5}},
@@ -627,7 +627,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-while-while") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfg = {
+  unordered_map<int, unordered_set<int>> expectedCfg = {
       {1, {2, 7}},
       {2, {3, 6}},
       {3, {4, 5}},
@@ -635,7 +635,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-while-while") {
       {5, {2}},
       {6, {1}},
       {7, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReversedCfg = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfg = {
       {common::CFG_END_STMT_NUM, {7}},
       {7, {1}},
       {6, {2}},
@@ -670,7 +670,7 @@ TEST_CASE("CFGExtractor - multiple nesting with if-while-while") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfg = {
+  unordered_map<int, unordered_set<int>> expectedCfg = {
       {1, {2, 7}},
       {2, {3, 6}},
       {3, {4, 5}},
@@ -678,7 +678,7 @@ TEST_CASE("CFGExtractor - multiple nesting with if-while-while") {
       {5, {2}},
       {6, {common::CFG_END_STMT_NUM}},
       {7, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReversedCfg = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfg = {
       {common::CFG_END_STMT_NUM, {7, 6}},
       {7, {1}},
       {6, {2}},
@@ -715,11 +715,11 @@ TEST_CASE("CFGExtractor - wiki code 6") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  unordered_map<int, vector<int>> expectedCfgSecond = {
+  unordered_map<int, unordered_set<int>> expectedCfgSecond = {
       {1, {2}},  {2, {3}},   {3, {4, 7}}, {4, {5}},
       {5, {6}},  {6, {3}},   {7, {8, 9}}, {8, {10}},
       {9, {10}}, {10, {11}}, {11, {12}},  {12, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReversedCfgSecond = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfgSecond = {
       {common::CFG_END_STMT_NUM, {12}},
       {12, {11}},
       {11, {10}},
@@ -733,9 +733,9 @@ TEST_CASE("CFGExtractor - wiki code 6") {
       {3, {2, 6}},
       {2, {1}},
   };
-  unordered_map<int, vector<int>> expectedCfgThird = {
+  unordered_map<int, unordered_set<int>> expectedCfgThird = {
       {13, {common::CFG_END_STMT_NUM}}};
-  unordered_map<int, vector<int>> expectedReversedCfgThird = {
+  unordered_map<int, unordered_set<int>> expectedReversedCfgThird = {
       {common::CFG_END_STMT_NUM, {13}},
   };
   unordered_map<string, unique_ptr<CFG>> expected;
