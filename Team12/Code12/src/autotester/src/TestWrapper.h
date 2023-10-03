@@ -18,7 +18,6 @@ class TestWrapper : public AbstractWrapper {
 private:
     std::unique_ptr<QPS> qps;
     std::unique_ptr<SourceProcessor> sourceProcessor;
-//    std::unique_ptr<PKBWriter> pkbWriter;
     std::unique_ptr<PKB> pkb;
 
  public:
