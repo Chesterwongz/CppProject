@@ -5,8 +5,9 @@
 #include "sp/parser/abstractparser/AbstractParser.h"
 
 class ProgramParser : public AbstractParser {
-public:
-    explicit ProgramParser(std::shared_ptr<ParserContext> context) : AbstractParser(std::move(context)) {};
+ public:
+  explicit ProgramParser(std::shared_ptr<ParserContext> context)
+      : AbstractParser(std::move(context)){};
 
-    std::optional<std::unique_ptr<TNode>> parse() override;
+  std::optional<std::unique_ptr<TNode>> parse() override;
 };

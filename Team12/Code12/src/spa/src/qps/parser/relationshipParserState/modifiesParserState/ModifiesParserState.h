@@ -8,17 +8,17 @@
 using std::make_unique, std::unique_ptr;
 
 class ModifiesParserState : public RelationshipParserState {
-private:
-    PQLParserContext& parserContext;
-    PQLTokenStream& tokenStream;
-    PQLTokenType prev;
-    static PredictiveMap predictiveMap;
-    static PQLTokenType exitToken;
-    static size_t maxNumberOfArgs;
-    void checkValidSecondArg(PQLToken(& curr));
+ private:
+  PQLParserContext& parserContext;
+  PQLTokenStream& tokenStream;
+  PQLTokenType prev;
+  static PredictiveMap predictiveMap;
+  static PQLTokenType exitToken;
+  static size_t maxNumberOfArgs;
+  void checkValidSecondArg(PQLToken(&curr));
 
-public:
-    explicit ModifiesParserState(PQLParserContext& parserContext);
-    void handleToken() override;
-    ~ModifiesParserState() override = default;
+ public:
+  explicit ModifiesParserState(PQLParserContext& parserContext);
+  void handleToken() override;
+  ~ModifiesParserState() override = default;
 };

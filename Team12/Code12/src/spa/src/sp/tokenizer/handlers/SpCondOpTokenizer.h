@@ -5,12 +5,11 @@
 #include "sp/tokenizer/token/SpToken.h"
 
 class SpCondOpTokenizer : public BaseTokenizer<SpToken> {
-private:
-    static bool matchesCondOp(char ch);
+ private:
+  static bool matchesCondOp(char ch);
 
-    static bool isCondOp(const string &str);
+  static bool isCondOp(const string &str);
 
-public:
-    SpToken tokenize(char nextCh, InputStream &inputStream) override;
+ public:
+  SpToken tokenize(char nextCh, InputStream &inputStream) override;
 };
-

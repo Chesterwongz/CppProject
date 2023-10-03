@@ -1,14 +1,16 @@
 #pragma once
 
-#include <iostream>
 #include <fstream>
-#include <string>
+#include <iostream>
 #include <memory>
+#include <string>
+
 #include "sp/exceptions/SpException.h"
 
 class FileReaderUtils {
-public:
-    static std::string readFile(const std::string &filePath);
-private:
-    FileReaderUtils() = default;
+ public:
+  static std::string readFile(const std::string &filePath);
+
+ private:
+  FileReaderUtils() = default;
 };

@@ -1,13 +1,14 @@
 #pragma once
 
+#include <memory>
 #include <set>
 #include <vector>
-#include <memory>
-#include "qps/argument/AbstractArgument.h"
-#include "common/utils/StringUtils.h"
+
 #include "../intermediateTable/IntermediateTableTestData.h"
-#include "pkb/facade/PKBReader.h"
 #include "../testUtils/argumentFactory/ArgumentFactory.h"
+#include "common/utils/StringUtils.h"
+#include "pkb/facade/PKBReader.h"
+#include "qps/argument/AbstractArgument.h"
 
 using std::set, std::unique_ptr, std::string, std::vector, std::pair;
 

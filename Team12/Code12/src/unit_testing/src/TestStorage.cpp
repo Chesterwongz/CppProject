@@ -6,9 +6,9 @@
 //#include <string>
 //#include <stdexcept>
 //
-//using namespace std;
+// using namespace std;
 //
-//TEST_CASE("Table functionality tests") {
+// TEST_CASE("Table functionality tests") {
 //    Storage myTable;
 //
 //    SECTION("Insert rows and retrieve second column") {

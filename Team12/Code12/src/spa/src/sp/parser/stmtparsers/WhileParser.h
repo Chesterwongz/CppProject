@@ -6,7 +6,8 @@
 #include "sp/parser/toplevelparsers/StmtLstParser.h"
 
 class WhileParser : public AbstractParser {
-public:
-    explicit WhileParser(std::shared_ptr<ParserContext> context) : AbstractParser(std::move(context)) {};
-    std::optional<std::unique_ptr<TNode>> parse() override;
+ public:
+  explicit WhileParser(std::shared_ptr<ParserContext> context)
+      : AbstractParser(std::move(context)){};
+  std::optional<std::unique_ptr<TNode>> parse() override;
 };

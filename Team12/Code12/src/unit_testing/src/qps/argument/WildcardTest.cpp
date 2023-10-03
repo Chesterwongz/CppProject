@@ -9,43 +9,44 @@ string wildcardArgType = "wildcard";
 Wildcard wildcard = Wildcard();
 
 TEST_CASE("test_wildcard_getValue") {
-	string actual = wildcard.getValue();
+  string actual = wildcard.getValue();
 
-	REQUIRE(actual == expectedWildcardValue);
+  REQUIRE(actual == expectedWildcardValue);
 }
 
 TEST_CASE("test_wildcard_getArgumentType") {
-	QPSStringUtils::ArgumentType actualWildcardArgType = wildcard.getArgumentType();
+  QPSStringUtils::ArgumentType actualWildcardArgType =
+      wildcard.getArgumentType();
 
-	REQUIRE(actualWildcardArgType == QPSStringUtils::WILDCARD);
+  REQUIRE(actualWildcardArgType == QPSStringUtils::WILDCARD);
 }
 
 TEST_CASE("test_wildcard_isIdent_false") {
-	bool actualIsSynonym = wildcard.isIdent();
+  bool actualIsSynonym = wildcard.isIdent();
 
-	REQUIRE(actualIsSynonym == false);
+  REQUIRE(actualIsSynonym == false);
 }
 
 TEST_CASE("test_wildcard_isInteger_false") {
-	bool actualIsSynonym = wildcard.isInteger();
+  bool actualIsSynonym = wildcard.isInteger();
 
-	REQUIRE(actualIsSynonym == false);
+  REQUIRE(actualIsSynonym == false);
 }
 
 TEST_CASE("test_wildcard_isSynonym_false") {
-	bool actualIsSynonym = wildcard.isSynonym();
+  bool actualIsSynonym = wildcard.isSynonym();
 
-	REQUIRE(actualIsSynonym == false);
+  REQUIRE(actualIsSynonym == false);
 }
 
 TEST_CASE("test_wildcard_isWildcard_true") {
-	bool actualIsSynonym = wildcard.isWildcard();
+  bool actualIsSynonym = wildcard.isWildcard();
 
-	REQUIRE(actualIsSynonym);
+  REQUIRE(actualIsSynonym);
 }
 
 TEST_CASE("test_wildcard_operator==_true") {
-	Wildcard similarWildcard = Wildcard();
+  Wildcard similarWildcard = Wildcard();
 
-	REQUIRE(wildcard == similarWildcard);
+  REQUIRE(wildcard == similarWildcard);
 }

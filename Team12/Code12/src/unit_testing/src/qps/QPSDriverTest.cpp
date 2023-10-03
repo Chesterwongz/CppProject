@@ -6,7 +6,7 @@
 //#include "pkb/facade/PKBReader.h"
 //#include "qps/QPS.h"
 //
-//TEST_CASE("Test QPS Driver") {
+// TEST_CASE("Test QPS Driver") {
 //    std::string query = "assign n;\nSelect n";
 //    PKBReader pkb = PKBReader();
 //    QPS driver = QPS(&pkb);

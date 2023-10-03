@@ -27,7 +27,7 @@ const int ASCII_ROUND_BRACKET_RIGHT = 41;
 const int ASCII_UNDERSCORE = 95;
 
 // PQL_OPERATOR_TOKEN
-const int ASCII_TIMES = 42; // also PQL_ASTERISKS_TOKEN
+const int ASCII_TIMES = 42;  // also PQL_ASTERISKS_TOKEN
 const int ASCII_PLUS = 43;
 const int ASCII_MINUS = 45;
 const int ASCII_SLASH = 47;
@@ -41,14 +41,11 @@ const int ASCII_COMMA = 44;
 // PQL_PERIOD_TOKEN
 const int ASCII_PERIOD = 46;
 
-
-
 class PQLTokenTable {
-private:
-	PQLTokenType tokens[256]{};
+ private:
+  PQLTokenType tokens[256]{};
 
-public:
-	explicit PQLTokenTable();
-	PQLTokenType getTokenType(char c);
+ public:
+  explicit PQLTokenTable();
+  PQLTokenType getTokenType(char c);
 };
-
