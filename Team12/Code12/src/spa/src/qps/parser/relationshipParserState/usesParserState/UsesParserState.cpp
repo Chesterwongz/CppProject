@@ -1,9 +1,12 @@
 #include "UsesParserState.h"
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
-#include "qps/argument/argumentFactory/ArgumentFactory.h"
 #include "qps/parser/patternParserState/PatternParserState.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
+#include "qps/argument/ident/Ident.h"
+#include "qps/argument/integer/Integer.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/argument/wildcard/Wildcard.h"
 
 PredictiveMap UsesParserState::predictiveMap = {
         { PQL_NULL_TOKEN, { PQL_USES_TOKEN } },
@@ -61,16 +64,16 @@ void UsesParserState::handleToken() {
             case PQL_SYNONYM_TOKEN:
                 parserContext.checkValidSynonym(curr.getValue());
                 checkValidSecondArg(curr);
-                arguments.push_back(std::move(ArgumentFactory::createSynonymArgument(curr.getValue())));
+                arguments.push_back(std::move(std::make_unique<SynonymArg>(curr.getValue())));
                 break;
             case PQL_WILDCARD_TOKEN:
-                arguments.push_back(std::move(ArgumentFactory::createWildcardArgument()));
+                arguments.push_back(std::move(std::make_unique<Wildcard>()));
                 break;
             case PQL_LITERAL_REF_TOKEN:
-                arguments.push_back(std::move(ArgumentFactory::createIdentArgument(curr.getValue(), PQL_LITERAL_REF_TOKEN)));
+                arguments.push_back(std::move(std::make_unique<Ident>(curr.getValue())));
                 break;
             case PQL_INTEGER_TOKEN:
-                arguments.push_back(std::move(ArgumentFactory::createIntegerArgument(curr.getValue())));
+                arguments.push_back(std::move(std::make_unique<Integer>(curr.getValue())));
                 break;
             case PQL_PATTERN_TOKEN:
                 this->parserContext.transitionTo(make_unique<PatternParserState>(parserContext));

@@ -27,6 +27,14 @@ public:
             const string &firstColName,
             const vector<string> &data);
 
+    /**
+     * Builds intermediate table without any WILDCARD columns
+     * and only one column AND one single row
+     */
+    static IntermediateTable buildIntermediateTable(
+            const string &colName,
+            const string &value);
+
     static IntermediateTable buildEmptyIntermediateTable();
 
     static IntermediateTable buildWildcardIntermediateTable();

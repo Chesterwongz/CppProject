@@ -98,12 +98,19 @@ IntermediateTable IntermediateTableFactory::buildSingleColTable(
     vector<string> columnNames = { colName };
     vector<vector<string>> dataColumn = {};
     dataColumn.reserve(data.size());
-    for (int rowIndex = 0; rowIndex < data.size(); rowIndex++) {
-        vector<string> elementToAdd = {data.at(rowIndex)};
+    for (const auto & rowIndex : data) {
+        vector<string> elementToAdd = {rowIndex};
         dataColumn.push_back(elementToAdd);
     }
     return IntermediateTable(columnNames,
                              dataColumn);
+}
+
+IntermediateTable IntermediateTableFactory::buildIntermediateTable(
+        const string &colName,
+        const string &value) {
+    vector<string> dataCol = {value};
+    return IntermediateTableFactory::buildSingleColTable(colName, dataCol);
 }
 
 IntermediateTable IntermediateTableFactory::buildEmptyIntermediateTable() {

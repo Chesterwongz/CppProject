@@ -1,9 +1,12 @@
 #include "FollowsParserState.h"
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
-#include "qps/argument/argumentFactory/ArgumentFactory.h"
 #include "qps/parser/patternParserState/PatternParserState.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
+#include "qps/argument/ident/Ident.h"
+#include "qps/argument/integer/Integer.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/argument/wildcard/Wildcard.h"
 
 // TODO: Can be merged with ParentParserState
 PredictiveMap FollowsParserState::predictiveMap = {
@@ -66,13 +69,13 @@ void FollowsParserState::handleToken() {
             case PQL_SYNONYM_TOKEN:
                 parserContext.checkValidSynonym(curr.getValue());
                 checkValidArgs(curr);
-                arguments.push_back(std::move(ArgumentFactory::createSynonymArgument(curr.getValue())));
+                arguments.push_back(std::move(std::make_unique<SynonymArg>(curr.getValue())));
                 break;
             case PQL_INTEGER_TOKEN:
-                arguments.push_back(std::move(ArgumentFactory::createIntegerArgument(curr.getValue())));
+                arguments.push_back(std::move(std::make_unique<Integer>(curr.getValue())));
                 break;
             case PQL_WILDCARD_TOKEN:
-                arguments.push_back(std::move(ArgumentFactory::createWildcardArgument()));
+                arguments.push_back(std::move(std::make_unique<Wildcard>()));
                 break;
             case PQL_PATTERN_TOKEN:
                 this->parserContext.transitionTo(make_unique<PatternParserState>(parserContext));

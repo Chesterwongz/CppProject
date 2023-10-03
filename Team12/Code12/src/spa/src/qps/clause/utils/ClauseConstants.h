@@ -19,7 +19,9 @@ const unordered_map<Entity, StmtType> EntityToStatementType = {
 // Abstractions
 enum Abstraction {
     FOLLOWS_ENUM,
+    FOLLOWS_STAR_ENUM,
     MODIFIES_ENUM,
     PARENTS_ENUM,
+    PARENTS_STAR_ENUM,
     USES_ENUM,
 };

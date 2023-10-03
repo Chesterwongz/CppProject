@@ -1,17 +1,26 @@
 #include "SuchThatClause.h"
-#include "qps/abstraction/IAbstraction.h"
+#include "qps/abstraction/BaseAbstraction.h"
 #include "qps/abstraction/AbstractionFactory.h"
-#include "qps/argument/IArgument.h"
+#include "qps/argument/AbstractArgument.h"
 
 SuchThatClause::SuchThatClause (
         Abstraction relationship,
-        unique_ptr<IArgument> firstArg,
-        unique_ptr<IArgument> secondArg,
+        unique_ptr<AbstractArgument> firstArg,
+        unique_ptr<AbstractArgument> secondArg) :
+        relationship(relationship),
+        firstArg(std::move(firstArg)),
+        secondArg(std::move(secondArg)) {};
+
+// todo: remove after integration
+SuchThatClause::SuchThatClause(
+        Abstraction relationship,
+        unique_ptr<AbstractArgument> firstArg,
+        unique_ptr<AbstractArgument> secondArg,
         bool isTransitive) :
         relationship(relationship),
         firstArg(std::move(firstArg)),
         secondArg(std::move(secondArg)) {
-    this->isTransitive = isTransitive;
+    throw std::runtime_error("invalid constructor used");
 };
 
 IntermediateTable SuchThatClause::evaluate(
@@ -23,14 +32,13 @@ IntermediateTable SuchThatClause::evaluate(
                     context,
                     this->relationship,
                     *(this->firstArg),
-                    *(this->secondArg),
-                    this->isTransitive
+                    *(this->secondArg)
             );
 
-    std::unique_ptr<IAbstraction> executableAbstraction =
+    std::unique_ptr<BaseAbstraction> executableAbstraction =
             AbstractionFactory::createAbstraction(*abstractionParams);
 
-    return executableAbstraction->getAbstractions();
+    return executableAbstraction->evaluate();
 }
 
 bool SuchThatClause::isEquals(const Clause& other) {
@@ -39,6 +47,5 @@ bool SuchThatClause::isEquals(const Clause& other) {
 
     return relationship == otherSuchThat->relationship
     && *firstArg == *otherSuchThat->firstArg
-    && *secondArg == *otherSuchThat->secondArg
-    && isTransitive == otherSuchThat->isTransitive;
+    && *secondArg == *otherSuchThat->secondArg;
 }
