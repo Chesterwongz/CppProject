@@ -2,7 +2,7 @@
 #include "IntermediateTableTestUtils.h"
 #include "IntermediateTableTestData.h"
 
-#include "catch.hpp"
+#include <catch.hpp>
 #include "qps/intermediateTable/IntermediateTableUtils.h"
 
 IntermediateTable DOUBLE_COLUMN_TABLE_FROM_PAIR_1 = IntermediateTable(

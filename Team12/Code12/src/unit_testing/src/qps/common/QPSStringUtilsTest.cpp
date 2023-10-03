@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch.hpp>
 
 #include "qps/common/QPSStringUtils.h"
 #include "qps/common/Keywords.h"

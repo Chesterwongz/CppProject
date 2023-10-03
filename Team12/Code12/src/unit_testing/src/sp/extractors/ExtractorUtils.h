@@ -6,7 +6,7 @@
 #include <set>
 #include <unordered_set>
 #include <unordered_map>
-#include "catch.hpp"
+#include <catch.hpp>
 #include "sp/extractors/DesignExtractor.h"
 #include "sp/ast/ProgramNode.h"
 #include "sp/ast/ProcNode.h"

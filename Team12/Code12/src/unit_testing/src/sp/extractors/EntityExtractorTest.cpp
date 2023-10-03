@@ -4,7 +4,7 @@
 #include <set>
 #include <unordered_set>
 #include <unordered_map>
-#include "catch.hpp"
+#include <catch.hpp>
 #include "sp/ast/ProgramNode.h"
 #include "sp/ast/ProcNode.h"
 #include "sp/ast/StmtListNode.h"

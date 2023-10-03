@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch.hpp>
 #include "sp/ast/TNode.h"
 #include "sp/ast/terminals/ConstNode.h"
 #include "sp/ast/terminals/VarNode.h"

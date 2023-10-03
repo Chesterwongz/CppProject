@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch.hpp>
 #include "../../../../spa/src/pkb/storage/UsesStorage.h"
 
 TEST_CASE("UsesStorage Tests") {

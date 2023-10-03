@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch.hpp>
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 #include "IntermediateTableTestData.h"
 #include "IntermediateTableTestUtils.h"

@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch.hpp>
 
 #include "qps/patternEvaluator/assignEvaluator/AssignEvaluator.h"
 #include "../../patternEvaluator/assignEvaluator/AssignEvaluatorTestData.h"

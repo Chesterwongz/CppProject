@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch.hpp>
 #include "qps/abstraction/ParentsStarAbstraction/ParentsStarAbstraction.h"
 #include "../../mocks/MockPKBReader.h"
 #include "../../intermediateTable/IntermediateTableTestUtils.h"

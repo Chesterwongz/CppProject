@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch.hpp>
 
 void require(bool b) {
     REQUIRE(b);

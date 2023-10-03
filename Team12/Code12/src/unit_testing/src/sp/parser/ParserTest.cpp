@@ -3,7 +3,7 @@
 
 #include "sp/ast/TNode.h"
 
-#include "catch.hpp"
+#include <catch.hpp>
 #include "sp/parser/toplevelparsers/ProgramParser.h"
 #include "sp/parser/condexprparser/CondExprParser.h"
 

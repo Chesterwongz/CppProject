@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch.hpp>
 
 #include <unordered_set>
 #include "../../../../spa/src/pkb/facade/PKBReader.h"

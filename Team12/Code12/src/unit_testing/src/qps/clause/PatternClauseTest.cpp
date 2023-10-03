@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch.hpp>
 
 #include "qps/clause/patternClause/PatternClause.h"
 #include "qps/argument/synonymArg/SynonymArg.h"

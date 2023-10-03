@@ -1,6 +1,6 @@
 #include "common/utils/VectorUtils.h"
 
-#include "catch.hpp"
+#include <catch.hpp>
 
 #include <vector>
 
