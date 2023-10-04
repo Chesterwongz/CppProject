@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <map>
+#include <memory>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -35,7 +37,7 @@ class MockPKBWriter : public PKBWriter {
   std::unordered_map<std::string, std::unique_ptr<CFG>> cfgStorage;
 
  public:
-  explicit MockPKBWriter(PKBStorage &storage) : PKBWriter(storage){};
+  explicit MockPKBWriter(PKBStorage &storage) : PKBWriter(storage) {}
   ~MockPKBWriter() override = default;
 
   void setFollowsRelationship(int statementNumber,
