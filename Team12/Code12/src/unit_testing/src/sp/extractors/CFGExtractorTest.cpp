@@ -2,10 +2,10 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <catch.hpp>
 
 #include "../mocks/MockCFG.h"
 #include "ExtractorUtils.h"
-#include "catch.hpp"
 #include "sp/ast/ProgramNode.h"
 
 using std::unique_ptr, std::make_unique, std::vector, std::string,

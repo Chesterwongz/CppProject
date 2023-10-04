@@ -1,8 +1,8 @@
-#include <catch.hpp>
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <catch.hpp>
 
 #include "sp/ast/ProgramNode.h"
 #include "sp/parser/parsercontext/ParserContext.h"
