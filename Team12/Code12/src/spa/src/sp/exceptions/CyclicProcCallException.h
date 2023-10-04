@@ -9,6 +9,6 @@ class CyclicProcCallException : public SpException {
  public:
   static inline constexpr string_view type = "CyclicProcCallException";
 
-  explicit CyclicProcCallException()
+  CyclicProcCallException()
       : SpException("Cyclic procedure calls detected!") {}
 };

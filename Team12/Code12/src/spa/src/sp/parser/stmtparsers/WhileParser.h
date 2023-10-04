@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 #include <utility>
 
 #include "sp/ast/statements/WhileNode.h"

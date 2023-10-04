@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+#include <vector>
+
 #include "sp/ast/TNode.h"
 
 class Populator {

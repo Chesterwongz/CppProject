@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+#include <vector>
+
 #include "qps/argument/AbstractArgument.h"
 #include "qps/parser/IParserState.h"
 

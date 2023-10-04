@@ -1,5 +1,9 @@
 #pragma once
 
+#include <memory>
+#include <string>
+#include <utility>
+
 #include "RelExprParser.h"
 #include "sp/ast/expressions/conditional/NotNode.h"
 #include "sp/parser/abstractparser/AbstractParser.h"

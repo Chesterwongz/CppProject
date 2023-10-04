@@ -1,6 +1,8 @@
 #pragma once
 
+#include <string>
 #include <utility>
+#include <vector>
 
 #include "pkb/facade/PKB.h"
 #include "qps/abstraction/BaseAbstraction.h"

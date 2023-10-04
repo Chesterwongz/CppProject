@@ -1,5 +1,9 @@
 #pragma once
 
+#include <memory>
+#include <string>
+#include <utility>
+
 #include "TermParser.h"
 #include "sp/parser/exprparser/template/ArithmParserTemplate.h"
 

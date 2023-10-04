@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "qps/patternEvaluator/PatternEvaluator.h"
 
 class AssignEvaluator : public PatternEvaluator {

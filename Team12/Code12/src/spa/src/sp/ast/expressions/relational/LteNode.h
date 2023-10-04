@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <utility>
 
 #include "RelNode.h"
 #include "sp/constants/OperatorConstants.h"

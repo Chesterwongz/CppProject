@@ -1,5 +1,9 @@
 #pragma once
 
+#include <memory>
+#include <string>
+#include <utility>
+
 #include "sp/ast/expressions/ExprNodeFactory.h"
 #include "sp/parser/abstractparser/AbstractParser.h"
 
