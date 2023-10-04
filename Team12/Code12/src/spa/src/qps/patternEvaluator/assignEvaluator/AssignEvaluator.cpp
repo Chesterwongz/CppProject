@@ -29,29 +29,3 @@ vector<string> AssignEvaluator::processArguments() {
 
 	return pkbResult;
 }
-
-IntermediateTable AssignEvaluator::buildResultTable(vector<string> pkbResult) {
-	bool isFirstArgSynonym = patternArgsStream[0]->isSynonym();
-
-	string firstArgValue = patternArgsStream[0]->getValue();
-
-	IntermediateTable linesSatisfyingPattern
-		= IntermediateTableFactory::buildSingleColTable(synonymValue, pkbResult);
-
-	if (isFirstArgSynonym) {
-		// need to add additional variable column to result
-		const string& varColName = firstArgValue;
-
-		vector<pair<string, string>> lineVariablePairs = pkbReader.getAllModifiedVariables(StmtType::ASSIGN);
-
-		IntermediateTable lineAndVarsModified
-			= IntermediateTableFactory::buildIntermediateTable(synonymValue, varColName, lineVariablePairs);
-
-		IntermediateTable linesSatisfyingPatternAndVarsModified = linesSatisfyingPattern.join(lineAndVarsModified);
-		
-		return linesSatisfyingPatternAndVarsModified;
-	}
-
-	// otherwise just return the single column table
-	return linesSatisfyingPattern;
-}

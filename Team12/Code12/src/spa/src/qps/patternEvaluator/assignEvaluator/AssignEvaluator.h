@@ -16,5 +16,4 @@ public:
 											   synonymValue) {};
     ~AssignEvaluator() override = default;
 	vector<string> processArguments() override;
-	IntermediateTable buildResultTable(vector<string> pkbResult) override;
 };

@@ -34,7 +34,7 @@ public:
 		isPartialMatch(isPartialMatch),
 		synonymValue(synonymValue) {};
 	virtual IntermediateTable evaluate();
+	virtual IntermediateTable buildResultTable(vector<string> pkbResult);
 	virtual vector<string> processArguments() = 0;
-	virtual IntermediateTable buildResultTable(vector<string> pkbResult) = 0;
     virtual ~PatternEvaluator() = default;
 };
