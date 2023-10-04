@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common/StmtTypes.h"
+#include "pkb/storage/CallsStorage.h"
 #include "pkb/storage/DesignEntitiesStorage.h"
 #include "pkb/storage/FollowsStorage.h"
 #include "pkb/storage/ModifiesStorage.h"
@@ -70,7 +71,29 @@ public:
     std::vector<std::string> getExactAssignPattern(std::string variableName, std::string rpn, bool isSynonym);
     std::vector<std::string> getPartialAssignPattern(std::string variableName, std::string rpn, bool isSynonym);
 
+    // CallsStorage methods
+    void setCallsRelationship(const std::string& callerProc, const std::string& calleeProc, int statementNumber);
+    void setCallsStarRelationship(const std::string& callerProc, const std::string& calleeProc, int statementNumber);
+
+    std::vector<std::pair<std::string, std::string>> getCalledBy(const std::string& procName);
+    std::vector<std::pair<std::string, std::string>> getCalledStarBy(const std::string& procName);
+    std::vector<std::pair<std::string, std::string>> getProcsThatCall(const std::string& procName);
+    std::vector<std::pair<std::string, std::string>> getProcsThatCallStar(const std::string& procName);
+
+    std::string getProcCalledOn(int stmtNum);
+    std::vector<std::string> getProcStarCalledOn(int stmtNum);
+
+    std::vector<std::pair<std::string, std::string>> getCallingProcedures();
+    std::vector<std::pair<std::string, std::string>> getCalledProcedures();
+
+    bool isCalling(const std::string& caller, const std::string& callee);
+    bool isCallingStar(const std::string& caller, const std::string& callee);
+    bool isCallingStmt(int stmtNum, const std::string& callee);
+    bool isCallingStarStmt(int stmtNum, const std::string& callee);
+
+
 private:
+    CallsStorage callsStorage;
     DesignEntitiesStorage designEntitiesStorage;
     FollowsStorage followsStorage;
     ModifiesStorage modifiesStorage;

@@ -90,13 +90,13 @@ public:
         ifPatternStorage[lineNum].insert(variableName);
     }
 
-    void setCallsRelationship(const std::string &caller, const std::string &callee) override {
+    /*void setCallsRelationship(const std::string &caller, const std::string &callee) override {
         callsStorage[caller].insert(callee);
     }
 
     void setCallsStarRelationship(const std::string &caller, const std::string &callee) override {
         callsStarStorage[caller].insert(callee);
-    }
+    }*/
 
     void setCFG(const std::string& procName, std::unique_ptr<CFG> cfg) override {
         cfgStorage[procName] = std::move(cfg);

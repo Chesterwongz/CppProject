@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "pkb/facade/PKBStorage.h"
+#include "pkb/interfaces/writers/ICallsWriter.h"
 #include "pkb/interfaces/writers/IFollowsWriter.h"
 #include "pkb/interfaces/writers/IParentWriter.h"
 #include "pkb/interfaces/writers/IModifiesWriter.h"
@@ -16,7 +17,7 @@
 using std::unique_ptr;
 
 class PKBWriter : public virtual IDesignEntitiesWriter, public virtual IFollowsWriter,
-    public virtual IParentWriter, public virtual IModifiesWriter, 
+    public virtual IParentWriter, public virtual IModifiesWriter, public virtual ICallsWriter,
     public virtual IUsesWriter, public virtual IStatementWriter, public virtual IPatternWriter {
 public:
     explicit PKBWriter(PKBStorage& storage) : storage(storage) {};
@@ -58,9 +59,9 @@ public:
     virtual void setModifiesRelationship(const std::string& variableName, const std::string& procedureName);
 
     // direct calls, not transitive
-    virtual void setCallsRelationship(const std::string& callerProc, const std::string& calleeProc);
+    virtual void setCallsRelationship(const std::string& callerProc, const std::string& calleeProc, int statementNumber);
 
-    virtual void setCallsStarRelationship(const std::string& callerProc, const std::string& calleeProc);
+    virtual void setCallsStarRelationship(const std::string& callerProc, const std::string& calleeProc, int statementNumber);
 
     // Add an expression to storage
     virtual void setAssignPattern(const std::string& variableName, const std::string& rpn, int statementNumber);

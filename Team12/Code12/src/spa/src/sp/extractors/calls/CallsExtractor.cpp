@@ -9,7 +9,7 @@ void CallsExtractor::visitProcedure(const ProcNode& node) {
 void CallsExtractor::visitCall(const CallNode& node) {
     std::string callee = node.getValue();
     callerToCalleeMap[currProc].insert(callee);
-    pkbWriter.setCallsRelationship(currProc, callee);
+    //pkbWriter.setCallsRelationship(currProc, callee);
 }
 
 void CallsExtractor::postVisitProgram(const ProgramNode& node) {
@@ -40,7 +40,7 @@ void CallsExtractor::addCallsStar() {
         }
 
         for (const auto& callee : allCallees) {
-            pkbWriter.setCallsStarRelationship(caller, callee);
+            //pkbWriter.setCallsStarRelationship(caller, callee);
         }
     }
 }

@@ -47,8 +47,12 @@ void PKBWriter::setUsesRelationship(const std::string &variableName, const std::
 
 void PKBWriter::setModifiesRelationship(const std::string &variableName, const std::string &procedureName) {}
 
-void PKBWriter::setCallsRelationship(const std::string &callerProc, const std::string &calleeProc) {}
+void PKBWriter::setCallsRelationship(const std::string &callerProc, const std::string &calleeProc, int statementNumber) {
+    storage.setCallsRelationship(callerProc, calleeProc, statementNumber);
+}
 
-void PKBWriter::setCallsStarRelationship(const std::string &callerProc, const std::string &calleeProc) {}
+void PKBWriter::setCallsStarRelationship(const std::string &callerProc, const std::string &calleeProc, int statementNumber) {
+    storage.setCallsStarRelationship(callerProc, calleeProc, statementNumber);
+}
 
 void PKBWriter::setCFG(const std::string &procName, unique_ptr<CFG> cfg) {}

@@ -42,6 +42,14 @@ void PKBStorage::setAssignPattern(std::string variableName, std::string rpn, int
     patternStorage.setAssignPattern(variableName, rpn, statementNumber);
 }
 
+void PKBStorage::setCallsRelationship(const std::string& callerProc, const std::string& calleeProc, int statementNumber) {
+    callsStorage.setCallsRelationship(callerProc, calleeProc, statementNumber);
+}
+
+void PKBStorage::setCallsStarRelationship(const std::string& callerProc, const std::string& calleeProc, int statementNumber) {
+    callsStorage.setCallsStarRelationship(callerProc, calleeProc, statementNumber);
+}
+
 std::set<std::string> PKBStorage::getAllVariables() {
     return designEntitiesStorage.getAllVariables();
 }
@@ -123,4 +131,52 @@ std::vector<std::string> PKBStorage::getExactAssignPattern(std::string variableN
 
 std::vector<std::string> PKBStorage::getPartialAssignPattern(std::string variableName, std::string rpn, bool isSynonym) {
     return patternStorage.getPartialAssignPattern(variableName, rpn, isSynonym);
+}
+
+std::vector<std::pair<std::string, std::string>> PKBStorage::getCalledBy(const std::string& procName) {
+    return callsStorage.getCalls(procName);
+}
+
+std::vector<std::pair<std::string, std::string>> PKBStorage::getCalledStarBy(const std::string& procName) {
+    return callsStorage.getCallsStar(procName);
+}
+
+std::vector<std::pair<std::string, std::string>> PKBStorage::getProcsThatCall(const std::string& procName) {
+    return callsStorage.getCalledBy(procName);
+}
+
+std::vector<std::pair<std::string, std::string>> PKBStorage::getProcsThatCallStar(const std::string& procName) {
+    return callsStorage.getCalledByStar(procName);
+}
+
+std::string PKBStorage::getProcCalledOn(int stmtNum) {
+    return callsStorage.getProcCalledOn(stmtNum);
+}
+
+std::vector<std::string> PKBStorage::getProcStarCalledOn(int stmtNum) {
+    return callsStorage.getProcStarCalledOn(stmtNum);
+}
+
+std::vector<std::pair<std::string, std::string>> PKBStorage::getCallingProcedures() {
+    return callsStorage.getCallingProcedures();
+}
+
+std::vector<std::pair<std::string, std::string>> PKBStorage::getCalledProcedures() {
+    return callsStorage.getCalledProcedures();
+}
+
+bool PKBStorage::isCalling(const std::string& caller, const std::string& callee) {
+    return callsStorage.isCalls(caller, callee);
+}
+
+bool PKBStorage::isCallingStar(const std::string& caller, const std::string& callee) {
+    return callsStorage.isCallsStar(caller, callee);
+}
+
+bool PKBStorage::isCallingStmt(int stmtNum, const std::string& callee) {
+    return callsStorage.isCallingStmt(stmtNum, callee);
+}
+
+bool PKBStorage::isCallingStarStmt(int stmtNum, const std::string& callee) {
+    return callsStorage.isCallingStarStmt(stmtNum, callee);
 }
