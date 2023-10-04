@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+#include <string>
+
 #include "IParserState.h"
 #include "qps/clause/Clause.h"
 #include "qps/common/PQLParserUtils.h"
