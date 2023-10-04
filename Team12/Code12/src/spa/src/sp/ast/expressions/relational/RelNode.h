@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+#include <string>
+
 #include "sp/ast/expressions/ExprNode.h"
 
 class RelNode : public ExprNode {

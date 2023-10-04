@@ -32,7 +32,7 @@ class PatternEvaluator {
         patternArgsStream(patternArgsStream),
         pkbReader(pkbReader),
         isPartialMatch(isPartialMatch),
-        synonymValue(synonymValue){};
+        synonymValue(synonymValue) {}
   virtual IntermediateTable evaluate();
   virtual vector<string> processArguments() = 0;
   virtual IntermediateTable buildResultTable(vector<string> pkbResult) = 0;

@@ -24,7 +24,7 @@ class PatternClause : public Clause {
                          bool isPartialMatch)
       : synonym(std::move(synonym)),
         patternArgsStream(std::move(patternArgsStream)),
-        isPartialMatch(isPartialMatch){};
+        isPartialMatch(isPartialMatch) {}
 
   IntermediateTable evaluate(Context& context, PKBReader& pkb) override;
   bool isEquals(const Clause& other) override;

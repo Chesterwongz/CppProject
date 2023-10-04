@@ -16,7 +16,7 @@ PredictiveMap SuchThatParserState::predictiveMap = {
 SuchThatParserState::SuchThatParserState(PQLParserContext &parserContext)
     : parserContext(parserContext),
       tokenStream(parserContext.getTokenStream()),
-      prev(PQL_NULL_TOKEN){};
+      prev(PQL_NULL_TOKEN) {}
 
 void SuchThatParserState::processNameToken(PQLToken &curr) {
   auto tokenType = PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());

@@ -15,7 +15,7 @@ typedef unordered_map<PQLTokenType, unordered_set<PQLTokenType>> PredictiveMap;
 
 class PQLParserUtils {
  public:
-  explicit PQLParserUtils() = default;
+  PQLParserUtils() = default;
   static PQLTokenType getTokenTypeFromKeyword(const string& keyword);
   static bool isDelimiter(PQLTokenType tokenType);
   static bool isExpectedToken(PredictiveMap& pm, PQLTokenType prev,

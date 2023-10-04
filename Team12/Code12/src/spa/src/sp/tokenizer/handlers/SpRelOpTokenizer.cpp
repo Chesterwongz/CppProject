@@ -7,7 +7,7 @@ SpToken SpRelOpTokenizer::tokenize(char nextCh, InputStream &inputStream) {
 
   if (!isRelOp(value)) return BaseTokenizer::tokenize(nextCh, inputStream);
 
-  inputStream.readN((int)value.length());
+  inputStream.readN(static_cast<int>(value.length()));
 
   return {SpTokenType::REL_OP, value};
 }

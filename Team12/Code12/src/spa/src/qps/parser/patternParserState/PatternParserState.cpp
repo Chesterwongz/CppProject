@@ -68,7 +68,7 @@ void PatternParserState::processSynonymToken(PQLToken& curr) {
   }
 }
 
-// TODO: part of refactoring in ms2
+// TODO(QPS): part of refactoring in ms2
 void PatternParserState::processLastArgument() {
   if (patternArg.size() == 1 &&
       partialMatchWildCardCount == 1) {  // secondArg = _

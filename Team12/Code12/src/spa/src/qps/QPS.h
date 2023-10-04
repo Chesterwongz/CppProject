@@ -1,14 +1,19 @@
 #pragma once
 
+#include <memory>
+#include <set>
 #include <string>
 #include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "pkb/facade/PKBReader.h"
 #include "qps/parser/PQLParserContext.h"
+#include "qps/parser/declarativeParserState/DeclarativeParserState.h"
 #include "qps/token/PQLToken.h"
 #include "qps/tokenizer/TokenizerFactory.h"
 
-using std::string;
+using std::string, std::vector, std::unique_ptr;
 
 class QPS {
  private:

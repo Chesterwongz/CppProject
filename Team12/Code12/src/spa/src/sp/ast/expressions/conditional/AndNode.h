@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+#include <string>
+
 #include "CondNode.h"
 #include "sp/constants/OperatorConstants.h"
 

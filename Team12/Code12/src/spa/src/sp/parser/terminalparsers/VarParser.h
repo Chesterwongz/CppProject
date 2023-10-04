@@ -1,5 +1,9 @@
 #pragma once
 
+#include <memory>
+#include <string>
+#include <utility>
+
 #include "sp/ast/terminals/VarNode.h"
 #include "sp/parser/abstractparser/AbstractParser.h"
 

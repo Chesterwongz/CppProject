@@ -29,7 +29,7 @@ UsesParserState::UsesParserState(PQLParserContext& parserContext)
     : parserContext(parserContext),
       tokenStream(this->parserContext.getTokenStream()),
       prev(PQL_NULL_TOKEN),
-      RelationshipParserState(false){};
+      RelationshipParserState(false) {}
 
 void UsesParserState::handleToken() {
   while (!this->tokenStream.isTokenStreamEnd()) {

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "common/tokenizer/BaseTokenizer.h"
 #include "sp/constants/OperatorConstants.h"
 #include "sp/tokenizer/token/SpToken.h"

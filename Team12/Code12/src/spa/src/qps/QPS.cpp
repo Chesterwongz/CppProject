@@ -1,15 +1,6 @@
 #include "QPS.h"
 
-#include <memory>
-#include <utility>
-#include <vector>
-
-#include "qps/parser/declarativeParserState/DeclarativeParserState.h"
-#include "qps/tokenizer/TokenizerFactory.h"
-
-using std::string, std::vector, std::unique_ptr;
-
-// TODO: test
+// TODO(QPS): test
 QPS::QPS(PKBReader& pkb) : pkb(pkb), tokenizerFactory() {}
 
 std::set<string> QPS::processQueryString(const string& query) {

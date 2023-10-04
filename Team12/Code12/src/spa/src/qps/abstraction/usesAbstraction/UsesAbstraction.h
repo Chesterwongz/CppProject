@@ -9,7 +9,7 @@ class UsesAbstraction : public BaseAbstraction {
 
  public:
   explicit UsesAbstraction(AbstractionParams abstractionParams)
-      : BaseAbstraction(abstractionParams){};
+      : BaseAbstraction(abstractionParams) {}
 
   IntermediateTable evaluateSynonymSynonym() override;
   IntermediateTable evaluateSynonymIdent() override;

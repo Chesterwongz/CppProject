@@ -13,7 +13,7 @@ class Ident : public AbstractArgument {
   string identValue;
 
  public:
-  explicit Ident(string argumentValue) : identValue(std::move(argumentValue)){};
+  explicit Ident(string argumentValue) : identValue(std::move(argumentValue)) {}
   string getValue() override;
   QPSStringUtils::ArgumentType getArgumentType() override;
   bool isIdent() override;

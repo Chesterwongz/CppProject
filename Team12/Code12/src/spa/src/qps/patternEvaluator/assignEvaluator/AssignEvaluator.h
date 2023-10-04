@@ -9,7 +9,7 @@ class AssignEvaluator : public PatternEvaluator {
                            PKBReader& pkbReader, bool isPartialMatch,
                            string synonymValue)
       : PatternEvaluator(context, patternArgsStream, pkbReader, isPartialMatch,
-                         synonymValue){};
+                         synonymValue) {}
   ~AssignEvaluator() override = default;
   vector<string> processArguments() override;
   IntermediateTable buildResultTable(vector<string> pkbResult) override;

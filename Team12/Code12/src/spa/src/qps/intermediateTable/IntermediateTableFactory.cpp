@@ -9,7 +9,6 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
   // even if columns are wildcard
   if (data.empty()) {
     return IntermediateTable::makeEmptyTable();
-    ;
   }
 
   bool isFirstColWildcard = firstColName == WILDCARD_KEYWORD;
@@ -109,9 +108,8 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
 
 IntermediateTable IntermediateTableFactory::buildEmptyIntermediateTable() {
   return IntermediateTable::makeEmptyTable();
-  ;
 }
 
 IntermediateTable IntermediateTableFactory::buildWildcardIntermediateTable() {
   return IntermediateTable::makeWildcardTable();
-};
+}

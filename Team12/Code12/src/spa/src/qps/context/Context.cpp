@@ -12,7 +12,7 @@ Entity Context::getTokenEntity(const Synonym &synonym) {
   }
 
   return entity->second;
-};
+}
 
 void Context::addSynonym(const Synonym &tokenSynonym, Entity tokenEntity) {
   if (tokenNameToTokenMap.find(tokenSynonym) != tokenNameToTokenMap.end()) {

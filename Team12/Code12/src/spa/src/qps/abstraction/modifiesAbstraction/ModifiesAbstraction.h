@@ -9,7 +9,7 @@ class ModifiesAbstraction : public BaseAbstraction {
 
  public:
   explicit ModifiesAbstraction(AbstractionParams abstractionParams)
-      : BaseAbstraction(abstractionParams){};
+      : BaseAbstraction(abstractionParams) {}
 
   IntermediateTable evaluateSynonymSynonym() override;
   IntermediateTable evaluateSynonymIdent() override;

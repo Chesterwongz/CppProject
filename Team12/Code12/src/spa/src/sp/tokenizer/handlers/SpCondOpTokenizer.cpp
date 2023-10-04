@@ -9,7 +9,7 @@ SpToken SpCondOpTokenizer::tokenize(char nextCh, InputStream &inputStream) {
   // and '||' must be followed by a '('.
   if (!isCondOp(value)) return BaseTokenizer::tokenize(nextCh, inputStream);
 
-  inputStream.readN((int)value.length());
+  inputStream.readN(static_cast<int>(value.length()));
 
   return {SpTokenType::COND_OP, value};
 }

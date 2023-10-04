@@ -29,7 +29,7 @@ ModifiesParserState::ModifiesParserState(PQLParserContext& parserContext)
     : parserContext(parserContext),
       tokenStream(this->parserContext.getTokenStream()),
       prev(PQL_NULL_TOKEN),
-      RelationshipParserState(false){};
+      RelationshipParserState(false) {}
 
 void ModifiesParserState::handleToken() {
   while (!this->tokenStream.isTokenStreamEnd()) {

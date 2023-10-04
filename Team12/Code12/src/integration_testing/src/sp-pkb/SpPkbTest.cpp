@@ -777,7 +777,7 @@ TEST_CASE(
       "        f = a / b * (c + d) % e - f;"  // 20
       "    }"
       "    g = (a + b % c) * (d - e / f);"  // 21
-      "    print a; print b; print c; print d;" // 22-25
+      "    print a; print b; print c; print d;"  // 22-25
       "    print e; print f; print g;"  // 26-28
       "}";
   // extract

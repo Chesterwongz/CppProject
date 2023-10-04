@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "common/tokenizer/BaseTokenizer.h"
 #include "common/utils/StringUtils.h"
 #include "sp/tokenizer/token/SpToken.h"

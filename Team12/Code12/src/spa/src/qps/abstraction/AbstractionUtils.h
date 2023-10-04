@@ -110,7 +110,7 @@ inline ArgumentPermutation getPermutation(AbstractArgument &firstArg,
     throw QPSInvalidAbstractionException(
         QPS_INVALID_ABSTRACTION_ERR_UNKNOWN_ARG_PERMUTATION);
   }
-};
+}
 
 inline StmtType getArgStmtType(AbstractArgument &argument, Context &context) {
   if (argument.isSynonym()) {

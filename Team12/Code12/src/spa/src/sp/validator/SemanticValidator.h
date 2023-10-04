@@ -24,6 +24,6 @@ class SemanticValidator {
   void dfs(const TNode& node);
 
  public:
-  explicit SemanticValidator();
+  SemanticValidator();
   void validate(const TNode& root);
 };

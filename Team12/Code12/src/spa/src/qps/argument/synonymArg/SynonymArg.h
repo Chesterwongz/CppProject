@@ -13,7 +13,7 @@ class SynonymArg : public AbstractArgument {
 
  public:
   explicit SynonymArg(string argumentValue)
-      : synonymValue(std::move(argumentValue)){};
+      : synonymValue(std::move(argumentValue)) {}
   string getValue() override;
   QPSStringUtils::ArgumentType getArgumentType() override;
   bool isSynonym() override;

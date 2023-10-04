@@ -12,7 +12,7 @@ class FollowsStarAbstraction : public BaseAbstraction {
 
  public:
   explicit FollowsStarAbstraction(AbstractionParams &abstractionParams)
-      : BaseAbstraction(abstractionParams){};
+      : BaseAbstraction(abstractionParams) {}
 
   IntermediateTable evaluateSynonymSynonym() override;
   IntermediateTable evaluateSynonymInteger() override;

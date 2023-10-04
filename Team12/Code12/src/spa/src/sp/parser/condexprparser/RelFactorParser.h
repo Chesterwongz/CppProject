@@ -8,6 +8,6 @@
 class RelFactorParser : public AbstractParser {
  public:
   explicit RelFactorParser(std::shared_ptr<ParserContext> context)
-      : AbstractParser(std::move(context)){};
+      : AbstractParser(std::move(context)) {}
   std::optional<std::unique_ptr<TNode>> parse() override;
 };

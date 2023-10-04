@@ -30,7 +30,7 @@ class ModifiesExtractor : public Extractor {
 
  public:
   explicit ModifiesExtractor(PKBWriter& pkbWriter);
-  void visitProcedure(const ProcNode& node) override;  // TODO: modify after MS1
+  void visitProcedure(const ProcNode& node) override;
   void visitAssign(const AssignNode& node) override;
   void visitIf(const IfNode& node) override;
   void visitWhile(const WhileNode& node) override;

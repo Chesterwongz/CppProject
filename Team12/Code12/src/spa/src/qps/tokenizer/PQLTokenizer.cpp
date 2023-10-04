@@ -15,7 +15,7 @@ PQLTokenizer::PQLTokenizer(const string& query)
   literalBuffer.reserve(BUFFER_SIZE);
 }
 
-// TODO: can be converted to a mix of strategy pattern and simple methods for
+// TODO(QPS): can be converted to a mix of strategy pattern and simple methods for
 // complex edges and simpler cases respectively
 unique_ptr<PQLTokenList> PQLTokenizer::tokenize() {
   while (currPos < query.length()) {

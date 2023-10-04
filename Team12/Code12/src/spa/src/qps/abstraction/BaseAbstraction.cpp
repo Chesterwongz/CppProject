@@ -8,7 +8,7 @@ BaseAbstraction::BaseAbstraction(AbstractionParams &params)
       secondArg(params.secondArg),
       firstArgValue(params.firstArg.getValue()),
       secondArgValue(params.secondArg.getValue()),
-      argumentPermutation(getPermutation(params.firstArg, params.secondArg)){};
+      argumentPermutation(getPermutation(params.firstArg, params.secondArg)) {}
 
 StmtType BaseAbstraction::getFirstArgStmtType() {
   return getArgStmtType(this->firstArg, this->context);
@@ -20,7 +20,7 @@ StmtType BaseAbstraction::getSecondArgStmtType() {
 
 IntermediateTable BaseAbstraction::evaluate() {
   return argumentPermutationToEvalMap[this->argumentPermutation](*this);
-};
+}
 
 /**
  * Template methods for each permutation of argument.

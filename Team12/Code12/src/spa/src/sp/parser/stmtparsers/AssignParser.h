@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include <string>
+#include <utility>
 
 #include "sp/ast/statements/AssignNode.h"
 #include "sp/parser/abstractparser/AbstractParser.h"

@@ -46,6 +46,6 @@ class PQLTokenTable {
   PQLTokenType tokens[256]{};
 
  public:
-  explicit PQLTokenTable();
+  PQLTokenTable();
   PQLTokenType getTokenType(char c);
 };

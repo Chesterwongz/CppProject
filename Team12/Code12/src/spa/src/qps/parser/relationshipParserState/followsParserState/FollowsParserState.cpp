@@ -8,7 +8,7 @@
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/parser/patternParserState/PatternParserState.h"
 
-// TODO: Can be merged with ParentParserState
+// TODO(QPS): Can be merged with ParentParserState
 PredictiveMap FollowsParserState::predictiveMap = {
     {PQL_NULL_TOKEN, {PQL_FOLLOWS_TOKEN}},
     {PQL_FOLLOWS_TOKEN, {PQL_ASTERISKS_TOKEN, PQL_OPEN_BRACKET_TOKEN}},
@@ -31,9 +31,7 @@ FollowsParserState::FollowsParserState(PQLParserContext& parserContext)
       tokenStream(this->parserContext.getTokenStream()),
       prev(PQL_NULL_TOKEN),
       RelationshipParserState(false),
-      isTransitive(false){
-
-      };
+      isTransitive(false) {}
 
 void FollowsParserState::handleToken() {
   while (!this->tokenStream.isTokenStreamEnd()) {

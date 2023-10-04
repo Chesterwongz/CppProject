@@ -9,7 +9,7 @@ SuchThatClause::SuchThatClause(Abstraction relationship,
                                unique_ptr<AbstractArgument> secondArg)
     : relationship(relationship),
       firstArg(std::move(firstArg)),
-      secondArg(std::move(secondArg)){};
+      secondArg(std::move(secondArg)) {}
 
 // todo: remove after integration
 SuchThatClause::SuchThatClause(Abstraction relationship,
@@ -20,7 +20,7 @@ SuchThatClause::SuchThatClause(Abstraction relationship,
       firstArg(std::move(firstArg)),
       secondArg(std::move(secondArg)) {
   throw std::runtime_error("invalid constructor used");
-};
+}
 
 IntermediateTable SuchThatClause::evaluate(Context& context, PKBReader& pkb) {
   unique_ptr<AbstractionParams> abstractionParams =

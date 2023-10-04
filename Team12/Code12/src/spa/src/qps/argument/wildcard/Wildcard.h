@@ -14,7 +14,7 @@ class Wildcard : public AbstractArgument {
   string wildcardValue = WILDCARD_KEYWORD;
 
  public:
-  explicit Wildcard() = default;
+  Wildcard() = default;
   string getValue() override;
   QPSStringUtils::ArgumentType getArgumentType() override;
   bool isWildcard() override;

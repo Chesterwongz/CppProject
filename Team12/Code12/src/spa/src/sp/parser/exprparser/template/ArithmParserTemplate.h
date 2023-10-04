@@ -9,7 +9,7 @@ class ArithmParserTemplate : public AbstractParser {
 
  protected:
   explicit ArithmParserTemplate(std::shared_ptr<ParserContext> context)
-      : AbstractParser(std::move(context)){};
+      : AbstractParser(std::move(context)) {}
 
   [[nodiscard]] virtual std::unique_ptr<AbstractParser> getNextParser()
       const = 0;

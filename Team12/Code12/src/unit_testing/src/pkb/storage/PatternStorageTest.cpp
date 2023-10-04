@@ -1,5 +1,5 @@
-#include <catch.hpp>
 #include <unordered_set>
+#include <catch.hpp>
 
 #include "../../../../spa/src/pkb/storage/PatternStorage.h"
 #include "../../common/utils/HelperFunctions.h"

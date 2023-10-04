@@ -12,7 +12,7 @@ class ParentsAbstraction : public BaseAbstraction {
 
  public:
   explicit ParentsAbstraction(AbstractionParams abstractionParams)
-      : BaseAbstraction(abstractionParams){};
+      : BaseAbstraction(abstractionParams) {}
 
   IntermediateTable evaluateSynonymSynonym() override;
   IntermediateTable evaluateSynonymInteger() override;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "pkb/facade/PKB.h"
 #include "qps/abstraction/BaseAbstraction.h"
 
@@ -12,7 +14,7 @@ class FollowsAbstraction : public BaseAbstraction {
 
  public:
   explicit FollowsAbstraction(AbstractionParams &abstractionParams)
-      : BaseAbstraction(abstractionParams){};
+      : BaseAbstraction(abstractionParams) {}
 
   IntermediateTable evaluateSynonymSynonym() override;
   IntermediateTable evaluateSynonymInteger() override;
