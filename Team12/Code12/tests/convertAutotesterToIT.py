@@ -81,9 +81,9 @@ using std::string, std::unordered_map,std::map, std::unordered_set, std::set, st
 if __name__ == "__main__":
     if len(sys.argv) < 4:
         print("Usage: tests/convertAutotesterToIT.py <source_file> <query_file> <destination_file>\n"
-              "e.g. tests/convertAutotesterToIT.py "
-              "tests/Milestone1/SingleClauseTests/Follows_source.txt "
-              "tests/Milestone1/SingleClauseTests/Follows_queries.txt "
+              "e.g. Code12/tests/convertAutotesterToIT.py "
+              "Tests12/Milestone1/SingleClauseTests/Follows_source.txt "
+              "Tests12/Milestone1/SingleClauseTests/Follows_queries.txt "
               "TestFollows.cpp ")
         sys.exit(1)
 
