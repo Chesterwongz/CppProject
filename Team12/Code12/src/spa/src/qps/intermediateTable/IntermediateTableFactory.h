@@ -2,6 +2,10 @@
 
 #include "IntermediateTable.h"
 
+#include <string>
+#include <utility>
+#include <vector>
+
 class IntermediateTableFactory {
  public:
   /**

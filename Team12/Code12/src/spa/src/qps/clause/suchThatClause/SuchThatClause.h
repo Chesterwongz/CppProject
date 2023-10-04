@@ -1,7 +1,9 @@
 #pragma once
 
+#include <memory>
 #include <set>
 #include <string>
+#include <utility>
 
 #include "qps/argument/AbstractArgument.h"
 #include "qps/clause/Clause.h"
