@@ -1,12 +1,12 @@
 #pragma once
 
 enum class AbstractionType {
-    ENTITY,
-    FOLLOWS,
-    MODIFIES,
-    USES,
-    PARENT,
-    PATTERN,
-    CALLS,
-    CFG
+  ENTITY,
+  FOLLOWS,
+  MODIFIES,
+  USES,
+  PARENT,
+  PATTERN,
+  CALLS,
+  CFG
 };

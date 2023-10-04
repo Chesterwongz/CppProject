@@ -6,9 +6,9 @@
 #include "sp/tokenizer/token/SpToken.h"
 
 class SpTermOpTokenizer : public BaseTokenizer<SpToken> {
-private:
-    static bool matchesTermOp(char ch);
+ private:
+  static bool matchesTermOp(char ch);
 
-public:
-    SpToken tokenize(char nextCh, InputStream &inputStream) override;
+ public:
+  SpToken tokenize(char nextCh, InputStream &inputStream) override;
 };

@@ -5,9 +5,9 @@
 #include "sp/tokenizer/token/SpToken.h"
 
 class SpDelimiterTokenizer : public BaseTokenizer<SpToken> {
-private:
-    static bool matchesDelim(char ch);
+ private:
+  static bool matchesDelim(char ch);
 
-public:
-    SpToken tokenize(char nextCh, InputStream &inputStream) override;
+ public:
+  SpToken tokenize(char nextCh, InputStream &inputStream) override;
 };
