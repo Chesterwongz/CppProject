@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "sp/ast/statements/PrintNode.h"
 #include "sp/parser/stmtparsers/templates/ReadPrintParserTemplate.h"
 
@@ -7,7 +9,7 @@
 class PrintParser : public ReadPrintParserTemplate {
  public:
   explicit PrintParser(std::shared_ptr<ParserContext> context)
-      : ReadPrintParserTemplate(std::move(context)){};
+      : ReadPrintParserTemplate(std::move(context)) {}
 
   [[nodiscard]] std::unique_ptr<TNode> makeTNode() const override;
 };

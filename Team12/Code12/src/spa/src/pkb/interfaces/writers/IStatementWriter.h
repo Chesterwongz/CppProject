@@ -1,3 +1,7 @@
+#pragma once
+
+#include <string>
+
 class IStatementWriter {
  public:
   virtual ~IStatementWriter() = default;

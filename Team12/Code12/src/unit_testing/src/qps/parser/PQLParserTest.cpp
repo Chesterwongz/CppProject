@@ -1,6 +1,6 @@
-#include <catch.hpp>
 #include <memory>
 #include <vector>
+#include <catch.hpp>
 
 #include "../testUtils/argumentFactory/ArgumentFactory.h"
 #include "pkb/facade/PKBReader.h"

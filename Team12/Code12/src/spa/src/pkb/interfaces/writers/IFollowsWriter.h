@@ -1,3 +1,7 @@
+#pragma once
+
+#include <string>
+
 class IFollowsWriter {
  public:
   virtual ~IFollowsWriter() = default;

@@ -1,6 +1,8 @@
 #pragma once
 
+#include <memory>
 #include <string>
+#include <utility>
 
 #include "ITokenHandler.h"
 #include "sp/exceptions/SyntaxError.h"

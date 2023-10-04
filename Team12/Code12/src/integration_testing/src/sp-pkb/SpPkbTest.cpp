@@ -1,10 +1,10 @@
-#include <catch.hpp>
 #include <map>
 #include <set>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <catch.hpp>
 
 #include "pkb/facade/PKB.h"
 #include "sp/SourceProcessor.h"
@@ -777,7 +777,8 @@ TEST_CASE(
       "        f = a / b * (c + d) % e - f;"  // 20
       "    }"
       "    g = (a + b % c) * (d - e / f);"  // 21
-      "    print a; print b; print c; print d; print e; print f; print g;"  // 22-28
+      "    print a; print b; print c; print d;" // 22-25
+      "    print e; print f; print g;"  // 26-28
       "}";
   // extract
   SourceProcessor sp;

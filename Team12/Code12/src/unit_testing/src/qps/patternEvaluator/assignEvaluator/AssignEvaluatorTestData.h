@@ -1,5 +1,10 @@
 #pragma once
 
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "../../mocks/MockContext.h"
 #include "../../mocks/MockPKBReader.h"
 #include "qps/argument/ident/Ident.h"

@@ -1,3 +1,7 @@
+#pragma once
+
+#include <string>
+
 class IUsesWriter {
  public:
   virtual ~IUsesWriter() = default;

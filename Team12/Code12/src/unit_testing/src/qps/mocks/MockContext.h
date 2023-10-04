@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <unordered_map>
+
 #include "../../../../spa/src/qps/context/Context.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 

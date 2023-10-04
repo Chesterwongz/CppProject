@@ -29,7 +29,7 @@ class TokenStream {
     }
 
     return tokenizerChain.tokenize(inputStream.peek(), inputStream);
-  };
+  }
 
  public:
   static inline std::unique_ptr<TokenStream<T>> initialize(
@@ -44,20 +44,20 @@ class TokenStream {
       tokenOpt = nextToken(inputStream, tokenizerChain);
     }
     return tokenStream;
-  };
+  }
 
-  [[nodiscard]] inline int getCursor() const { return cursor; };
+  [[nodiscard]] inline int getCursor() const { return cursor; }
 
   inline void setCursor(int n) {
     cursor = n;
     currToken = tokenLst[cursor];
-  };
+  }
 
   /**
    * Gets the current token.
    * Returns std::nullopt if end of input has been reached.
    */
-  [[nodiscard]] inline std::optional<T> peek() const { return currToken; };
+  [[nodiscard]] inline std::optional<T> peek() const { return currToken; }
 
   /**
    * Returns the current token and moves to the nextToken token.
@@ -70,5 +70,5 @@ class TokenStream {
     currToken = cursor + 1 < tokenLst.size() ? std::optional{tokenLst[++cursor]}
                                              : std::nullopt;
     return temp;
-  };
+  }
 };

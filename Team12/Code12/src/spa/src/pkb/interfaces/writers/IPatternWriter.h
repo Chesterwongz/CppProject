@@ -1,3 +1,7 @@
+#pragma once
+
+#include <string>
+
 class IPatternWriter {
  public:
   virtual ~IPatternWriter() = default;

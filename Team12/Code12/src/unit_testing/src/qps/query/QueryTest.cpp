@@ -1,8 +1,8 @@
-//#include <catch.hpp>
-//#include "qps/query/Query.h"
-//#include "../mocks/MockPKBReader.h"
-//#include "../abstraction/FollowsAbstraction/FollowsAbstractionTestData.h"
-//#include "qps/clause/suchThatClause/SuchThatClause.h"
+// #include <catch.hpp>
+// #include "qps/query/Query.h"
+// #include "../mocks/MockPKBReader.h"
+// #include "../abstraction/FollowsAbstraction/FollowsAbstractionTestData.h"
+// #include "qps/clause/suchThatClause/SuchThatClause.h"
 //
 // TEST_CASE("Query - getAbstractions - Follows(Synonym, Wildcard)") {
 //    PKBStorage mockStorage = PKBStorage();
@@ -23,5 +23,5 @@
 //    Query query(mockPkbReader);
 //    query.addClause(std::move(suchThatClause))
 //
-//}
+// }
 //

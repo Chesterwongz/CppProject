@@ -23,7 +23,7 @@ class PKBReader : public virtual IDesignEntitiesReader,
                   public virtual IModifiesReader,
                   public virtual IStatementReader {
  public:
-  explicit PKBReader(PKBStorage& storage) : storage(storage){};
+  explicit PKBReader(PKBStorage& storage) : storage(storage) {}
   virtual ~PKBReader() = default;
 
   // return the names of all variables in the program

@@ -2,6 +2,8 @@
 
 #include <memory>
 #include <set>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "../../testUtils/argumentFactory/ArgumentFactory.h"

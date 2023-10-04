@@ -26,7 +26,7 @@ struct AbstractionParams {
         context(context),
         abstraction((abstraction)),
         firstArg(firstArg),
-        secondArg(secondArg){};
+        secondArg(secondArg) {}
 };
 
 enum ArgumentPermutation {

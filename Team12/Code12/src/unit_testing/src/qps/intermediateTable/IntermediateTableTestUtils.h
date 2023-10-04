@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "qps/intermediateTable/IntermediateTable.h"
 
 bool isVectorSameAsPair(vector<string> vector1,

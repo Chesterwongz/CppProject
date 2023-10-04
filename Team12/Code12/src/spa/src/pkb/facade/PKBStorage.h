@@ -1,5 +1,10 @@
 #pragma once
 
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "common/StmtTypes.h"
 #include "pkb/storage/DesignEntitiesStorage.h"
 #include "pkb/storage/FollowsStorage.h"

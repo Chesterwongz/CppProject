@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <map>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -46,7 +47,7 @@ class MockPKBReader : public PKBReader {
   bool mockIsVariableModifiedBy;
   bool mockIsVariableUsedBy;
 
-  explicit MockPKBReader(PKBStorage& storage) : PKBReader(storage){};
+  explicit MockPKBReader(PKBStorage& storage) : PKBReader(storage) {}
 
   set<string> getAllVariables() override { return mockAllVariables; }
 
