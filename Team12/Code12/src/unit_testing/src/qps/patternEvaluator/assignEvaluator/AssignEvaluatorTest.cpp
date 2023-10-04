@@ -6,6 +6,67 @@
 
 using std::make_unique;
 
+TEST_CASE("test_AssignEvaluator_processArgs_synonymFirstArg") {
+	mockPKBReader.resetMockExactAssignPatternStmts();
+	mockPKBReader.resetMockPartialAssignPatternStmts();
+	mockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmts;
+
+	// assign meow; variable test; select meow pattern (test, "x");
+	SynonymArg selectedSynonym = SynonymArg(synonymValue);
+	SynonymArg variableSynonym = SynonymArg("test");
+	Ident ident = Ident("x");
+
+	unique_ptr<SynonymArg> variableSynonymPtr = make_unique<SynonymArg>(variableSynonym.getValue());
+	unique_ptr<Ident> identPtr = make_unique<Ident>(ident.getValue());
+
+	PatternArgsStream patternArgsStreamTest;
+	patternArgsStreamTest.push_back(std::move(variableSynonymPtr));
+	patternArgsStreamTest.push_back(std::move(identPtr));
+
+	AssignEvaluator assignEvaluator = AssignEvaluator(
+		mockContext,
+		patternArgsStreamTest,
+		mockPKBReader,
+		isPartialMatchFalse,
+		selectedSynonym.getValue());
+
+	vector<string> pkbResult = assignEvaluator.processArguments();
+
+	REQUIRE(pkbResult == mockExactAssignPatternStmts);
+
+}
+
+TEST_CASE("test_AssignEvaluator_processArgs_identFirstArg") {
+	mockPKBReader.resetMockExactAssignPatternStmts();
+	mockPKBReader.resetMockPartialAssignPatternStmts();
+	mockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmtsIdent;
+	mockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
+
+	// assign meow; select meow pattern ("a", "x");
+	SynonymArg selectedSynonym = SynonymArg(synonymValue);
+	Ident patternFirstArg = Ident("a");
+	Ident patternExp = Ident("x");
+
+	unique_ptr<Ident> patternFirstArgPtr = make_unique<Ident>(patternFirstArg.getValue());
+	unique_ptr<Ident> patternExpPtr = make_unique<Ident>(patternExp.getValue());
+
+	PatternArgsStream patternArgsStreamTest;
+	patternArgsStreamTest.push_back(std::move(patternFirstArgPtr));
+	patternArgsStreamTest.push_back(std::move(patternExpPtr));
+
+	AssignEvaluator assignEvaluator = AssignEvaluator(
+		mockContext,
+		patternArgsStreamTest,
+		mockPKBReader,
+		isPartialMatchFalse,
+		selectedSynonym.getValue());
+
+	vector<string> pkbResult = assignEvaluator.processArguments();
+
+	REQUIRE(pkbResult == mockExactAssignPatternStmtsIdent);
+
+}
+
 TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
 	mockPKBReader.resetMockExactAssignPatternStmts();
 	mockPKBReader.resetMockPartialAssignPatternStmts();
