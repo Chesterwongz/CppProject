@@ -24,12 +24,9 @@ TEST_CASE("test_AssignEvaluator_processArgs_synonymFirstArg") {
   patternArgsStreamTest.push_back(std::move(variableSynonymPtr));
   patternArgsStreamTest.push_back(std::move(identPtr));
 
-	AssignEvaluator assignEvaluator = AssignEvaluator(
-		assignMockContext,
-		patternArgsStreamTest,
-		assignMockPKBReader,
-		assignIsPartialMatchFalse,
-		selectedSynonym.getValue());
+	AssignEvaluator assignEvaluator = 
+		AssignEvaluator(assignMockContext, patternArgsStreamTest, assignMockPKBReader,
+		assignIsPartialMatchFalse, selectedSynonym.getValue());
 
 	vector<string> pkbResult = assignEvaluator.processArguments();
 
@@ -55,12 +52,9 @@ TEST_CASE("test_AssignEvaluator_processArgs_identFirstArg") {
 	patternArgsStreamTest.push_back(std::move(patternFirstArgPtr));
 	patternArgsStreamTest.push_back(std::move(patternExpPtr));
 
-	AssignEvaluator assignEvaluator = AssignEvaluator(
-		assignMockContext,
-		patternArgsStreamTest,
-		assignMockPKBReader,
-		assignIsPartialMatchFalse,
-		selectedSynonym.getValue());
+	AssignEvaluator assignEvaluator = 
+		AssignEvaluator(assignMockContext, patternArgsStreamTest, assignMockPKBReader,
+		assignIsPartialMatchFalse, selectedSynonym.getValue());
 
 	vector<string> pkbResult = assignEvaluator.processArguments();
 
