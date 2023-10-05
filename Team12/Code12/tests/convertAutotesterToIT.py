@@ -72,22 +72,25 @@ using std::string, std::unordered_map,std::map, std::unordered_set, std::set, st
         
 """
         source_code = process_source_file(source_path)
-        with open(f"src/integration_testing/src/sp_pkb_qps/{dest_path}", "w") as out_file:
+        with open(f"../src/integration_testing/src/sp_pkb_qps/{dest_path}",
+                  "w") as out_file:
             out_file.write(prefix)
             out_file.write(source_code)
             out_file.write(formatted_cpp_tests)
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 4:
-        print("Usage: tests/convertAutotesterToIT.py <source_file> <query_file> <destination_file>\n"
-              "e.g. Code12/tests/convertAutotesterToIT.py "
-              "Tests12/Milestone1/SingleClauseTests/Follows_source.txt "
-              "Tests12/Milestone1/SingleClauseTests/Follows_queries.txt "
-              "TestFollows.cpp ")
-        sys.exit(1)
+    # if len(sys.argv) < 4:
+    #     print("Usage: Code12/tests/convertAutotesterToIT.py <source_file> <query_file> <destination_file>\n"
+    #           "e.g. Code12/tests/convertAutotesterToIT.py "
+    #           "Tests12/Milestone1/SingleClauseTests/Follows_source.txt "
+    #           "Tests12/Milestone1/SingleClauseTests/Follows_queries.txt "
+    #           "TestFollows.cpp ")
+    #     sys.exit(1)
 
-    source_filename = sys.argv[1]
-    query_filename = sys.argv[2]
-    destination_filename = sys.argv[3]
+    source_filename = "../../Tests12/Milestone1/InvalidQueries" \
+                      "/SemanticallyInvalid_source.txt"
+    query_filename = "../../Tests12/Milestone1/InvalidQueries" \
+                     "/SemanticallyInvalid_queries.txt"
+    destination_filename = "TestInvalidSemantics.cpp"
     process_files(source_filename, query_filename, destination_filename)
