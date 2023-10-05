@@ -1,10 +1,10 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include <unordered_set>
+#include <vector>
 
 using std::string, std::vector, std::unordered_set;
 
-unordered_set<string> convertStringVectorToUnorderedSet(const vector<string>& stringVector);
-
+unordered_set<string> convertStringVectorToUnorderedSet(
+    const vector<string>& stringVector);

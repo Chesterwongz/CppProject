@@ -1,27 +1,32 @@
 #pragma once
 
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "pkb/facade/PKB.h"
 #include "qps/abstraction/BaseAbstraction.h"
 
 class FollowsStarAbstraction : public BaseAbstraction {
-private:
-    IntermediateTable handleSynonymOrWildcardArgs();
-    IntermediateTable handleBothArgsInteger();
-    IntermediateTable handleFirstArgInteger();
-    IntermediateTable handleSecondArgInteger();
-public:
-    explicit FollowsStarAbstraction(AbstractionParams &abstractionParams)  :
-            BaseAbstraction(abstractionParams) {};
+ private:
+  IntermediateTable handleSynonymOrWildcardArgs();
+  IntermediateTable handleBothArgsInteger();
+  IntermediateTable handleFirstArgInteger();
+  IntermediateTable handleSecondArgInteger();
 
-    IntermediateTable evaluateSynonymSynonym() override;
-    IntermediateTable evaluateSynonymInteger() override;
-    IntermediateTable evaluateSynonymWildcard() override;
+ public:
+  explicit FollowsStarAbstraction(AbstractionParams &abstractionParams)
+      : BaseAbstraction(abstractionParams) {}
 
-    IntermediateTable evaluateIntegerSynonym() override;
-    IntermediateTable evaluateIntegerInteger() override;
-    IntermediateTable evaluateIntegerWildcard() override;
+  IntermediateTable evaluateSynonymSynonym() override;
+  IntermediateTable evaluateSynonymInteger() override;
+  IntermediateTable evaluateSynonymWildcard() override;
 
-    IntermediateTable evaluateWildcardSynonym() override;
-    IntermediateTable evaluateWildcardInteger() override;
-    IntermediateTable evaluateWildcardWildcard() override;
+  IntermediateTable evaluateIntegerSynonym() override;
+  IntermediateTable evaluateIntegerInteger() override;
+  IntermediateTable evaluateIntegerWildcard() override;
+
+  IntermediateTable evaluateWildcardSynonym() override;
+  IntermediateTable evaluateWildcardInteger() override;
+  IntermediateTable evaluateWildcardWildcard() override;
 };

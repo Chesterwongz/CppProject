@@ -9,9 +9,10 @@
 using std::unique_ptr;
 
 class IParserState {
-protected:
-    virtual void processNameToken(PQLToken& curr) = 0;
-public:
-	virtual void handleToken() = 0;
-    virtual ~IParserState() = default;
+ protected:
+  virtual void processNameToken(PQLToken& curr) = 0;
+
+ public:
+  virtual void handleToken() = 0;
+  virtual ~IParserState() = default;
 };

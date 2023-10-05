@@ -2,12 +2,8 @@
 
 SpToken::SpToken(SpTokenType type) : type(type), value(0) {}
 
-SpToken::SpToken(SpTokenType type, string value) : type(type), value(value){}
+SpToken::SpToken(SpTokenType type, string value) : type(type), value(value) {}
 
-SpTokenType SpToken::getType() const {
-    return this->type;
-}
+SpTokenType SpToken::getType() const { return this->type; }
 
-string SpToken::getValue() const {
-    return this->value;
-}
+string SpToken::getValue() const { return this->value; }

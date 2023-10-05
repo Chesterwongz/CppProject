@@ -6,10 +6,11 @@
 
 template <typename T>
 class ITokenHandler {
-public:
-    virtual ~ITokenHandler() = default;
+ public:
+  virtual ~ITokenHandler() = default;
 
-    virtual T tokenize(char nextCh, InputStream &inputStream) = 0;
+  virtual T tokenize(char nextCh, InputStream &inputStream) = 0;
 
-    virtual ITokenHandler<T> &setNext(std::unique_ptr<ITokenHandler<T>> handler) = 0;
+  virtual ITokenHandler<T> &setNext(
+      std::unique_ptr<ITokenHandler<T>> handler) = 0;
 };
