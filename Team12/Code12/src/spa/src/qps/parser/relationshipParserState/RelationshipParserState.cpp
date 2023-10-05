@@ -2,18 +2,34 @@
 #include "qps/common/PQLParserUtils.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-RelationshipParserState::RelationshipParserState(bool isInBracket) : isInBracket(isInBracket) {}
+int RelationshipParserState::expectedNumberOfArgs = 2;
+
+RelationshipParserState::RelationshipParserState(PQLParserContext &parserContext, bool isInBracket) :
+isInBracket(isInBracket),
+relationship(""),
+BaseParserState(parserContext) {}
 
 void RelationshipParserState::processNameToken(PQLToken &curr) {
     if (this->isInBracket) {
-        curr.updateTokenType(PQL_SYNONYM_TOKEN);
+        if (QPSStringUtils::isSynonym(curr.getValue())){
+            curr.updateTokenType(PQL_SYNONYM_TOKEN);
+        } else {
+            curr.updateTokenType(PQL_NULL_TOKEN);
+        }
         return;
     }
     curr.updateTokenType(PQLParserUtils::getTokenTypeFromKeyword(curr.getValue()));
 }
 
-void RelationshipParserState::checkSafeExit(size_t expectedArgs, size_t actualArgs) {
-    if (isInBracket || expectedArgs != actualArgs) {
-        throw QPSInvalidQueryException(QPS_INVALID_QUERY_MISSING_ARGUMENTS);
+bool RelationshipParserState::checkSafeExit(ArgumentList &arguments) {
+    return arguments.size() == expectedNumberOfArgs;
+}
+
+Abstraction RelationshipParserState::getAbstractionType(const std::string &keyword, unordered_map<string,
+                                                        Abstraction> abstractionKeywordMap) {
+    auto mapRes = abstractionKeywordMap.find(keyword);
+    if (mapRes == abstractionKeywordMap.end()) {
+        throw QPSSyntaxError(QPS_TOKENIZATION_ERR + keyword);
     }
+    return mapRes->second;
 }

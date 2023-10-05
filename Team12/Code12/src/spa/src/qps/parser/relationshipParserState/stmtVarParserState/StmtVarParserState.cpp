@@ -1,20 +1,18 @@
-#include "UsesParserState.h"
+#include "StmtVarParserState.h"
 
-#include "qps/exceptions/QPSInvalidQueryException.h"
-#include "qps/parser/patternParserState/PatternParserState.h"
-#include "qps/clause/suchThatClause/SuchThatClause.h"
-#include "qps/argument/ident/Ident.h"
-#include "qps/argument/integer/Integer.h"
-#include "qps/argument/synonymArg/SynonymArg.h"
-#include "qps/argument/wildcard/Wildcard.h"
+unordered_map<string, Abstraction> StmtVarParserState::stmtVarKeywordToAbstraction = {
+        { USES_ABSTRACTION, USES_ENUM },
+        { MODIFIES_ABSTRACTION, MODIFIES_ENUM }
+};
 
-PredictiveMap UsesParserState::predictiveMap = {
-        { PQL_NULL_TOKEN, { PQL_USES_TOKEN } },
-        { PQL_USES_TOKEN, { PQL_OPEN_BRACKET_TOKEN } },
+PredictiveMap StmtVarParserState::predictiveMap = {
+        { PQL_NULL_TOKEN, { PQL_STMT_VAR_TOKEN } },
+        { PQL_STMT_VAR_TOKEN, { PQL_OPEN_BRACKET_TOKEN } },
         { PQL_OPEN_BRACKET_TOKEN, { PQL_SYNONYM_TOKEN,
-                                    PQL_LITERAL_REF_TOKEN, PQL_INTEGER_TOKEN} },
+                                    PQL_LITERAL_REF_TOKEN,
+                                    PQL_INTEGER_TOKEN} },
         { PQL_COMMA_TOKEN, { PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN,
-                            PQL_LITERAL_REF_TOKEN } },
+                             PQL_LITERAL_REF_TOKEN } },
         { PQL_SYNONYM_TOKEN, { PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN } },
         { PQL_WILDCARD_TOKEN, { PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN } },
         { PQL_LITERAL_REF_TOKEN, { PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN } },
@@ -22,17 +20,18 @@ PredictiveMap UsesParserState::predictiveMap = {
         { PQL_CLOSE_BRACKET_TOKEN, { PQL_PATTERN_TOKEN } }
 };
 
-PQLTokenType UsesParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
+StmtVarParserState::StmtVarParserState(PQLParserContext &parserContext) :
+        RelationshipParserState(parserContext, false),
+        isSuccess(false) {}
 
-size_t UsesParserState::maxNumberOfArgs = 2;
+void StmtVarParserState::checkIsValidSynonym(const std::string &synonym, int argumentNumber) {
+    auto synType = parserContext.checkValidSynonym(synonym);
+    if (argumentNumber == SECOND_ARG && synType != VARIABLE_ENTITY) {
+        throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_VAR_SYN);
+    }
+}
 
-UsesParserState::UsesParserState(PQLParserContext &parserContext) :
-        parserContext(parserContext),
-        tokenStream(this->parserContext.getTokenStream()),
-        prev(PQL_NULL_TOKEN),
-        RelationshipParserState(false) {};
-
-void UsesParserState::handleToken() {
+void StmtVarParserState::handleToken() {
     while (!this->tokenStream.isTokenStreamEnd()) {
         auto& curr = tokenStream.getCurrentToken();
 
@@ -41,11 +40,12 @@ void UsesParserState::handleToken() {
         }
 
         if (!PQLParserUtils::isExpectedToken(predictiveMap, prev, curr.getType())) {
-            throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNEXPECTED_TOKEN);
+            throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
         }
 
         switch (curr.getType()) {
-            case PQL_USES_TOKEN:
+            case PQL_STMT_VAR_TOKEN:
+                relationship = curr.getValue();
             case PQL_COMMA_TOKEN:
                 break;
             case PQL_OPEN_BRACKET_TOKEN:
@@ -53,17 +53,16 @@ void UsesParserState::handleToken() {
                 break;
             case PQL_CLOSE_BRACKET_TOKEN:
                 isInBracket = false;
-                checkSafeExit(maxNumberOfArgs, arguments.size());
+                isSuccess = checkSafeExit(arguments);
                 parserContext.addClause(make_unique<SuchThatClause>(
-                        USES_ENUM,
+                        getAbstractionType(relationship, stmtVarKeywordToAbstraction),
                         std::move(arguments.at(0)),
                         std::move(arguments.at(1)),
                         false
                 ));
                 break;
             case PQL_SYNONYM_TOKEN:
-                parserContext.checkValidSynonym(curr.getValue());
-                checkValidSecondArg(curr);
+                checkIsValidSynonym(curr.getValue(), arguments.size());
                 arguments.push_back(std::move(std::make_unique<SynonymArg>(curr.getValue())));
                 break;
             case PQL_WILDCARD_TOKEN:
@@ -79,20 +78,12 @@ void UsesParserState::handleToken() {
                 this->parserContext.transitionTo(make_unique<PatternParserState>(parserContext));
                 return;
             default:
-                throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNEXPECTED_TOKEN);
+                throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
         }
         this->prev = curr.getType();
         tokenStream.next();
     }
-    // safety barrier for premature exit
-    checkSafeExit(maxNumberOfArgs, arguments.size());
-}
-
-void UsesParserState::checkValidSecondArg(PQLToken(& curr)) {
-    if (arguments.size() == 0) return;
-
-    auto entity = parserContext.getSynonymType(curr.getValue());
-    if (entity != VARIABLE_ENTITY) {
-        throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCORRECT_ARGUMENT);
+    if (!isSuccess) {
+        throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
     }
 }

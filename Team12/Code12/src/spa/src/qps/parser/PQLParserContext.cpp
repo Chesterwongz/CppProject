@@ -49,7 +49,7 @@ void PQLParserContext::addSelectSynonym(const string& synonym) {
     this->query.setSynonymToQuery(synonym);
 }
 
-bool PQLParserContext::checkValidSynonym(const string &synonym) {
+string PQLParserContext::checkValidSynonym(const string &synonym) {
    auto selectSynonym = context->getTokenEntity(synonym);
-   return true;
+   return selectSynonym;
 }

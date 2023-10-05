@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include "qps/common/Keywords.h"
+#include "common/StmtTypes.h"
 
 using std::string, std::unordered_map;
 

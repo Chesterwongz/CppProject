@@ -1,14 +1,23 @@
 #pragma once
 
-#include "qps/parser/IParserState.h"
-#include "qps/argument/AbstractArgument.h"
+#include "qps/clause/utils/ClauseConstants.h"
+#include "qps/parser/BaseParserState.h"
+#include "qps/parser/patternParserState/PatternParserState.h"
+#include "qps/clause/suchThatClause/SuchThatClause.h"
+#include "qps/argument/ident/Ident.h"
+#include "qps/argument/integer/Integer.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/argument/wildcard/Wildcard.h"
 
-class RelationshipParserState : public IParserState {
+class RelationshipParserState : public BaseParserState {
 protected:
+    static int expectedNumberOfArgs;
     bool isInBracket;
-    vector<unique_ptr<AbstractArgument>> arguments;
-    void checkSafeExit(size_t expectedArgs, size_t actualArgs);
-    explicit RelationshipParserState(bool isInBracket);
+    ArgumentList arguments;
+    string relationship;
+    virtual bool checkSafeExit(ArgumentList &arguments);
+    Abstraction getAbstractionType(const string& keyword, unordered_map<string, Abstraction> abstractionKeywordMap);
+    explicit RelationshipParserState(PQLParserContext &parserContext, bool isInBracket);
     void processNameToken(PQLToken &curr) override;
 
 public:

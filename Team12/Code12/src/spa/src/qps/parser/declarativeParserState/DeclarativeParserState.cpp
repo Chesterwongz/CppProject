@@ -1,8 +1,5 @@
 #include "DeclarativeParserState.h"
 
-#include <iostream>
-
-#include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/parser/selectParserState/SelectParserState.h"
 
 PredictiveMap DeclarativeParserState::predictiveMap = {
@@ -14,9 +11,7 @@ PredictiveMap DeclarativeParserState::predictiveMap = {
 };
 
 DeclarativeParserState::DeclarativeParserState(PQLParserContext& parserContext) :
-    parserContext(parserContext),
-	tokenStream(parserContext.getTokenStream()),
-	prev(PQL_NULL_TOKEN) {}
+        BaseParserState(parserContext) {}
 
 // To identify what type is the name token
 void DeclarativeParserState::processNameToken(PQLToken& curr)
@@ -39,7 +34,7 @@ void DeclarativeParserState::handleToken() {
         }
 
 		if (!PQLParserUtils::isExpectedToken(predictiveMap, prev, curr.getType())) {
-			throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNEXPECTED_TOKEN);
+			throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
 		}
 
 		switch (curr.getType()) {
@@ -56,13 +51,13 @@ void DeclarativeParserState::handleToken() {
 			this->parserContext.transitionTo(make_unique<SelectParserState>(parserContext));
             return;
 		default:
-			throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);
+            throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
 		}
         this->prev = curr.getType();
         tokenStream.next();
 	}
 
     // should never exit in this parser
-    throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCOMPLETE_QUERY);
+    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_DECLARATION);
 }
 

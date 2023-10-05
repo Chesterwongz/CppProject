@@ -1,15 +1,12 @@
 #pragma once
 
 #include "qps/parser/PQLParserContext.h"
-#include "qps/parser/IParserState.h"
+#include "qps/parser/BaseParserState.h"
 
 using std::make_unique;
 
-class SelectParserState : public IParserState {
+class SelectParserState : public BaseParserState {
 private:
-	PQLParserContext& parserContext;
-	PQLTokenStream& tokenStream;
-	PQLTokenType prev;
 	static PredictiveMap predictiveMap;
 	static PQLTokenType exitToken;
 	void processNameToken(PQLToken& curr) override;

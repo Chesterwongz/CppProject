@@ -1,0 +1,13 @@
+#include "QPSException.h"
+
+const char QPS_SEMANTIC_ERR_REPEATED_SYNONYM[] = "Repeated synonym during declaration: ";
+const char QPS_SEMANTIC_ERR_UNDECLARED_SYNONYM[] = "Using undeclared synonym: ";
+const char QPS_SEMANTIC_ERR_NOT_STMT_SYN[] = "Not a stmt synonym";
+const char QPS_SEMANTIC_ERR_NOT_VAR_SYN[] = "Not a var synonym";
+
+class QPSSemanticError : public QPSException {
+public:
+    explicit QPSSemanticError(const std::string &errorMessage) : QPSException(errorMessage) {}
+};
+
+

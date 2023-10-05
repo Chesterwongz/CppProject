@@ -1,14 +1,11 @@
 #pragma once
 
 #include "qps/parser/PQLParserContext.h"
-#include "qps/parser/IParserState.h"
+#include "qps/parser/BaseParserState.h"
 
 // get such that and check next relation to determine relationship parser to use
-class SuchThatParserState : public IParserState {
+class SuchThatParserState : public BaseParserState {
 private:
-    PQLParserContext& parserContext;
-    PQLTokenStream& tokenStream;
-    PQLTokenType prev;
     static PredictiveMap predictiveMap;
     void processNameToken(PQLToken& curr) override;
 
