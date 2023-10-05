@@ -1,7 +1,7 @@
 #include "SelectParserState.h"
 
 #include "qps/parser/suchThatParserState/SuchThatParserState.h"
-#include "qps/parser/patternParserState/PatternParserState.h"
+#include "qps/parser/patternParserState/AssignPatternParserState.h"
 
 PredictiveMap SelectParserState::predictiveMap = {
     { PQL_NULL_TOKEN, { PQL_SELECT_TOKEN } }, // Select should have been processed by previous state to be transitioned here
@@ -48,7 +48,7 @@ void SelectParserState::handleToken() {
             parserContext.transitionTo(make_unique<SuchThatParserState>(parserContext));
             return;
         case PQL_PATTERN_TOKEN:
-            parserContext.transitionTo(make_unique<PatternParserState>(parserContext));
+            parserContext.transitionTo(make_unique<AssignPatternParserState>(parserContext));
             return;
 		default:
             throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());

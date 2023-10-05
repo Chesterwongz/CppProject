@@ -24,7 +24,7 @@ isSuccess(false) {}
 
 void StmtStmtParserState::checkIsStmtSynonym(const std::string &synonym) {
     auto synType = parserContext.checkValidSynonym(synonym);
-    if (stmtEntities.find(synType) != stmtEntities.end()) {
+    if (stmtEntities.find(synType) == stmtEntities.end()) {
         throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_STMT_SYN);
     }
 }
@@ -69,7 +69,7 @@ void StmtStmtParserState::handleToken() {
                 arguments.push_back(std::move(std::make_unique<Wildcard>()));
                 break;
             case PQL_PATTERN_TOKEN:
-                this->parserContext.transitionTo(make_unique<PatternParserState>(parserContext));
+                this->parserContext.transitionTo(make_unique<AssignPatternParserState>(parserContext));
                 return;
             default:
                 throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());

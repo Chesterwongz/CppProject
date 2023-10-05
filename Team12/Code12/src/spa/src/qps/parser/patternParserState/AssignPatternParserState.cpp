@@ -1,4 +1,4 @@
-#include "PatternParserState.h"
+#include "AssignPatternParserState.h"
 
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
@@ -7,12 +7,9 @@
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/parser/suchThatParserState/SuchThatParserState.h"
 
-// MS2 split pattern parser up into AssignPatternParserState,
-// IfPatternParserState, WhilePatternParserState
-PredictiveMap PatternParserState::predictiveMap = {
-    {PQL_NULL_TOKEN, {PQL_PATTERN_TOKEN}},
-    {PQL_PATTERN_TOKEN, {PQL_SYNONYM_TOKEN}},
-    {PQL_SYNONYM_TOKEN, {PQL_OPEN_BRACKET_TOKEN, PQL_COMMA_TOKEN}},
+PredictiveMap AssignPatternParserState::predictiveMap = {
+    {PQL_NULL_TOKEN, {PQL_ASSIGN_PATTERN_TOKEN}},
+    {PQL_ASSIGN_PATTERN_TOKEN, {PQL_OPEN_BRACKET_TOKEN, PQL_COMMA_TOKEN}},
     {PQL_OPEN_BRACKET_TOKEN,
      {PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN}},
     {PQL_WILDCARD_TOKEN,
@@ -22,53 +19,38 @@ PredictiveMap PatternParserState::predictiveMap = {
     {PQL_COMMA_TOKEN, {PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN}},
     {PQL_CLOSE_BRACKET_TOKEN, {PQL_SUCH_TOKEN}}};
 
-PQLTokenType PatternParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
+PQLTokenType AssignPatternParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
 
-size_t PatternParserState::maxNumberOfArgs = 2;
+size_t AssignPatternParserState::maxNumberOfArgs = 2;
 
-PatternParserState::PatternParserState(PQLParserContext& parserContext)
-    : parserContext(parserContext),
-      tokenStream(parserContext.getTokenStream()),
-      prev(PQL_NULL_TOKEN),
+AssignPatternParserState::AssignPatternParserState(PQLParserContext& parserContext)
+    : BaseParserState(parserContext),
       isInBracket(false),
       argumentCount(0),
       partialMatchWildCardCount(0) {}
 
-void PatternParserState::processNameToken(PQLToken& curr) {
-  if (prev == PQL_PATTERN_TOKEN || prev == PQL_OPEN_BRACKET_TOKEN) {
+void AssignPatternParserState::processNameToken(PQLToken& curr) {
+  if (prev == PQL_OPEN_BRACKET_TOKEN) {
     curr.updateTokenType(PQL_SYNONYM_TOKEN);
-  } else {
-    PQLTokenType toUpdate =
-        PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
-    curr.updateTokenType(toUpdate);
   }
 }
 
 // feels like should change it up after ms2, not OOP
-void PatternParserState::processSynonymToken(PQLToken& curr) {
-  string synType = parserContext.getSynonymType(curr.getValue());
-  parserContext.checkValidSynonym(curr.getValue());
+void AssignPatternParserState::processSynonymToken(PQLToken& curr) {
+  string synType = parserContext.checkValidSynonym(curr.getValue());
 
-  if (prev == PQL_PATTERN_TOKEN) {
-    if (synType == ASSIGN_ENTITY) {
-      outerSynonym = std::make_unique<SynonymArg>(curr.getValue());
-    } else {
-      throw QPSInvalidQueryException(QPS_INVALID_QUERY_INVALID_PATTERN_SYNONYM);
-    }
-  } else if (argumentCount == 0) {
+  if (argumentCount == FIRST_ARG) {
     if (synType == VARIABLE_ENTITY) {
       patternArg.push_back(
           std::move(std::make_unique<SynonymArg>(curr.getValue())));
     } else {
-      throw QPSInvalidQueryException(QPS_INVALID_QUERY_INVALID_PATTERN_SYNONYM);
+      throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_VAR_SYN);
     }
-  } else {
-    throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNEXPECTED_TOKEN);
   }
 }
 
 // TODO(QPS): part of refactoring in ms2
-void PatternParserState::processLastArgument() {
+void AssignPatternParserState::processLastArgument() {
   if (patternArg.size() == 1 &&
       partialMatchWildCardCount == 1) {  // secondArg = _
     patternArg.push_back(std::move(std::make_unique<Wildcard>()));
@@ -83,7 +65,7 @@ void PatternParserState::processLastArgument() {
   }
 }
 
-void PatternParserState::handleToken() {
+void AssignPatternParserState::handleToken() {
   while (!this->tokenStream.isTokenStreamEnd()) {
     auto& curr = tokenStream.getCurrentToken();
 
@@ -92,17 +74,17 @@ void PatternParserState::handleToken() {
     }
 
     if (!PQLParserUtils::isExpectedToken(predictiveMap, prev, curr.getType())) {
-      throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNEXPECTED_TOKEN);
+      throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
     }
 
     switch (curr.getType()) {
-      case PQL_PATTERN_TOKEN:
+      case PQL_ASSIGN_PATTERN_TOKEN:
+        outerSynonym = make_unique<SynonymArg>(curr.getValue());
         break;
       case PQL_COMMA_TOKEN:
         argumentCount++;
         break;
       case PQL_SYNONYM_TOKEN:
-        parserContext.checkValidSynonym(curr.getValue());
         processSynonymToken(curr);
         break;
       case PQL_OPEN_BRACKET_TOKEN:
@@ -131,12 +113,12 @@ void PatternParserState::handleToken() {
             make_unique<SuchThatParserState>(parserContext));
         return;
       default:
-        throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);
+        throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
     }
     this->prev = curr.getType();
     tokenStream.next();
   }
   if (prev != exitToken || isInBracket) {
-    throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNMATCHED_BRACKET);
+    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
 }

@@ -6,17 +6,16 @@
 #include <vector>
 
 #include "qps/argument/AbstractArgument.h"
-#include "qps/parser/IParserState.h"
+#include "qps/parser/BaseParserState.h"
 #include "qps/parser/PQLParserContext.h"
 
 using std::make_unique, std::unique_ptr;
 
-class PatternParserState : public IParserState {
+class AssignPatternParserState : public BaseParserState {
  private:
-  PQLParserContext& parserContext;
-  PQLTokenStream& tokenStream;
-  PQLTokenType prev;
   bool isInBracket;
+  static const int FIRST_ARG = 0;
+  static const int SECOND_ARG = 1;
   string matchPattern;
   int partialMatchWildCardCount;
   int argumentCount;
@@ -30,7 +29,7 @@ class PatternParserState : public IParserState {
   void processLastArgument();
 
  public:
-  explicit PatternParserState(PQLParserContext& parserContext);
+  explicit AssignPatternParserState(PQLParserContext& parserContext);
   void handleToken() override;
-  ~PatternParserState() override = default;
+  ~AssignPatternParserState() override = default;
 };

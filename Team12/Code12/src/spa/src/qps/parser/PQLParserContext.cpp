@@ -29,10 +29,6 @@ void PQLParserContext::addToContext(string entity, const string& synonym) {
 	this->context->addSynonym(synonym, std::move(entity));
 }
 
-void PQLParserContext::addClause(unique_ptr<Clause> clause) {
-    query.addClause(std::move(clause));
-}
-
 string PQLParserContext::getSynonymType(const string &synonym) {
     return this->context->getTokenEntity(synonym);
 }

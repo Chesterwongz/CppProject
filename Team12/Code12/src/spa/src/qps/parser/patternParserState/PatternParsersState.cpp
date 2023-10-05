@@ -1,0 +1,56 @@
+#include "PatternParsersState.h"
+
+#include "AssignPatternParserState.h"
+
+PredictiveMap PatternParsersState::predictiveMap = {
+    {PQL_NULL_TOKEN, {PQL_PATTERN_TOKEN}},
+    {PQL_PATTERN_TOKEN, {PQL_ASSIGN_PATTERN_TOKEN}}
+};
+
+void PatternParsersState::processNameToken(PQLToken& curr) {
+  if (prev == PQL_NULL_TOKEN) {
+    PQLTokenType toUpdate =
+        PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
+    curr.updateTokenType(toUpdate);
+  } else {
+    processSynonymToken(curr);
+  }
+}
+
+void PatternParsersState::processSynonymToken(PQLToken& curr) {
+  string synType = parserContext.checkValidSynonym(curr.getValue());
+
+  if (synType == ASSIGN_ENTITY) {
+    curr.updateTokenType(PQL_ASSIGN_PATTERN_TOKEN);
+  } else {
+    throw QPSSyntaxError(QPS_SYNTAX_ERR_INVALID_PATTERN_SYN);
+  }
+}
+
+void PatternParsersState::handleToken() {
+  while (!this->tokenStream.isTokenStreamEnd()) {
+    auto& curr = tokenStream.getCurrentToken();
+
+    if (curr.getType() == PQL_NAME_TOKEN) {
+      processNameToken(curr);
+    }
+
+    if (!PQLParserUtils::isExpectedToken(predictiveMap, prev, curr.getType())) {
+      throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
+    }
+
+    switch (curr.getType()) {
+      case PQL_PATTERN_TOKEN:
+        break;
+      case PQL_ASSIGN_PATTERN_TOKEN:
+        parserContext.transitionTo(
+            make_unique<AssignPatternParserState>(parserContext));
+        return;
+      default:
+        throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
+    }
+    this->prev = curr.getType();
+    tokenStream.next();
+  }
+  throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
+}

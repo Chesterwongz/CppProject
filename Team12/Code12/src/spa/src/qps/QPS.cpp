@@ -21,5 +21,5 @@ std::set<string> QPS::processQueryString(const string& query) {
 void QPS::setupParser(PQLParserContext& pc) {
   unique_ptr<DeclarativeParserState> declarativeParserState =
       make_unique<DeclarativeParserState>(pc);
-  pc.transitionTo(move(declarativeParserState));
+  pc.transitionTo(std::move(declarativeParserState));
 }

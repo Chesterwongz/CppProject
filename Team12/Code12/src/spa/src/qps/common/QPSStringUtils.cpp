@@ -22,8 +22,9 @@ bool QPSStringUtils::isEntRef(string data) {
 
 bool QPSStringUtils::isIdent(string data) {
   std::regex identQuotePattern("\"[A-Za-z]([A-Za-z0-9])*\"");
+  std::regex identPattern("[A-Za-z]([A-Za-z0-9])*");
 
-  return std::regex_match(data, identQuotePattern);
+  return std::regex_match(data, identPattern) || std::regex_match(data, identQuotePattern);
 }
 
 bool QPSStringUtils::isWildcard(string data) {
