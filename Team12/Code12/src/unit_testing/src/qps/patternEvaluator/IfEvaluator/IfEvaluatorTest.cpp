@@ -6,11 +6,11 @@
 
 using std::make_unique;
 
-TEST_CASE("test_AssignEvaluator_processArgs_synonymFirstArg") {
-	mockPKBReader.mockIfPattern = mockIfPatternStmtsSynonym;
+TEST_CASE("test_ifEvaluator_processArgs_synonymFirstArg") {
+	ifMockPKBReader.mockIfPattern = mockIfPatternStmtsSynonym;
 
 	// if woof; variable test; select woof pattern woof (test, _ , _ );
-	SynonymArg patternSynonym = SynonymArg(synonymValue);
+	SynonymArg patternSynonym = SynonymArg(ifSynonymValue);
 	SynonymArg variableSynonym = SynonymArg("test");
 
 	unique_ptr<SynonymArg> variableSynonymPtr = make_unique<SynonymArg>(variableSynonym.getValue());
@@ -19,10 +19,10 @@ TEST_CASE("test_AssignEvaluator_processArgs_synonymFirstArg") {
 	patternArgsStreamTest.push_back(std::move(variableSynonymPtr));
 
 	IfEvaluator ifEvaluator = IfEvaluator(
-		mockContext,
+		ifMockContext,
 		patternArgsStreamTest,
-		mockPKBReader,
-		isPartialMatchFalse,
+		ifMockPKBReader,
+		ifIsPartialMatchFalse,
 		patternSynonym.getValue());
 
 	vector<string> pkbResult = ifEvaluator.processArguments();
@@ -31,11 +31,11 @@ TEST_CASE("test_AssignEvaluator_processArgs_synonymFirstArg") {
 
 }
 
-TEST_CASE("test_AssignEvaluator_processArgs_identFirstArg") {
-	mockPKBReader.mockIfPattern = mockIfPatternStmtsIdent;
+TEST_CASE("test_ifEvaluator_processArgs_identFirstArg") {
+	ifMockPKBReader.mockIfPattern = mockIfPatternStmtsIdent;
 
 	// if woof; variable test; select woof pattern woof ("a", _ , _ );
-	SynonymArg patternSynonym = SynonymArg(synonymValue);
+	SynonymArg patternSynonym = SynonymArg(ifSynonymValue);
 	Ident patternFirstArg = Ident("a");
 
 	unique_ptr<Ident> patternFirstArgPtr = make_unique<Ident>(patternFirstArg.getValue());
@@ -44,10 +44,10 @@ TEST_CASE("test_AssignEvaluator_processArgs_identFirstArg") {
 	patternArgsStreamTest.push_back(std::move(patternFirstArgPtr));
 
 	IfEvaluator ifEvaluator = IfEvaluator(
-		mockContext,
+		ifMockContext,
 		patternArgsStreamTest,
-		mockPKBReader,
-		isPartialMatchFalse,
+		ifMockPKBReader,
+		ifIsPartialMatchFalse,
 		patternSynonym.getValue());
 
 	vector<string> pkbResult = ifEvaluator.processArguments();
@@ -56,11 +56,11 @@ TEST_CASE("test_AssignEvaluator_processArgs_identFirstArg") {
 
 }
 
-TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
-	mockPKBReader.mockIfPattern = mockIfPatternStmtsSynonym;
+TEST_CASE("test_ifEvaluator_evaluate_synonymFirstArg") {
+	ifMockPKBReader.mockIfPattern = mockIfPatternStmtsSynonym;
 
 	// if woof; variable test; select woof pattern woof (test, _ , _ );
-	SynonymArg patternSynonym = SynonymArg(synonymValue);
+	SynonymArg patternSynonym = SynonymArg(ifSynonymValue);
 	SynonymArg variableSynonym = SynonymArg("test");
 
 	unique_ptr<SynonymArg> variableSynonymPtr = make_unique<SynonymArg>(variableSynonym.getValue());
@@ -69,10 +69,10 @@ TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
 	patternArgsStreamTest.push_back(std::move(variableSynonymPtr));
 
 	IfEvaluator ifEvaluator = IfEvaluator(
-		mockContext,
+		ifMockContext,
 		patternArgsStreamTest,
-		mockPKBReader,
-		isPartialMatchFalse,
+		ifMockPKBReader,
+		ifIsPartialMatchFalse,
 		patternSynonym.getValue());
 
 	IntermediateTable actualTable = ifEvaluator.evaluate();
@@ -92,11 +92,11 @@ TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
 	REQUIRE(actualTableData[2][1] == mockAllIfVariables[2].second);
 }
 
-TEST_CASE("test_AssignEvaluator_evaluate_identFirstArg") {
-	mockPKBReader.mockIfPattern = mockIfPatternStmtsIdent;
+TEST_CASE("test_ifEvaluator_evaluate_identFirstArg") {
+	ifMockPKBReader.mockIfPattern = mockIfPatternStmtsIdent;
 
 	// if woof; variable test; select woof pattern woof ("a", _ , _ );
-	SynonymArg patternSynonym = SynonymArg(synonymValue);
+	SynonymArg patternSynonym = SynonymArg(ifSynonymValue);
 	Ident patternFirstArg = Ident("a");
 
 	unique_ptr<Ident> patternFirstArgPtr = make_unique<Ident>(patternFirstArg.getValue());
@@ -105,10 +105,10 @@ TEST_CASE("test_AssignEvaluator_evaluate_identFirstArg") {
 	patternArgsStreamTest.push_back(std::move(patternFirstArgPtr));
 
 	IfEvaluator ifEvaluator = IfEvaluator(
-		mockContext,
+		ifMockContext,
 		patternArgsStreamTest,
-		mockPKBReader,
-		isPartialMatchFalse,
+		ifMockPKBReader,
+		ifIsPartialMatchFalse,
 		patternSynonym.getValue());
 
 	IntermediateTable actualTable = ifEvaluator.evaluate();

@@ -8,9 +8,9 @@
 
 using std::unique_ptr, std::make_pair;
 
-PKBStorage storage = PKBStorage();
+PKBStorage assignStorage = PKBStorage();
 
-MockPKBReader mockPKBReader = MockPKBReader(storage);
+MockPKBReader assignMockPKBReader = MockPKBReader(assignStorage);
 
 vector<string> mockExactAssignPatternStmts = {"1", "2", "3"};
 
@@ -24,8 +24,8 @@ vector<pair<string, string>> mockAllModifiedVariables = {
 	make_pair("5", "e"),
 };
 
-MockContext mockContext = MockContext();
+MockContext assignMockContext = MockContext();
 
-bool isPartialMatchFalse = false;
+bool assignIsPartialMatchFalse = false;
 
-string synonymValue = "meow";
+string assignSynonymValue = "meow";
