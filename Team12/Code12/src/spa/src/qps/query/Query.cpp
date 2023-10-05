@@ -15,40 +15,39 @@ void Query::addClause(unique_ptr<Clause> clause) {
 }
 
 void Query::setSynonymToQuery(const string& selectSynonym) {
-    this->synonymsToQuery.push_back(selectSynonym);
+  this->synonymsToQuery.push_back(selectSynonym);
 }
 
 void Query::setSynonymToQuery(vector<string>& selectSynonyms) {
-    for (auto &synonym : selectSynonyms) {
-        this->synonymsToQuery.push_back(synonym);
-    }
+  for (auto &synonym : selectSynonyms) {
+    this->synonymsToQuery.push_back(synonym);
+  }
 }
 
 set<string> Query::evaluate() {
-    // todo 1: query optimisation
-    // if at least 1 of selected synonyms exist in table or if table is wildcard, join and return
-    // else if cols not exist and not empty, return all select columns
-    // else return empty
+  // todo 1: query optimisation
+  // if at least 1 of selected synonyms exist in table or if table is wildcard, join and return
+  // else if cols not exist and not empty, return all select columns
+  // else return empty
 
-    // todo 2: abstract out evaluation to evaluator
+  // todo 2: abstract out evaluation to evaluator
 
-    if (clauses.empty()) {
-        throw QPSInvalidQueryException(QPS_INVALID_QUERY_NO_CLAUSES);;
+  if (clauses.empty()) {
+    throw QPSInvalidQueryException(QPS_INVALID_QUERY_NO_CLAUSES);;
+  }
+
+  // iteratively join results of each clause
+  IntermediateTable currIntermediateTable = IntermediateTableFactory::buildWildcardIntermediateTable();
+  for (unique_ptr<Clause> &clause : clauses) {
+    IntermediateTable clauseResult = clause->evaluate(*context, pkb);
+    currIntermediateTable = currIntermediateTable.join(clauseResult);
+    if (currIntermediateTable.isTableEmptyAndNotWildcard()) {
+      // do not continue evaluating once we have an empty table
+      return {};
     }
+  }
 
-    // iteratively join results of each clause
-    IntermediateTable currIntermediateTable
-            = IntermediateTableFactory::buildWildcardIntermediateTable();
-    for (unique_ptr<Clause> &clause : clauses) {
-        IntermediateTable clauseResult = clause->evaluate(*context, pkb);
-        currIntermediateTable = currIntermediateTable.join(clauseResult);
-        if (currIntermediateTable.isTableEmptyAndNotWildcard()) {
-            // do not continue evaluating once we have an empty table
-            return {};
-        }
-    }
-
-    return currIntermediateTable.getColumns(synonymsToQuery);
+  return currIntermediateTable.getColumns(synonymsToQuery);
 }
 
 bool Query::operator==(const Query &other) {
