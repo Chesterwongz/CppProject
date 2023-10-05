@@ -166,9 +166,6 @@ class PKBReader : public virtual ICallsReader,
   virtual std::vector<std::string> getPartialAssignPattern(
       const std::string& variableName, const std::string& rpn, bool isSynonym);
 
-    // return list of statement numbers which match the given pattern partially
-    virtual std::vector<std::string> getPartialAssignPattern(const std::string& variableName, const std::string& rpn, bool isSynonym);
-
     // return pairs (stmtNum, calleeName) that are directly called by procName
     virtual std::vector<std::pair<std::string, std::string>> getCalledBy(const std::string& procName);
 
