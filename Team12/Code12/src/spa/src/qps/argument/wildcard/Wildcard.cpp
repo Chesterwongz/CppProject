@@ -1,19 +1,16 @@
 #include "Wildcard.h"
+
 #include <iostream>
 
-string Wildcard::getValue() {
-	return wildcardValue;
-}
+string Wildcard::getValue() { return wildcardValue; }
 
 QPSStringUtils::ArgumentType Wildcard::getArgumentType() {
-	return argumentType;
+  return argumentType;
 }
 
-bool Wildcard::isWildcard() {
-	return true;
-}
+bool Wildcard::isWildcard() { return true; }
 
 bool Wildcard::operator==(const AbstractArgument& other) const {
-    const auto* otherWildcard = dynamic_cast<const Wildcard*>(&other);
-    return otherWildcard;
+  const auto* otherWildcard = dynamic_cast<const Wildcard*>(&other);
+  return otherWildcard;
 }

@@ -2,18 +2,13 @@
 
 PQLToken::PQLToken(PQLTokenType type) : type(type) {}
 
-PQLToken::PQLToken(PQLTokenType type, const TokenValue &value) :
-	type(type), value(value) {}
+PQLToken::PQLToken(PQLTokenType type, const TokenValue &value)
+    : type(type), value(value) {}
 
-PQLTokenType PQLToken::getType() {
-	return type;
-}
+PQLTokenType PQLToken::getType() { return type; }
 
-TokenValue PQLToken::getValue() {
-	return value;
-}
+TokenValue PQLToken::getValue() { return value; }
 
-void PQLToken::updateTokenType(PQLTokenType tokenType)
-{
-	this->type = tokenType;
+void PQLToken::updateTokenType(PQLTokenType tokenType) {
+  this->type = tokenType;
 }
