@@ -1,31 +1,32 @@
 #include "AssignEvaluator.h"
+
 #include "common/utils/StringUtils.h"
 #include "qps/common/Keywords.h"
 
 vector<string> AssignEvaluator::processArguments() {
-	string firstArgValue = patternArgsStream[0]->getValue();
-	string secondArgValue = patternArgsStream[1]->getValue();
+  string firstArgValue = patternArgsStream[0]->getValue();
+  string secondArgValue = patternArgsStream[1]->getValue();
 
-	bool isFirstArgSynonym = patternArgsStream[0]->isSynonym();
-	bool isSecondArgWildcard = patternArgsStream[1]->isWildcard();
-	
-	string secondArgRPNValue;
+  bool isFirstArgSynonym = patternArgsStream[0]->isSynonym();
+  bool isSecondArgWildcard = patternArgsStream[1]->isWildcard();
 
-	if (isSecondArgWildcard) {
-		secondArgRPNValue = secondArgValue;
-	}
-	else {
-		secondArgRPNValue = QPSStringUtils::convertToRPN(secondArgValue);
-	}
+  string secondArgRPNValue;
 
-	vector<string> pkbResult;
+  if (isSecondArgWildcard) {
+    secondArgRPNValue = secondArgValue;
+  } else {
+    secondArgRPNValue = QPSStringUtils::convertToRPN(secondArgValue);
+  }
 
-	if (isPartialMatch) {
-		pkbResult = pkbReader.getPartialAssignPattern(firstArgValue, secondArgRPNValue, isFirstArgSynonym);
-	}
-	else {
-		pkbResult = pkbReader.getExactAssignPattern(firstArgValue, secondArgRPNValue, isFirstArgSynonym);
-	}
+  vector<string> pkbResult;
 
-	return pkbResult;
+  if (isPartialMatch) {
+    pkbResult = pkbReader.getPartialAssignPattern(
+        firstArgValue, secondArgRPNValue, isFirstArgSynonym);
+  } else {
+    pkbResult = pkbReader.getExactAssignPattern(
+        firstArgValue, secondArgRPNValue, isFirstArgSynonym);
+  }
+
+  return pkbResult;
 }
