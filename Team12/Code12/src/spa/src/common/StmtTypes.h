@@ -2,16 +2,7 @@
 
 #include <string>
 
-enum class StmtType {
-    INVALID,
-    IF,
-    WHILE,
-    CALL,
-    ASSIGN,
-    READ,
-    PRINT,
-    STMT
-};
+enum class StmtType { INVALID, IF, WHILE, CALL, ASSIGN, READ, PRINT, STMT };
 
 typedef int LineNum;
 typedef int ConstVal;

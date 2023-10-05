@@ -1,81 +1,94 @@
 #pragma once
 
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "common/StmtTypes.h"
 #include "pkb/storage/DesignEntitiesStorage.h"
 #include "pkb/storage/FollowsStorage.h"
 #include "pkb/storage/ModifiesStorage.h"
-#include "pkb/storage/PatternStorage.h"
 #include "pkb/storage/ParentStorage.h"
+#include "pkb/storage/PatternStorage.h"
 #include "pkb/storage/StatementStorage.h"
 #include "pkb/storage/UsesStorage.h"
 
 class PKBStorage {
-public:
-    PKBStorage();
+ public:
+  PKBStorage();
 
-    //DesignEntitiesStorage methods
-    virtual void setVariable(const std::string& variableName);
-    virtual void setConstant(const std::string& constantValue);
-    virtual void setProcedure(const std::string& procedureName, int startStatement);
+  // DesignEntitiesStorage methods
+  virtual void setVariable(const std::string& variableName);
+  virtual void setConstant(const std::string& constantValue);
+  virtual void setProcedure(const std::string& procedureName,
+                            int startStatement);
 
-    std::set<std::string> getAllVariables();
-    std::set<std::string> getAllConstants();
-    std::set<std::string> getAllProcedures();
-    
-    // StatementStorage methods
-    virtual void setStatement(int statementNumber, StmtType statementType);
+  std::set<std::string> getAllVariables();
+  std::set<std::string> getAllConstants();
+  std::set<std::string> getAllProcedures();
 
-    std::set<int> getStatementNumbersFromStatementType(StmtType statementType);
+  // StatementStorage methods
+  virtual void setStatement(int statementNumber, StmtType statementType);
 
-    StmtType getStatementTypeFromStatementNumber(int statementNumber);
+  std::set<int> getStatementNumbersFromStatementType(StmtType statementType);
 
-    bool isStatementType(int statementNumber, StmtType statementType);
+  StmtType getStatementTypeFromStatementNumber(int statementNumber);
 
-    // FollowsStorage methods
-    void setFollows(int statementNumber, int followingStatement);
+  bool isStatementType(int statementNumber, StmtType statementType);
 
-    int getImmediateFollows(int statementNumber);
-    int getImmediateFollowedBy(int statementNumber);
+  // FollowsStorage methods
+  void setFollows(int statementNumber, int followingStatement);
 
-    std::set<int> getAllFollows(int statementNumber);
-    std::set<int> getAllFollowedBy(int statementNumber);
+  int getImmediateFollows(int statementNumber);
+  int getImmediateFollowedBy(int statementNumber);
 
-    // ParentStorage methods
-    void setParent(int statementNumber, int childStatement);
-    void setParentStar(int statementNumber, int childStatement);
+  std::set<int> getAllFollows(int statementNumber);
+  std::set<int> getAllFollowedBy(int statementNumber);
 
-    std::set<int> getImmediateChildren(int statementNumber);
-    int getImmediateParent(int statementNumber);
+  // ParentStorage methods
+  void setParent(int statementNumber, int childStatement);
+  void setParentStar(int statementNumber, int childStatement);
 
-    std::set<int> getAllChildren(int statementNumber);
-    std::set<int> getAllParents(int statementNumber);
+  std::set<int> getImmediateChildren(int statementNumber);
+  int getImmediateParent(int statementNumber);
 
-    // ModifiesStorage methods
-    void setVariableModification(const std::string& variableName, int statementNumber);
+  std::set<int> getAllChildren(int statementNumber);
+  std::set<int> getAllParents(int statementNumber);
 
-    std::set<std::string> getModifiedVariablesForStatement(int statementNumber);
+  // ModifiesStorage methods
+  void setVariableModification(const std::string& variableName,
+                               int statementNumber);
 
-    std::set<int> getStatementNumbersForModifiedVariable(std::string variableName);
+  std::set<std::string> getModifiedVariablesForStatement(int statementNumber);
 
-    // UsesStorage methods
-    void setVariableUsage(const std::string& variableName, int statementNumber);
+  std::set<int> getStatementNumbersForModifiedVariable(
+      std::string variableName);
 
-    std::set<std::string> getUsedVariablesForStatement(int statementNumber);
+  // UsesStorage methods
+  void setVariableUsage(const std::string& variableName, int statementNumber);
 
-    std::set<int> getStatementNumbersForUsedVariable(std::string variableName);
+  std::set<std::string> getUsedVariablesForStatement(int statementNumber);
 
-    //PatternStorage methods
-    virtual void setAssignPattern(std::string variableName, std::string rpn, int statementNumber);
+  std::set<int> getStatementNumbersForUsedVariable(std::string variableName);
 
-    std::vector<std::string> getExactAssignPattern(std::string variableName, std::string rpn, bool isSynonym);
-    std::vector<std::string> getPartialAssignPattern(std::string variableName, std::string rpn, bool isSynonym);
+  // PatternStorage methods
+  virtual void setAssignPattern(std::string variableName, std::string rpn,
+                                int statementNumber);
 
-private:
-    DesignEntitiesStorage designEntitiesStorage;
-    FollowsStorage followsStorage;
-    ModifiesStorage modifiesStorage;
-    PatternStorage patternStorage;
-    ParentStorage parentStorage;
-    StatementStorage statementStorage;
-    UsesStorage usesStorage;
+  std::vector<std::string> getExactAssignPattern(std::string variableName,
+                                                 std::string rpn,
+                                                 bool isSynonym);
+  std::vector<std::string> getPartialAssignPattern(std::string variableName,
+                                                   std::string rpn,
+                                                   bool isSynonym);
+
+ private:
+  DesignEntitiesStorage designEntitiesStorage;
+  FollowsStorage followsStorage;
+  ModifiesStorage modifiesStorage;
+  PatternStorage patternStorage;
+  ParentStorage parentStorage;
+  StatementStorage statementStorage;
+  UsesStorage usesStorage;
 };

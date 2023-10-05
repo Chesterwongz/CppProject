@@ -1,23 +1,22 @@
 #pragma once
 
 #include <string>
+#include <utility>
 
-#include "qps/argument/IArgument.h"
+#include "qps/argument/AbstractArgument.h"
 
 using std::string;
 
-class SynonymArg : public IArgument {
-private:
-	const QPSStringUtils::ArgumentType argumentType = QPSStringUtils::SYNONYM;
-	string synonymValue;
+class SynonymArg : public AbstractArgument {
+ private:
+  const QPSStringUtils::ArgumentType argumentType = QPSStringUtils::SYNONYM;
+  string synonymValue;
 
-public:
-	explicit SynonymArg(const string& argumentValue);
-	string getValue() override;
-	QPSStringUtils::ArgumentType getArgumentType() override;
-	bool isIdent() override;
-	bool isInteger() override;
-	bool isSynonym() override;
-	bool isWildcard() override;
-    bool operator==(const IArgument& other) const override;
+ public:
+  explicit SynonymArg(string argumentValue)
+      : synonymValue(std::move(argumentValue)) {}
+  string getValue() override;
+  QPSStringUtils::ArgumentType getArgumentType() override;
+  bool isSynonym() override;
+  bool operator==(const AbstractArgument& other) const override;
 };

@@ -1,18 +1,17 @@
 #include "Query.h"
+
 #include "../clause/utils/ClauseConstants.h"
 #include "../intermediateTable/IntermediateTableFactory.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-
 Query::Query(PKBReader &pkb) : pkb(pkb) {}
 
-
 void Query::addContext(unique_ptr<Context> contextToAdd) {
-    this->context = std::move(contextToAdd);
+  this->context = std::move(contextToAdd);
 }
 
 void Query::addClause(unique_ptr<Clause> clause) {
-    this->clauses.push_back(std::move(clause));
+  this->clauses.push_back(std::move(clause));
 }
 
 void Query::setSynonymToQuery(const string& selectSynonym) {
@@ -53,13 +52,12 @@ set<string> Query::evaluate() {
 }
 
 bool Query::operator==(const Query &other) {
-    bool res = this->context->getMap() == other.context->getMap();
+  bool res = this->context->getMap() == other.context->getMap();
 
-    for (int i = 0; i < this->clauses.size(); i++) {
-        res = clauses.at(i)->isEquals(*(other.clauses.at(i)));
-        if (!res) return false;
-    }
+  for (int i = 0; i < this->clauses.size(); i++) {
+    res = clauses.at(i)->isEquals(*(other.clauses.at(i)));
+    if (!res) return false;
+  }
 
-    return res;
+  return res;
 }
-

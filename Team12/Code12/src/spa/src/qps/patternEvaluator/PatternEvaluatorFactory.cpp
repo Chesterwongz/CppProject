@@ -1,7 +1,15 @@
 #include "PatternEvaluatorFactory.h"
 
-unique_ptr<AssignEvaluator> PatternEvaluatorFactory::createAssignEvaluator(
-	Context context, PatternArgsStreamPtr patternArgsStreamPtr, PKBReader& pkbReader, bool isPartialMatch, string synonymValue) {
-	
-	return std::make_unique<AssignEvaluator>(context, std::move(patternArgsStreamPtr), pkbReader, isPartialMatch, synonymValue);
+#include "qps/exceptions/QPSInvalidQueryException.h"
+
+unique_ptr<PatternEvaluator> PatternEvaluatorFactory::createEvaluator(
+    string& entityType, Context& context, PatternArgsStream& patternArgsStream,
+    PKBReader& pkbReader, bool isPartialMatch, string synonymValue) {
+  if (entityType == ASSIGN_ENTITY) {
+    return std::make_unique<AssignEvaluator>(
+        context, patternArgsStream, pkbReader, isPartialMatch, synonymValue);
+  }
+
+  throw QPSInvalidQueryException("Unable to create PatternEvaluator of type: " +
+                                 entityType);
 }

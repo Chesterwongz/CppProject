@@ -11,15 +11,17 @@
  * return node
  */
 std::optional<std::unique_ptr<TNode>> ProcedureParser::parse() {
-    if (!context->tryEatExpected(SpTokenType::NAME, keyword::kProcedure).has_value())
-        return std::nullopt;
+  if (!context->tryEatExpected(SpTokenType::NAME, keyword::kProcedure)
+           .has_value())
+    return std::nullopt;
 
-    std::string procName = context->forceEatExpected(SpTokenType::NAME);
+  std::string procName = context->forceEatExpected(SpTokenType::NAME);
 
-    std::optional<std::unique_ptr<TNode>> stmtLstNodeOpt = StmtLstParser(context).parse();
-    requireTNodeOpt(TNodeType::TNODE_PROCEDURE)(stmtLstNodeOpt);
+  std::optional<std::unique_ptr<TNode>> stmtLstNodeOpt =
+      StmtLstParser(context).parse();
+  requireTNodeOpt(TNodeType::TNODE_PROCEDURE)(stmtLstNodeOpt);
 
-    std::unique_ptr<TNode> procNode = std::make_unique<ProcNode>(procName);
-    procNode->addChild(std::move(stmtLstNodeOpt.value()));
-    return procNode;
+  std::unique_ptr<TNode> procNode = std::make_unique<ProcNode>(procName);
+  procNode->addChild(std::move(stmtLstNodeOpt.value()));
+  return procNode;
 }
