@@ -392,8 +392,8 @@ inline vector<string> COL_3 = {"banana", "lettuce", "pear",   "meow",
                                "carrot", "tomato",  "hamster"};
 inline vector<string> COL_4 = {"cat",    "pineapple", "dog",  "woof",
                                "durian", "cucumber",  "mouse"};
-inline set<string> COL_4_SET = {"cat", "pineapple", "dog", "woof",
-                                "durian", "cucumber", "mouse"};
+inline set<string> COL_4_SET = {"cat",    "pineapple", "dog",  "woof",
+                                "durian", "cucumber",  "mouse"};
 inline string COL_SINGLETON = "cat";
 
 inline vector<vector<string>> COL_1_2D = {
@@ -427,13 +427,8 @@ inline vector<vector<string>> COL_3_2D = {
     {"carrot"}, {"tomato"},  {"hamster"},
 };
 inline vector<vector<string>> COL_4_2D = {
-        {"cat"},
-        {"pineapple"},
-        {"dog"},
-        {"woof"},
-        {"durian"},
-        {"cucumber"},
-        {"mouse"},
+    {"cat"},    {"pineapple"}, {"dog"},   {"woof"},
+    {"durian"}, {"cucumber"},  {"mouse"},
 };
 inline vector<vector<string>> COL_SINGLETON_2D = {
     {"cat"},

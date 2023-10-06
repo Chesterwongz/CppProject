@@ -33,11 +33,6 @@ inline const string WILDCARD_KEYWORD = "_";
 inline const string INVALID_STATEMENT_NUMBER = "-1";
 
 inline const unordered_set<string> STATEMENT_ENTITIES = {
-        ASSIGN_ENTITY,
-        CALL_ENTITY,
-        IF_ENTITY,
-        PRINT_ENTITY,
-        READ_ENTITY,
-        STMT_ENTITY,
-        WHILE_ENTITY,
+    ASSIGN_ENTITY, CALL_ENTITY, IF_ENTITY,    PRINT_ENTITY,
+    READ_ENTITY,   STMT_ENTITY, WHILE_ENTITY,
 };

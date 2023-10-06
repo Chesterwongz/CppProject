@@ -35,15 +35,15 @@ class IntermediateTableFactory {
    * Builds intermediate table without any WILDCARD columns
    * and only one column
    */
-  static IntermediateTable buildIntermediateTable(
-    const string &firstColName, const set<string> &data);
+  static IntermediateTable buildIntermediateTable(const string &firstColName,
+                                                  const set<string> &data);
 
   /**
    * Builds intermediate table without any WILDCARD columns
    * and only one column AND one single row
    */
-  static IntermediateTable buildIntermediateTable(
-     const string &colName, const string &value);
+  static IntermediateTable buildIntermediateTable(const string &colName,
+                                                  const string &value);
 
   static IntermediateTable buildEmptyIntermediateTable();
 

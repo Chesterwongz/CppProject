@@ -69,7 +69,7 @@ class IntermediateTable {
    * @return set of tuples string. elements in tuple delimited by space.
    *         e.g. { "a b c", "a b d", ... }
    */
-  set<string> getColumns(const vector<string>& colNameVector);
+  set<string> getColumns(const vector<string> &colNameVector);
 
   /**
    * Join a different intermediateTable into this
