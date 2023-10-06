@@ -11,11 +11,12 @@ PredictiveMap StmtVarParserState::predictiveMap = {
         { PQL_STMT_VAR_TOKEN, { PQL_OPEN_BRACKET_TOKEN } },
         { PQL_OPEN_BRACKET_TOKEN, { PQL_SYNONYM_TOKEN,
                                     PQL_LITERAL_REF_TOKEN,
-                                    PQL_INTEGER_TOKEN} },
+                                    PQL_INTEGER_TOKEN,
+                                    PQL_WILDCARD_TOKEN} },
         { PQL_COMMA_TOKEN, { PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN,
                              PQL_LITERAL_REF_TOKEN } },
         { PQL_SYNONYM_TOKEN, { PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN } },
-        { PQL_WILDCARD_TOKEN, { PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN } },
+        { PQL_WILDCARD_TOKEN, { PQL_CLOSE_BRACKET_TOKEN } },
         { PQL_LITERAL_REF_TOKEN, { PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN } },
         { PQL_INTEGER_TOKEN, { PQL_COMMA_TOKEN } },
         { PQL_CLOSE_BRACKET_TOKEN, { PQL_PATTERN_TOKEN } }
@@ -30,6 +31,12 @@ void StmtVarParserState::checkIsValidSynonym(
     auto synType = parserContext.checkValidSynonym(synonym);
     if (argumentNumber == SECOND_ARG && synType != VARIABLE_ENTITY) {
         throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_VAR_SYN);
+    }
+}
+
+void StmtVarParserState::checkIsValidWildcard() {
+    if (arguments.size() == FIRST_ARG) {
+        throw QPSSemanticError(QPS_SEMANTIC_ERR_WILDCARD_FIRSTARG);
     }
 }
 
@@ -63,7 +70,6 @@ void StmtVarParserState::handleToken() {
             case PQL_CLOSE_BRACKET_TOKEN:
                 isInBracket = false;
                 isSuccess = checkSafeExit(arguments);
-                if (!isSuccess) break;
                 parserContext.addClause(std::make_unique<SuchThatClause>(
                         getAbstractionType(relationship,
                                        stmtVarKeywordToAbstraction),
@@ -77,6 +83,7 @@ void StmtVarParserState::handleToken() {
                     std::move(std::make_unique<SynonymArg>(curr.getValue())));
                 break;
             case PQL_WILDCARD_TOKEN:
+                checkIsValidWildcard();
                 arguments.push_back(
                     std::move(std::make_unique<Wildcard>()));
                 break;

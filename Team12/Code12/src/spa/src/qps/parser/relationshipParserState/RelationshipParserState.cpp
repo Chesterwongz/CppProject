@@ -22,7 +22,9 @@ void RelationshipParserState::processNameToken(PQLToken &curr) {
 }
 
 bool RelationshipParserState::checkSafeExit(ArgumentList &arguments) {
-    return arguments.size() == expectedNumberOfArgs;
+    if (arguments.size() != expectedNumberOfArgs) {
+        throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
+    }
 }
 
 Abstraction RelationshipParserState::getAbstractionType(const std::string &keyword, unordered_map<string,

@@ -54,7 +54,6 @@ void StmtStmtParserState::handleToken() {
       case PQL_CLOSE_BRACKET_TOKEN:
         isInBracket = false;
         isSuccess = checkSafeExit(arguments);
-        if (!isSuccess) break;
         parserContext.addClause(std::make_unique<SuchThatClause>(
             getAbstractionType(relationship, stmtStmtKeywordToAbstraction),
             std::move(arguments.at(0)), std::move(arguments.at(1))));

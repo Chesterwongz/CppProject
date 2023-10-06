@@ -114,48 +114,6 @@ TEST_CASE("valid simple transitive follows") {
 }
  **/
 
-TEST_CASE("valid simple modifies") {
-    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
-                                   PQLToken(PQL_NAME_TOKEN, "v"),
-                                   PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-                                   PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
-                                   PQLToken(PQL_NAME_TOKEN, "v"),
-                                   PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
-                                   PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-                                   PQLToken(PQL_NAME_TOKEN, MODIFIES_ABSTRACTION),
-                                   PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-                                   PQLToken(PQL_INTEGER_TOKEN, "6"),
-                                   PQLToken(PQL_COMMA_TOKEN, ","),
-                                   PQLToken(PQL_NAME_TOKEN, "v"),
-                                   PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
-    };
-    PQLTokenStream tokenStream(tokenList);
-
-    PKBStorage storage{};
-    PKBReader pkbReader(storage);
-    Query query(pkbReader);
-    PQLParserContext parserContext(tokenStream, query);
-    unique_ptr<DeclarativeParserState> declarativeParserState = make_unique<DeclarativeParserState>(parserContext);
-    parserContext.transitionTo(std::move(declarativeParserState));
-    parserContext.handleTokens();
-
-    // expected query object
-    Query expected(pkbReader);
-    unique_ptr<Context> expectedContext = make_unique<Context>();
-    expectedContext->addSynonym("v", VARIABLE_ENTITY);
-    expected.addContext(std::move(expectedContext));
-    unique_ptr<Integer> firstArg = std::make_unique<Integer>("6");
-    unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>("v");
-    unique_ptr<SuchThatClause> suchThatClause = make_unique<SuchThatClause>(
-            MODIFIES_ENUM,
-            std::move(firstArg),
-            std::move(secondArg));
-    expected.addClause(std::move(suchThatClause));
-
-    bool res = query == expected;
-    REQUIRE(res);
-}
-
 TEST_CASE("valid simple uses") {
     vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
                                    PQLToken(PQL_NAME_TOKEN, "v"),
@@ -374,7 +332,7 @@ TEST_CASE("invalid query - Uses clause only has 1 argument") {
                                    PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
                                    PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
                                    PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-                                   PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+                                   PQLToken(PQL_NAME_TOKEN, "a"),
                                    PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
                                    PQLToken(PQL_NAME_TOKEN, PATTERN_KEYWORD),
                                    PQLToken(PQL_NAME_TOKEN, "a"),
@@ -392,7 +350,7 @@ TEST_CASE("invalid query - Uses clause only has 1 argument") {
     PQLParserContext parserContext(tokenStream, query);
     unique_ptr<DeclarativeParserState> declarativeParserState = make_unique<DeclarativeParserState>(parserContext);
     parserContext.transitionTo(std::move(declarativeParserState));
-    REQUIRE_THROWS_WITH(parserContext.handleTokens(), QPS_TOKENIZATION_ERR + WILDCARD_KEYWORD);
+    REQUIRE_THROWS_WITH(parserContext.handleTokens(), QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
 }
 
 TEST_CASE("invalid query - Pattern clause only has 1 argument") {
