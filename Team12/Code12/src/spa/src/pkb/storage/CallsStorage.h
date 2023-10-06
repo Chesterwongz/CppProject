@@ -4,19 +4,21 @@
 #include <unordered_map>
 #include <unordered_set>
 
-class CallsStorage {
-private:
-    std::unordered_map<std::string, std::unordered_set<std::string>> callsMap;
-    std::unordered_map<std::string, std::unordered_set<std::string>> callsStarMap;
-    std::unordered_map<std::string, std::unordered_set<std::string>> calledByMap;
-    std::unordered_map<std::string, std::unordered_set<std::string>> calledByStarMap;
+using std::unordered_set, std::unordered_map, std::string;
 
-public:
-    CallsStorage() = default;
-    ~CallsStorage() = default;
-    void setCalls(const std::string& callerProc, const std::string& calleeProc);
-    void setCallsStar(const std::string& callerProc, const std::string& calleeProc);
-    const std::unordered_map<std::string, std::unordered_set<std::string>>& getCallsMap();
-    std::unordered_set<std::string> getDirectProcsCalledBy(const std::string& callerProc);
-    std::unordered_set<std::string> getAllProcsCalledBy(const std::string& callerProc);
+class CallsStorage {
+ private:
+  unordered_map<string, unordered_set<string>> callsMap;
+  unordered_map<string, unordered_set<string>> callsStarMap;
+  unordered_map<string, unordered_set<string>> calledByMap;
+  unordered_map<string, unordered_set<string>> calledByStarMap;
+
+ public:
+  CallsStorage() = default;
+  ~CallsStorage() = default;
+  void setCalls(const string& callerProc, const string& calleeProc);
+  void setCallsStar(const string& callerProc, const string& calleeProc);
+  const unordered_map<string, unordered_set<string>>& getCallsMap();
+  unordered_set<string> getDirectProcsCalledBy(const string& callerProc);
+  unordered_set<string> getAllProcsCalledBy(const string& callerProc);
 };

@@ -15,63 +15,79 @@
 #include "pkb/interfaces/writers/IStatementWriter.h"
 #include "pkb/interfaces/writers/IDesignEntitiesWriter.h"
 #include "pkb/interfaces/writers/IPatternWriter.h"
+#include "common/cfg/CFG.h"
 
-using std::unique_ptr;
+using std::unique_ptr, std::queue, std::string, std::unordered_set;
 
-class PKBWriter : public virtual IDesignEntitiesWriter, public virtual IFollowsWriter,
-    public virtual IParentWriter, public virtual IModifiesWriter, 
-    public virtual IUsesWriter, public virtual IStatementWriter, public virtual IPatternWriter {
-public:
-    explicit PKBWriter(PKBStorage& storage) : storage(storage) {};
-    virtual ~PKBWriter() = default;
+class PKBWriter : public virtual IDesignEntitiesWriter,
+                  public virtual IFollowsWriter,
+                  public virtual IParentWriter,
+                  public virtual IModifiesWriter,
+                  public virtual IUsesWriter,
+                  public virtual IStatementWriter,
+                  public virtual IPatternWriter {
+ public:
+  explicit PKBWriter(PKBStorage& storage) : storage(storage){};
+  ~PKBWriter() override = default;
 
-    // Add follows relationship
-    virtual void setFollowsRelationship(int statementNumber, int followingStatement);
+  // Add follows relationship
+  void setFollowsRelationship(int statementNumber,
+                              int followingStatement) override;
 
-    // Add parent relationship
-    virtual void setParentRelationship(int statementNumber, int childStatement);
+  // Add parent relationship
+  void setParentRelationship(int statementNumber, int childStatement) override;
 
-    // Add parent* relationship
-    virtual void setParentStarRelationship(int statementNumber, int childStatement);
+  // Add parent* relationship
+  void setParentStarRelationship(int statementNumber,
+                                 int childStatement) override;
 
-    // Add modifies relationship
-    virtual void setModifiesRelationship(const std::string& variableName, int statementNumber);
-    virtual void setModifiesRelationship(const std::string& variableName, const std::string& procName);
+  // Add modifies relationship
+  void setModifiesRelationship(const string& variableName,
+                               int statementNumber) override;
+  virtual void setModifiesRelationship(const string& variableName,
+                                       const string& procName);
 
-    // Add uses relationship
-    virtual void setUsesRelationship(const std::string& variableName, int statementNumber);
-    virtual void setUsesRelationship(const std::string& variableName, const std::string& procName);
+  // Add uses relationship
+  void setUsesRelationship(const string& variableName,
+                           int statementNumber) override;
+  virtual void setUsesRelationship(const string& variableName,
+                                   const string& procName);
 
-    // Add variable name to storage
-    virtual void setVariable(const std::string& variableName);
+  // Add variable name to storage
+  void setVariable(const string& variableName) override;
 
-    // Add constant value to storage
-    virtual void setConstant(const std::string& constantValue);
+  // Add constant value to storage
+  void setConstant(const string& constantValue) override;
 
-    // Add procedure name to storage
-    virtual void setProcedure(const std::string& procedureName, int startStatement);
+  // Add procedure name to storage
+  void setProcedure(const string& procedureName, int startStatement) override;
 
-    // Add statement number and type to storage
-    virtual void setStatement(int statementNumber, StmtType statementType);
+  // Add statement number and type to storage
+  void setStatement(int statementNumber, StmtType statementType) override;
 
-    virtual void setWhilePattern(int statementNumber, const std::string& varName);
+  virtual void setWhilePattern(int statementNumber, const string& varName);
 
-    virtual void setIfPattern(int statementNumber, const std::string& varName);
+  virtual void setIfPattern(int statementNumber, const string& varName);
 
-    // direct calls, not transitive
-    virtual void setCallsRelationship(const std::string& callerProc, const std::string& calleeProc);
+  // direct calls, not transitive
+  virtual void setCallsRelationship(const string& callerProc,
+                                    const string& calleeProc);
 
-    virtual void setCallsStarRelationship(const std::string& callerProc, const std::string& calleeProc);
+  virtual void setCallsStarRelationship(const string& callerProc,
+                                        const string& calleeProc);
 
-    // Add an expression to storage
-    virtual void setAssignPattern(const std::string& variableName, const std::string& rpn, int statementNumber);
+  // Add an expression to storage
+  void setAssignPattern(const string& variableName, const string& rpn,
+                        int statementNumber) override;
 
-    void setIndirectCallsRelationship();
+  void setIndirectCallsRelationship();
 
-private:
-    PKBStorage& storage;
-    void setUsesForCalls(const std::string &callerProc, const std::string &calleeProc);
-    void setModifiesForCalls(const std::string &callerProc, const std::string &calleeProc);
-    void setRelationshipsForIndirectCalls(const string &caller,
-                                          const std::unordered_set<std::string> &visitedCallees);
+  virtual void setCFG(const std::string& procName, unique_ptr<CFG> cfg);
+
+ private:
+  PKBStorage& storage;
+  void setUsesForCalls(const string& callerProc, const string& calleeProc);
+  void setModifiesForCalls(const string& callerProc, const string& calleeProc);
+  void setRelationshipsForIndirectCalls(
+      const string& caller, const unordered_set<string>& visitedCallees);
 };

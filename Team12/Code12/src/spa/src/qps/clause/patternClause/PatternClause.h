@@ -1,31 +1,32 @@
 #pragma once
 
+#include <memory>
 #include <string>
-#include <utility>
 #include <unordered_set>
+#include <utility>
 
-#include "qps/clause/Clause.h"
 #include "pkb/facade/PKBReader.h"
-#include "qps/argument/IArgument.h"
+#include "qps/argument/AbstractArgument.h"
+#include "qps/clause/Clause.h"
+#include "qps/patternEvaluator/PatternEvaluator.h"
 #include "qps/patternEvaluator/PatternEvaluatorFactory.h"
-#include "qps/patternEvaluator/IPatternEvaluator.h"
 
 using std::string, std::unique_ptr, std::vector;
 
 class PatternClause : public Clause {
-private:
-    unique_ptr<IArgument> synonym;
-    PatternArgsStreamPtr patternArgsStreamPtr;
-    bool isPartialMatch;
+ private:
+  unique_ptr<AbstractArgument> synonym;
+  PatternArgsStream patternArgsStream;
+  bool isPartialMatch;
 
-public:
-    // prolly will have to add one more field that specifies if the pattern arg is a direct or partial match
-    explicit PatternClause(unique_ptr<IArgument> synonym,
-                           PatternArgsStreamPtr patternArgsStreamPtr,
-                           bool isPartialMatch);
+ public:
+  explicit PatternClause(unique_ptr<AbstractArgument> synonym,
+                         PatternArgsStream patternArgsStream,
+                         bool isPartialMatch)
+      : synonym(std::move(synonym)),
+        patternArgsStream(std::move(patternArgsStream)),
+        isPartialMatch(isPartialMatch) {}
 
-    IntermediateTable evaluate(
-            Context& context,
-            PKBReader &pkb) override;
-    bool isEquals(const Clause& other) override;
+  IntermediateTable evaluate(Context& context, PKBReader& pkb) override;
+  bool isEquals(const Clause& other) override;
 };

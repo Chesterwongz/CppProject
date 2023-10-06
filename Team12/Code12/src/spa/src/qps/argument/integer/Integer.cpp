@@ -1,43 +1,18 @@
+#include "Integer.h"
+
 #include <string>
 
-#include "Integer.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-Integer::Integer(const string& argumentValue) {
-	if (!QPSStringUtils::isInteger(argumentValue)) {
-		throw QPSInvalidQueryException("argumentValue is not an integer");
-	}
+string Integer::getValue() { return integerValue; }
 
-	integerValue = argumentValue;
-}
+QPSStringUtils::ArgumentType Integer::getArgumentType() { return argumentType; }
 
-string Integer::getValue() {
-	return integerValue;
-}
+bool Integer::isInteger() { return true; }
 
-QPSStringUtils::ArgumentType Integer::getArgumentType() {
-	return argumentType;
-}
+bool Integer::operator==(const AbstractArgument& other) const {
+  const auto* otherInteger = dynamic_cast<const Integer*>(&other);
+  if (!otherInteger) return false;
 
-bool Integer::isIdent() {
-	return false;
-}
-
-bool Integer::isInteger() {
-	return true;
-}
-
-bool Integer::isSynonym() {
-	return false;
-}
-
-bool Integer::isWildcard() {
-	return false;
-}
-
-bool Integer::operator==(const IArgument& other) const {
-    const auto* otherInteger = dynamic_cast<const Integer*>(&other);
-    if (!otherInteger) return false;
-
-    return this->integerValue == otherInteger->integerValue;
+  return this->integerValue == otherInteger->integerValue;
 }

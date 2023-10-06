@@ -2,48 +2,55 @@
 
 ModifiesStorage::ModifiesStorage() = default;
 
-void ModifiesStorage::setVariableModification(const std::string& variableName, int statementNumber) {
-    variableToStatements[variableName].insert(statementNumber);
-    statementToVariables[statementNumber].insert(variableName);
+void ModifiesStorage::setVariableModification(const std::string& variableName,
+                                              int statementNumber) {
+  variableToStatements[variableName].insert(statementNumber);
+  statementToVariables[statementNumber].insert(variableName);
 }
 
-void ModifiesStorage::setVariableModification(const std::string& variableName, const std::string& procName) {
-    variableToProc[variableName].insert(procName);
-    procToVariables[procName].insert(variableName);
+void ModifiesStorage::setVariableModification(const std::string& variableName,
+                                              const std::string& procName) {
+  variableToProc[variableName].insert(procName);
+  procToVariables[procName].insert(variableName);
 }
 
-std::set<int> ModifiesStorage::getStatementNumbersForVariable(const std::string& variableName) {
-    if (variableToStatements.find(variableName) == variableToStatements.end()) {
-        return {};
-    }
-    return variableToStatements[variableName];
+std::set<int> ModifiesStorage::getStatementNumbersForVariable(
+    const std::string& variableName) {
+  if (variableToStatements.find(variableName) == variableToStatements.end()) {
+    return {};
+  }
+  return variableToStatements[variableName];
 }
 
-std::unordered_set<std::string> ModifiesStorage::getVariablesForProc(const std::string& procName) {
-    if (procToVariables.find(procName) == procToVariables.end()) {
-        return {};
-    }
-    return procToVariables[procName];
+std::unordered_set<std::string> ModifiesStorage::getVariablesForProc(
+    const std::string& procName) {
+  if (procToVariables.find(procName) == procToVariables.end()) {
+    return {};
+  }
+  return procToVariables[procName];
 }
 
-std::set<std::string> ModifiesStorage::getVariablesForStatement(int statementNumber) {
-    if (statementToVariables.find(statementNumber) == statementToVariables.end()) {
-        return {};
-    }
-    return statementToVariables[statementNumber];
+std::set<std::string> ModifiesStorage::getVariablesForStatement(
+    int statementNumber) {
+  if (statementToVariables.find(statementNumber) ==
+      statementToVariables.end()) {
+    return {};
+  }
+  return statementToVariables[statementNumber];
 }
 
 std::set<std::string> ModifiesStorage::getAllVariables() {
-    std::set<std::string> allVariables;
-    for (const auto& entry : variableToStatements) {
-        allVariables.insert(entry.first);
-    }
-    return allVariables;
+  std::set<std::string> allVariables;
+  for (const auto& entry : variableToStatements) {
+    allVariables.insert(entry.first);
+  }
+  return allVariables;
 }
 
 std::set<int> ModifiesStorage::getAllStatements() {
-    std::set<int> allStatements;
-    for (const auto& entry : statementToVariables) {
-        allStatements.insert(entry.first);
-    }
-    return allStatements;}
+  std::set<int> allStatements;
+  for (const auto& entry : statementToVariables) {
+    allStatements.insert(entry.first);
+  }
+  return allStatements;
+}

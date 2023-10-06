@@ -1,5 +1,3 @@
 #include "CallNode.h"
 
-void CallNode::accept(Extractor& e) const {
-    e.visitCall(*this);
-}
+void CallNode::accept(Extractor& e) const { e.visitCall(*this); }

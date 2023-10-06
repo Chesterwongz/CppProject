@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch.hpp>
 
 #include "qps/argument/integer/Integer.h"
 
@@ -9,50 +9,50 @@ string integerArgType = "integer";
 Integer integer = Integer(integerString);
 
 TEST_CASE("test_integer_getValue") {
-	string actual = integer.getValue();
+  string actual = integer.getValue();
 
-	REQUIRE(actual == expectedIntegerValue);
+  REQUIRE(actual == expectedIntegerValue);
 }
 
 TEST_CASE("test_integer_getArgumentType") {
-	QPSStringUtils::ArgumentType actualIntegerArgType = integer.getArgumentType();
+  QPSStringUtils::ArgumentType actualIntegerArgType = integer.getArgumentType();
 
-	REQUIRE(actualIntegerArgType == QPSStringUtils::INTEGER);
+  REQUIRE(actualIntegerArgType == QPSStringUtils::INTEGER);
 }
 
 TEST_CASE("test_integer_isIdent_false") {
-	bool actualIsInteger = integer.isIdent();
+  bool actualIsInteger = integer.isIdent();
 
-	REQUIRE(actualIsInteger == false);
+  REQUIRE(actualIsInteger == false);
 }
 
 TEST_CASE("test_integer_isInteger_true") {
-	bool actualIsInteger = integer.isInteger();
+  bool actualIsInteger = integer.isInteger();
 
-	REQUIRE(actualIsInteger);
+  REQUIRE(actualIsInteger);
 }
 
 TEST_CASE("test_integer_isSynonym_false") {
-	bool actualIsInteger = integer.isSynonym();
+  bool actualIsInteger = integer.isSynonym();
 
-	REQUIRE(actualIsInteger == false);
+  REQUIRE(actualIsInteger == false);
 }
 
 TEST_CASE("test_integer_isWildcard_false") {
-	bool actualIsInteger = integer.isWildcard();
+  bool actualIsInteger = integer.isWildcard();
 
-	REQUIRE(actualIsInteger == false);
+  REQUIRE(actualIsInteger == false);
 }
 
 TEST_CASE("test_integer_operator==_true") {
-	Integer similarInteger = Integer(integerString);
+  Integer similarInteger = Integer(integerString);
 
-	REQUIRE(integer == similarInteger);
+  REQUIRE(integer == similarInteger);
 }
 
 TEST_CASE("test_integer_operator==_false") {
-	string randomNum = "29384";
-	Integer diffInteger = Integer(randomNum);
+  string randomNum = "29384";
+  Integer diffInteger = Integer(randomNum);
 
-	REQUIRE(!(integer == diffInteger));
+  REQUIRE(!(integer == diffInteger));
 }

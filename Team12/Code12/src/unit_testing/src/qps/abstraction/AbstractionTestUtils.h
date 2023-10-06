@@ -1,14 +1,12 @@
 #pragma once
 
-#include "qps/abstraction/IAbstraction.h"
-#include "qps/argument/argumentFactory/ArgumentFactory.h"
-#include "../mocks/MockPKBReaderData.h"
+#include <memory>
+
 #include "../mocks/MockPKBReader.h"
+#include "../mocks/MockPKBReaderData.h"
+#include "../testUtils/argumentFactory/ArgumentFactory.h"
+#include "qps/abstraction/BaseAbstraction.h"
 
 unique_ptr<AbstractionParams> createMockAbstractionParams(
-        MockPKBReader &mockReader,
-        Context &mockContext,
-        Abstraction abstraction,
-        IArgument &firstArgument,
-        IArgument &secondArgument,
-        bool isTransitive);
+    MockPKBReader &mockReader, Context &mockContext, Abstraction abstraction,
+    AbstractArgument &firstArgument, AbstractArgument &secondArgument);

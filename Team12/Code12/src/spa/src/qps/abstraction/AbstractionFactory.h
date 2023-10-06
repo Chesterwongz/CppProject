@@ -2,10 +2,10 @@
 
 #include <memory>
 
-#include "IAbstraction.h"
+#include "BaseAbstraction.h"
 
 class AbstractionFactory {
-public:
-    static unique_ptr<IAbstraction> createAbstraction(
-            AbstractionParams &abstractionParams);
+ public:
+  static unique_ptr<BaseAbstraction> createAbstraction(
+      AbstractionParams &abstractionParams);
 };
