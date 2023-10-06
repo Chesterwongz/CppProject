@@ -27,7 +27,7 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
                   public virtual IStatementWriter,
                   public virtual IPatternWriter {
  public:
-  explicit PKBWriter(PKBStorage& storage) : storage(storage){};
+  explicit PKBWriter(PKBStorage& storage) : storage(storage) {}
   ~PKBWriter() override = default;
 
   // Add follows relationship

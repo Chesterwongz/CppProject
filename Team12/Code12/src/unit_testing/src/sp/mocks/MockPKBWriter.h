@@ -5,6 +5,8 @@
 #include <utility>
 #include <vector>
 #include <map>
+#include <memory>
+#include <set>
 #include <unordered_set>
 #include <unordered_map>
 
@@ -34,7 +36,7 @@ class MockPKBWriter : public PKBWriter {
   unordered_map<string, unique_ptr<CFG>> cfgStorage;
 
  public:
-  explicit MockPKBWriter(PKBStorage &storage) : PKBWriter(storage){};
+  explicit MockPKBWriter(PKBStorage &storage) : PKBWriter(storage) {}
   ~MockPKBWriter() override = default;
 
   void setFollowsRelationship(int stmtNum, int followingStmt) override {

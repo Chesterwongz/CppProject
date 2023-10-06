@@ -1,5 +1,11 @@
 #pragma once
 
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+
 #include "common/StmtTypes.h"
 #include "pkb/storage/DesignEntitiesStorage.h"
 #include "pkb/storage/FollowsStorage.h"
