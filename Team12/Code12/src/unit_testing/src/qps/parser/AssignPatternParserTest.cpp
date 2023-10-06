@@ -417,3 +417,36 @@ TEST_CASE("Invalid Pattern a (LITERAL_REF, PARTIAL_MATCH) - integer entRef") {
       );
 }
 
+TEST_CASE("Invalid Pattern a (SYNONYM, EXACT_EXPR_MATCH) - invalid expr") {
+  string a1 = "newa";
+  string var1 = "var";
+  vector<PQLToken> tokenList = {
+      PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, a1),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, var1),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, a1),
+      PQLToken(PQL_NAME_TOKEN, PATTERN_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, a1),
+      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+      PQLToken(PQL_NAME_TOKEN, var1),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_LITERAL_EXPRESSION_TOKEN, "+ x"),
+      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+  };
+  PQLTokenStream tokenStream(tokenList);
+
+  PKBStorage storage{};
+  PKBReader pkbReader(storage);
+  Query query(pkbReader);
+  PQLParserContext parserContext(tokenStream, query);
+  unique_ptr<DeclarativeParserState> declarativeParserState
+      = std::make_unique<DeclarativeParserState>(parserContext);
+  parserContext.transitionTo(std::move(declarativeParserState));
+  REQUIRE_THROWS_MATCHES(parserContext.handleTokens(),
+                         QPSSyntaxError,
+                         Catch::Message(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH));
+}
