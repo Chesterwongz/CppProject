@@ -9,8 +9,8 @@ PredictiveMap DeclarativeParserState::predictiveMap = {
     {PQL_COMMA_TOKEN, {PQL_SYNONYM_TOKEN}},
     {PQL_SEMICOLON_TOKEN, {PQL_ENTITY_TOKEN, PQL_SELECT_TOKEN}}};
 
-DeclarativeParserState::DeclarativeParserState(PQLParserContext& parserContext) :
-        BaseParserState(parserContext) {}
+DeclarativeParserState::DeclarativeParserState(PQLParserContext& parserContext)
+    : BaseParserState(parserContext) {}
 
 // To identify what type is the name token
 void DeclarativeParserState::processNameToken(PQLToken& curr) {
@@ -31,31 +31,31 @@ void DeclarativeParserState::handleToken() {
       processNameToken(curr);
     }
 
-		if (!PQLParserUtils::isExpectedToken(predictiveMap, prev, curr.getType())) {
-			throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
-		}
+    if (!PQLParserUtils::isExpectedToken(predictiveMap, prev, curr.getType())) {
+      throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
+    }
 
-		switch (curr.getType()) {
-		case PQL_ENTITY_TOKEN:
-			this->currentEntity = curr.getValue();
-			break;
-		case PQL_SYNONYM_TOKEN:
-            this->parserContext.addToContext(this->currentEntity, curr.getValue());
-            break;
-		case PQL_COMMA_TOKEN:
-		case PQL_SEMICOLON_TOKEN:
-			break;
-		case PQL_SELECT_TOKEN: // exit token
-			this->parserContext.transitionTo(
-                            std::make_unique<SelectParserState>(parserContext));
-            return;
-		default:
-            throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
-		}
-        this->prev = curr.getType();
-        tokenStream.next();
-	}
+    switch (curr.getType()) {
+      case PQL_ENTITY_TOKEN:
+        this->currentEntity = curr.getValue();
+        break;
+      case PQL_SYNONYM_TOKEN:
+        this->parserContext.addToContext(this->currentEntity, curr.getValue());
+        break;
+      case PQL_COMMA_TOKEN:
+      case PQL_SEMICOLON_TOKEN:
+        break;
+      case PQL_SELECT_TOKEN:  // exit token
+        this->parserContext.transitionTo(
+            std::make_unique<SelectParserState>(parserContext));
+        return;
+      default:
+        throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
+    }
+    this->prev = curr.getType();
+    tokenStream.next();
+  }
 
-    // should never exit in this parser
-    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_DECLARATION);
+  // should never exit in this parser
+  throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_DECLARATION);
 }

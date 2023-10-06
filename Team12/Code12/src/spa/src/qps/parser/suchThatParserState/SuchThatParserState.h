@@ -5,12 +5,12 @@
 
 // get such that and check next relation to determine relationship parser to use
 class SuchThatParserState : public BaseParserState {
-private:
-    static PredictiveMap predictiveMap;
-    void processNameToken(PQLToken& curr) override;
+ private:
+  static PredictiveMap predictiveMap;
+  void processNameToken(PQLToken& curr) override;
 
-public:
-    explicit SuchThatParserState(PQLParserContext& parserContext);
-    void handleToken() override;
-    ~SuchThatParserState() override = default;
+ public:
+  explicit SuchThatParserState(PQLParserContext& parserContext);
+  void handleToken() override;
+  ~SuchThatParserState() override = default;
 };

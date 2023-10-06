@@ -4,11 +4,10 @@
 
 PredictiveMap PatternParserState::predictiveMap = {
     {PQL_NULL_TOKEN, {PQL_PATTERN_TOKEN}},
-    {PQL_PATTERN_TOKEN, {PQL_ASSIGN_PATTERN_TOKEN}}
-};
+    {PQL_PATTERN_TOKEN, {PQL_ASSIGN_PATTERN_TOKEN}}};
 
 PatternParserState::PatternParserState(PQLParserContext& parserContext)
-: BaseParserState(parserContext) {}
+    : BaseParserState(parserContext) {}
 
 void PatternParserState::processNameToken(PQLToken& curr) {
   if (prev == PQL_NULL_TOKEN) {
