@@ -78,7 +78,7 @@ void PKBWriter::setModifiesForCalls(const string &callerProc,
 void PKBWriter::setRelationshipsForIndirectCalls(
     const string &caller, const unordered_set<string> &visitedCallees) {
   for (const auto &callee : visitedCallees) {
-    setCallsStarRelationship(caller, callee);
+    setCallsStarRelationship(caller, callee, -1);
     setModifiesForCalls(caller, callee);
     setUsesForCalls(caller, callee);
   }
@@ -117,9 +117,10 @@ void PKBWriter::setIndirectCallsRelationship() {
 }
 
 void PKBWriter::setCallsRelationship(const string &callerProc,
-                                     const string &calleeProc) {}
+                                     const string &calleeProc, int stmtNum) {}
 
 void PKBWriter::setCallsStarRelationship(const string &callerProc,
-                                         const string &calleeProc) {}
+                                         const string &calleeProc,
+                                         int stmtNum) {}
 
 void PKBWriter::setCFG(const std::string &procName, unique_ptr<CFG> cfg) {}

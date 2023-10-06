@@ -71,10 +71,12 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
 
   // direct calls, not transitive
   virtual void setCallsRelationship(const string& callerProc,
-                                    const string& calleeProc);
+                                    const string& calleeProc,
+                                    int stmtNum);
 
   virtual void setCallsStarRelationship(const string& callerProc,
-                                        const string& calleeProc);
+                                        const string& calleeProc,
+                                        int stmtNum);
 
   // Add an expression to storage
   void setAssignPattern(const string& variableName, const string& rpn,

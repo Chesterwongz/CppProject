@@ -8,13 +8,12 @@
 #include "sp/exceptions/CyclicProcCallException.h"
 #include "sp/exceptions/UndefinedProcCallException.h"
 
-
 class CallsExtractor : public Extractor {
-private:
-    std::string currProc;
+ private:
+  std::string currProc;
 
-public:
-    explicit CallsExtractor(PKBWriter& pkbWriter);
-    void visitProcedure(const ProcNode& node) override;
-    void visitCall(const CallNode& node) override;
+ public:
+  explicit CallsExtractor(PKBWriter& pkbWriter);
+  void visitProcedure(const ProcNode& node) override;
+  void visitCall(const CallNode& node) override;
 };
