@@ -34,10 +34,12 @@ void SuchThatParserState::handleToken() {
             case PQL_THAT_TOKEN:
                 break;
             case PQL_STMT_STMT_TOKEN:
-                parserContext.transitionTo(make_unique<StmtStmtParserState>(parserContext));
+                parserContext.transitionTo(
+                    std::make_unique<StmtStmtParserState>(parserContext));
                 return;
             case PQL_STMT_VAR_TOKEN:
-                parserContext.transitionTo(make_unique<StmtVarParserState>(parserContext));
+                parserContext.transitionTo(
+                    std::make_unique<StmtVarParserState>(parserContext));
                 return;
             default:
                 throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());

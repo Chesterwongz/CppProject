@@ -1,12 +1,8 @@
 #pragma once
 
-#include <memory>
-
 #include "qps/exceptions/QPSSyntaxError.h"
 #include "qps/exceptions/QPSSemanticError.h"
 #include "qps/token/PQLToken.h"
-
-using std::unique_ptr;
 
 class IParserState {
  protected:

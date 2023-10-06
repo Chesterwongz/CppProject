@@ -2,14 +2,14 @@
 
 #include "qps/parser/BaseParserState.h"
 
-class PatternParsersState : public BaseParserState {
+class PatternParserState : public BaseParserState {
  private:
   static PredictiveMap predictiveMap;
   void processNameToken(PQLToken& curr) override;
   void processSynonymToken(PQLToken& curr);
 
  public:
-  explicit PatternParsersState(PQLParserContext& parserContext);
+  explicit PatternParserState(PQLParserContext& parserContext);
   void handleToken() override;
-  ~PatternParsersState() override = default;
+  ~PatternParserState() override = default;
 };

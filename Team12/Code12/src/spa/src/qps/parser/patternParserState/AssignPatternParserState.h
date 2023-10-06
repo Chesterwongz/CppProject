@@ -9,16 +9,17 @@
 #include "qps/parser/BaseParserState.h"
 #include "qps/parser/PQLParserContext.h"
 
-using std::make_unique, std::unique_ptr;
-
 class AssignPatternParserState : public BaseParserState {
  private:
-  bool isInBracket;
   static const int FIRST_ARG = 0;
   static const int SECOND_ARG = 1;
-  string matchPattern;
+  static const int PARTIAL_MATCH_COUNT = 2;
+  static const int EXACT_MATCH_COUNT = 0;
+  static const int WILDCARD_MATCH_COUNT = 1;
+
+  bool isInBracket;
+  bool isPartialMatch;
   int partialMatchWildCardCount;
-  int argumentCount;
   unique_ptr<AbstractArgument> outerSynonym;
   static PredictiveMap predictiveMap;
   static PQLTokenType exitToken;
@@ -27,6 +28,7 @@ class AssignPatternParserState : public BaseParserState {
   void processNameToken(PQLToken& curr) override;
   void processSynonymToken(PQLToken& curr);
   void processLastArgument();
+  void checkIsValidIdent(const string& ref);
 
  public:
   explicit AssignPatternParserState(PQLParserContext& parserContext);

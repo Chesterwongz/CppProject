@@ -52,7 +52,7 @@ void StmtStmtParserState::handleToken() {
             case PQL_CLOSE_BRACKET_TOKEN:
                 isInBracket = false;
                 isSuccess = checkSafeExit(arguments);
-                parserContext.addClause(make_unique<SuchThatClause>(
+                parserContext.addClause(std::make_unique<SuchThatClause>(
                         getAbstractionType(relationship, stmtStmtKeywordToAbstraction),
                         std::move(arguments.at(0)),
                         std::move(arguments.at(1))
@@ -69,7 +69,8 @@ void StmtStmtParserState::handleToken() {
                 arguments.push_back(std::move(std::make_unique<Wildcard>()));
                 break;
             case PQL_PATTERN_TOKEN:
-                this->parserContext.transitionTo(make_unique<AssignPatternParserState>(parserContext));
+                this->parserContext.transitionTo(
+                    std::make_unique<PatternParserState>(parserContext));
                 return;
             default:
                 throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());

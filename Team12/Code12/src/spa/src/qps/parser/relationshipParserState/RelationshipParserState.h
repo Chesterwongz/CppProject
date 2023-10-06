@@ -2,7 +2,7 @@
 
 #include "qps/clause/utils/ClauseConstants.h"
 #include "qps/parser/BaseParserState.h"
-#include "qps/parser/patternParserState/AssignPatternParserState.h"
+#include "qps/parser/patternParserState/PatternParserState.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/integer/Integer.h"

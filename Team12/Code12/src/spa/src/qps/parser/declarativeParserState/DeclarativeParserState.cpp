@@ -46,7 +46,8 @@ void DeclarativeParserState::handleToken() {
 		case PQL_SEMICOLON_TOKEN:
 			break;
 		case PQL_SELECT_TOKEN: // exit token
-			this->parserContext.transitionTo(make_unique<SelectParserState>(parserContext));
+			this->parserContext.transitionTo(
+                            std::make_unique<SelectParserState>(parserContext));
             return;
 		default:
             throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());

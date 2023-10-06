@@ -5,8 +5,6 @@
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/BaseParserState.h"
 
-using std::make_unique;
-
 class DeclarativeParserState : public BaseParserState {
 private:
 	string currentEntity;

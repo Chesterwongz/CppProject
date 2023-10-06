@@ -3,8 +3,6 @@
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/BaseParserState.h"
 
-using std::make_unique;
-
 class SelectParserState : public BaseParserState {
 private:
 	static PredictiveMap predictiveMap;
