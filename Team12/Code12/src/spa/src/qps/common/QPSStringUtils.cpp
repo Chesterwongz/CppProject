@@ -22,9 +22,13 @@ bool QPSStringUtils::isEntRef(string data) {
 
 bool QPSStringUtils::isIdent(string data) {
   std::regex identQuotePattern("\"[A-Za-z]([A-Za-z0-9])*\"");
-  std::regex identPattern("[A-Za-z]([A-Za-z0-9])*");
 
-  return std::regex_match(data, identPattern) || std::regex_match(data, identQuotePattern);
+  return std::regex_match(data, identQuotePattern);
+}
+
+bool QPSStringUtils::isIdentValue(const std::string& data) {
+  std::regex identPattern("[A-Za-z]([A-Za-z0-9])*");
+  return std::regex_match(data, identPattern);
 }
 
 bool QPSStringUtils::isWildcard(string data) {
@@ -41,6 +45,38 @@ bool QPSStringUtils::isInteger(string data) {
   }
   std::regex integerPattern(integerRegex);
   return std::regex_match(data, integerPattern);
+}
+
+bool QPSStringUtils::isCharExpression(const char ch) {
+  return ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '%';
+}
+
+bool QPSStringUtils::isValidExpression(const string& data) {
+  std::stack<char> s;
+  bool isPrevOps = true;
+
+  for (char c : data) {
+    if (isspace(c)) {
+      continue;
+    }
+
+    if (isdigit(c)) {
+      isPrevOps = false;
+    } else if (isCharExpression(c)) {
+      if (isPrevOps) return false;
+      isPrevOps = true;
+    } else if (c == '(') {
+      s.push(c);
+      isPrevOps = true;
+    } else if (c == ')') {
+      if (s.empty() || s.top() != '(') return false; // No matching open parenthesis
+      s.pop();
+      isPrevOps = false; // After a closed parenthesis, operator can follow
+    } else {
+      return false; // Invalid character
+    }
+  }
+  return s.empty() && !isPrevOps;
 }
 
 // used chat gpt for the algo, just changed variable names

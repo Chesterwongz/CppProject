@@ -9,21 +9,27 @@
 
 PredictiveMap AssignPatternParserState::predictiveMap = {
     {PQL_NULL_TOKEN, {PQL_ASSIGN_PATTERN_TOKEN}},
-    {PQL_ASSIGN_PATTERN_TOKEN, {PQL_OPEN_BRACKET_TOKEN, PQL_COMMA_TOKEN}},
+    {PQL_ASSIGN_PATTERN_TOKEN, {PQL_OPEN_BRACKET_TOKEN}},
     {PQL_OPEN_BRACKET_TOKEN,
      {PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN}},
+    {PQL_SYNONYM_TOKEN, {PQL_COMMA_TOKEN}},
     {PQL_WILDCARD_TOKEN,
-     {PQL_COMMA_TOKEN, PQL_LITERAL_REF_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
+     {PQL_COMMA_TOKEN, PQL_LITERAL_REF_TOKEN,
+      PQL_LITERAL_EXPRESSION_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
     {PQL_LITERAL_REF_TOKEN,
      {PQL_COMMA_TOKEN, PQL_WILDCARD_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
-    {PQL_COMMA_TOKEN, {PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN}},
+    {PQL_LITERAL_EXPRESSION_TOKEN,
+     {PQL_WILDCARD_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
+    {PQL_COMMA_TOKEN,
+     {PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN, PQL_LITERAL_EXPRESSION_TOKEN}},
     {PQL_CLOSE_BRACKET_TOKEN, {PQL_SUCH_TOKEN}}};
 
 PQLTokenType AssignPatternParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
 
 size_t AssignPatternParserState::maxNumberOfArgs = 2;
 
-AssignPatternParserState::AssignPatternParserState(PQLParserContext& parserContext)
+AssignPatternParserState::AssignPatternParserState(
+    PQLParserContext& parserContext)
     : BaseParserState(parserContext),
       isInBracket(false),
       isPartialMatch(false),
@@ -33,7 +39,8 @@ void AssignPatternParserState::processNameToken(PQLToken& curr) {
   if (prev == PQL_OPEN_BRACKET_TOKEN) {
     curr.updateTokenType(PQL_SYNONYM_TOKEN);
   } else {
-    curr.updateTokenType(PQLParserUtils::getTokenTypeFromKeyword(curr.getValue()));
+    curr.updateTokenType(
+        PQLParserUtils::getTokenTypeFromKeyword(curr.getValue()));
   }
 }
 
@@ -52,26 +59,31 @@ void AssignPatternParserState::processSynonymToken(PQLToken& curr) {
 }
 
 void AssignPatternParserState::processLastArgument() {
-  bool isWildcardMatch = patternArg.size() == SECOND_ARG
-                         && partialMatchWildCardCount == WILDCARD_MATCH_COUNT;
-  bool isExactMatch = patternArg.size() == maxNumberOfArgs
-                      && partialMatchWildCardCount == EXACT_MATCH_COUNT;
-  isPartialMatch = partialMatchWildCardCount == PARTIAL_MATCH_COUNT
-                   && patternArg.size() == maxNumberOfArgs;
+  bool isWildcardMatch = patternArg.size() == SECOND_ARG &&
+                         partialMatchWildCardCount == WILDCARD_MATCH_COUNT;
+  bool isExactMatch = patternArg.size() == maxNumberOfArgs &&
+                      partialMatchWildCardCount == EXACT_MATCH_COUNT;
+  isPartialMatch = partialMatchWildCardCount == PARTIAL_MATCH_COUNT &&
+                   patternArg.size() == maxNumberOfArgs;
 
   if (isWildcardMatch) {
     patternArg.push_back(std::move(std::make_unique<Wildcard>()));
   } else if (isPartialMatch || isExactMatch) {
     return;
   } else {
-    throw QPSInvalidQueryException(
-        QPS_INVALID_QUERY_INCOMPLETE_PARTIAL_MATCH_PATTERN);
+    throw QPSSyntaxError(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH);
   }
 }
 
 void AssignPatternParserState::checkIsValidIdent(const std::string& ref) {
-  if (!QPSStringUtils::isIdent(ref)) {
+  if (patternArg.size() == FIRST_ARG && !QPSStringUtils::isIdentValue(ref)) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_IDENT);
+  }
+}
+
+void AssignPatternParserState::checkIsValidExpr(const std::string& ref) {
+  if (!QPSStringUtils::isValidExpression(ref)) {
+    throw QPSSyntaxError(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH);
   }
 }
 
@@ -102,8 +114,7 @@ void AssignPatternParserState::handleToken() {
         isInBracket = false;
         processLastArgument();
         parserContext.addClause(std::make_unique<PatternClause>(
-            std::move(outerSynonym), std::move(patternArg),
-            isPartialMatch));
+            std::move(outerSynonym), std::move(patternArg), isPartialMatch));
         break;
       case PQL_WILDCARD_TOKEN:
         if (patternArg.size() > FIRST_ARG) {
@@ -114,6 +125,11 @@ void AssignPatternParserState::handleToken() {
         break;
       case PQL_LITERAL_REF_TOKEN:
         checkIsValidIdent(curr.getValue());
+        patternArg.push_back(
+            std::move(std::make_unique<Ident>(curr.getValue())));
+        break;
+      case PQL_LITERAL_EXPRESSION_TOKEN:
+        checkIsValidExpr(curr.getValue());
         patternArg.push_back(
             std::move(std::make_unique<Ident>(curr.getValue())));
         break;

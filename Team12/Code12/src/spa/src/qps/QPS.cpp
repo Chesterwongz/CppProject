@@ -1,6 +1,5 @@
 #include "QPS.h"
 
-// TODO(QPS): test
 QPS::QPS(PKBReader& pkb) : pkb(pkb), tokenizerFactory() {}
 
 std::set<string> QPS::processQueryString(const string& query) {
@@ -13,7 +12,13 @@ std::set<string> QPS::processQueryString(const string& query) {
   PQLParserContext parserContext(tokenStream, queryObj);
   setupParser(parserContext);
 
-  parserContext.handleTokens();
+  try {
+    parserContext.handleTokens();
+  } catch (QPSSyntaxError& e) {
+    return {"SyntaxError"};
+  } catch (QPSSemanticError& e) {
+    return {"SemanticError"};
+  }
 
   return queryObj.evaluate();
 }

@@ -29,6 +29,7 @@ class AssignPatternParserState : public BaseParserState {
   void processSynonymToken(PQLToken& curr);
   void processLastArgument();
   void checkIsValidIdent(const string& ref);
+  static void checkIsValidExpr(const string& ref);
 
  public:
   explicit AssignPatternParserState(PQLParserContext& parserContext);

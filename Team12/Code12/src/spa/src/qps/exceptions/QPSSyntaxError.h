@@ -11,6 +11,7 @@ const char QPS_TOKENIZATION_ERR_EMPTY_QUOTE[] = "Empty quotes";
 const char QPS_TOKENIZATION_ERR_UNMATCHED_QUOTE[] = "Unmatched quotes";
 const char QPS_TOKENIZATION_ERR_UNMATCHED_BRACKETS[] = "Unmatched brackets";
 const char QPS_SYNTAX_ERR_INVALID_PATTERN_SYN[] = "Invalid Pattern synonym type";
+const char QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH[] = "Invalid Pattern Expression";
 
 class QPSSyntaxError : public QPSException {
 public:

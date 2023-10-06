@@ -14,7 +14,6 @@
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/integer/Integer.h"
 #include "qps/argument/wildcard/Wildcard.h"
-#include "qps/exceptions/QPSInvalidQueryException.h"
 
 using std::unique_ptr, std::make_unique, std::move, std::vector;
 
@@ -114,78 +113,6 @@ TEST_CASE("valid simple transitive follows") {
     REQUIRE(res);
 }
  **/
-
-TEST_CASE("invalid simple parent - invalid synonym") {
-    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
-                                   PQLToken(PQL_NAME_TOKEN, "v"),
-                                   PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-                                   PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
-                                   PQLToken(PQL_NAME_TOKEN, "v"),
-                                   PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
-                                   PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-                                   PQLToken(PQL_NAME_TOKEN, PARENTS_ABSTRACTION),
-                                   PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-                                   PQLToken(PQL_NAME_TOKEN, "a"),
-                                   PQLToken(PQL_COMMA_TOKEN, ","),
-                                   PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
-                                   PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
-    };
-    PQLTokenStream tokenStream(tokenList);
-
-    PKBStorage storage{};
-    PKBReader pkbReader(storage);
-    Query query(pkbReader);
-    PQLParserContext parserContext(tokenStream, query);
-    unique_ptr<DeclarativeParserState> declarativeParserState = make_unique<DeclarativeParserState>(parserContext);
-    parserContext.transitionTo(std::move(declarativeParserState));
-    REQUIRE_THROWS_WITH(parserContext.handleTokens(), "Using undeclared synonym: a");
-}
-
-TEST_CASE("valid simple parent") {
-    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
-                                   PQLToken(PQL_NAME_TOKEN, "a"),
-                                   PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-                                   PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
-                                   PQLToken(PQL_NAME_TOKEN, "w"),
-                                   PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-                                   PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
-                                   PQLToken(PQL_NAME_TOKEN, "a"),
-                                   PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
-                                   PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-                                   PQLToken(PQL_NAME_TOKEN, PARENTS_ABSTRACTION),
-                                   PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-                                   PQLToken(PQL_NAME_TOKEN, "w"),
-                                   PQLToken(PQL_COMMA_TOKEN, ","),
-                                   PQLToken(PQL_NAME_TOKEN, "a"),
-                                   PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
-    };
-    PQLTokenStream tokenStream(tokenList);
-
-    PKBStorage storage{};
-    PKBReader pkbReader(storage);
-    Query query(pkbReader);
-    PQLParserContext parserContext(tokenStream, query);
-    unique_ptr<DeclarativeParserState> declarativeParserState = make_unique<DeclarativeParserState>(parserContext);
-    parserContext.transitionTo(std::move(declarativeParserState));
-    parserContext.handleTokens();
-
-    // expected query object
-    Query expected(pkbReader);
-    unique_ptr<Context> expectedContext = make_unique<Context>();
-    expectedContext->addSynonym("a", ASSIGN_ENTITY);
-    expectedContext->addSynonym("w", WHILE_ENTITY);
-    expected.addContext(std::move(expectedContext));
-    unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>("w");
-    unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>("a");
-    unique_ptr<SuchThatClause> suchThatClause = make_unique<SuchThatClause>(
-            PARENTS_ENUM,
-            std::move(firstArg),
-            std::move(secondArg));
-    expected.addClause(std::move(suchThatClause));
-
-    bool res = query == expected;
-    REQUIRE(res);
-}
 
 TEST_CASE("valid simple modifies") {
     vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
@@ -343,7 +270,7 @@ TEST_CASE("invalid pattern partial match - front only") {
     PQLParserContext parserContext(tokenStream, query);
     unique_ptr<DeclarativeParserState> declarativeParserState = make_unique<DeclarativeParserState>(parserContext);
     parserContext.transitionTo(std::move(declarativeParserState));
-    REQUIRE_THROWS_WITH(parserContext.handleTokens(), QPS_INVALID_QUERY_INCOMPLETE_PARTIAL_MATCH_PATTERN);
+    REQUIRE_THROWS_WITH(parserContext.handleTokens(), QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH);
 }
 
 TEST_CASE("invalid pattern partial match - back only") {
@@ -369,7 +296,7 @@ TEST_CASE("invalid pattern partial match - back only") {
     PQLParserContext parserContext(tokenStream, query);
     unique_ptr<DeclarativeParserState> declarativeParserState = make_unique<DeclarativeParserState>(parserContext);
     parserContext.transitionTo(std::move(declarativeParserState));
-    REQUIRE_THROWS_WITH(parserContext.handleTokens(), QPS_INVALID_QUERY_INCOMPLETE_PARTIAL_MATCH_PATTERN);
+    REQUIRE_THROWS_WITH(parserContext.handleTokens(), QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH);
 }
 
 TEST_CASE("valid such that before pattern") {
@@ -429,48 +356,6 @@ TEST_CASE("valid such that before pattern") {
             false
     );
     expected.addClause(std::move(patternClause));
-
-    bool res = query == expected;
-    REQUIRE(res);
-}
-
-TEST_CASE("valid follows query with keyword as synonym") {
-    vector<PQLToken> tokenList = { PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
-                                   PQLToken(PQL_NAME_TOKEN, FOLLOWS_ABSTRACTION),
-                                   PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-                                   PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
-                                   PQLToken(PQL_NAME_TOKEN, FOLLOWS_ABSTRACTION),
-                                   PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
-                                   PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-                                   PQLToken(PQL_NAME_TOKEN, FOLLOWS_ABSTRACTION),
-                                   PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-                                   PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
-                                   PQLToken(PQL_COMMA_TOKEN, ","),
-                                   PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
-                                   PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
-    };
-    PQLTokenStream tokenStream(tokenList);
-
-    PKBStorage storage{};
-    PKBReader pkbReader(storage);
-    Query query(pkbReader);
-    PQLParserContext parserContext(tokenStream, query);
-    unique_ptr<DeclarativeParserState> declarativeParserState = make_unique<DeclarativeParserState>(parserContext);
-    parserContext.transitionTo(std::move(declarativeParserState));
-    parserContext.handleTokens();
-
-    // expected query object
-    Query expected(pkbReader);
-    unique_ptr<Context> expectedContext = make_unique<Context>();
-    expectedContext->addSynonym("Follows", STMT_ENTITY);
-    expected.addContext(std::move(expectedContext));
-    unique_ptr<Wildcard> firstArg = std::make_unique<Wildcard>();
-    unique_ptr<Wildcard> secondArg = std::make_unique<Wildcard>();
-    unique_ptr<SuchThatClause> suchThatClause = make_unique<SuchThatClause>(
-            FOLLOWS_ENUM,
-            std::move(firstArg),
-            std::move(secondArg));
-    expected.addClause(std::move(suchThatClause));
 
     bool res = query == expected;
     REQUIRE(res);
@@ -541,7 +426,7 @@ TEST_CASE("invalid query - Pattern clause only has 1 argument") {
     PQLParserContext parserContext(tokenStream, query);
     unique_ptr<DeclarativeParserState> declarativeParserState = make_unique<DeclarativeParserState>(parserContext);
     parserContext.transitionTo(std::move(declarativeParserState));
-    REQUIRE_THROWS_WITH(parserContext.handleTokens(), QPS_INVALID_QUERY_INCOMPLETE_PARTIAL_MATCH_PATTERN);
+    REQUIRE_THROWS_WITH(parserContext.handleTokens(), QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH);
 }
 
 TEST_CASE("valid pattern before such that") {

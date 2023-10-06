@@ -34,7 +34,7 @@ void StmtVarParserState::checkIsValidSynonym(
 }
 
 void StmtVarParserState::checkIsValidIdent(const string& ref) {
-    if (!QPSStringUtils::isIdent(ref)) {
+    if (!QPSStringUtils::isIdentValue(ref)) {
         throw QPSSyntaxError(QPS_TOKENIZATION_ERR_IDENT);
     }
 }
@@ -63,6 +63,7 @@ void StmtVarParserState::handleToken() {
             case PQL_CLOSE_BRACKET_TOKEN:
                 isInBracket = false;
                 isSuccess = checkSafeExit(arguments);
+                if (!isSuccess) break;
                 parserContext.addClause(std::make_unique<SuchThatClause>(
                         getAbstractionType(relationship,
                                        stmtVarKeywordToAbstraction),

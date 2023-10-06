@@ -1,6 +1,6 @@
 #include "PatternParserState.h"
 
-#include "AssignPatternParserState.h"
+#include "qps/parser/patternParserState/assignPatternParserState/AssignPatternParserState.h"
 
 PredictiveMap PatternParserState::predictiveMap = {
     {PQL_NULL_TOKEN, {PQL_PATTERN_TOKEN}},

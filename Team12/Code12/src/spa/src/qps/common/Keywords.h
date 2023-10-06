@@ -30,6 +30,8 @@ inline const string FOLLOWS_STAR_ABSTRACTION = "Follows*";
 inline const string MODIFIES_ABSTRACTION = "Modifies";
 inline const string PARENTS_ABSTRACTION = "Parent";
 inline const string PARENTS_STAR_ABSTRACTION = "Parent*";
+inline const string NEXT_ABSTRACTION = "Next";
+inline const string NEXT_STAR_ABSTRACTION = "Next*";
 inline const string USES_ABSTRACTION = "Uses";
 
 inline const string WILDCARD_KEYWORD = "_";
