@@ -37,72 +37,72 @@ class MockPKBWriter : public PKBWriter {
   explicit MockPKBWriter(PKBStorage &storage) : PKBWriter(storage){};
   ~MockPKBWriter() override = default;
 
-  void setFollowsRelationship(int statementNumber,
-                              int followingStatement) override {
-    followsStorage[statementNumber].insert(followingStatement);
+  void setFollowsRelationship(int stmtNum, int followingStmt) override {
+    followsStorage[stmtNum].insert(followingStmt);
   }
 
-  void setParentRelationship(int statementNumber, int childStatement) override {
-    parentStorage[statementNumber].insert(childStatement);
+  void setParentRelationship(int stmtNum, int childStmt) override {
+    parentStorage[stmtNum].insert(childStmt);
   }
 
-  void setParentStarRelationship(int statementNumber,
-                                 int childStatement) override {
-    parentStarStorage[statementNumber].insert(childStatement);
+  void setParentStarRelationship(int stmtNum, int childStmt) override {
+    parentStarStorage[stmtNum].insert(childStmt);
   }
 
-  void setModifiesRelationship(const string &variableName,
-                               int statementNumber) override {
-    modifiesStorage[variableName].insert(statementNumber);
+  void setModifiesRelationship(const string &varName, int stmtNum) override {
+    modifiesStorage[varName].insert(stmtNum);
   }
 
-  void setModifiesRelationship(const string &variableName,
+  void setModifiesRelationship(const string &varName,
                                const string &procName) override {
-    modifiesProcStorage[variableName].insert(procName);
+    modifiesProcStorage[varName].insert(procName);
   }
 
-  void setUsesRelationship(const string &variableName,
-                           int statementNumber) override {
-    usesStorage[variableName].insert(statementNumber);
+  void setUsesRelationship(const string &varName, int stmtNum) override {
+    usesStorage[varName].insert(stmtNum);
   }
 
-  void setUsesRelationship(const string &variableName,
+  void setUsesRelationship(const string &varName,
                            const string &procName) override {
-    usesProcStorage[variableName].insert(procName);
+    usesProcStorage[varName].insert(procName);
   }
 
-  void setVariable(const string &variableName) override {
-    variableStorage.insert(variableName);
+  void setVariable(const string &varName) override {
+    variableStorage.insert(varName);
   }
 
   void setConstant(const string &constantValue) override {
     constantStorage.insert(constantValue);
   }
 
-  void setProcedure(const string &procedureName, int startStatement) override {
-    procedureStorage[procedureName] = startStatement;
+  void setProcedure(const string &procName, int startStmt) override {
+    procedureStorage[procName] = startStmt;
   }
 
-  void setStatement(int statementNumber, StmtType statementType) override {
-    statementStorage[statementType].insert(statementNumber);
+  void setStatement(int stmtNum, StmtType statementType) override {
+    statementStorage[statementType].insert(stmtNum);
   }
 
-  void setAssignPattern(const string &variableName, const string &expression,
+  void setAssignPattern(const string &varName, const string &expr,
                         int lineNum) override {
-    assignPatternStorage[lineNum] = std::make_pair(variableName, expression);
+    assignPatternStorage[lineNum] = std::make_pair(varName, expr);
   }
 
-  void setWhilePattern(int lineNum, const string &variableName) override {
-    whilePatternStorage[lineNum].insert(variableName);
+  void setWhilePattern(int lineNum, const string &varName) override {
+    whilePatternStorage[lineNum].insert(varName);
   }
 
-  void setIfPattern(int lineNum, const string &variableName) override {
-    ifPatternStorage[lineNum].insert(variableName);
+  void setIfPattern(int lineNum, const string &varName) override {
+    ifPatternStorage[lineNum].insert(varName);
   }
 
   void setCallsRelationship(const string &caller,
                             const string &callee) override {
     callsStorage[caller].insert(callee);
+  }
+
+  void setCFG(const string& procName, unique_ptr<CFG> cfg) override {
+    cfgStorage[procName] = std::move(cfg);
   }
 
   [[nodiscard]] bool isVariablesEqual(
