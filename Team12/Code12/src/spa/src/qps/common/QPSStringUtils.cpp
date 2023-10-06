@@ -60,7 +60,7 @@ bool QPSStringUtils::isValidExpression(const string& data) {
       continue;
     }
 
-    if (isdigit(c)) {
+    if (isdigit(c) || isalpha(c)) {
       isPrevOps = false;
     } else if (isCharExpression(c)) {
       if (isPrevOps) return false;

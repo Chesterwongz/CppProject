@@ -81,6 +81,7 @@ void AssignPatternParserState::checkIsValidIdent(const std::string& ref) {
   }
 }
 
+// TODO: Upgrade parser, this is insufficient for more complex expressions
 void AssignPatternParserState::checkIsValidExpr(const std::string& ref) {
   if (!QPSStringUtils::isValidExpression(ref)) {
     throw QPSSyntaxError(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH);
