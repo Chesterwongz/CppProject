@@ -3,7 +3,7 @@
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 
 SelectClause::SelectClause(SynonymsToSelect synonymsToSelect)
-    : synonymsToSelect(std::move(synonymsToSelect)){};
+    : synonymsToSelect(std::move(synonymsToSelect)){}
 
 IntermediateTable SelectClause::evaluate(Context &context, PKBReader &pkb) {
   if (this->synonymsToSelect.empty()) {

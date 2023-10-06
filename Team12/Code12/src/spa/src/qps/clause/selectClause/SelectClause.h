@@ -1,6 +1,12 @@
 #pragma once
 
 #include <functional>
+#include <utility>
+#include <memory>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 #include "qps/clause/Clause.h"
 #include "qps/clause/utils/ClauseConstants.h"
