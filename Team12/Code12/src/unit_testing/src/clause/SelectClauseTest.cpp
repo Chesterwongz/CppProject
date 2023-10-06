@@ -1,6 +1,6 @@
 #include "SelectClauseTestData.h"
 
-#include "catch.hpp"
+#include <catch.hpp>
 
 #include "qps/clause/selectClause/SelectClause.h"
 #include "qps/common/Keywords.h"
