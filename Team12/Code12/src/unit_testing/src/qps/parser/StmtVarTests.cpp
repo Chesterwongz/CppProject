@@ -615,7 +615,7 @@ TEST_CASE("Valid Modifies(INTEGER, SYNONYM)") {
   expected.addContext(std::move(expectedContext));
   unique_ptr<Integer> firstArg = std::make_unique<Integer>("6");
   unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>("v");
-  unique_ptr<SuchThatClause> suchThatClause = make_unique<SuchThatClause>(
+  unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
       MODIFIES_ENUM,
       std::move(firstArg),
       std::move(secondArg));

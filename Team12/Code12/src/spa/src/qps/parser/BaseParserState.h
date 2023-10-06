@@ -5,12 +5,13 @@
 #include "qps/clause/Clause.h"
 
 class BaseParserState : public IParserState {
-protected:
-    PQLParserContext& parserContext;
-    PQLTokenStream& tokenStream;
-    PQLTokenType prev;
+ protected:
+  static unordered_set<PQLTokenType> startTokensOfAvailClauses;
+  PQLParserContext& parserContext;
+  PQLTokenStream& tokenStream;
+  PQLTokenType prev;
 
-public:
-    explicit BaseParserState(PQLParserContext &parserContext);
-    ~BaseParserState() override = default;
+ public:
+  explicit BaseParserState(PQLParserContext& parserContext);
+  ~BaseParserState() override = default;
 };

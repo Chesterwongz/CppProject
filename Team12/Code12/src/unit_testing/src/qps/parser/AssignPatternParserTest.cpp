@@ -52,7 +52,7 @@ TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_MATCH)") {
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
   patternArg.push_back(std::move(secondArg));
-  unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(
+  unique_ptr<PatternClause> patternClause = std::make_unique<PatternClause>(
       std::move(outerSynonym),
       std::move(patternArg),
       true
@@ -102,7 +102,7 @@ TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_EXPR_MATCH)") {
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
   patternArg.push_back(std::move(secondArg));
-  unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(
+  unique_ptr<PatternClause> patternClause = std::make_unique<PatternClause>(
       std::move(outerSynonym),
       std::move(patternArg),
       true
@@ -159,7 +159,7 @@ TEST_CASE("Valid Pattern a (SYNONYM, PARTIAL_MATCH)") {
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
   patternArg.push_back(std::move(secondArg));
-  unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(
+  unique_ptr<PatternClause> patternClause = std::make_unique<PatternClause>(
       std::move(outerSynonym),
       std::move(patternArg),
       true
@@ -216,7 +216,7 @@ TEST_CASE("Valid Pattern a (_, PARTIAL_MATCH)") {
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
   patternArg.push_back(std::move(secondArg));
-  unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(
+  unique_ptr<PatternClause> patternClause = std::make_unique<PatternClause>(
       std::move(outerSynonym),
       std::move(patternArg),
       true
@@ -271,7 +271,7 @@ TEST_CASE("Valid Pattern a (SYNONYM, EXACT_MATCH)") {
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
   patternArg.push_back(std::move(secondArg));
-  unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(
+  unique_ptr<PatternClause> patternClause = std::make_unique<PatternClause>(
       std::move(outerSynonym),
       std::move(patternArg),
       false

@@ -22,7 +22,7 @@ PredictiveMap AssignPatternParserState::predictiveMap = {
      {PQL_WILDCARD_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
     {PQL_COMMA_TOKEN,
      {PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN, PQL_LITERAL_EXPRESSION_TOKEN}},
-    {PQL_CLOSE_BRACKET_TOKEN, {PQL_SUCH_TOKEN}}};
+    {PQL_CLOSE_BRACKET_TOKEN, startTokensOfAvailClauses}};
 
 PQLTokenType AssignPatternParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
 
@@ -44,17 +44,18 @@ void AssignPatternParserState::processNameToken(PQLToken& curr) {
   }
 }
 
-// feels like should change it up after ms2, not OOP
 void AssignPatternParserState::processSynonymToken(PQLToken& curr) {
   string synType = parserContext.checkValidSynonym(curr.getValue());
 
-  if (patternArg.size() == FIRST_ARG) {
-    if (synType == VARIABLE_ENTITY) {
-      patternArg.push_back(
-          std::move(std::make_unique<SynonymArg>(curr.getValue())));
-    } else {
-      throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_VAR_SYN);
-    }
+  if (patternArg.size() != FIRST_ARG) {
+    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
+  }
+
+  if (synType == VARIABLE_ENTITY) {
+    patternArg.push_back(
+        std::move(std::make_unique<SynonymArg>(curr.getValue())));
+  } else {
+    throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_VAR_SYN);
   }
 }
 

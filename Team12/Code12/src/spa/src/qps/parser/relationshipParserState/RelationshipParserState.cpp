@@ -25,6 +25,7 @@ bool RelationshipParserState::checkSafeExit(ArgumentList &arguments) {
     if (arguments.size() != expectedNumberOfArgs) {
         throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
     }
+    return true;
 }
 
 Abstraction RelationshipParserState::getAbstractionType(const std::string &keyword, unordered_map<string,
