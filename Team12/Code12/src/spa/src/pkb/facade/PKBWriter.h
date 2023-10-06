@@ -92,4 +92,5 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
   void setModifiesForCalls(const string& callerProc, const string& calleeProc);
   void setRelationshipsForIndirectCalls(
       const string& caller, const unordered_set<string>& visitedCallees);
+  unordered_set<string> getIndirectCallees(const string &proc);
 };

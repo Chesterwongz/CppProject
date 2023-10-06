@@ -84,33 +84,76 @@ void PKBWriter::setRelationshipsForIndirectCalls(
   }
 }
 
+// void PKBWriter::setIndirectCallsRelationship() {
+//   const auto &callerToCalleeMap = storage.getCallsMap();
+//   for (const auto &[caller, directCallees] : callerToCalleeMap) {
+//     unordered_set<string> visitedCallees;
+//     queue<string> toVisit;
+//     for (const auto &callee : directCallees) {
+//       toVisit.push(callee);
+//     }
+//     while (!toVisit.empty()) {
+//       string curr = toVisit.front();
+//       toVisit.pop();
+//       if (visitedCallees.find(curr) != visitedCallees.end()) {
+//         // already inserted curr callee
+//         continue;
+//       }
+//       visitedCallees.insert(curr);
+//       unordered_set<string> allCalleesOfCurr =
+//           storage.getAllProcsCalledBy(curr);
+//       if (!allCalleesOfCurr.empty()) {
+//         // already computed transitive calls by curr
+//         visitedCallees.insert(allCalleesOfCurr.begin(),
+//         allCalleesOfCurr.end()); continue;
+//       }
+//
+//       for (const auto &next : storage.getDirectProcsCalledBy(curr)) {
+//         toVisit.push(next);
+//       }
+//     }
+//     setRelationshipsForIndirectCalls(caller, visitedCallees);
+//   }
+// }
+
+unordered_set<string> PKBWriter::getIndirectCallees(const string &proc) {
+  unordered_set<string> cached = storage.getAllProcsCalledBy(proc);
+  if (!cached.empty()) {
+    return cached;
+  }
+  unordered_set<string> visitedCallees;
+  queue<string> toVisit({proc});
+  while (!toVisit.empty()) {
+    string curr = toVisit.front();
+    toVisit.pop();
+    if (visitedCallees.find(curr) != visitedCallees.end()) {
+      continue;
+    }
+    visitedCallees.insert(curr);
+    unordered_set<string> allCalleesOfCurr = storage.getAllProcsCalledBy(curr);
+    if (!allCalleesOfCurr.empty()) {
+      // already computed transitive calls by curr
+      visitedCallees.insert(allCalleesOfCurr.begin(), allCalleesOfCurr.end());
+      continue;
+    }
+    for (const auto &next : storage.getDirectProcsCalledBy(curr)) {
+      toVisit.push(next);
+    }
+  }
+  for (const auto &callee : visitedCallees) {
+    setCallsStarRelationship(proc, callee, -1);
+  }
+  return visitedCallees;
+}
+
 void PKBWriter::setIndirectCallsRelationship() {
   const auto &callerToCalleeMap = storage.getCallsMap();
   for (const auto &[caller, directCallees] : callerToCalleeMap) {
     unordered_set<string> visitedCallees;
-    queue<string> toVisit;
     for (const auto &callee : directCallees) {
-      toVisit.push(callee);
-    }
-    while (!toVisit.empty()) {
-      string curr = toVisit.front();
-      toVisit.pop();
-      if (visitedCallees.find(curr) != visitedCallees.end()) {
-        // already inserted curr callee
-        continue;
-      }
-      visitedCallees.insert(curr);
-      unordered_set<string> allCalleesOfCurr =
-          storage.getAllProcsCalledBy(curr);
-      if (!allCalleesOfCurr.empty()) {
-        // already computed transitive calls by curr
-        visitedCallees.insert(allCalleesOfCurr.begin(), allCalleesOfCurr.end());
-        continue;
-      }
-
-      for (const auto &next : storage.getDirectProcsCalledBy(curr)) {
-        toVisit.push(next);
-      }
+      auto indirectCalleesOfCallee = getIndirectCallees(callee);
+      visitedCallees.insert(indirectCalleesOfCallee.begin(),
+                            indirectCalleesOfCallee.end());
     }
     setRelationshipsForIndirectCalls(caller, visitedCallees);
   }
