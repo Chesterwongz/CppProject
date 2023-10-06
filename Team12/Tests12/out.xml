@@ -1,0 +1,24 @@
+<?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
+<test_results>
+<info>
+<name>Team12</name><parsing_time_taken>4.399000</parsing_time_taken>
+</info>
+<queries>
+<query>
+<id ReturnTuple="1" UnnamedVar="1" Uses="1" SuchThat="1" CondNum="4" RelNum="1" comment="Select read">0</id><querystr><![CDATA[assign a; Select a such that Uses(_, "x")]]></querystr>
+<stuans>Unexpected token</stuans>
+<correct>1,7,11,12</correct>
+<time_taken>1.528000</time_taken>
+<failed>
+<missing>1,11,12,7</missing>
+<additional>Unexpected token</additional>
+<summary>
+<expected>4</expected>
+<matched>0</matched>
+<missing>4</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+</queries>
+</test_results>

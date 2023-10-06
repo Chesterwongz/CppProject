@@ -69,11 +69,11 @@ bool QPSStringUtils::isValidExpression(const string& data) {
       s.push(c);
       isPrevOps = true;
     } else if (c == ')') {
-      if (s.empty() || s.top() != '(') return false; // No matching open parenthesis
+      if (s.empty() || s.top() != '(') return false;
       s.pop();
-      isPrevOps = false; // After a closed parenthesis, operator can follow
+      isPrevOps = false;
     } else {
-      return false; // Invalid character
+      return false;
     }
   }
   return s.empty() && !isPrevOps;
