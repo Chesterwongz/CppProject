@@ -26,6 +26,4 @@ enum Abstraction {
   PARENTS_ENUM,
   PARENTS_STAR_ENUM,
   USES_ENUM,
-  NEXT_ENUM,
-  NEXT_STAR_ENUM
 };
