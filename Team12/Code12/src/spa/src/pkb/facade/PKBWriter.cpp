@@ -116,12 +116,12 @@ void PKBWriter::setRelationshipsForIndirectCalls(
 //   }
 // }
 
-unordered_set<string> PKBWriter::getIndirectCallees(const string &proc) {
-  unordered_set<string> cached = storage.getCalledStarBy(proc);
+vector<pair<string, string>> PKBWriter::getIndirectCallees(const string &proc) {
+  vector<pair<string, string>> cached = storage.getCalledStarBy(proc);
   if (!cached.empty()) {
     return cached;
   }
-  unordered_set<string> visitedCallees;
+  unordered_set<pair<string, string>> visitedCallees;
   queue<string> toVisit({proc});
   while (!toVisit.empty()) {
     string curr = toVisit.front();
@@ -130,14 +130,14 @@ unordered_set<string> PKBWriter::getIndirectCallees(const string &proc) {
       continue;
     }
     visitedCallees.insert(curr);
-    unordered_set<string> allCalleesOfCurr = storage.getCalledStarBy(curr);
+    vector<pair<string, string>> allCalleesOfCurr = storage.getCalledStarBy(curr);
     if (!allCalleesOfCurr.empty()) {
       // already computed transitive calls by curr
       visitedCallees.insert(allCalleesOfCurr.begin(), allCalleesOfCurr.end());
       continue;
     }
-    for (const auto &next : storage.getCalledBy(curr)) {
-      toVisit.push(next);
+    for (const auto &[nextStmt, nextProc] : storage.getCalledBy(curr)) {
+      toVisit.push(nextProc);
     }
   }
   for (const auto &callee : visitedCallees) {
