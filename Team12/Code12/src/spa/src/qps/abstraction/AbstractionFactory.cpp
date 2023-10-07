@@ -8,6 +8,8 @@
 #include "qps/abstraction/UsesAbstraction/UsesAbstraction.h"
 #include "qps/abstraction/followsStarAbstraction/FollowsStarAbstraction.h"
 #include "qps/abstraction/parentsStarAbstraction/ParentsStarAbstraction.h"
+#include "qps/abstraction/nextAbstraction/nextAbstraction.h"
+#include "qps/abstraction/nextStarAbstraction/NextStarAbstraction.h"
 
 using std::unique_ptr, std::make_unique;
 
@@ -20,6 +22,10 @@ unique_ptr<BaseAbstraction> AbstractionFactory::createAbstraction(
       return make_unique<FollowsStarAbstraction>(abstractionParams);
     case MODIFIES_ENUM:
       return make_unique<ModifiesAbstraction>(abstractionParams);
+    case NEXT_ENUM:
+      return make_unique<NextAbstraction>(abstractionParams);
+    case NEXT_STAR_ENUM:
+      return make_unique<NextStarAbstraction>(abstractionParams);
     case PARENTS_ENUM:
       return make_unique<ParentsAbstraction>(abstractionParams);
     case PARENTS_STAR_ENUM:
