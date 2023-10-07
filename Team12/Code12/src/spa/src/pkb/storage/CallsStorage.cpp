@@ -17,8 +17,8 @@ void CallsStorage::setCallsStarRelationship(const string& caller,
 vector<pair<string, string>> CallsStorage::getCalls(const string& procedure) {
   vector<pair<string, string>> result;
   auto callsSet = callsMap[procedure];
-  for (const auto& pair : callsSet) {
-    result.emplace_back(std::to_string(pair.first), pair.second);
+  for (const auto& [stmtNum, callee] : callsSet) {
+    result.emplace_back(std::to_string(stmtNum), callee);
   }
   return result;
 }
@@ -27,8 +27,8 @@ vector<pair<string, string>> CallsStorage::getCallsStar(
     const string& procedure) {
   vector<pair<string, string>> result;
   auto callsStarSet = callsStarMap[procedure];
-  for (const auto& pair : callsStarSet) {
-    result.emplace_back(std::to_string(pair.first), pair.second);
+  for (const auto& [stmtNum, callee] : callsStarSet) {
+    result.emplace_back(std::to_string(stmtNum), callee);
   }
   return result;
 }
@@ -37,8 +37,8 @@ vector<pair<string, string>> CallsStorage::getCalledBy(
     const string& procedure) {
   vector<pair<string, string>> result;
   auto calledBySet = calledByMap[procedure];
-  for (const auto& pair : calledBySet) {
-    result.emplace_back(std::to_string(pair.first), pair.second);
+  for (const auto& [stmtNum, caller] : calledBySet) {
+    result.emplace_back(std::to_string(stmtNum), caller);
   }
   return result;
 }
@@ -47,17 +47,17 @@ vector<pair<string, string>> CallsStorage::getCalledByStar(
     const string& procedure) {
   vector<pair<string, string>> result;
   auto calledByStarSet = calledByStarMap[procedure];
-  for (const auto& pair : calledByStarSet) {
-    result.emplace_back(std::to_string(pair.first), pair.second);
+  for (const auto& [stmtNum, caller] : calledByStarSet) {
+    result.emplace_back(std::to_string(stmtNum), caller);
   }
   return result;
 }
 
 string CallsStorage::getProcCalledOn(int stmtNum) {
-  for (const auto& entry : callsMap) {
-    for (const auto& pair : entry.second) {
-      if (pair.first == stmtNum) {
-        return pair.second;
+  for (const auto& [caller, stmtNumCalleeVector] : callsMap) {
+    for (const auto& [callStmtNum, callee] : stmtNumCalleeVector) {
+      if (callStmtNum == stmtNum) {
+        return callee;
       }
     }
   }
@@ -66,11 +66,10 @@ string CallsStorage::getProcCalledOn(int stmtNum) {
 
 vector<string> CallsStorage::getProcStarCalledOn(int stmtNum) {
   vector<string> result;
-  for (const auto& entry : callsStarMap) {
-    for (const auto& pair : entry.second) {
-      if (pair.first == stmtNum) {
-        result.push_back(pair.second);
-        break;
+  for (const auto& [caller, stmtNumCalleeVector] : callsStarMap) {
+    for (const auto& [callStmtNum, callee] : stmtNumCalleeVector) {
+      if (callStmtNum == stmtNum) {
+        result.push_back(callee);
       }
     }
   }
@@ -79,9 +78,9 @@ vector<string> CallsStorage::getProcStarCalledOn(int stmtNum) {
 
 vector<pair<string, string>> CallsStorage::getCallingProcedures() {
   vector<pair<string, string>> result;
-  for (const auto& entry : callsMap) {
-    for (const auto& pair : entry.second) {
-      result.emplace_back(std::to_string(pair.first), entry.first);
+  for (const auto& [caller, stmtNumCalleeVector] : callsMap) {
+    for (const auto& [callStmtNum, callee] : stmtNumCalleeVector) {
+      result.emplace_back(std::to_string(callStmtNum), caller);
     }
   }
   return result;
@@ -89,32 +88,26 @@ vector<pair<string, string>> CallsStorage::getCallingProcedures() {
 
 vector<pair<string, string>> CallsStorage::getCalledProcedures() {
   vector<pair<string, string>> result;
-  for (const auto& entry : calledByMap) {
-    for (const auto& pair : entry.second) {
-      result.emplace_back(std::to_string(pair.first), entry.first);
+  for (const auto& [callee, stmtNumCallerVector] : calledByMap) {
+    for (const auto& [callStmtNum, caller] : stmtNumCallerVector) {
+      result.emplace_back(std::to_string(callStmtNum), callee);
     }
   }
   return result;
 }
 
 bool CallsStorage::isCalls(const string& caller, const string& callee) {
-  auto callsSet = callsMap[caller];
-  for (const auto& pair : callsSet) {
-    if (pair.second == callee) {
-      return true;
-    }
-  }
-  return false;
+  auto& callsSet = callsMap[caller];
+  return std::any_of(
+      callsSet.begin(), callsSet.end(),
+      [&callee](const auto& pair) { return pair.second == callee; });
 }
 
 bool CallsStorage::isCallsStar(const string& caller, const string& callee) {
-  auto callsStarSet = callsStarMap[caller];
-  for (const auto& pair : callsStarSet) {
-    if (pair.second == callee) {
-      return true;
-    }
-  }
-  return false;
+  auto& callsSet = callsStarMap[caller];
+  return std::any_of(
+      callsSet.begin(), callsSet.end(),
+      [&callee](const auto& pair) { return pair.second == callee; });
 }
 
 bool CallsStorage::isCallingStmt(int stmtNum, const string& callee) {
