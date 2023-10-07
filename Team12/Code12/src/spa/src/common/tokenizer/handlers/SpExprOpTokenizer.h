@@ -1,8 +1,8 @@
 #pragma once
 
 #include "common/tokenizer/BaseTokenizer.h"
+#include "common/tokenizer/token/SpToken.h"
 #include "sp/constants/OperatorConstants.h"
-#include "sp/tokenizer/token/SpToken.h"
 
 class SpExprOpTokenizer : public BaseTokenizer<SpToken> {
  private:

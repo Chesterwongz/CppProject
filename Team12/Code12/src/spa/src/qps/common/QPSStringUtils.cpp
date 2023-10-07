@@ -26,6 +26,11 @@ bool QPSStringUtils::isIdent(string data) {
   return std::regex_match(data, identQuotePattern);
 }
 
+bool QPSStringUtils::isIdentValue(const std::string& data) {
+  std::regex identPattern("[A-Za-z]([A-Za-z0-9])*");
+  return std::regex_match(data, identPattern);
+}
+
 bool QPSStringUtils::isWildcard(string data) {
   return data == WILDCARD_KEYWORD;
 }

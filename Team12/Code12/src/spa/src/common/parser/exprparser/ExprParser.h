@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "TermParser.h"
-#include "sp/parser/exprparser/template/ArithmParserTemplate.h"
+#include "common/parser/exprparser/template/ArithmParserTemplate.h"
 
 class ExprParser : public ArithmParserTemplate {
  public:

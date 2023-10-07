@@ -62,17 +62,18 @@ TEST_CASE(
   REQUIRE(result == expected);
 }
 
-TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/ParentT_queries.txt - 2") {
-    string query =
-        "stmt stmt;\n"
-        "Select stmt such that Parent*(stmt ,_)";
-    SourceProcessor sp;
-    PKB pkb;
-    sp.processContent(parentStarSource, pkb.getWriter());
-    QPS qps(pkb.getReader());
-    auto result = qps.processQueryString(query);
-    set<string> expected = {"2", "3", "6", "7", "10", "11", "13", "14"};
-    REQUIRE(result == expected);
+TEST_CASE(
+    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/ParentT_queries.txt - 2") {
+  string query =
+      "stmt stmt;\n"
+      "Select stmt such that Parent*(stmt ,_)";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(parentStarSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  set<string> expected = {"2", "3", "6", "7", "10", "11", "13", "14"};
+  REQUIRE(result == expected);
 }
 
 TEST_CASE(
@@ -118,17 +119,18 @@ TEST_CASE(
   REQUIRE(result == expected);
 }
 
-TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/ParentT_queries.txt - 6") {
-    string query =
-        "if if;\n"
-        "Select if such that Parent* ( if,7 )";
-    SourceProcessor sp;
-    PKB pkb;
-    sp.processContent(parentStarSource, pkb.getWriter());
-    QPS qps(pkb.getReader());
-    auto result = qps.processQueryString(query);
-    set<string> expected = {"2", "6"};
-    REQUIRE(result == expected);
+TEST_CASE(
+    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/ParentT_queries.txt - 6") {
+  string query =
+      "if if;\n"
+      "Select if such that Parent* ( if,7 )";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(parentStarSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  set<string> expected = {"2", "6"};
+  REQUIRE(result == expected);
 }
 
 TEST_CASE(
@@ -173,17 +175,18 @@ TEST_CASE(
   REQUIRE(result == expected);
 }
 
-TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/ParentT_queries.txt - 10") {
-    string query =
-        "read read;\n"
-        "Select read such that Parent*( _,18)";
-    SourceProcessor sp;
-    PKB pkb;
-    sp.processContent(parentStarSource, pkb.getWriter());
-    QPS qps(pkb.getReader());
-    auto result = qps.processQueryString(query);
-    set<string> expected = {};
-    REQUIRE(result == expected);
+TEST_CASE(
+    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/ParentT_queries.txt - 10") {
+  string query =
+      "read read;\n"
+      "Select read such that Parent*( _,18)";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(parentStarSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  set<string> expected = {};
+  REQUIRE(result == expected);
 }
 
 TEST_CASE(
@@ -214,17 +217,18 @@ TEST_CASE(
   REQUIRE(result == expected);
 }
 
-TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/ParentT_queries.txt - 13") {
-    string query =
-        "stmt s; print read;\n"
-        "Select read such that Parent*(read,s)";
-    SourceProcessor sp;
-    PKB pkb;
-    sp.processContent(parentStarSource, pkb.getWriter());
-    QPS qps(pkb.getReader());
-    auto result = qps.processQueryString(query);
-    set<string> expected = {};
-    REQUIRE(result == expected);
+TEST_CASE(
+    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/ParentT_queries.txt - 13") {
+  string query =
+      "stmt s; print read;\n"
+      "Select read such that Parent*(read,s)";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(parentStarSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  set<string> expected = {};
+  REQUIRE(result == expected);
 }
 
 TEST_CASE(
@@ -255,17 +259,18 @@ TEST_CASE(
   REQUIRE(result == expected);
 }
 
-TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/ParentT_queries.txt - 16") {
-    string query =
-        "if if1; if if2;\n"
-        "Select if1 such that Parent*(if1,if2)";
-    SourceProcessor sp;
-    PKB pkb;
-    sp.processContent(parentStarSource, pkb.getWriter());
-    QPS qps(pkb.getReader());
-    auto result = qps.processQueryString(query);
-    set<string> expected = {"2", "6"};
-    REQUIRE(result == expected);
+TEST_CASE(
+    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/ParentT_queries.txt - 16") {
+  string query =
+      "if if1; if if2;\n"
+      "Select if1 such that Parent*(if1,if2)";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(parentStarSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  set<string> expected = {"2", "6"};
+  REQUIRE(result == expected);
 }
 
 TEST_CASE(
