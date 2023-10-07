@@ -21,8 +21,6 @@ vector<pair<string, string>> mockAllIfVariables = {
 	make_pair("1", "a"),
 	make_pair("2", "b"),
 	make_pair("3", "c"),
-	make_pair("4", "d"),
-	make_pair("5", "e"),
 };
 
 MockContext ifMockContext = MockContext();

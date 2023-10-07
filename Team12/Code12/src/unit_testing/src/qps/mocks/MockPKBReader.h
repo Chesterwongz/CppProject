@@ -41,6 +41,7 @@ public:
   vector<string> mockExactAssignPattern;
   vector<string> mockPartialAssignPattern;
   vector<string> mockIfPattern;
+  vector<string> mockWhilePattern;
   bool mockIsFollowsStar;
   bool mockIsParentStar;
   bool mockIsFollows;
@@ -161,8 +162,15 @@ public:
   }
 
   // TODO: override actual pkb method
-  vector<string> getIfPatternStatement(const string& variableName, bool isSynonym) {
+  vector<string> getIfPatternStatement(const string& variableName, 
+                                       bool isSynonym) {
       return mockIfPattern;
+  }
+
+  // TODO: override actual pkb method
+  vector<string> getWhilePatternStatement(const string& variableName,
+                                       bool isSynonym) {
+      return mockWhilePattern;
   }
 
   void resetMockExactAssignPatternStmts() {
