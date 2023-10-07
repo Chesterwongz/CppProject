@@ -1,7 +1,7 @@
 // #include <string>
 // #include <unordered_set>
 //
-// #include <catch.hpp>
+// // TEMP_CATCH_INCLUDE
 //
 // #include "pkb/facade/PKBReader.h"
 // #include "qps/QPS.h"

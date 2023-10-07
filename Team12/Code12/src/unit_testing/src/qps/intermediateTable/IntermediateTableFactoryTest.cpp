@@ -1,4 +1,4 @@
-#include <catch.hpp>
+// TEMP_CATCH_INCLUDE
 
 #include "IntermediateTableTestData.h"
 #include "IntermediateTableTestUtils.h"

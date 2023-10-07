@@ -1,4 +1,4 @@
-#include <catch.hpp>
+// TEMP_CATCH_INCLUDE
 #include <unordered_set>
 
 #include "../../../../spa/src/pkb/facade/PKBReader.h"

@@ -1,4 +1,4 @@
-#include <catch.hpp>
+// TEMP_CATCH_INCLUDE
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>

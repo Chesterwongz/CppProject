@@ -1,4 +1,4 @@
-#include <catch.hpp>
+// TEMP_CATCH_INCLUDE
 
 #include "qps/argument/ident/Ident.h"
 

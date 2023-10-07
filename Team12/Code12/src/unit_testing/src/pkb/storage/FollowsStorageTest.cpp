@@ -1,4 +1,4 @@
-#include <catch.hpp>
+// TEMP_CATCH_INCLUDE
 
 #include "../../spa/src/pkb/storage/FollowsStorage.h"
 

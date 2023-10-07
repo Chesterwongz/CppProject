@@ -1,4 +1,4 @@
-#include <catch.hpp>
+// TEMP_CATCH_INCLUDE
 
 #include "../../unit_testing/src/qps/mocks/MockContext.h"
 #include "../../unit_testing/src/qps/mocks/MockPKBReader.h"

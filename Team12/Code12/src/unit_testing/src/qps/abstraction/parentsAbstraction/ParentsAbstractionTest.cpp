@@ -1,4 +1,4 @@
-#include <catch.hpp>
+// TEMP_CATCH_INCLUDE
 
 #include "../../intermediateTable/IntermediateTableTestUtils.h"
 #include "../../mocks/MockPKBReader.h"

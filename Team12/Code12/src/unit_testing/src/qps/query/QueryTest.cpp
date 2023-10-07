@@ -1,4 +1,4 @@
-// #include <catch.hpp>
+// // TEMP_CATCH_INCLUDE
 // #include "qps/query/Query.h"
 // #include "../mocks/MockPKBReader.h"
 // #include "../abstraction/FollowsAbstraction/FollowsAbstractionTestData.h"

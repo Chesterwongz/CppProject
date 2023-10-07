@@ -1,4 +1,4 @@
-#include <catch.hpp>
+// TEMP_CATCH_INCLUDE
 
 #include "../../patternEvaluator/assignEvaluator/AssignEvaluatorTestData.h"
 #include "qps/common/Keywords.h"
