@@ -2,8 +2,8 @@
 
 #include <memory>
 
-#include "qps/parser/PQLParserContext.h"
 #include "qps/parser/BaseParserState.h"
+#include "qps/parser/PQLParserContext.h"
 
 class DeclarativeParserState : public BaseParserState {
  private:

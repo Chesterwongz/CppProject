@@ -1,5 +1,5 @@
-#include <iostream>
 #include <catch.hpp>
+#include <iostream>
 
 #include "IntermediateTableTestData.h"
 #include "IntermediateTableTestUtils.h"

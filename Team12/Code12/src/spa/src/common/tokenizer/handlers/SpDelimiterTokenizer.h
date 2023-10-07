@@ -1,8 +1,8 @@
 #pragma once
 
 #include "common/tokenizer/BaseTokenizer.h"
-#include "sp/constants/DelimiterConstants.h"
 #include "common/tokenizer/token/SpToken.h"
+#include "sp/constants/DelimiterConstants.h"
 
 class SpDelimiterTokenizer : public BaseTokenizer<SpToken> {
  private:

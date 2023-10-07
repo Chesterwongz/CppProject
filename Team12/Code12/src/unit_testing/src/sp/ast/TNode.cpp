@@ -1,7 +1,7 @@
 #include "common/ast/TNode.h"
 
-#include <memory>
 #include <catch.hpp>
+#include <memory>
 
 #include "sp/ast/ProcNode.h"
 #include "sp/ast/ProgramNode.h"

@@ -1,6 +1,7 @@
+#include "AbstractionTestUtils.h"
+
 #include <memory>
 
-#include "AbstractionTestUtils.h"
 #include "qps/common/Keywords.h"
 
 unique_ptr<AbstractionParams> createMockAbstractionParams(

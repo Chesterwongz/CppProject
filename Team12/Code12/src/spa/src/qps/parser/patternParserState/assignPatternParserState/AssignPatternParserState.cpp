@@ -5,6 +5,7 @@
 #include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/patternClause/PatternClause.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
+#include "qps/parser/patternParserState/expressionParser/ExpressionValidator.h"
 #include "qps/parser/suchThatParserState/SuchThatParserState.h"
 
 PredictiveMap AssignPatternParserState::predictiveMap = {
@@ -82,9 +83,8 @@ void AssignPatternParserState::checkIsValidIdent(const std::string& ref) {
   }
 }
 
-// TODO: Upgrade parser, this is insufficient for more complex expressions
 void AssignPatternParserState::checkIsValidExpr(const std::string& ref) {
-  if (!QPSStringUtils::isValidExpression(ref)) {
+  if (!ExpressionValidator::isValidExpression(ref)) {
     throw QPSSyntaxError(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH);
   }
 }

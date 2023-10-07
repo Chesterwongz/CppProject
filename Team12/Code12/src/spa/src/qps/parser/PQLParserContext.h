@@ -1,11 +1,11 @@
 #pragma once
 
 #include "IParserState.h"
-#include "qps/common/PQLParserUtils.h"
-#include "qps/query/Query.h"
-#include "qps/context/Context.h"
-#include "qps/tokenizer/tokenStream/PQLTokenStream.h"
 #include "qps/clause/Clause.h"
+#include "qps/common/PQLParserUtils.h"
+#include "qps/context/Context.h"
+#include "qps/query/Query.h"
+#include "qps/tokenizer/tokenStream/PQLTokenStream.h"
 
 class PQLParserContext {
  private:

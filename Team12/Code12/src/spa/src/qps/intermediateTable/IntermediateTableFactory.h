@@ -1,10 +1,10 @@
 #pragma once
 
-#include "IntermediateTable.h"
-
 #include <string>
 #include <utility>
 #include <vector>
+
+#include "IntermediateTable.h"
 
 class IntermediateTableFactory {
  public:

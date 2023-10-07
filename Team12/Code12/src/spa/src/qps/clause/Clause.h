@@ -1,14 +1,15 @@
 #pragma once
 
+#include <memory>
 #include <set>
 #include <string>
 #include <unordered_set>
-#include <memory>
 #include <vector>
+
 #include "pkb/facade/PKBReader.h"
+#include "qps/argument/AbstractArgument.h"
 #include "qps/context/Context.h"
 #include "qps/intermediateTable/IntermediateTable.h"
-#include "qps/argument/AbstractArgument.h"
 
 typedef vector<std::unique_ptr<AbstractArgument>> ArgumentList;
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "qps/exceptions/QPSSyntaxError.h"
 #include "qps/exceptions/QPSSemanticError.h"
+#include "qps/exceptions/QPSSyntaxError.h"
 #include "qps/token/PQLToken.h"
 
 class IParserState {

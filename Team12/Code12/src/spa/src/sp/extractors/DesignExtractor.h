@@ -9,8 +9,8 @@
 
 #include "Extractor.h"
 #include "Populator.h"
-#include "pkb/facade/PKBWriter.h"
 #include "common/ast/TNode.h"
+#include "pkb/facade/PKBWriter.h"
 #include "sp/extractors/calls/CallsExtractor.h"
 #include "sp/extractors/cfg/CFGExtractor.h"
 #include "sp/extractors/entity/EntityExtractor.h"

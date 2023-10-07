@@ -3,8 +3,8 @@
 #include <string>
 
 #include "common/tokenizer/BaseTokenizer.h"
-#include "sp/constants/OperatorConstants.h"
 #include "common/tokenizer/token/SpToken.h"
+#include "sp/constants/OperatorConstants.h"
 
 class SpCondOpTokenizer : public BaseTokenizer<SpToken> {
  private:

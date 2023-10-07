@@ -14,6 +14,7 @@ using std::string, std::map;
 class QPSStringUtils {
  private:
   static bool isCharExpression(char ch);
+
  public:
   static map<char, int> precedence;
 

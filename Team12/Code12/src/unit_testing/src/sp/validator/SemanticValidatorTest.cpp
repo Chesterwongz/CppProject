@@ -1,11 +1,11 @@
+#include <catch.hpp>
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-#include <catch.hpp>
 
-#include "sp/ast/ProgramNode.h"
 #include "common/parser/parsercontext/ParserContext.h"
+#include "sp/ast/ProgramNode.h"
 #include "sp/parser/toplevelparsers/ProgramParser.h"
 #include "sp/validator/SemanticValidator.h"
 

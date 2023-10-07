@@ -1,5 +1,6 @@
 #pragma once
 
+#include <catch.hpp>
 #include <map>
 #include <memory>
 #include <set>
@@ -8,7 +9,6 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
-#include <catch.hpp>
 
 #include "../ast/TNodeUtils.h"
 #include "../mocks/MockPKBWriter.h"

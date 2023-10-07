@@ -6,8 +6,8 @@
 #include <utility>
 
 #include "common/ast/TNode.h"
-#include "sp/parser/IParser.h"
 #include "common/parser/parsercontext/ParserContext.h"
+#include "sp/parser/IParser.h"
 
 class AbstractParser : public IParser {
  protected:
