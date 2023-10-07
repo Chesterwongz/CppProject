@@ -3,10 +3,10 @@
 #include "../../intermediateTable/IntermediateTableTestUtils.h"
 #include "../../mocks/MockPKBReader.h"
 #include "../AbstractionTestUtils.h"
-#include "NextAbstractionTestData.h"
-#include "qps/abstraction/nextAbstraction/NextAbstraction.h"
+#include "NextStarAbstractionTestData.h"
+#include "qps/abstraction/nextStarAbstraction/NextStarAbstraction.h"
 
-TEST_CASE("NextAbstraction - Next(Synonym, Synonym)_EMPTY") {
+TEST_CASE("NextStarAbstraction - Next*(Synonym, Synonym)_EMPTY") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
@@ -14,255 +14,255 @@ TEST_CASE("NextAbstraction - Next(Synonym, Synonym)_EMPTY") {
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
   Context mockContext = Context();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, mockContext, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
-  NextAbstraction abstraction(*abstractionParams);
+  NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
   REQUIRE(resultTable.isTableEmpty());
 }
 
-TEST_CASE("NextAbstraction - Next(Synonym, Synonym)") {
+TEST_CASE("NextStarAbstraction - Next*(Synonym, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextPairs = MOCK_NEXT_PAIRS;
+  mockReader.mockGetNextStarPairs = MOCK_NEXT_STAR_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
   Context mockContext = Context();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, mockContext, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
-  NextAbstraction abstraction(*abstractionParams);
+  NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_NEXT_VECTORS);
+  REQUIRE(resultTable.getData() == MOCK_NEXT_STAR_VECTORS);
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
 }
 
-TEST_CASE("NextAbstraction - Next(Synonym, Integer)") {
+TEST_CASE("NextStarAbstraction - Next*(Synonym, Integer)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextFirstStmt = MOCK_NEXT_FIRST_STMTS;
+  mockReader.mockGetNextStarFirstStmt = MOCK_NEXT_STAR_FIRST_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   Context mockContext = Context();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, mockContext, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
-  NextAbstraction abstraction(*abstractionParams);
+  NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_NEXT_FIRST_STMTS_2D);
+  REQUIRE(resultTable.getData() == MOCK_NEXT_STAR_FIRST_STMTS_2D);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
 
-TEST_CASE("NextAbstraction - Next(Synonym, Integer)_no_next") {
+TEST_CASE("NextStarAbstraction - Next*(Synonym, Integer)_no_next") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextFirstStmt = MOCK_NO_NEXT_STMTS;
+  mockReader.mockGetNextStarFirstStmt = MOCK_NO_NEXT_STAR_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   Context mockContext = Context();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, mockContext, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
-  NextAbstraction abstraction(*abstractionParams);
+  NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
-TEST_CASE("NextAbstraction - Next(Synonym, Wildcard)") {
+TEST_CASE("NextStarAbstraction - Next*(Synonym, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextPairs = MOCK_NEXT_PAIRS;
+  mockReader.mockGetNextStarPairs = MOCK_NEXT_STAR_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   Context mockContext = Context();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, mockContext, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
-  NextAbstraction abstraction(*abstractionParams);
+  NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_NEXT_COL_1);
+  REQUIRE(resultTable.getData() == MOCK_NEXT_STAR_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
 
-TEST_CASE("NextAbstraction - Next(Integer, Synonym)") {
+TEST_CASE("NextStarAbstraction - Next*(Integer, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextSecondStmt = MOCK_NEXT_SECOND_STMTS;
+  mockReader.mockGetNextStarSecondStmt = MOCK_NEXT_STAR_SECOND_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
   Context mockContext = Context();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, mockContext, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
-  NextAbstraction abstraction(*abstractionParams);
+  NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
-  REQUIRE(resultTable.getData() == MOCK_NEXT_SECOND_STMTS_2D);
+  REQUIRE(resultTable.getData() == MOCK_NEXT_STAR_SECOND_STMTS_2D);
 }
 
-TEST_CASE("NextAbstraction - Next(Integer, Synonym)_no_next") {
+TEST_CASE("NextStarAbstraction - Next*(Integer, Synonym)_no_next") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextSecondStmt = MOCK_NO_NEXT_STMTS;
+  mockReader.mockGetNextStarSecondStmt = MOCK_NO_NEXT_STAR_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
   Context mockContext = Context();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, mockContext, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
-  NextAbstraction abstraction(*abstractionParams);
+  NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
-TEST_CASE("NextAbstraction - Next(Integer, Wildcard)") {
+TEST_CASE("NextStarAbstraction - Next*(Integer, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextSecondStmt = MOCK_NEXT_SECOND_STMTS;
+  mockReader.mockGetNextStarSecondStmt = MOCK_NEXT_STAR_SECOND_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   Context mockContext = Context();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, mockContext, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
-  NextAbstraction abstraction(*abstractionParams);
+  NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableWildcard());
 }
 
-TEST_CASE("NextAbstraction - Next(Integer, Wildcard)_no_next") {
+TEST_CASE("NextStarAbstraction - Next*(Integer, Wildcard)_no_next") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextSecondStmt = MOCK_NO_NEXT_STMTS;
+  mockReader.mockGetNextStarSecondStmt = MOCK_NO_NEXT_STAR_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
   Context mockContext = Context();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, mockContext, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
-  NextAbstraction abstraction(*abstractionParams);
+  NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
-TEST_CASE("NextAbstraction - Next(Integer, Integer)_true") {
+TEST_CASE("NextStarAbstraction - Next*(Integer, Integer)_true") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockIsNext = true;
+  mockReader.mockIsNextStar = true;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
   Context mockContext = Context();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, mockContext, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
-  NextAbstraction abstraction(*abstractionParams);
+  NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableWildcard());
 }
 
-TEST_CASE("NextAbstraction - Next(Integer, Integer)_false") {
+TEST_CASE("NextStarAbstraction - Next*(Integer, Integer)_false") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockIsNext = false;
+  mockReader.mockIsNextStar = false;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
   Context mockContext = Context();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, mockContext, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
-  NextAbstraction abstraction(*abstractionParams);
+  NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
-TEST_CASE("NextAbstraction - Next(Wildcard, Synonym)") {
+TEST_CASE("NextStarAbstraction - Next*(Wildcard, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextPairs = MOCK_NEXT_PAIRS;
+  mockReader.mockGetNextStarPairs = MOCK_NEXT_STAR_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   unique_ptr<AbstractArgument> mockArgument2 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
   Context mockContext = Context();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, mockContext, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
-  NextAbstraction abstraction(*abstractionParams);
+  NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_NEXT_COL_2);
+  REQUIRE(resultTable.getData() == MOCK_NEXT_STAR_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
 }
 
-TEST_CASE("NextAbstraction - Next(Wildcard, Integer)") {
+TEST_CASE("NextStarAbstraction - Next*(Wildcard, Integer)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextFirstStmt = MOCK_NEXT_FIRST_STMTS;
+  mockReader.mockGetNextStarFirstStmt = MOCK_NEXT_STAR_FIRST_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   unique_ptr<AbstractArgument> mockArgument2 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   Context mockContext = Context();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, mockContext, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
-  NextAbstraction abstraction(*abstractionParams);
+  NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableWildcard());
 }
 
-TEST_CASE("NextAbstraction - Next(Wildcard, Integer)_no_next") {
+TEST_CASE("NextStarAbstraction - Next*(Wildcard, Integer)_no_next") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextFirstStmt = MOCK_NO_NEXT_STMTS;
+  mockReader.mockGetNextStarFirstStmt = MOCK_NO_NEXT_STAR_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   unique_ptr<AbstractArgument> mockArgument2 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   Context mockContext = Context();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, mockContext, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
-  NextAbstraction abstraction(*abstractionParams);
+  NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
-TEST_CASE("NextAbstraction - Next(Wildcard, Wildcard)") {
+TEST_CASE("NextStarAbstraction - Next*(Wildcard, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextPairs = MOCK_NEXT_PAIRS;
+  mockReader.mockGetNextStarPairs = MOCK_NEXT_STAR_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   unique_ptr<AbstractArgument> mockArgument2 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   Context mockContext = Context();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, mockContext, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
-  NextAbstraction abstraction(*abstractionParams);
+  NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
 }
 
-TEST_CASE("NextAbstraction - Next(Wildcard, Wildcard)_EMPTY") {
+TEST_CASE("NextStarAbstraction - Next*(Wildcard, Wildcard)_EMPTY") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
@@ -270,9 +270,9 @@ TEST_CASE("NextAbstraction - Next(Wildcard, Wildcard)_EMPTY") {
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   Context mockContext = Context();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, mockContext, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
-  NextAbstraction abstraction(*abstractionParams);
+  NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard() == false);
