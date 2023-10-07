@@ -6,10 +6,10 @@
 
 class ICallsReader {
 public:
-    virtual std::vector<std::pair<std::string, std::string>> getCalledBy(const std::string& procName) = 0;
-    virtual std::vector<std::pair<std::string, std::string>> getCalledStarBy(const std::string& procName) = 0;
-    virtual std::vector<std::pair<std::string, std::string>> getProcsThatCall(const std::string& procName) = 0;
-    virtual std::vector<std::pair<std::string, std::string>> getProcsThatCallStar(const std::string& procName) = 0;
+    virtual std::vector<std::pair<std::string, std::string>> getCallerProcs(const std::string& procName) = 0;
+    virtual std::vector<std::pair<std::string, std::string>> getCallerProcsStar(const std::string& procName) = 0;
+    virtual std::vector<std::pair<std::string, std::string>> getCalleeProcs(const std::string& procName) = 0;
+    virtual std::vector<std::pair<std::string, std::string>> getCalleeProcsStar(const std::string& procName) = 0;
     virtual std::string getProcCalledOn(int stmtNum) = 0;
     virtual std::vector<std::string> getProcStarCalledOn(int stmtNum) = 0;
     virtual std::vector<std::pair<std::string, std::string>> getCallingProcedures() = 0;

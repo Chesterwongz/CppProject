@@ -87,7 +87,7 @@ void PKBWriter::setRelationshipsForIndirectCalls(
 }
 
 // void PKBWriter::setIndirectCallsRelationship() {
-//   const auto &callerToCalleeMap = storage.getCallsMap();
+//   const auto &callerToCalleeMap = storage.getCalleeProcsMap();
 //   for (const auto &[caller, directCallees] : callerToCalleeMap) {
 //     unordered_set<string> visitedCallees;
 //     queue<string> toVisit;
@@ -120,7 +120,7 @@ void PKBWriter::setRelationshipsForIndirectCalls(
 
 unordered_set<pair<string, string>, PairUtils::PairHash>
 PKBWriter::getIndirectCallees(int stmtNum, const string &proc) {
-  vector<pair<string, string>> cached = storage.getCalledStarBy(proc);
+  vector<pair<string, string>> cached = storage.getCallerProcsStar(proc);
   unordered_set<pair<string, string>, PairUtils::PairHash> visitedCallees;
   if (!cached.empty()) {
     visitedCallees.insert(cached.begin(), cached.end());
@@ -137,13 +137,13 @@ PKBWriter::getIndirectCallees(int stmtNum, const string &proc) {
     }
     visitedCallees.insert(curr);
     vector<pair<string, string>> allCalleesOfCurr =
-        storage.getCalledStarBy(currProc);
+        storage.getCallerProcsStar(currProc);
     if (!allCalleesOfCurr.empty()) {
       // already computed transitive calls by curr
       visitedCallees.insert(allCalleesOfCurr.begin(), allCalleesOfCurr.end());
       continue;
     }
-    for (const auto &[nextStmt, nextProc] : storage.getCalledBy(currProc)) {
+    for (const auto &[nextStmt, nextProc] : storage.getCallerProcs(currProc)) {
       toVisit.emplace(nextStmt, nextProc);
     }
   }
@@ -154,7 +154,7 @@ PKBWriter::getIndirectCallees(int stmtNum, const string &proc) {
 }
 
 void PKBWriter::setIndirectCallsRelationship() {
-  const auto &callerToCalleeMap = storage.getCallsMap();
+  const auto &callerToCalleeMap = storage.getCalleeProcsMap();
   for (const auto &[caller, directStmtCallees] : callerToCalleeMap) {
     unordered_set<pair<string, string>, PairUtils::PairHash> visitedCallees;
     for (const auto &[stmtNum, callee] : directStmtCallees) {
@@ -167,10 +167,14 @@ void PKBWriter::setIndirectCallsRelationship() {
 }
 
 void PKBWriter::setCallsRelationship(const string &callerProc,
-                                     const string &calleeProc, int stmtNum) {}
+                                     const string &calleeProc, int stmtNum) {
+  storage.setCallsRelationship(callerProc, calleeProc, stmtNum);
+}
 
 void PKBWriter::setCallsStarRelationship(const string &callerProc,
                                          const string &calleeProc,
-                                         int stmtNum) {}
+                                         int stmtNum) {
+  storage.setCallsStarRelationship(callerProc, calleeProc, stmtNum);
+}
 
 void PKBWriter::setCFG(const std::string &procName, unique_ptr<CFG> cfg) {}

@@ -169,19 +169,19 @@ class PKBReader : public virtual ICallsReader,
       const std::string& variableName, const std::string& rpn, bool isSynonym);
 
   // return pairs (stmtNum, calleeName) that are directly called by procName
-  virtual std::vector<std::pair<std::string, std::string>> getCalledBy(
+  virtual std::vector<std::pair<std::string, std::string>> getCallerProcs(
       const std::string& procName);
 
   // return pairs (stmtNum, caleeName) that are indirectly called by procName
-  virtual std::vector<std::pair<std::string, std::string>> getCalledStarBy(
+  virtual std::vector<std::pair<std::string, std::string>> getCallerProcsStar(
       const std::string& procName);
 
   // return pairs (stmtNum, callerName) that directly call procName
-  virtual std::vector<std::pair<std::string, std::string>> getProcsThatCall(
+  virtual std::vector<std::pair<std::string, std::string>> getCalleeProcs(
       const std::string& procName);
 
   // return pairs (stmtNum, callerName) that indirectly call procName
-  virtual std::vector<std::pair<std::string, std::string>> getProcsThatCallStar(
+  virtual std::vector<std::pair<std::string, std::string>> getCalleeProcsStar(
       const std::string& procName);
 
   // return procedure that is called on stmtNum

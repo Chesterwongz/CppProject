@@ -403,24 +403,24 @@ std::vector<std::string> PKBReader::getPartialAssignPattern(
   return storage.getPartialAssignPattern(variableName, rpn, isSynonym);
 }
 
-std::vector<std::pair<std::string, std::string>> PKBReader::getCalledBy(
+std::vector<std::pair<std::string, std::string>> PKBReader::getCallerProcs(
     const std::string& procName) {
-  return storage.getCalledBy(procName);
+  return storage.getCallerProcs(procName);
 }
 
-std::vector<std::pair<std::string, std::string>> PKBReader::getCalledStarBy(
+std::vector<std::pair<std::string, std::string>> PKBReader::getCallerProcsStar(
     const std::string& procName) {
-  return storage.getCalledStarBy(procName);
+  return storage.getCallerProcsStar(procName);
 }
 
-std::vector<std::pair<std::string, std::string>> PKBReader::getProcsThatCall(
+std::vector<std::pair<std::string, std::string>> PKBReader::getCalleeProcs(
     const std::string& procName) {
-  return storage.getProcsThatCall(procName);
+  return storage.getCalleeProcs(procName);
 }
 
 std::vector<std::pair<std::string, std::string>>
-PKBReader::getProcsThatCallStar(const std::string& procName) {
-  return storage.getProcsThatCallStar(procName);
+PKBReader::getCalleeProcsStar(const std::string& procName) {
+  return storage.getCalleeProcsStar(procName);
 }
 
 std::string PKBReader::getProcCalledOn(int stmtNum) {

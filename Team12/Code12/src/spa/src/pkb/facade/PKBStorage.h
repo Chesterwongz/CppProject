@@ -95,10 +95,10 @@ class PKBStorage {
   void setCallsStarRelationship(const string& callerProc,
                                 const string& calleeProc, int stmtNum);
 
-  vector<pair<string, string>> getCalledBy(const string& procName);
-  vector<pair<string, string>> getCalledStarBy(const string& procName);
-  vector<pair<string, string>> getProcsThatCall(const string& procName);
-  vector<pair<string, string>> getProcsThatCallStar(const string& procName);
+  vector<pair<string, string>> getCallerProcs(const string& procName);
+  vector<pair<string, string>> getCallerProcsStar(const string& procName);
+  vector<pair<string, string>> getCalleeProcs(const string& procName);
+  vector<pair<string, string>> getCalleeProcsStar(const string& procName);
 
   string getProcCalledOn(int stmtNum);
   vector<string> getProcStarCalledOn(int stmtNum);
@@ -110,7 +110,7 @@ class PKBStorage {
   bool isCallingStar(const string& caller, const string& callee);
   bool isCallingStmt(int stmtNum, const string& callee);
   bool isCallingStarStmt(int stmtNum, const string& callee);
-  const unordered_map<string, vector<pair<int, string>>>& getCallsMap();
+  const unordered_map<string, vector<pair<int, string>>>& getCalleeProcsMap();
 
  private:
   CallsStorage callsStorage;

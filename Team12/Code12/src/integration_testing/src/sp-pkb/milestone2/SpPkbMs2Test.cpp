@@ -72,7 +72,7 @@ void validateCalls(PKBReader& reader, const vector<string>& procs,
     }
     std::cout << std::endl << "-------------" << std::endl;
 
-    vector<pair<string, string>> actualCalls = reader.getCalledBy(proc);
+    vector<pair<string, string>> actualCalls = reader.getCalleeProcs(proc);
     unordered_set<pair<string, string>, PairUtils::PairHash> actualCallsSet;
     for (const auto& pair : actualCalls) {
       actualCallsSet.insert(pair);
@@ -99,7 +99,7 @@ void validateCallsStar(PKBReader& reader, const vector<string>& procs,
     }
     std::cout << "-------------" << std::endl;
 
-    vector<pair<string, string>> actualCallsStar = reader.getCalledStarBy(proc);
+    vector<pair<string, string>> actualCallsStar = reader.getCallerProcsStar(proc);
     unordered_set<pair<string, string>, PairUtils::PairHash> actualCallsStarSet;
     for (const auto& pair : actualCallsStar) {
       actualCallsStarSet.insert(pair);
@@ -156,7 +156,7 @@ TEST_CASE("SP-PKB integration MS2 - Nested statements") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"A", "B", "C"};
-  ProcToVarSetMap expectedModifiesMap = {{"A", {}}, {"B", {"x"}}, {"C", {"y"}}};
+  ProcToVarSetMap expectedModifiesMap = {{"A", {"x", "y"}}, {"B", {"x", "y"}}, {"C", {"y"}}};
   ProcToVarSetMap expectedUsesMap = {{"A", {}}, {"B", {}}, {"C", {}}};
   ProcToStmtProcSetMap expectedCallsMap = {
       {"A", {{"1", "B"}}}, {"B", {{"3", "C"}}}, {"C", {}}};

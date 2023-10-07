@@ -16,16 +16,16 @@ class CallsStorage {
                                 int statementNumber);
 
   // return pairs (stmtNum, calleeName) that are directly called by procName
-  vector<pair<string, string>> getCalls(const string& procedure);
+  vector<pair<string, string>> getCalleeProcs(const string& procedure);
 
   // return pairs (stmtNum, caleeName) that are indirectly called by procName
-  vector<pair<string, string>> getCallsStar(const string& procedure);
+  vector<pair<string, string>> getCalleeProcsStar(const string& procedure);
 
   // return pairs (stmtNum, callerName) that directly call procName
-  vector<pair<string, string>> getCalledBy(const string& procedure);
+  vector<pair<string, string>> getCallerProcs(const string& procedure);
 
   // return pairs (stmtNum, callerName) that indirectly call procName
-  vector<pair<string, string>> getCalledByStar(const string& procedure);
+  vector<pair<string, string>> getCallerProcsStar(const string& procedure);
 
   bool isCalls(const string& caller, const string& callee);
   bool isCallsStar(const string& caller, const string& callee);
@@ -45,7 +45,7 @@ class CallsStorage {
   // return list of procedures names that are indirectly called on stmtNum
   virtual vector<string> getProcStarCalledOn(int stmtNum);
 
-  const unordered_map<string, vector<pair<int, string>>>& getCallsMap();
+  const unordered_map<string, vector<pair<int, string>>>& getCalleeProcsMap();
 
  private:
   // callerProc -> [stmtNum, calleeProc]

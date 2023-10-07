@@ -14,7 +14,7 @@ void CallsStorage::setCallsStarRelationship(const string& caller,
   calledByStarMap[callee].emplace_back(make_pair(statementNumber, caller));
 }
 
-vector<pair<string, string>> CallsStorage::getCalls(const string& procedure) {
+vector<pair<string, string>> CallsStorage::getCalleeProcs(const string& procedure) {
   vector<pair<string, string>> result;
   auto callsSet = callsMap[procedure];
   for (const auto& [stmtNum, callee] : callsSet) {
@@ -23,7 +23,7 @@ vector<pair<string, string>> CallsStorage::getCalls(const string& procedure) {
   return result;
 }
 
-vector<pair<string, string>> CallsStorage::getCallsStar(
+vector<pair<string, string>> CallsStorage::getCalleeProcsStar(
     const string& procedure) {
   vector<pair<string, string>> result;
   auto callsStarSet = callsStarMap[procedure];
@@ -33,9 +33,12 @@ vector<pair<string, string>> CallsStorage::getCallsStar(
   return result;
 }
 
-vector<pair<string, string>> CallsStorage::getCalledBy(
+vector<pair<string, string>> CallsStorage::getCallerProcs(
     const string& procedure) {
   vector<pair<string, string>> result;
+  if (calledByMap.find(procedure) == calledByMap.end()) {
+    return result;
+  }
   auto calledBySet = calledByMap[procedure];
   for (const auto& [stmtNum, caller] : calledBySet) {
     result.emplace_back(std::to_string(stmtNum), caller);
@@ -43,9 +46,12 @@ vector<pair<string, string>> CallsStorage::getCalledBy(
   return result;
 }
 
-vector<pair<string, string>> CallsStorage::getCalledByStar(
+vector<pair<string, string>> CallsStorage::getCallerProcsStar(
     const string& procedure) {
   vector<pair<string, string>> result;
+  if (calledByStarMap.find(procedure) == calledByStarMap.end()) {
+    return result;
+  }
   auto calledByStarSet = calledByStarMap[procedure];
   for (const auto& [stmtNum, caller] : calledByStarSet) {
     result.emplace_back(std::to_string(stmtNum), caller);
@@ -133,6 +139,6 @@ bool CallsStorage::isCallingStarStmt(int stmtNum, const string& callee) {
 }
 
 const unordered_map<string, vector<pair<int, string>>>&
-CallsStorage::getCallsMap() {
+CallsStorage::getCalleeProcsMap() {
   return callsMap;
 }

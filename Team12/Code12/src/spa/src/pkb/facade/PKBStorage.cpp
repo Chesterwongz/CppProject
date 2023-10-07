@@ -159,23 +159,23 @@ vector<string> PKBStorage::getPartialAssignPattern(string varName, string rpn,
   return patternStorage.getPartialAssignPattern(varName, rpn, isSynonym);
 }
 
-vector<pair<string, string>> PKBStorage::getCalledBy(const string& procName) {
-  return callsStorage.getCalledBy(procName);
+vector<pair<string, string>> PKBStorage::getCallerProcs(const string& callee) {
+  return callsStorage.getCallerProcs(callee);
 }
 
-vector<pair<string, string>> PKBStorage::getCalledStarBy(
-    const string& procName) {
-  return callsStorage.getCalledByStar(procName);
+vector<pair<string, string>> PKBStorage::getCallerProcsStar(
+    const string& callee) {
+  return callsStorage.getCallerProcsStar(callee);
 }
 
-vector<pair<string, string>> PKBStorage::getProcsThatCall(
-    const string& procName) {
-  return callsStorage.getCalls(procName);
+vector<pair<string, string>> PKBStorage::getCalleeProcs(
+    const string& caller) {
+  return callsStorage.getCalleeProcs(caller);
 }
 
-vector<pair<string, string>> PKBStorage::getProcsThatCallStar(
-    const string& procName) {
-  return callsStorage.getCallsStar(procName);
+vector<pair<string, string>> PKBStorage::getCalleeProcsStar(
+    const string& caller) {
+  return callsStorage.getCalleeProcsStar(caller);
 }
 
 string PKBStorage::getProcCalledOn(int stmtNum) {
@@ -211,6 +211,6 @@ bool PKBStorage::isCallingStarStmt(int stmtNum, const string& callee) {
 }
 
 const unordered_map<string, vector<pair<int, string>>>&
-PKBStorage::getCallsMap() {
-  return callsStorage.getCallsMap();
+PKBStorage::getCalleeProcsMap() {
+  return callsStorage.getCalleeProcsMap();
 }

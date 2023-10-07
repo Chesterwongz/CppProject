@@ -1,4 +1,5 @@
-#include "catch.hpp"
+#include <catch.hpp>
+
 #include "pkb/storage/CallsStorage.h"
 
 TEST_CASE("Setting and Getting Calls Relationships") {
@@ -10,23 +11,23 @@ TEST_CASE("Setting and Getting Calls Relationships") {
     callsStorage.setCallsStarRelationship("proc1", "proc3", 2);
 
     SECTION("Get Calls") {
-        auto calls = callsStorage.getCalls("proc1");
+        auto calls = callsStorage.getCalleeProcs("proc1");
         REQUIRE(calls.size() == 2);
     }
 
     SECTION("Get Calls Star") {
-        auto callsStar = callsStorage.getCallsStar("proc1");
+        auto callsStar = callsStorage.getCalleeProcsStar("proc1");
         REQUIRE(callsStar.size() == 2);
     }
 
     SECTION("Get Called By") {
-        auto calledBy = callsStorage.getCalledBy("proc2");
+        auto calledBy = callsStorage.getCallerProcs("proc2");
         REQUIRE(calledBy.size() == 1);
 
     }
 
     SECTION("Get Called By Star") {
-        auto calledByStar = callsStorage.getCalledByStar("proc2");
+        auto calledByStar = callsStorage.getCallerProcsStar("proc2");
         REQUIRE(calledByStar.size() == 1);
     }
 }
