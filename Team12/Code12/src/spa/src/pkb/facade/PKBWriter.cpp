@@ -76,7 +76,9 @@ void PKBWriter::setModifiesForCalls(const string &callerProc,
 }
 
 void PKBWriter::setRelationshipsForIndirectCalls(
-    const string &caller, const unordered_set<pair<string, string>, PairUtils::PairHash> &visitedCallees) {
+    const string &caller,
+    const unordered_set<pair<string, string>, PairUtils::PairHash>
+        &visitedCallees) {
   for (const auto &[stmtNum, callee] : visitedCallees) {
     setCallsStarRelationship(caller, callee, std::stoi(stmtNum));
     setModifiesForCalls(caller, callee);
@@ -116,7 +118,8 @@ void PKBWriter::setRelationshipsForIndirectCalls(
 //   }
 // }
 
-unordered_set<pair<string, string>, PairUtils::PairHash> PKBWriter::getIndirectCallees(int stmtNum, const string &proc) {
+unordered_set<pair<string, string>, PairUtils::PairHash>
+PKBWriter::getIndirectCallees(int stmtNum, const string &proc) {
   vector<pair<string, string>> cached = storage.getCalledStarBy(proc);
   unordered_set<pair<string, string>, PairUtils::PairHash> visitedCallees;
   if (!cached.empty()) {
@@ -127,13 +130,14 @@ unordered_set<pair<string, string>, PairUtils::PairHash> PKBWriter::getIndirectC
   toVisit.emplace(std::to_string(stmtNum), proc);
   while (!toVisit.empty()) {
     pair<string, string> curr = toVisit.front();
-    const string& currProc = curr.second;
+    const string &currProc = curr.second;
     toVisit.pop();
     if (visitedCallees.find(curr) != visitedCallees.end()) {
       continue;
     }
     visitedCallees.insert(curr);
-    vector<pair<string, string>> allCalleesOfCurr = storage.getCalledStarBy(currProc);
+    vector<pair<string, string>> allCalleesOfCurr =
+        storage.getCalledStarBy(currProc);
     if (!allCalleesOfCurr.empty()) {
       // already computed transitive calls by curr
       visitedCallees.insert(allCalleesOfCurr.begin(), allCalleesOfCurr.end());

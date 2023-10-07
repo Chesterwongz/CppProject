@@ -4,8 +4,8 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-#include <catch.hpp>
 
+#include "catch.hpp"
 #include "pkb/facade/PKB.h"
 #include "sp/SourceProcessor.h"
 

@@ -1,24 +1,23 @@
 #pragma once
 
-#include <string>
 #include <memory>
+#include <queue>
+#include <set>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-#include <set>
-#include <queue>
 
+#include "common/cfg/CFG.h"
+#include "common/utils/PairUtils.h"
 #include "pkb/facade/PKBStorage.h"
 #include "pkb/interfaces/writers/ICallsWriter.h"
 #include "pkb/interfaces/writers/IDesignEntitiesWriter.h"
 #include "pkb/interfaces/writers/IFollowsWriter.h"
-#include "pkb/interfaces/writers/IParentWriter.h"
 #include "pkb/interfaces/writers/IModifiesWriter.h"
-#include "pkb/interfaces/writers/IUsesWriter.h"
-#include "pkb/interfaces/writers/IStatementWriter.h"
-#include "pkb/interfaces/writers/IDesignEntitiesWriter.h"
+#include "pkb/interfaces/writers/IParentWriter.h"
 #include "pkb/interfaces/writers/IPatternWriter.h"
-#include "common/cfg/CFG.h"
-#include "common/utils/PairUtils.h"
+#include "pkb/interfaces/writers/IStatementWriter.h"
+#include "pkb/interfaces/writers/IUsesWriter.h"
 
 using std::unique_ptr, std::queue, std::string, std::unordered_set;
 
@@ -74,13 +73,11 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
   virtual void setIfPattern(int statementNumber, const string& varName);
 
   // direct calls, not transitive
-  void setCallsRelationship(const string& callerProc,
-                                    const string& calleeProc,
-                                    int stmtNum) override;
+  void setCallsRelationship(const string& callerProc, const string& calleeProc,
+                            int stmtNum) override;
 
   void setCallsStarRelationship(const string& callerProc,
-                                        const string& calleeProc,
-                                        int stmtNum) override;
+                                const string& calleeProc, int stmtNum) override;
 
   // Add an expression to storage
   void setAssignPattern(const string& variableName, const string& rpn,
@@ -95,6 +92,9 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
   void setUsesForCalls(const string& callerProc, const string& calleeProc);
   void setModifiesForCalls(const string& callerProc, const string& calleeProc);
   void setRelationshipsForIndirectCalls(
-      const string &caller, const unordered_set<pair<string, string>, PairUtils::PairHash> &visitedCallees);
-  unordered_set<pair<string, string>, PairUtils::PairHash> getIndirectCallees(int stmtNum, const string &proc);
+      const string& caller,
+      const unordered_set<pair<string, string>, PairUtils::PairHash>&
+          visitedCallees);
+  unordered_set<pair<string, string>, PairUtils::PairHash> getIndirectCallees(
+      int stmtNum, const string& proc);
 };
