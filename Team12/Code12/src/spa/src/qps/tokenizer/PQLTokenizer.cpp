@@ -2,9 +2,9 @@
 
 #include "qps/common/PQLParserUtils.h"
 #include "qps/common/QPSStringUtils.h"
-#include "qps/exceptions/QPSInvalidQueryException.h"
+#include "qps/exceptions/QPSSyntaxError.h"
 
-PQLTokenizer::PQLTokenizer(const string& query)
+PQLTokenizer::PQLTokenizer(const string query)
     : tokenList(make_unique<PQLTokenList>()),
       currPos(0),
       tokenTable(),
@@ -46,12 +46,12 @@ unique_ptr<PQLTokenList> PQLTokenizer::tokenize() {
         break;
       case PQL_INVALID_TOKEN:
       default:
-        throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);
+        throw QPSSyntaxError(QPS_TOKENIZATION_ERR);
     }
   }
 
   if (isProcessingLiteral) {
-    throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNMATCHED_QUOTE);
+    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_UNMATCHED_QUOTE);
   }
 
   return std::move(tokenList);
@@ -71,7 +71,7 @@ void PQLTokenizer::flushBuffer(PQLTokenType type) {
 
 void PQLTokenizer::flushLiteralBuffer(PQLTokenType type) {
   if (literalBuffer.empty()) {
-    throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_EMPTY_LITERAL);
+    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_EMPTY_QUOTE);
   }
   tokenList->push_back(PQLToken(type, literalBuffer));
   numberOfTokensInLiteral = 0;
@@ -91,7 +91,7 @@ void PQLTokenizer::processName() {
     currPos++;
   }
   if (!QPSStringUtils::isSynonym(buffer)) {
-    throw QPSInvalidQueryException(QPS_INVALID_QUERY_INAVLID_NAME);
+    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_NAME);
   }
   if (isProcessingLiteral) numberOfTokensInLiteral++;
   flushBuffer(PQL_NAME_TOKEN);
@@ -108,7 +108,7 @@ void PQLTokenizer::processInt() {
     currPos++;
   }
   if (!QPSStringUtils::isInteger(buffer)) {
-    throw QPSInvalidQueryException(QPS_INVALID_QUERY_INAVLID_INTEGER);
+    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INTEGER);
   }
   if (isProcessingLiteral) numberOfTokensInLiteral++;
   flushBuffer(PQL_INTEGER_TOKEN);

@@ -46,7 +46,7 @@ TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 2") {
   string query =
       "stmt stmt;\n"
-      "Select stmt such that Follows *(stmt ,_)";
+      "Select stmt such that Follows*(stmt ,_)";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(followsStarSource, pkb.getWriter());
@@ -74,7 +74,7 @@ TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 4") {
   string query =
       "stmt s, S;\n"
-      "Select s such that Follows *(s,s)";
+      "Select s such that Follows*(s,s)";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(followsStarSource, pkb.getWriter());
@@ -102,7 +102,7 @@ TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 6") {
   string query =
       "stmt Follows;\n"
-      "Select Follows such that Follows *  ( 1,Follows )";
+      "Select Follows such that Follows*  ( 1,Follows )";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(followsStarSource, pkb.getWriter());
@@ -116,7 +116,7 @@ TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 7") {
   string query =
       "stmt if;\n"
-      "Select if such that Follows  * ( if,5 )";
+      "Select if such that Follows* ( if,5 )";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(followsStarSource, pkb.getWriter());
@@ -172,7 +172,7 @@ TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 11") {
   string query =
       "stmt s;\n"
-      "Select s such that Follows   *( _,4 )";
+      "Select s such that Follows*( _,4 )";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(followsStarSource, pkb.getWriter());
@@ -200,7 +200,7 @@ TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 13") {
   string query =
       "print pn;\n"
-      "Select pn such that Follows ( pn,_)";
+      "Select pn such that Follows* ( pn,_)";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(followsStarSource, pkb.getWriter());
@@ -214,7 +214,7 @@ TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 14") {
   string query =
       "stmt s;assign a;\n"
-      "Select a such that Follows( s,a )";
+      "Select a such that Follows*( s,a )";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(followsStarSource, pkb.getWriter());

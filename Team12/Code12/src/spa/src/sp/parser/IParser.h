@@ -3,7 +3,7 @@
 #include <memory>
 #include <optional>
 
-#include "sp/ast/TNode.h"
+#include "common/ast/TNode.h"
 
 class IParser {
  public:
