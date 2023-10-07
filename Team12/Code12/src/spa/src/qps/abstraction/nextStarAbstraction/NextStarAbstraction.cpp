@@ -80,7 +80,7 @@ IntermediateTable NextStarAbstraction::handleBothArgsInteger() {
   bool isNextStar = pkb.isNextStar(firstStmtNumber, secondStmtNumber);
 
   return isNextStar ? IntermediateTableFactory::buildWildcardIntermediateTable()
-                 : IntermediateTableFactory::buildEmptyIntermediateTable();
+                    : IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
 IntermediateTable NextStarAbstraction::handleFirstArgInteger() {
@@ -91,7 +91,8 @@ IntermediateTable NextStarAbstraction::handleFirstArgInteger() {
   vector<string> nextStarSecondStmt =
       pkb.getNextStarSecondStmt(firstStmtNumber, secondStmtType);
 
-  return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym, nextStarSecondStmt);
+  return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
+                                                       nextStarSecondStmt);
 }
 
 IntermediateTable NextStarAbstraction::handleSecondArgInteger() {
@@ -102,6 +103,6 @@ IntermediateTable NextStarAbstraction::handleSecondArgInteger() {
   vector<string> nextStarFirstStmt =
       pkb.getNextStarFirstStmt(secondStmtNumber, firstStmtType);
 
-  return IntermediateTableFactory::buildSingleColTable(
-      firstStmtSynonym, nextStarFirstStmt);
+  return IntermediateTableFactory::buildSingleColTable(firstStmtSynonym,
+                                                       nextStarFirstStmt);
 }

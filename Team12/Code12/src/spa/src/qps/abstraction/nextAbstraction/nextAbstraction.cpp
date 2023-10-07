@@ -80,7 +80,7 @@ IntermediateTable NextAbstraction::handleBothArgsInteger() {
   bool isNext = pkb.isNext(firstStmtNumber, secondStmtNumber);
 
   return isNext ? IntermediateTableFactory::buildWildcardIntermediateTable()
-                 : IntermediateTableFactory::buildEmptyIntermediateTable();
+                : IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
 IntermediateTable NextAbstraction::handleFirstArgInteger() {
@@ -88,10 +88,11 @@ IntermediateTable NextAbstraction::handleFirstArgInteger() {
   StmtType secondStmtType = this->getSecondArgStmtType();
   string secondStmtSynonym = this->secondArgValue;
 
-  vector<string> nextSecondStmt = pkb.getNextSecondStmt(firstStmtNumber, secondStmtType);
+  vector<string> nextSecondStmt =
+      pkb.getNextSecondStmt(firstStmtNumber, secondStmtType);
 
   return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
-                                                   nextSecondStmt);
+                                                       nextSecondStmt);
 }
 
 IntermediateTable NextAbstraction::handleSecondArgInteger() {
@@ -99,8 +100,9 @@ IntermediateTable NextAbstraction::handleSecondArgInteger() {
   string firstStmtSynonym = this->firstArgValue;
   int secondStmtNumber = stoi(this->secondArgValue);
 
-  vector<string> nextFirstStmt = pkb.getNextFirstStmt(secondStmtNumber, firstStmtType);
+  vector<string> nextFirstStmt =
+      pkb.getNextFirstStmt(secondStmtNumber, firstStmtType);
 
   return IntermediateTableFactory::buildSingleColTable(firstStmtSynonym,
-                                                          nextFirstStmt);
+                                                       nextFirstStmt);
 }

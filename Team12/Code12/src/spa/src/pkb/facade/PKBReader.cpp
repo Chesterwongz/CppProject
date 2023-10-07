@@ -410,11 +410,13 @@ std::vector<std::pair<std::string, std::string>> PKBReader::getNextPairs(
 
 bool PKBReader::isNext(int firstStmtNumber, int secondStmtNumber) { return {}; }
 
-std::vector<std::string> PKBReader::getNextFirstStmt(int secondStmtNumber, StmtType firstStmtType) {
+std::vector<std::string> PKBReader::getNextFirstStmt(int secondStmtNumber,
+                                                     StmtType firstStmtType) {
   return {};
-};
+}
 
-std::vector<std::string> PKBReader::getNextSecondStmt(int firstStmtNumber, StmtType secondStmtType) {
+std::vector<std::string> PKBReader::getNextSecondStmt(int firstStmtNumber,
+                                                      StmtType secondStmtType) {
   return {};
 }
 
@@ -423,13 +425,16 @@ std::vector<std::pair<std::string, std::string>> PKBReader::getNextStarPairs(
   return {};
 }
 
-bool PKBReader::isNextStar(int firstStmtNumber, int secondStmtNumber) { return {}; }
-
-std::vector<std::string> PKBReader::getNextStarFirstStmt(int secondStmtNumber, StmtType firstStmtType) {
+bool PKBReader::isNextStar(int firstStmtNumber, int secondStmtNumber) {
   return {};
 }
 
-std::vector<std::string> PKBReader::getNextStarSecondStmt(int firstStmtNumber,
-                                  StmtType secondStmtType) {
+std::vector<std::string> PKBReader::getNextStarFirstStmt(
+    int secondStmtNumber, StmtType firstStmtType) {
+  return {};
+}
+
+std::vector<std::string> PKBReader::getNextStarSecondStmt(
+    int firstStmtNumber, StmtType secondStmtType) {
   return {};
 }
