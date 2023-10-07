@@ -42,18 +42,17 @@ TEST_CASE(
   REQUIRE(result == expected);
 }
 
-TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 2") {
-  string query =
-      "stmt stmt;\n"
-      "Select stmt such that Follows *(stmt ,_)";
-  SourceProcessor sp;
-  PKB pkb;
-  sp.processContent(followsStarSource, pkb.getWriter());
-  QPS qps(pkb.getReader());
-  auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "2", "3", "4"};
-  REQUIRE(result == expected);
+TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 2") {
+    string query =
+        "stmt stmt;\n"
+        "Select stmt such that Follows*(stmt ,_)";
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(followsStarSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = {"1", "2", "3", "4"};
+    REQUIRE(result == expected);
 }
 
 TEST_CASE(
@@ -70,18 +69,17 @@ TEST_CASE(
   REQUIRE(result == expected);
 }
 
-TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 4") {
-  string query =
-      "stmt s, S;\n"
-      "Select s such that Follows *(s,s)";
-  SourceProcessor sp;
-  PKB pkb;
-  sp.processContent(followsStarSource, pkb.getWriter());
-  QPS qps(pkb.getReader());
-  auto result = qps.processQueryString(query);
-  set<string> expected = {};
-  REQUIRE(result == expected);
+TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 4") {
+    string query =
+        "stmt s, S;\n"
+        "Select s such that Follows*(s,s)";
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(followsStarSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = {};
+    REQUIRE(result == expected);
 }
 
 TEST_CASE(
@@ -98,32 +96,30 @@ TEST_CASE(
   REQUIRE(result == expected);
 }
 
-TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 6") {
-  string query =
-      "stmt Follows;\n"
-      "Select Follows such that Follows *  ( 1,Follows )";
-  SourceProcessor sp;
-  PKB pkb;
-  sp.processContent(followsStarSource, pkb.getWriter());
-  QPS qps(pkb.getReader());
-  auto result = qps.processQueryString(query);
-  set<string> expected = {"2", "8"};
-  REQUIRE(result == expected);
+TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 6") {
+    string query =
+        "stmt Follows;\n"
+        "Select Follows such that Follows*  ( 1,Follows )";
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(followsStarSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = {"2", "8"};
+    REQUIRE(result == expected);
 }
 
-TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 7") {
-  string query =
-      "stmt if;\n"
-      "Select if such that Follows  * ( if,5 )";
-  SourceProcessor sp;
-  PKB pkb;
-  sp.processContent(followsStarSource, pkb.getWriter());
-  QPS qps(pkb.getReader());
-  auto result = qps.processQueryString(query);
-  set<string> expected = {"4"};
-  REQUIRE(result == expected);
+TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 7") {
+    string query =
+        "stmt if;\n"
+        "Select if such that Follows* ( if,5 )";
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(followsStarSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = {"4"};
+    REQUIRE(result == expected);
 }
 
 TEST_CASE(
@@ -168,18 +164,17 @@ TEST_CASE(
   REQUIRE(result == expected);
 }
 
-TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 11") {
-  string query =
-      "stmt s;\n"
-      "Select s such that Follows   *( _,4 )";
-  SourceProcessor sp;
-  PKB pkb;
-  sp.processContent(followsStarSource, pkb.getWriter());
-  QPS qps(pkb.getReader());
-  auto result = qps.processQueryString(query);
-  set<string> expected = {};
-  REQUIRE(result == expected);
+TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 11") {
+    string query =
+        "stmt s;\n"
+        "Select s such that Follows*( _,4 )";
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(followsStarSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = {};
+    REQUIRE(result == expected);
 }
 
 TEST_CASE(
@@ -196,30 +191,28 @@ TEST_CASE(
   REQUIRE(result == expected);
 }
 
-TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 13") {
-  string query =
-      "print pn;\n"
-      "Select pn such that Follows ( pn,_)";
-  SourceProcessor sp;
-  PKB pkb;
-  sp.processContent(followsStarSource, pkb.getWriter());
-  QPS qps(pkb.getReader());
-  auto result = qps.processQueryString(query);
-  set<string> expected = {"4"};
-  REQUIRE(result == expected);
+TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 13") {
+    string query =
+        "print pn;\n"
+        "Select pn such that Follows* ( pn,_)";
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(followsStarSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = {"4"};
+    REQUIRE(result == expected);
 }
 
-TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 14") {
-  string query =
-      "stmt s;assign a;\n"
-      "Select a such that Follows( s,a )";
-  SourceProcessor sp;
-  PKB pkb;
-  sp.processContent(followsStarSource, pkb.getWriter());
-  QPS qps(pkb.getReader());
-  auto result = qps.processQueryString(query);
-  set<string> expected = {"5", "8"};
-  REQUIRE(result == expected);
+TEST_CASE("SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 14") {
+    string query =
+        "stmt s;assign a;\n"
+        "Select a such that Follows*( s,a )";
+    SourceProcessor sp;
+    PKB pkb;
+    sp.processContent(followsStarSource, pkb.getWriter());
+    QPS qps(pkb.getReader());
+    auto result = qps.processQueryString(query);
+    set<string> expected = {"5", "8"};
+    REQUIRE(result == expected);
 }
