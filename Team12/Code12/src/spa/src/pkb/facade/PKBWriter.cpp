@@ -86,85 +86,88 @@ void PKBWriter::setRelationshipsForIndirectCalls(
   }
 }
 
-// void PKBWriter::setIndirectCallsRelationship() {
-//   const auto &callerToCalleeMap = storage.getCalleeProcsMap();
-//   for (const auto &[caller, directCallees] : callerToCalleeMap) {
-//     unordered_set<string> visitedCallees;
-//     queue<string> toVisit;
-//     for (const auto &callee : directCallees) {
-//       toVisit.push(callee);
-//     }
-//     while (!toVisit.empty()) {
-//       string curr = toVisit.front();
-//       toVisit.pop();
-//       if (visitedCallees.find(curr) != visitedCallees.end()) {
-//         // already inserted curr callee
-//         continue;
-//       }
-//       visitedCallees.insert(curr);
-//       unordered_set<string> allCalleesOfCurr =
-//           storage.getAllProcsCalledBy(curr);
-//       if (!allCalleesOfCurr.empty()) {
-//         // already computed transitive calls by curr
-//         visitedCallees.insert(allCalleesOfCurr.begin(),
-//         allCalleesOfCurr.end()); continue;
-//       }
-//
-//       for (const auto &next : storage.getDirectProcsCalledBy(curr)) {
-//         toVisit.push(next);
-//       }
-//     }
-//     setRelationshipsForIndirectCalls(caller, visitedCallees);
-//   }
-// }
-
-unordered_set<pair<string, string>, PairUtils::PairHash>
-PKBWriter::getIndirectCallees(int stmtNum, const string &proc) {
-  vector<pair<string, string>> cached = storage.getCallerProcsStar(proc);
-  unordered_set<pair<string, string>, PairUtils::PairHash> visitedCallees;
-  if (!cached.empty()) {
-    visitedCallees.insert(cached.begin(), cached.end());
-    return visitedCallees;
-  }
-  queue<pair<string, string>> toVisit;
-  toVisit.emplace(std::to_string(stmtNum), proc);
-  while (!toVisit.empty()) {
-    pair<string, string> curr = toVisit.front();
-    const string &currProc = curr.second;
-    toVisit.pop();
-    if (visitedCallees.find(curr) != visitedCallees.end()) {
-      continue;
-    }
-    visitedCallees.insert(curr);
-    vector<pair<string, string>> allCalleesOfCurr =
-        storage.getCallerProcsStar(currProc);
-    if (!allCalleesOfCurr.empty()) {
-      // already computed transitive calls by curr
-      visitedCallees.insert(allCalleesOfCurr.begin(), allCalleesOfCurr.end());
-      continue;
-    }
-    for (const auto &[nextStmt, nextProc] : storage.getCallerProcs(currProc)) {
-      toVisit.emplace(nextStmt, nextProc);
-    }
-  }
-  for (const auto &[calleeStmt, calleeProc] : visitedCallees) {
-    setCallsStarRelationship(proc, calleeProc, std::stoi(calleeStmt));
-  }
-  return visitedCallees;
-}
-
 void PKBWriter::setIndirectCallsRelationship() {
   const auto &callerToCalleeMap = storage.getCalleeProcsMap();
   for (const auto &[caller, directStmtCallees] : callerToCalleeMap) {
     unordered_set<pair<string, string>, PairUtils::PairHash> visitedCallees;
+    queue<pair<string, string>> toVisit;
+
     for (const auto &[stmtNum, callee] : directStmtCallees) {
-      auto indirectCalleesOfCallee = getIndirectCallees(stmtNum, callee);
-      visitedCallees.insert(indirectCalleesOfCallee.begin(),
-                            indirectCalleesOfCallee.end());
+      toVisit.emplace(std::to_string(stmtNum), callee);
+    }
+    while (!toVisit.empty()) {
+      pair<string, string> curr = toVisit.front();
+      string currProc = curr.second;
+      toVisit.pop();
+      if (visitedCallees.find(curr) != visitedCallees.end()) {
+        // already inserted curr callee
+        continue;
+      }
+      visitedCallees.insert(curr);
+      vector<pair<string, string>> allCalleesOfCurr =
+          storage.getCalleeProcsStar(currProc);
+      if (!allCalleesOfCurr.empty()) {
+        // already computed transitive calls by curr
+        visitedCallees.insert(allCalleesOfCurr.begin(), allCalleesOfCurr.end());
+        continue;
+      }
+
+      for (const auto &[stmtNum, callee] : storage.getCalleeProcs(currProc)) {
+        toVisit.emplace(stmtNum, callee);
+      }
     }
     setRelationshipsForIndirectCalls(caller, visitedCallees);
   }
 }
+
+// unordered_set<pair<string, string>, PairUtils::PairHash>
+// PKBWriter::getIndirectCallees(int stmtNum, const string &proc) {
+//   vector<pair<string, string>> cached = storage.getCalleeProcsStar(proc);
+//   unordered_set<pair<string, string>, PairUtils::PairHash> visitedCallees;
+//   if (!cached.empty()) {
+//     visitedCallees.insert(cached.begin(), cached.end());
+//     return visitedCallees;
+//   }
+//   queue<pair<string, string>> toVisit;
+//   toVisit.emplace(std::to_string(stmtNum), proc);
+//   while (!toVisit.empty()) {
+//     pair<string, string> curr = toVisit.front();
+//     const string &currProc = curr.second;
+//     toVisit.pop();
+//     if (visitedCallees.find(curr) != visitedCallees.end()) {
+//       continue;
+//     }
+//     visitedCallees.insert(curr);
+//     vector<pair<string, string>> allCalleesOfCurr =
+//         storage.getCalleeProcs(currProc);
+//     if (!allCalleesOfCurr.empty()) {
+//       // already computed transitive calls by curr
+//       visitedCallees.insert(allCalleesOfCurr.begin(),
+//       allCalleesOfCurr.end()); continue;
+//     }
+//     for (const auto &[nextStmt, nextProc] : storage.getCalleeProcs(currProc))
+//     {
+//       toVisit.emplace(nextStmt, nextProc);
+//     }
+//   }
+//   for (const auto &[calleeStmt, calleeProc] : visitedCallees) {
+//     setCallsStarRelationship(proc, calleeProc, std::stoi(calleeStmt));
+//   }
+//   return visitedCallees;
+// }
+//
+// void PKBWriter::setIndirectCallsRelationship() {
+//   const auto &callerToCalleeMap = storage.getCalleeProcsMap();
+//   for (const auto &[caller, directStmtCallees] : callerToCalleeMap) {
+//     unordered_set<pair<string, string>, PairUtils::PairHash> visitedCallees;
+//     for (const auto &[stmtNum, callee] : directStmtCallees) {
+//       auto indirectCalleesOfCallee = getIndirectCallees(stmtNum, callee);
+//       visitedCallees.insert(indirectCalleesOfCallee.begin(),
+//                             indirectCalleesOfCallee.end());
+//     }
+//     setRelationshipsForIndirectCalls(caller, visitedCallees);
+//   }
+// }
 
 void PKBWriter::setCallsRelationship(const string &callerProc,
                                      const string &calleeProc, int stmtNum) {

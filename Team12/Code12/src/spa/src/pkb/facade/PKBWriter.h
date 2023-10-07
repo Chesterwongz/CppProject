@@ -95,6 +95,6 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
       const string& caller,
       const unordered_set<pair<string, string>, PairUtils::PairHash>&
           visitedCallees);
-  unordered_set<pair<string, string>, PairUtils::PairHash> getIndirectCallees(
-      int stmtNum, const string& proc);
+//  unordered_set<pair<string, string>, PairUtils::PairHash> getIndirectCallees(
+//      int stmtNum, const string& proc);
 };
