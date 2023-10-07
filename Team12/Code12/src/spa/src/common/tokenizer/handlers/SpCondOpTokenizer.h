@@ -4,13 +4,13 @@
 
 #include "common/tokenizer/BaseTokenizer.h"
 #include "sp/constants/OperatorConstants.h"
-#include "sp/tokenizer/token/SpToken.h"
+#include "common/tokenizer/token/SpToken.h"
 
-class SpRelOpTokenizer : public BaseTokenizer<SpToken> {
+class SpCondOpTokenizer : public BaseTokenizer<SpToken> {
  private:
-  static bool isRelOp(const string &str);
+  static bool matchesCondOp(char ch);
 
-  static bool matchesRelOp(char ch);
+  static bool isCondOp(const string &str);
 
  public:
   SpToken tokenize(char nextCh, InputStream &inputStream) override;

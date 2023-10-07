@@ -4,7 +4,7 @@
 #include <utility>
 
 #include "StmtListNode.h"
-#include "TNode.h"
+#include "common/ast/TNode.h"
 
 class ProcNode : public TNode {
  public:
