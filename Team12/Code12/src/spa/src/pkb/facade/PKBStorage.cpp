@@ -165,19 +165,19 @@ std::vector<std::string> PKBStorage::getPartialAssignPattern(
 }
 
 std::vector<std::pair<std::string, std::string>> PKBStorage::getCalledBy(const std::string& procName) {
-    return callsStorage.getCalls(procName);
-}
-
-std::vector<std::pair<std::string, std::string>> PKBStorage::getCalledStarBy(const std::string& procName) {
-    return callsStorage.getCallsStar(procName);
-}
-
-std::vector<std::pair<std::string, std::string>> PKBStorage::getProcsThatCall(const std::string& procName) {
     return callsStorage.getCalledBy(procName);
 }
 
-std::vector<std::pair<std::string, std::string>> PKBStorage::getProcsThatCallStar(const std::string& procName) {
+std::vector<std::pair<std::string, std::string>> PKBStorage::getCalledStarBy(const std::string& procName) {
     return callsStorage.getCalledByStar(procName);
+}
+
+std::vector<std::pair<std::string, std::string>> PKBStorage::getProcsThatCall(const std::string& procName) {
+    return callsStorage.getCalls(procName);
+}
+
+std::vector<std::pair<std::string, std::string>> PKBStorage::getProcsThatCallStar(const std::string& procName) {
+    return callsStorage.getCallsStar(procName);
 }
 
 std::string PKBStorage::getProcCalledOn(int stmtNum) {
