@@ -18,6 +18,10 @@ void DeclarativeParserState::processNameToken(PQLToken& curr) {
     curr.updateTokenType(PQL_SYNONYM_TOKEN);
   } else {
     auto tokenType = PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
+
+    if (prev == PQL_NULL_TOKEN && tokenType == PQL_SELECT_TOKEN) {
+      throw QPSSemanticError(QPS_SEMANTIC_ERR_INVALID_SELECT);
+    }
     curr.updateTokenType(tokenType);
   }
 }

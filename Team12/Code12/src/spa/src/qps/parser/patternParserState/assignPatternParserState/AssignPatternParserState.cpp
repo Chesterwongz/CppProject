@@ -27,14 +27,12 @@ PredictiveMap AssignPatternParserState::predictiveMap = {
 
 PQLTokenType AssignPatternParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
 
-size_t AssignPatternParserState::maxNumberOfArgs = 2;
-
 AssignPatternParserState::AssignPatternParserState(
     PQLParserContext& parserContext)
     : BaseParserState(parserContext),
       isInBracket(false),
       isPartialMatch(false),
-      partialMatchWildCardCount(0) {}
+      secondArgWildcardCount(0) {}
 
 void AssignPatternParserState::processNameToken(PQLToken& curr) {
   if (prev == PQL_OPEN_BRACKET_TOKEN) {
@@ -46,7 +44,7 @@ void AssignPatternParserState::processNameToken(PQLToken& curr) {
 }
 
 void AssignPatternParserState::processSynonymToken(PQLToken& curr) {
-  string synType = parserContext.checkValidSynonym(curr.getValue());
+  string synType = parserContext.getValidSynonymType(curr.getValue());
 
   if (patternArg.size() != FIRST_ARG) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
@@ -62,10 +60,10 @@ void AssignPatternParserState::processSynonymToken(PQLToken& curr) {
 
 void AssignPatternParserState::processLastArgument() {
   bool isWildcardMatch = patternArg.size() == SECOND_ARG &&
-                         partialMatchWildCardCount == WILDCARD_MATCH_COUNT;
+                         secondArgWildcardCount == WILDCARD_MATCH_COUNT;
   bool isExactMatch = patternArg.size() == maxNumberOfArgs &&
-                      partialMatchWildCardCount == EXACT_MATCH_COUNT;
-  isPartialMatch = partialMatchWildCardCount == PARTIAL_MATCH_COUNT &&
+                      secondArgWildcardCount == EXACT_MATCH_COUNT;
+  isPartialMatch = secondArgWildcardCount == PARTIAL_MATCH_COUNT &&
                    patternArg.size() == maxNumberOfArgs;
 
   if (isWildcardMatch) {
@@ -103,7 +101,7 @@ void AssignPatternParserState::handleToken() {
 
     switch (curr.getType()) {
       case PQL_ASSIGN_PATTERN_TOKEN:
-        outerSynonym = std::make_unique<SynonymArg>(curr.getValue());
+        synAssign = std::make_unique<SynonymArg>(curr.getValue());
       case PQL_COMMA_TOKEN:
         break;
       case PQL_SYNONYM_TOKEN:
@@ -116,11 +114,11 @@ void AssignPatternParserState::handleToken() {
         isInBracket = false;
         processLastArgument();
         parserContext.addClause(std::make_unique<PatternClause>(
-            std::move(outerSynonym), std::move(patternArg), isPartialMatch));
+            std::move(synAssign), std::move(patternArg), isPartialMatch));
         break;
       case PQL_WILDCARD_TOKEN:
-        if (patternArg.size() > FIRST_ARG) {
-          partialMatchWildCardCount++;
+        if (patternArg.size() >= SECOND_ARG) {
+          secondArgWildcardCount++;
         } else {
           patternArg.push_back(std::move(std::make_unique<Wildcard>()));
         }

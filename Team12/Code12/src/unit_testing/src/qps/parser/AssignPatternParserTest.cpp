@@ -396,6 +396,42 @@ TEST_CASE("Invalid Pattern a (LITERAL_REF, PARTIAL_MATCH) - integer entRef") {
                          Catch::Message(QPS_TOKENIZATION_ERR_IDENT));
 }
 
+TEST_CASE("Invalid Pattern a (LITERAL_REF_, PARTIAL_MATCH) - invalid 1st arg") {
+  string a1 = "newa";
+  string var1 = "var";
+  vector<PQLToken> tokenList = {
+      PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, a1),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_NAME_TOKEN, READ_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, var1),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, a1),
+      PQLToken(PQL_NAME_TOKEN, PATTERN_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, a1),
+      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+      PQLToken(PQL_LITERAL_REF_TOKEN, "3"),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+  };
+  PQLTokenStream tokenStream(tokenList);
+
+  PKBStorage storage{};
+  PKBReader pkbReader(storage);
+  Query query(pkbReader);
+  PQLParserContext parserContext(tokenStream, query);
+  unique_ptr<DeclarativeParserState> declarativeParserState =
+      std::make_unique<DeclarativeParserState>(parserContext);
+  parserContext.transitionTo(std::move(declarativeParserState));
+  REQUIRE_THROWS_MATCHES(parserContext.handleTokens(), QPSSyntaxError,
+                         Catch::Message(QPS_TOKENIZATION_ERR_IDENT));
+}
+
 TEST_CASE("Invalid Pattern a (SYNONYM, EXACT_EXPR_MATCH) - invalid expr") {
   string a1 = "newa";
   string var1 = "var";

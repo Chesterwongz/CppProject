@@ -15,10 +15,13 @@
 
 class RelationshipParserState : public BaseParserState {
  protected:
-  static int expectedNumberOfArgs;
+  static constexpr int FIRST_ARG = 0;
+  static constexpr int SECOND_ARG = 1;
+  static constexpr int expectedNumberOfArgs = 2;
+
   bool isInBracket;
   ArgumentList arguments;
-  string relationship;
+  string abstraction;
   virtual bool checkSafeExit(ArgumentList &arguments);
   Abstraction getAbstractionType(
       const string &keyword,

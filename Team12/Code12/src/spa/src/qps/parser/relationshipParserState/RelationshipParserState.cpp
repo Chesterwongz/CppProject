@@ -3,13 +3,9 @@
 #include "qps/common/PQLParserUtils.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-int RelationshipParserState::expectedNumberOfArgs = 2;
-
 RelationshipParserState::RelationshipParserState(
     PQLParserContext &parserContext, bool isInBracket)
-    : isInBracket(isInBracket),
-      relationship(""),
-      BaseParserState(parserContext) {}
+    : isInBracket(isInBracket), BaseParserState(parserContext) {}
 
 void RelationshipParserState::processNameToken(PQLToken &curr) {
   if (this->isInBracket) {
@@ -24,8 +20,8 @@ void RelationshipParserState::processNameToken(PQLToken &curr) {
       PQLParserUtils::getTokenTypeFromKeyword(curr.getValue()));
 }
 
-bool RelationshipParserState::checkSafeExit(ArgumentList &arguments) {
-  if (arguments.size() != expectedNumberOfArgs) {
+bool RelationshipParserState::checkSafeExit(ArgumentList &safeArguments) {
+  if (safeArguments.size() != expectedNumberOfArgs) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
   return true;

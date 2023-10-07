@@ -16,14 +16,14 @@ class AssignPatternParserState : public BaseParserState {
   static const int PARTIAL_MATCH_COUNT = 2;
   static const int EXACT_MATCH_COUNT = 0;
   static const int WILDCARD_MATCH_COUNT = 1;
+  static const size_t maxNumberOfArgs = 2;
 
   bool isInBracket;
   bool isPartialMatch;
-  int partialMatchWildCardCount;
-  unique_ptr<AbstractArgument> outerSynonym;
+  int secondArgWildcardCount;
+  unique_ptr<AbstractArgument> synAssign;
   static PredictiveMap predictiveMap;
   static PQLTokenType exitToken;
-  static size_t maxNumberOfArgs;
   vector<unique_ptr<AbstractArgument>> patternArg;
   void processNameToken(PQLToken& curr) override;
   void processSynonymToken(PQLToken& curr);

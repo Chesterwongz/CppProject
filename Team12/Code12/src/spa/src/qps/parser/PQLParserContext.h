@@ -23,11 +23,10 @@ class PQLParserContext {
  public:
   explicit PQLParserContext(PQLTokenStream& tokenStream, Query& query);
   void addToContext(string entity, const string& synonym);
-  string getSynonymType(const string& synonym);
   [[nodiscard]] PQLTokenStream& getTokenStream() const;
   void transitionTo(unique_ptr<IParserState> nextState);
   void addClause(unique_ptr<Clause> clause);
   void addSelectSynonym(const string& synonym);
-  string checkValidSynonym(const string& synonym);
+  string getValidSynonymType(const string& synonym);
   void handleTokens();
 };

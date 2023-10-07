@@ -13,7 +13,7 @@ class BaseParserState : public IParserState {
   PQLTokenStream& tokenStream;
   PQLTokenType prev;
 
- public:
+ protected:
   explicit BaseParserState(PQLParserContext& parserContext);
   ~BaseParserState() override = default;
 };

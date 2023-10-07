@@ -20,12 +20,12 @@ void PatternParserState::processNameToken(PQLToken& curr) {
 }
 
 void PatternParserState::processSynonymToken(PQLToken& curr) {
-  string synType = parserContext.checkValidSynonym(curr.getValue());
+  string synType = parserContext.getValidSynonymType(curr.getValue());
 
   if (synType == ASSIGN_ENTITY) {
     curr.updateTokenType(PQL_ASSIGN_PATTERN_TOKEN);
   } else {
-    throw QPSSyntaxError(QPS_SYNTAX_ERR_INVALID_PATTERN_SYN);
+    throw QPSSemanticError(QPS_SEMANTIC_ERR_INVALID_PATTERN_SYN);
   }
 }
 

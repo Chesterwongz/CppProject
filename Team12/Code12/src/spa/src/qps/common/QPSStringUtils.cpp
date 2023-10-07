@@ -47,38 +47,6 @@ bool QPSStringUtils::isInteger(string data) {
   return std::regex_match(data, integerPattern);
 }
 
-bool QPSStringUtils::isCharExpression(const char ch) {
-  return ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '%';
-}
-
-bool QPSStringUtils::isValidExpression(const string& data) {
-  std::stack<char> s;
-  bool isPrevOps = true;
-
-  for (char c : data) {
-    if (isspace(c)) {
-      continue;
-    }
-
-    if (isdigit(c) || isalpha(c)) {
-      isPrevOps = false;
-    } else if (isCharExpression(c)) {
-      if (isPrevOps) return false;
-      isPrevOps = true;
-    } else if (c == '(') {
-      s.push(c);
-      isPrevOps = true;
-    } else if (c == ')') {
-      if (s.empty() || s.top() != '(') return false;
-      s.pop();
-      isPrevOps = false;
-    } else {
-      return false;
-    }
-  }
-  return s.empty() && !isPrevOps;
-}
-
 // used chat gpt for the algo, just changed variable names
 string QPSStringUtils::convertToRPN(string exp) {
   // shunting yard algo

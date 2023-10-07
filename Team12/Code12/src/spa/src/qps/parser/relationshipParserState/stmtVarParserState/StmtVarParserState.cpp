@@ -23,7 +23,7 @@ StmtVarParserState::StmtVarParserState(PQLParserContext& parserContext)
 
 void StmtVarParserState::checkIsValidSynonym(const std::string& synonym,
                                              int argumentNumber) {
-  auto synType = parserContext.checkValidSynonym(synonym);
+  auto synType = parserContext.getValidSynonymType(synonym);
   if (argumentNumber == SECOND_ARG && synType != VARIABLE_ENTITY) {
     throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_VAR_SYN);
   }
@@ -55,7 +55,7 @@ void StmtVarParserState::handleToken() {
 
     switch (curr.getType()) {
       case PQL_STMT_VAR_TOKEN:
-        relationship = curr.getValue();
+        abstraction = curr.getValue();
       case PQL_COMMA_TOKEN:
         break;
       case PQL_OPEN_BRACKET_TOKEN:
@@ -65,7 +65,7 @@ void StmtVarParserState::handleToken() {
         isInBracket = false;
         isSuccess = checkSafeExit(arguments);
         parserContext.addClause(std::make_unique<SuchThatClause>(
-            getAbstractionType(relationship, stmtVarKeywordToAbstraction),
+            getAbstractionType(abstraction, stmtVarKeywordToAbstraction),
             std::move(arguments.at(0)), std::move(arguments.at(1))));
         break;
       case PQL_SYNONYM_TOKEN:

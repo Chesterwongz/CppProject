@@ -12,9 +12,6 @@
 using std::string, std::map;
 
 class QPSStringUtils {
- private:
-  static bool isCharExpression(char ch);
-
  public:
   static map<char, int> precedence;
 
@@ -27,7 +24,6 @@ class QPSStringUtils {
   static bool isIdentValue(const string& data);
   static bool isWildcard(const string data);
   static bool isInteger(const string data);
-  static bool isValidExpression(const string& data);
   static string convertToRPN(string exp);
 
  private:
