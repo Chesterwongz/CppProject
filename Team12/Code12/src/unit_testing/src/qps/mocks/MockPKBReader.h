@@ -229,11 +229,11 @@ class MockPKBReader : public PKBReader {
 
   vector<string> getNextStarFirstStmt(int secondStmtNumber,
                               StmtType firstStmtType) override {
-    return mockGetNextFirstStmt;
+    return mockGetNextStarFirstStmt;
   }
 
   vector<string> getNextStarSecondStmt(int firstStmtNumber,
                                StmtType secondStmtType) override {
-    return mockGetNextSecondStmt;
+    return mockGetNextStarSecondStmt;
   }
 };
