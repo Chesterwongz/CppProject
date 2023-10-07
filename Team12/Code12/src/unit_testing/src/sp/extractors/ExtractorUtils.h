@@ -1,6 +1,6 @@
 #pragma once
 
-// TEMP_CATCH_INCLUDE
+#include <catch.hpp>
 #include <map>
 #include <memory>
 #include <set>

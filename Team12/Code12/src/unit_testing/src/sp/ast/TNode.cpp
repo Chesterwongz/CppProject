@@ -1,6 +1,6 @@
 #include "common/ast/TNode.h"
 
-// TEMP_CATCH_INCLUDE
+#include <catch.hpp>
 #include <memory>
 
 #include "sp/ast/ProcNode.h"

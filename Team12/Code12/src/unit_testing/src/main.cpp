@@ -1,2 +1,2 @@
 #define CATCH_CONFIG_MAIN  // ThiATCH_CONFIG_MAIN
-// TEMP_CATCH_INCLUDE
+#include <catch.hpp>

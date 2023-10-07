@@ -1,4 +1,4 @@
-// TEMP_CATCH_INCLUDE
+#include <catch.hpp>
 
 #include "qps/common/Keywords.h"
 #include "qps/common/QPSStringUtils.h"

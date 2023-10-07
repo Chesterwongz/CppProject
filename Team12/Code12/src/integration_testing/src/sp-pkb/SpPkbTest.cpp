@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-// TEMP_CATCH_INCLUDE
+#include <catch.hpp>
 
 #include "pkb/facade/PKB.h"
 #include "sp/SourceProcessor.h"

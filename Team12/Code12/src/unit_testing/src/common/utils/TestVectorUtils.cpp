@@ -1,4 +1,4 @@
-// TEMP_CATCH_INCLUDE
+#include <catch.hpp>
 #include <vector>
 
 #include "common/utils/VectorUtils.h"

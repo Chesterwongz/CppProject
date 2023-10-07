@@ -1,4 +1,4 @@
-// TEMP_CATCH_INCLUDE
+#include <catch.hpp>
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/tokenizer/PQLTokenType.h"
