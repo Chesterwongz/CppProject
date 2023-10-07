@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unordered_set>
+
 #include "IParserState.h"
 #include "PQLParserContext.h"
 #include "qps/clause/Clause.h"

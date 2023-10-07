@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+#include <string>
+
 #include "qps/parser/BaseParserState.h"
 
 class PatternParserState : public BaseParserState {

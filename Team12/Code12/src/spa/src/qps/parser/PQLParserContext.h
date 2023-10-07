@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+#include <string>
+
 #include "IParserState.h"
 #include "qps/clause/Clause.h"
 #include "qps/common/PQLParserUtils.h"
@@ -9,7 +12,8 @@
 
 class PQLParserContext {
  private:
-  // TODO: After Select Clause is implemented, PQLParserContext should not be a
+  // TODO(Koon Hwee): After Select Clause is implemented,
+  //  PQLParserContext should not be a
   // decorator, should directly return Query object
   Query& query;
   unique_ptr<Context> context;

@@ -1,3 +1,5 @@
+#include <string>
+
 #include "QPSException.h"
 
 const char QPS_TOKENIZATION_ERR[] =

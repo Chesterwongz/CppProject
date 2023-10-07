@@ -1,5 +1,10 @@
 #pragma once
 
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <utility>
+
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/relationshipParserState/RelationshipParserState.h"
 
