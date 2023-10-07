@@ -1,8 +1,5 @@
 #include "DeclarativeParserState.h"
 
-#include <iostream>
-
-#include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/parser/selectParserState/SelectParserState.h"
 
 PredictiveMap DeclarativeParserState::predictiveMap = {
@@ -13,9 +10,7 @@ PredictiveMap DeclarativeParserState::predictiveMap = {
     {PQL_SEMICOLON_TOKEN, {PQL_ENTITY_TOKEN, PQL_SELECT_TOKEN}}};
 
 DeclarativeParserState::DeclarativeParserState(PQLParserContext& parserContext)
-    : parserContext(parserContext),
-      tokenStream(parserContext.getTokenStream()),
-      prev(PQL_NULL_TOKEN) {}
+    : BaseParserState(parserContext) {}
 
 // To identify what type is the name token
 void DeclarativeParserState::processNameToken(PQLToken& curr) {
@@ -23,6 +18,10 @@ void DeclarativeParserState::processNameToken(PQLToken& curr) {
     curr.updateTokenType(PQL_SYNONYM_TOKEN);
   } else {
     auto tokenType = PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
+
+    if (prev == PQL_NULL_TOKEN && tokenType == PQL_SELECT_TOKEN) {
+      throw QPSSemanticError(QPS_SEMANTIC_ERR_INVALID_SELECT);
+    }
     curr.updateTokenType(tokenType);
   }
 }
@@ -37,7 +36,7 @@ void DeclarativeParserState::handleToken() {
     }
 
     if (!PQLParserUtils::isExpectedToken(predictiveMap, prev, curr.getType())) {
-      throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNEXPECTED_TOKEN);
+      throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
     }
 
     switch (curr.getType()) {
@@ -52,15 +51,15 @@ void DeclarativeParserState::handleToken() {
         break;
       case PQL_SELECT_TOKEN:  // exit token
         this->parserContext.transitionTo(
-            make_unique<SelectParserState>(parserContext));
+            std::make_unique<SelectParserState>(parserContext));
         return;
       default:
-        throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);
+        throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
     }
     this->prev = curr.getType();
     tokenStream.next();
   }
 
   // should never exit in this parser
-  throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCOMPLETE_QUERY);
+  throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_DECLARATION);
 }

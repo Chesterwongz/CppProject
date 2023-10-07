@@ -7,6 +7,8 @@
 #include <utility>
 #include <vector>
 
+#include "IntermediateTable.h"
+
 using std::set;
 
 class IntermediateTableFactory {

@@ -4,7 +4,7 @@
 #include "../../mocks/MockPKBReader.h"
 #include "../AbstractionTestUtils.h"
 #include "FollowsAbstractionTestData.h"
-#include "qps/abstraction/FollowsAbstraction/FollowsAbstraction.h"
+#include "qps/abstraction/followsAbstraction/FollowsAbstraction.h"
 
 TEST_CASE("FollowsAbstraction - Follows(Synonym, Synonym)_EMPTY") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);

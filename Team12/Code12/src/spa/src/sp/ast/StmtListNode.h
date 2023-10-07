@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "TNode.h"
+#include "common/ast/TNode.h"
 #include "sp/ast/statements/StmtNode.h"
 
 class StmtListNode : public TNode {

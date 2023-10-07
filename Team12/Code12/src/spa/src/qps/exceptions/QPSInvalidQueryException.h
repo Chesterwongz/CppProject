@@ -1,6 +1,6 @@
-#include "QPSException.h"
-
 #include <string>
+
+#include "QPSException.h"
 
 // TODO(QPS): better exception splitting
 const char QPS_INVALID_QUERY_ERR_UNMATCHED_QUOTE[] = "Unmatched quote";

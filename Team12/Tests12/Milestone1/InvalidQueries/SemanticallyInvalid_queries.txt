@@ -1,0 +1,5 @@
+====== 1 - Select s where s is not declared ======
+
+Select s
+SemanticError
+1000
