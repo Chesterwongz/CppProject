@@ -11,8 +11,8 @@
 #include <set>
 
 using std::string, std::unordered_map,std::map, std::unordered_set, std::set, std::vector, std::pair;
-        
-string source = 
+
+string sourceInvalidSyntax =
     "procedure procedure {  read read;"
     "  print print;"
     "  while ((!(while != while))||(while<=while)) {"
@@ -32,7 +32,7 @@ TEST_CASE("SP-PKB-QPS ../../Tests12/Milestone1/InvalidQueries/SyntacticallyInval
         "Select s such that Follows *(_, _)";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(sourceInvalidSyntax, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"SyntacticError"};
@@ -45,7 +45,7 @@ TEST_CASE("SP-PKB-QPS ../../Tests12/Milestone1/InvalidQueries/SyntacticallyInval
         "Select s such that Parent *(_, _)";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(sourceInvalidSyntax, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"SyntacticError"};
@@ -58,7 +58,7 @@ TEST_CASE("SP-PKB-QPS ../../Tests12/Milestone1/InvalidQueries/SyntacticallyInval
         "Select a such that pattern a(\"1\", _)";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(sourceInvalidSyntax, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"SyntacticError"};
@@ -71,7 +71,7 @@ TEST_CASE("SP-PKB-QPS ../../Tests12/Milestone1/InvalidQueries/SyntacticallyInval
         "Select a such that pattern a(\"1a\", _)";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(sourceInvalidSyntax, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"SyntacticError"};
@@ -84,7 +84,7 @@ TEST_CASE("SP-PKB-QPS ../../Tests12/Milestone1/InvalidQueries/SyntacticallyInval
         "Select a such that pattern a(\"_\", _)";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(sourceInvalidSyntax, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"SyntacticError"};
@@ -97,7 +97,7 @@ TEST_CASE("SP-PKB-QPS ../../Tests12/Milestone1/InvalidQueries/SyntacticallyInval
         "Select a such that pattern a(_, _\"+y\"_)";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(sourceInvalidSyntax, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"SyntacticError"};
@@ -110,7 +110,7 @@ TEST_CASE("SP-PKB-QPS ../../Tests12/Milestone1/InvalidQueries/SyntacticallyInval
         "Select a such that pattern a(_, _\"x+\"_)";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(sourceInvalidSyntax, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"SyntacticError"};
@@ -123,7 +123,7 @@ TEST_CASE("SP-PKB-QPS ../../Tests12/Milestone1/InvalidQueries/SyntacticallyInval
         "Select a such that pattern a(_, _\"01\"_)";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(sourceInvalidSyntax, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"SyntacticError"};

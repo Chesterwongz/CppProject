@@ -12,7 +12,7 @@
 
 using std::string, std::unordered_map,std::map, std::unordered_set, std::set, std::vector, std::pair;
         
-string source = 
+string sourceInvalidSemantics =
     "procedure procedure {  read read;"
     "  print print;"
     "  while ((!(while != while))||(while<=while)) {"
@@ -31,7 +31,7 @@ TEST_CASE("SP-PKB-QPS ../../Tests12/Milestone1/InvalidQueries/SemanticallyInvali
         "\nSelect s";
     SourceProcessor sp;
     PKB pkb;
-    sp.processContent(source, pkb.getWriter());
+    sp.processContent(sourceInvalidSemantics, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
     set<string> expected = {"SemanticError"};
