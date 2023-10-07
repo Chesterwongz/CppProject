@@ -56,6 +56,28 @@ TEST_CASE("test_ifEvaluator_processArgs_identFirstArg") {
 
 }
 
+TEST_CASE("test_ifEvaluator_processArgs_wildcardFirstArg") {
+	// wildcard first arg is the same as variable synonym first arg
+
+  ifMockPKBReader.mockIfPattern = mockIfPatternStmtsSynonym;
+
+  // if woof; select woof pattern woof (_, _ , _ );
+  SynonymArg patternSynonym = SynonymArg(ifSynonymValue);
+
+  unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
+
+  PatternArgsStream patternArgsStreamTest;
+  patternArgsStreamTest.push_back(std::move(wildcardPtr));
+
+  IfEvaluator ifEvaluator =
+      IfEvaluator(ifMockContext, patternArgsStreamTest, ifMockPKBReader,
+                  ifIsPartialMatchFalse, patternSynonym.getValue());
+
+  vector<string> pkbResult = ifEvaluator.processArguments();
+
+  REQUIRE(pkbResult == mockIfPatternStmtsSynonym);
+}
+
 TEST_CASE("test_ifEvaluator_evaluate_synonymFirstArg") {
 	ifMockPKBReader.mockIfPattern = mockIfPatternStmtsSynonym;
 
@@ -120,4 +142,36 @@ TEST_CASE("test_ifEvaluator_evaluate_identFirstArg") {
 	REQUIRE(actualColNames[0] == patternSynonym.getValue());
 	REQUIRE(actualTableData.size() == 1);
 	REQUIRE(actualTableData[0][0] == mockIfPatternStmtsIdent[0]);
+}
+
+TEST_CASE("test_ifEvaluator_evaluate_wildcardFirstArg") {
+	// wildcard first arg is the same is variable synonym first arg
+	// but without the variable column in the result
+	// only selected synonym will be in the result column 
+
+  ifMockPKBReader.mockIfPattern = mockIfPatternStmtsSynonym;
+
+  // if woof; variable test; select woof pattern woof (test, _ , _ );
+  SynonymArg patternSynonym = SynonymArg(ifSynonymValue);
+
+  unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
+
+  PatternArgsStream patternArgsStreamTest;
+  patternArgsStreamTest.push_back(std::move(wildcardPtr));
+
+  IfEvaluator ifEvaluator =
+      IfEvaluator(ifMockContext, patternArgsStreamTest, ifMockPKBReader,
+                  ifIsPartialMatchFalse, patternSynonym.getValue());
+
+  IntermediateTable actualTable = ifEvaluator.evaluate();
+
+  vector<string> actualColNames = actualTable.getColNames();
+  vector<vector<string>> actualTableData = actualTable.getData();
+
+  REQUIRE(actualColNames.size() == 1);
+  REQUIRE(actualColNames[0] == patternSynonym.getValue());
+  REQUIRE(actualTableData.size() == 3);
+  REQUIRE(actualTableData[0][0] == mockIfPatternStmtsSynonym[0]);
+  REQUIRE(actualTableData[1][0] == mockIfPatternStmtsSynonym[1]);
+  REQUIRE(actualTableData[2][0] == mockIfPatternStmtsSynonym[2]);
 }

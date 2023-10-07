@@ -11,7 +11,7 @@ TEST_CASE("test_AssignEvaluator_processArgs_synonymFirstArg") {
 	assignMockPKBReader.resetMockPartialAssignPatternStmts();
 	assignMockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmts;
 
-	// assign meow; variable test; select meow pattern (test, "x");
+	// assign meow; variable test; select meow pattern meow (test, "x");
 	SynonymArg selectedSynonym = SynonymArg(assignSynonymValue);
 	SynonymArg variableSynonym = SynonymArg("test");
 	Ident ident = Ident("x");
@@ -40,7 +40,7 @@ TEST_CASE("test_AssignEvaluator_processArgs_identFirstArg") {
 	assignMockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmtsIdent;
 	assignMockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
 
-	// assign meow; select meow pattern ("a", "x");
+	// assign meow; select meow pattern meow ("a", "x");
 	SynonymArg selectedSynonym = SynonymArg(assignSynonymValue);
 	Ident patternFirstArg = Ident("a");
 	Ident patternExp = Ident("x");
@@ -62,13 +62,41 @@ TEST_CASE("test_AssignEvaluator_processArgs_identFirstArg") {
 
 }
 
+TEST_CASE("test_AssignEvaluator_processArgs_wildcardFirstArg") {
+  // wildcard first arg is the same as variable synonym first arg
+
+  assignMockPKBReader.resetMockExactAssignPatternStmts();
+  assignMockPKBReader.resetMockPartialAssignPatternStmts();
+  assignMockPKBReader.mockExactAssignPattern =
+      mockExactAssignPatternStmts;
+
+  // assign meow; select meow pattern meow (_, "x");
+  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue);
+  Ident ident = Ident("x");
+
+  unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
+  unique_ptr<Ident> identPtr = make_unique<Ident>(ident.getValue());
+
+  PatternArgsStream patternArgsStreamTest;
+  patternArgsStreamTest.push_back(std::move(wildcardPtr));
+  patternArgsStreamTest.push_back(std::move(identPtr));
+
+  AssignEvaluator assignEvaluator = AssignEvaluator(
+      assignMockContext, patternArgsStreamTest, assignMockPKBReader,
+      assignIsPartialMatchFalse, selectedSynonym.getValue());
+
+  vector<string> pkbResult = assignEvaluator.processArguments();
+
+  REQUIRE(pkbResult == mockExactAssignPatternStmts);
+}
+
 TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
 	assignMockPKBReader.resetMockExactAssignPatternStmts();
 	assignMockPKBReader.resetMockPartialAssignPatternStmts();
 	assignMockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmts;
 	assignMockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
 
-	// assign meow; variable test; select meow pattern (test, "x");
+	// assign meow; variable test; select meow pattern meow (test, "x");
 	SynonymArg selectedSynonym = SynonymArg(assignSynonymValue);
 	SynonymArg variableSynonym = SynonymArg("test");
 	Ident ident = Ident("x");
@@ -107,7 +135,7 @@ TEST_CASE("test_AssignEvaluator_evaluate_identFirstArg") {
   assignMockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmtsIdent;
   assignMockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
 
-  // assign meow; select meow pattern ("a", "x");
+  // assign meow; select meow pattern meow ("a", "x");
   SynonymArg selectedSynonym = SynonymArg(assignSynonymValue);
   Ident patternFirstArg = Ident("a");
   Ident patternExp = Ident("x");
@@ -133,4 +161,42 @@ TEST_CASE("test_AssignEvaluator_evaluate_identFirstArg") {
   REQUIRE(actualColNames[0] == selectedSynonym.getValue());
   REQUIRE(actualTableData.size() == 1);
   REQUIRE(actualTableData[0][0] == mockExactAssignPatternStmts[0]);
+}
+
+TEST_CASE("test_AssignEvaluator_evaluate_wildcardFirstArg") {
+  // wildcard first arg is the same is variable synonym first arg
+  // but without the variable column in the result
+  // only selected synonym will be in the result column 
+
+  assignMockPKBReader.resetMockExactAssignPatternStmts();
+  assignMockPKBReader.resetMockPartialAssignPatternStmts();
+  assignMockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmts;
+  assignMockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
+
+  // assign meow; select meow pattern meow (_, "x");
+  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue);
+  Ident ident = Ident("x");
+
+  unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
+  unique_ptr<Ident> identPtr = make_unique<Ident>(ident.getValue());
+
+  PatternArgsStream patternArgsStreamTest;
+  patternArgsStreamTest.push_back(std::move(wildcardPtr));
+  patternArgsStreamTest.push_back(std::move(identPtr));
+
+  AssignEvaluator assignEvaluator = AssignEvaluator(
+      assignMockContext, patternArgsStreamTest, assignMockPKBReader,
+      assignIsPartialMatchFalse, selectedSynonym.getValue());
+
+  IntermediateTable actualTable = assignEvaluator.evaluate();
+
+  vector<string> actualColNames = actualTable.getColNames();
+  vector<vector<string>> actualTableData = actualTable.getData();
+
+  REQUIRE(actualColNames.size() == 1);
+  REQUIRE(actualColNames[0] == selectedSynonym.getValue());
+  REQUIRE(actualTableData.size() == 3);
+  REQUIRE(actualTableData[0][0] == mockExactAssignPatternStmts[0]);
+  REQUIRE(actualTableData[1][0] == mockExactAssignPatternStmts[1]);
+  REQUIRE(actualTableData[2][0] == mockExactAssignPatternStmts[2]);
 }

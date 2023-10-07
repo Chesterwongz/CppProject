@@ -9,6 +9,7 @@
 #include "../../mocks/MockPKBReader.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/argument/wildcard/Wildcard.h"
 #include "qps/patternEvaluator/PatternEvaluatorFactory.h"
 
 using std::unique_ptr, std::make_pair;
