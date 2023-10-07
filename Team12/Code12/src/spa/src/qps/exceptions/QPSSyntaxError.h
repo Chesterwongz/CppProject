@@ -12,6 +12,7 @@ const char QPS_TOKENIZATION_ERR_INTEGER_ZERO[] =
     "Integer token starts with zero: ";
 const char QPS_TOKENIZATION_ERR_NAME[] = "Name token is invalid: ";
 const char QPS_TOKENIZATION_ERR_IDENT[] = "Invalid Ident";
+const char QPS_TOKENIZATION_ERR_INTEGER[] = "Invalid Integer";
 const char QPS_TOKENIZATION_ERR_EMPTY_QUOTE[] = "Empty quotes";
 const char QPS_TOKENIZATION_ERR_UNMATCHED_QUOTE[] = "Unmatched quotes";
 const char QPS_TOKENIZATION_ERR_UNMATCHED_BRACKETS[] = "Unmatched brackets";

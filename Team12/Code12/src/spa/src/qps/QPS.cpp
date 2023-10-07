@@ -3,16 +3,14 @@
 QPS::QPS(PKBReader& pkb) : pkb(pkb), tokenizerFactory() {}
 
 std::set<string> QPS::processQueryString(const string& query) {
-  unique_ptr<PQLTokenizer> tokenizer = tokenizerFactory.makeTokenizer(query);
-  unique_ptr<PQLTokenList> tokenList = tokenizer->tokenize();
-  PQLTokenStream tokenStream(*tokenList);
-
   Query queryObj(pkb);
-
-  PQLParserContext parserContext(tokenStream, queryObj);
-  setupParser(parserContext);
-
   try {
+    unique_ptr<PQLTokenizer> tokenizer = tokenizerFactory.makeTokenizer(query);
+    unique_ptr<PQLTokenList> tokenList = tokenizer->tokenize();
+    PQLTokenStream tokenStream(*tokenList);
+
+    PQLParserContext parserContext(tokenStream, queryObj);
+    setupParser(parserContext);
     parserContext.handleTokens();
   } catch (QPSSyntaxError& e) {
     return {"SyntaxError"};
