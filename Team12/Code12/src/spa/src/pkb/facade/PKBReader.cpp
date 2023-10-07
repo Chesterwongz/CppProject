@@ -402,3 +402,34 @@ std::vector<std::string> PKBReader::getPartialAssignPattern(
     const std::string& variableName, const std::string& rpn, bool isSynonym) {
   return storage.getPartialAssignPattern(variableName, rpn, isSynonym);
 }
+
+std::vector<std::pair<std::string, std::string>> PKBReader::getNextPairs(
+    StmtType firstStmtType, StmtType secondStmtType) {
+  return {};
+}
+
+bool PKBReader::isNext(int firstStmtNumber, int secondStmtNumber) { return {}; }
+
+std::vector<std::string> PKBReader::getNextFirstStmt(int secondStmtNumber, StmtType firstStmtType) {
+  return {};
+};
+
+std::vector<std::string> PKBReader::getNextSecondStmt(int firstStmtNumber, StmtType secondStmtType) {
+  return {};
+}
+
+std::vector<std::pair<std::string, std::string>> PKBReader::getNextStarPairs(
+    StmtType firstStmtType, StmtType secondStmtType) {
+  return {};
+}
+
+bool PKBReader::isNextStar(int firstStmtNumber, int secondStmtNumber) { return {}; }
+
+std::vector<std::string> PKBReader::getNextStarFirstStmt(int secondStmtNumber, StmtType firstStmtType) {
+  return {};
+}
+
+std::vector<std::string> PKBReader::getNextStarSecondStmt(int firstStmtNumber,
+                                  StmtType secondStmtType) {
+  return {};
+}
