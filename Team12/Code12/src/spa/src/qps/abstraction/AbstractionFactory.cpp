@@ -2,12 +2,12 @@
 
 #include <memory>
 
-#include "qps/abstraction/FollowsAbstraction/FollowsAbstraction.h"
-#include "qps/abstraction/ModifiesAbstraction/ModifiesAbstraction.h"
-#include "qps/abstraction/ParentsAbstraction/ParentsAbstraction.h"
-#include "qps/abstraction/UsesAbstraction/UsesAbstraction.h"
+#include "qps/abstraction/followsAbstraction/FollowsAbstraction.h"
 #include "qps/abstraction/followsStarAbstraction/FollowsStarAbstraction.h"
+#include "qps/abstraction/modifiesAbstraction/ModifiesAbstraction.h"
+#include "qps/abstraction/parentsAbstraction/ParentsAbstraction.h"
 #include "qps/abstraction/parentsStarAbstraction/ParentsStarAbstraction.h"
+#include "qps/abstraction/usesAbstraction/UsesAbstraction.h"
 
 using std::unique_ptr, std::make_unique;
 

@@ -3,8 +3,8 @@
 #include <string>
 
 #include "common/tokenizer/BaseTokenizer.h"
+#include "common/tokenizer/token/SpToken.h"
 #include "common/utils/StringUtils.h"
-#include "sp/tokenizer/token/SpToken.h"
 
 class SpIntegerTokenizer : public BaseTokenizer<SpToken> {
  public:

@@ -1,4 +1,4 @@
-#include "sp/ast/TNode.h"
+#include "common/ast/TNode.h"
 
 #include <memory>
 #include <catch.hpp>

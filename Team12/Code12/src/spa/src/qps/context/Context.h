@@ -3,10 +3,9 @@
 #include <string>
 #include <unordered_map>
 
-using std::string, std::unordered_map;
+#include "qps/common/Keywords.h"
 
-typedef string Synonym;
-typedef string Entity;
+using std::string, std::unordered_map;
 
 class Context {
  private:

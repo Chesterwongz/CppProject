@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include "sp/ast/TNode.h"
+#include "common/ast/TNode.h"
 
 class Populator {
  public:

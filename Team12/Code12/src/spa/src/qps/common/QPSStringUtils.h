@@ -21,6 +21,7 @@ class QPSStringUtils {
   static bool isStmtRef(const string data);
   static bool isEntRef(const string data);
   static bool isIdent(const string data);
+  static bool isIdentValue(const string& data);
   static bool isWildcard(const string data);
   static bool isInteger(const string data);
   static string convertToRPN(string exp);

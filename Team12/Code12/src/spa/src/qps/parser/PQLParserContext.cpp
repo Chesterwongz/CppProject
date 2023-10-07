@@ -28,10 +28,6 @@ void PQLParserContext::addClause(unique_ptr<Clause> clause) {
   query.addClause(std::move(clause));
 }
 
-string PQLParserContext::getSynonymType(const string& synonym) {
-  return this->context->getTokenEntity(synonym);
-}
-
 void PQLParserContext::handleTokens() {
   while (!tokenStream.isTokenStreamEnd()) {
     currState->handleToken();
@@ -40,11 +36,11 @@ void PQLParserContext::handleTokens() {
 }
 
 void PQLParserContext::addSelectSynonym(const string& synonym) {
-  checkValidSynonym(synonym);
+  getValidSynonymType(synonym);
   this->query.setSynonymToQuery(synonym);
 }
 
-bool PQLParserContext::checkValidSynonym(const string& synonym) {
+string PQLParserContext::getValidSynonymType(const string& synonym) {
   auto selectSynonym = context->getTokenEntity(synonym);
-  return true;
+  return selectSynonym;
 }

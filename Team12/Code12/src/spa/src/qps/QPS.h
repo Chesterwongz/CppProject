@@ -19,7 +19,7 @@ class QPS {
  private:
   PKBReader& pkb;
   TokenizerFactory tokenizerFactory;
-  void setupParser(PQLParserContext& pc);
+  static void setupParser(PQLParserContext& pc);
 
  public:
   explicit QPS(PKBReader& pkb);

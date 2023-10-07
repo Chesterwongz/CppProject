@@ -5,8 +5,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "common/ast/TNode.h"
 #include "sp/ast/ProgramNode.h"
-#include "sp/ast/TNode.h"
 #include "sp/exceptions/CyclicProcCallException.h"
 #include "sp/exceptions/DuplicateProcNameException.h"
 #include "sp/exceptions/UndefinedProcCallException.h"
