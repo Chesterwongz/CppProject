@@ -131,3 +131,8 @@ bool CallsStorage::isCallingStarStmt(int stmtNum, const string& callee) {
   }
   return false;
 }
+
+const unordered_map<string, vector<pair<int, string>>>&
+CallsStorage::getCallsMap() {
+  return callsMap;
+}

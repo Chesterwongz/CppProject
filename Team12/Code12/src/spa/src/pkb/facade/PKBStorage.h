@@ -34,9 +34,9 @@ class PKBStorage {
   // StatementStorage methods
   virtual void setStatement(int stmtNum, StmtType statementType);
 
-  set<int> getstmtNumsFromStatementType(StmtType statementType);
+  set<int> getStatementNumbersFromStatementType(StmtType statementType);
 
-  StmtType getStatementTypeFromstmtNum(int stmtNum);
+  StmtType getStatementTypeFromStatementNumber(int stmtNum);
 
   bool isStatementType(int stmtNum, StmtType statementType);
 
@@ -68,7 +68,7 @@ class PKBStorage {
 
   unordered_set<string> getModifiedVariablesForProc(const string& procName);
 
-  set<int> getstmtNumsForModifiedVariable(string varName);
+  set<int> getStatementNumbersForModifiedVariable(string varName);
 
   // UsesStorage methods
   void setVariableUsage(const string& varName, int stmtNum);
@@ -79,7 +79,7 @@ class PKBStorage {
 
   unordered_set<string> getUsedVariablesForProc(const string& procName);
 
-  set<int> getstmtNumsForUsedVariable(string varName);
+  set<int> getStatementNumbersForUsedVariable(string varName);
 
   // PatternStorage methods
   virtual void setAssignPattern(string varName, string rpn, int stmtNum);
@@ -110,6 +110,7 @@ class PKBStorage {
   bool isCallingStar(const string& caller, const string& callee);
   bool isCallingStmt(int stmtNum, const string& callee);
   bool isCallingStarStmt(int stmtNum, const string& callee);
+  const unordered_map<string, vector<pair<int, string>>>& getCallsMap();
 
  private:
   CallsStorage callsStorage;

@@ -18,6 +18,7 @@
 #include "pkb/interfaces/writers/IDesignEntitiesWriter.h"
 #include "pkb/interfaces/writers/IPatternWriter.h"
 #include "common/cfg/CFG.h"
+#include "common/utils/PairUtils.h"
 
 using std::unique_ptr, std::queue, std::string, std::unordered_set;
 
@@ -73,11 +74,11 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
   virtual void setIfPattern(int statementNumber, const string& varName);
 
   // direct calls, not transitive
-  virtual void setCallsRelationship(const string& callerProc,
+  void setCallsRelationship(const string& callerProc,
                                     const string& calleeProc,
                                     int stmtNum) override;
 
-  virtual void setCallsStarRelationship(const string& callerProc,
+  void setCallsStarRelationship(const string& callerProc,
                                         const string& calleeProc,
                                         int stmtNum) override;
 
@@ -94,6 +95,6 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
   void setUsesForCalls(const string& callerProc, const string& calleeProc);
   void setModifiesForCalls(const string& callerProc, const string& calleeProc);
   void setRelationshipsForIndirectCalls(
-      const string& caller, const unordered_set<string>& visitedCallees);
-  unordered_set<string> getIndirectCallees(const string &proc);
+      const string &caller, const unordered_set<pair<string, string>, PairUtils::PairHash> &visitedCallees);
+  unordered_set<pair<string, string>, PairUtils::PairHash> getIndirectCallees(int stmtNum, const string &proc);
 };

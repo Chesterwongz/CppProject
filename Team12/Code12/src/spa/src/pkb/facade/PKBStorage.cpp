@@ -32,8 +32,8 @@ void PKBStorage::setVariableUsage(const string& varName,
   usesStorage.setVariableUsage(varName, procName);
 }
 
-void PKBStorage::setStatement(int stmtNum, StmtType statementType) {
-  statementStorage.setStatement(stmtNum, statementType);
+void PKBStorage::setStatement(int stmtNum, StmtType stmtType) {
+  statementStorage.setStatement(stmtNum, stmtType);
 }
 
 void PKBStorage::setVariable(const string& varName) {
@@ -75,19 +75,20 @@ std::set<string> PKBStorage::getAllProcedures() {
   return designEntitiesStorage.getAllProcedures();
 }
 
-std::set<int> PKBStorage::getstmtNumsFromStatementType(StmtType statementType) {
-  return statementStorage.getstmtNumsFromStatementType(statementType);
+std::set<int> PKBStorage::getStatementNumbersFromStatementType(
+    StmtType stmtType) {
+  return statementStorage.getStatementNumbersFromStatementType(stmtType);
 }
 
-StmtType PKBStorage::getStatementTypeFromstmtNum(int stmtNum) {
-  return statementStorage.getStatementTypeFromstmtNum(stmtNum);
+StmtType PKBStorage::getStatementTypeFromStatementNumber(int stmtNum) {
+  return statementStorage.getStatementTypeFromStatementNumber(stmtNum);
 }
 
-bool PKBStorage::isStatementType(int stmtNum, StmtType statementType) {
-  if (stmtNum < 0 || statementType == StmtType::INVALID) {
+bool PKBStorage::isStatementType(int stmtNum, StmtType stmtType) {
+  if (stmtNum < 0 || stmtType == StmtType::INVALID) {
     return false;
   }
-  return statementStorage.isStatementType(stmtNum, statementType);
+  return statementStorage.isStatementType(stmtNum, stmtType);
 }
 
 int PKBStorage::getImmediateFollows(int stmtNum) {
@@ -126,7 +127,7 @@ std::set<string> PKBStorage::getModifiedVariablesForStatement(int stmtNum) {
   return modifiesStorage.getVariablesForStatement(stmtNum);
 }
 
-std::unordered_set<string> PKBStorage::getModifiedVariablesForProc(
+unordered_set<string> PKBStorage::getModifiedVariablesForProc(
     const string& procName) {
   return modifiesStorage.getVariablesForProc(procName);
 }
@@ -135,17 +136,17 @@ std::set<string> PKBStorage::getUsedVariablesForStatement(int stmtNum) {
   return usesStorage.getVariablesForStatement(stmtNum);
 }
 
-std::unordered_set<string> PKBStorage::getUsedVariablesForProc(
+unordered_set<string> PKBStorage::getUsedVariablesForProc(
     const string& procName) {
   return usesStorage.getVariablesForProc(procName);
 }
 
-std::set<int> PKBStorage::getstmtNumsForModifiedVariable(string varName) {
-  return modifiesStorage.getstmtNumsForVariable(varName);
+set<int> PKBStorage::getStatementNumbersForModifiedVariable(string varName) {
+  return modifiesStorage.getStatementNumbersForVariable(varName);
 }
 
-std::set<int> PKBStorage::getstmtNumsForUsedVariable(string varName) {
-  return usesStorage.getstmtNumsForVariable(varName);
+set<int> PKBStorage::getStatementNumbersForUsedVariable(string varName) {
+  return usesStorage.getStatementNumbersForVariable(varName);
 }
 
 vector<string> PKBStorage::getExactAssignPattern(string varName, string rpn,
@@ -207,4 +208,9 @@ bool PKBStorage::isCallingStmt(int stmtNum, const string& callee) {
 
 bool PKBStorage::isCallingStarStmt(int stmtNum, const string& callee) {
   return callsStorage.isCallingStarStmt(stmtNum, callee);
+}
+
+const unordered_map<string, vector<pair<int, string>>>&
+PKBStorage::getCallsMap() {
+  return callsStorage.getCallsMap();
 }

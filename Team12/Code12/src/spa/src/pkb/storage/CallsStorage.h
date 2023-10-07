@@ -45,6 +45,8 @@ class CallsStorage {
   // return list of procedures names that are indirectly called on stmtNum
   virtual vector<string> getProcStarCalledOn(int stmtNum);
 
+  const unordered_map<string, vector<pair<int, string>>>& getCallsMap();
+
  private:
   // callerProc -> [stmtNum, calleeProc]
   unordered_map<string, vector<pair<int, string>>> callsMap;

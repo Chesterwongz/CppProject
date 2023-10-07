@@ -1,7 +1,5 @@
 #include "PKBWriter.h"
 
-#include "common/utils/PairUtils.h"
-
 void PKBWriter::setFollowsRelationship(int statementNumber,
                                        int followingStatement) {
   storage.setFollows(statementNumber, followingStatement);
@@ -78,9 +76,9 @@ void PKBWriter::setModifiesForCalls(const string &callerProc,
 }
 
 void PKBWriter::setRelationshipsForIndirectCalls(
-    const string &caller, const unordered_set<string> &visitedCallees) {
-  for (const auto &callee : visitedCallees) {
-    setCallsStarRelationship(caller, callee, -1);
+    const string &caller, const unordered_set<pair<string, string>, PairUtils::PairHash> &visitedCallees) {
+  for (const auto &[stmtNum, callee] : visitedCallees) {
+    setCallsStarRelationship(caller, callee, std::stoi(stmtNum));
     setModifiesForCalls(caller, callee);
     setUsesForCalls(caller, callee);
   }
@@ -118,13 +116,15 @@ void PKBWriter::setRelationshipsForIndirectCalls(
 //   }
 // }
 
-vector<pair<string, string>> PKBWriter::getIndirectCallees(const string &proc) {
+unordered_set<pair<string, string>, PairUtils::PairHash> PKBWriter::getIndirectCallees(int stmtNum, const string &proc) {
   vector<pair<string, string>> cached = storage.getCalledStarBy(proc);
-  if (!cached.empty()) {
-    return cached;
-  }
   unordered_set<pair<string, string>, PairUtils::PairHash> visitedCallees;
-  queue<pair<string, string>> toVisit({proc});
+  if (!cached.empty()) {
+    visitedCallees.insert(cached.begin(), cached.end());
+    return visitedCallees;
+  }
+  queue<pair<string, string>> toVisit;
+  toVisit.emplace(std::to_string(stmtNum), proc);
   while (!toVisit.empty()) {
     pair<string, string> curr = toVisit.front();
     const string& currProc = curr.second;
@@ -151,10 +151,10 @@ vector<pair<string, string>> PKBWriter::getIndirectCallees(const string &proc) {
 
 void PKBWriter::setIndirectCallsRelationship() {
   const auto &callerToCalleeMap = storage.getCallsMap();
-  for (const auto &[caller, directCallees] : callerToCalleeMap) {
-    unordered_set<string> visitedCallees;
-    for (const auto &callee : directCallees) {
-      auto indirectCalleesOfCallee = getIndirectCallees(callee);
+  for (const auto &[caller, directStmtCallees] : callerToCalleeMap) {
+    unordered_set<pair<string, string>, PairUtils::PairHash> visitedCallees;
+    for (const auto &[stmtNum, callee] : directStmtCallees) {
+      auto indirectCalleesOfCallee = getIndirectCallees(stmtNum, callee);
       visitedCallees.insert(indirectCalleesOfCallee.begin(),
                             indirectCalleesOfCallee.end());
     }
