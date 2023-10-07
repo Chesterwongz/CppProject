@@ -15,6 +15,9 @@ inline void hashCombine(size_t &seed, T const &v) {
 
 class PairUtils {
  public:
+  // referenced from
+  // https://stackoverflow.com/questions/32685540/
+  // why-cant-i-compile-an-unordered-map-with-a-pair-as-key
   struct PairHash {
     template <class T1, class T2>
     size_t operator()(const pair<T1, T2> &p) const {
