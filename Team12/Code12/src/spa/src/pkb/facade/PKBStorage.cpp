@@ -2,212 +2,209 @@
 
 PKBStorage::PKBStorage() = default;
 
-void PKBStorage::setFollows(int statementNumber, int followingStatement) {
-  followsStorage.setFollows(statementNumber, followingStatement);
+void PKBStorage::setFollows(int stmtNum, int followingStatement) {
+  followsStorage.setFollows(stmtNum, followingStatement);
 }
 
-void PKBStorage::setVariableModification(const std::string& variableName,
-                                         int statementNumber) {
-  modifiesStorage.setVariableModification(variableName, statementNumber);
+void PKBStorage::setVariableModification(const string& varName, int stmtNum) {
+  modifiesStorage.setVariableModification(varName, stmtNum);
 }
 
-void PKBStorage::setVariableModification(const std::string& variableName,
-                                         const std::string& procName) {
-  modifiesStorage.setVariableModification(variableName, procName);
+void PKBStorage::setVariableModification(const string& varName,
+                                         const string& procName) {
+  modifiesStorage.setVariableModification(varName, procName);
 }
 
-void PKBStorage::setParent(int statementNumber, int childStatement) {
-  parentStorage.setParent(statementNumber, childStatement);
+void PKBStorage::setParent(int stmtNum, int childStatement) {
+  parentStorage.setParent(stmtNum, childStatement);
 }
 
-void PKBStorage::setParentStar(int statementNumber, int childStatement) {
-  parentStorage.setParentStar(statementNumber, childStatement);
+void PKBStorage::setParentStar(int stmtNum, int childStatement) {
+  parentStorage.setParentStar(stmtNum, childStatement);
 }
 
-void PKBStorage::setVariableUsage(const std::string& variableName,
-                                  int statementNumber) {
-  usesStorage.setVariableUsage(variableName, statementNumber);
+void PKBStorage::setVariableUsage(const string& varName, int stmtNum) {
+  usesStorage.setVariableUsage(varName, stmtNum);
 }
 
-void PKBStorage::setVariableUsage(const std::string& variableName,
-                                  const std::string& procName) {
-  usesStorage.setVariableUsage(variableName, procName);
+void PKBStorage::setVariableUsage(const string& varName,
+                                  const string& procName) {
+  usesStorage.setVariableUsage(varName, procName);
 }
 
-void PKBStorage::setStatement(int statementNumber, StmtType statementType) {
-  statementStorage.setStatement(statementNumber, statementType);
+void PKBStorage::setStatement(int stmtNum, StmtType statementType) {
+  statementStorage.setStatement(stmtNum, statementType);
 }
 
-void PKBStorage::setVariable(const std::string& variableName) {
-  designEntitiesStorage.setVariable(variableName);
+void PKBStorage::setVariable(const string& varName) {
+  designEntitiesStorage.setVariable(varName);
 }
 
-void PKBStorage::setConstant(const std::string& constantValue) {
+void PKBStorage::setConstant(const string& constantValue) {
   designEntitiesStorage.setConstant(constantValue);
 }
 
-void PKBStorage::setProcedure(const std::string& procedureName,
-                              int startStatement) {
+void PKBStorage::setProcedure(const string& procedureName, int startStatement) {
   designEntitiesStorage.setProcedure(procedureName, startStatement);
 }
 
-void PKBStorage::setAssignPattern(std::string variableName, std::string rpn,
-                                  int statementNumber) {
-  patternStorage.setAssignPattern(variableName, rpn, statementNumber);
+void PKBStorage::setAssignPattern(string varName, string rpn, int stmtNum) {
+  patternStorage.setAssignPattern(varName, rpn, stmtNum);
 }
 
-void PKBStorage::setCallsRelationship(const std::string& callerProc, const std::string& calleeProc, int statementNumber) {
-    callsStorage.setCallsRelationship(callerProc, calleeProc, statementNumber);
+void PKBStorage::setCallsRelationship(const string& callerProc,
+                                      const string& calleeProc, int stmtNum) {
+  callsStorage.setCallsRelationship(callerProc, calleeProc, stmtNum);
 }
 
-void PKBStorage::setCallsStarRelationship(const std::string& callerProc, const std::string& calleeProc, int statementNumber) {
-    callsStorage.setCallsStarRelationship(callerProc, calleeProc, statementNumber);
+void PKBStorage::setCallsStarRelationship(const string& callerProc,
+                                          const string& calleeProc,
+                                          int stmtNum) {
+  callsStorage.setCallsStarRelationship(callerProc, calleeProc, stmtNum);
 }
 
-std::set<std::string> PKBStorage::getAllVariables() {
+std::set<string> PKBStorage::getAllVariables() {
   return designEntitiesStorage.getAllVariables();
 }
 
-std::set<std::string> PKBStorage::getAllConstants() {
+std::set<string> PKBStorage::getAllConstants() {
   return designEntitiesStorage.getAllConstants();
 }
 
-std::set<std::string> PKBStorage::getAllProcedures() {
+std::set<string> PKBStorage::getAllProcedures() {
   return designEntitiesStorage.getAllProcedures();
 }
 
-std::set<int> PKBStorage::getStatementNumbersFromStatementType(
-    StmtType statementType) {
-  return statementStorage.getStatementNumbersFromStatementType(statementType);
+std::set<int> PKBStorage::getstmtNumsFromStatementType(StmtType statementType) {
+  return statementStorage.getstmtNumsFromStatementType(statementType);
 }
 
-StmtType PKBStorage::getStatementTypeFromStatementNumber(int statementNumber) {
-  return statementStorage.getStatementTypeFromStatementNumber(statementNumber);
+StmtType PKBStorage::getStatementTypeFromstmtNum(int stmtNum) {
+  return statementStorage.getStatementTypeFromstmtNum(stmtNum);
 }
 
-bool PKBStorage::isStatementType(int statementNumber, StmtType statementType) {
-  if (statementNumber < 0 || statementType == StmtType::INVALID) {
+bool PKBStorage::isStatementType(int stmtNum, StmtType statementType) {
+  if (stmtNum < 0 || statementType == StmtType::INVALID) {
     return false;
   }
-  return statementStorage.isStatementType(statementNumber, statementType);
+  return statementStorage.isStatementType(stmtNum, statementType);
 }
 
-int PKBStorage::getImmediateFollows(int statementNumber) {
-  return followsStorage.getImmediateFollows(statementNumber);
+int PKBStorage::getImmediateFollows(int stmtNum) {
+  return followsStorage.getImmediateFollows(stmtNum);
 }
 
-int PKBStorage::getImmediateFollowedBy(int statementNumber) {
-  return followsStorage.getImmediateFollowedBy(statementNumber);
+int PKBStorage::getImmediateFollowedBy(int stmtNum) {
+  return followsStorage.getImmediateFollowedBy(stmtNum);
 }
 
-std::set<int> PKBStorage::getAllFollows(int statementNumber) {
-  return followsStorage.getAllFollows(statementNumber);
+std::set<int> PKBStorage::getAllFollows(int stmtNum) {
+  return followsStorage.getAllFollows(stmtNum);
 }
 
-std::set<int> PKBStorage::getAllFollowedBy(int statementNumber) {
-  return followsStorage.getAllFollowedBy(statementNumber);
+std::set<int> PKBStorage::getAllFollowedBy(int stmtNum) {
+  return followsStorage.getAllFollowedBy(stmtNum);
 }
 
-std::set<int> PKBStorage::getImmediateChildren(int statementNumber) {
-  return parentStorage.getImmediateChildren(statementNumber);
+std::set<int> PKBStorage::getImmediateChildren(int stmtNum) {
+  return parentStorage.getImmediateChildren(stmtNum);
 }
 
-int PKBStorage::getImmediateParent(int statementNumber) {
-  return parentStorage.getImmediateParent(statementNumber);
+int PKBStorage::getImmediateParent(int stmtNum) {
+  return parentStorage.getImmediateParent(stmtNum);
 }
 
-std::set<int> PKBStorage::getAllChildren(int statementNumber) {
-  return parentStorage.getAllChildren(statementNumber);
+std::set<int> PKBStorage::getAllChildren(int stmtNum) {
+  return parentStorage.getAllChildren(stmtNum);
 }
 
-std::set<int> PKBStorage::getAllParents(int statementNumber) {
-  return parentStorage.getAllParents(statementNumber);
+std::set<int> PKBStorage::getAllParents(int stmtNum) {
+  return parentStorage.getAllParents(stmtNum);
 }
 
-std::set<std::string> PKBStorage::getModifiedVariablesForStatement(
-    int statementNumber) {
-  return modifiesStorage.getVariablesForStatement(statementNumber);
+std::set<string> PKBStorage::getModifiedVariablesForStatement(int stmtNum) {
+  return modifiesStorage.getVariablesForStatement(stmtNum);
 }
 
-std::unordered_set<std::string> PKBStorage::getModifiedVariablesForProc(
-    const std::string& procName) {
+std::unordered_set<string> PKBStorage::getModifiedVariablesForProc(
+    const string& procName) {
   return modifiesStorage.getVariablesForProc(procName);
 }
 
-std::set<std::string> PKBStorage::getUsedVariablesForStatement(
-    int statementNumber) {
-  return usesStorage.getVariablesForStatement(statementNumber);
+std::set<string> PKBStorage::getUsedVariablesForStatement(int stmtNum) {
+  return usesStorage.getVariablesForStatement(stmtNum);
 }
 
-std::unordered_set<std::string> PKBStorage::getUsedVariablesForProc(
-    const std::string& procName) {
+std::unordered_set<string> PKBStorage::getUsedVariablesForProc(
+    const string& procName) {
   return usesStorage.getVariablesForProc(procName);
 }
 
-std::set<int> PKBStorage::getStatementNumbersForModifiedVariable(
-    std::string variableName) {
-  return modifiesStorage.getStatementNumbersForVariable(variableName);
+std::set<int> PKBStorage::getstmtNumsForModifiedVariable(string varName) {
+  return modifiesStorage.getstmtNumsForVariable(varName);
 }
 
-std::set<int> PKBStorage::getStatementNumbersForUsedVariable(
-    std::string variableName) {
-  return usesStorage.getStatementNumbersForVariable(variableName);
+std::set<int> PKBStorage::getstmtNumsForUsedVariable(string varName) {
+  return usesStorage.getstmtNumsForVariable(varName);
 }
 
-std::vector<std::string> PKBStorage::getExactAssignPattern(
-    std::string variableName, std::string rpn, bool isSynonym) {
-  return patternStorage.getExactAssignPattern(variableName, rpn, isSynonym);
+vector<string> PKBStorage::getExactAssignPattern(string varName, string rpn,
+                                                 bool isSynonym) {
+  return patternStorage.getExactAssignPattern(varName, rpn, isSynonym);
 }
 
-std::vector<std::string> PKBStorage::getPartialAssignPattern(
-    std::string variableName, std::string rpn, bool isSynonym) {
-  return patternStorage.getPartialAssignPattern(variableName, rpn, isSynonym);
+vector<string> PKBStorage::getPartialAssignPattern(string varName, string rpn,
+                                                   bool isSynonym) {
+  return patternStorage.getPartialAssignPattern(varName, rpn, isSynonym);
 }
 
-std::vector<std::pair<std::string, std::string>> PKBStorage::getCalledBy(const std::string& procName) {
-    return callsStorage.getCalledBy(procName);
+vector<pair<string, string>> PKBStorage::getCalledBy(const string& procName) {
+  return callsStorage.getCalledBy(procName);
 }
 
-std::vector<std::pair<std::string, std::string>> PKBStorage::getCalledStarBy(const std::string& procName) {
-    return callsStorage.getCalledByStar(procName);
+vector<pair<string, string>> PKBStorage::getCalledStarBy(
+    const string& procName) {
+  return callsStorage.getCalledByStar(procName);
 }
 
-std::vector<std::pair<std::string, std::string>> PKBStorage::getProcsThatCall(const std::string& procName) {
-    return callsStorage.getCalls(procName);
+vector<pair<string, string>> PKBStorage::getProcsThatCall(
+    const string& procName) {
+  return callsStorage.getCalls(procName);
 }
 
-std::vector<std::pair<std::string, std::string>> PKBStorage::getProcsThatCallStar(const std::string& procName) {
-    return callsStorage.getCallsStar(procName);
+vector<pair<string, string>> PKBStorage::getProcsThatCallStar(
+    const string& procName) {
+  return callsStorage.getCallsStar(procName);
 }
 
-std::string PKBStorage::getProcCalledOn(int stmtNum) {
-    return callsStorage.getProcCalledOn(stmtNum);
+string PKBStorage::getProcCalledOn(int stmtNum) {
+  return callsStorage.getProcCalledOn(stmtNum);
 }
 
-std::vector<std::string> PKBStorage::getProcStarCalledOn(int stmtNum) {
-    return callsStorage.getProcStarCalledOn(stmtNum);
+vector<string> PKBStorage::getProcStarCalledOn(int stmtNum) {
+  return callsStorage.getProcStarCalledOn(stmtNum);
 }
 
-std::vector<std::pair<std::string, std::string>> PKBStorage::getCallingProcedures() {
-    return callsStorage.getCallingProcedures();
+vector<pair<string, string>> PKBStorage::getCallingProcedures() {
+  return callsStorage.getCallingProcedures();
 }
 
-std::vector<std::pair<std::string, std::string>> PKBStorage::getCalledProcedures() {
-    return callsStorage.getCalledProcedures();
+vector<pair<string, string>> PKBStorage::getCalledProcedures() {
+  return callsStorage.getCalledProcedures();
 }
 
-bool PKBStorage::isCalling(const std::string& caller, const std::string& callee) {
-    return callsStorage.isCalls(caller, callee);
+bool PKBStorage::isCalling(const string& caller, const string& callee) {
+  return callsStorage.isCalls(caller, callee);
 }
 
-bool PKBStorage::isCallingStar(const std::string& caller, const std::string& callee) {
-    return callsStorage.isCallsStar(caller, callee);
+bool PKBStorage::isCallingStar(const string& caller, const string& callee) {
+  return callsStorage.isCallsStar(caller, callee);
 }
 
-bool PKBStorage::isCallingStmt(int stmtNum, const std::string& callee) {
-    return callsStorage.isCallingStmt(stmtNum, callee);
+bool PKBStorage::isCallingStmt(int stmtNum, const string& callee) {
+  return callsStorage.isCallingStmt(stmtNum, callee);
 }
 
-bool PKBStorage::isCallingStarStmt(int stmtNum, const std::string& callee) {
-    return callsStorage.isCallingStarStmt(stmtNum, callee);
+bool PKBStorage::isCallingStarStmt(int stmtNum, const string& callee) {
+  return callsStorage.isCallingStarStmt(stmtNum, callee);
 }

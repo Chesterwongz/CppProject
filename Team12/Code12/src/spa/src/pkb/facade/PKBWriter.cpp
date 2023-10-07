@@ -1,5 +1,7 @@
 #include "PKBWriter.h"
 
+#include "common/utils/PairUtils.h"
+
 void PKBWriter::setFollowsRelationship(int statementNumber,
                                        int followingStatement) {
   storage.setFollows(statementNumber, followingStatement);
@@ -121,27 +123,28 @@ vector<pair<string, string>> PKBWriter::getIndirectCallees(const string &proc) {
   if (!cached.empty()) {
     return cached;
   }
-  unordered_set<pair<string, string>> visitedCallees;
-  queue<string> toVisit({proc});
+  unordered_set<pair<string, string>, PairUtils::PairHash> visitedCallees;
+  queue<pair<string, string>> toVisit({proc});
   while (!toVisit.empty()) {
-    string curr = toVisit.front();
+    pair<string, string> curr = toVisit.front();
+    const string& currProc = curr.second;
     toVisit.pop();
     if (visitedCallees.find(curr) != visitedCallees.end()) {
       continue;
     }
     visitedCallees.insert(curr);
-    vector<pair<string, string>> allCalleesOfCurr = storage.getCalledStarBy(curr);
+    vector<pair<string, string>> allCalleesOfCurr = storage.getCalledStarBy(currProc);
     if (!allCalleesOfCurr.empty()) {
       // already computed transitive calls by curr
       visitedCallees.insert(allCalleesOfCurr.begin(), allCalleesOfCurr.end());
       continue;
     }
-    for (const auto &[nextStmt, nextProc] : storage.getCalledBy(curr)) {
-      toVisit.push(nextProc);
+    for (const auto &[nextStmt, nextProc] : storage.getCalledBy(currProc)) {
+      toVisit.emplace(nextStmt, nextProc);
     }
   }
-  for (const auto &callee : visitedCallees) {
-    setCallsStarRelationship(proc, callee, -1);
+  for (const auto &[calleeStmt, calleeProc] : visitedCallees) {
+    setCallsStarRelationship(proc, calleeProc, std::stoi(calleeStmt));
   }
   return visitedCallees;
 }
