@@ -5,7 +5,7 @@ Select Follows such that Parent*(_,_)
 1000
 ====== 2 - ParentT(stmt,_) (+) ======
 stmt stmt;
-Select stmt such that Parent *(stmt ,_)
+Select stmt such that Parent*(stmt ,_)
 2, 3, 6, 7, 10, 11, 13, 14
 1000
 ====== 3 - ParentT (_,stmt) (+) ======
@@ -15,7 +15,7 @@ Select Select such that Parent* (_,Select)
 1000
 ====== 4 - ParentT (stmt1,stmt2) (+) ======
 stmt s, S;
-Select s such that Parent *(s,S)
+Select s such that Parent*(s,S)
 2, 3, 6, 7, 10, 11, 13, 14
 1000
 ====== 5 - ParentT (2, stmt) (+) ======
@@ -25,7 +25,7 @@ Select Parent such that Parent*(2,Parent )
 1000
 ====== 6 - ParentT (if, 7) (+) ======
 if if;
-Select if such that Parent  * ( if,7 )
+Select if such that Parent* ( if,7 )
 2, 6
 1000
 ====== 7 - ParentT (3, 8) (+) ======
@@ -45,7 +45,7 @@ none
 1000
 ====== 10 - ParentT (_, 18) (-) ======
 read read;
-Select read such that Parent *( _,18)
+Select read such that Parent*( _,18)
 none
 1000
 ====== 11 - ParentT (_, stmt) (+) ======
@@ -60,7 +60,7 @@ none
 1000
 ====== 13 - ParentT (read,stmt) (-) ======
 stmt s; print read;
-Select read such that Parent *(read,s)
+Select read such that Parent*(read,s)
 none
 1000
 ====== 14 - Select if ParentT (if,while) (+) ======
@@ -75,7 +75,7 @@ Select if such that Parent* (w,if)
 1000
 ====== 16 - Select if1 ParentT (if1,if2) (+) ======
 if if1; if if2;
-Select if1 such that Parent *(if1,if2)
+Select if1 such that Parent*(if1,if2)
 2, 6
 1000
 ====== 17 -  Select if2 ParentT (if1,if2) (+) ======

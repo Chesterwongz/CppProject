@@ -5,7 +5,7 @@ Select Follows such that Follows* (_,_)
 1000
 ====== 2 - FollowsT (stmt,_) (+) ======
 stmt stmt;
-Select stmt such that Follows *(stmt ,_)
+Select stmt such that Follows*(stmt ,_)
 1, 2, 3, 4
 1000
 ====== 3 - FollowsT (_,stmt) (+) ======
@@ -15,22 +15,22 @@ Select Select such that Follows*(_,Select)
 1000
 ====== 4 - FollowsT (stmt1,stmt1) (-) ======
 stmt s, S;
-Select s such that Follows *(s,s)
+Select s such that Follows*(s,s)
 none
 1000
 ====== 5 - FollowsT (stmt1,stmt2) (+) ======
 stmt s, S;
-Select s such that Follows *(s,S)
+Select s such that Follows*(s,S)
 1, 2, 3, 4
 1000
 ====== 6 - FollowsT (1, stmt) (+) ======
 stmt Follows;
-Select Follows such that Follows *  ( 1,Follows )
+Select Follows such that Follows*  ( 1,Follows )
 2, 8
 1000
 ====== 7 - FollowsT (stmt, 5) (+) ======
 stmt if;
-Select if such that Follows  * ( if,5 )
+Select if such that Follows* ( if,5 )
 4
 1000
 ====== 8 - FollowsT (3, 6) (+) ======
@@ -50,7 +50,7 @@ none
 1000
 ====== 11 - FollowsT (_, 4) (-) ======
 stmt s;
-Select s such that Follows   *( _,4 )
+Select s such that Follows*( _,4 )
 none
 1000
 ====== 12 - FollowsT (_, stmt) (-) ======
@@ -60,11 +60,11 @@ none
 1000
 ====== 13 - FollowsT (stmt, _) (-) ======
 print pn;
-Select pn such that Follows ( pn,_)
+Select pn such that Follows* ( pn,_)
 4
 1000
 ====== 14 - FollowsT (stmt,assign) (+) ======
 stmt s;assign a;
-Select a such that Follows( s,a )
+Select a such that Follows*( s,a )
 5, 8
 1000
