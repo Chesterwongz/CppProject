@@ -1,3 +1,5 @@
+#include <string>
+
 #include "QPSException.h"
 
 // TODO(QPS): better exception splitting

@@ -4,7 +4,7 @@
 #include "qps/common/QPSStringUtils.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-PQLTokenizer::PQLTokenizer(const string& query)
+PQLTokenizer::PQLTokenizer(const string query)
     : tokenList(make_unique<PQLTokenList>()),
       currPos(0),
       tokenTable(),

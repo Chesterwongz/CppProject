@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "qps/parser/BaseParserState.h"
 #include "qps/parser/PQLParserContext.h"
 
