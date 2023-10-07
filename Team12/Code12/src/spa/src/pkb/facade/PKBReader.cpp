@@ -402,3 +402,51 @@ std::vector<std::string> PKBReader::getPartialAssignPattern(
     const std::string& variableName, const std::string& rpn, bool isSynonym) {
   return storage.getPartialAssignPattern(variableName, rpn, isSynonym);
 }
+
+std::vector<std::pair<std::string, std::string>> PKBReader::getCalledBy(const std::string& procName) {
+    return storage.getCalledBy(procName);
+}
+
+std::vector<std::pair<std::string, std::string>> PKBReader::getCalledStarBy(const std::string& procName) {
+    return storage.getCalledStarBy(procName);
+}
+
+std::vector<std::pair<std::string, std::string>> PKBReader::getProcsThatCall(const std::string& procName) {
+    return storage.getProcsThatCall(procName);
+}
+
+std::vector<std::pair<std::string, std::string>> PKBReader::getProcsThatCallStar(const std::string& procName) {
+    return storage.getProcsThatCallStar(procName);
+}
+
+std::string PKBReader::getProcCalledOn(int stmtNum) {
+    return storage.getProcCalledOn(stmtNum);
+}
+
+std::vector<std::string> PKBReader::getProcStarCalledOn(int stmtNum) {
+    return storage.getProcStarCalledOn(stmtNum);
+}
+
+std::vector<std::pair<std::string, std::string>> PKBReader::getCallingProcedures() {
+    return storage.getCallingProcedures();
+}
+
+std::vector<std::pair<std::string, std::string>> PKBReader::getCalledProcedures() {
+    return storage.getCalledProcedures();
+}
+
+bool PKBReader::isCalling(const std::string& caller, const std::string& callee) {
+    return storage.isCalling(caller, callee);
+}
+
+bool PKBReader::isCallingStar(const std::string& caller, const std::string& callee) {
+    return storage.isCallingStar(caller, callee);
+}
+
+bool PKBReader::isCallingStmt(int stmtNum, const std::string& callee) {
+    return storage.isCallingStmt(stmtNum, callee);
+}
+
+bool PKBReader::isCallingStarStmt(int stmtNum, const std::string& callee) {
+    return storage.isCallingStarStmt(stmtNum, callee);
+}

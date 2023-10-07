@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "common/StmtTypes.h"
+#include "pkb/storage/CallsStorage.h"
 #include "pkb/storage/DesignEntitiesStorage.h"
 #include "pkb/storage/FollowsStorage.h"
 #include "pkb/storage/ModifiesStorage.h"
@@ -97,24 +98,34 @@ class PKBStorage {
                                                    std::string rpn,
                                                    bool isSynonym);
 
-  // CallsStorage methods
-  void setCalls(const std::string& callerProc, const std::string& calleeProc);
-  void setCallsStar(const std::string& callerProc,
-                    const std::string& calleeProc);
-  const std::unordered_map<std::string, std::unordered_set<std::string>>&
-  getCallsMap();
-  std::unordered_set<std::string> getDirectProcsCalledBy(
-      const std::string& callerProc);
-  std::unordered_set<std::string> getAllProcsCalledBy(
-      const std::string& callerProc);
+    // CallsStorage methods
+    void setCallsRelationship(const std::string& callerProc, const std::string& calleeProc, int statementNumber);
+    void setCallsStarRelationship(const std::string& callerProc, const std::string& calleeProc, int statementNumber);
 
- private:
-  DesignEntitiesStorage designEntitiesStorage;
-  FollowsStorage followsStorage;
-  ModifiesStorage modifiesStorage;
-  PatternStorage patternStorage;
-  ParentStorage parentStorage;
-  StatementStorage statementStorage;
-  UsesStorage usesStorage;
-  CallsStorage callsStorage;
+    std::vector<std::pair<std::string, std::string>> getCalledBy(const std::string& procName);
+    std::vector<std::pair<std::string, std::string>> getCalledStarBy(const std::string& procName);
+    std::vector<std::pair<std::string, std::string>> getProcsThatCall(const std::string& procName);
+    std::vector<std::pair<std::string, std::string>> getProcsThatCallStar(const std::string& procName);
+
+    std::string getProcCalledOn(int stmtNum);
+    std::vector<std::string> getProcStarCalledOn(int stmtNum);
+
+    std::vector<std::pair<std::string, std::string>> getCallingProcedures();
+    std::vector<std::pair<std::string, std::string>> getCalledProcedures();
+
+    bool isCalling(const std::string& caller, const std::string& callee);
+    bool isCallingStar(const std::string& caller, const std::string& callee);
+    bool isCallingStmt(int stmtNum, const std::string& callee);
+    bool isCallingStarStmt(int stmtNum, const std::string& callee);
+
+
+private:
+    CallsStorage callsStorage;
+    DesignEntitiesStorage designEntitiesStorage;
+    FollowsStorage followsStorage;
+    ModifiesStorage modifiesStorage;
+    PatternStorage patternStorage;
+    ParentStorage parentStorage;
+    StatementStorage statementStorage;
+    UsesStorage usesStorage;
 };

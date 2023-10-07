@@ -8,6 +8,8 @@
 #include <queue>
 
 #include "pkb/facade/PKBStorage.h"
+#include "pkb/interfaces/writers/ICallsWriter.h"
+#include "pkb/interfaces/writers/IDesignEntitiesWriter.h"
 #include "pkb/interfaces/writers/IFollowsWriter.h"
 #include "pkb/interfaces/writers/IParentWriter.h"
 #include "pkb/interfaces/writers/IModifiesWriter.h"
@@ -24,6 +26,7 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
                   public virtual IParentWriter,
                   public virtual IModifiesWriter,
                   public virtual IUsesWriter,
+                  public virtual ICallsWriter,
                   public virtual IStatementWriter,
                   public virtual IPatternWriter {
  public:
@@ -72,11 +75,11 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
   // direct calls, not transitive
   virtual void setCallsRelationship(const string& callerProc,
                                     const string& calleeProc,
-                                    int stmtNum);
+                                    int stmtNum) override;
 
   virtual void setCallsStarRelationship(const string& callerProc,
                                         const string& calleeProc,
-                                        int stmtNum);
+                                        int stmtNum) override;
 
   // Add an expression to storage
   void setAssignPattern(const string& variableName, const string& rpn,

@@ -2,23 +2,53 @@
 
 #include <string>
 #include <unordered_map>
+#include <vector>
 #include <unordered_set>
 
-using std::unordered_set, std::unordered_map, std::string;
+using std::unordered_set, std::unordered_map, std::string, std::vector, std::pair, std::make_pair;
 
 class CallsStorage {
- private:
-  unordered_map<string, unordered_set<string>> callsMap;
-  unordered_map<string, unordered_set<string>> callsStarMap;
-  unordered_map<string, unordered_set<string>> calledByMap;
-  unordered_map<string, unordered_set<string>> calledByStarMap;
+public:
+    void setCallsRelationship(const string& caller, const string& callee, int statementNumber);
+    void setCallsStarRelationship(const string& caller, const string& callee, int statementNumber);
 
- public:
-  CallsStorage() = default;
-  ~CallsStorage() = default;
-  void setCalls(const string& callerProc, const string& calleeProc);
-  void setCallsStar(const string& callerProc, const string& calleeProc);
-  const unordered_map<string, unordered_set<string>>& getCallsMap();
-  unordered_set<string> getDirectProcsCalledBy(const string& callerProc);
-  unordered_set<string> getAllProcsCalledBy(const string& callerProc);
+    // return pairs (stmtNum, calleeName) that are directly called by procName
+    vector<pair<string, string>> getCalls(const string& procedure);
+
+    // return pairs (stmtNum, caleeName) that are indirectly called by procName
+    vector<pair<string, string>> getCallsStar(const string& procedure);
+
+    // return pairs (stmtNum, callerName) that directly call procName
+    vector<pair<string, string>> getCalledBy(const string& procedure);
+
+    // return pairs (stmtNum, callerName) that indirectly call procName
+    vector<pair<string, string>> getCalledByStar(const string& procedure);
+
+    bool isCalls(const string& caller, const string& callee);
+    bool isCallsStar(const string& caller, const string& callee);
+
+    bool isCallingStmt(int stmtNum, const string& callee);
+    bool isCallingStarStmt(int stmtNum, const string& callee);
+
+    // return all pairs (stmtNum, callerName) that call another procedure
+    vector<pair<string, string>> getCallingProcedures();
+
+    // return all pairs (stmtNum, calleeName) that are called by another procedure
+    vector<pair<string, string>> getCalledProcedures();
+
+    // return procedure that is called on stmtNum 
+    virtual string getProcCalledOn(int stmtNum);
+
+    // return list of procedures names that are indirectly called on stmtNum
+    virtual vector<string> getProcStarCalledOn(int stmtNum);
+
+private:
+    // callerProc -> [stmtNum, calleeProc]
+    unordered_map<string, vector<pair<int, string>>> callsMap;
+    // callerProc -> [stmtNum, calleeProc]
+    unordered_map<string, vector<pair<int, string>>> callsStarMap;
+    // calleeProc -> [stmtNum, callerProc]
+    unordered_map<string, vector<pair<int, string>>> calledByMap;
+    // calleeProc -> [stmtNum, callerProc]
+    unordered_map<string, vector<pair<int, string>>> calledByStarMap;
 };

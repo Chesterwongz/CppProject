@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "pkb/facade/PKBStorage.h"
+#include "pkb/interfaces/readers/ICallsReader.h"
 #include "pkb/interfaces/readers/IDesignEntitiesReader.h"
 #include "pkb/interfaces/readers/IFollowsReader.h"
 #include "pkb/interfaces/readers/IModifiesReader.h"
@@ -16,7 +17,9 @@
 #include "pkb/interfaces/readers/IStatementReader.h"
 #include "pkb/interfaces/readers/IUsesReader.h"
 
-class PKBReader : public virtual IDesignEntitiesReader,
+
+class PKBReader : public virtual ICallsReader,
+                  public virtual IDesignEntitiesReader,
                   public virtual IFollowsReader,
                   public virtual IParentReader,
                   public virtual IPatternReader,
@@ -163,6 +166,42 @@ class PKBReader : public virtual IDesignEntitiesReader,
   virtual std::vector<std::string> getPartialAssignPattern(
       const std::string& variableName, const std::string& rpn, bool isSynonym);
 
- private:
-  PKBStorage& storage;
+    // return pairs (stmtNum, calleeName) that are directly called by procName
+    virtual std::vector<std::pair<std::string, std::string>> getCalledBy(const std::string& procName);
+
+    // return pairs (stmtNum, caleeName) that are indirectly called by procName
+    virtual std::vector<std::pair<std::string, std::string>> getCalledStarBy(const std::string& procName);
+
+    // return pairs (stmtNum, callerName) that directly call procName
+    virtual std::vector<std::pair<std::string, std::string>> getProcsThatCall(const std::string& procName);
+
+    // return pairs (stmtNum, callerName) that indirectly call procName
+    virtual std::vector<std::pair<std::string, std::string>> getProcsThatCallStar(const std::string& procName);
+
+    // return procedure that is called on stmtNum 
+    virtual std::string getProcCalledOn(int stmtNum);
+
+    // return list of procedures names that are indirectly called on stmtNum
+    virtual std::vector<std::string> getProcStarCalledOn(int stmtNum);
+
+    // return all pairs (stmtNum, callerName) that call another procedure
+    virtual std::vector<std::pair<std::string, std::string>> getCallingProcedures();
+
+    // return all pairs (stmtNum, calleeName) that are called by another procedure
+    virtual std::vector<std::pair<std::string, std::string>> getCalledProcedures();
+
+    // return true if caller directly calls callee
+    virtual bool isCalling(const std::string& caller, const std::string& callee);
+
+    // return true if caller indirectly calls callee
+    virtual bool isCallingStar(const std::string& caller, const std::string& callee);
+
+    // return true if callee is called in stmtNum
+    virtual bool isCallingStmt(int stmtNum, const std::string& callee);
+
+    // return true if callee is called in any subsequent calls from stmtNum
+    virtual bool isCallingStarStmt(int stmtNum, const std::string& callee);
+
+private:
+    PKBStorage& storage;
 };
