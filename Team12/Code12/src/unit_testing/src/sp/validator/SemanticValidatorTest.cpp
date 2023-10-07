@@ -5,7 +5,7 @@
 #include <catch.hpp>
 
 #include "sp/ast/ProgramNode.h"
-#include "sp/parser/parsercontext/ParserContext.h"
+#include "common/parser/parsercontext/ParserContext.h"
 #include "sp/parser/toplevelparsers/ProgramParser.h"
 #include "sp/validator/SemanticValidator.h"
 

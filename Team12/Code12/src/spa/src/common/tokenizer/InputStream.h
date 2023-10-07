@@ -4,7 +4,7 @@
 #include <string>
 #include <utility>
 
-#include "sp/tokenizer/token/SpTokenType.h"
+#include "common/tokenizer/token/SpTokenType.h"
 
 class InputStream {
  private:

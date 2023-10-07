@@ -2,7 +2,7 @@
 
 #include "common/tokenizer/BaseTokenizer.h"
 #include "sp/constants/DelimiterConstants.h"
-#include "sp/tokenizer/token/SpToken.h"
+#include "common/tokenizer/token/SpToken.h"
 
 class SpDelimiterTokenizer : public BaseTokenizer<SpToken> {
  private:
