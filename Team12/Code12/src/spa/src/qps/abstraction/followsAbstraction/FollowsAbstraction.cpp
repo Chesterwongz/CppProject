@@ -1,114 +1,113 @@
 #include "FollowsAbstraction.h"
 
- /**
-  * Follows abstraction:
-  * firstArg: Synonym OR Integer OR Wildcard
-  * secondArg: Synonym OR Integer OR Wildcard
-  */
+/**
+ * Follows abstraction:
+ * firstArg: Synonym OR Integer OR Wildcard
+ * secondArg: Synonym OR Integer OR Wildcard
+ */
 
 // Follows (StmtSynonym, StmtSynonym)
 IntermediateTable FollowsAbstraction::evaluateSynonymSynonym() {
-    if (this->firstArgValue == this->secondArgValue) {
-        return IntermediateTableFactory::buildEmptyIntermediateTable();
-    }
-    return handleSynonymOrWildcardArgs();
+  if (this->firstArgValue == this->secondArgValue) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
+  return handleSynonymOrWildcardArgs();
 }
 
 // Follows (StmtSynonym, StmtNumber)
 IntermediateTable FollowsAbstraction::evaluateSynonymInteger() {
-     return handleSecondArgInteger();
+  return handleSecondArgInteger();
 }
 
 // Follows (StmtSynonym, _)
 IntermediateTable FollowsAbstraction::evaluateSynonymWildcard() {
-    return handleSynonymOrWildcardArgs();
+  return handleSynonymOrWildcardArgs();
 }
 
-//Follows (StmtNumber, StmtSynonym)
+// Follows (StmtNumber, StmtSynonym)
 IntermediateTable FollowsAbstraction::evaluateIntegerSynonym() {
-    return handleFirstArgInteger();
+  return handleFirstArgInteger();
 }
 
 // Follows (StmtNumber, StmtNumber)
-IntermediateTable FollowsAbstraction::evaluateIntegerInteger()  {
-    return handleBothArgsInteger();
+IntermediateTable FollowsAbstraction::evaluateIntegerInteger() {
+  return handleBothArgsInteger();
 }
 
 // Follows (StmtNumber, _)
 IntermediateTable FollowsAbstraction::evaluateIntegerWildcard() {
-    return handleFirstArgInteger();
+  return handleFirstArgInteger();
 }
 
-//Follows (StmtNumber, StmtSynonym)
+// Follows (StmtNumber, StmtSynonym)
 IntermediateTable FollowsAbstraction::evaluateWildcardSynonym() {
-    return handleSynonymOrWildcardArgs();
- }
+  return handleSynonymOrWildcardArgs();
+}
 
 // Follows (_, StmtNumber)
-IntermediateTable FollowsAbstraction::evaluateWildcardInteger()  {
-    return handleSecondArgInteger();
- }
+IntermediateTable FollowsAbstraction::evaluateWildcardInteger() {
+  return handleSecondArgInteger();
+}
 
 // Follows (_, _)
 IntermediateTable FollowsAbstraction::evaluateWildcardWildcard() {
-    return handleSynonymOrWildcardArgs();
+  return handleSynonymOrWildcardArgs();
 }
 
 /**
  * For handling cases where both args are non-integer
  */
 IntermediateTable FollowsAbstraction::handleSynonymOrWildcardArgs() {
-    StmtType firstStmtType = this->getFirstArgStmtType();
-    StmtType secondStmtType =this->getSecondArgStmtType();
+  StmtType firstStmtType = this->getFirstArgStmtType();
+  StmtType secondStmtType = this->getSecondArgStmtType();
 
-    vector<pair<string, string>> followPairs
-            = pkb.getFollowsPairs(firstStmtType, secondStmtType);
+  vector<pair<string, string>> followPairs =
+      pkb.getFollowsPairs(firstStmtType, secondStmtType);
 
-    //! If any of the args are "_", the column will be ignored.
-    return IntermediateTableFactory::buildIntermediateTable(
-            this->firstArgValue,
-            this->secondArgValue,
-            followPairs);
+  //! If any of the args are "_", the column will be ignored.
+  return IntermediateTableFactory::buildIntermediateTable(
+      this->firstArgValue, this->secondArgValue, followPairs);
 }
 
 IntermediateTable FollowsAbstraction::handleBothArgsInteger() {
-    if (this->firstArgValue == this->secondArgValue) {
-        return IntermediateTableFactory::buildEmptyIntermediateTable();
-    }
+  if (this->firstArgValue == this->secondArgValue) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
 
-    int firstStmtNumber = stoi(this->firstArgValue);
-    int secondStmtNumber = stoi(this->secondArgValue);
+  int firstStmtNumber = stoi(this->firstArgValue);
+  int secondStmtNumber = stoi(this->secondArgValue);
 
-    bool isValid = pkb.isFollows(firstStmtNumber, secondStmtNumber);
+  bool isValid = pkb.isFollows(firstStmtNumber, secondStmtNumber);
 
-    return isValid
-           ? IntermediateTableFactory::buildWildcardIntermediateTable()
-           : IntermediateTableFactory::buildEmptyIntermediateTable();
+  return isValid ? IntermediateTableFactory::buildWildcardIntermediateTable()
+                 : IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
 IntermediateTable FollowsAbstraction::handleFirstArgInteger() {
-    int firstStmtNumber = stoi(this->firstArgValue);
-    StmtType secondStmtType = this->getSecondArgStmtType();
-    string secondStmtSynonym = this->secondArgValue;
+  int firstStmtNumber = stoi(this->firstArgValue);
+  StmtType secondStmtType = this->getSecondArgStmtType();
+  string secondStmtSynonym = this->secondArgValue;
 
-    string followingStmt = pkb.getFollowing(firstStmtNumber, secondStmtType);
+  string followingStmt = pkb.getFollowing(firstStmtNumber, secondStmtType);
 
-    if (followingStmt != INVALID_STATEMENT_NUMBER) {
-        return IntermediateTableFactory::buildIntermediateTable(secondStmtSynonym, followingStmt);
-    }
+  if (followingStmt != INVALID_STATEMENT_NUMBER) {
+    return IntermediateTableFactory::buildIntermediateTable(secondStmtSynonym,
+                                                            followingStmt);
+  }
 
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  return IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
 IntermediateTable FollowsAbstraction::handleSecondArgInteger() {
-    StmtType firstStmtType = this->getFirstArgStmtType();
-    string firstStmtSynonym = this->firstArgValue;
-    int secondStmtNumber = stoi(this->secondArgValue);
+  StmtType firstStmtType = this->getFirstArgStmtType();
+  string firstStmtSynonym = this->firstArgValue;
+  int secondStmtNumber = stoi(this->secondArgValue);
 
-    string followedStmt = pkb.getFollowed(secondStmtNumber, firstStmtType);
-    if (followedStmt != INVALID_STATEMENT_NUMBER) {
-        return IntermediateTableFactory::buildIntermediateTable(firstStmtSynonym, followedStmt);
-    }
+  string followedStmt = pkb.getFollowed(secondStmtNumber, firstStmtType);
+  if (followedStmt != INVALID_STATEMENT_NUMBER) {
+    return IntermediateTableFactory::buildIntermediateTable(firstStmtSynonym,
+                                                            followedStmt);
+  }
 
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  return IntermediateTableFactory::buildEmptyIntermediateTable();
 }

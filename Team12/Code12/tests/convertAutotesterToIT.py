@@ -56,7 +56,7 @@ def process_files(source_path, query_path, dest_path):
         content = file.read()
         formatted_test_cases = extract_information(content)
         formatted_cpp_tests = generate_cpp_test(formatted_test_cases, query_path)
-        prefix = """#include "catch.hpp"
+        prefix = """#include <catch.hpp>
 #include "sp/SourceProcessor.h"
 #include "pkb/facade/PKB.h"
 #include "qps/QPS.h"
