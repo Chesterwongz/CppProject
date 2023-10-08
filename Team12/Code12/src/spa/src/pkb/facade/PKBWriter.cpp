@@ -86,12 +86,17 @@ void PKBWriter::setRelationshipsForIndirectCalls(
   }
 }
 
+void PKBWriter::insertDirectCalleesOfProc(queue<pair<string, string>> &toVisit,
+                                          const string &currProc) {
+  for (const auto &[stmtNum, callee] : storage.getCalleeProcs(currProc)) {
+    toVisit.emplace(stmtNum, callee);
+  }
+}
+
 void PKBWriter::setIndirectCallsRelationship() {
-  const auto &callerToCalleeMap = storage.getCalleeProcsMap();
-  for (const auto &[caller, directStmtCallees] : callerToCalleeMap) {
+  for (const auto &[caller, directStmtCallees] : storage.getCalleeProcsMap()) {
     unordered_set<pair<string, string>, PairUtils::PairHash> visitedCallees;
     queue<pair<string, string>> toVisit;
-
     for (const auto &[stmtNum, callee] : directStmtCallees) {
       toVisit.emplace(std::to_string(stmtNum), callee);
     }
@@ -100,21 +105,16 @@ void PKBWriter::setIndirectCallsRelationship() {
       string currProc = curr.second;
       toVisit.pop();
       if (visitedCallees.find(curr) != visitedCallees.end()) {
-        // already inserted curr callee
-        continue;
+        continue;  // already inserted curr callee
       }
       visitedCallees.insert(curr);
       vector<pair<string, string>> allCalleesOfCurr =
           storage.getCalleeProcsStar(currProc);
       if (!allCalleesOfCurr.empty()) {
-        // already computed transitive calls by curr
         visitedCallees.insert(allCalleesOfCurr.begin(), allCalleesOfCurr.end());
-        continue;
+        continue;  // already computed transitive calls by curr
       }
-
-      for (const auto &[stmtNum, callee] : storage.getCalleeProcs(currProc)) {
-        toVisit.emplace(stmtNum, callee);
-      }
+      insertDirectCalleesOfProc(toVisit, currProc);
     }
     setRelationshipsForIndirectCalls(caller, visitedCallees);
   }

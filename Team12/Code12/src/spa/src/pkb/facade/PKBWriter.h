@@ -97,4 +97,6 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
       const string& caller,
       const unordered_set<pair<string, string>, PairUtils::PairHash>&
           visitedCallees);
+  void insertDirectCalleesOfProc(queue<pair<string, string>> &toVisit,
+                                            const string &currProc);
 };

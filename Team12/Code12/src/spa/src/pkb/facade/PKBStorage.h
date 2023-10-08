@@ -24,94 +24,107 @@ class PKBStorage {
   PKBStorage();
 
   // DesignEntitiesStorage methods
-  virtual void setVariable(const string& varName);
-  virtual void setConstant(const string& constantValue);
-  virtual void setProcedure(const string& procedureName, int startStatement);
+  virtual void setVariable(const std::string& variableName);
+  virtual void setConstant(const std::string& constantValue);
+  virtual void setProcedure(const std::string& procedureName,
+                            int startStatement);
 
-  set<string> getAllVariables();
-  set<string> getAllConstants();
-  set<string> getAllProcedures();
+  std::set<std::string> getAllVariables();
+  std::set<std::string> getAllConstants();
+  std::set<std::string> getAllProcedures();
 
   // StatementStorage methods
-  virtual void setStatement(int stmtNum, StmtType statementType);
+  virtual void setStatement(int statementNumber, StmtType statementType);
 
-  set<int> getStatementNumbersFromStatementType(StmtType statementType);
+  std::set<int> getStatementNumbersFromStatementType(StmtType statementType);
 
-  StmtType getStatementTypeFromStatementNumber(int stmtNum);
+  StmtType getStatementTypeFromStatementNumber(int statementNumber);
 
-  bool isStatementType(int stmtNum, StmtType statementType);
+  bool isStatementType(int statementNumber, StmtType statementType);
 
   // FollowsStorage methods
-  void setFollows(int stmtNum, int followingStatement);
+  void setFollows(int statementNumber, int followingStatement);
 
-  int getImmediateFollows(int stmtNum);
-  int getImmediateFollowedBy(int stmtNum);
+  int getImmediateFollows(int statementNumber);
+  int getImmediateFollowedBy(int statementNumber);
 
-  set<int> getAllFollows(int stmtNum);
-  set<int> getAllFollowedBy(int stmtNum);
+  std::set<int> getAllFollows(int statementNumber);
+  std::set<int> getAllFollowedBy(int statementNumber);
 
   // ParentStorage methods
-  void setParent(int stmtNum, int childStatement);
-  void setParentStar(int stmtNum, int childStatement);
+  void setParent(int statementNumber, int childStatement);
+  void setParentStar(int statementNumber, int childStatement);
 
-  set<int> getImmediateChildren(int stmtNum);
-  int getImmediateParent(int stmtNum);
+  std::set<int> getImmediateChildren(int statementNumber);
+  int getImmediateParent(int statementNumber);
 
-  set<int> getAllChildren(int stmtNum);
-  set<int> getAllParents(int stmtNum);
+  std::set<int> getAllChildren(int statementNumber);
+  std::set<int> getAllParents(int statementNumber);
 
   // ModifiesStorage methods
-  void setVariableModification(const string& varName, int stmtNum);
+  void setVariableModification(const std::string& variableName,
+                               int statementNumber);
 
-  void setVariableModification(const string& varName, const string& procName);
+  void setVariableModification(const std::string& variableName,
+                               const std::string& procName);
 
-  set<string> getModifiedVariablesForStatement(int stmtNum);
+  std::set<std::string> getModifiedVariablesForStatement(int statementNumber);
 
-  unordered_set<string> getModifiedVariablesForProc(const string& procName);
+  unordered_set<string> getModifiedVariablesForProc(
+      const std::string& procName);
 
-  set<int> getStatementNumbersForModifiedVariable(string varName);
+  std::set<int> getStatementNumbersForModifiedVariable(
+      std::string variableName);
 
   // UsesStorage methods
-  void setVariableUsage(const string& varName, int stmtNum);
+  void setVariableUsage(const std::string& variableName, int statementNumber);
 
-  void setVariableUsage(const string& varName, const string& procName);
+  void setVariableUsage(const std::string& variableName,
+                        const std::string& procName);
 
-  set<string> getUsedVariablesForStatement(int stmtNum);
+  std::set<std::string> getUsedVariablesForStatement(int statementNumber);
 
-  unordered_set<string> getUsedVariablesForProc(const string& procName);
+  unordered_set<string> getUsedVariablesForProc(const std::string& procName);
 
-  set<int> getStatementNumbersForUsedVariable(string varName);
+  std::set<int> getStatementNumbersForUsedVariable(std::string variableName);
 
   // PatternStorage methods
-  virtual void setAssignPattern(string varName, string rpn, int stmtNum);
+  virtual void setAssignPattern(std::string variableName, std::string rpn,
+                                int statementNumber);
 
-  vector<string> getExactAssignPattern(string varName, string rpn,
-                                       bool isSynonym);
-  vector<string> getPartialAssignPattern(string varName, string rpn,
-                                         bool isSynonym);
+  std::vector<std::string> getExactAssignPattern(std::string variableName,
+                                                 std::string rpn,
+                                                 bool isSynonym);
+  std::vector<std::string> getPartialAssignPattern(std::string variableName,
+                                                   std::string rpn,
+                                                   bool isSynonym);
 
   // CallsStorage methods
-  void setCallsRelationship(const string& callerProc, const string& calleeProc,
-                            int stmtNum);
-  void setCallsStarRelationship(const string& callerProc,
-                                const string& calleeProc, int stmtNum);
+  void setCallsRelationship(const std::string& callerProc,
+                            const std::string& calleeProc, int statementNumber);
+  void setCallsStarRelationship(const std::string& callerProc,
+                                const std::string& calleeProc,
+                                int statementNumber);
 
-  vector<pair<string, string>> getCallerProcs(const string& procName);
-  vector<pair<string, string>> getCallerProcsStar(const string& procName);
-  vector<pair<string, string>> getCalleeProcs(const string& procName);
-  vector<pair<string, string>> getCalleeProcsStar(const string& procName);
+  vector<pair<string, std::string>> getCallerProcs(const std::string& procName);
+  vector<pair<string, std::string>> getCallerProcsStar(
+      const std::string& procName);
+  vector<pair<string, std::string>> getCalleeProcs(const std::string& procName);
+  vector<pair<string, std::string>> getCalleeProcsStar(
+      const std::string& procName);
 
-  string getProcCalledOn(int stmtNum);
-  vector<string> getProcStarCalledOn(int stmtNum);
+  std::string getProcCalledOn(int statementNumber);
+  vector<string> getProcStarCalledOn(int statementNumber);
 
-  vector<pair<string, string>> getCallingProcedures();
-  vector<pair<string, string>> getCalledProcedures();
+  vector<pair<string, std::string>> getCallingProcedures();
+  vector<pair<string, std::string>> getCalledProcedures();
 
-  bool isCalling(const string& caller, const string& callee);
-  bool isCallingStar(const string& caller, const string& callee);
-  bool isCallingStmt(int stmtNum, const string& callee);
-  bool isCallingStarStmt(int stmtNum, const string& callee);
-  const unordered_map<string, vector<pair<int, string>>>& getCalleeProcsMap();
+  bool isCalling(const std::string& caller, const std::string& callee);
+  bool isCallingStar(const std::string& caller, const std::string& callee);
+  bool isCallingStmt(int statementNumber, const std::string& callee);
+  bool isCallingStarStmt(int statementNumber, const std::string& callee);
+  const unordered_map<string, vector<pair<int, std::string>>>&
+  getCalleeProcsMap();
 
  private:
   CallsStorage callsStorage;
