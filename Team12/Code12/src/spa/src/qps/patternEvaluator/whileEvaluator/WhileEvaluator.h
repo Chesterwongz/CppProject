@@ -13,7 +13,7 @@ class WhileEvaluator : public PatternEvaluator {
                           PKBReader& pkbReader, bool isPartialMatch,
                           string synonymValue)
       : PatternEvaluator(context, patternArgsStream, pkbReader, isPartialMatch,
-                         synonymValue){};
+                         synonymValue) {}
   ~WhileEvaluator() override = default;
   vector<string> processArguments() override;
 };

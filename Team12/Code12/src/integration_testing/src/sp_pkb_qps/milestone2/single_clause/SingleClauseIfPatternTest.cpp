@@ -13,7 +13,7 @@
 using std::string, std::unordered_map, std::map, std::unordered_set, std::set,
     std::vector, std::pair;
 
-string ifSource = 
+string ifSource =
     "procedure p {"
       "if (1 == 2) then {"        // 1
         "while (hoho == 4) {"     // 2

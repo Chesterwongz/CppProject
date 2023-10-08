@@ -14,7 +14,7 @@
 using std::vector, std::set, std::string, std::pair;
 
 class MockPKBReader : public PKBReader {
-public:
+ public:
   set<string> mockAllVariables;
   set<string> mockAllConstants;
   set<string> mockAllProcedures;
@@ -161,21 +161,19 @@ public:
     return mockPartialAssignPattern;
   }
 
-  // TODO: override actual pkb method
-  vector<string> getIfPatternStatement(const string& variableName, 
+  // TODO(houtenteo): override actual pkb method
+  vector<string> getIfPatternStatement(const string& variableName,
                                        bool isSynonym) {
-      return mockIfPattern;
+    return mockIfPattern;
   }
 
-  // TODO: override actual pkb method
+  // TODO(houtenteo): override actual pkb method
   vector<string> getWhilePatternStatement(const string& variableName,
-                                       bool isSynonym) {
-      return mockWhilePattern;
+                                          bool isSynonym) {
+    return mockWhilePattern;
   }
 
-  void resetMockExactAssignPatternStmts() {
-      this->mockExactAssignPattern = {};
-  }
+  void resetMockExactAssignPatternStmts() { this->mockExactAssignPattern = {}; }
 
   void resetMockPartialAssignPatternStmts() {
     this->mockPartialAssignPattern = {};

@@ -10,7 +10,7 @@ vector<string> WhileEvaluator::processArguments() {
 
   vector<string> pkbResult;
 
-  // TODO: call pkb whilePattern API when its implemented
+  // TODO(houtenteo): call pkb whilePattern API when its implemented
   // pkbResult = pkbReader.getWhilePattern(firstArgValue, isFirstArgSynonym);
 
   return pkbResult;

@@ -4,8 +4,8 @@
 
 using std::string;
 
-map<char, int> QPSStringUtils::precedence = {{'(', 0}, {')', 0}, {'+', 1},
-                                             {'-', 1}, {'*', 2}, {'/', 2}, {'%', 2}};
+map<char, int> QPSStringUtils::precedence = {
+    {'(', 0}, {')', 0}, {'+', 1}, {'-', 1}, {'*', 2}, {'/', 2}, {'%', 2}};
 
 bool QPSStringUtils::isSynonym(string data) {
   std::regex synonymPattern("^[A-Za-z][A-Za-z0-9]*$");
