@@ -39,10 +39,10 @@ IntermediateTable getCrossProduct(IntermediateTable table1,
   }
   vector<string> resColumns =
       concatVectors<string>(table1.getColNames(), table2.getColNames());
-  vector<vector<string>> resData = {};
-  for (auto &row1 : table1.getData()) {
-    for (auto &row2 : table2.getData()) {
-      resData.push_back(concatVectors<string>(row1, row2));
+  vector<vector<SynonymRes>> resData = {};
+  for (auto &row1 : table1.getTableData()) {
+    for (auto &row2 : table2.getTableData()) {
+      resData.push_back(concatVectors<SynonymRes>(row1, row2));
     }
   }
   return IntermediateTable(resColumns, resData);
@@ -53,11 +53,11 @@ IntermediateTable getInnerJoin(
     IntermediateTable table1, IntermediateTable table2) {
   vector<string> resColNames =
       concatVectors(table1.getColNames(), table2.getColNames());
-  vector<vector<string>> resData = {};
+  vector<vector<SynonymRes>> resData = {};
   vector<int> table1SharedColIndexes = sharedColumnIndexes.first;
   vector<int> table2SharedColIndexes = sharedColumnIndexes.second;
-  for (auto &table1Row : table1.getData()) {
-    for (auto &table2Row : table2.getData()) {
+  for (auto &table1Row : table1.getTableData()) {
+    for (auto &table2Row : table2.getTableData()) {
       bool isJoin = true;
       for (int i = 0; i < table1SharedColIndexes.size(); i++) {
         // check that for this particular row,
@@ -71,8 +71,8 @@ IntermediateTable getInnerJoin(
         }
       }
       if (isJoin) {
-        vector<string> resRow;
-        resData.push_back(concatVectors(table1Row, table2Row));
+        vector<SynonymRes> resRow;
+        resData.push_back(concatVectors<SynonymRes>(table1Row, table2Row));
       }
     }
   }

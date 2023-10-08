@@ -20,8 +20,9 @@ class SynonymRes {
   unordered_map<AttrRef, string> attributeMap = {};
 
  public:
-  SynonymRes(const string& defaultSynonymValue);
+  explicit SynonymRes(const string& defaultSynonymValue);
   string toString();
   string getAttribute(AttrRef attrRef);
   bool operator==(const SynonymRes& other);
+  bool operator!=(const SynonymRes& other);
 };

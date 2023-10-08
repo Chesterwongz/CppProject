@@ -32,20 +32,11 @@ class IntermediateTable {
 
  public:
   /**
-   * for initialising table from vector of pairs.
-   * only can initialise 2 columns.
-   * @param data data as vector of pairs
-   */
-  explicit IntermediateTable(const string &firstColName,
-                             const string &secondColName,
-                             const vector<pair<string, string>> &data);
-
-  /**
-   * for initialising table from vector of vectors
+   * for initialising table from vector of vectors of SynonymRes
    * @param data data as vector of vectors
    */
   explicit IntermediateTable(const vector<string> &colNames,
-                             const vector<vector<string>> &data);
+                             const vector<vector<SynonymRes>> &data);
 
   /**
    * Wildcard table * ANY = ANY
@@ -61,9 +52,10 @@ class IntermediateTable {
   static IntermediateTable makeEmptyTable();
 
   /**
-   * @return the entire table's data
+   * @return the entire table's data with each cell converted to string
    */
-  vector<vector<string>> getData();
+  vector<vector<string>> getDataAsStrings();
+
 
   /**
    * @param colNameVector vector of column names to retrieve
@@ -110,5 +102,6 @@ class IntermediateTable {
   bool isTableEmpty() const;
   bool isTableWildcard() const;
   bool isTableEmptyAndNotWildcard() const;
+  vector<vector<SynonymRes>> getTableData();
   void printTable();
 };

@@ -16,9 +16,6 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
   if (isFirstColWildcard && isSecondColWildcard) {
     return IntermediateTable::makeWildcardTable();
   }
-  if (!isFirstColWildcard && !isSecondColWildcard) {
-    return IntermediateTable(firstColName, secondColName, data);
-  }
 
   vector<string> columnNamesWithoutWildcard = {};
   if (!isFirstColWildcard) {
@@ -27,14 +24,14 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
   if (!isSecondColWildcard) {
     columnNamesWithoutWildcard.push_back(secondColName);
   }
-  vector<vector<string>> dataWithoutWildcardColumns = {};
+  vector<vector<SynonymRes>> dataWithoutWildcardColumns = {};
   for (auto &dataPair : data) {
-    vector<string> row = {};
+    vector<SynonymRes> row = {};
     if (!isFirstColWildcard) {
-      row.push_back(dataPair.first);
+      row.emplace_back(dataPair.first);
     }
     if (!isSecondColWildcard) {
-      row.push_back(dataPair.second);
+      row.emplace_back(dataPair.second);
     }
     dataWithoutWildcardColumns.push_back(row);
   }
@@ -57,8 +54,9 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
   }
 
   vector<string> columnNamesWithoutWildcard = {};
-  vector<vector<string>> dataWithoutWildcardColumns = {};
+  vector<vector<SynonymRes>> dataWithoutWildcardColumns = {};
   dataWithoutWildcardColumns.reserve(data.size());
+  // add empty vector for each row
   for ([[maybe_unused]] auto &row : data) {
     dataWithoutWildcardColumns.emplace_back();
   }
@@ -71,7 +69,7 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     columnNamesWithoutWildcard.push_back(colName);
     for (int rowIndex = 0; rowIndex < data.size(); rowIndex++) {
       string elementToAdd = data.at(rowIndex).at(colIndex);
-      dataWithoutWildcardColumns.at(rowIndex).push_back(elementToAdd);
+      dataWithoutWildcardColumns.at(rowIndex).emplace_back(elementToAdd);
     }
   }
   return IntermediateTable(columnNamesWithoutWildcard,
@@ -91,11 +89,12 @@ IntermediateTable IntermediateTableFactory::buildSingleColTable(
   }
 
   vector<string> columnNames = {colName};
-  vector<vector<string>> dataColumn = {};
+  vector<vector<SynonymRes>> dataColumn = {};
   dataColumn.reserve(data.size());
-  for (const auto &rowIndex : data) {
-    vector<string> elementToAdd = {rowIndex};
-    dataColumn.push_back(elementToAdd);
+  for (const string &rowData : data) {
+    vector<SynonymRes> row = {};
+    row.emplace_back(rowData);
+    dataColumn.emplace_back(row);
   }
   return IntermediateTable(columnNames, dataColumn);
 }
@@ -110,6 +109,43 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const string &colName, const string &value) {
   vector<string> dataCol = {value};
   return IntermediateTableFactory::buildSingleColTable(colName, dataCol);
+}
+
+IntermediateTable IntermediateTableFactory::buildIntermediateTable(
+    const vector<string> &colNames, const vector<vector<SynonymRes>> &data) {
+  // if data is empty, return empty table
+  // even if columns are wildcard
+  if (data.empty()) {
+    return IntermediateTable::makeEmptyTable();
+  }
+
+  bool isAllWildcardColumns = std::count(colNames.begin(), colNames.end(),
+                                         WILDCARD_KEYWORD) == colNames.size();
+  if (isAllWildcardColumns) {
+    return IntermediateTable::makeWildcardTable();
+  }
+
+  vector<string> columnNamesWithoutWildcard = {};
+  vector<vector<SynonymRes>> dataWithoutWildcardColumns = {};
+  dataWithoutWildcardColumns.reserve(data.size());
+  // add empty vector for each row
+  for ([[maybe_unused]] auto &row : data) {
+    dataWithoutWildcardColumns.emplace_back();
+  }
+  for (int colIndex = 0; colIndex < colNames.size(); colIndex++) {
+    const string &colName = colNames.at(colIndex);
+    if (colName == WILDCARD_KEYWORD) {
+      // ignore wildcard columns
+      continue;
+    }
+    columnNamesWithoutWildcard.push_back(colName);
+    for (int rowIndex = 0; rowIndex < data.size(); rowIndex++) {
+      SynonymRes elementToAdd = data.at(rowIndex).at(colIndex);
+      dataWithoutWildcardColumns.at(rowIndex).push_back(elementToAdd);
+    }
+  }
+  return IntermediateTable(columnNamesWithoutWildcard,
+                           dataWithoutWildcardColumns);
 }
 
 IntermediateTable IntermediateTableFactory::buildEmptyIntermediateTable() {

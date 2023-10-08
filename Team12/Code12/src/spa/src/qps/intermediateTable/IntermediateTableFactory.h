@@ -47,6 +47,13 @@ class IntermediateTableFactory {
   static IntermediateTable buildIntermediateTable(const string &colName,
                                                   const string &value);
 
+  /**
+   * Builds intermediate table without any WILDCARD columns
+   * using using a vector of vectors of SynonymRes
+   */
+  static IntermediateTable buildIntermediateTable(
+      const vector<string> &colNames, const vector<vector<SynonymRes>> &data);
+
   static IntermediateTable buildEmptyIntermediateTable();
 
   static IntermediateTable buildWildcardIntermediateTable();

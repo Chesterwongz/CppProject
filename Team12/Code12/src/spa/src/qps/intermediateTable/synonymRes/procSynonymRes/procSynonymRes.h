@@ -4,5 +4,5 @@
 
 class ProcSynonymRes : public SynonymRes {
  public:
-  ProcSynonymRes(const string& defaultSynonymValue);
+  explicit ProcSynonymRes(const string& defaultSynonymValue);
 };

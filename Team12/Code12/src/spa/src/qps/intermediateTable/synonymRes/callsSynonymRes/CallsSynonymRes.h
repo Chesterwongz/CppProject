@@ -4,5 +4,5 @@
 
 class CallSynonymRes : public StmtSynonymRes {
  public:
-  CallSynonymRes(string& stmtNumber, string& procName);
+  explicit CallSynonymRes(string& stmtNumber, string& procName);
 };

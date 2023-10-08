@@ -9,30 +9,13 @@
 IntermediateTable::IntermediateTable(bool isTableWildcard)
     : isWildcard(isTableWildcard), isEmpty(true) {}
 
-IntermediateTable::IntermediateTable(const string &firstColName,
-                                     const string &secondColName,
-                                     const vector<pair<string, string>> &data) {
-  IntermediateTable::createNewCol(firstColName);
-  IntermediateTable::createNewCol(secondColName);
-  for (auto &dataPair : data) {
-    vector<SynonymRes> row = { {dataPair.first}, {dataPair.second} };
-    this->tableData.push_back(row);
-  }
-  this->isEmpty = false;
-}
-
 IntermediateTable::IntermediateTable(const vector<string> &colNames,
-                                     const vector<vector<string>> &data) {
+                                     const vector<vector<SynonymRes>> &data) {
   for (auto &colName : colNames) {
     IntermediateTable::createNewCol(colName);
   }
   for (auto &dataRow : data) {
-    vector<SynonymRes> synonymDataRow = {};
-    synonymDataRow.reserve(dataRow.size());
-    for (auto &dataItem : dataRow) {
-      synonymDataRow.emplace_back(dataItem);
-    }
-    this->tableData.push_back(synonymDataRow);
+    this->tableData.push_back(dataRow);
   }
   this->isEmpty = false;
 }
@@ -55,7 +38,7 @@ int IntermediateTable::createNewCol(const string &newColName) {
   return this->currentColCount++;
 }
 
-vector<vector<string>> IntermediateTable::getData() {
+vector<vector<string>> IntermediateTable::getDataAsStrings() {
   vector<vector<string>> res;
   for (auto &synonymDataRow : this->tableData) {
     vector<string> row = {};
@@ -66,6 +49,10 @@ vector<vector<string>> IntermediateTable::getData() {
     res.emplace_back(row);
   }
   return res;
+}
+
+vector<vector<SynonymRes>> IntermediateTable::getTableData() {
+  return this->tableData;
 }
 
 set<string> IntermediateTable::getColumns(const vector<string> &colNameVector) {
@@ -189,7 +176,7 @@ void IntermediateTable::printTable() {
   }
   std::cout << colNamesToPrint << std::endl;
 
-  for (auto &row : this->getData()) {
+  for (auto &row : this->getDataAsStrings()) {
     string rowDataToPrint;
     for (auto &col : row) {
       rowDataToPrint += col + " | ";

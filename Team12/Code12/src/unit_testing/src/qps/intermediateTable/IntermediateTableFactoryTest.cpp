@@ -10,7 +10,7 @@ TEST_CASE(
   IntermediateTable tableFromPairs =
       IntermediateTableFactory::buildIntermediateTable(COL_NAME_1, COL_NAME_2,
                                                        PAIR_DATA);
-  REQUIRE(isVectorsSameAsPairs(tableFromPairs.getData(), PAIR_DATA));
+  REQUIRE(isVectorsSameAsPairs(tableFromPairs.getDataAsStrings(), PAIR_DATA));
   REQUIRE(tableFromPairs.isTableEmpty() == false);
   REQUIRE(tableFromPairs.isTableEmptyAndNotWildcard() == false);
   REQUIRE(tableFromPairs.isTableWildcard() == false);
@@ -21,20 +21,20 @@ TEST_CASE(
   IntermediateTable tableFromPairsWithWildcard1 =
       IntermediateTableFactory::buildIntermediateTable(
           COL_NAME_1, COL_NAME_WILDCARD, PAIR_DATA);
-  REQUIRE(tableFromPairsWithWildcard1.getData() == COL_1_2D);
+  REQUIRE(tableFromPairsWithWildcard1.getDataAsStrings() == COL_1_2D);
   REQUIRE(tableFromPairsWithWildcard1.isTableEmpty() == false);
   REQUIRE(tableFromPairsWithWildcard1.isTableEmptyAndNotWildcard() == false);
   REQUIRE(tableFromPairsWithWildcard1.isTableWildcard() == false);
-  REQUIRE(tableFromPairsWithWildcard1.getData().at(0).size() == 1);
+  REQUIRE(tableFromPairsWithWildcard1.getDataAsStrings().at(0).size() == 1);
 
   IntermediateTable tableFromPairsWithWildcard2 =
       IntermediateTableFactory::buildIntermediateTable(COL_NAME_WILDCARD,
                                                        COL_NAME_2, PAIR_DATA);
-  REQUIRE(tableFromPairsWithWildcard2.getData() == COL_2_2D);
+  REQUIRE(tableFromPairsWithWildcard2.getDataAsStrings() == COL_2_2D);
   REQUIRE(tableFromPairsWithWildcard2.isTableEmpty() == false);
   REQUIRE(tableFromPairsWithWildcard2.isTableEmptyAndNotWildcard() == false);
   REQUIRE(tableFromPairsWithWildcard2.isTableWildcard() == false);
-  REQUIRE(tableFromPairsWithWildcard2.getData().at(0).size() == 1);
+  REQUIRE(tableFromPairsWithWildcard2.getDataAsStrings().at(0).size() == 1);
 }
 
 TEST_CASE(
@@ -43,7 +43,7 @@ TEST_CASE(
   IntermediateTable tableFromVectors =
       IntermediateTableFactory::buildIntermediateTable(MULTI_COL_NAME_VECTOR_1,
                                                        MULTI_COL_DATA_1);
-  REQUIRE(tableFromVectors.getData() == MULTI_COL_DATA_1);
+  REQUIRE(tableFromVectors.getDataAsStrings() == MULTI_COL_DATA_1);
   REQUIRE(tableFromVectors.isTableEmpty() == false);
   REQUIRE(tableFromVectors.isTableEmptyAndNotWildcard() == false);
   REQUIRE(tableFromVectors.isTableWildcard() == false);
@@ -55,21 +55,21 @@ TEST_CASE(
   IntermediateTable tableFromVectorsWithWildcard =
       IntermediateTableFactory::buildIntermediateTable(
           MULTI_COL_NAME_VECTOR_WITH_WILDCARD, MULTI_COL_DATA_1);
-  REQUIRE(tableFromVectorsWithWildcard.getData() == MULTI_COL_DATA_1_WILDCARD);
+  REQUIRE(tableFromVectorsWithWildcard.getDataAsStrings() == MULTI_COL_DATA_1_WILDCARD);
   REQUIRE(tableFromVectorsWithWildcard.isTableEmpty() == false);
   REQUIRE(tableFromVectorsWithWildcard.isTableEmptyAndNotWildcard() == false);
   REQUIRE(tableFromVectorsWithWildcard.isTableWildcard() == false);
-  REQUIRE(tableFromVectorsWithWildcard.getData().at(0).size() == 3);
+  REQUIRE(tableFromVectorsWithWildcard.getDataAsStrings().at(0).size() == 3);
 }
 
 TEST_CASE("IntermediateTableFactory - buildSingleColTable") {
   IntermediateTable table =
       IntermediateTableFactory::buildSingleColTable(COL_NAME_3, COL_3);
-  REQUIRE(table.getData() == COL_3_2D);
+  REQUIRE(table.getDataAsStrings() == COL_3_2D);
   REQUIRE(table.isTableEmpty() == false);
   REQUIRE(table.isTableEmptyAndNotWildcard() == false);
   REQUIRE(table.isTableWildcard() == false);
-  REQUIRE(table.getData().at(0).size() == 1);
+  REQUIRE(table.getDataAsStrings().at(0).size() == 1);
 }
 
 TEST_CASE("IntermediateTableFactory - buildSingleColTable - wildcard") {
@@ -82,7 +82,7 @@ TEST_CASE(
     "IntermediateTableFactory - buildIntermediateTable - single_col_from_set") {
   IntermediateTable table =
       IntermediateTableFactory::buildIntermediateTable(COL_NAME_4, COL_4_SET);
-  for (auto &row : table.getData()) {
+  for (auto &row : table.getDataAsStrings()) {
     REQUIRE(count(COL_4_2D.begin(), COL_4_2D.end(), row) == 1);
   }
   REQUIRE(table.isTableEmptyAndNotWildcard() == false);
@@ -104,12 +104,12 @@ TEST_CASE("IntermediateTableFactory - buildIntermediateTable - singleton") {
   IntermediateTable singletonTable =
       IntermediateTableFactory::buildIntermediateTable(COL_NAME_3,
                                                        COL_SINGLETON);
-  REQUIRE(singletonTable.getData() == COL_SINGLETON_2D);
+  REQUIRE(singletonTable.getDataAsStrings() == COL_SINGLETON_2D);
   REQUIRE(singletonTable.isTableEmpty() == false);
   REQUIRE(singletonTable.isTableEmptyAndNotWildcard() == false);
   REQUIRE(singletonTable.isTableWildcard() == false);
-  REQUIRE(singletonTable.getData().size() == 1);
-  REQUIRE(singletonTable.getData().at(0).size() == 1);
+  REQUIRE(singletonTable.getDataAsStrings().size() == 1);
+  REQUIRE(singletonTable.getDataAsStrings().at(0).size() == 1);
 }
 
 TEST_CASE(
@@ -126,7 +126,7 @@ TEST_CASE("IntermediateTableFactory - buildEmptyTable") {
   REQUIRE(emptyTable.isTableEmpty());
   REQUIRE(emptyTable.isTableEmptyAndNotWildcard());
   REQUIRE(emptyTable.isTableWildcard() == false);
-  REQUIRE(emptyTable.getData().empty());
+  REQUIRE(emptyTable.getDataAsStrings().empty());
 }
 
 TEST_CASE("IntermediateTableFactory - buildWildcardTable") {
@@ -135,5 +135,5 @@ TEST_CASE("IntermediateTableFactory - buildWildcardTable") {
   REQUIRE(wildcardTable.isTableWildcard());
   REQUIRE(wildcardTable.isTableEmpty());
   REQUIRE(wildcardTable.isTableEmptyAndNotWildcard() == false);
-  REQUIRE(wildcardTable.getData().empty());
+  REQUIRE(wildcardTable.getDataAsStrings().empty());
 }

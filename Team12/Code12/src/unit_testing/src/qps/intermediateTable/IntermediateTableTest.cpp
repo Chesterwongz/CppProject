@@ -4,41 +4,45 @@
 #include "IntermediateTableTestData.h"
 #include "IntermediateTableTestUtils.h"
 #include "qps/intermediateTable/IntermediateTableUtils.h"
+#include "qps/intermediateTable/IntermediateTableFactory.h"
 
 IntermediateTable DOUBLE_COLUMN_TABLE_FROM_PAIR_1 =
-    IntermediateTable(COL_NAME_1, COL_NAME_2, PAIR_DATA);
+    IntermediateTableFactory::buildIntermediateTable(COL_NAME_1, COL_NAME_2, PAIR_DATA);
 
 IntermediateTable DOUBLE_COLUMN_TABLE_FROM_VECTORS_1 =
-    IntermediateTable(DOUBLE_COL_NAME_VECTOR, DOUBLE_COL_VECTOR_DATA);
+    IntermediateTableFactory::buildIntermediateTable(DOUBLE_COL_NAME_VECTOR, DOUBLE_COL_VECTOR_DATA);
 
 IntermediateTable DOUBLE_COLUMN_TABLE_FROM_VECTORS_2 =
-    IntermediateTable(doubleColNameVector2, DOUBLE_COL_VECTOR_DATA_2);
+    IntermediateTableFactory::buildIntermediateTable(doubleColNameVector2, DOUBLE_COL_VECTOR_DATA_2);
 
 IntermediateTable MULTI_COLUMN_TABLE_1 =
-    IntermediateTable(MULTI_COL_NAME_VECTOR_1, MULTI_COL_DATA_1);
+    IntermediateTableFactory::buildIntermediateTable(MULTI_COL_NAME_VECTOR_1, MULTI_COL_DATA_1);
 
 IntermediateTable MULTI_COLUMN_TABLE_2 =
-    IntermediateTable(MULTI_COL_NAME_VECTOR_2, MULTI_COL_DATA_2);
+    IntermediateTableFactory::buildIntermediateTable(MULTI_COL_NAME_VECTOR_2, MULTI_COL_DATA_2);
 
-IntermediateTable WILDCARD_TABLE = IntermediateTable::makeWildcardTable();
+IntermediateTable WILDCARD_TABLE = IntermediateTableFactory::buildWildcardIntermediateTable();
 
-IntermediateTable EMPTY_TABLE = IntermediateTable::makeEmptyTable();
+IntermediateTable EMPTY_TABLE = IntermediateTableFactory::buildEmptyIntermediateTable();
 
-TEST_CASE("IntermediateTable - constructors + getData") {
-  REQUIRE(isVectorsSameAsPairs(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getData(),
+TEST_CASE("IntermediateTable - constructors + getDataAsStrings") {
+  REQUIRE(isVectorsSameAsPairs(
+      DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getDataAsStrings(),
                                PAIR_DATA));
-  REQUIRE(isVectorsSameAsPairs(DOUBLE_COLUMN_TABLE_FROM_VECTORS_1.getData(),
+  REQUIRE(isVectorsSameAsPairs(
+      DOUBLE_COLUMN_TABLE_FROM_VECTORS_1.getDataAsStrings(),
                                PAIR_DATA));
   std::cout << "expect \"row 0 incorrect\":" << std::endl;
-  REQUIRE(isVectorsSameAsPairs(DOUBLE_COLUMN_TABLE_FROM_VECTORS_2.getData(),
+  REQUIRE(isVectorsSameAsPairs(
+              DOUBLE_COLUMN_TABLE_FROM_VECTORS_2.getDataAsStrings(),
                                PAIR_DATA) == false);
 
-  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getData() ==
-          DOUBLE_COLUMN_TABLE_FROM_VECTORS_1.getData());
-  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getData() == DOUBLE_COL_VECTOR_DATA);
-  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_VECTORS_1.getData() ==
+  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getDataAsStrings() ==
+          DOUBLE_COLUMN_TABLE_FROM_VECTORS_1.getDataAsStrings());
+  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getDataAsStrings() == DOUBLE_COL_VECTOR_DATA);
+  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_VECTORS_1.getDataAsStrings() ==
           DOUBLE_COL_VECTOR_DATA);
-  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_VECTORS_2.getData() ==
+  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_VECTORS_2.getDataAsStrings() ==
           DOUBLE_COL_VECTOR_DATA_2);
 }
 
@@ -46,14 +50,14 @@ TEST_CASE("IntermediateTable - makeEmptyTable") {
   REQUIRE(EMPTY_TABLE.isTableEmpty());
   REQUIRE(EMPTY_TABLE.isTableEmptyAndNotWildcard());
   REQUIRE(EMPTY_TABLE.isTableWildcard() == false);
-  REQUIRE(EMPTY_TABLE.getData().empty());
+  REQUIRE(EMPTY_TABLE.getDataAsStrings().empty());
 }
 
 TEST_CASE("IntermediateTable - makeWildcardTable") {
   REQUIRE(WILDCARD_TABLE.isTableWildcard());
   REQUIRE(WILDCARD_TABLE.isTableEmpty());
   REQUIRE(WILDCARD_TABLE.isTableEmptyAndNotWildcard() == false);
-  REQUIRE(WILDCARD_TABLE.getData().empty());
+  REQUIRE(WILDCARD_TABLE.getDataAsStrings().empty());
 }
 
 TEST_CASE("IntermediateTable - getColumns") {
@@ -108,39 +112,39 @@ TEST_CASE("IntermediateTable - getSharedColNames, getSharedColIndexes") {
 TEST_CASE("IntermediateTable - join - cross") {
   IntermediateTable crossTable = DOUBLE_COLUMN_TABLE_FROM_VECTORS_1.join(
       DOUBLE_COLUMN_TABLE_FROM_VECTORS_2);
-  REQUIRE(crossTable.getData() == DOUBLE_COL_VECTOR_DATA_CROSS);
+  REQUIRE(crossTable.getDataAsStrings() == DOUBLE_COL_VECTOR_DATA_CROSS);
 }
 
 TEST_CASE("IntermediateTable - join - inner join") {
   IntermediateTable joinTable = MULTI_COLUMN_TABLE_1.join(MULTI_COLUMN_TABLE_2);
-  REQUIRE(joinTable.getData() == MULTI_COL_DATA_JOIN);
+  REQUIRE(joinTable.getDataAsStrings() == MULTI_COL_DATA_JOIN);
 }
 
 TEST_CASE("IntermediateTable - join - any_x_empty") {
   // data x EMPTY
   IntermediateTable dataJoinEmptyTable = MULTI_COLUMN_TABLE_1.join(EMPTY_TABLE);
   REQUIRE(dataJoinEmptyTable.isTableEmpty());
-  REQUIRE(dataJoinEmptyTable.getData().empty());
+  REQUIRE(dataJoinEmptyTable.getDataAsStrings().empty());
 
   // EMPTY x data
   IntermediateTable emptyJoinDataTable = EMPTY_TABLE.join(MULTI_COLUMN_TABLE_1);
   REQUIRE(emptyJoinDataTable.isTableEmpty());
-  REQUIRE(emptyJoinDataTable.getData().empty());
+  REQUIRE(emptyJoinDataTable.getDataAsStrings().empty());
 
   // WILDCARD X EMPTY
   IntermediateTable wildcardJoinEmptyTable = WILDCARD_TABLE.join(EMPTY_TABLE);
   REQUIRE(wildcardJoinEmptyTable.isTableEmpty());
-  REQUIRE(wildcardJoinEmptyTable.getData().empty());
+  REQUIRE(wildcardJoinEmptyTable.getDataAsStrings().empty());
 
   // EMPTY X WILDCARD
   IntermediateTable emptyJoinWildcardTable = EMPTY_TABLE.join(WILDCARD_TABLE);
   REQUIRE(emptyJoinWildcardTable.isTableEmpty());
-  REQUIRE(emptyJoinWildcardTable.getData().empty());
+  REQUIRE(emptyJoinWildcardTable.getDataAsStrings().empty());
 
   // EMPTY X EMPTY
   IntermediateTable emptyJoinEmptyTable = EMPTY_TABLE.join(EMPTY_TABLE);
   REQUIRE(emptyJoinEmptyTable.isTableEmpty());
-  REQUIRE(emptyJoinEmptyTable.getData().empty());
+  REQUIRE(emptyJoinEmptyTable.getDataAsStrings().empty());
 }
 
 TEST_CASE("IntermediateTable - join - any_x_wildcard") {
@@ -148,19 +152,19 @@ TEST_CASE("IntermediateTable - join - any_x_wildcard") {
   IntermediateTable dataJoinWildcardTable =
       MULTI_COLUMN_TABLE_1.join(WILDCARD_TABLE);
   REQUIRE(dataJoinWildcardTable.isTableWildcard() == false);
-  REQUIRE(dataJoinWildcardTable.getData() == MULTI_COL_DATA_1);
+  REQUIRE(dataJoinWildcardTable.getDataAsStrings() == MULTI_COL_DATA_1);
 
   // WILDCARD X DATA
   IntermediateTable wildcardJoinDataTable =
       WILDCARD_TABLE.join(MULTI_COLUMN_TABLE_1);
   REQUIRE(wildcardJoinDataTable.isTableWildcard() == false);
-  REQUIRE(wildcardJoinDataTable.getData() == MULTI_COL_DATA_1);
+  REQUIRE(wildcardJoinDataTable.getDataAsStrings() == MULTI_COL_DATA_1);
 
   // WILDCARD X WILDCARD
   IntermediateTable wildcardJoinWildcardTable =
       WILDCARD_TABLE.join(WILDCARD_TABLE);
   REQUIRE(wildcardJoinWildcardTable.isTableWildcard() == true);
-  REQUIRE(wildcardJoinWildcardTable.getData().empty());
+  REQUIRE(wildcardJoinWildcardTable.getDataAsStrings().empty());
 
   // WILDCARD X EMPTY and vice versa is already
   // tested in "any_x_empty" tests

@@ -21,3 +21,7 @@ bool SynonymRes::operator==(const SynonymRes& other) {
   return this->defaultSynonymValue == other.defaultSynonymValue &&
          this->attributeMap == other.attributeMap;
 }
+
+bool SynonymRes::operator!=(const SynonymRes& other) {
+  return !(*this == other);
+}

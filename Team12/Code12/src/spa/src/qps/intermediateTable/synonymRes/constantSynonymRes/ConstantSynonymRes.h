@@ -4,5 +4,5 @@
 
 class ConstantSynonymRes : public SynonymRes {
  public:
-  ConstantSynonymRes(const string& defaultSynonymValue);
+  explicit ConstantSynonymRes(const string& defaultSynonymValue);
 };
