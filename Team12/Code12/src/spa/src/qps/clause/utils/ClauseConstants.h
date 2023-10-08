@@ -9,7 +9,7 @@
 using std::string, std::unordered_map;
 typedef string Entity;
 
-const unordered_map<Entity, StmtType> EntityToStatementType = {
+const unordered_map<Entity, StmtType> StmtEntityToStatementType = {
     {ASSIGN_ENTITY, StmtType::ASSIGN}, {CALL_ENTITY, StmtType::CALL},
     {IF_ENTITY, StmtType::IF},         {PRINT_ENTITY, StmtType::PRINT},
     {READ_ENTITY, StmtType::READ},     {WHILE_ENTITY, StmtType::WHILE},
