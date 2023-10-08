@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "sp/ast/statements/CallNode.h"
-#include "sp/parser/abstractparser/AbstractParser.h"
+#include "common/parser/abstractparser/AbstractParser.h"
 
 class CallParser : public AbstractParser {
  public:

@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "sp/ast/statements/IfNode.h"
-#include "sp/parser/abstractparser/AbstractParser.h"
+#include "common/parser/abstractparser/AbstractParser.h"
 #include "sp/parser/condexprparser/CondExprParser.h"
 #include "sp/parser/toplevelparsers/StmtLstParser.h"
 

@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "sp/ast/expressions/ExprNodeFactory.h"
-#include "sp/parser/abstractparser/AbstractParser.h"
+#include "common/parser/abstractparser/AbstractParser.h"
 
 class ArithmParserTemplate : public AbstractParser {
  public:

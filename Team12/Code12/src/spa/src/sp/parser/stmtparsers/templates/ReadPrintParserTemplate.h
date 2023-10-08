@@ -3,7 +3,7 @@
 #include <memory>
 #include <utility>
 
-#include "sp/parser/abstractparser/AbstractParser.h"
+#include "common/parser/abstractparser/AbstractParser.h"
 #include "sp/parser/terminalparsers//VarParser.h"
 
 class ReadPrintParserTemplate : public AbstractParser {
