@@ -3,35 +3,38 @@
 #include <set>
 #include <string>
 #include <unordered_map>
+#include "pkb/interfaces/storage/entitystorage/IEntityStorage.h"
 
-class DesignEntitiesStorage {
+class DesignEntitiesStorage : public virtual IEntityStorage {
  public:
   DesignEntitiesStorage();
 
   // Setter for variables
-  void setVariable(const std::string& variableName);
+  void setVariable(const std::string& variableName) override;
 
   // Setter for constants
-  void setConstant(const std::string& constantValue);
+  void setConstant(const std::string& constantValue) override;
 
   // Setter for procedure names
-  void setProcedure(const std::string& procedureName, int startStatement);
+  void setProcedure(const std::string& procedureName,
+                    int startStatement) override;
 
   // Return the names of all variables in the program
-  std::set<std::string> getAllVariables();
+  std::set<std::string> getAllVariables() override;
 
   // Return all constants in the program
-  std::set<std::string> getAllConstants();
+  std::set<std::string> getAllConstants() override;
 
   // Return the names of all procedures in the program
-  std::set<std::string> getAllProcedures();
+  std::set<std::string> getAllProcedures() override;
 
   // Return the name of the procedure whose code begins on that particular
   // statement
-  std::string getProcedureStartingOnStatement(int statementNumber);
+  std::string getProcedureStartingOnStatement(int statementNumber) override;
 
   // Return the starting statement number of a particular procedure
-  int getStartingStatementOfProcedure(const std::string& procedureName);
+  int getStartingStatementOfProcedure(
+      const std::string& procedureName) override;
 
  private:
   std::set<std::string> variableData;

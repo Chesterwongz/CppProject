@@ -1,6 +1,7 @@
 #include <catch.hpp>
+#include <set>
 
-#include "../../../../spa/src/pkb/storage/DesignEntitiesStorage.h"
+#include "pkb/storage/entitystorage/DesignEntitiesStorage.h"
 
 TEST_CASE("DesignEntitiesStorage Tests") {
   DesignEntitiesStorage storage;
@@ -31,6 +32,6 @@ TEST_CASE("DesignEntitiesStorage Tests") {
   SECTION("Get Procedure Starting on Statement") {
     REQUIRE(storage.getProcedureStartingOnStatement(1) == "proc1");
     REQUIRE(storage.getProcedureStartingOnStatement(5) == "proc2");
-    REQUIRE(storage.getProcedureStartingOnStatement(3) == "");
+    REQUIRE(storage.getProcedureStartingOnStatement(3).empty());
   }
 }

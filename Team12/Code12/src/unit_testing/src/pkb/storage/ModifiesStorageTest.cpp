@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include "../../../../spa/src/pkb/storage/ModifiesStorage.h"
+#include "pkb/storage/relationshipstorage/ModifiesStorage.h"
 
 TEST_CASE("ModifiesStorage Tests") {
   ModifiesStorage storage;

@@ -3,28 +3,29 @@
 #include <set>
 #include <unordered_map>
 #include <vector>
+#include "pkb/interfaces/storage/IParentStorage.h"
 
-class ParentStorage {
+class ParentStorage : public virtual IParentStorage {
  public:
   ParentStorage();
 
   // Setter for parent relationship
-  void setParent(int statementNumber, int childStatement);
+  void setParent(int statementNumber, int childStatement) override;
 
   // Setter for parent* relationship
-  void setParentStar(int statementNumber, int childStatement);
+  void setParentStar(int statementNumber, int childStatement) override;
 
   // Return all the immediate children of a particular statement
-  std::set<int> getImmediateChildren(int statementNumber);
+  std::set<int> getImmediateChildren(int statementNumber) override;
 
   // Return the immediate parent of a particular statmement
-  int getImmediateParent(int statementNumber);
+  int getImmediateParent(int statementNumber) override;
 
   // Return all children of a particular statement
-  std::set<int> getAllChildren(int statementNumber);
+  std::set<int> getAllChildren(int statementNumber) override;
 
-  // Return all parents of a particular sttaement
-  std::set<int> getAllParents(int statementNumber);
+  // Return all parents of a particular statement
+  std::set<int> getAllParents(int statementNumber) override;
 
   // Return all statements that are parents of some statement in the program
   std::set<int> getAllParents();

@@ -2,14 +2,16 @@
 
 #include <set>
 #include <string>
-#include <utility>
 #include <vector>
 
-#include "common/StmtTypes.h"
-
-class IStatementReader {
+class IPatternStorage {
  public:
-  virtual std::set<std::string> getStatement(StmtType statementType) = 0;
+  virtual ~IPatternStorage() = default;
+
+  virtual void setAssignPattern(const std::string& variableName,
+                                const std::string& rpn,
+                                int statementNumber) = 0;
+
   virtual std::vector<std::string> getExactAssignPattern(
       const std::string& variableName, const std::string& rpn,
       bool isSynonym) = 0;
