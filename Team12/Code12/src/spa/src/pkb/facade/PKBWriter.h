@@ -1,8 +1,8 @@
 #pragma once
 
 #include <memory>
-#include <queue>
 #include <set>
+#include <stack>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -21,7 +21,9 @@
 #include "pkb/interfaces/writers/IStatementWriter.h"
 #include "pkb/interfaces/writers/IUsesWriter.h"
 
-using std::unique_ptr, std::queue, std::string, std::unordered_set;
+using std::unique_ptr, std::string, std::unordered_set, std::stack;
+using StmtProcPairsSet =
+    unordered_set<pair<string, string>, PairUtils::PairHash>;
 
 class PKBWriter : public virtual IDesignEntitiesWriter,
                   public virtual IFollowsWriter,
@@ -100,6 +102,7 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
       const string& caller,
       const unordered_set<pair<string, string>, PairUtils::PairHash>&
           visitedCallees);
-  void insertDirectCalleesOfProc(queue<pair<string, string>>& toVisit,
+  void insertDirectCalleesOfProc(stack<pair<string, string>>& toVisit,
+                                 const StmtProcPairsSet& visitedCallees,
                                  const string& currProc);
 };

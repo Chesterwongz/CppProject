@@ -88,35 +88,36 @@ void PKBWriter::setRelationshipsForIndirectCalls(
   }
 }
 
-void PKBWriter::insertDirectCalleesOfProc(queue<pair<string, string>> &toVisit,
-                                          const string &currProc) {
-  for (const auto &[stmtNum, callee] : storage.getCalleeProcs(currProc)) {
-    toVisit.emplace(stmtNum, callee);
+void PKBWriter::insertDirectCalleesOfProc(
+    stack<pair<string, string>> &toVisit,
+    const StmtProcPairsSet &visitedCallees, const string &currProc) {
+  for (const auto &pair : storage.getCalleeProcs(currProc)) {
+    if (visitedCallees.find(pair) == visitedCallees.end()) {
+      toVisit.emplace(pair);
+    }
   }
 }
 
 void PKBWriter::setIndirectCallsRelationship() {
   for (const auto &[caller, directStmtCallees] : storage.getCalleeProcsMap()) {
-    unordered_set<pair<string, string>, PairUtils::PairHash> visitedCallees;
-    queue<pair<string, string>> toVisit;
+    StmtProcPairsSet visitedCallees;
+    stack<pair<string, string>> toVisit;
     for (const auto &[stmtNum, callee] : directStmtCallees) {
       toVisit.emplace(std::to_string(stmtNum), callee);
     }
     while (!toVisit.empty()) {
-      pair<string, string> curr = toVisit.front();
+      pair<string, string> curr = toVisit.top();
       string currProc = curr.second;
       toVisit.pop();
-      if (visitedCallees.find(curr) != visitedCallees.end()) {
-        continue;  // already inserted curr callee
-      }
       visitedCallees.insert(curr);
       vector<pair<string, string>> allCalleesOfCurr =
           storage.getCalleeProcsStar(currProc);
-      if (!allCalleesOfCurr.empty()) {
+      if (allCalleesOfCurr.empty()) {
+        insertDirectCalleesOfProc(toVisit, visitedCallees, currProc);
+      } else {
+        // already computed transitive calls for currProc
         visitedCallees.insert(allCalleesOfCurr.begin(), allCalleesOfCurr.end());
-        continue;  // already computed transitive calls by curr
       }
-      insertDirectCalleesOfProc(toVisit, currProc);
     }
     setRelationshipsForIndirectCalls(caller, visitedCallees);
   }
