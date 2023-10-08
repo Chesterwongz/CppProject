@@ -15,6 +15,7 @@ using StmtProcPairsSet =
     unordered_set<pair<string, string>, PairUtils::PairHash>;
 using ProcToStmtProcSetMap = unordered_map<string, StmtProcPairsSet>;
 
+// TODO(Xiaoyun): remove print methods after MS2 testing
 void printVars(const string& abstraction, const unordered_set<string>& set) {
   std::cout << abstraction << ": ";
   for (const string& var : set) {
@@ -36,11 +37,8 @@ void validateModifiesProcVar(PKBReader& reader, const vector<string>& procs,
                              ProcToVarSetMap expectedModifiesMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedModifies = expectedModifiesMap[proc];
-    std::cout << "proc: " << proc << std::endl;
-    printVars("expectedModifies", expectedModifies);
     unordered_set<string> actualModifies =
         reader.getModifiedVariablesForProc(proc);
-    printVars("actualModifies", actualModifies);
     REQUIRE(actualModifies == expectedModifies);
   }
 }
@@ -49,10 +47,7 @@ void validateUsesProcVar(PKBReader& reader, const vector<string>& procs,
                          ProcToVarSetMap expectedUsesMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedUses = expectedUsesMap[proc];
-    std::cout << "proc: " << proc << std::endl;
-    printVars("expectedUses", expectedUses);
     unordered_set<string> actualUses = reader.getUsedVariablesForProc(proc);
-    printVars("actualUses", actualUses);
     REQUIRE(actualUses == expectedUses);
   }
 }
@@ -61,16 +56,11 @@ void validateCalls(PKBReader& reader, const vector<string>& procs,
                    ProcToStmtProcSetMap expectedCallsMap) {
   for (const string& proc : procs) {
     StmtProcPairsSet expectedCalls = expectedCallsMap[proc];
-
-    std::cout << "proc: " << proc << std::endl;
-    printStmtProcPairs("expectedCalls", expectedCalls);
-
     vector<pair<string, string>> actualCalls = reader.getCalleeProcs(proc);
     StmtProcPairsSet actualCallsSet;
     for (const auto& pair : actualCalls) {
       actualCallsSet.insert(pair);
     }
-    printStmtProcPairs("actualCalls", actualCallsSet);
     REQUIRE(actualCallsSet == expectedCalls);
   }
 }
@@ -79,17 +69,12 @@ void validateCallsStar(PKBReader& reader, const vector<string>& procs,
                        ProcToStmtProcSetMap expectedCallsStarMap) {
   for (const string& proc : procs) {
     StmtProcPairsSet expectedCallsStar = expectedCallsStarMap[proc];
-
-    std::cout << "proc: " << proc << std::endl;
-    printStmtProcPairs("expectedCallsStar", expectedCallsStar);
-
     vector<pair<string, string>> actualCallsStar =
         reader.getCalleeProcsStar(proc);
     StmtProcPairsSet actualCallsStarSet;
     for (const auto& pair : actualCallsStar) {
       actualCallsStarSet.insert(pair);
     }
-    printStmtProcPairs("actualCallsStar", actualCallsStarSet);
     REQUIRE(actualCallsStarSet == expectedCallsStar);
   }
 }
