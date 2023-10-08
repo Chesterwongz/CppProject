@@ -1,14 +1,14 @@
-#include <map>
-#include <set>
+#include <catch.hpp>
+#include "sp/SourceProcessor.h"
+#include "pkb/facade/PKB.h"
+#include "qps/QPS.h"
+
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-#include <catch.hpp>
-
-#include "pkb/facade/PKB.h"
-#include "qps/QPS.h"
-#include "sp/SourceProcessor.h"
+#include <map>
+#include <set>
 
 using std::string, std::unordered_map, std::map, std::unordered_set, std::set,
     std::vector, std::pair;
@@ -146,6 +146,118 @@ TEST_CASE(
   string query =
       "assign a;\n"
       "Select a such that pattern a(_, _\"01\"_)";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(sourceInvalidSyntax, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  set<string> expected = {"SyntaxError"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone1/InvalidQueries/SyntacticallyInvalid_queries.txt "
+    "- 9") {
+  string query =
+      "assign a;\n"
+      "Select a such that pattern a(_, _\"\"_)";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(sourceInvalidSyntax, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  set<string> expected = {"SyntaxError"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone1/InvalidQueries/SyntacticallyInvalid_queries.txt "
+    "- 10") {
+  string query =
+      "assign a;\n"
+      "Select a such that pattern a(_, _\"_\"_)";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(sourceInvalidSyntax, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  set<string> expected = {"SyntaxError"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone1/InvalidQueries/SyntacticallyInvalid_queries.txt "
+    "- 11") {
+  string query =
+      "assign a;\n"
+      "Select a such that pattern a(_, _,_)";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(sourceInvalidSyntax, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  set<string> expected = {"SyntaxError"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone1/InvalidQueries/SyntacticallyInvalid_queries.txt "
+    "- 12") {
+  string query =
+      "assign a;\n"
+      "Select a such that pattern a(_, _\"(1\")";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(sourceInvalidSyntax, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  set<string> expected = {"SyntaxError"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone1/InvalidQueries/SyntacticallyInvalid_queries.txt "
+    "- 13") {
+  string query =
+      ";\n"
+      "Select s";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(sourceInvalidSyntax, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  set<string> expected = {"SyntaxError"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone1/InvalidQueries/SyntacticallyInvalid_queries.txt "
+    "- 14") {
+  string query =
+      "Read read;\n"
+      "Select read";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(sourceInvalidSyntax, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  set<string> expected = {"SyntaxError"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone1/InvalidQueries/SyntacticallyInvalid_queries.txt "
+    "- 15") {
+  string query =
+      "if if\n"
+      "Select if";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());

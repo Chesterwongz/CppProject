@@ -1,5 +1,4 @@
 import re
-import sys
 
 
 def extract_information(txt_content):
@@ -89,8 +88,8 @@ if __name__ == "__main__":
     #     sys.exit(1)
 
     source_filename = "../../Tests12/Milestone1/InvalidQueries" \
-                      "/SemanticallyInvalid_source.txt"
+                      "/SyntacticallyInvalid_source.txt"
     query_filename = "../../Tests12/Milestone1/InvalidQueries" \
-                     "/SemanticallyInvalid_queries.txt"
-    destination_filename = "TestInvalidSemantics.cpp"
+                     "/SyntacticallyInvalid_queries.txt"
+    destination_filename = "milestone1/invalid_queries/TestInvalidSyntax.cpp"
     process_files(source_filename, query_filename, destination_filename)

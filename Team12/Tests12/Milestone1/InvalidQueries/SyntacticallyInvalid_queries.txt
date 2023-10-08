@@ -1,40 +1,75 @@
 ====== 1 - Follows * cannot have space ======
 stmt s;
 Select s such that Follows *(_, _)
-SyntacticError
+SyntaxError
 1000
 ====== 2 - Parent * cannot have space ======
 stmt s;
 Select s such that Parent *(_, _)
-SyntacticError
+SyntaxError
 1000
 ====== 3 - Assign Pattern arg1 must be entRef ======
 assign a;
 Select a such that pattern a("1", _)
-SyntacticError
+SyntaxError
 1000
 ====== 4 - Assign Pattern arg1 must be entRef ======
 assign a;
 Select a such that pattern a("1a", _)
-SyntacticError
+SyntaxError
 1000
 ====== 5 - Assign Pattern arg1 must be entRef ======
 assign a;
 Select a such that pattern a("_", _)
-SyntacticError
+SyntaxError
 1000
 ====== 6 - Assign Pattern arg2 Literal must be valid expr ======
 assign a;
 Select a such that pattern a(_, _"+y"_)
-SyntacticError
+SyntaxError
 1000
 ====== 7 - Assign Pattern arg2 Literal must be valid expr ======
 assign a;
 Select a such that pattern a(_, _"x+"_)
-SyntacticError
+SyntaxError
 1000
 ====== 8 - Assign Pattern arg2 Literal must be valid expr ======
 assign a;
 Select a such that pattern a(_, _"01"_)
-SyntacticError
+SyntaxError
+1000
+====== 9 - Assign Pattern arg2 Literal must be valid expr ======
+assign a;
+Select a such that pattern a(_, _""_)
+SyntaxError
+1000
+====== 10 - Assign Pattern arg2 Literal must be valid expr ======
+assign a;
+Select a such that pattern a(_, _"_"_)
+SyntaxError
+1000
+====== 11 - Assign Pattern arg2 Literal must be valid expr ======
+assign a;
+Select a such that pattern a(_, _,_)
+SyntaxError
+1000
+====== 12 - Assign Pattern arg2 Literal must be valid expr ======
+assign a;
+Select a such that pattern a(_, _"(1")
+SyntaxError
+1000
+====== 13 - Invalid declaration ======
+;
+Select s
+SyntaxError
+1000
+====== 14 - Invalid declaration ======
+Read read;
+Select read
+SyntaxError
+1000
+====== 15 - Invalid declaration ======
+if if
+Select if
+SyntaxError
 1000
