@@ -145,7 +145,7 @@ TEST_CASE(
   // since an if statement that uses "hehe" DOES NOT exist
   string query =
       "if if1, if2;\n"
-      "Select if1 pattern if2(\"hoho\", _, _)";
+      "Select if1 pattern if2(\"hehe\", _, _)";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(ifSource, pkb.getWriter());
