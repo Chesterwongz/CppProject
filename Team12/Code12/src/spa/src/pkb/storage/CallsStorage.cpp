@@ -14,7 +14,8 @@ void CallsStorage::setCallsStarRelationship(const string& caller,
   calledByStarMap[callee].emplace_back(make_pair(statementNumber, caller));
 }
 
-vector<pair<string, string>> CallsStorage::getCalleeProcs(const string& procedure) {
+vector<pair<string, string>> CallsStorage::getCalleeProcs(
+    const string& procedure) {
   vector<pair<string, string>> result;
   auto callsSet = callsMap[procedure];
   for (const auto& [stmtNum, callee] : callsSet) {

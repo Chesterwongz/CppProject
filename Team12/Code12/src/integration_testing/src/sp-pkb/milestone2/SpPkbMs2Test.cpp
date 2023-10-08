@@ -1,8 +1,8 @@
-#include <catch.hpp>
 #include <set>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <catch.hpp>
 
 #include "pkb/facade/PKB.h"
 #include "pkb/facade/PKBReader.h"
@@ -470,12 +470,12 @@ TEST_CASE(
       "    }"
       "}"
       "procedure Process {"
-      "    if ((a * b - (p + q * r / d % f)) == (c / d)) then {"      // 6
-      "        call Finish;"                    // 7
+      "    if ((a * b - (p + q * r / d % f)) == (c / d)) then {"  // 6
+      "        call Finish;"                                      // 7
       "    } else {"
-      "        call Clean;"                     // 8
-      "        v = u + 5;"                      // 9
-      "        call Update;"                    // 10
+      "        call Clean;"   // 8
+      "        v = u + 5;"    // 9
+      "        call Update;"  // 10
       "    }"
       "    print v;"  // 11
       "}"
@@ -502,7 +502,8 @@ TEST_CASE(
                                          {"Finish", {"v", "j"}},
                                          {"Update", {"v"}}};
   ProcToVarSetMap expectedUsesMap = {
-      {"Init", {"a", "b", "c", "d", "e", "f", "h", "p", "q", "r", "u", "v", "j"}},
+      {"Init",
+       {"a", "b", "c", "d", "e", "f", "h", "p", "q", "r", "u", "v", "j"}},
       {"Process", {"a", "b", "c", "d", "f", "p", "q", "r", "u", "v", "j"}},
       {"Clean", {}},
       {"Finish", {"j"}},

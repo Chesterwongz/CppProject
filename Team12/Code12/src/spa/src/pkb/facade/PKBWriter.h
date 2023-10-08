@@ -6,6 +6,8 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "common/cfg/CFG.h"
 #include "common/utils/PairUtils.h"
@@ -95,6 +97,7 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
       const string& caller,
       const unordered_set<pair<string, string>, PairUtils::PairHash>&
           visitedCallees);
-//  unordered_set<pair<string, string>, PairUtils::PairHash> getIndirectCallees(
-//      int stmtNum, const string& proc);
+  //  unordered_set<pair<string, string>, PairUtils::PairHash>
+  //  getIndirectCallees(
+  //      int stmtNum, const string& proc);
 };
