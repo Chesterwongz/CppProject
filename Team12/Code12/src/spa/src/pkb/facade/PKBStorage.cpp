@@ -168,8 +168,7 @@ vector<pair<string, string>> PKBStorage::getCallerProcsStar(
   return callsStorage.getCallerProcsStar(callee);
 }
 
-vector<pair<string, string>> PKBStorage::getCalleeProcs(
-    const string& caller) {
+vector<pair<string, string>> PKBStorage::getCalleeProcs(const string& caller) {
   return callsStorage.getCalleeProcs(caller);
 }
 

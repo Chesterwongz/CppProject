@@ -12,28 +12,36 @@
 using std::set, std::string, std::unordered_map, std::unordered_set;
 
 using ProcToVarSetMap = unordered_map<string, unordered_set<string>>;
-using ProcToStmtProcSetMap =
-    unordered_map<string,
-                  unordered_set<pair<string, string>, PairUtils::PairHash>>;
+using StmtProcPairsSet =
+    unordered_set<pair<string, string>, PairUtils::PairHash>;
+using ProcToStmtProcSetMap = unordered_map<string, StmtProcPairsSet>;
+
+void printVars(const string& abstraction, const unordered_set<string>& set) {
+  std::cout << abstraction << ": ";
+  for (const string& var : set) {
+    std::cout << var << ", ";
+  }
+  std::cout << std::endl << "-------------" << std::endl;
+}
+
+void printStmtProcPairs(const string& abstraction,
+                        const StmtProcPairsSet& set) {
+  std::cout << abstraction << ": ";
+  for (const auto& [stmtNum, proc] : set) {
+    std::cout << "(" << stmtNum << ", " << proc << "), ";
+  }
+  std::cout << std::endl << "-------------" << std::endl;
+}
 
 void validateModifiesProcVar(PKBReader& reader, const vector<string>& procs,
                              ProcToVarSetMap expectedModifiesMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedModifies = expectedModifiesMap[proc];
     std::cout << "proc: " << proc << std::endl;
-    std::cout << "expectedModifies: ";
-    for (const string& var : expectedModifies) {
-      std::cout << var << ", ";
-    }
-    std::cout << std::endl << "-------------" << std::endl;
-
+    printVars("expectedModifies", expectedModifies);
     unordered_set<string> actualModifies =
         reader.getModifiedVariablesForProc(proc);
-    std::cout << "actualModifies: ";
-    for (const string& var : actualModifies) {
-      std::cout << var << ", ";
-    }
-    std::cout << std::endl << "-------------" << std::endl;
+    printVars("actualModifies", actualModifies);
     REQUIRE(actualModifies == expectedModifies);
   }
 }
@@ -43,18 +51,9 @@ void validateUsesProcVar(PKBReader& reader, const vector<string>& procs,
   for (const string& proc : procs) {
     unordered_set<string> expectedUses = expectedUsesMap[proc];
     std::cout << "proc: " << proc << std::endl;
-    std::cout << "expectedUses: ";
-    for (const string& var : expectedUses) {
-      std::cout << var << ", ";
-    }
-    std::cout << std::endl << "-------------" << std::endl;
-
+    printVars("expectedUses", expectedUses);
     unordered_set<string> actualUses = reader.getUsedVariablesForProc(proc);
-    std::cout << "actualUses: ";
-    for (const string& var : actualUses) {
-      std::cout << var << ", ";
-    }
-    std::cout << std::endl << "-------------" << std::endl;
+    printVars("actualUses", actualUses);
     REQUIRE(actualUses == expectedUses);
   }
 }
@@ -62,26 +61,17 @@ void validateUsesProcVar(PKBReader& reader, const vector<string>& procs,
 void validateCalls(PKBReader& reader, const vector<string>& procs,
                    ProcToStmtProcSetMap expectedCallsMap) {
   for (const string& proc : procs) {
-    unordered_set<pair<string, string>, PairUtils::PairHash> expectedCalls =
-        expectedCallsMap[proc];
+    StmtProcPairsSet expectedCalls = expectedCallsMap[proc];
 
     std::cout << "proc: " << proc << std::endl;
-    std::cout << "expectedCalls: ";
-    for (const auto& [stmtNum, callee] : expectedCalls) {
-      std::cout << "(" << stmtNum << ", " << callee << "), ";
-    }
-    std::cout << std::endl << "-------------" << std::endl;
+    printStmtProcPairs("expectedCalls", expectedCalls);
 
     vector<pair<string, string>> actualCalls = reader.getCalleeProcs(proc);
-    unordered_set<pair<string, string>, PairUtils::PairHash> actualCallsSet;
+    StmtProcPairsSet actualCallsSet;
     for (const auto& pair : actualCalls) {
       actualCallsSet.insert(pair);
     }
-    std::cout << "actualCalls: ";
-    for (const auto& [stmtNum, callee] : actualCalls) {
-      std::cout << "(" << stmtNum << ", " << callee << "), ";
-    }
-    std::cout << std::endl << "-------------" << std::endl;
+    printStmtProcPairs("actualCalls", actualCallsSet);
     REQUIRE(actualCallsSet == expectedCalls);
   }
 }
@@ -89,26 +79,18 @@ void validateCalls(PKBReader& reader, const vector<string>& procs,
 void validateCallsStar(PKBReader& reader, const vector<string>& procs,
                        ProcToStmtProcSetMap expectedCallsStarMap) {
   for (const string& proc : procs) {
-    unordered_set<pair<string, string>, PairUtils::PairHash> expectedCallsStar =
-        expectedCallsStarMap[proc];
+    StmtProcPairsSet expectedCallsStar = expectedCallsStarMap[proc];
 
     std::cout << "proc: " << proc << std::endl;
-    std::cout << "expectedCallsStar: ";
-    for (const auto& [stmtNum, callee] : expectedCallsStar) {
-      std::cout << "(" << stmtNum << ", " << callee << "), ";
-    }
-    std::cout << "-------------" << std::endl;
+    printStmtProcPairs("expectedCallsStar", expectedCallsStar);
 
-    vector<pair<string, string>> actualCallsStar = reader.getCallerProcsStar(proc);
-    unordered_set<pair<string, string>, PairUtils::PairHash> actualCallsStarSet;
+    vector<pair<string, string>> actualCallsStar =
+        reader.getCalleeProcsStar(proc);
+    StmtProcPairsSet actualCallsStarSet;
     for (const auto& pair : actualCallsStar) {
       actualCallsStarSet.insert(pair);
     }
-    std::cout << "actualCallsStar: ";
-    for (const auto& [stmtNum, callee] : actualCallsStar) {
-      std::cout << "(" << stmtNum << ", " << callee << "), ";
-    }
-    std::cout << "-------------" << std::endl;
+    printStmtProcPairs("actualCallsStar", actualCallsStarSet);
     REQUIRE(actualCallsStarSet == expectedCallsStar);
   }
 }
@@ -143,11 +125,11 @@ TEST_CASE("SP-PKB integration MS2 - Nested statements") {
       "call B; }"  // 1
       ""
       "procedure B {"
-      "x = 5;"     // 2
-      "call C; }"  // 3
+      "x = a + 5;"  // 2
+      "call C; }"   // 3
       ""
       "procedure C {"
-      "y = 10; }";  // 4
+      "y = 10 - b; }";  // 4
 
   // extract
   SourceProcessor sp;
@@ -156,8 +138,10 @@ TEST_CASE("SP-PKB integration MS2 - Nested statements") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"A", "B", "C"};
-  ProcToVarSetMap expectedModifiesMap = {{"A", {"x", "y"}}, {"B", {"x", "y"}}, {"C", {"y"}}};
-  ProcToVarSetMap expectedUsesMap = {{"A", {}}, {"B", {}}, {"C", {}}};
+  ProcToVarSetMap expectedModifiesMap = {
+      {"A", {"x", "y"}}, {"B", {"x", "y"}}, {"C", {"y"}}};
+  ProcToVarSetMap expectedUsesMap = {
+      {"A", {"a", "b"}}, {"B", {"a", "b"}}, {"C", {"b"}}};
   ProcToStmtProcSetMap expectedCallsMap = {
       {"A", {{"1", "B"}}}, {"B", {{"3", "C"}}}, {"C", {}}};
   ProcToStmtProcSetMap expectedCallsStarMap = {
