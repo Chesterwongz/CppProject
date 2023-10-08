@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "sp/constants/KeywordConstants.h"
-#include "sp/parser/abstractparser/AbstractParser.h"
+#include "common/parser/abstractparser/AbstractParser.h"
 #include "sp/parser/stmtparsers/CallParser.h"
 #include "sp/parser/stmtparsers/IfParser.h"
 #include "sp/parser/stmtparsers/PrintParser.h"

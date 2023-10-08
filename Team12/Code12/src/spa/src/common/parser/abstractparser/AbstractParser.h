@@ -7,7 +7,7 @@
 
 #include "common/ast/TNode.h"
 #include "common/parser/parsercontext/ParserContext.h"
-#include "sp/parser/IParser.h"
+#include "common/parser/IParser.h"
 
 class AbstractParser : public IParser {
  protected:
