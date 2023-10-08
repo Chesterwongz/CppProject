@@ -55,17 +55,17 @@ def process_files(source_path, query_path, dest_path):
         content = file.read()
         formatted_test_cases = extract_information(content)
         formatted_cpp_tests = generate_cpp_test(formatted_test_cases, query_path)
-        prefix = """#include <catch.hpp>
-#include "sp/SourceProcessor.h"
-#include "pkb/facade/PKB.h"
-#include "qps/QPS.h"
-
-#include <string>
+        prefix = """#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
 #include <map>
 #include <set>
+#include <catch.hpp>
+
+#include "sp/SourceProcessor.h"
+#include "pkb/facade/PKB.h"
+#include "qps/QPS.h"
 
 using std::string, std::unordered_map,std::map, std::unordered_set, std::set, std::vector, std::pair;
         
