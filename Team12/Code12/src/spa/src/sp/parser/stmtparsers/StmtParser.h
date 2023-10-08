@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "AssignParser.h"
-#include "sp/parser/abstractparser/AbstractParser.h"
+#include "common/parser/abstractparser/AbstractParser.h"
 #include "sp/parser/stmtparsers/factory/StmtParserFactory.h"
 
 class StmtParser : public AbstractParser {

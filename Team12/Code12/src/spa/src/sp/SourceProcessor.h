@@ -10,7 +10,7 @@
 #include "sp/exceptions/SpException.h"
 #include "sp/exceptions/SpParsingFailedException.h"
 #include "sp/extractors/DesignExtractor.h"
-#include "sp/parser/IParser.h"
+#include "common/parser/IParser.h"
 #include "sp/parser/toplevelparsers/ProgramParser.h"
 #include "sp/tokenizer/SpTokenizer.h"
 #include "sp/utils/FileReaderUtils.h"

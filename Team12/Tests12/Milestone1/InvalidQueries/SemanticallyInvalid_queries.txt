@@ -1,0 +1,20 @@
+====== 1 - Select s where s is not declared ======
+
+Select s
+SemanticError
+1000
+====== 2 - Select a where a is not declared ======
+assign aSsign;
+Select assign
+SemanticError
+1000
+====== 3 - Assign Pattern arg1 must be variable synonym ======
+assign a;
+Select a pattern a(a,_)
+SemanticError
+1000
+====== 4 - Assign Pattern arg1 must be variable synonym ======
+assign a; constant c;
+Select a  pattern a(c,_)
+SemanticError
+1000

@@ -17,7 +17,7 @@ class PQLTokenizer {
   string literalBuffer;
   unique_ptr<PQLTokenList> tokenList;
   int currPos;
-  const string& query;
+  const string query;
   bool isProcessingLiteral;
   int numberOfTokensInLiteral;
 
@@ -32,7 +32,7 @@ class PQLTokenizer {
   void processSymbols(PQLTokenType type);
 
  public:
-  explicit PQLTokenizer(const string& query);
+  explicit PQLTokenizer(const string query);
   // TokenStream is owned by QPS driver which will pass the token stream for
   // predictive parsing
   unique_ptr<PQLTokenList> tokenize();
