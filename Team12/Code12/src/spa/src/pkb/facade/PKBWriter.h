@@ -33,46 +33,49 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
                   public virtual IPatternWriter {
  public:
   explicit PKBWriter(PKBStorage& storage) : storage(storage) {}
-  ~PKBWriter() override = default;
+  virtual ~PKBWriter() = default;
 
   // Add follows relationship
-  void setFollowsRelationship(int statementNumber,
-                              int followingStatement) override;
+  virtual void setFollowsRelationship(int statementNumber,
+                                      int followingStatement);
 
   // Add parent relationship
-  void setParentRelationship(int statementNumber, int childStatement) override;
+  virtual void setParentRelationship(int statementNumber, int childStatement);
 
   // Add parent* relationship
-  void setParentStarRelationship(int statementNumber,
-                                 int childStatement) override;
+  virtual void setParentStarRelationship(int statementNumber,
+                                         int childStatement);
 
   // Add modifies relationship
-  void setModifiesRelationship(const string& variableName,
-                               int statementNumber) override;
-  virtual void setModifiesRelationship(const string& variableName,
-                                       const string& procName);
+  virtual void setModifiesRelationship(const std::string& variableName,
+                                       int statementNumber);
 
   // Add uses relationship
-  void setUsesRelationship(const string& variableName,
-                           int statementNumber) override;
-  virtual void setUsesRelationship(const string& variableName,
-                                   const string& procName);
+  virtual void setUsesRelationship(const std::string& variableName,
+                                   int statementNumber);
 
   // Add variable name to storage
-  void setVariable(const string& variableName) override;
+  virtual void setVariable(const std::string& variableName);
 
   // Add constant value to storage
-  void setConstant(const string& constantValue) override;
+  virtual void setConstant(const std::string& constantValue);
 
   // Add procedure name to storage
-  void setProcedure(const string& procedureName, int startStatement) override;
+  virtual void setProcedure(const std::string& procedureName,
+                            int startStatement);
 
   // Add statement number and type to storage
-  void setStatement(int statementNumber, StmtType statementType) override;
+  virtual void setStatement(int statementNumber, StmtType statementType);
 
-  virtual void setWhilePattern(int statementNumber, const string& varName);
+  virtual void setWhilePattern(int statementNumber, const std::string& varName);
 
-  virtual void setIfPattern(int statementNumber, const string& varName);
+  virtual void setIfPattern(int statementNumber, const std::string& varName);
+
+  virtual void setUsesRelationship(const std::string& variableName,
+                                   const std::string& procedureName);
+
+  virtual void setModifiesRelationship(const std::string& variableName,
+                                       const std::string& procedureName);
 
   // direct calls, not transitive
   void setCallsRelationship(const string& callerProc, const string& calleeProc,
@@ -82,8 +85,8 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
                                 const string& calleeProc, int stmtNum) override;
 
   // Add an expression to storage
-  void setAssignPattern(const string& variableName, const string& rpn,
-                        int statementNumber) override;
+  virtual void setAssignPattern(const std::string& variableName,
+                                const std::string& rpn, int statementNumber);
 
   void setIndirectCallsRelationship();
 
@@ -97,6 +100,6 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
       const string& caller,
       const unordered_set<pair<string, string>, PairUtils::PairHash>&
           visitedCallees);
-  void insertDirectCalleesOfProc(queue<pair<string, string>> &toVisit,
-                                            const string &currProc);
+  void insertDirectCalleesOfProc(queue<pair<string, string>>& toVisit,
+                                 const string& currProc);
 };
