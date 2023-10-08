@@ -15,9 +15,7 @@ IntermediateTable::IntermediateTable(const string &firstColName,
   IntermediateTable::createNewCol(firstColName);
   IntermediateTable::createNewCol(secondColName);
   for (auto &dataPair : data) {
-    vector<string> row = {};
-    row.push_back(dataPair.first);
-    row.push_back(dataPair.second);
+    vector<SynonymRes> row = { {dataPair.first}, {dataPair.second} };
     this->tableData.push_back(row);
   }
   this->isEmpty = false;
@@ -29,7 +27,12 @@ IntermediateTable::IntermediateTable(const vector<string> &colNames,
     IntermediateTable::createNewCol(colName);
   }
   for (auto &dataRow : data) {
-    this->tableData.push_back(dataRow);
+    vector<SynonymRes> synonymDataRow = {};
+    synonymDataRow.reserve(dataRow.size());
+    for (auto &dataItem : dataRow) {
+      synonymDataRow.emplace_back(dataItem);
+    }
+    this->tableData.push_back(synonymDataRow);
   }
   this->isEmpty = false;
 }
@@ -52,7 +55,18 @@ int IntermediateTable::createNewCol(const string &newColName) {
   return this->currentColCount++;
 }
 
-vector<vector<string>> IntermediateTable::getData() { return this->tableData; }
+vector<vector<string>> IntermediateTable::getData() {
+  vector<vector<string>> res;
+  for (auto &synonymDataRow : this->tableData) {
+    vector<string> row = {};
+    row.reserve(synonymDataRow.size());
+    for (auto &synonymRes : synonymDataRow) {
+      row.emplace_back(synonymRes.toString());
+    }
+    res.emplace_back(row);
+  }
+  return res;
+}
 
 set<string> IntermediateTable::getColumns(const vector<string> &colNameVector) {
   if (colNameVector.empty()) {
@@ -68,11 +82,40 @@ set<string> IntermediateTable::getColumns(const vector<string> &colNameVector) {
 
   set<string> res = {};
   for (int rowIndex = 0; rowIndex < this->getRowCount(); rowIndex++) {
-    string row = "";
+    string row;
     for (const string &colName : colNameVector) {
       int colIndex = this->colNameToIndexMap.at(colName);
-      row +=
-          (row.empty() ? "" : " ") + this->tableData.at(rowIndex).at(colIndex);
+      row += (row.empty() ? "" : " ") +
+             this->tableData.at(rowIndex).at(colIndex).toString();
+    }
+    res.insert(row);
+  }
+  return res;
+}
+
+set<string> IntermediateTable::getColumns(
+    const vector<pair<string, AttrRef>> &colNameAndAttrRefVector) {
+  if (colNameAndAttrRefVector.empty()) {
+    return {};
+  }
+
+  for (pair<string, AttrRef> colNameAndAttrRef : colNameAndAttrRefVector) {
+    string colName = colNameAndAttrRef.first;
+    // return empty if any column requested does not exist
+    if (!this->isColExists(colName)) {
+      return {};
+    }
+  }
+
+  set<string> res = {};
+  for (int rowIndex = 0; rowIndex < this->getRowCount(); rowIndex++) {
+    string row;
+    for (pair<string, AttrRef> colNameAndAttrRef : colNameAndAttrRefVector) {
+      string colName = colNameAndAttrRef.first;
+      AttrRef attrRef = colNameAndAttrRef.second;
+      int colIndex = this->colNameToIndexMap.at(colName);
+      row += (row.empty() ? "" : " ") +
+             this->tableData.at(rowIndex).at(colIndex).getAttribute(attrRef);
     }
     res.insert(row);
   }

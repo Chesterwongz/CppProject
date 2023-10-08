@@ -6,12 +6,13 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include "qps/intermediateTable/synonymRes/SynonymRes.h"
 
 using std::pair, std::unordered_map, std::string, std::vector, std::set;
 class IntermediateTable {
  private:
   unordered_map<string, int> colNameToIndexMap = {};
-  vector<vector<string>> tableData;
+  vector<vector<SynonymRes>> tableData;
   vector<string> colNames = {};
   int currentColCount = 0;
   bool isWildcard = false;
@@ -70,6 +71,15 @@ class IntermediateTable {
    *         e.g. { "a b c", "a b d", ... }
    */
   set<string> getColumns(const vector<string> &colNameVector);
+
+  /**
+   * same as getColumns(const vector<string> &colNameVector), but allows
+   * you to specify the specific attribute ref you want
+   * @param colNameAndAttrRefVector vector of <column names, attrRef> pairs to
+   * retrieve
+   */
+  set<string> getColumns(
+      const vector<pair<string, AttrRef>> &colNameAndAttrRefVector);
 
   /**
    * Join a different intermediateTable into this
