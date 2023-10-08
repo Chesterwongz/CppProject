@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "sp/ast/terminals/ConstNode.h"
-#include "sp/parser/abstractparser/AbstractParser.h"
+#include "common/parser/abstractparser/AbstractParser.h"
 
 class ConstParser : public AbstractParser {
  public:
