@@ -7,7 +7,7 @@
 
 #include "common/ast/TNode.h"
 #include "common/parser/parsercontext/ParserContext.h"
-#include "sp/exceptions/SyntaxError.h"
+#include "sp/exceptions/SpSyntaxError.h"
 #include "sp/parser/IParser.h"
 
 class AbstractParser : public IParser {

@@ -6,7 +6,7 @@
 #include "sp/ast/expressions/relational/LtNode.h"
 #include "sp/ast/expressions/relational/LteNode.h"
 #include "sp/ast/expressions/relational/NeqNode.h"
-#include "sp/exceptions/SyntaxError.h"
+#include "sp/exceptions/SpSyntaxError.h"
 
 std::unique_ptr<TNode> ExprNodeFactory::makeNode(
     const std::string &kOp, std::unique_ptr<TNode> leftExpr,
