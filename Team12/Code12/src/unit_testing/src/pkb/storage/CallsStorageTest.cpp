@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include "pkb/storage/CallsStorage.h"
+#include "pkb/storage/relation_storage/proc_to_proc/CallsStorage.h"
 
 TEST_CASE("Setting and Getting Calls Relationships") {
   CallsStorage callsStorage;

@@ -1,11 +1,5 @@
 #include "DesignEntitiesStorage.h"
 
-#include <algorithm>
-#include <iostream>
-
-// Constructor
-DesignEntitiesStorage::DesignEntitiesStorage() = default;
-
 // Setter for variables
 void DesignEntitiesStorage::setVariable(const std::string& variableName) {
   variableData.insert(variableName);

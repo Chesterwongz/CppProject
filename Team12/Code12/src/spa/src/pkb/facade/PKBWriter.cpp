@@ -7,7 +7,7 @@ void PKBWriter::setFollowsRelationship(int statementNumber,
 
 void PKBWriter::setModifiesRelationship(const std::string &variableName,
                                         int statementNumber) {
-  storage.setVariableModification(variableName, statementNumber);
+  storage.addModifies(variableName, statementNumber);
 }
 
 void PKBWriter::setParentRelationship(int statementNumber, int childStatement) {
@@ -21,7 +21,7 @@ void PKBWriter::setParentStarRelationship(int statementNumber,
 
 void PKBWriter::setUsesRelationship(const std::string &variableName,
                                     int statementNumber) {
-  storage.setVariableUsage(variableName, statementNumber);
+  storage.addUses(variableName, statementNumber);
 }
 
 void PKBWriter::setStatement(int statementNumber, StmtType statementType) {
@@ -52,12 +52,12 @@ void PKBWriter::setIfPattern(int statementNumber, const std::string &varName) {}
 
 void PKBWriter::setUsesRelationship(const string &variableName,
                                     const string &procName) {
-  storage.setVariableUsage(variableName, procName);
+  storage.addUses(variableName, procName);
 }
 
 void PKBWriter::setModifiesRelationship(const string &variableName,
                                         const string &procName) {
-  storage.setVariableModification(variableName, procName);
+  storage.addModifies(variableName, procName);
 }
 
 // ai-gen start(gpt-4, 0)
@@ -78,14 +78,14 @@ void PKBWriter::processCallRelations(
 void PKBWriter::setUsesForCalls(const string &callerProc,
                                 const unordered_set<string> &calleeProcs) {
   processCallRelations(callerProc, calleeProcs,
-                       &PKBStorage::getUsedVariablesForProc,
+                       &PKBStorage::getVarsUsedByProc,
                        &PKBWriter::setUsesRelationship);
 }
 
 void PKBWriter::setModifiesForCalls(const string &callerProc,
                                     const unordered_set<string> &calleeProcs) {
   processCallRelations(callerProc, calleeProcs,
-                       &PKBStorage::getModifiedVariablesForProc,
+                       &PKBStorage::getVarsModifiedByProc,
                        &PKBWriter::setModifiesRelationship);
 }
 // ai-gen end
