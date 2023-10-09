@@ -1,11 +1,8 @@
 #include "SelectParserState.h"
 
-#include "qps/parser/patternParserState/PatternParserState.h"
-#include "qps/parser/suchThatParserState/SuchThatParserState.h"
-
 PredictiveMap SelectParserState::predictiveMap = {
-    {PQL_SELECT_TOKEN, {PQL_SYNONYM_TOKEN}},
-    {PQL_SYNONYM_TOKEN, startTokensOfAvailClauses}};
+    {PQL_SELECT_TOKEN, {PQL_SYNONYM_TOKEN, PQL_LEFT_ANGLE_TOKEN}},
+    {PQL_SYNONYM_TOKEN, startTokensOfAvailClausesForSelect }};
 
 PQLTokenType SelectParserState::exitToken = PQL_SYNONYM_TOKEN;
 
@@ -31,6 +28,7 @@ void SelectParserState::handleToken() {
 
     switch (token.getType()) {
       case PQL_SYNONYM_TOKEN:
+        // TODO(Hwee): change to add vector syn
         parserContext.addSelectSynonym(token.getValue());
         break;
       case PQL_SUCH_TOKEN:
@@ -39,6 +37,10 @@ void SelectParserState::handleToken() {
         return;
       case PQL_PATTERN_TOKEN:
         parserContext.transitionTo(std::make_unique<PatternParserState>(
+            parserContext, token.getType()));
+        return;
+      case PQL_LEFT_ANGLE_TOKEN:
+        parserContext.transitionTo(std::make_unique<SelectTupleParsersState>(
             parserContext, token.getType()));
         return;
       default:
