@@ -14,9 +14,7 @@ void DesignEntitiesStorage::setConstant(const std::string& constantValue) {
 void DesignEntitiesStorage::setProcForStmt(const std::string& procName,
                                            int stmt) {
   stmtToProcMap[stmt] = procName;
-  if (procedureData.find(procName) == procedureData.end()) {
-    procedureData.insert(procName);
-  }
+  procedureData.insert(procName);
 }
 
 // Get all variables
