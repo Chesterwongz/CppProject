@@ -1,5 +1,7 @@
 #pragma once
 
+#include <set>
+#include <string>
 #include "StmtOrProcToVarReaderTemplate.h"
 #include "pkb/interfaces/storage/relation_storage/IUsesStorage.h"
 
