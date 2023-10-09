@@ -17,11 +17,11 @@ string SynonymRes::getAttribute(AttrRef attrRef) {
   return {};
 }
 
-bool SynonymRes::operator==(const SynonymRes& other) {
+bool SynonymRes::operator==(const SynonymRes& other) const {
   return this->defaultSynonymValue == other.defaultSynonymValue &&
          this->attributeMap == other.attributeMap;
 }
 
-bool SynonymRes::operator!=(const SynonymRes& other) {
+bool SynonymRes::operator!=(const SynonymRes& other) const {
   return !(*this == other);
 }

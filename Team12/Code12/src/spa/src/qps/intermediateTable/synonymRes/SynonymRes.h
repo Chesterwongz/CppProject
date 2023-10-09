@@ -23,6 +23,6 @@ class SynonymRes {
   explicit SynonymRes(const string& defaultSynonymValue);
   string toString();
   string getAttribute(AttrRef attrRef);
-  bool operator==(const SynonymRes& other);
-  bool operator!=(const SynonymRes& other);
+  bool operator==(const SynonymRes& other) const;
+  bool operator!=(const SynonymRes& other) const;
 };

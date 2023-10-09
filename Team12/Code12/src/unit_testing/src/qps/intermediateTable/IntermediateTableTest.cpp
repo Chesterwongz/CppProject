@@ -1,7 +1,7 @@
 #include <iostream>
 #include <catch.hpp>
 
-#include "IntermediateTableTestData.h"
+#include "testData/StringTestData.h"
 #include "IntermediateTableTestUtils.h"
 #include "qps/intermediateTable/IntermediateTableUtils.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
@@ -168,4 +168,15 @@ TEST_CASE("IntermediateTable - join - any_x_wildcard") {
 
   // WILDCARD X EMPTY and vice versa is already
   // tested in "any_x_empty" tests
+}
+
+TEST_CASE("SynonymRes") {
+  vector<vector<SynonymRes>> test = {};
+  SynonymRes a("a");
+  SynonymRes b("b");
+  vector<SynonymRes> row({a, b});
+  test.emplace_back(row);
+  vector<string> colName = { "a", "b" };
+  IntermediateTable table = IntermediateTableFactory::buildIntermediateTable(colName, test);
+  REQUIRE(table.getTableData().at(0).at(0) == a);
 }
