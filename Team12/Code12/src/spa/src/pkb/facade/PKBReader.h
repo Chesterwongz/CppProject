@@ -8,12 +8,12 @@
 #include "pkb/readers/PatternReader.h"
 #include "pkb/readers/UsesReader.h"
 
-class PKBReader : public virtual DesignEntitiesReader,
-                  public virtual FollowsReader,
-                  public virtual ModifiesReader,
-                  public virtual ParentReader,
-                  public virtual PatternReader,
-                  public virtual UsesReader {
+class PKBReader : public DesignEntitiesReader,
+                  public FollowsReader,
+                  public ModifiesReader,
+                  public ParentReader,
+                  public PatternReader,
+                  public UsesReader {
  public:
   explicit PKBReader(PKBStorage& storage)
       : DesignEntitiesReader(storage, storage),

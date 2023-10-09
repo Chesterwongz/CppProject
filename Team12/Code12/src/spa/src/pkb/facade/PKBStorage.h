@@ -5,7 +5,7 @@
 #include "pkb/storage/pattern_storage/PatternStorage.h"
 #include "pkb/storage/relation_storage/RelationStorage.h"
 
-class PKBStorage : public virtual DesignEntitiesStorage,
-                   public virtual PatternStorage,
-                   public virtual RelationStorage,
-                   public virtual StmtStorage {};
+class PKBStorage : public DesignEntitiesStorage,
+                   public PatternStorage,
+                   public RelationStorage,
+                   public StmtStorage {};
