@@ -36,8 +36,8 @@ void SelectTupleParsersState::handleToken() {
         break;
       case PQL_RIGHT_ANGLE_TOKEN:
         isInBracket = false;
-        //      TODO(Hwee):
-        //      parserContext.addSelectClause(std::move(synonymsToSelect));
+        // TODO(Hwee):
+        //  parserContext.addSelectClause(std::move(synonymsToSelect));
         break;
       case PQL_SUCH_TOKEN:
         parserContext.transitionTo(std::make_unique<SuchThatParserState>(

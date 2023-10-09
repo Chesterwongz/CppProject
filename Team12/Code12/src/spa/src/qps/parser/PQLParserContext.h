@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "IParserState.h"
 #include "qps/clause/Clause.h"
