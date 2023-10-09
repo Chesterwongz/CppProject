@@ -1,6 +1,5 @@
 #pragma once
 
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -9,20 +8,16 @@
 #include "pkb/interfaces/storage/relation_storage/IUsesStorage.h"
 #include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
+#include "pkb/readers/template/UsesReaderImpl.h"
 
-class UsesReader : public virtual IUsesReader {
+class UsesReader : public IUsesReader {
  private:
-  IUsesStorage& uses_storage_;
-  IStmtStorage& stmt_storage_;
-  IEntityStorage& entity_storage_;
+  UsesReaderImpl uses_reader_;
 
  protected:
-  explicit UsesReader(IUsesStorage& modifies_storage,
-                      IStmtStorage& stmt_storage,
+  explicit UsesReader(IUsesStorage& uses_storage, IStmtStorage& stmt_storage,
                       IEntityStorage& entity_storage)
-      : uses_storage_(modifies_storage),
-        stmt_storage_(stmt_storage),
-        entity_storage_(entity_storage) {}
+      : uses_reader_(uses_storage, stmt_storage, entity_storage) {}
 
  public:
   std::vector<std::string> getStatementsUsing(const std::string& variableName,

@@ -17,6 +17,6 @@ class IDesignEntitiesReader {
   // return the names of all procedures in the program
   virtual std::set<std::string> getAllProcedures() = 0;
 
-  // return the names of all procedures in the program
+  // return all the stmts of given type in the program
   virtual std::set<std::string> getStatement(StmtType statementType) = 0;
 };
