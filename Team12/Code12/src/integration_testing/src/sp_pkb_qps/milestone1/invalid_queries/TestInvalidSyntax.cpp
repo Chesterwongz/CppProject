@@ -266,3 +266,19 @@ TEST_CASE(
   set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone1/InvalidQueries/SyntacticallyInvalid_queries.txt "
+    "- 16") {
+  string query =
+      "assign a;\n"
+      "Select a such that pattern a(_, _\"1)";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(sourceInvalidSyntax, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  set<string> expected = {"SyntaxError"};
+  REQUIRE(result == expected);
+}

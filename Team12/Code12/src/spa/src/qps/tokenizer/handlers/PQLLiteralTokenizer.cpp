@@ -7,7 +7,11 @@ PQLToken PQLLiteralTokenizer::tokenize(char nextCh, InputStream &inputStream) {
 
   inputStream.read();  // get rid of the first quote
   string literal = inputStream.readWhile(QPSStringUtils::isNotQuoteEnd);
-  inputStream.read();  // get rid of the last quote
+
+  if (inputStream.isEnd()) {
+    throw CommonSyntaxError(QPS_TOKENIZATION_ERR_UNMATCHED_QUOTE);
+  }
+  inputStream.read();
 
   string trimmed = QPSStringUtils::trimString(std::move(literal));
 

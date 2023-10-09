@@ -81,7 +81,7 @@ TEST_CASE("valid simple transitive follows") {
   unique_ptr<Integer> firstArg = std::make_unique<Integer>("5");
   unique_ptr<Wildcard> secondArg = std::make_unique<Wildcard>();
   unique_ptr<SuchThatClause> suchThatClause = make_unique<SuchThatClause>(
-      FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg), true);
+      FOLLOWS_STAR_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
   bool res = *query == expected;

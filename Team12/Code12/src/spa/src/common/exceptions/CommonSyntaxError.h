@@ -4,6 +4,8 @@
 
 #include "Exception.h"
 
+const char QPS_TOKENIZATION_ERR_UNMATCHED_QUOTE[] = "Unmatched quotes";
+
 class CommonSyntaxError : public Exception {
  public:
   static inline constexpr std::string_view type = "CommonSyntaxError";
