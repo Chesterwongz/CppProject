@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "sp/ast/StmtListNode.h"
-#include "sp/parser/abstractparser/AbstractParser.h"
+#include "common/parser/abstractparser/AbstractParser.h"
 #include "sp/parser/stmtparsers/StmtParser.h"
 
 class StmtLstParser : public AbstractParser {

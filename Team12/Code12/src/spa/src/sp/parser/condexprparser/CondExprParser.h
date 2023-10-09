@@ -6,7 +6,7 @@
 
 #include "RelExprParser.h"
 #include "sp/ast/expressions/conditional/NotNode.h"
-#include "sp/parser/abstractparser/AbstractParser.h"
+#include "common/parser/abstractparser/AbstractParser.h"
 
 class CondExprParser : public AbstractParser {
  public:

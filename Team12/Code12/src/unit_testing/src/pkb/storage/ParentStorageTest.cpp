@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include "../../../../spa/src/pkb/storage/ParentStorage.h"
+#include "pkb/storage/relation_storage/stmt_to_stmt/ParentStorage.h"
 
 TEST_CASE("ParentStorage Tests") {
   ParentStorage storage;
