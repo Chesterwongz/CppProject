@@ -29,7 +29,7 @@ Select Next such that Next   ( 1,Next )
 2
 1000
 ====== 7 - Next (2, stmt) (+) ======
-if Next;
+stmt Next;
 Select Next such that Next   ( 2,Next )
 3, 6
 1000
