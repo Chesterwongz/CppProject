@@ -6,8 +6,8 @@
 
 #include "../mocks/MockCFG.h"
 #include "ExtractorUtils.h"
-#include "sp/ast/ProgramNode.h"
 #include "common/Constants.h"
+#include "sp/ast/ProgramNode.h"
 
 using std::unique_ptr, std::make_unique, std::vector, std::string,
     std::unordered_map, std::unordered_set;

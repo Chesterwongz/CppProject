@@ -4,8 +4,8 @@
 #include <string>
 #include <utility>
 
-#include "sp/ast/expressions/ExprNodeFactory.h"
 #include "common/parser/abstractparser/AbstractParser.h"
+#include "sp/ast/expressions/ExprNodeFactory.h"
 
 class ArithmParserTemplate : public AbstractParser {
  public:

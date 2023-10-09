@@ -2,6 +2,7 @@
 
 #include <set>
 #include <string>
+
 #include "common/StmtTypes.h"
 
 class IDesignEntitiesReader {

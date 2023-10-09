@@ -4,8 +4,8 @@
 #include <string>
 #include <utility>
 
-#include "sp/ast/terminals/VarNode.h"
 #include "common/parser/abstractparser/AbstractParser.h"
+#include "sp/ast/terminals/VarNode.h"
 
 class VarParser : public AbstractParser {
  public:

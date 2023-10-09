@@ -12,7 +12,8 @@ class SelectParserState : public BaseParserState {
   void processNameToken(PQLToken& curr) override;
 
  public:
-  explicit SelectParserState(PQLParserContext& parserContext);
+  explicit SelectParserState(PQLParserContext& parserContext,
+                             PQLTokenType prev);
   void handleToken() override;
   ~SelectParserState() override = default;
 };

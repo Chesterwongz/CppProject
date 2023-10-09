@@ -36,8 +36,7 @@ void PKBWriter::setConstant(const std::string &constantValue) {
   storage.setConstant(constantValue);
 }
 
-void PKBWriter::setProcForStmt(const std::string &procedureName,
-                             int stmtNum) {
+void PKBWriter::setProcForStmt(const std::string &procedureName, int stmtNum) {
   storage.setProcForStmt(procedureName, stmtNum);
 }
 
@@ -77,8 +76,7 @@ void PKBWriter::processCallRelations(
 
 void PKBWriter::setUsesForCalls(const string &callerProc,
                                 const unordered_set<string> &calleeProcs) {
-  processCallRelations(callerProc, calleeProcs,
-                       &PKBStorage::getVarsUsedByProc,
+  processCallRelations(callerProc, calleeProcs, &PKBStorage::getVarsUsedByProc,
                        &PKBWriter::setUsesRelationship);
 }
 

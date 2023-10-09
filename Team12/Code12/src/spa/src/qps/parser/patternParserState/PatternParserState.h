@@ -12,7 +12,8 @@ class PatternParserState : public BaseParserState {
   void processSynonymToken(PQLToken& curr);
 
  public:
-  explicit PatternParserState(PQLParserContext& parserContext);
+  explicit PatternParserState(PQLParserContext& parserContext,
+                              PQLTokenType prev);
   void handleToken() override;
   ~PatternParserState() override = default;
 };

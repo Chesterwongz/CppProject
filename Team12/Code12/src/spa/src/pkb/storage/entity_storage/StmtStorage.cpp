@@ -1,7 +1,6 @@
 #include "StmtStorage.h"
 
-void StmtStorage::setStatement(int statementNumber,
-                                    StmtType statementType) {
+void StmtStorage::setStatement(int statementNumber, StmtType statementType) {
   statements[statementType].insert(statementNumber);
 }
 
@@ -24,8 +23,7 @@ std::set<int> StmtStorage::getStatementNumbersFromStatementType(
   return statements[statementType];
 }
 
-StmtType StmtStorage::getStatementTypeFromStatementNumber(
-    int statementNumber) {
+StmtType StmtStorage::getStatementTypeFromStatementNumber(int statementNumber) {
   for (const auto& entry : statements) {
     const std::set<int>& statementNumbers = entry.second;
     if (statementNumbers.find(statementNumber) != statementNumbers.end()) {
@@ -35,8 +33,7 @@ StmtType StmtStorage::getStatementTypeFromStatementNumber(
   return StmtType::INVALID;
 }
 
-bool StmtStorage::isStatementType(int statementNumber,
-                                       StmtType statementType) {
+bool StmtStorage::isStatementType(int statementNumber, StmtType statementType) {
   return statementType == StmtType::STMT ||
          getStatementTypeFromStatementNumber(statementNumber) == statementType;
 }

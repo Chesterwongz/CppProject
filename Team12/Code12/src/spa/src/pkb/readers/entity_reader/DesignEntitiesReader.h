@@ -2,6 +2,7 @@
 
 #include <set>
 #include <string>
+
 #include "pkb/interfaces/readers/IDesignEntitiesReader.h"
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
 #include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
@@ -13,7 +14,7 @@ class DesignEntitiesReader : public IDesignEntitiesReader {
 
  protected:
   DesignEntitiesReader(IEntityStorage& entity_storage,
-                                IStmtStorage& stmt_storage)
+                       IStmtStorage& stmt_storage)
       : entity_storage_(entity_storage), stmt_storage_(stmt_storage) {}
 
  public:

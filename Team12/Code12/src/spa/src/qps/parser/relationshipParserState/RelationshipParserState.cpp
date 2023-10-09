@@ -4,8 +4,11 @@
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
 RelationshipParserState::RelationshipParserState(
-    PQLParserContext &parserContext, bool isInBracket)
-    : isInBracket(isInBracket), BaseParserState(parserContext) {}
+    PQLParserContext &parserContext, bool isInBracket, string abstraction,
+    PQLTokenType prev)
+    : isInBracket(isInBracket),
+      abstraction(abstraction),
+      BaseParserState(parserContext, prev) {}
 
 void RelationshipParserState::processNameToken(PQLToken &curr) {
   if (this->isInBracket) {
