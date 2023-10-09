@@ -6,6 +6,7 @@
 
 using std::stack, std::unordered_map, std::unordered_set;
 
+// ai-gen start(gpt-4, 1)
 template <typename ElementType, typename ClassType,
           typename ArgType = ElementType>
 class FunctionUtils {
@@ -51,3 +52,4 @@ class FunctionUtils {
     return visited;
   }
 };
+// ai-gen end

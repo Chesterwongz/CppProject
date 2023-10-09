@@ -60,6 +60,7 @@ void PKBWriter::setModifiesRelationship(const string &variableName,
   storage.setVariableModification(variableName, procName);
 }
 
+// ai-gen start(gpt-4, 0)
 void PKBWriter::processCallRelations(
     const string &caller, const unordered_set<string> &callees,
     unordered_set<string> (PKBStorage::*retrieveVars)(const string &),
@@ -87,6 +88,7 @@ void PKBWriter::setModifiesForCalls(const string &callerProc,
                        &PKBStorage::getModifiedVariablesForProc,
                        &PKBWriter::setModifiesRelationship);
 }
+// ai-gen end
 
 void PKBWriter::setIndirectCallsRelationship() {
   storage.computeCallsStar();
