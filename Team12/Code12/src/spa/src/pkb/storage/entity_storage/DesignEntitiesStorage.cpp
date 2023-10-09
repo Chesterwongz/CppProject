@@ -11,9 +11,12 @@ void DesignEntitiesStorage::setConstant(const std::string& constantValue) {
 }
 
 // Setter for procedures
-void DesignEntitiesStorage::setProcedure(const std::string& procedureName,
-                                         int startStatement) {
-  procedureData[procedureName] = startStatement;
+void DesignEntitiesStorage::setProcForStmt(const std::string& procName,
+                                           int stmt) {
+  stmtToProcMap[stmt] = procName;
+  if (procedureData.find(procName) == procedureData.end()) {
+    procedureData.insert(procName);
+  }
 }
 
 // Get all variables
@@ -28,30 +31,12 @@ std::set<std::string> DesignEntitiesStorage::getAllConstants() {
 
 // Get all procedures
 std::set<std::string> DesignEntitiesStorage::getAllProcedures() {
-  std::set<std::string> procedures;
-  for (const auto& entry : procedureData) {
-    procedures.insert(entry.first);
-  }
-  return procedures;
+  return procedureData;
 }
 
-// Get procedure starting on a statement
-std::string DesignEntitiesStorage::getProcedureStartingOnStatement(
-    int statementNumber) {
-  for (const auto& entry : procedureData) {
-    if (entry.second == statementNumber) {
-      return entry.first;
-    }
+std::string DesignEntitiesStorage::getProcFromStmt(int stmtNum) {
+  if (stmtToProcMap.find(stmtNum) != stmtToProcMap.end()) {
+    return stmtToProcMap[stmtNum];
   }
   return "";
-}
-
-// Get the starting statement of a procedure
-int DesignEntitiesStorage::getStartingStatementOfProcedure(
-    const std::string& procedureName) {
-  if (procedureData.count(procedureName)) {
-    return procedureData[procedureName];
-  } else {
-    return -1;
-  }
 }
