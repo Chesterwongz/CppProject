@@ -268,7 +268,6 @@ TEST_CASE(
   REQUIRE(result == expected);
 }
 
-
 TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/Next_queries.txt - 18") {
   string query =
