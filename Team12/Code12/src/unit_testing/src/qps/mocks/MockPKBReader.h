@@ -40,12 +40,12 @@ class MockPKBReader : public PKBReader {
   vector<pair<string, string>> mockAllUsedVariables;
   vector<string> mockExactAssignPattern;
   vector<string> mockPartialAssignPattern;
-  bool mockIsFollowsStar;
-  bool mockIsParentStar;
-  bool mockIsFollows;
-  bool mockIsParent;
-  bool mockIsVariableModifiedBy;
-  bool mockIsVariableUsedBy;
+  bool mockIsFollowsStar{};
+  bool mockIsParentStar{};
+  bool mockIsFollows{};
+  bool mockIsParent{};
+  bool mockIsVariableModifiedBy{};
+  bool mockIsVariableUsedBy{};
 
   explicit MockPKBReader(PKBStorage& storage)
       : PKBReader(storage),
