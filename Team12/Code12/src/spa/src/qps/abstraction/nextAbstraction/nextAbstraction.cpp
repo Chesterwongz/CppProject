@@ -89,7 +89,7 @@ IntermediateTable NextAbstraction::handleFirstArgInteger() {
   string secondStmtSynonym = this->secondArgValue;
 
   vector<string> nextSecondStmt =
-      pkb.getNextSecondStmt(firstStmtNumber, secondStmtType);
+      pkb.getNextStmtsFrom(firstStmtNumber, secondStmtType);
 
   return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
                                                        nextSecondStmt);
@@ -101,7 +101,7 @@ IntermediateTable NextAbstraction::handleSecondArgInteger() {
   int secondStmtNumber = stoi(this->secondArgValue);
 
   vector<string> nextFirstStmt =
-      pkb.getNextFirstStmt(secondStmtNumber, firstStmtType);
+      pkb.getPrevStmtsFrom(secondStmtNumber, firstStmtType);
 
   return IntermediateTableFactory::buildSingleColTable(firstStmtSynonym,
                                                        nextFirstStmt);

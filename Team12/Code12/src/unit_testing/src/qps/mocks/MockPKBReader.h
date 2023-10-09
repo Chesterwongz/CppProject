@@ -48,8 +48,8 @@ class MockPKBReader : public PKBReader {
   bool mockIsVariableUsedBy{};
   vector<pair<string, string>> mockGetNextPairs;
   bool mockIsNext{};
-  vector<string> mockGetNextFirstStmt;
-  vector<string> mockGetNextSecondStmt;
+  vector<string> mockGetPrevStmtsFrom;
+  vector<string> mockGetNextStmtsFrom;
   vector<pair<string, string>> mockGetNextStarPairs;
   bool mockIsNextStar{};
   vector<string> mockGetNextStarFirstStmt;
@@ -208,14 +208,14 @@ class MockPKBReader : public PKBReader {
     return mockIsNext;
   }
 
-  vector<string> getNextFirstStmt(int secondStmtNumber,
+  vector<string> getPrevStmtsFrom(int secondStmtNumber,
                           StmtType firstStmtType) override {
-    return mockGetNextFirstStmt;
+    return mockGetPrevStmtsFrom;
   };
 
-  vector<string> getNextSecondStmt(int firstStmtNumber,
+  vector<string> getNextStmtsFrom(int firstStmtNumber,
                            StmtType secondStmtType) override {
-    return mockGetNextSecondStmt;
+    return mockGetNextStmtsFrom;
   }
 
   vector<pair<string, string>> getNextStarPairs(
