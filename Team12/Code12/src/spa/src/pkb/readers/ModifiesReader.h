@@ -1,14 +1,17 @@
 #pragma once
 
 #include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "pkb/interfaces/readers/IModifiesReader.h"
-#include "pkb/interfaces/storage/relation_storage/IModifiesStorage.h"
-#include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
+#include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
+#include "pkb/interfaces/storage/relation_storage/IModifiesStorage.h"
 #include "pkb/readers/template/ModifiesReaderImpl.h"
+
+using std::unordered_set, std::string;
 
 class ModifiesReader : public IModifiesReader {
  private:
@@ -32,4 +35,7 @@ class ModifiesReader : public IModifiesReader {
 
   std::vector<std::pair<std::string, std::string>> getAllModifiedVariables(
       StmtType statementType) override;
+
+  unordered_set<string> getModifiedVariablesForProc(
+      const string& procName) override;
 };

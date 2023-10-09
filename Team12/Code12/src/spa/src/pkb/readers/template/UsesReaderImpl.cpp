@@ -7,3 +7,8 @@ std::set<std::string> UsesReaderImpl::getVarsRelatedToStmt(int stmtNum) {
 std::set<int> UsesReaderImpl::getStmtsRelatedToVar(const std::string& varName) {
   return uses_storage_.getStmtsUsingVar(varName);
 }
+
+std::unordered_set<std::string> UsesReaderImpl::getVarsRelatedToProc(
+    const string& proc) {
+  return uses_storage_.getVarsUsedByProc(proc);
+}

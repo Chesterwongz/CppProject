@@ -3,8 +3,10 @@
 #include <set>
 #include <string>
 #include <unordered_map>
-#include "pkb/interfaces/storage/relation_storage/IModifiesStorage.h"
+#include <unordered_set>
+
 #include "StmtOrProcToVarRelationStorage.h"
+#include "pkb/interfaces/storage/relation_storage/IModifiesStorage.h"
 
 class ModifiesStorage : public virtual IModifiesStorage {
  private:
@@ -13,7 +15,13 @@ class ModifiesStorage : public virtual IModifiesStorage {
  public:
   void addModifies(const std::string& varName, int stmtNum) override;
 
+  void addModifies(const std::string& varName,
+                   const std::string& procName) override;
+
   std::set<std::string> getVarsModifiedByStmt(int stmtNum) override;
+
+  std::unordered_set<std::string> getVarsModifiedByProc(
+      const std::string& procName) override;
 
   std::set<int> getStmtsModifyingVar(const std::string& varName) override;
 

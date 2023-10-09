@@ -2,13 +2,16 @@
 
 #include <set>
 #include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
-#include "pkb/storage/relation_storage/stmt_or_proc_to_var/ModifiesStorage.h"
-#include "pkb/interfaces/storage/relation_storage/IModifiesStorage.h"
-#include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
+#include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
+#include "pkb/interfaces/storage/relation_storage/IModifiesStorage.h"
+#include "pkb/storage/relation_storage/stmt_or_proc_to_var/ModifiesStorage.h"
+
+using std::unordered_set, std::string;
 
 class StmtOrProcToVarReaderTemplate {
  private:
@@ -43,4 +46,8 @@ class StmtOrProcToVarReaderTemplate {
   // particular type
   std::vector<std::pair<std::string, std::string>> getAllRelationsByStmtType(
       StmtType statementType);
+
+  // Proc-related functions
+  virtual std::unordered_set<std::string> getVarsRelatedToProc(
+      const string& proc) = 0;
 };

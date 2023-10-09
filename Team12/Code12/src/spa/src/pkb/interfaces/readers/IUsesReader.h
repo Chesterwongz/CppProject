@@ -2,6 +2,7 @@
 
 #include <string>
 #include <utility>
+#include <unordered_set>
 #include <vector>
 
 #include "common/StmtTypes.h"
@@ -29,4 +30,7 @@ class IUsesReader {
   // type
   virtual std::vector<std::pair<std::string, std::string>> getAllUsedVariables(
       StmtType statementType) = 0;
+
+  virtual std::unordered_set<std::string> getUsedVariablesForProc(
+      const std::string& procName) = 0;
 };

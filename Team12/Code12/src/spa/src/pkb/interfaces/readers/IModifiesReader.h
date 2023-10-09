@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -29,4 +30,7 @@ class IModifiesReader {
   // particular type
   virtual std::vector<std::pair<std::string, std::string>>
   getAllModifiedVariables(StmtType statementType) = 0;
+
+  virtual std::unordered_set<std::string> getModifiedVariablesForProc(
+      const std::string& procName) = 0;
 };

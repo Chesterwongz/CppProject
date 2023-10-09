@@ -6,7 +6,7 @@
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
 #include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
 
-class DesignEntitiesReader : public virtual IDesignEntitiesReader {
+class DesignEntitiesReader : public IDesignEntitiesReader {
  private:
   IEntityStorage& entity_storage_;
   IStmtStorage& stmt_storage_;

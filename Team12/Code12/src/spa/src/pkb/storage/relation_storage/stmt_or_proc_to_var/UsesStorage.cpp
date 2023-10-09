@@ -1,18 +1,25 @@
 #include "UsesStorage.h"
 
 void UsesStorage::addUses(const std::string& variableName,
-                                   int statementNumber) {
+                          int statementNumber) {
   storage_.setRelatedVar(variableName, statementNumber);
 }
 
-std::set<int> UsesStorage::getStmtsUsingVar(
-    const std::string& variableName) {
+void UsesStorage::addUses(const std::string& variableName,
+                          const std::string& procName) {
+  storage_.setRelatedVar(variableName, procName);
+}
+std::set<int> UsesStorage::getStmtsUsingVar(const std::string& variableName) {
   return storage_.getStmtNumForVar(variableName);
 }
 
-std::set<std::string> UsesStorage::getVarsUsedByStmt(
-    int statementNumber) {
+std::set<std::string> UsesStorage::getVarsUsedByStmt(int statementNumber) {
   return storage_.getVarForStmt(statementNumber);
+}
+
+std::unordered_set<std::string> UsesStorage::getVarsUsedByProc(
+    const std::string& procName) {
+  return storage_.getVarsForProc(procName);
 }
 
 std::set<std::string> UsesStorage::getAllVarUsedByStmt() {

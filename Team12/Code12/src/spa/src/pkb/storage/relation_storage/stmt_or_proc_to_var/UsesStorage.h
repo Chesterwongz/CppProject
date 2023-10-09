@@ -3,8 +3,12 @@
 #include <set>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
+
 #include "StmtOrProcToVarRelationStorage.h"
 #include "pkb/interfaces/storage/relation_storage/IUsesStorage.h"
+
+using std::string;
 
 class UsesStorage : public virtual IUsesStorage {
  private:
@@ -13,7 +17,13 @@ class UsesStorage : public virtual IUsesStorage {
  public:
   void addUses(const std::string& variableName, int statementNumber) override;
 
+  void addUses(const std::string& variableName,
+               const std::string& procName) override;
+
   std::set<std::string> getVarsUsedByStmt(int statementNumber) override;
+
+  std::unordered_set<std::string> getVarsUsedByProc(
+      const string& procName) override;
 
   std::set<int> getStmtsUsingVar(const std::string& variableName) override;
 

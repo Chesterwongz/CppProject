@@ -22,3 +22,8 @@ std::vector<std::pair<std::string, std::string>>
 ModifiesReader::getAllModifiedVariables(StmtType statementType) {
   return modifies_reader_.getAllRelationsByStmtType(statementType);
 }
+
+unordered_set<string> ModifiesReader::getModifiedVariablesForProc(
+    const string& procName) {
+  return modifies_reader_.getVarsRelatedToProc(procName);
+}

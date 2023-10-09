@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -31,4 +32,7 @@ class UsesReader : public IUsesReader {
 
   std::vector<std::pair<std::string, std::string>> getAllUsedVariables(
       StmtType statementType) override;
+
+  std::unordered_set<std::string> getUsedVariablesForProc(
+      const std::string& procName) override;
 };

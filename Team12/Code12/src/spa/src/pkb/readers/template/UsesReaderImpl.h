@@ -2,6 +2,8 @@
 
 #include <set>
 #include <string>
+#include <unordered_set>
+
 #include "StmtOrProcToVarReaderTemplate.h"
 #include "pkb/interfaces/storage/relation_storage/IUsesStorage.h"
 
@@ -19,4 +21,7 @@ class UsesReaderImpl : public StmtOrProcToVarReaderTemplate {
                           IEntityStorage& entity_storage)
       : uses_storage_(uses_storage),
         StmtOrProcToVarReaderTemplate(stmt_storage, entity_storage) {}
+
+  std::unordered_set<std::string> getVarsRelatedToProc(
+      const string& proc) override;
 };

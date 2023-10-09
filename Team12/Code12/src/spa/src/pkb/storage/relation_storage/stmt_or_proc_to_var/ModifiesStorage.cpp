@@ -1,8 +1,12 @@
 #include "ModifiesStorage.h"
 
-void ModifiesStorage::addModifies(const std::string& varName,
-                                  int stmtNum) {
+void ModifiesStorage::addModifies(const std::string& varName, int stmtNum) {
   storage_.setRelatedVar(varName, stmtNum);
+}
+
+void ModifiesStorage::addModifies(const std::string& varName,
+                                  const std::string& procName) {
+  storage_.setRelatedVar(varName, procName);
 }
 
 std::set<int> ModifiesStorage::getStmtsModifyingVar(
@@ -10,9 +14,13 @@ std::set<int> ModifiesStorage::getStmtsModifyingVar(
   return storage_.getStmtNumForVar(varName);
 }
 
-std::set<std::string> ModifiesStorage::getVarsModifiedByStmt(
-    int stmtNum) {
+std::set<std::string> ModifiesStorage::getVarsModifiedByStmt(int stmtNum) {
   return storage_.getVarForStmt(stmtNum);
+}
+
+std::unordered_set<std::string> ModifiesStorage::getVarsModifiedByProc(
+    const std::string& procName) {
+  return storage_.getVarsForProc(procName);
 }
 
 std::set<std::string> ModifiesStorage::getAllVarsModifiedByStmt() {

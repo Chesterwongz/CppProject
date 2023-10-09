@@ -21,3 +21,8 @@ std::vector<std::pair<std::string, std::string>>
 UsesReader::getAllUsedVariables(StmtType statementType) {
   return uses_reader_.getAllRelationsByStmtType(statementType);
 }
+
+std::unordered_set<std::string> UsesReader::getUsedVariablesForProc(
+    const std::string& procName) {
+  return uses_reader_.getVarsRelatedToProc(procName);
+}

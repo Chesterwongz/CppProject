@@ -7,6 +7,7 @@
 #include "../mocks/MockCFG.h"
 #include "ExtractorUtils.h"
 #include "sp/ast/ProgramNode.h"
+#include "common/Constants.h"
 
 using std::unique_ptr, std::make_unique, std::vector, std::string,
     std::unordered_map, std::unordered_set;
@@ -27,7 +28,7 @@ TEST_CASE("CFGExtractor - 1 procedure with 1 read") {
       {common::CFG_END_STMT_NUM, {1}}};
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("simple",
-                   std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+                   make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -49,7 +50,7 @@ TEST_CASE("CFGExtractor - 1 procedure with different non-nesting statements") {
       {common::CFG_END_STMT_NUM, {3}}, {3, {2}}, {2, {1}}};
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("simple",
-                   std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+                   make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -82,7 +83,7 @@ TEST_CASE("CFGExtractor - 1 procedure with a while loop") {
       {2, {1, 4}}};
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("simpleLoop",
-                   std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+                   make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -116,7 +117,7 @@ TEST_CASE("CFGExtractor - 1 procedure with an if statement") {
       {2, {1}}};
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("simpleIf",
-                   std::make_unique<MockCFG>(expectedCfg, expectedReverseCfg));
+                   make_unique<MockCFG>(expectedCfg, expectedReverseCfg));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -156,7 +157,7 @@ TEST_CASE("CFGExtractor - 1 procedure with multiple statements in if") {
       {2, {1}}};
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("multiStmts",
-                   std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+                   make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -206,7 +207,7 @@ TEST_CASE("CFGExtractor - 1 procedure with nested if statements") {
       {2, {1}}};
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("multipleIf",
-                   std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+                   make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -243,7 +244,7 @@ TEST_CASE("CFGExtractor - 1 procedure with nested while statements") {
       {2, {1, 7}}};
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("nestedWhile",
-                   std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+                   make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -279,7 +280,7 @@ TEST_CASE("CFGExtractor - 1 procedure with if in while statement") {
       {2, {1, 7, 6}}};
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("ifInWhile",
-                   std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+                   make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -318,7 +319,7 @@ TEST_CASE("CFGExtractor - 1 procedure with while in if statement") {
       {2, {1}}};
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("whileInIf",
-                   std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+                   make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -358,10 +359,10 @@ TEST_CASE("CFGExtractor - multiple procedures") {
   unordered_map<int, unordered_set<int>> expectedReversedCfgSecond = {
       {common::CFG_END_STMT_NUM, {6}}, {8, {7}}, {7, {6}}, {6, {5, 8}}};
   unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("first", std::make_unique<MockCFG>(
-                                expectedCfgFirst, expectedReversedCfgFirst));
-  expected.emplace("second", std::make_unique<MockCFG>(
-                                 expectedCfgSecond, expectedReversedCfgSecond));
+  expected.emplace("first", make_unique<MockCFG>(expectedCfgFirst,
+                                                 expectedReversedCfgFirst));
+  expected.emplace("second", make_unique<MockCFG>(expectedCfgSecond,
+                                                  expectedReversedCfgSecond));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -409,7 +410,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-if-while") {
       {1, {8}}};
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("multipleNesting",
-                   std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+                   make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -462,7 +463,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-if-if") {
       {1, {9}}};
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("nestedIfInWhile",
-                   std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+                   make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -513,7 +514,7 @@ TEST_CASE("CFGExtractor - multiple nesting with if-if-while") {
   };
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("nestedWhileInIf",
-                   std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+                   make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -556,7 +557,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-while-if") {
       {1, {6}}};
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("nestedIfInDoubleWhile",
-                   std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+                   make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -604,7 +605,7 @@ TEST_CASE("CFGExtractor - multiple nesting with if-if-if") {
   };
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("tripleNestedIf",
-                   std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+                   make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -646,7 +647,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-while-while") {
       {1, {6}}};
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("tripleNestedWhile",
-                   std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+                   make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -689,7 +690,7 @@ TEST_CASE("CFGExtractor - multiple nesting with if-while-while") {
   };
   unordered_map<string, unique_ptr<CFG>> expected;
   expected.emplace("doubleNestedWhileInIf",
-                   std::make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
+                   make_unique<MockCFG>(expectedCfg, expectedReversedCfg));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }
 
@@ -739,9 +740,9 @@ TEST_CASE("CFGExtractor - wiki code 6") {
       {common::CFG_END_STMT_NUM, {13}},
   };
   unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("Second", std::make_unique<MockCFG>(
-                                 expectedCfgSecond, expectedReversedCfgSecond));
-  expected.emplace("Third", std::make_unique<MockCFG>(
-                                expectedCfgThird, expectedReversedCfgThird));
+  expected.emplace("Second", make_unique<MockCFG>(expectedCfgSecond,
+                                                  expectedReversedCfgSecond));
+  expected.emplace("Third", make_unique<MockCFG>(expectedCfgThird,
+                                                 expectedReversedCfgThird));
   REQUIRE(mockPKB.isCFGEqual(expected));
 }

@@ -6,6 +6,12 @@ void StmtOrProcToVarRelationStorage::setRelatedVar(
   statementToVariables[statementNumber].insert(variableName);
 }
 
+void StmtOrProcToVarRelationStorage::setRelatedVar(
+    const std::string& variableName, const std::string& procName) {
+  varToProcs[variableName].insert(procName);
+  procToVars[procName].insert(variableName);
+}
+
 std::set<int> StmtOrProcToVarRelationStorage::getStmtNumForVar(
     const std::string& variableName) {
   if (variableToStatements.find(variableName) == variableToStatements.end()) {
@@ -21,6 +27,14 @@ std::set<std::string> StmtOrProcToVarRelationStorage::getVarForStmt(
     return {};
   }
   return statementToVariables[statementNumber];
+}
+
+std::unordered_set<std::string> StmtOrProcToVarRelationStorage::getVarsForProc(
+    const std::string& procName) {
+  if (procToVars.find(procName) == procToVars.end()) {
+    return {};
+  }
+  return procToVars[procName];
 }
 
 std::set<std::string> StmtOrProcToVarRelationStorage::getAllVarOfStmts() {

@@ -3,6 +3,7 @@
 #include <set>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 
 class StmtOrProcToVarRelationStorage {
  private:
@@ -12,9 +13,18 @@ class StmtOrProcToVarRelationStorage {
   // (statement number -> variable names)
   std::unordered_map<int, std::set<std::string>> statementToVariables;
 
+  // (proc name -> var name)
+  std::unordered_map<std::string, std::unordered_set<std::string>> procToVars;
+
+  // (var name -> proc name)
+  std::unordered_map<std::string, std::unordered_set<std::string>> varToProcs;
+
  public:
   // Setter for relationship
   void setRelatedVar(const std::string& varName, int stmtNum);
+
+  void setRelatedVar(const std::string& variableName,
+                     const std::string& procName);
 
   // Return all statement numbers related to a particular variable
   std::set<int> getStmtNumForVar(const std::string& varName);
@@ -22,6 +32,7 @@ class StmtOrProcToVarRelationStorage {
   // Return all variable names that are being related to a particular
   // statement
   std::set<std::string> getVarForStmt(int stmtNum);
+  std::unordered_set<std::string> getVarsForProc(const std::string& procName);
 
   // Return all variables that have StmtToVar relations in the program
   std::set<std::string> getAllVarOfStmts();
