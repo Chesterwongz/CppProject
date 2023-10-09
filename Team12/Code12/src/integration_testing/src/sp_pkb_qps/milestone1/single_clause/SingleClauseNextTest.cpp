@@ -131,8 +131,8 @@ TEST_CASE(
 TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/Next_queries.txt - 8") {
   string query =
-      "if Next;\n"
-      "  Select Next such that Next   ( 4,Next )";
+      "stmt Next;\n"
+      "Select Next such that Next   ( 4,Next )";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(nextSource, pkb.getWriter());
