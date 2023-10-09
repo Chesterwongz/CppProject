@@ -216,7 +216,7 @@ TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/Next_queries.txt - 14") {
   string query =
       "stmt s;\n"
-      "Select s such that Next   ( _,1 ))";
+      "Select s such that Next   ( _,1 )";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(nextSource, pkb.getWriter());
@@ -279,6 +279,7 @@ TEST_CASE(
   sp.processContent(nextSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  // this is SemanticError because it is an undeclared synonym
+  set<string> expected = {"SemanticError"};
   REQUIRE(result == expected);
 }
