@@ -76,7 +76,7 @@ Select p such that Next( _,p)
 ====== 16 - Next (print, _) (-) ======
 print pn;
 Select pn such that Next ( pn,_)
-3
+4
 1000
 ====== 17 - Next (stmt,assign) (+) ======
 stmt s;assign a;
