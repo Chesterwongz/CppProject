@@ -10,31 +10,20 @@
 
 using std::set, std::string, std::unordered_map, std::unordered_set;
 
-using ProcToVarSetMap = unordered_map<string, unordered_set<string>>;
-using StmtProcPairsSet =
-    unordered_set<pair<string, string>, PairUtils::PairHash>;
-using ProcToStmtProcSetMap = unordered_map<string, StmtProcPairsSet>;
+using ProcToStrSetMap = unordered_map<string, unordered_set<string>>;
 
 // TODO(Xiaoyun): remove print methods after MS2 testing
-void printVars(const string& abstraction, const unordered_set<string>& set) {
+void printEntities(const string& abstraction,
+                   const unordered_set<string>& set) {
   std::cout << abstraction << ": ";
-  for (const string& var : set) {
-    std::cout << var << ", ";
-  }
-  std::cout << std::endl << "-------------" << std::endl;
-}
-
-void printStmtProcPairs(const string& abstraction,
-                        const StmtProcPairsSet& set) {
-  std::cout << abstraction << ": ";
-  for (const auto& [stmtNum, proc] : set) {
-    std::cout << "(" << stmtNum << ", " << proc << "), ";
+  for (const string& entity : set) {
+    std::cout << entity << ", ";
   }
   std::cout << std::endl << "-------------" << std::endl;
 }
 
 void validateModifiesProcVar(PKBReader& reader, const vector<string>& procs,
-                             ProcToVarSetMap expectedModifiesMap) {
+                             ProcToStrSetMap expectedModifiesMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedModifies = expectedModifiesMap[proc];
     unordered_set<string> actualModifies =
@@ -44,7 +33,7 @@ void validateModifiesProcVar(PKBReader& reader, const vector<string>& procs,
 }
 
 void validateUsesProcVar(PKBReader& reader, const vector<string>& procs,
-                         ProcToVarSetMap expectedUsesMap) {
+                         ProcToStrSetMap expectedUsesMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedUses = expectedUsesMap[proc];
     unordered_set<string> actualUses = reader.getUsedVariablesForProc(proc);
@@ -53,29 +42,20 @@ void validateUsesProcVar(PKBReader& reader, const vector<string>& procs,
 }
 
 void validateCalls(PKBReader& reader, const vector<string>& procs,
-                   ProcToStmtProcSetMap expectedCallsMap) {
+                   ProcToStrSetMap expectedCallsMap) {
   for (const string& proc : procs) {
-    StmtProcPairsSet expectedCalls = expectedCallsMap[proc];
-    vector<pair<string, string>> actualCalls = reader.getCalleeProcs(proc);
-    StmtProcPairsSet actualCallsSet;
-    for (const auto& pair : actualCalls) {
-      actualCallsSet.insert(pair);
-    }
-    REQUIRE(actualCallsSet == expectedCalls);
+    unordered_set<string> expectedCalls = expectedCallsMap[proc];
+    unordered_set<string> actualCalls = reader.getCalleeProcs(proc);
+    REQUIRE(actualCalls == expectedCalls);
   }
 }
 
 void validateCallsStar(PKBReader& reader, const vector<string>& procs,
-                       ProcToStmtProcSetMap expectedCallsStarMap) {
+                       ProcToStrSetMap expectedCallsStarMap) {
   for (const string& proc : procs) {
-    StmtProcPairsSet expectedCallsStar = expectedCallsStarMap[proc];
-    vector<pair<string, string>> actualCallsStar =
-        reader.getCalleeProcsStar(proc);
-    StmtProcPairsSet actualCallsStarSet;
-    for (const auto& pair : actualCallsStar) {
-      actualCallsStarSet.insert(pair);
-    }
-    REQUIRE(actualCallsStarSet == expectedCallsStar);
+    unordered_set<string> expectedCallsStar = expectedCallsStarMap[proc];
+    unordered_set<string> actualCallsStar = reader.getCalleeProcsStar(proc);
+    REQUIRE(actualCallsStar == expectedCallsStar);
   }
 }
 
@@ -93,10 +73,10 @@ TEST_CASE("SP-PKB integration MS2 - Non-nesting statements") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"simple"};
-  ProcToVarSetMap expectedModifiesMap = {{"simple", {"num1", "x"}}};
-  ProcToVarSetMap expectedUsesMap = {{"simple", {"num1", "num2"}}};
-  ProcToStmtProcSetMap expectedCallsMap = {{"simple", {}}};
-  ProcToStmtProcSetMap expectedCallsStarMap = {{"simple", {}}};
+  ProcToStrSetMap expectedModifiesMap = {{"simple", {"num1", "x"}}};
+  ProcToStrSetMap expectedUsesMap = {{"simple", {"num1", "num2"}}};
+  ProcToStrSetMap expectedCallsMap = {{"simple", {}}};
+  ProcToStrSetMap expectedCallsStarMap = {{"simple", {}}};
   validateUsesProcVar(reader, procs, expectedUsesMap);
   validateModifiesProcVar(reader, procs, expectedModifiesMap);
   validateCalls(reader, procs, expectedCallsMap);
@@ -123,14 +103,13 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"A", "B", "C"};
-  ProcToVarSetMap expectedModifiesMap = {
+  ProcToStrSetMap expectedModifiesMap = {
       {"A", {"x", "y"}}, {"B", {"x", "y"}}, {"C", {"y"}}};
-  ProcToVarSetMap expectedUsesMap = {
+  ProcToStrSetMap expectedUsesMap = {
       {"A", {"a", "b"}}, {"B", {"a", "b"}}, {"C", {"b"}}};
-  ProcToStmtProcSetMap expectedCallsMap = {
-      {"A", {{"1", "B"}}}, {"B", {{"3", "C"}}}, {"C", {}}};
-  ProcToStmtProcSetMap expectedCallsStarMap = {
-      {"A", {{"1", "B"}, {"3", "C"}}}, {"B", {{"3", "C"}}}, {"C", {}}};
+  ProcToStrSetMap expectedCallsMap = {{"A", {"B"}}, {"B", {"C"}}, {"C", {}}};
+  ProcToStrSetMap expectedCallsStarMap = {
+      {"A", {"B", "C"}}, {"B", {"C"}}, {"C", {}}};
   validateUsesProcVar(reader, procs, expectedUsesMap);
   validateModifiesProcVar(reader, procs, expectedModifiesMap);
   validateCalls(reader, procs, expectedCallsMap);
@@ -159,13 +138,12 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with while") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"X", "Y", "Z"};
-  ProcToVarSetMap expectedModifiesMap = {{"X", {"a"}}, {"Y", {"a"}}};
-  ProcToVarSetMap expectedUsesMap = {
+  ProcToStrSetMap expectedModifiesMap = {{"X", {"a"}}, {"Y", {"a"}}};
+  ProcToStrSetMap expectedUsesMap = {
       {"X", {"a", "b", "c"}}, {"Y", {"a", "b", "c"}}, {"Z", {"c"}}};
-  ProcToStmtProcSetMap expectedCallsMap = {
-      {"X", {{"2", "Y"}}}, {"Y", {{"5", "Z"}}}, {"Z", {}}};
-  ProcToStmtProcSetMap expectedCallsStarMap = {
-      {"X", {{"2", "Y"}, {"5", "Z"}}}, {"Y", {{"5", "Z"}}}, {"Z", {}}};
+  ProcToStrSetMap expectedCallsMap = {{"X", {"Y"}}, {"Y", {"Z"}}, {"Z", {}}};
+  ProcToStrSetMap expectedCallsStarMap = {
+      {"X", {"Y", "Z"}}, {"Y", {"Z"}}, {"Z", {}}};
   validateUsesProcVar(reader, procs, expectedUsesMap);
   validateModifiesProcVar(reader, procs, expectedModifiesMap);
   validateCalls(reader, procs, expectedCallsMap);
@@ -191,10 +169,10 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with if") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"A", "B"};
-  ProcToVarSetMap expectedModifiesMap = {{"A", {"y", "z"}}, {"B", {"z"}}};
-  ProcToVarSetMap expectedUsesMap = {{"A", {"x"}}, {"B", {"x"}}};
-  ProcToStmtProcSetMap expectedCallsMap = {{"A", {{"2", "B"}}}, {"B", {}}};
-  ProcToStmtProcSetMap expectedCallsStarMap = {{"A", {{"2", "B"}}}, {"B", {}}};
+  ProcToStrSetMap expectedModifiesMap = {{"A", {"y", "z"}}, {"B", {"z"}}};
+  ProcToStrSetMap expectedUsesMap = {{"A", {"x"}}, {"B", {"x"}}};
+  ProcToStrSetMap expectedCallsMap = {{"A", {"B"}}, {"B", {}}};
+  ProcToStrSetMap expectedCallsStarMap = {{"A", {"B"}}, {"B", {}}};
   validateUsesProcVar(reader, procs, expectedUsesMap);
   validateModifiesProcVar(reader, procs, expectedModifiesMap);
   validateCalls(reader, procs, expectedCallsMap);
@@ -223,17 +201,14 @@ TEST_CASE("SP-PKB integration MS2 - multiple transitive calls") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"P", "Q", "R", "S"};
-  ProcToVarSetMap expectedModifiesMap = {
+  ProcToStrSetMap expectedModifiesMap = {
       {"P", {"z"}}, {"Q", {"z"}}, {"R", {"z"}}, {"S", {"z"}}};
-  ProcToVarSetMap expectedUsesMap = {
+  ProcToStrSetMap expectedUsesMap = {
       {"P", {"z", "y"}}, {"Q", {"z", "y"}}, {"R", {"z"}}, {"S", {"z"}}};
-  ProcToStmtProcSetMap expectedCallsMap = {
-      {"P", {{"1", "Q"}}}, {"Q", {{"3", "R"}}}, {"R", {{"4", "S"}}}, {"S", {}}};
-  ProcToStmtProcSetMap expectedCallsStarMap = {
-      {"P", {{"1", "Q"}, {"3", "R"}, {"4", "S"}}},
-      {"Q", {{"3", "R"}, {"4", "S"}}},
-      {"R", {{"4", "S"}}},
-      {"S", {}}};
+  ProcToStrSetMap expectedCallsMap = {
+      {"P", {"Q"}}, {"Q", {"R"}}, {"R", {"S"}}, {"S", {}}};
+  ProcToStrSetMap expectedCallsStarMap = {
+      {"P", {"Q", "R", "S"}}, {"Q", {"R", "S"}}, {"R", {"S"}}, {"S", {}}};
   validateUsesProcVar(reader, procs, expectedUsesMap);
   validateModifiesProcVar(reader, procs, expectedModifiesMap);
   validateCalls(reader, procs, expectedCallsMap);
@@ -259,14 +234,14 @@ TEST_CASE("SP-PKB integration MS2 - multiple calls without transitivity") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"Alpha", "Beta", "Gamma"};
-  ProcToVarSetMap expectedModifiesMap = {
+  ProcToStrSetMap expectedModifiesMap = {
       {"Alpha", {"b", "g"}}, {"Beta", {"b"}}, {"Gamma", {"g"}}};
-  ProcToVarSetMap expectedUsesMap = {
+  ProcToStrSetMap expectedUsesMap = {
       {"Alpha", {"y", "z"}}, {"Beta", {"y"}}, {"Gamma", {"z"}}};
-  ProcToStmtProcSetMap expectedCallsMap = {
-      {"Alpha", {{"1", "Beta"}, {"2", "Gamma"}}}, {"Beta", {}}, {"Gamma", {}}};
-  ProcToStmtProcSetMap expectedCallsStarMap = {
-      {"Alpha", {{"1", "Beta"}, {"2", "Gamma"}}}, {"Beta", {}}, {"Gamma", {}}};
+  ProcToStrSetMap expectedCallsMap = {
+      {"Alpha", {"Beta", "Gamma"}}, {"Beta", {}}, {"Gamma", {}}};
+  ProcToStrSetMap expectedCallsStarMap = {
+      {"Alpha", {"Beta", "Gamma"}}, {"Beta", {}}, {"Gamma", {}}};
   validateUsesProcVar(reader, procs, expectedUsesMap);
   validateModifiesProcVar(reader, procs, expectedModifiesMap);
   validateCalls(reader, procs, expectedCallsMap);
@@ -295,14 +270,12 @@ TEST_CASE("SP-PKB integration MS2 - two chained calls and containers") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"Main", "Helper"};
-  ProcToVarSetMap expectedModifiesMap = {{"Main", {"a", "b"}},
+  ProcToStrSetMap expectedModifiesMap = {{"Main", {"a", "b"}},
                                          {"Helper", {"a"}}};
-  ProcToVarSetMap expectedUsesMap = {{"Main", {"a", "b"}},
+  ProcToStrSetMap expectedUsesMap = {{"Main", {"a", "b"}},
                                      {"Helper", {"a", "b"}}};
-  ProcToStmtProcSetMap expectedCallsMap = {{"Main", {{"4", "Helper"}}},
-                                           {"Helper", {}}};
-  ProcToStmtProcSetMap expectedCallsStarMap = {{"Main", {{"4", "Helper"}}},
-                                               {"Helper", {}}};
+  ProcToStrSetMap expectedCallsMap = {{"Main", {"Helper"}}, {"Helper", {}}};
+  ProcToStrSetMap expectedCallsStarMap = {{"Main", {"Helper"}}, {"Helper", {}}};
   validateUsesProcVar(reader, procs, expectedUsesMap);
   validateModifiesProcVar(reader, procs, expectedModifiesMap);
   validateCalls(reader, procs, expectedCallsMap);
@@ -331,19 +304,17 @@ TEST_CASE("SP-PKB integration MS2 - three chained calls and containers") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"Start", "Operate", "Increment"};
-  ProcToVarSetMap expectedModifiesMap = {
+  ProcToStrSetMap expectedModifiesMap = {
       {"Start", {"i", "k"}}, {"Operate", {"i"}}, {"Increment", {"i"}}};
-  ProcToVarSetMap expectedUsesMap = {
+  ProcToStrSetMap expectedUsesMap = {
       {"Start", {"p", "q", "x", "y", "i", "j", "k", "a", "b", "c", "d"}},
       {"Operate", {"p", "q", "x", "y", "i", "j", "k"}},
       {"Increment", {"i", "j", "k"}}};
-  ProcToStmtProcSetMap expectedCallsMap = {{"Start", {{"3", "Operate"}}},
-                                           {"Operate", {{"5", "Increment"}}},
-                                           {"Increment", {}}};
-  ProcToStmtProcSetMap expectedCallsStarMap = {
-      {"Start", {{"3", "Operate"}, {"5", "Increment"}}},
-      {"Operate", {{"5", "Increment"}}},
-      {"Increment", {}}};
+  ProcToStrSetMap expectedCallsMap = {
+      {"Start", {"Operate"}}, {"Operate", {"Increment"}}, {"Increment", {}}};
+  ProcToStrSetMap expectedCallsStarMap = {{"Start", {"Operate", "Increment"}},
+                                          {"Operate", {"Increment"}},
+                                          {"Increment", {}}};
   validateUsesProcVar(reader, procs, expectedUsesMap);
   validateModifiesProcVar(reader, procs, expectedModifiesMap);
   validateCalls(reader, procs, expectedCallsMap);
@@ -394,7 +365,7 @@ TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
 
   vector<string> procs = {"Alpha",   "Beta", "Gamma", "Delta",
                           "Epsilon", "Zeta", "Eta"};
-  ProcToVarSetMap expectedModifiesMap = {
+  ProcToStrSetMap expectedModifiesMap = {
       {"Alpha", {"w", "m", "n", "o", "q", "r", "s", "t", "p"}},
       {"Beta", {"n", "o", "q", "r", "s", "t", "p"}},
       {"Gamma", {"o", "q", "r", "s", "t"}},
@@ -402,7 +373,7 @@ TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
       {"Epsilon", {"q", "r", "s", "t"}},
       {"Zeta", {"s", "t"}},
       {"Eta", {"s", "t"}}};
-  ProcToVarSetMap expectedUsesMap = {
+  ProcToStrSetMap expectedUsesMap = {
       {"Alpha", {"w", "o", "q", "r", "s", "m", "n"}},
       {"Beta", {"m", "n", "o", "q", "r", "s"}},
       {"Gamma", {"n", "o", "q", "r", "s"}},
@@ -410,32 +381,17 @@ TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
       {"Epsilon", {"o", "q", "r", "s"}},
       {"Zeta", {"r", "s"}},
       {"Eta", {"r", "s"}}};
-  ProcToStmtProcSetMap expectedCallsMap = {
-      {"Alpha", {{"3", "Beta"}}},
-      {"Beta", {{"6", "Gamma"}, {"7", "Delta"}}},
-      {"Gamma", {{"11", "Epsilon"}}},
-      {"Delta", {}},
-      {"Epsilon", {{"15", "Zeta"}}},
-      {"Zeta", {{"17", "Eta"}}},
+  ProcToStrSetMap expectedCallsMap = {
+      {"Alpha", {"Beta"}}, {"Beta", {"Gamma", "Delta"}}, {"Gamma", {"Epsilon"}},
+      {"Delta", {}},       {"Epsilon", {"Zeta"}},        {"Zeta", {"Eta"}},
       {"Eta", {}}};
-  ProcToStmtProcSetMap expectedCallsStarMap = {
-      {"Alpha",
-       {{"3", "Beta"},
-        {"6", "Gamma"},
-        {"7", "Delta"},
-        {"11", "Epsilon"},
-        {"15", "Zeta"},
-        {"17", "Eta"}}},
-      {"Beta",
-       {{"6", "Gamma"},
-        {"7", "Delta"},
-        {"11", "Epsilon"},
-        {"15", "Zeta"},
-        {"17", "Eta"}}},
-      {"Gamma", {{"11", "Epsilon"}, {"15", "Zeta"}, {"17", "Eta"}}},
+  ProcToStrSetMap expectedCallsStarMap = {
+      {"Alpha", {"Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta"}},
+      {"Beta", {"Gamma", "Delta", "Epsilon", "Zeta", "Eta"}},
+      {"Gamma", {"Epsilon", "Zeta", "Eta"}},
       {"Delta", {}},
-      {"Epsilon", {{"15", "Zeta"}, {"17", "Eta"}}},
-      {"Zeta", {{"17", "Eta"}}},
+      {"Epsilon", {"Zeta", "Eta"}},
+      {"Zeta", {"Eta"}},
       {"Eta", {}}};
   validateUsesProcVar(reader, procs, expectedUsesMap);
   validateModifiesProcVar(reader, procs, expectedModifiesMap);
@@ -481,28 +437,27 @@ TEST_CASE(
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"Init", "Process", "Clean", "Finish", "Update"};
-  ProcToVarSetMap expectedModifiesMap = {{"Init", {"u", "h", "v", "j"}},
+  ProcToStrSetMap expectedModifiesMap = {{"Init", {"u", "h", "v", "j"}},
                                          {"Process", {"u", "v", "j"}},
                                          {"Clean", {"u"}},
                                          {"Finish", {"v", "j"}},
                                          {"Update", {"v"}}};
-  ProcToVarSetMap expectedUsesMap = {
+  ProcToStrSetMap expectedUsesMap = {
       {"Init",
        {"a", "b", "c", "d", "e", "f", "h", "p", "q", "r", "u", "v", "j"}},
       {"Process", {"a", "b", "c", "d", "f", "p", "q", "r", "u", "v", "j"}},
       {"Clean", {}},
       {"Finish", {"j"}},
       {"Update", {"v"}}};
-  ProcToStmtProcSetMap expectedCallsMap = {
-      {"Init", {{"4", "Process"}}},
-      {"Process", {{"7", "Finish"}, {"8", "Clean"}, {"10", "Update"}}},
+  ProcToStrSetMap expectedCallsMap = {
+      {"Init", {"Process"}},
+      {"Process", {"Finish", "Clean", "Update"}},
       {"Clean", {}},
       {"Finish", {}},
       {"Update", {}}};
-  ProcToStmtProcSetMap expectedCallsStarMap = {
-      {"Init",
-       {{"4", "Process"}, {"7", "Finish"}, {"8", "Clean"}, {"10", "Update"}}},
-      {"Process", {{"7", "Finish"}, {"8", "Clean"}, {"10", "Update"}}},
+  ProcToStrSetMap expectedCallsStarMap = {
+      {"Init", {"Process", "Finish", "Clean", "Update"}},
+      {"Process", {"Finish", "Clean", "Update"}},
       {"Clean", {}},
       {"Finish", {}},
       {"Update", {}}};

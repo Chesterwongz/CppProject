@@ -57,16 +57,13 @@ void PKBStorage::setAssignPattern(std::string variableName, std::string rpn,
 }
 
 void PKBStorage::setCallsRelationship(const std::string& callerProc,
-                                      const std::string& calleeProc,
-                                      int statementNumber) {
-  callsStorage.setCallsRelationship(callerProc, calleeProc, statementNumber);
+                                      const std::string& calleeProc) {
+  callsStorage.setCallsRelationship(callerProc, calleeProc);
 }
 
 void PKBStorage::setCallsStarRelationship(const std::string& callerProc,
-                                          const std::string& calleeProc,
-                                          int statementNumber) {
-  callsStorage.setCallsStarRelationship(callerProc, calleeProc,
-                                        statementNumber);
+                                          const std::string& calleeProc) {
+  callsStorage.setCallsStarRelationship(callerProc, calleeProc);
 }
 
 std::set<std::string> PKBStorage::getAllVariables() {
@@ -169,40 +166,30 @@ std::vector<std::string> PKBStorage::getPartialAssignPattern(
   return patternStorage.getPartialAssignPattern(variableName, rpn, isSynonym);
 }
 
-vector<pair<string, string>> PKBStorage::getCallerProcs(
-    const std::string& callee) {
+unordered_set<string> PKBStorage::getCallerProcs(const std::string& callee) {
   return callsStorage.getCallerProcs(callee);
 }
 
-vector<pair<string, string>> PKBStorage::getCallerProcsStar(
+unordered_set<string> PKBStorage::getCallerProcsStar(
     const std::string& callee) {
   return callsStorage.getCallerProcsStar(callee);
 }
 
-vector<pair<string, string>> PKBStorage::getCalleeProcs(
-    const std::string& caller) {
+unordered_set<string> PKBStorage::getCalleeProcs(const std::string& caller) {
   return callsStorage.getCalleeProcs(caller);
 }
 
-vector<pair<string, string>> PKBStorage::getCalleeProcsStar(
+unordered_set<string> PKBStorage::getCalleeProcsStar(
     const std::string& caller) {
   return callsStorage.getCalleeProcsStar(caller);
 }
 
-string PKBStorage::getProcCalledOn(int statementNumber) {
-  return callsStorage.getProcCalledOn(statementNumber);
+unordered_set<string> PKBStorage::getAllCallerProcs() {
+  return callsStorage.getAllCallerProcs();
 }
 
-vector<string> PKBStorage::getProcStarCalledOn(int statementNumber) {
-  return callsStorage.getProcStarCalledOn(statementNumber);
-}
-
-vector<pair<string, string>> PKBStorage::getCallingProcedures() {
-  return callsStorage.getCallingProcedures();
-}
-
-vector<pair<string, string>> PKBStorage::getCalledProcedures() {
-  return callsStorage.getCalledProcedures();
+unordered_set<string> PKBStorage::getAllCalleeProcs() {
+  return callsStorage.getAllCalleeProcs();
 }
 
 bool PKBStorage::isCalling(const std::string& caller,
@@ -215,16 +202,7 @@ bool PKBStorage::isCallingStar(const std::string& caller,
   return callsStorage.isCallsStar(caller, callee);
 }
 
-bool PKBStorage::isCallingStmt(int statementNumber, const std::string& callee) {
-  return callsStorage.isCallingStmt(statementNumber, callee);
-}
-
-bool PKBStorage::isCallingStarStmt(int statementNumber,
-                                   const std::string& callee) {
-  return callsStorage.isCallingStarStmt(statementNumber, callee);
-}
-
-const unordered_map<string, vector<pair<int, string>>>&
+const unordered_map<string, unordered_set<string>>&
 PKBStorage::getCalleeProcsMap() {
   return callsStorage.getCalleeProcsMap();
 }

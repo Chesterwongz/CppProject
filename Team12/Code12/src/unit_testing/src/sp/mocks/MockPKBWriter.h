@@ -32,7 +32,7 @@ class MockPKBWriter : public PKBWriter {
   unordered_map<int, std::pair<string, string>> assignPatternStorage;
   unordered_map<int, unordered_set<string>> whilePatternStorage;
   unordered_map<int, unordered_set<string>> ifPatternStorage;
-  unordered_map<string, vector<pair<int, string>>> callsStorage;
+  unordered_map<string, unordered_set<string>> callsStorage;
   unordered_map<string, unique_ptr<CFG>> cfgStorage;
 
  public:
@@ -99,9 +99,8 @@ class MockPKBWriter : public PKBWriter {
   }
 
   void setCallsRelationship(const string &caller,
-                            const string &callee,
-                            int stmtNum) override {
-    callsStorage[caller].emplace_back(stmtNum, callee);
+                            const string &callee) override {
+    callsStorage[caller].insert(callee);
   }
 
   void setCFG(const string& procName, unique_ptr<CFG> cfg) override {
@@ -183,7 +182,7 @@ class MockPKBWriter : public PKBWriter {
   }
 
   [[nodiscard]] bool isCallsEqual(
-      unordered_map<string, vector<pair<int, string>>> &calls) const {
+      unordered_map<string, unordered_set<string>> &calls) const {
     return callsStorage == calls;
   }
 

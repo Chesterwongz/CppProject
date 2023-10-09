@@ -101,30 +101,21 @@ class PKBStorage {
 
   // CallsStorage methods
   void setCallsRelationship(const std::string& callerProc,
-                            const std::string& calleeProc, int statementNumber);
+                            const std::string& calleeProc);
   void setCallsStarRelationship(const std::string& callerProc,
-                                const std::string& calleeProc,
-                                int statementNumber);
+                                const std::string& calleeProc);
 
-  vector<pair<string, std::string>> getCallerProcs(const std::string& procName);
-  vector<pair<string, std::string>> getCallerProcsStar(
-      const std::string& procName);
-  vector<pair<string, std::string>> getCalleeProcs(const std::string& procName);
-  vector<pair<string, std::string>> getCalleeProcsStar(
-      const std::string& procName);
+  unordered_set<string> getCallerProcs(const std::string& callee);
+  unordered_set<string> getCallerProcsStar(const std::string& callee);
+  unordered_set<string> getCalleeProcs(const std::string& caller);
+  unordered_set<string> getCalleeProcsStar(const std::string& caller);
 
-  std::string getProcCalledOn(int statementNumber);
-  vector<string> getProcStarCalledOn(int statementNumber);
-
-  vector<pair<string, std::string>> getCallingProcedures();
-  vector<pair<string, std::string>> getCalledProcedures();
+  unordered_set<string> getAllCallerProcs();
+  unordered_set<string> getAllCalleeProcs();
 
   bool isCalling(const std::string& caller, const std::string& callee);
   bool isCallingStar(const std::string& caller, const std::string& callee);
-  bool isCallingStmt(int statementNumber, const std::string& callee);
-  bool isCallingStarStmt(int statementNumber, const std::string& callee);
-  const unordered_map<string, vector<pair<int, std::string>>>&
-  getCalleeProcsMap();
+  const unordered_map<string, unordered_set<string>>& getCalleeProcsMap();
 
  private:
   CallsStorage callsStorage;

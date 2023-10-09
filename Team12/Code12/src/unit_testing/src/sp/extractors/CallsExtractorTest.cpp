@@ -32,7 +32,7 @@ TEST_CASE("CallsExtractor - no calls") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(*programNode, mockPKB, AbstractionType::CALLS);
 
-  unordered_map<string, vector<pair<int, string>>> expected = {};
+  unordered_map<string, unordered_set<string>> expected = {};
   REQUIRE(mockPKB.isCallsEqual(expected));
 }
 
@@ -47,7 +47,7 @@ TEST_CASE("CallsExtractor with parser - no calls") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
-  unordered_map<string, vector<pair<int, string>>> expected = {};
+  unordered_map<string, unordered_set<string>> expected = {};
   REQUIRE(mockPKB.isCallsEqual(expected));
 }
 
@@ -65,8 +65,8 @@ TEST_CASE("CallsExtractor with parser - single calls") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
-  unordered_map<string, vector<pair<int, string>>> expected = {};
-  expected["First"] = {std::make_pair(1, "Second")};
+  unordered_map<string, unordered_set<string>> expected = {};
+  expected["First"] = {"Second"};
   REQUIRE(mockPKB.isCallsEqual(expected));
 }
 
@@ -89,11 +89,8 @@ TEST_CASE("CallsExtractor with parser - multiple calls in one proc") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
-  unordered_map<string, vector<pair<int, string>>> expected = {};
-  expected["First"] = {
-      std::make_pair(1, "Second"),
-      std::make_pair(3, "Third"),
-  };
+  unordered_map<string, unordered_set<string>> expected = {};
+  expected["First"] = {"Second", "Third"};
   REQUIRE(mockPKB.isCallsEqual(expected));
 }
 
@@ -116,9 +113,9 @@ TEST_CASE("CallsExtractor with parser - 2 chained calls") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
-  unordered_map<string, vector<pair<int, string>>> expected = {};
-  expected["First"] = {std::make_pair(1, "Second")};
-  expected["Second"] = {std::make_pair(3, "Third")};
+  unordered_map<string, unordered_set<string>> expected = {};
+  expected["First"] = {"Second"};
+  expected["Second"] = {"Third"};
   REQUIRE(mockPKB.isCallsEqual(expected));
 }
 
@@ -146,10 +143,10 @@ TEST_CASE("CallsExtractor with parser - 2 chained calls from 1 procedure") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
-  unordered_map<string, vector<pair<int, string>>> expected = {};
-  expected["One"] = {std::make_pair(1, "Two"), std::make_pair(2, "Three")};
-  expected["Two"] = {std::make_pair(4, "Four")};
-  expected["Three"] = {std::make_pair(6, "Four")};
+  unordered_map<string, unordered_set<string>> expected = {};
+  expected["One"] = {"Two", "Three"};
+  expected["Two"] = {"Four"};
+  expected["Three"] = {"Four"};
   REQUIRE(mockPKB.isCallsEqual(expected));
 }
 
@@ -176,9 +173,9 @@ TEST_CASE("CallsExtractor with parser - 3 chained calls") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
-  unordered_map<string, vector<pair<int, string>>> expected = {};
-  expected["One"] = {std::make_pair(1, "Two")};
-  expected["Two"] = {std::make_pair(3, "Three")};
-  expected["Three"] = {std::make_pair(5, "Four")};
+  unordered_map<string, unordered_set<string>> expected = {};
+  expected["One"] = {"Two"};
+  expected["Two"] = {"Three"};
+  expected["Three"] = {"Four"};
   REQUIRE(mockPKB.isCallsEqual(expected));
 }

@@ -22,8 +22,6 @@
 #include "pkb/interfaces/writers/IUsesWriter.h"
 
 using std::unique_ptr, std::string, std::unordered_set, std::stack;
-using StmtProcPairsSet =
-    unordered_set<pair<string, string>, PairUtils::PairHash>;
 
 class PKBWriter : public virtual IDesignEntitiesWriter,
                   public virtual IFollowsWriter,
@@ -80,11 +78,11 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
                                        const std::string& procedureName);
 
   // direct calls, not transitive
-  void setCallsRelationship(const string& callerProc, const string& calleeProc,
-                            int stmtNum) override;
+  void setCallsRelationship(const string& callerProc,
+                            const string& calleeProc) override;
 
   void setCallsStarRelationship(const string& callerProc,
-                                const string& calleeProc, int stmtNum) override;
+                                const string& calleeProc) override;
 
   // Add an expression to storage
   virtual void setAssignPattern(const std::string& variableName,
@@ -99,10 +97,8 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
   void setUsesForCalls(const string& callerProc, const string& calleeProc);
   void setModifiesForCalls(const string& callerProc, const string& calleeProc);
   void setRelationshipsForIndirectCalls(
-      const string& caller,
-      const unordered_set<pair<string, string>, PairUtils::PairHash>&
-          visitedCallees);
-  void insertDirectCalleesOfProc(stack<pair<string, string>>& toVisit,
-                                 const StmtProcPairsSet& visitedCallees,
+      const string& caller, const unordered_set<string>& visitedCallees);
+  void insertDirectCalleesOfProc(stack<string>& toVisit,
+                                 const unordered_set<string>& visitedCallees,
                                  const string& currProc);
 };

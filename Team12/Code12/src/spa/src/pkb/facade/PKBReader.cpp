@@ -403,42 +403,34 @@ std::vector<std::string> PKBReader::getPartialAssignPattern(
   return storage.getPartialAssignPattern(variableName, rpn, isSynonym);
 }
 
-std::vector<std::pair<std::string, std::string>> PKBReader::getCallerProcs(
+unordered_set<string> PKBReader::getCallerProcs(
     const std::string& procName) {
   return storage.getCallerProcs(procName);
 }
 
-std::vector<std::pair<std::string, std::string>> PKBReader::getCallerProcsStar(
+unordered_set<string> PKBReader::getCallerProcsStar(
     const std::string& procName) {
   return storage.getCallerProcsStar(procName);
 }
 
-std::vector<std::pair<std::string, std::string>> PKBReader::getCalleeProcs(
+unordered_set<string> PKBReader::getCalleeProcs(
     const std::string& procName) {
   return storage.getCalleeProcs(procName);
 }
 
-std::vector<std::pair<std::string, std::string>>
+unordered_set<string>
 PKBReader::getCalleeProcsStar(const std::string& procName) {
   return storage.getCalleeProcsStar(procName);
 }
 
-std::string PKBReader::getProcCalledOn(int stmtNum) {
-  return storage.getProcCalledOn(stmtNum);
+unordered_set<string>
+PKBReader::getAllCallerProcs() {
+  return storage.getAllCallerProcs();
 }
 
-std::vector<std::string> PKBReader::getProcStarCalledOn(int stmtNum) {
-  return storage.getProcStarCalledOn(stmtNum);
-}
-
-std::vector<std::pair<std::string, std::string>>
-PKBReader::getCallingProcedures() {
-  return storage.getCallingProcedures();
-}
-
-std::vector<std::pair<std::string, std::string>>
-PKBReader::getCalledProcedures() {
-  return storage.getCalledProcedures();
+unordered_set<string>
+PKBReader::getAllCalleeProcs() {
+  return storage.getAllCalleeProcs();
 }
 
 bool PKBReader::isCalling(const std::string& caller,
@@ -451,13 +443,6 @@ bool PKBReader::isCallingStar(const std::string& caller,
   return storage.isCallingStar(caller, callee);
 }
 
-bool PKBReader::isCallingStmt(int stmtNum, const std::string& callee) {
-  return storage.isCallingStmt(stmtNum, callee);
-}
-
-bool PKBReader::isCallingStarStmt(int stmtNum, const std::string& callee) {
-  return storage.isCallingStarStmt(stmtNum, callee);
-}
 unordered_set<string> PKBReader::getModifiedVariablesForProc(
     const string& procName) {
   return storage.getModifiedVariablesForProc(procName);

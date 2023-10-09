@@ -171,34 +171,28 @@ class PKBReader : public virtual ICallsReader,
       const std::string& variableName, const std::string& rpn, bool isSynonym);
 
   // return pairs (stmtNum, calleeName) that are directly called by procName
-  virtual std::vector<std::pair<std::string, std::string>> getCallerProcs(
+  virtual unordered_set<string> getCallerProcs(
       const std::string& procName);
 
   // return pairs (stmtNum, caleeName) that are indirectly called by procName
-  virtual std::vector<std::pair<std::string, std::string>> getCallerProcsStar(
+  virtual unordered_set<string> getCallerProcsStar(
       const std::string& procName);
 
   // return pairs (stmtNum, callerName) that directly call procName
-  virtual std::vector<std::pair<std::string, std::string>> getCalleeProcs(
+  virtual unordered_set<string> getCalleeProcs(
       const std::string& procName);
 
   // return pairs (stmtNum, callerName) that indirectly call procName
-  virtual std::vector<std::pair<std::string, std::string>> getCalleeProcsStar(
+  virtual unordered_set<string> getCalleeProcsStar(
       const std::string& procName);
 
-  // return procedure that is called on stmtNum
-  virtual std::string getProcCalledOn(int stmtNum);
-
-  // return list of procedures names that are indirectly called on stmtNum
-  virtual std::vector<std::string> getProcStarCalledOn(int stmtNum);
-
   // return all pairs (stmtNum, callerName) that call another procedure
-  virtual std::vector<std::pair<std::string, std::string>>
-  getCallingProcedures();
+  virtual unordered_set<string>
+  getAllCallerProcs();
 
   // return all pairs (stmtNum, calleeName) that are called by another procedure
-  virtual std::vector<std::pair<std::string, std::string>>
-  getCalledProcedures();
+  virtual unordered_set<string>
+  getAllCalleeProcs();
 
   // return true if caller directly calls callee
   virtual bool isCalling(const std::string& caller, const std::string& callee);
@@ -206,12 +200,6 @@ class PKBReader : public virtual ICallsReader,
   // return true if caller indirectly calls callee
   virtual bool isCallingStar(const std::string& caller,
                              const std::string& callee);
-
-  // return true if callee is called in stmtNum
-  virtual bool isCallingStmt(int stmtNum, const std::string& callee);
-
-  // return true if callee is called in any subsequent calls from stmtNum
-  virtual bool isCallingStarStmt(int stmtNum, const std::string& callee);
 
   // TODO(PKB): might need to change
   virtual unordered_set<string> getModifiedVariablesForProc(
