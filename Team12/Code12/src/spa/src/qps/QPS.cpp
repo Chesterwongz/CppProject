@@ -12,7 +12,6 @@ std::set<string> QPS::processQueryString(const string& query) {
     parserContext.handleTokens();
 
     return queryObj.evaluate();
-
   } catch (CommonSyntaxError& e) {
     std::cout << e.what() << std::endl;
     return {"SyntaxError"};

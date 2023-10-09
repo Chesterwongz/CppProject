@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 
 #include "qps/token/PQLToken.h"
 #include "qps/tokenizer/PQLTokenType.h"

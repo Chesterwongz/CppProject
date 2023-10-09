@@ -88,7 +88,7 @@ void AssignPatternParserState::checkIsValidExpr(const std::string& ref) {
   }
 }
 
-//  TODO(Hwee): Review and remove redundant logic
+// TODO(Hwee): Review and remove redundant logic
 void AssignPatternParserState::handleToken() {
   auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
