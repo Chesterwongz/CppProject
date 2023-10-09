@@ -16,8 +16,7 @@ class DesignEntitiesStorage : public virtual IEntityStorage {
   void setConstant(const std::string& constantValue) override;
 
   // Setter for procedure names
-  void setProcForStmt(const std::string& procedureName,
-                    int stmt) override;
+  void setProcForStmt(const std::string& procedureName, int stmt) override;
 
   // Return the names of all variables in the program
   std::set<std::string> getAllVariables() override;

@@ -90,7 +90,7 @@ string QPSStringUtils::convertToRPN(string exp) {
 }
 
 bool QPSStringUtils::isNameTokenChar(const char ch) {
-  return isalnum(ch) || ch == '*' || ch == '#';
+  return isalnum(ch) || ch == kAsterisks || ch == kHash;
 }
 
 bool QPSStringUtils::isNotQuoteEnd(const char ch) { return ch != '\"'; }

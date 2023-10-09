@@ -62,7 +62,7 @@ class PKBWriter : public IDesignEntitiesWriter,
 
   // Add procedure name to storage
   void setProcForStmt(const std::string& procedureName,
-                    int startStatement) override;
+                      int startStatement) override;
 
   // Add statement number and type to storage
   void setStatement(int statementNumber, StmtType statementType) override;
