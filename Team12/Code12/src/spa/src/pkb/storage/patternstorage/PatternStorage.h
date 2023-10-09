@@ -5,13 +5,12 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
-
 #include "common/utils/StringUtils.h"
 #include "pkb/interfaces/storage/IPatternStorage.h"
+#include "qps/common/Keywords.h"
 
 class PatternStorage : public virtual IPatternStorage {
  public:
-  PatternStorage();
 
   // Setter for assignment expressions in the program
   void setAssignPattern(const std::string& variableName, const std::string& rpn,

@@ -1,9 +1,5 @@
 #include "PatternStorage.h"
 
-#include "qps/common/Keywords.h"
-
-PatternStorage::PatternStorage() = default;
-
 void PatternStorage::setAssignPattern(const std::string& variableName,
                                       const std::string& rpn,
                                       int statementNumber) {
@@ -14,6 +10,7 @@ void PatternStorage::setAssignPattern(const std::string& variableName,
 
 std::vector<std::string> PatternStorage::getAllStatements() {
   std::vector<std::string> result;
+  result.reserve(statementPatternStorage.size());
   for (const auto& entry : statementPatternStorage) {
     result.push_back(std::to_string(entry.first));
   }
