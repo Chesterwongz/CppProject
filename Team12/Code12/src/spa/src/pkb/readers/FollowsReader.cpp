@@ -1,19 +1,19 @@
 #include "FollowsReader.h"
 
 std::string FollowsReader::getFollowing(int statementNumber,
-                                    StmtType statementType) {
+                                        StmtType statementType) {
   int followingStatement =
       follows_storage_.getImmediateFollows(statementNumber);
   if (followingStatement != -1 &&
       stmt_storage_.isStatementType(followingStatement, statementType)) {
     return std::to_string(followingStatement);
   }
-  
+
   return std::to_string(-1);
 }
 
 std::string FollowsReader::getFollowed(int statementNumber,
-                                   StmtType statementType) {
+                                       StmtType statementType) {
   int followedStatement =
       follows_storage_.getImmediateFollowedBy(statementNumber);
   if (followedStatement != -1 &&
@@ -95,8 +95,9 @@ bool FollowsReader::isFollowsStar(int statementNumber, int followingStatement) {
   return allFollowsStar.find(followingStatement) != allFollowsStar.end();
 }
 
-std::vector<std::pair<std::string, std::string>> FollowsReader::getFollowsStarPairs(
-    StmtType statementType1, StmtType statementType2) {
+std::vector<std::pair<std::string, std::string>>
+FollowsReader::getFollowsStarPairs(StmtType statementType1,
+                                   StmtType statementType2) {
   std::set<int> firstStatementList =
       stmt_storage_.getStatementNumbersFromStatementType(statementType1);
   std::set<int> secondStatementList =
@@ -117,4 +118,3 @@ std::vector<std::pair<std::string, std::string>> FollowsReader::getFollowsStarPa
 
   return followsPairs;
 }
-

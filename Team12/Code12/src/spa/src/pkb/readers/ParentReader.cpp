@@ -1,10 +1,11 @@
 #include "ParentReader.h"
 
 std::vector<std::pair<std::string, std::string>>
- ParentReader::getImmediateChildrenOf(int statementNumber, StmtType statementType) {
+ParentReader::getImmediateChildrenOf(int statementNumber,
+                                     StmtType statementType) {
   std::set<int> allImmediateChildren =
       parent_storage_.getImmediateChildren(statementNumber);
-  
+
   std::set<int> allMatchingStatements =
       statement_storage_.getStatementNumbersFromStatementType(statementType);
 
@@ -20,7 +21,7 @@ std::vector<std::pair<std::string, std::string>>
   return result;
 }
 
-std::pair<std::string, std::string>  ParentReader::getImmediateParentOf(
+std::pair<std::string, std::string> ParentReader::getImmediateParentOf(
     int statementNumber, StmtType statementType) {
   int immediateParent = parent_storage_.getImmediateParent(statementNumber);
 
@@ -35,15 +36,15 @@ std::pair<std::string, std::string>  ParentReader::getImmediateParentOf(
   return result;
 }
 
-bool  ParentReader::isParent(int statementNumber, int childStatement) {
+bool ParentReader::isParent(int statementNumber, int childStatement) {
   std::set<int> allImmediateChildren =
       parent_storage_.getImmediateChildren(statementNumber);
   return allImmediateChildren.find(childStatement) !=
          allImmediateChildren.end();
 }
 
-std::vector<std::pair<std::string, std::string>>  ParentReader::getParentChildPairs(
-    StmtType parentType, StmtType childType) {
+std::vector<std::pair<std::string, std::string>>
+ParentReader::getParentChildPairs(StmtType parentType, StmtType childType) {
   std::set<int> firstStatementList =
       statement_storage_.getStatementNumbersFromStatementType(parentType);
   std::set<int> secondStatementList =
@@ -64,8 +65,8 @@ std::vector<std::pair<std::string, std::string>>  ParentReader::getParentChildPa
   return parentChildPairs;
 }
 
-std::vector<std::pair<std::string, std::string>>  ParentReader::getChildrenStarOf(
-    int statementNumber, StmtType statementType) {
+std::vector<std::pair<std::string, std::string>>
+ParentReader::getChildrenStarOf(int statementNumber, StmtType statementType) {
   std::set<int> allChildren = parent_storage_.getAllChildren(statementNumber);
 
   std::set<int> allMatchingStatements =
@@ -83,7 +84,7 @@ std::vector<std::pair<std::string, std::string>>  ParentReader::getChildrenStarO
   return result;
 }
 
-std::vector<std::pair<std::string, std::string>>  ParentReader::getParentStarOf(
+std::vector<std::pair<std::string, std::string>> ParentReader::getParentStarOf(
     int statementNumber, StmtType statementType) {
   std::set<int> allParents = parent_storage_.getAllParents(statementNumber);
 
@@ -102,13 +103,13 @@ std::vector<std::pair<std::string, std::string>>  ParentReader::getParentStarOf(
   return result;
 }
 
-bool  ParentReader::isParentStar(int statementNumber, int childStatement) {
+bool ParentReader::isParentStar(int statementNumber, int childStatement) {
   std::set<int> allChildren = parent_storage_.getAllChildren(statementNumber);
   return allChildren.find(childStatement) != allChildren.end();
 }
 
 std::vector<std::pair<std::string, std::string>>
- ParentReader::getParentChildStarPairs(StmtType parentType, StmtType childType) {
+ParentReader::getParentChildStarPairs(StmtType parentType, StmtType childType) {
   std::set<int> firstStatementList =
       statement_storage_.getStatementNumbersFromStatementType(parentType);
   std::set<int> secondStatementList =

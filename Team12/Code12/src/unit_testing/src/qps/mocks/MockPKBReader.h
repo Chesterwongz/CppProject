@@ -47,7 +47,14 @@ class MockPKBReader : public PKBReader {
   bool mockIsVariableModifiedBy;
   bool mockIsVariableUsedBy;
 
-  explicit MockPKBReader(PKBStorage& storage) : PKBReader(storage) {}
+  explicit MockPKBReader(PKBStorage& storage)
+      : PKBReader(storage),
+        DesignEntitiesReader(storage, storage),
+        FollowsReader(storage, storage),
+        ModifiesReader(storage, storage, storage),
+        ParentReader(storage, storage),
+        PatternReader(storage),
+        UsesReader(storage, storage, storage) {}
 
   set<string> getAllVariables() override { return mockAllVariables; }
 

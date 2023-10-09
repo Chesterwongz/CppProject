@@ -1,5 +1,5 @@
-#include <catch.hpp>
 #include <set>
+#include <catch.hpp>
 
 #include "pkb/storage/entitystorage/DesignEntitiesStorage.h"
 
