@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
-#include <utility>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include "common/StmtTypes.h"

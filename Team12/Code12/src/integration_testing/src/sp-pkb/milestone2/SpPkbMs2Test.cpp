@@ -382,12 +382,8 @@ TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
       {"Zeta", {"r", "s"}},
       {"Eta", {"r", "s"}}};
   ProcToStrSetMap expectedCallsMap = {
-      {"Alpha", {"Beta"}},
-      {"Beta", {"Gamma", "Delta"}},
-      {"Gamma", {"Epsilon"}},
-      {"Delta", {}},
-      {"Epsilon", {"Zeta"}},
-      {"Zeta", {"Eta"}},
+      {"Alpha", {"Beta"}}, {"Beta", {"Gamma", "Delta"}}, {"Gamma", {"Epsilon"}},
+      {"Delta", {}},       {"Epsilon", {"Zeta"}},        {"Zeta", {"Eta"}},
       {"Eta", {}}};
   ProcToStrSetMap expectedCallsStarMap = {
       {"Alpha", {"Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta"}},

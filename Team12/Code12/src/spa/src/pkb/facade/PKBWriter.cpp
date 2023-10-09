@@ -77,8 +77,7 @@ void PKBWriter::processCallRelations(
 
 void PKBWriter::setUsesForCalls(const string &callerProc,
                                 const unordered_set<string> &calleeProcs) {
-  processCallRelations(callerProc, calleeProcs,
-                       &PKBStorage::getVarsUsedByProc,
+  processCallRelations(callerProc, calleeProcs, &PKBStorage::getVarsUsedByProc,
                        &PKBWriter::setUsesRelationship);
 }
 

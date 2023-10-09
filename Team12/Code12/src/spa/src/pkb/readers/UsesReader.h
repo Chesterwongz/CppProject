@@ -6,9 +6,9 @@
 #include <vector>
 
 #include "pkb/interfaces/readers/IUsesReader.h"
-#include "pkb/interfaces/storage/relation_storage/IUsesStorage.h"
-#include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
+#include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
+#include "pkb/interfaces/storage/relation_storage/IUsesStorage.h"
 #include "pkb/readers/template/UsesReaderImpl.h"
 
 class UsesReader : public IUsesReader {

@@ -1,17 +1,17 @@
 #pragma once
 
 #include <iostream>
-#include <string>
-#include <utility>
-#include <vector>
 #include <map>
 #include <memory>
 #include <set>
-#include <unordered_set>
+#include <string>
 #include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
-#include "pkb/facade/PKBWriter.h"
 #include "common/cfg/CFG.h"
+#include "pkb/facade/PKBWriter.h"
 
 using std::string, std::unordered_set, std::unordered_map, std::set, std::pair;
 
@@ -103,7 +103,7 @@ class MockPKBWriter : public PKBWriter {
     callsStorage[caller].insert(callee);
   }
 
-  void setCFG(const string& procName, unique_ptr<CFG> cfg) override {
+  void setCFG(const string &procName, unique_ptr<CFG> cfg) override {
     cfgStorage[procName] = std::move(cfg);
   }
 
