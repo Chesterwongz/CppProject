@@ -4,14 +4,14 @@
 #include "qps/parser/suchThatParserState/SuchThatParserState.h"
 
 PredictiveMap SelectParserState::predictiveMap = {
-    {PQL_NULL_TOKEN, {PQL_SELECT_TOKEN}},
-    {PQL_SELECT_TOKEN, {PQL_SYNONYM_TOKEN}},
+    {PQL_NULL_TOKEN, {PQL_SYNONYM_TOKEN}},
     {PQL_SYNONYM_TOKEN, startTokensOfAvailClauses}};
 
 PQLTokenType SelectParserState::exitToken = PQL_SYNONYM_TOKEN;
 
-SelectParserState::SelectParserState(PQLParserContext& parserContext)
-    : BaseParserState(parserContext) {}
+SelectParserState::SelectParserState(PQLParserContext& parserContext,
+                                     PQLTokenType prev)
+    : BaseParserState(parserContext, prev) {}
 
 void SelectParserState::processNameToken(PQLToken& curr) {
   if (prev == PQL_SELECT_TOKEN) {
@@ -24,36 +24,29 @@ void SelectParserState::processNameToken(PQLToken& curr) {
 }
 
 void SelectParserState::handleToken() {
-  while (!this->tokenStream.isTokenStreamEnd()) {
-    auto& curr = tokenStream.getCurrentToken();
+  auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
-    if (curr.getType() == PQL_NAME_TOKEN) {
-      processNameToken(curr);
-    }
+  while (!curr.has_value()) {
+    PQLToken token = curr.value();
 
-    if (!PQLParserUtils::isExpectedToken(predictiveMap, prev, curr.getType())) {
-      throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
-    }
-
-    switch (curr.getType()) {
+    switch (token.getType()) {
       case PQL_SYNONYM_TOKEN:
-        parserContext.addSelectSynonym(curr.getValue());
-        break;
-      case PQL_SELECT_TOKEN:
+        parserContext.addSelectSynonym(token.getValue());
         break;
       case PQL_SUCH_TOKEN:
-        parserContext.transitionTo(
-            std::make_unique<SuchThatParserState>(parserContext));
+        parserContext.transitionTo(std::make_unique<SuchThatParserState>(
+            parserContext, token.getType()));
         return;
       case PQL_PATTERN_TOKEN:
-        parserContext.transitionTo(
-            std::make_unique<PatternParserState>(parserContext));
+        parserContext.transitionTo(std::make_unique<PatternParserState>(
+            parserContext, token.getType()));
         return;
       default:
-        throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
+        break;
     }
-    this->prev = curr.getType();
-    tokenStream.next();
+    this->prev = token.getType();
+
+    curr = parserContext.eatExpectedToken(prev, predictiveMap);
   }
   if (prev != exitToken) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_SELECT);

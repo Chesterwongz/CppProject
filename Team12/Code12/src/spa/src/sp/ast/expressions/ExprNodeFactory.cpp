@@ -46,5 +46,5 @@ std::unique_ptr<TNode> ExprNodeFactory::makeNode(
   if (kOp == op::kLte)
     return std::make_unique<LteNode>(std::move(leftExpr), std::move(rightExpr));
 
-  throw SyntaxError(kOp);
+  throw SpSyntaxError(kOp);
 }

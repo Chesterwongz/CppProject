@@ -1,7 +1,5 @@
 #include "PQLTokenType.h"
 
-#include "qps/common/Keywords.h"
-
 unordered_map<string, PQLTokenType> keywordToTokenType = {
     {STMT_ENTITY, PQL_ENTITY_TOKEN},
     {READ_ENTITY, PQL_ENTITY_TOKEN},
@@ -27,10 +25,16 @@ unordered_map<string, PQLTokenType> keywordToTokenType = {
 
     {PATTERN_KEYWORD, PQL_PATTERN_TOKEN}};
 
-unordered_set<PQLTokenType> delimiterTokens = {
-    PQL_IGNORE_TOKEN,    PQL_SEMICOLON_TOKEN,    PQL_COMMA_TOKEN,
-    PQL_QUOTE_TOKEN,     PQL_OPEN_BRACKET_TOKEN, PQL_CLOSE_BRACKET_TOKEN,
-    PQL_ASTERISKS_TOKEN, PQL_WILDCARD_TOKEN,     PQL_OPERATOR_TOKEN};
+unordered_map<char, PQLTokenType> delimiterToTokenType = {
+    {pqlDelim::kSemicolonChar, PQL_SEMICOLON_TOKEN},
+    {pqlDelim::kCommaChar, PQL_COMMA_TOKEN},
+    {pqlDelim::kWildcardChar, PQL_WILDCARD_TOKEN},
+    {pqlDelim::kOpenBracketChar, PQL_OPEN_BRACKET_TOKEN},
+    {pqlDelim::kCloseBracketChar, PQL_CLOSE_BRACKET_TOKEN},
+    {pqlDelim::kLeftAngleChar, PQL_LEFT_ANGLE_TOKEN},
+    {pqlDelim::kRightAngleChar, PQL_RIGHT_ANGLE_TOKEN},
+    {pqlDelim::kPeriodChar, PQL_PERIOD_TOKEN},
+    {pqlDelim::kEqualChar, PQL_EQUALS_TOKEN}};
 
 unordered_set<string> stmtEntities = {STMT_ENTITY,   READ_ENTITY, PRINT_ENTITY,
                                       ASSIGN_ENTITY, CALL_ENTITY, WHILE_ENTITY,

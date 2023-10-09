@@ -71,4 +71,12 @@ class TokenStream {
                                              : std::nullopt;
     return temp;
   }
+
+  inline bool isTokenStreamEnd() { return cursor >= tokenLst.size(); }
+
+  // For testing only:
+  TokenStream<T>(std::vector<T> tokenList)
+      : tokenLst(tokenList), cursor(0), currToken(tokenList[0]) {}
+
+  TokenStream<T>(){};
 };

@@ -27,7 +27,8 @@ class RelationshipParserState : public BaseParserState {
       const string &keyword,
       unordered_map<string, Abstraction> abstractionKeywordMap);
   explicit RelationshipParserState(PQLParserContext &parserContext,
-                                   bool isInBracket);
+                                   bool isInBracket, string abstraction,
+                                   PQLTokenType prev);
   void processNameToken(PQLToken &curr) override;
 
  public:

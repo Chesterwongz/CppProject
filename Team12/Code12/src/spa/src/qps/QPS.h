@@ -11,14 +11,12 @@
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/declarativeParserState/DeclarativeParserState.h"
 #include "qps/token/PQLToken.h"
-#include "qps/tokenizer/TokenizerFactory.h"
 
 using std::string, std::vector, std::unique_ptr;
 
 class QPS {
  private:
   PKBReader& pkb;
-  TokenizerFactory tokenizerFactory;
   static void setupParser(PQLParserContext& pc);
 
  public:

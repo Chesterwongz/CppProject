@@ -36,3 +36,16 @@ inline const string USES_ABSTRACTION = "Uses";
 
 inline const string WILDCARD_KEYWORD = "_";
 inline const string INVALID_STATEMENT_NUMBER = "-1";
+
+namespace pqlDelim {
+constexpr char kSemicolonChar = ';';
+constexpr char kCommaChar = ',';
+constexpr char kQuoteChar = '\"';
+constexpr char kOpenBracketChar = '(';
+constexpr char kCloseBracketChar = ')';
+constexpr char kWildcardChar = '_';
+constexpr char kLeftAngleChar = '<';
+constexpr char kRightAngleChar = '>';
+constexpr char kPeriodChar = '.';
+constexpr char kEqualChar = '=';
+}  // namespace pqlDelim

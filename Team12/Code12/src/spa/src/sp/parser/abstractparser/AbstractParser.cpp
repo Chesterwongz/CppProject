@@ -6,7 +6,7 @@ AbstractParser::requireTNodeOpt(TNodeType nodeType) {
   return [nodeType,
           lineNum](const std::optional<std::unique_ptr<TNode>> &nodeOpt) {
     if (!nodeOpt.has_value())
-      throw SyntaxError(TNodeTypeUtils::toString(nodeType), lineNum);
+      throw SpSyntaxError(TNodeTypeUtils::toString(nodeType), lineNum);
   };
 }
 

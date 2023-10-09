@@ -6,8 +6,9 @@ PredictiveMap PatternParserState::predictiveMap = {
     {PQL_NULL_TOKEN, {PQL_PATTERN_TOKEN}},
     {PQL_PATTERN_TOKEN, {PQL_ASSIGN_PATTERN_TOKEN}}};
 
-PatternParserState::PatternParserState(PQLParserContext& parserContext)
-    : BaseParserState(parserContext) {}
+PatternParserState::PatternParserState(PQLParserContext& parserContext,
+                                       PQLTokenType prev)
+    : BaseParserState(parserContext, prev) {}
 
 void PatternParserState::processNameToken(PQLToken& curr) {
   if (prev == PQL_NULL_TOKEN) {
@@ -30,29 +31,22 @@ void PatternParserState::processSynonymToken(PQLToken& curr) {
 }
 
 void PatternParserState::handleToken() {
-  while (!this->tokenStream.isTokenStreamEnd()) {
-    auto& curr = tokenStream.getCurrentToken();
+  auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
-    if (curr.getType() == PQL_NAME_TOKEN) {
-      processNameToken(curr);
-    }
+  while (!curr.has_value()) {
+    PQLToken token = curr.value();
 
-    if (!PQLParserUtils::isExpectedToken(predictiveMap, prev, curr.getType())) {
-      throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
-    }
-
-    switch (curr.getType()) {
-      case PQL_PATTERN_TOKEN:
-        break;
+    switch (token.getType()) {
       case PQL_ASSIGN_PATTERN_TOKEN:
-        parserContext.transitionTo(
-            std::make_unique<AssignPatternParserState>(parserContext));
+        parserContext.transitionTo(std::make_unique<AssignPatternParserState>(
+            parserContext, token.getType()));
         return;
       default:
-        throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
+        break;
     }
-    this->prev = curr.getType();
-    tokenStream.next();
+    this->prev = token.getType();
+
+    curr = parserContext.eatExpectedToken(prev, predictiveMap);
   }
   throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
 }

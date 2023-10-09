@@ -4,14 +4,14 @@
 
 #include "qps/token/PQLToken.h"
 
-class PQLTokenStream {
+class PQLTokenStream2 {
  private:
   int currIndex;
   int tokenListSize;
   PQLTokenList& tokenList;
 
  public:
-  explicit PQLTokenStream(PQLTokenList& tokenList);
+  explicit PQLTokenStream2(PQLTokenList& tokenList);
   [[nodiscard]] bool isTokenStreamEnd() const;
   void next();
   PQLToken& getCurrentToken();

@@ -24,6 +24,10 @@ class QPSStringUtils {
   static bool isIdentValue(const string& data);
   static bool isWildcard(const string data);
   static bool isInteger(const string data);
+  static bool isNameTokenChar(const char ch);
+  static bool isNotQuoteEnd(const char ch);
+  static bool hasMoreThanOneWord(const string str);
+  static string trimString(const string s);
   static string convertToRPN(string exp);
 
  private:

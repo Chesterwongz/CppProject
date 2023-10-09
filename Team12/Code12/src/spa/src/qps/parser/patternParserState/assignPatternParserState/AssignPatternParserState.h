@@ -32,7 +32,8 @@ class AssignPatternParserState : public BaseParserState {
   static void checkIsValidExpr(const string& ref);
 
  public:
-  explicit AssignPatternParserState(PQLParserContext& parserContext);
+  explicit AssignPatternParserState(PQLParserContext& parserContext,
+                                    PQLTokenType prev);
   void handleToken() override;
   ~AssignPatternParserState() override = default;
 };

@@ -4,12 +4,12 @@
 #include "qps/parser/relationshipParserState/stmtVarParserState/StmtVarParserState.h"
 
 PredictiveMap SuchThatParserState::predictiveMap = {
-    {PQL_NULL_TOKEN, {PQL_SUCH_TOKEN}},
-    {PQL_SUCH_TOKEN, {PQL_THAT_TOKEN}},
+    {PQL_NULL_TOKEN, {PQL_THAT_TOKEN}},
     {PQL_THAT_TOKEN, {PQL_STMT_STMT_TOKEN, PQL_STMT_VAR_TOKEN}}};
 
-SuchThatParserState::SuchThatParserState(PQLParserContext &parserContext)
-    : BaseParserState(parserContext) {}
+SuchThatParserState::SuchThatParserState(PQLParserContext &parserContext,
+                                         PQLTokenType prev)
+    : BaseParserState(parserContext, prev) {}
 
 void SuchThatParserState::processNameToken(PQLToken &curr) {
   auto tokenType = PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
@@ -17,33 +17,26 @@ void SuchThatParserState::processNameToken(PQLToken &curr) {
 }
 
 void SuchThatParserState::handleToken() {
-  while (!this->tokenStream.isTokenStreamEnd()) {
-    auto &curr = tokenStream.getCurrentToken();
+  auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
-    if (curr.getType() == PQL_NAME_TOKEN) {
-      processNameToken(curr);
-    }
+  while (!curr.has_value()) {
+    PQLToken token = curr.value();
 
-    if (!PQLParserUtils::isExpectedToken(predictiveMap, prev, curr.getType())) {
-      throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
-    }
-    switch (curr.getType()) {
-      case PQL_SUCH_TOKEN:
-      case PQL_THAT_TOKEN:
-        break;
+    switch (token.getType()) {
       case PQL_STMT_STMT_TOKEN:
-        parserContext.transitionTo(
-            std::make_unique<StmtStmtParserState>(parserContext));
+        parserContext.transitionTo(std::make_unique<StmtStmtParserState>(
+            parserContext, std::move(token.getValue()), token.getType()));
         return;
       case PQL_STMT_VAR_TOKEN:
-        parserContext.transitionTo(
-            std::make_unique<StmtVarParserState>(parserContext));
+        parserContext.transitionTo(std::make_unique<StmtVarParserState>(
+            parserContext, std::move(token.getValue()), token.getType()));
         return;
       default:
-        throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
+        break;
     }
-    this->prev = curr.getType();
-    tokenStream.next();
+    this->prev = token.getType();
+
+    curr = parserContext.eatExpectedToken(prev, predictiveMap);
   }
   // should never exit in this parser
   throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);

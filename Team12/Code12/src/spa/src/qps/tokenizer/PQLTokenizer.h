@@ -1,39 +1,19 @@
 #pragma once
 
 #include <memory>
-#include <string>
-#include <utility>
 
 #include "PQLTokenTable.h"
+#include "common/tokenizer/TokenStream.h"
+#include "qps/token/PQLToken.h"
+#include "qps/tokenizer/handlers/PQLDelimiterTokenizer.h"
+#include "qps/tokenizer/handlers/PQLIntegerTokenizer.h"
+#include "qps/tokenizer/handlers/PQLLiteralTokenizer.h"
+#include "qps/tokenizer/handlers/PQLNameTokenizer.h"
 #include "tokenStream/PQLTokenStream.h"
 
-using std::string, std::unique_ptr, std::make_unique, std::move;
-
-static int BUFFER_SIZE = 2048;
+typedef TokenStream<PQLToken> PQLTokenStream;
 
 class PQLTokenizer {
- private:
-  string buffer;
-  string literalBuffer;
-  unique_ptr<PQLTokenList> tokenList;
-  int currPos;
-  const string query;
-  bool isProcessingLiteral;
-  int numberOfTokensInLiteral;
-
-  PQLTokenTable tokenTable;
-
-  void flushBuffer(PQLTokenType type);
-  void flushLiteralBuffer(PQLTokenType type);
-
-  void processName();
-  void processInt();
-  void processLiteral();
-  void processSymbols(PQLTokenType type);
-
  public:
-  explicit PQLTokenizer(const string query);
-  // TokenStream is owned by QPS driver which will pass the token stream for
-  // predictive parsing
-  unique_ptr<PQLTokenList> tokenize();
+  static std::unique_ptr<TokenStream<PQLToken>> tokenize(string query);
 };

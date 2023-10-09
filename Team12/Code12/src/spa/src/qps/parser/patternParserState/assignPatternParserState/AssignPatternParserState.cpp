@@ -28,8 +28,8 @@ PredictiveMap AssignPatternParserState::predictiveMap = {
 PQLTokenType AssignPatternParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
 
 AssignPatternParserState::AssignPatternParserState(
-    PQLParserContext& parserContext)
-    : BaseParserState(parserContext),
+    PQLParserContext& parserContext, PQLTokenType prev)
+    : BaseParserState(parserContext, prev),
       isInBracket(false),
       isPartialMatch(false),
       secondArgWildcardCount(0) {}
@@ -87,31 +87,20 @@ void AssignPatternParserState::checkIsValidExpr(const std::string& ref) {
   }
 }
 
+//  TODO(Hwee): Review and remove redundant logic
 void AssignPatternParserState::handleToken() {
-  while (!this->tokenStream.isTokenStreamEnd()) {
-    auto& curr = tokenStream.getCurrentToken();
+  auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
-    if (curr.getType() == PQL_NAME_TOKEN) {
-      processNameToken(curr);
-    }
+  while (curr.has_value()) {
+    PQLToken token = curr.value();
 
-    if (!PQLParserUtils::isExpectedToken(predictiveMap, prev, curr.getType())) {
-      throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
-    }
-
-    switch (curr.getType()) {
+    switch (token.getType()) {
       case PQL_ASSIGN_PATTERN_TOKEN:
-        synAssign = std::make_unique<SynonymArg>(curr.getValue());
-      case PQL_COMMA_TOKEN:
-        break;
+        synAssign = std::make_unique<SynonymArg>(token.getValue());
       case PQL_SYNONYM_TOKEN:
-        processSynonymToken(curr);
-        break;
-      case PQL_OPEN_BRACKET_TOKEN:
-        isInBracket = true;
+        processSynonymToken(token);
         break;
       case PQL_CLOSE_BRACKET_TOKEN:
-        isInBracket = false;
         processLastArgument();
         parserContext.addClause(std::make_unique<PatternClause>(
             std::move(synAssign), std::move(patternArg), isPartialMatch));
@@ -124,26 +113,27 @@ void AssignPatternParserState::handleToken() {
         }
         break;
       case PQL_LITERAL_REF_TOKEN:
-        checkIsValidIdent(curr.getValue());
+        checkIsValidIdent(token.getValue());
         patternArg.push_back(
-            std::move(std::make_unique<Ident>(curr.getValue())));
+            std::move(std::make_unique<Ident>(token.getValue())));
         break;
       case PQL_LITERAL_EXPRESSION_TOKEN:
-        checkIsValidExpr(curr.getValue());
+        checkIsValidExpr(token.getValue());
         patternArg.push_back(
-            std::move(std::make_unique<Ident>(curr.getValue())));
+            std::move(std::make_unique<Ident>(token.getValue())));
         break;
       case PQL_SUCH_TOKEN:
-        this->parserContext.transitionTo(
-            std::make_unique<SuchThatParserState>(parserContext));
+        this->parserContext.transitionTo(std::make_unique<SuchThatParserState>(
+            parserContext, token.getType()));
         return;
       default:
-        throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
+        break;
     }
-    this->prev = curr.getType();
-    tokenStream.next();
+    this->prev = token.getType();
+
+    curr = parserContext.eatExpectedToken(prev, predictiveMap);
   }
-  if (prev != exitToken || isInBracket) {
+  if (prev != exitToken) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
 }
