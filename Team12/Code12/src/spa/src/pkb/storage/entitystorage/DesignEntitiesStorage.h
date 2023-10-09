@@ -7,8 +7,6 @@
 
 class DesignEntitiesStorage : public virtual IEntityStorage {
  public:
-  DesignEntitiesStorage();
-
   // Setter for variables
   void setVariable(const std::string& variableName) override;
 
