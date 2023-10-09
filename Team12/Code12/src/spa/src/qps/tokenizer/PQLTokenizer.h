@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <utility>
 
 #include "PQLTokenTable.h"
 #include "common/tokenizer/TokenStream.h"
