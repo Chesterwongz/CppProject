@@ -34,7 +34,7 @@ Select Next such that Next   ( 2,Next )
 3, 6
 1000
 ====== 8 - Next (4, stmt) (+) ======
-if Next;
+stmt Next;
 Select Next such that Next   ( 4,Next )
 3
 1000
