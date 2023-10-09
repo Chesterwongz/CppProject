@@ -7,7 +7,7 @@ void PKBWriter::setFollowsRelationship(int statementNumber,
 
 void PKBWriter::setModifiesRelationship(const std::string &variableName,
                                         int statementNumber) {
-  storage.setVariableModification(variableName, statementNumber);
+  storage.addModifies(variableName, statementNumber);
 }
 
 void PKBWriter::setParentRelationship(int statementNumber, int childStatement) {
@@ -21,7 +21,7 @@ void PKBWriter::setParentStarRelationship(int statementNumber,
 
 void PKBWriter::setUsesRelationship(const std::string &variableName,
                                     int statementNumber) {
-  storage.setVariableUsage(variableName, statementNumber);
+  storage.addUses(variableName, statementNumber);
 }
 
 void PKBWriter::setStatement(int statementNumber, StmtType statementType) {

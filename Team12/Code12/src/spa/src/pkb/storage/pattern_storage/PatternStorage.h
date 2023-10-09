@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 #include "common/utils/StringUtils.h"
-#include "pkb/interfaces/storage/IPatternStorage.h"
+#include "pkb/interfaces/storage/pattern_storage/IPatternStorage.h"
 #include "qps/common/Keywords.h"
 
 class PatternStorage : public virtual IPatternStorage {

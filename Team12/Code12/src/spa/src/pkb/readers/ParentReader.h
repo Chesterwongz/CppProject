@@ -5,8 +5,8 @@
 #include <utility>
 #include <vector>
 #include "pkb/interfaces/readers/IParentReader.h"
-#include "pkb/storage/relationshipstorage/ParentStorage.h"
-#include "pkb/storage/entitystorage/StmtStorage.h"
+#include "pkb/storage/relation_storage/stmt_to_stmt/ParentStorage.h"
+#include "pkb/storage/entity_storage/StmtStorage.h"
 
 class ParentReader : public virtual IParentReader {
  private:

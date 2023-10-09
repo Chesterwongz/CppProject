@@ -9,7 +9,7 @@ std::vector<std::string> UsesReader::getStatementsUsing(
 
   for (int statementNumber : statementNumbers) {
     std::set<std::string> usedVariables =
-        uses_storage_.getUsedVariablesForStatement(statementNumber);
+        uses_storage_.getVarsUsedByStmt(statementNumber);
     if (usedVariables.find(variableName) != usedVariables.end()) {
       result.emplace_back(std::to_string(statementNumber));
     }
@@ -24,7 +24,7 @@ std::vector<std::pair<std::string, std::string>> UsesReader::getVariablesUsedBy(
 
   if (stmt_storage_.isStatementType(statementNumber, statementType)) {
     std::set<std::string> variables =
-        uses_storage_.getUsedVariablesForStatement(statementNumber);
+        uses_storage_.getVarsUsedByStmt(statementNumber);
 
     for (const std::string& v : variables) {
       result.emplace_back(std::to_string(statementNumber), v);
@@ -48,8 +48,7 @@ UsesReader::getAllUsedVariables(StmtType statementType) {
   std::set<std::string> variables = entity_storage_.getAllVariables();
 
   for (const std::string& v : variables) {
-    std::set<int> statementNumbers =
-        uses_storage_.getStatementNumbersForUsedVariable(v);
+    std::set<int> statementNumbers = uses_storage_.getStmtsUsingVar(v);
 
     for (int stmt : statementNumbers) {
       std::set<int> sameStatementType =

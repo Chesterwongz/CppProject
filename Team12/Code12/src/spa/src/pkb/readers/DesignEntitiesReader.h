@@ -3,8 +3,8 @@
 #include <set>
 #include <string>
 #include "pkb/interfaces/readers/IDesignEntitiesReader.h"
-#include "pkb/interfaces/storage/entitystorage/IEntityStorage.h"
-#include "pkb/interfaces/storage/entitystorage/IStmtStorage.h"
+#include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
+#include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
 
 class DesignEntitiesReader : public virtual IDesignEntitiesReader {
  private:

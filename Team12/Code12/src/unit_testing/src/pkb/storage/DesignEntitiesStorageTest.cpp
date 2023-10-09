@@ -1,7 +1,7 @@
 #include <set>
 #include <catch.hpp>
 
-#include "pkb/storage/entitystorage/DesignEntitiesStorage.h"
+#include "pkb/storage/entity_storage/DesignEntitiesStorage.h"
 
 TEST_CASE("DesignEntitiesStorage Tests") {
   DesignEntitiesStorage storage;

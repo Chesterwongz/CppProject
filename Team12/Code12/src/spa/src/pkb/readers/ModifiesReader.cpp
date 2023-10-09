@@ -9,7 +9,7 @@ std::vector<std::string> ModifiesReader::getStatementsModifying(
 
   for (int statement : allMatchingStatements) {
     std::set<std::string> variables =
-        modifies_storage_.getModifiedVariablesForStatement(statement);
+        modifies_storage_.getVarsModifiedByStmt(statement);
 
     if (variables.find(variableName) != variables.end()) {
       result.emplace_back(std::to_string(statement));
@@ -26,7 +26,7 @@ ModifiesReader::getVariablesModifiedBy(int statementNumber,
 
   if (stmt_storage_.isStatementType(statementNumber, statementType)) {
     std::set<std::string> variables =
-        modifies_storage_.getModifiedVariablesForStatement(statementNumber);
+        modifies_storage_.getVarsModifiedByStmt(statementNumber);
 
     for (const std::string& v : variables) {
       result.emplace_back(std::to_string(statementNumber), v);
@@ -51,8 +51,7 @@ ModifiesReader::getAllModifiedVariables(StmtType statementType) {
   std::set<std::string> variables = entity_storage_.getAllVariables();
 
   for (const std::string& v : variables) {
-    std::set<int> statementNumbers =
-        modifies_storage_.getStatementNumbersForModifiedVariable(v);
+    std::set<int> statementNumbers = modifies_storage_.getStmtsModifyingVar(v);
 
     for (int stmt : statementNumbers) {
       std::set<int> sameStatementType =

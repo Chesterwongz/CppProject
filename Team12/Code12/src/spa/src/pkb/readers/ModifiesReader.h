@@ -6,10 +6,10 @@
 #include <vector>
 
 #include "pkb/interfaces/readers/IModifiesReader.h"
-#include "pkb/storage/relationshipstorage/ModifiesStorage.h"
-#include "pkb/interfaces/storage/IModifiesStorage.h"
-#include "pkb/interfaces/storage/entitystorage/IStmtStorage.h"
-#include "pkb/interfaces/storage/entitystorage/IEntityStorage.h"
+#include "pkb/storage/relation_storage/stmt_or_proc_to_var/ModifiesStorage.h"
+#include "pkb/interfaces/storage/relation_storage/IModifiesStorage.h"
+#include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
+#include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
 
 class ModifiesReader : public virtual IModifiesReader {
  private:

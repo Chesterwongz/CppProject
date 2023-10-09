@@ -7,7 +7,7 @@
 
 #include "common/StmtTypes.h"
 #include "pkb/interfaces/readers/IPatternReader.h"
-#include "pkb/storage/patternstorage/PatternStorage.h"
+#include "pkb/storage/pattern_storage/PatternStorage.h"
 
 class PatternReader : public virtual IPatternReader {
  private:

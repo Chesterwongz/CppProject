@@ -6,11 +6,10 @@
 #include <vector>
 
 #include "pkb/interfaces/readers/IUsesReader.h"
-#include "pkb/interfaces/storage/IUsesStorage.h"
-#include "pkb/interfaces/storage/entitystorage/IStmtStorage.h"
-#include "pkb/interfaces/storage/entitystorage/IEntityStorage.h"
+#include "pkb/interfaces/storage/relation_storage/IUsesStorage.h"
+#include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
+#include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
 
-// TODO(Chester): Combine UsesReader and ModifiesReader
 class UsesReader : public virtual IUsesReader {
  private:
   IUsesStorage& uses_storage_;

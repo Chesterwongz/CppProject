@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "common/StmtTypes.h"
-#include "pkb/interfaces/storage/entitystorage/IStmtStorage.h"
+#include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
 
 class StmtStorage : public virtual IStmtStorage {
  private:

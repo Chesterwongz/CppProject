@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include "pkb/storage/entitystorage/StmtStorage.h"
+#include "pkb/storage/entity_storage/StmtStorage.h"
 
 TEST_CASE("StmtStorage Tests") {
   StmtStorage storage;
@@ -23,7 +23,7 @@ TEST_CASE("StmtStorage Tests") {
             std::set<int>{});
   }
 
-  SECTION("getAllStatements") {
+  SECTION("getAllStmtUsingVar") {
     REQUIRE(storage.getAllStatements() == std::set<int>{1, 2, 3, 4, 5, 6});
   }
 
