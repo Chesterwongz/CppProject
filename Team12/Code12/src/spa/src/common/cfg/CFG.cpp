@@ -16,18 +16,20 @@ bool CFG::operator==(const CFG &other) const {
   return adjList == other.adjList && reversedAdjList == other.reversedAdjList;
 }
 
-unordered_set<int> CFG::getNextStmtFrom(int stmtNum) const {
-  if (adjList.find(stmtNum) == adjList.end()) {
+unordered_set<int> CFG::getStmtsFromMap(
+    const unordered_map<int, unordered_set<int>> &map, int stmtNum) const {
+  if (map.find(stmtNum) == map.end()) {
     return {};
   }
-  return adjList.at(stmtNum);
+  return map.at(stmtNum);
 }
 
-unordered_set<int> CFG::getPrevStmtFrom(int stmtNum) const {
-  if (reversedAdjList.find(stmtNum) == reversedAdjList.end()) {
-    return {};
-  }
-  return reversedAdjList.at(stmtNum);
+unordered_set<int> CFG::getNextStmtsFrom(int stmtNum) const {
+  return getStmtsFromMap(adjList, stmtNum);
+}
+
+unordered_set<int> CFG::getPrevStmtsFrom(int stmtNum) const {
+  return getStmtsFromMap(reversedAdjList, stmtNum);
 }
 
 const unordered_map<int, unordered_set<int>> &CFG::getAdjList() const {
