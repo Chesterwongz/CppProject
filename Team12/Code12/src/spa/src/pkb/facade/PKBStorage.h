@@ -115,7 +115,8 @@ class PKBStorage {
 
   bool isCalling(const std::string& caller, const std::string& callee);
   bool isCallingStar(const std::string& caller, const std::string& callee);
-  const unordered_map<string, unordered_set<string>>& getCalleeProcsMap();
+  const unordered_map<string, unordered_set<string>>& getCallsStarMap();
+  void computeCallsStar();
 
  private:
   CallsStorage callsStorage;

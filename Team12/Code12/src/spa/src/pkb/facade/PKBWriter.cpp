@@ -60,62 +60,39 @@ void PKBWriter::setModifiesRelationship(const string &variableName,
   storage.setVariableModification(variableName, procName);
 }
 
-void PKBWriter::setUsesForCalls(const string &callerProc,
-                                const string &calleeProc) {
-  unordered_set<string> usedVars = storage.getUsedVariablesForProc(calleeProc);
-  for (const auto &var : usedVars) {
-    setUsesRelationship(var, callerProc);
+void PKBWriter::processCallRelations(
+    const string &caller, const unordered_set<string> &callees,
+    unordered_set<string> (PKBStorage::*retrieveVars)(const string &),
+    void (PKBWriter::*setRelationship)(const string &, const string &)) {
+  unordered_set<string> relatedVars;
+  for (auto &callee : callees) {
+    unordered_set<string> vars = (storage.*retrieveVars)(callee);
+    relatedVars.insert(vars.begin(), vars.end());
   }
+  for (const auto &var : relatedVars) {
+    (this->*setRelationship)(var, caller);
+  }
+}
+
+void PKBWriter::setUsesForCalls(const string &callerProc,
+                                const unordered_set<string> &calleeProcs) {
+  processCallRelations(callerProc, calleeProcs,
+                       &PKBStorage::getUsedVariablesForProc,
+                       &PKBWriter::setUsesRelationship);
 }
 
 void PKBWriter::setModifiesForCalls(const string &callerProc,
-                                    const string &calleeProc) {
-  unordered_set<string> modifiedVars =
-      storage.getModifiedVariablesForProc(calleeProc);
-  for (const auto &var : modifiedVars) {
-    setModifiesRelationship(var, callerProc);
-  }
-}
-
-void PKBWriter::setRelationshipsForIndirectCalls(
-    const string &caller, const unordered_set<string> &visitedCallees) {
-  for (const auto &callee : visitedCallees) {
-    setCallsStarRelationship(caller, callee);
-    setModifiesForCalls(caller, callee);
-    setUsesForCalls(caller, callee);
-  }
-}
-
-void PKBWriter::insertDirectCalleesOfProc(
-    stack<string> &toVisit, const unordered_set<string> &visitedCallees,
-    const string &currProc) {
-  for (const auto &callee : storage.getCalleeProcs(currProc)) {
-    if (visitedCallees.find(callee) == visitedCallees.end()) {
-      toVisit.push(callee);
-    }
-  }
+                                    const unordered_set<string> &calleeProcs) {
+  processCallRelations(callerProc, calleeProcs,
+                       &PKBStorage::getModifiedVariablesForProc,
+                       &PKBWriter::setModifiesRelationship);
 }
 
 void PKBWriter::setIndirectCallsRelationship() {
-  for (const auto &[caller, directStmtCallees] : storage.getCalleeProcsMap()) {
-    unordered_set<string> visitedCallees;
-    stack<string> toVisit;
-    for (const auto &callee : directStmtCallees) {
-      toVisit.push(callee);
-    }
-    while (!toVisit.empty()) {
-      string curr = toVisit.top();
-      toVisit.pop();
-      visitedCallees.insert(curr);
-      unordered_set<string> allCalleesOfCurr = storage.getCalleeProcsStar(curr);
-      if (allCalleesOfCurr.empty()) {
-        insertDirectCalleesOfProc(toVisit, visitedCallees, curr);
-      } else {
-        // already computed transitive calls for currProc
-        visitedCallees.insert(allCalleesOfCurr.begin(), allCalleesOfCurr.end());
-      }
-    }
-    setRelationshipsForIndirectCalls(caller, visitedCallees);
+  storage.computeCallsStar();
+  for (const auto &[caller, callees] : storage.getCallsStarMap()) {
+    setUsesForCalls(caller, callees);
+    setModifiesForCalls(caller, callees);
   }
 }
 

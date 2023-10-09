@@ -6,7 +6,8 @@
 
 using std::stack, std::unordered_map, std::unordered_set;
 
-template <typename ElementType, typename ClassType>
+template <typename ElementType, typename ClassType,
+          typename ArgType = ElementType>
 class FunctionUtils {
  private:
   static void addToVisit(const unordered_set<ElementType>& visited,
@@ -20,11 +21,10 @@ class FunctionUtils {
   }
 
  public:
-  using NeighborFunction =
-      unordered_set<ElementType> (ClassType::*)(ElementType) const;
+  using NeighborFunction = unordered_set<ElementType> (ClassType::*)(ArgType);
 
   static unordered_set<ElementType> computeTransitiveRelationship(
-      ElementType element, NeighborFunction getNeighbor,
+      ArgType element, NeighborFunction getNeighbor,
       unordered_map<ElementType, unordered_set<ElementType>>& cache,
       ClassType* instance) {
     if (cache.find(element) != cache.end()) {
@@ -35,21 +35,18 @@ class FunctionUtils {
     for (ElementType s : (instance->*getNeighbor)(element)) {
       toVisit.push(s);
     }
-
     while (!toVisit.empty()) {
       ElementType curr = toVisit.top();
       toVisit.pop();
       visited.insert(curr);
-
-      unordered_set<ElementType> nbrsOfCurr = cache[curr];
-      if (!nbrsOfCurr.empty()) {
-        visited.insert(nbrsOfCurr.begin(), nbrsOfCurr.end());
-      } else {
+      if (cache.find(element) == cache.end()) {
         unordered_set<ElementType> directNbrs = (instance->*getNeighbor)(curr);
         addToVisit(visited, toVisit, directNbrs);
+      } else {
+        unordered_set<ElementType> nbrsOfCurr = cache.at(curr);
+        visited.insert(nbrsOfCurr.begin(), nbrsOfCurr.end());
       }
     }
-
     cache[element] = visited;
     return visited;
   }

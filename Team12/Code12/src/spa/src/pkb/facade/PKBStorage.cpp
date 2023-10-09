@@ -203,6 +203,8 @@ bool PKBStorage::isCallingStar(const std::string& caller,
 }
 
 const unordered_map<string, unordered_set<string>>&
-PKBStorage::getCalleeProcsMap() {
-  return callsStorage.getCalleeProcsMap();
+PKBStorage::getCallsStarMap() {
+  return callsStorage.getCallsStarMap();
 }
+
+void PKBStorage::computeCallsStar() { callsStorage.computeCallsStar(); }

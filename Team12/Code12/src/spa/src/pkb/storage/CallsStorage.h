@@ -6,6 +6,8 @@
 #include <utility>
 #include <vector>
 
+#include "pkb/utils/FunctionUtils.h"
+
 using std::unordered_set, std::unordered_map, std::string, std::vector,
     std::pair, std::make_pair;
 
@@ -35,7 +37,9 @@ class CallsStorage {
   // return all pairs (stmtNum, calleeName) that are called by another procedure
   unordered_set<string> getAllCalleeProcs();
 
-  const unordered_map<string, unordered_set<string>>& getCalleeProcsMap();
+  const unordered_map<string, unordered_set<string>>& getCallsStarMap();
+
+  void computeCallsStar();
 
  private:
   // callerProc -> calleeProc

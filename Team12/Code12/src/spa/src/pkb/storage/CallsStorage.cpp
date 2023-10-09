@@ -76,6 +76,14 @@ bool CallsStorage::isCallsStar(const string& caller, const string& callee) {
 }
 
 const unordered_map<string, unordered_set<string>>&
-CallsStorage::getCalleeProcsMap() {
-  return callsMap;
+CallsStorage::getCallsStarMap() {
+  return callsStarMap;
+}
+
+void CallsStorage::computeCallsStar() {
+  for (const auto& [caller, calleeSet] : callsMap) {
+    FunctionUtils<string, CallsStorage, const string&>::
+        computeTransitiveRelationship(caller, &CallsStorage::getCalleeProcs,
+                                      callsStarMap, this);
+  }
 }

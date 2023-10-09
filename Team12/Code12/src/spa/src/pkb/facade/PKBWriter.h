@@ -94,11 +94,13 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
 
  private:
   PKBStorage& storage;
-  void setUsesForCalls(const string& callerProc, const string& calleeProc);
-  void setModifiesForCalls(const string& callerProc, const string& calleeProc);
-  void setRelationshipsForIndirectCalls(
-      const string& caller, const unordered_set<string>& visitedCallees);
-  void insertDirectCalleesOfProc(stack<string>& toVisit,
-                                 const unordered_set<string>& visitedCallees,
-                                 const string& currProc);
+  void setUsesForCalls(const string& callerProc,
+                       const unordered_set<string>& calleeProc);
+  void setModifiesForCalls(const string& callerProc,
+                           const unordered_set<string>& calleeProc);
+  void processCallRelations(
+      const string &caller,
+      const unordered_set<string> &callees,
+      unordered_set<string> (PKBStorage::*retrieveVars)(const string&),
+      void (PKBWriter::*setRelationship)(const string&, const string&));
 };
