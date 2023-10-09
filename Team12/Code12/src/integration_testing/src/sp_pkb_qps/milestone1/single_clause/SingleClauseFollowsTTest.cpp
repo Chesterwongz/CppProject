@@ -88,7 +88,7 @@ TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/FollowsT_queries.txt - 5") {
   string query =
       "stmt s, S;\n"
-      "Select s such that Follows *(s,S)";
+      "Select s such that Follows*(s,S)";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(followsStarSource, pkb.getWriter());

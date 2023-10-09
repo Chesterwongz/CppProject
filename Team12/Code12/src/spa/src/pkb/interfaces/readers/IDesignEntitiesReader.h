@@ -2,6 +2,7 @@
 
 #include <set>
 #include <string>
+
 #include "common/StmtTypes.h"
 
 class IDesignEntitiesReader {
@@ -19,4 +20,6 @@ class IDesignEntitiesReader {
 
   // return all the stmts of given type in the program
   virtual std::set<std::string> getStatement(StmtType statementType) = 0;
+
+  virtual std::string getProcFromStmt(int stmtNum) = 0;
 };

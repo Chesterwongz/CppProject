@@ -36,10 +36,13 @@ TEST_CASE("EntityExtractor - only reads") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
 
-  // compare test results
+  unordered_map<int, string> expectedStmtToProcMap = {
+      {1, "simple"},
+      {2, "simple"},
+  };
   REQUIRE(mockPKB.isConstantsEqual({}));
   REQUIRE(mockPKB.isVariablesEqual({"y"}));
-  REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
+  REQUIRE(mockPKB.isStmtToProcEqual(expectedStmtToProcMap));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {}));
@@ -59,10 +62,13 @@ TEST_CASE("EntityExtractor with parser - only reads") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
-  // compare test results
+  unordered_map<int, string> expectedStmtToProcMap = {
+      {1, "simple"},
+      {2, "simple"},
+  };
   REQUIRE(mockPKB.isConstantsEqual({}));
   REQUIRE(mockPKB.isVariablesEqual({"y"}));
-  REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
+  REQUIRE(mockPKB.isStmtToProcEqual(expectedStmtToProcMap));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {}));
@@ -92,9 +98,14 @@ TEST_CASE("EntityExtractor - non-nesting, 1 uses") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
 
+  unordered_map<int, string> expectedStmtToProcMap = {
+      {1, "simple"},
+      {2, "simple"},
+      {3, "simple"},
+  };
   REQUIRE(mockPKB.isConstantsEqual({"1"}));
   REQUIRE(mockPKB.isVariablesEqual({"x", "y"}));
-  REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
+  REQUIRE(mockPKB.isStmtToProcEqual(expectedStmtToProcMap));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {3}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {}));
@@ -116,9 +127,14 @@ TEST_CASE("EntityExtractor with parser - non-nesting, 1 uses") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
+  unordered_map<int, string> expectedStmtToProcMap = {
+      {1, "simple"},
+      {2, "simple"},
+      {3, "simple"},
+  };
   REQUIRE(mockPKB.isConstantsEqual({"1"}));
   REQUIRE(mockPKB.isVariablesEqual({"x", "y"}));
-  REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
+  REQUIRE(mockPKB.isStmtToProcEqual(expectedStmtToProcMap));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {3}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {}));
@@ -162,9 +178,12 @@ TEST_CASE("EntityExtractor - if node") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
 
+  unordered_map<int, string> expectedStmtToProcMap = {
+      {1, "simple"}, {2, "simple"}, {3, "simple"}, {4, "simple"}, {5, "simple"},
+  };
   REQUIRE(mockPKB.isConstantsEqual({"1"}));
   REQUIRE(mockPKB.isVariablesEqual({"x", "y", "z", "num1", "num2"}));
-  REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
+  REQUIRE(mockPKB.isStmtToProcEqual(expectedStmtToProcMap));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {5}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {3}));
@@ -176,12 +195,12 @@ TEST_CASE("EntityExtractor - if node") {
 TEST_CASE("EntityExtractor with parser - if node") {
   string input =
       "procedure simple {"
-      "read y;"
-      "print x;"
-      "if (num1 < num2) then {"
-      "print z;"
+      "read y;"                  // 1
+      "print x;"                 // 2
+      "if (num1 < num2) then {"  // 3
+      "print z;"                 // 4
       "} else {"
-      "x = y + 1;"
+      "x = y + 1;"  // 5
       "}"
       "}";
 
@@ -190,9 +209,12 @@ TEST_CASE("EntityExtractor with parser - if node") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
+  unordered_map<int, string> expectedStmtToProcMap = {
+      {1, "simple"}, {2, "simple"}, {3, "simple"}, {4, "simple"}, {5, "simple"},
+  };
   REQUIRE(mockPKB.isConstantsEqual({"1"}));
   REQUIRE(mockPKB.isVariablesEqual({"x", "y", "z", "num1", "num2"}));
-  REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
+  REQUIRE(mockPKB.isStmtToProcEqual(expectedStmtToProcMap));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {5}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {3}));
@@ -247,9 +269,13 @@ TEST_CASE("EntityExtractor - if in while node") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
 
+  unordered_map<int, string> expectedStmtToProcMap = {
+      {1, "simple"}, {2, "simple"}, {3, "simple"}, {4, "simple"},
+      {5, "simple"}, {6, "simple"}, {7, "simple"}, {8, "simple"},
+  };
   REQUIRE(mockPKB.isConstantsEqual({"1"}));
   REQUIRE(mockPKB.isVariablesEqual({"x", "y", "w", "z", "num1"}));
-  REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
+  REQUIRE(mockPKB.isStmtToProcEqual(expectedStmtToProcMap));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {5}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {4}));
@@ -276,9 +302,13 @@ TEST_CASE("EntityExtractor with parser - if in while node") {
   MockPKBWriter mockPKB(storage);
   extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
+  unordered_map<int, string> expectedStmtToProcMap = {
+      {1, "simple"}, {2, "simple"}, {3, "simple"}, {4, "simple"},
+      {5, "simple"}, {6, "simple"}, {7, "simple"}, {8, "simple"},
+  };
   REQUIRE(mockPKB.isConstantsEqual({"1"}));
   REQUIRE(mockPKB.isVariablesEqual({"x", "y", "w", "z", "num1"}));
-  REQUIRE(mockPKB.isProceduresEqual({{"simple", 1}}));
+  REQUIRE(mockPKB.isStmtToProcEqual(expectedStmtToProcMap));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {5}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {4}));

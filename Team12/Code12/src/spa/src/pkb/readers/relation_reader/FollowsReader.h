@@ -7,8 +7,8 @@
 
 #include "common/StmtTypes.h"
 #include "pkb/interfaces/readers/IFollowsReader.h"
-#include "pkb/storage/relation_storage/stmt_to_stmt/FollowsStorage.h"
 #include "pkb/storage/entity_storage/StmtStorage.h"
+#include "pkb/storage/relation_storage/stmt_to_stmt/FollowsStorage.h"
 
 class FollowsReader : public virtual IFollowsReader {
  private:

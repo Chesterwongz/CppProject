@@ -8,7 +8,7 @@ SpToken SpIntegerTokenizer::tokenize(char nextCh, InputStream &inputStream) {
 
   // Const cannot start with zero
   if (value.length() > 1 && value[0] == StringUtils::CHAR_ZERO) {
-    throw SyntaxError(value);
+    throw CommonSyntaxError(value);
   }
   return {SpTokenType::INT, value};
 }

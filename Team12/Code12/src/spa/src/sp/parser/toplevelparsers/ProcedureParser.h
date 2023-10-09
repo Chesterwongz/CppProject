@@ -5,9 +5,9 @@
 #include <utility>
 
 #include "StmtLstParser.h"
+#include "common/parser/abstractparser/AbstractParser.h"
 #include "sp/ast/ProcNode.h"
 #include "sp/constants/KeywordConstants.h"
-#include "common/parser/abstractparser/AbstractParser.h"
 
 class ProcedureParser : public AbstractParser {
  public:

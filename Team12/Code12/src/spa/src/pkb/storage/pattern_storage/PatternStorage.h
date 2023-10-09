@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+
 #include "common/utils/StringUtils.h"
 #include "pkb/interfaces/storage/pattern_storage/IPatternStorage.h"
 #include "qps/common/Keywords.h"
