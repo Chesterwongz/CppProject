@@ -11,7 +11,6 @@
 
 class PatternStorage : public virtual IPatternStorage {
  public:
-
   // Setter for assignment expressions in the program
   void setAssignPattern(const std::string& variableName, const std::string& rpn,
                         int statementNumber) override;
