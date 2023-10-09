@@ -76,5 +76,5 @@ class TokenStream {
   TokenStream<T>(std::vector<T> tokenList)
       : tokenLst(tokenList), cursor(0), currToken(tokenList[0]) {}
 
-  TokenStream<T>(){}
+  TokenStream<T>() {}
 };
