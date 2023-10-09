@@ -9,7 +9,6 @@
 #include "qps/tokenizer/handlers/PQLIntegerTokenizer.h"
 #include "qps/tokenizer/handlers/PQLLiteralTokenizer.h"
 #include "qps/tokenizer/handlers/PQLNameTokenizer.h"
-#include "tokenStream/PQLTokenStream.h"
 
 typedef TokenStream<PQLToken> PQLTokenStream;
 
