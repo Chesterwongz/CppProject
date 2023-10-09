@@ -26,7 +26,7 @@ class FunctionUtils {
 
   static unordered_set<ElementType> computeTransitiveRelationship(
       ArgType element, NeighborFunction getNeighbor,
-      unordered_map<ElementType, unordered_set<ElementType>>& cache,
+      const unordered_map<ElementType, unordered_set<ElementType>>& cache,
       ClassType* instance) {
     if (cache.find(element) != cache.end()) {
       return cache.at(element);
@@ -48,7 +48,6 @@ class FunctionUtils {
         visited.insert(nbrsOfCurr.begin(), nbrsOfCurr.end());
       }
     }
-    cache[element] = visited;
     return visited;
   }
 };
