@@ -1,8 +1,8 @@
-#include <catch.hpp>
 #include <set>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <catch.hpp>
 
 #include "pkb/facade/PKB.h"
 #include "pkb/facade/PKBReader.h"

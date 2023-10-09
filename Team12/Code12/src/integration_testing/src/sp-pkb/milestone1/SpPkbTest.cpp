@@ -1,4 +1,3 @@
-#include <catch.hpp>
 #include <map>
 #include <set>
 #include <string>
@@ -6,6 +5,7 @@
 #include <unordered_set>
 #include <vector>
 
+#include <catch.hpp>
 #include "pkb/facade/PKB.h"
 #include "sp/SourceProcessor.h"
 
