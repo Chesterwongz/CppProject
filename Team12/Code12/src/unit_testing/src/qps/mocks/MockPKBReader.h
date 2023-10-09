@@ -209,12 +209,12 @@ class MockPKBReader : public PKBReader {
   }
 
   vector<string> getPrevStmtsFrom(int secondStmtNumber,
-                          StmtType firstStmtType) override {
+                                  StmtType firstStmtType) override {
     return mockGetPrevStmtsFrom;
   };
 
   vector<string> getNextStmtsFrom(int firstStmtNumber,
-                           StmtType secondStmtType) override {
+                                  StmtType secondStmtType) override {
     return mockGetNextStmtsFrom;
   }
 
@@ -228,12 +228,12 @@ class MockPKBReader : public PKBReader {
   }
 
   vector<string> getNextStarFirstStmt(int secondStmtNumber,
-                              StmtType firstStmtType) override {
+                                      StmtType firstStmtType) override {
     return mockGetNextStarFirstStmt;
   }
 
   vector<string> getNextStarSecondStmt(int firstStmtNumber,
-                               StmtType secondStmtType) override {
+                                       StmtType secondStmtType) override {
     return mockGetNextStarSecondStmt;
   }
 };
