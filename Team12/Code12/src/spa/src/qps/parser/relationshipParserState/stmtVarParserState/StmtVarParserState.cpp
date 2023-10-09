@@ -5,7 +5,6 @@ unordered_map<string, Abstraction>
         {USES_ABSTRACTION, USES_ENUM}, {MODIFIES_ABSTRACTION, MODIFIES_ENUM}};
 
 PredictiveMap StmtVarParserState::predictiveMap = {
-    {PQL_NULL_TOKEN, {PQL_STMT_VAR_TOKEN}},
     {PQL_STMT_VAR_TOKEN, {PQL_OPEN_BRACKET_TOKEN}},
     {PQL_OPEN_BRACKET_TOKEN,
      {PQL_SYNONYM_TOKEN, PQL_LITERAL_REF_TOKEN, PQL_INTEGER_TOKEN,
@@ -46,7 +45,7 @@ void StmtVarParserState::checkIsValidIdent(const string& ref) {
 void StmtVarParserState::handleToken() {
   auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
-  while (!curr.has_value()) {
+  while (curr.has_value()) {
     PQLToken token = curr.value();
 
     switch (token.getType()) {

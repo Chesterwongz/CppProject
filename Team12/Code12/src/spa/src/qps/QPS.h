@@ -6,6 +6,7 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <iostream>
 
 #include "pkb/facade/PKBReader.h"
 #include "qps/parser/PQLParserContext.h"

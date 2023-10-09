@@ -6,7 +6,7 @@ PQLToken PQLDelimiterTokenizer::tokenize(char nextCh,
     return BaseTokenizer::tokenize(nextCh, inputStream);
   }
   PQLTokenType type = delimiterToTokenType.find(nextCh)->second;
-  return {type, std::string(1, nextCh)};
+  return {type, inputStream.read()};
 }
 
 bool PQLDelimiterTokenizer::isDelim(const char ch) {

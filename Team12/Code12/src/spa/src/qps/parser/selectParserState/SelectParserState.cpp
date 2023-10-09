@@ -4,7 +4,7 @@
 #include "qps/parser/suchThatParserState/SuchThatParserState.h"
 
 PredictiveMap SelectParserState::predictiveMap = {
-    {PQL_NULL_TOKEN, {PQL_SYNONYM_TOKEN}},
+    {PQL_SELECT_TOKEN, {PQL_SYNONYM_TOKEN}},
     {PQL_SYNONYM_TOKEN, startTokensOfAvailClauses}};
 
 PQLTokenType SelectParserState::exitToken = PQL_SYNONYM_TOKEN;
@@ -26,7 +26,7 @@ void SelectParserState::processNameToken(PQLToken& curr) {
 void SelectParserState::handleToken() {
   auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
-  while (!curr.has_value()) {
+  while (curr.has_value()) {
     PQLToken token = curr.value();
 
     switch (token.getType()) {

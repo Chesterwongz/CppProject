@@ -10,7 +10,7 @@ unordered_map<string, Abstraction>
         {NEXT_STAR_ABSTRACTION, NEXT_STAR_ENUM}};
 
 PredictiveMap StmtStmtParserState::predictiveMap = {
-    {PQL_NULL_TOKEN, {PQL_OPEN_BRACKET_TOKEN}},
+    {PQL_STMT_STMT_TOKEN, {PQL_OPEN_BRACKET_TOKEN}},
     {PQL_OPEN_BRACKET_TOKEN,
      {PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_INTEGER_TOKEN}},
     {PQL_SYNONYM_TOKEN, {PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
@@ -35,7 +35,7 @@ void StmtStmtParserState::checkIsStmtSynonym(const std::string &synonym) {
 void StmtStmtParserState::handleToken() {
   auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
-  while (!curr.has_value()) {
+  while (curr.has_value()) {
     PQLToken token = curr.value();
 
     switch (token.getType()) {

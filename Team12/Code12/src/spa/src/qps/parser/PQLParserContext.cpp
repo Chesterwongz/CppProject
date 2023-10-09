@@ -63,7 +63,7 @@ void PQLParserContext::transitionTo(unique_ptr<IParserState> nextState) {
 }
 
 void PQLParserContext::handleTokens() {
-  while (!tokenStream->isTokenStreamEnd()) {
+  while (tokenStream->peek().has_value()) {
     currState->handleToken();
   }
   query.addContext(std::move(context));

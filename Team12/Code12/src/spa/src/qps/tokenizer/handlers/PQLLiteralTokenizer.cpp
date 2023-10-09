@@ -5,10 +5,11 @@ PQLToken PQLLiteralTokenizer::tokenize(char nextCh, InputStream &inputStream) {
     return BaseTokenizer::tokenize(nextCh, inputStream);
   }
 
+  inputStream.read(); // get rid of the first quote
   string literal = inputStream.readWhile(QPSStringUtils::isNotQuoteEnd);
+  inputStream.read(); // get rid of the last quote
 
   string trimmed = QPSStringUtils::trimString(std::move(literal));
-  std::cout << "Literal: " << trimmed << std::endl;
 
   PQLTokenType type = QPSStringUtils::hasMoreThanOneWord(trimmed)
                           ? PQLTokenType::PQL_LITERAL_EXPRESSION_TOKEN

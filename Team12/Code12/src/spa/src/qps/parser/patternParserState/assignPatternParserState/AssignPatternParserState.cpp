@@ -9,7 +9,6 @@
 #include "qps/parser/suchThatParserState/SuchThatParserState.h"
 
 PredictiveMap AssignPatternParserState::predictiveMap = {
-    {PQL_NULL_TOKEN, {PQL_ASSIGN_PATTERN_TOKEN}},
     {PQL_ASSIGN_PATTERN_TOKEN, {PQL_OPEN_BRACKET_TOKEN}},
     {PQL_OPEN_BRACKET_TOKEN,
      {PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN}},
@@ -28,10 +27,13 @@ PredictiveMap AssignPatternParserState::predictiveMap = {
 PQLTokenType AssignPatternParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
 
 AssignPatternParserState::AssignPatternParserState(
-    PQLParserContext& parserContext, PQLTokenType prev)
+    PQLParserContext& parserContext,
+    PQLTokenType prev,
+    unique_ptr<SynonymArg> synAssign)
     : BaseParserState(parserContext, prev),
       isInBracket(false),
       isPartialMatch(false),
+      synAssign(std::move(synAssign)),
       secondArgWildcardCount(0) {}
 
 void AssignPatternParserState::processNameToken(PQLToken& curr) {
@@ -95,8 +97,6 @@ void AssignPatternParserState::handleToken() {
     PQLToken token = curr.value();
 
     switch (token.getType()) {
-      case PQL_ASSIGN_PATTERN_TOKEN:
-        synAssign = std::make_unique<SynonymArg>(token.getValue());
       case PQL_SYNONYM_TOKEN:
         processSynonymToken(token);
         break;
@@ -109,7 +109,7 @@ void AssignPatternParserState::handleToken() {
         if (patternArg.size() >= SECOND_ARG) {
           secondArgWildcardCount++;
         } else {
-          patternArg.push_back(std::move(std::make_unique<Wildcard>()));
+          patternArg.push_back(std::make_unique<Wildcard>());
         }
         break;
       case PQL_LITERAL_REF_TOKEN:

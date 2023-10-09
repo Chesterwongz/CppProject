@@ -3,7 +3,6 @@
 #include "qps/parser/patternParserState/assignPatternParserState/AssignPatternParserState.h"
 
 PredictiveMap PatternParserState::predictiveMap = {
-    {PQL_NULL_TOKEN, {PQL_PATTERN_TOKEN}},
     {PQL_PATTERN_TOKEN, {PQL_ASSIGN_PATTERN_TOKEN}}};
 
 PatternParserState::PatternParserState(PQLParserContext& parserContext,
@@ -33,13 +32,14 @@ void PatternParserState::processSynonymToken(PQLToken& curr) {
 void PatternParserState::handleToken() {
   auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
-  while (!curr.has_value()) {
+  while (curr.has_value()) {
     PQLToken token = curr.value();
 
     switch (token.getType()) {
       case PQL_ASSIGN_PATTERN_TOKEN:
         parserContext.transitionTo(std::make_unique<AssignPatternParserState>(
-            parserContext, token.getType()));
+            parserContext, token.getType(),
+            std::make_unique<SynonymArg>(token.getValue())));
         return;
       default:
         break;

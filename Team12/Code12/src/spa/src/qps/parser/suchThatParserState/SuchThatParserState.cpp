@@ -4,7 +4,7 @@
 #include "qps/parser/relationshipParserState/stmtVarParserState/StmtVarParserState.h"
 
 PredictiveMap SuchThatParserState::predictiveMap = {
-    {PQL_NULL_TOKEN, {PQL_THAT_TOKEN}},
+    {PQL_SUCH_TOKEN, {PQL_THAT_TOKEN}},
     {PQL_THAT_TOKEN, {PQL_STMT_STMT_TOKEN, PQL_STMT_VAR_TOKEN}}};
 
 SuchThatParserState::SuchThatParserState(PQLParserContext &parserContext,
@@ -19,7 +19,7 @@ void SuchThatParserState::processNameToken(PQLToken &curr) {
 void SuchThatParserState::handleToken() {
   auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
-  while (!curr.has_value()) {
+  while (curr.has_value()) {
     PQLToken token = curr.value();
 
     switch (token.getType()) {
