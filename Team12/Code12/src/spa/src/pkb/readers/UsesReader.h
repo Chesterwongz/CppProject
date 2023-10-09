@@ -10,7 +10,7 @@
 #include "pkb/interfaces/storage/entitystorage/IStmtStorage.h"
 #include "pkb/interfaces/storage/entitystorage/IEntityStorage.h"
 
-// TODO (Chester): Combine UsesReader and ModifiesReader
+// TODO(Chester): Combine UsesReader and ModifiesReader
 class UsesReader : public virtual IUsesReader {
  private:
   IUsesStorage& uses_storage_;

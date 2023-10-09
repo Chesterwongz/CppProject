@@ -7,7 +7,7 @@
 #include "pkb/interfaces/storage/IUsesStorage.h"
 #include "pkb/interfaces/storage/IModifiesStorage.h"
 
-// TODO (Chester): Split this up, and have UsesStorage and ModifiesStorage
+// TODO(Chester): Split this up, and have UsesStorage and ModifiesStorage
 //  both have the same datastructure.
 class UsesModifiesStorage : public virtual IUsesStorage,
                             public virtual IModifiesStorage {
