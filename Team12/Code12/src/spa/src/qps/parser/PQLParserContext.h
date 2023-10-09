@@ -15,7 +15,7 @@ class PQLParserContext {
   // TODO(Koon Hwee): After Select Clause is implemented,
   //  PQLParserContext should not be a decorator, should
   //  directly return Query object
-  Query& query;
+  unique_ptr<Query>& query;
   unique_ptr<Context> context;
   unique_ptr<PQLTokenStream> tokenStream;
   unique_ptr<IParserState> currState;
@@ -25,7 +25,7 @@ class PQLParserContext {
 
  public:
   explicit PQLParserContext(unique_ptr<PQLTokenStream> tokenStream,
-                            Query& query);
+                            unique_ptr<Query>& query);
 
   //  Build clause - handling of Synonym Context
   void addToContext(string entity, const string& synonym);

@@ -10,7 +10,7 @@ std::unique_ptr<Query> parseToQuery(std::vector<PQLToken> tokenList,
 
   std::unique_ptr<Query> query = std::make_unique<Query>(pkbReader);
 
-  PQLParserContext parserContext(std::move(tokenStreamPtr), *query);
+  PQLParserContext parserContext(std::move(tokenStreamPtr), query);
   std::unique_ptr<DeclarativeParserState> declarativeParserState =
       std::make_unique<DeclarativeParserState>(parserContext);
 

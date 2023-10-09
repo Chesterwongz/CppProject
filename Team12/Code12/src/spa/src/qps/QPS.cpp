@@ -3,7 +3,7 @@
 QPS::QPS(PKBReader& pkb) : pkb(pkb) {}
 
 std::set<string> QPS::processQueryString(const string& query) {
-  Query queryObj(pkb);
+  unique_ptr<Query> queryObj = std::make_unique<Query>(pkb);
   try {
     unique_ptr<PQLTokenStream> tokenStream = PQLTokenizer::tokenize(query);
 
@@ -11,7 +11,7 @@ std::set<string> QPS::processQueryString(const string& query) {
     setupParser(parserContext);
     parserContext.handleTokens();
 
-    return queryObj.evaluate();
+    return queryObj->evaluate();
   } catch (CommonSyntaxError& e) {
     std::cout << e.what() << std::endl;
     return {"SyntaxError"};

@@ -6,7 +6,7 @@
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
 PQLParserContext::PQLParserContext(unique_ptr<PQLTokenStream> tokenStream,
-                                   Query& query)
+                                   unique_ptr<Query>& query)
     : tokenStream(std::move(tokenStream)),
       query(query),
       currState(),
@@ -21,7 +21,7 @@ void PQLParserContext::addToContext(string entity, const string& synonym) {
 
 void PQLParserContext::addSelectSynonym(const string& synonym) {
   getValidSynonymType(synonym);
-  this->query.setSynonymToQuery(synonym);
+  this->query->setSynonymToQuery(synonym);
 }
 
 string PQLParserContext::getValidSynonymType(const string& synonym) {
@@ -30,7 +30,7 @@ string PQLParserContext::getValidSynonymType(const string& synonym) {
 }
 
 void PQLParserContext::addClause(unique_ptr<Clause> clause) {
-  query.addClause(std::move(clause));
+  query->addClause(std::move(clause));
 }
 
 bool PQLParserContext::isExpectedToken(PQLTokenType curr, PQLTokenType prev,
@@ -66,5 +66,5 @@ void PQLParserContext::handleTokens() {
   while (tokenStream->peek().has_value()) {
     currState->handleToken();
   }
-  query.addContext(std::move(context));
+  query->addContext(std::move(context));
 }
