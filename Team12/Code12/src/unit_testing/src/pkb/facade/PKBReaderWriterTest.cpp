@@ -55,7 +55,7 @@ TEST_CASE("PKBReader Tests") {
   writer.setAssignPattern("z", " a b * c * d + ", 3);
   writer.setAssignPattern("x", " a 2 + ", 4);
 
-  SECTION("getAllVariables") {
+  SECTION("getAllVarUsedByStmt") {
     REQUIRE(reader.getAllVariables() == std::set<std::string>{"x", "y", "z"});
   }
 
