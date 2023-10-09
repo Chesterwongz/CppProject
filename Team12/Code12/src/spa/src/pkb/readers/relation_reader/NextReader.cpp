@@ -43,42 +43,6 @@ std::vector<std::string> NextReader::getNextStmtsFrom(int firstStmtNum,
                       secondStmtType);
 }
 
-// std::vector<std::string> NextReader::getPrevStmtsFrom(int secondStmtNum,
-//                                                       StmtType firstStmtType)
-//                                                       {
-//   std::string proc = entityStorage.getProcFromStmt(secondStmtNum);
-//   if (proc == common::INVALID_PROC_NAME) {
-//     return {};
-//   }
-//   unordered_set<int> prevStmtNums =
-//       cfgStorage.getPrevStmtsFrom(proc, secondStmtNum);
-//   std::vector<std::string> prevStmts;
-//   for (int prevStmtNum : prevStmtNums) {
-//     if (stmtStorage.isStmtType(prevStmtNum, firstStmtType)) {
-//       prevStmts.emplace_back(std::to_string(prevStmtNum));
-//     }
-//   }
-//   return prevStmts;
-// }
-//
-// std::vector<std::string> NextReader::getNextStmtsFrom(int firstStmtNum,
-//                                                       StmtType
-//                                                       secondStmtType) {
-//   std::string proc = entityStorage.getProcFromStmt(firstStmtNum);
-//   if (proc == common::INVALID_PROC_NAME) {
-//     return {};
-//   }
-//   unordered_set<int> nextStmtNums =
-//       cfgStorage.getPrevStmtsFrom(proc, firstStmtNum);
-//   std::vector<std::string> nextStmts;
-//   for (int nextStmtNum : nextStmtNums) {
-//     if (stmtStorage.isStmtType(nextStmtNum, secondStmtType)) {
-//       nextStmts.emplace_back(std::to_string(nextStmtNum));
-//     }
-//   }
-//   return nextStmts;
-// }
-
 std::vector<std::pair<std::string, std::string>> NextReader::getNextStarPairs(
     StmtType firstStmtType, StmtType secondStmtType) {
   return {};

@@ -2,6 +2,8 @@
 
 #include <string>
 #include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "common/Constants.h"
 #include "pkb/interfaces/readers/INextReader.h"
