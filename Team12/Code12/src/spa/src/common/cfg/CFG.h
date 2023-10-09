@@ -24,6 +24,7 @@ class CFG {
   bool operator==(const CFG& other) const;
   [[nodiscard]] unordered_set<int> getNextStmtsFrom(int stmtNum) const;
   [[nodiscard]] unordered_set<int> getPrevStmtsFrom(int stmtNum) const;
+  bool isNext(int firstStmtNum, int secondStmtNum) const;
   [[nodiscard]] const unordered_map<int, unordered_set<int>>& getAdjList()
       const;
   [[nodiscard]] const unordered_map<int, unordered_set<int>>&

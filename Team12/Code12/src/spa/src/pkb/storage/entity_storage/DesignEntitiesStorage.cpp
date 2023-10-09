@@ -36,5 +36,5 @@ std::string DesignEntitiesStorage::getProcFromStmt(int stmtNum) {
   if (stmtToProcMap.find(stmtNum) != stmtToProcMap.end()) {
     return stmtToProcMap[stmtNum];
   }
-  return "";
+  return common::INVALID_PROC_NAME;
 }

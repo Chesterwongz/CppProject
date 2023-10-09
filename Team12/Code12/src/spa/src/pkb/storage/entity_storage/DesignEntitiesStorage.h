@@ -3,6 +3,8 @@
 #include <set>
 #include <string>
 #include <unordered_map>
+
+#include "common/Constants.h"
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
 
 class DesignEntitiesStorage : public virtual IEntityStorage {

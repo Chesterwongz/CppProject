@@ -14,10 +14,10 @@ class INextReader {
 
   virtual bool isNext(int firstStmtNumber, int secondStmtNumber) = 0;
 
-  virtual std::vector<std::string> getNextFirstStmt(int secondStmtNumber,
+  virtual std::vector<std::string> getPrevStmtsFrom(int secondStmtNumber,
                                                     StmtType firstStmtType) = 0;
 
-  virtual std::vector<std::string> getNextSecondStmt(
+  virtual std::vector<std::string> getNextStmtsFrom(
       int firstStmtNumber, StmtType secondStmtType) = 0;
 
   virtual std::vector<std::pair<std::string, std::string>> getNextStarPairs(

@@ -3,29 +3,40 @@
 #include <string>
 #include <unordered_set>
 
+#include "common/Constants.h"
 #include "pkb/interfaces/readers/INextReader.h"
 #include "pkb/interfaces/storage/cfg_storage/ICfgStorage.h"
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
+#include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
+
+using GetStmtsFunction =
+    std::unordered_set<int> (ICfgStorage::*)(const std::string&, int);
 
 class NextReader : public INextReader {
  private:
-  IEntityStorage& entityStorage;
   ICfgStorage& cfgStorage;
+  IEntityStorage& entityStorage;
+  IStmtStorage& stmtStorage;
+  std::vector<std::string> getStmtsFrom(GetStmtsFunction getStmtsFunc,
+                                        int stmtNum, StmtType type);
 
  public:
-  explicit NextReader(ICfgStorage& cfgStorage, IEntityStorage& entityStorage)
-      : cfgStorage(cfgStorage), entityStorage(entityStorage) {}
+  NextReader(ICfgStorage& cfgStorage, IEntityStorage& entityStorage,
+             IStmtStorage& stmtStorage)
+      : cfgStorage(cfgStorage),
+        entityStorage(entityStorage),
+        stmtStorage(stmtStorage) {}
 
   std::vector<std::pair<std::string, std::string>> getNextPairs(
       StmtType firstStmtType, StmtType secondStmtType) override;
 
   bool isNext(int firstStmtNumber, int secondStmtNumber) override;
 
-  std::vector<std::string> getNextFirstStmt(int secondStmtNumber,
+  std::vector<std::string> getPrevStmtsFrom(int secondStmtNumber,
                                             StmtType firstStmtType) override;
 
-  std::vector<std::string> getNextSecondStmt(int firstStmtNumber,
-                                             StmtType secondStmtType) override;
+  std::vector<std::string> getNextStmtsFrom(int firstStmtNumber,
+                                            StmtType secondStmtType) override;
 
   std::vector<std::pair<std::string, std::string>> getNextStarPairs(
       StmtType firstStmtType, StmtType secondStmtType) override;
