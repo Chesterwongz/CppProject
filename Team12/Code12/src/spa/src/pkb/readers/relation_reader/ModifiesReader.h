@@ -9,7 +9,7 @@
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
 #include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
 #include "pkb/interfaces/storage/relation_storage/IModifiesStorage.h"
-#include "pkb/readers/template/ModifiesReaderImpl.h"
+#include "pkb/readers/relation_reader/stmt_or_proc_to_var_reader/ModifiesReaderImpl.h"
 
 using std::unordered_set, std::string;
 

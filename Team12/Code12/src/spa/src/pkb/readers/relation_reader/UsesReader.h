@@ -9,7 +9,7 @@
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
 #include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
 #include "pkb/interfaces/storage/relation_storage/IUsesStorage.h"
-#include "pkb/readers/template/UsesReaderImpl.h"
+#include "pkb/readers/relation_reader/stmt_or_proc_to_var_reader/UsesReaderImpl.h"
 
 class UsesReader : public IUsesReader {
  private:

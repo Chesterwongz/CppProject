@@ -67,8 +67,8 @@ TEST_CASE("PKBReader Tests") {
   }
 
   SECTION("getAllProcedures") {
-    writer.setProcedure("proc1", 1);
-    writer.setProcedure("proc2", 5);
+    writer.setProcForStmt("proc1", 1);
+    writer.setProcForStmt("proc2", 5);
     REQUIRE(reader.getAllProcedures() ==
             std::set<std::string>{"proc1", "proc2"});
   }
