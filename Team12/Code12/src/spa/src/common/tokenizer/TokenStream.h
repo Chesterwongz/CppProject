@@ -71,4 +71,10 @@ class TokenStream {
                                              : std::nullopt;
     return temp;
   }
+
+  // For testing only:
+  TokenStream<T>(std::vector<T> tokenList)
+      : tokenLst(tokenList), cursor(0), currToken(tokenList[0]) {}
+
+  TokenStream<T>() {}
 };

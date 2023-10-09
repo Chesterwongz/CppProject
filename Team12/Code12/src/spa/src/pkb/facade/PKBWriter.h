@@ -1,10 +1,18 @@
 #pragma once
 
 #include <memory>
+#include <set>
+#include <stack>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "common/cfg/CFG.h"
+#include "common/utils/PairUtils.h"
 #include "pkb/facade/PKBStorage.h"
+#include "pkb/interfaces/writers/ICallsWriter.h"
 #include "pkb/interfaces/writers/IDesignEntitiesWriter.h"
 #include "pkb/interfaces/writers/IFollowsWriter.h"
 #include "pkb/interfaces/writers/IModifiesWriter.h"
@@ -13,50 +21,51 @@
 #include "pkb/interfaces/writers/IStatementWriter.h"
 #include "pkb/interfaces/writers/IUsesWriter.h"
 
-using std::unique_ptr;
+using std::unique_ptr, std::string, std::unordered_set, std::stack;
 
-class PKBWriter : public virtual IDesignEntitiesWriter,
-                  public virtual IFollowsWriter,
-                  public virtual IParentWriter,
-                  public virtual IModifiesWriter,
-                  public virtual IUsesWriter,
-                  public virtual IStatementWriter,
-                  public virtual IPatternWriter {
+class PKBWriter : public IDesignEntitiesWriter,
+                  public IFollowsWriter,
+                  public IParentWriter,
+                  public IModifiesWriter,
+                  public IUsesWriter,
+                  public ICallsWriter,
+                  public IStatementWriter,
+                  public IPatternWriter {
  public:
   explicit PKBWriter(PKBStorage& storage) : storage(storage) {}
-  virtual ~PKBWriter() = default;
+  ~PKBWriter() override = default;
 
   // Add follows relationship
-  virtual void setFollowsRelationship(int statementNumber,
-                                      int followingStatement);
+  void setFollowsRelationship(int statementNumber,
+                              int followingStatement) override;
 
   // Add parent relationship
-  virtual void setParentRelationship(int statementNumber, int childStatement);
+  void setParentRelationship(int statementNumber, int childStatement) override;
 
   // Add parent* relationship
-  virtual void setParentStarRelationship(int statementNumber,
-                                         int childStatement);
+  void setParentStarRelationship(int statementNumber,
+                                 int childStatement) override;
 
   // Add modifies relationship
-  virtual void setModifiesRelationship(const std::string& variableName,
-                                       int statementNumber);
+  void setModifiesRelationship(const std::string& variableName,
+                               int statementNumber) override;
 
   // Add uses relationship
-  virtual void setUsesRelationship(const std::string& variableName,
-                                   int statementNumber);
+  void setUsesRelationship(const std::string& variableName,
+                           int statementNumber) override;
 
   // Add variable name to storage
-  virtual void setVariable(const std::string& variableName);
+  void setVariable(const std::string& variableName) override;
 
   // Add constant value to storage
-  virtual void setConstant(const std::string& constantValue);
+  void setConstant(const std::string& constantValue) override;
 
   // Add procedure name to storage
-  virtual void setProcedure(const std::string& procedureName,
-                            int startStatement);
+  void setProcForStmt(const std::string& procedureName,
+                      int startStatement) override;
 
   // Add statement number and type to storage
-  virtual void setStatement(int statementNumber, StmtType statementType);
+  void setStatement(int statementNumber, StmtType statementType) override;
 
   virtual void setWhilePattern(int statementNumber, const std::string& varName);
 
@@ -69,18 +78,28 @@ class PKBWriter : public virtual IDesignEntitiesWriter,
                                        const std::string& procedureName);
 
   // direct calls, not transitive
-  virtual void setCallsRelationship(const std::string& callerProc,
-                                    const std::string& calleeProc);
+  void setCallsRelationship(const string& callerProc,
+                            const string& calleeProc) override;
 
-  virtual void setCallsStarRelationship(const std::string& callerProc,
-                                        const std::string& calleeProc);
+  void setCallsStarRelationship(const string& callerProc,
+                                const string& calleeProc) override;
 
   // Add an expression to storage
-  virtual void setAssignPattern(const std::string& variableName,
-                                const std::string& rpn, int statementNumber);
+  void setAssignPattern(const std::string& variableName, const std::string& rpn,
+                        int statementNumber) override;
+
+  void setIndirectCallsRelationship();
 
   virtual void setCFG(const std::string& procName, unique_ptr<CFG> cfg);
 
  private:
   PKBStorage& storage;
+  void setUsesForCalls(const string& callerProc,
+                       const unordered_set<string>& calleeProc);
+  void setModifiesForCalls(const string& callerProc,
+                           const unordered_set<string>& calleeProc);
+  void processCallRelations(
+      const string& caller, const unordered_set<string>& callees,
+      unordered_set<string> (PKBStorage::*retrieveVars)(const string&),
+      void (PKBWriter::*setRelationship)(const string&, const string&));
 };

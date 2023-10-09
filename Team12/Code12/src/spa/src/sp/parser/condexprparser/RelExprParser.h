@@ -4,7 +4,7 @@
 #include <string>
 #include <utility>
 
-#include "sp/parser/abstractparser/AbstractParser.h"
+#include "common/parser/abstractparser/AbstractParser.h"
 #include "sp/parser/condexprparser/RelFactorParser.h"
 
 class RelExprParser : public AbstractParser {

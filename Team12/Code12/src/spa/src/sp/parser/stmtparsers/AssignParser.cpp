@@ -3,9 +3,9 @@
 /* assign: var_name '=' expr ';'
  * var_name = parseName()
  * if var_name is NULL: return NULL
- * if parseKeyword('=') is NULL: throw SyntaxError
+ * if parseKeyword('=') is NULL: throw SpSyntaxError
  * exprNode = parseExpr()
- * if tryEatExpected(';') is NULL: throw SyntaxError
+ * if tryEatExpected(';') is NULL: throw SpSyntaxError
  * node = AssignNode(var_name)
  * node.addChild(exprNode)
  * return node

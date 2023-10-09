@@ -1,28 +1,31 @@
 #include "QPS.h"
 
-QPS::QPS(PKBReader& pkb) : pkb(pkb), tokenizerFactory() {}
+QPS::QPS(PKBReader& pkb) : pkb(pkb) {}
 
 std::set<string> QPS::processQueryString(const string& query) {
-  Query queryObj(pkb);
+  unique_ptr<Query> queryObj = std::make_unique<Query>(pkb);
   try {
-    unique_ptr<PQLTokenizer> tokenizer = tokenizerFactory.makeTokenizer(query);
-    unique_ptr<PQLTokenList> tokenList = tokenizer->tokenize();
-    PQLTokenStream tokenStream(*tokenList);
+    unique_ptr<PQLTokenStream> tokenStream = PQLTokenizer::tokenize(query);
 
-    PQLParserContext parserContext(tokenStream, queryObj);
+    PQLParserContext parserContext(std::move(tokenStream), queryObj);
     setupParser(parserContext);
     parserContext.handleTokens();
+
+    return queryObj->evaluate();
+  } catch (CommonSyntaxError& e) {
+    std::cout << e.what() << std::endl;
+    return {"SyntaxError"};
   } catch (QPSSyntaxError& e) {
+    std::cout << e.what() << std::endl;
     return {"SyntaxError"};
   } catch (QPSSemanticError& e) {
+    std::cout << e.what() << std::endl;
     return {"SemanticError"};
   }
-
-  return queryObj.evaluate();
 }
 
 void QPS::setupParser(PQLParserContext& pc) {
   unique_ptr<DeclarativeParserState> declarativeParserState =
-      make_unique<DeclarativeParserState>(pc);
+      std::make_unique<DeclarativeParserState>(pc);
   pc.transitionTo(std::move(declarativeParserState));
 }

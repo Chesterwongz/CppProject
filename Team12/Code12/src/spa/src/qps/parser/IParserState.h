@@ -2,6 +2,7 @@
 
 #include "qps/exceptions/QPSSemanticError.h"
 #include "qps/exceptions/QPSSyntaxError.h"
+#include "qps/parser/PQLParserContext.h"
 #include "qps/token/PQLToken.h"
 
 class IParserState {
@@ -11,4 +12,5 @@ class IParserState {
  public:
   virtual void handleToken() = 0;
   virtual ~IParserState() = default;
+  friend class PQLParserContext;
 };

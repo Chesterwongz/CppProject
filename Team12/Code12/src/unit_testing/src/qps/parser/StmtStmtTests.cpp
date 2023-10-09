@@ -2,6 +2,7 @@
 #include <vector>
 #include <catch.hpp>
 
+#include "PQLParserTestUtils.h"
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/integer/Integer.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
@@ -33,19 +34,12 @@ TEST_CASE("Valid Follows(SYNONYM, SYNONYM)") {
       PQLToken(PQL_NAME_TOKEN, d2),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  parserContext.handleTokens();
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
-  Query expected(pkbReader);
+  Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
@@ -56,7 +50,7 @@ TEST_CASE("Valid Follows(SYNONYM, SYNONYM)") {
       FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
-  bool res = query == expected;
+  bool res = *query == expected;
   REQUIRE(res);
 }
 
@@ -81,19 +75,12 @@ TEST_CASE("Valid Follows(SYNONYM, _)") {
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  parserContext.handleTokens();
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
-  Query expected(pkbReader);
+  Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
@@ -104,7 +91,7 @@ TEST_CASE("Valid Follows(SYNONYM, _)") {
       FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
-  bool res = query == expected;
+  bool res = *query == expected;
   REQUIRE(res);
 }
 
@@ -130,19 +117,12 @@ TEST_CASE("Valid Follows(SYNONYM, INTEGER)") {
       PQLToken(PQL_INTEGER_TOKEN, int1),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  parserContext.handleTokens();
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
-  Query expected(pkbReader);
+  Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
@@ -153,7 +133,7 @@ TEST_CASE("Valid Follows(SYNONYM, INTEGER)") {
       FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
-  bool res = query == expected;
+  bool res = *query == expected;
   REQUIRE(res);
 }
 
@@ -178,19 +158,12 @@ TEST_CASE("Valid Follows(_, SYNONYM)") {
       PQLToken(PQL_NAME_TOKEN, d2),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  parserContext.handleTokens();
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
-  Query expected(pkbReader);
+  Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
@@ -201,7 +174,7 @@ TEST_CASE("Valid Follows(_, SYNONYM)") {
       FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
-  bool res = query == expected;
+  bool res = *query == expected;
   REQUIRE(res);
 }
 
@@ -226,19 +199,11 @@ TEST_CASE("Valid Follows(_, _)") {
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
-
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  parserContext.handleTokens();
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
-  Query expected(pkbReader);
+  Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
@@ -249,7 +214,7 @@ TEST_CASE("Valid Follows(_, _)") {
       FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
-  bool res = query == expected;
+  bool res = *query == expected;
   REQUIRE(res);
 }
 
@@ -275,19 +240,11 @@ TEST_CASE("Valid Follows(_, INTEGER)") {
       PQLToken(PQL_INTEGER_TOKEN, int1),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
-
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  parserContext.handleTokens();
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
-  Query expected(pkbReader);
+  Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
@@ -298,7 +255,7 @@ TEST_CASE("Valid Follows(_, INTEGER)") {
       FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
-  bool res = query == expected;
+  bool res = *query == expected;
   REQUIRE(res);
 }
 
@@ -324,19 +281,11 @@ TEST_CASE("Valid Follows(INTEGER, SYNONYM)") {
       PQLToken(PQL_NAME_TOKEN, d2),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
-
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  parserContext.handleTokens();
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
-  Query expected(pkbReader);
+  Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
@@ -347,7 +296,7 @@ TEST_CASE("Valid Follows(INTEGER, SYNONYM)") {
       FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
-  bool res = query == expected;
+  bool res = *query == expected;
   REQUIRE(res);
 }
 
@@ -373,19 +322,11 @@ TEST_CASE("Valid Follows(INTEGER, _)") {
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
-
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  parserContext.handleTokens();
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
-  Query expected(pkbReader);
+  Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
@@ -396,7 +337,7 @@ TEST_CASE("Valid Follows(INTEGER, _)") {
       FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
-  bool res = query == expected;
+  bool res = *query == expected;
   REQUIRE(res);
 }
 
@@ -423,19 +364,11 @@ TEST_CASE("Valid Follows(INTEGER, INTEGER)") {
       PQLToken(PQL_INTEGER_TOKEN, int2),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
-
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  parserContext.handleTokens();
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
-  Query expected(pkbReader);
+  Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
@@ -446,7 +379,7 @@ TEST_CASE("Valid Follows(INTEGER, INTEGER)") {
       FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
-  bool res = query == expected;
+  bool res = *query == expected;
   REQUIRE(res);
 }
 
@@ -466,19 +399,11 @@ TEST_CASE("Valid Follows(SYNONYM, _) - keyword as synonym") {
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
-
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  parserContext.handleTokens();
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
-  Query expected(pkbReader);
+  Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym("Follows", STMT_ENTITY);
   expected.addContext(std::move(expectedContext));
@@ -489,7 +414,7 @@ TEST_CASE("Valid Follows(SYNONYM, _) - keyword as synonym") {
       FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
-  bool res = query == expected;
+  bool res = *query == expected;
   REQUIRE(res);
 }
 
@@ -512,19 +437,11 @@ TEST_CASE("Valid Parents(SYNONYM, SYNONYM)") {
       PQLToken(PQL_NAME_TOKEN, "a"),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
-
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  parserContext.handleTokens();
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
-  Query expected(pkbReader);
+  Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym("a", ASSIGN_ENTITY);
   expectedContext->addSynonym("w", STMT_ENTITY);
@@ -535,7 +452,7 @@ TEST_CASE("Valid Parents(SYNONYM, SYNONYM)") {
       PARENTS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
-  bool res = query == expected;
+  bool res = *query == expected;
   REQUIRE(res);
 }
 
@@ -561,17 +478,10 @@ TEST_CASE("Invalid Parents(SYNONYM, SYNONYM) - both are not stmt synonyms") {
       PQLToken(PQL_NAME_TOKEN, d2),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  REQUIRE_THROWS_MATCHES(parserContext.handleTokens(), QPSSemanticError,
-                         Catch::Message(QPS_SEMANTIC_ERR_NOT_STMT_SYN));
+  REQUIRE_THROWS_MATCHES(
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPSSemanticError, Catch::Message(QPS_SEMANTIC_ERR_NOT_STMT_SYN));
 }
 
 TEST_CASE("Invalid Parent clause - undeclared synonym") {
@@ -590,17 +500,10 @@ TEST_CASE("Invalid Parent clause - undeclared synonym") {
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  REQUIRE_THROWS_WITH(parserContext.handleTokens(),
-                      "Using undeclared synonym: a");
+  REQUIRE_THROWS_MATCHES(
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPSSemanticError, Catch::Message("Using undeclared synonym: a"));
 }
 
 TEST_CASE("Invalid Parent clause - invalid LITERAL_REF_TOKEN") {
@@ -619,18 +522,11 @@ TEST_CASE("Invalid Parent clause - invalid LITERAL_REF_TOKEN") {
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
-
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
   REQUIRE_THROWS_MATCHES(
-      parserContext.handleTokens(), QPSSyntaxError,
-      Catch::Message("Error occurred during tokenization, invalid token: a"));
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPSSyntaxError,
+      Catch::Message("Error occurred during tokenization, "
+                     "invalid token: a"));
 }
 
 TEST_CASE("Invalid Parent clause - only 1 argument") {
@@ -647,17 +543,8 @@ TEST_CASE("Invalid Parent clause - only 1 argument") {
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
-
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
 
   REQUIRE_THROWS_MATCHES(
-      parserContext.handleTokens(), QPSSyntaxError,
-      Catch::Message(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT));
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPSSyntaxError, Catch::Message(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT));
 }
