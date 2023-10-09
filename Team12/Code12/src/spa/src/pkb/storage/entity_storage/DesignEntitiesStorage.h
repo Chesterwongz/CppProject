@@ -3,6 +3,8 @@
 #include <set>
 #include <string>
 #include <unordered_map>
+
+#include "common/Constants.h"
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
 
 class DesignEntitiesStorage : public virtual IEntityStorage {
@@ -14,8 +16,8 @@ class DesignEntitiesStorage : public virtual IEntityStorage {
   void setConstant(const std::string& constantValue) override;
 
   // Setter for procedure names
-  void setProcedure(const std::string& procedureName,
-                    int startStatement) override;
+  void setProcForStmt(const std::string& procedureName,
+                    int stmt) override;
 
   // Return the names of all variables in the program
   std::set<std::string> getAllVariables() override;
@@ -26,19 +28,14 @@ class DesignEntitiesStorage : public virtual IEntityStorage {
   // Return the names of all procedures in the program
   std::set<std::string> getAllProcedures() override;
 
-  // Return the name of the procedure whose code begins on that particular
-  // statement
-  std::string getProcedureStartingOnStatement(int statementNumber) override;
-
-  // Return the starting statement number of a particular procedure
-  int getStartingStatementOfProcedure(
-      const std::string& procedureName) override;
+  std::string getProcFromStmt(int stmtNum) override;
 
  private:
   std::set<std::string> variableData;
 
   std::set<std::string> constantData;
 
-  // procedure name -> starting statement
-  std::unordered_map<std::string, int> procedureData;
+  std::set<std::string> procedureData;
+
+  std::unordered_map<int, std::string> stmtToProcMap;
 };

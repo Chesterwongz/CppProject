@@ -36,9 +36,9 @@ void PKBWriter::setConstant(const std::string &constantValue) {
   storage.setConstant(constantValue);
 }
 
-void PKBWriter::setProcedure(const std::string &procedureName,
-                             int startStatement) {
-  storage.setProcedure(procedureName, startStatement);
+void PKBWriter::setProcForStmt(const std::string &procedureName,
+                             int stmtNum) {
+  storage.setProcForStmt(procedureName, stmtNum);
 }
 
 void PKBWriter::setAssignPattern(const std::string &variableName,
