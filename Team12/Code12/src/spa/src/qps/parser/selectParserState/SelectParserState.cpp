@@ -2,7 +2,7 @@
 
 PredictiveMap SelectParserState::predictiveMap = {
     {PQL_SELECT_TOKEN, {PQL_SYNONYM_TOKEN, PQL_LEFT_ANGLE_TOKEN}},
-    {PQL_SYNONYM_TOKEN, startTokensOfAvailClausesForSelect }};
+    {PQL_SYNONYM_TOKEN, startTokensOfAvailClausesForSelect}};
 
 PQLTokenType SelectParserState::exitToken = PQL_SYNONYM_TOKEN;
 

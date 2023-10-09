@@ -11,23 +11,21 @@
 #include "qps/token/PQLToken.h"
 
 TEST_CASE("Valid Select<a,b,c>") {
-  vector<PQLToken> tokenList = {
-    PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
-    PQLToken(PQL_NAME_TOKEN, "a"),
-    PQLToken(PQL_COMMA_TOKEN, ","),
-    PQLToken(PQL_NAME_TOKEN, "b"),
-    PQLToken(PQL_COMMA_TOKEN, ","),
-    PQLToken(PQL_NAME_TOKEN, "c"),
-    PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-    PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
-    PQLToken(PQL_LEFT_ANGLE_TOKEN, "<"),
-    PQLToken(PQL_NAME_TOKEN, "a"),
-    PQLToken(PQL_COMMA_TOKEN, ","),
-    PQLToken(PQL_NAME_TOKEN, "b"),
-    PQLToken(PQL_COMMA_TOKEN, ","),
-    PQLToken(PQL_NAME_TOKEN, "c"),
-    PQLToken(PQL_RIGHT_ANGLE_TOKEN, ">")
-  };
+  vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+                                PQLToken(PQL_NAME_TOKEN, "a"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "b"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "c"),
+                                PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+                                PQLToken(PQL_LEFT_ANGLE_TOKEN, "<"),
+                                PQLToken(PQL_NAME_TOKEN, "a"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "b"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "c"),
+                                PQLToken(PQL_RIGHT_ANGLE_TOKEN, ">")};
 
   std::unique_ptr<Query> query =
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);

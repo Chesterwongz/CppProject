@@ -4,14 +4,12 @@ PredictiveMap SelectTupleParsersState::predictiveMap = {
     {PQL_LEFT_ANGLE_TOKEN, {PQL_SYNONYM_TOKEN}},
     {PQL_SYNONYM_TOKEN, {PQL_COMMA_TOKEN, PQL_RIGHT_ANGLE_TOKEN}},
     {PQL_COMMA_TOKEN, {PQL_SYNONYM_TOKEN}},
-    {PQL_RIGHT_ANGLE_TOKEN, startTokensOfAvailClauses}
-};
+    {PQL_RIGHT_ANGLE_TOKEN, startTokensOfAvailClauses}};
 
 PQLTokenType SelectTupleParsersState::exitToken = PQL_RIGHT_ANGLE_TOKEN;
 
 SelectTupleParsersState::SelectTupleParsersState(
-    PQLParserContext& parserContext,
-    PQLTokenType prev)
+    PQLParserContext& parserContext, PQLTokenType prev)
     : isInBracket(true), BaseParserState(parserContext, prev) {}
 
 void SelectTupleParsersState::processNameToken(PQLToken& curr) {
@@ -38,7 +36,8 @@ void SelectTupleParsersState::handleToken() {
         break;
       case PQL_RIGHT_ANGLE_TOKEN:
         isInBracket = false;
-//      TODO(Hwee): parserContext.addSelectClause(std::move(synonymsToSelect));
+        //      TODO(Hwee):
+        //      parserContext.addSelectClause(std::move(synonymsToSelect));
         break;
       case PQL_SUCH_TOKEN:
         parserContext.transitionTo(std::make_unique<SuchThatParserState>(
