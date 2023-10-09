@@ -264,7 +264,7 @@ TEST_CASE(
   sp.processContent(nextSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"5", "7"};
+  set<string> expected = {"7", "8"};
   REQUIRE(result == expected);
 }
 
