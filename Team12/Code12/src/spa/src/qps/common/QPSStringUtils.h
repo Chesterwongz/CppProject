@@ -15,6 +15,8 @@ using std::string, std::map;
 class QPSStringUtils {
  public:
   static map<char, int> precedence;
+  static constexpr char kAsterisks = '*';
+  static constexpr char kHash = '#';
 
   enum ArgumentType { IDENT, SYNONYM, WILDCARD, INTEGER };
 

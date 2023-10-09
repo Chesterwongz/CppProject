@@ -81,6 +81,12 @@ TEST_CASE("SP-PKB integration MS2 - Non-nesting statements") {
   validateModifiesProcVar(reader, procs, expectedModifiesMap);
   validateCalls(reader, procs, expectedCallsMap);
   validateCallsStar(reader, procs, expectedCallsStarMap);
+  // TODO(Xiaoyun): update validation for next
+  vector<string> expectedNextOf1 = {"2"};
+  vector<string> expectedNextOf2 = {"3"};
+  REQUIRE(reader.getNextStmtsFrom(1, StmtType::ASSIGN).empty());
+  REQUIRE(reader.getNextStmtsFrom(1, StmtType::STMT) == expectedNextOf1);
+  REQUIRE(reader.getNextStmtsFrom(2, StmtType::ASSIGN) == expectedNextOf2);
 }
 
 TEST_CASE("SP-PKB integration MS2 - Simple transitive call") {
