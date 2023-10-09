@@ -28,7 +28,7 @@ string nextSource =
     "}"
     "procedure Potato {"
     "  assign = line9;"
-    "};";
+    "}";
 
 TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/Next_queries.txt - 1") {
