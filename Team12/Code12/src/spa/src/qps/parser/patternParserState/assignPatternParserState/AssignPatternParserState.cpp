@@ -27,8 +27,7 @@ PredictiveMap AssignPatternParserState::predictiveMap = {
 PQLTokenType AssignPatternParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
 
 AssignPatternParserState::AssignPatternParserState(
-    PQLParserContext& parserContext,
-    PQLTokenType prev,
+    PQLParserContext& parserContext, PQLTokenType prev,
     unique_ptr<SynonymArg> synAssign)
     : BaseParserState(parserContext, prev),
       isInBracket(false),

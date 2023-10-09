@@ -5,9 +5,9 @@ PQLToken PQLLiteralTokenizer::tokenize(char nextCh, InputStream &inputStream) {
     return BaseTokenizer::tokenize(nextCh, inputStream);
   }
 
-  inputStream.read(); // get rid of the first quote
+  inputStream.read();  // get rid of the first quote
   string literal = inputStream.readWhile(QPSStringUtils::isNotQuoteEnd);
-  inputStream.read(); // get rid of the last quote
+  inputStream.read();  // get rid of the last quote
 
   string trimmed = QPSStringUtils::trimString(std::move(literal));
 
