@@ -2,7 +2,19 @@
 
 std::vector<std::pair<std::string, std::string>> NextReader::getNextPairs(
     StmtType firstStmtType, StmtType secondStmtType) {
-  return cfgStorage.getNextPairs();
+  std::vector<std::pair<std::string, std::string>> allNextPairs =
+      cfgStorage.getNextPairs();
+  std::vector<std::pair<std::string, std::string>> result;
+  for (std::pair<std::string, std::string> nextPair : allNextPairs) {
+    bool isFirstStmtRightType =
+        stmtStorage.isStatementType(stoi(nextPair.first), firstStmtType);
+    bool isSecondStmtRightType =
+        stmtStorage.isStatementType(stoi(nextPair.second), secondStmtType);
+    if (isFirstStmtRightType && isSecondStmtRightType) {
+      result.emplace_back(nextPair);
+    }
+  }
+  return result;
 }
 
 bool NextReader::isNext(int firstStmtNum, int secondStmtNum) {
