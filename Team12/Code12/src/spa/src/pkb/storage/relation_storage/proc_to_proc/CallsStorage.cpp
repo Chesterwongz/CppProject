@@ -12,35 +12,37 @@ void CallsStorage::setCallsStarRelationship(const string& caller,
   calledByStarMap[callee].insert(caller);
 }
 
-unordered_set<string> CallsStorage::getCalleeProcs(const string& procedure) {
+unordered_set<string> CallsStorage::getCalleeProcs(
+    const string& procedure) const {
   if (callsMap.find(procedure) == callsMap.end()) {
     return {};
   }
-  return callsMap[procedure];
+  return callsMap.at(procedure);
 }
 
 unordered_set<string> CallsStorage::getCalleeProcsStar(
-    const string& procedure) {
+    const string& procedure) const {
   if (callsStarMap.find(procedure) == callsStarMap.end()) {
     return {};
   }
-  return callsStarMap[procedure];
+  return callsStarMap.at(procedure);
 }
 
-unordered_set<string> CallsStorage::getCallerProcs(const string& procedure) {
+unordered_set<string> CallsStorage::getCallerProcs(
+    const string& procedure) const {
   if (calledByMap.find(procedure) == calledByMap.end()) {
     return {};
   }
-  return calledByMap[procedure];
+  return calledByMap.at(procedure);
 }
 
 unordered_set<string> CallsStorage::getCallerProcsStar(
-    const string& procedure) {
+    const string& procedure) const {
   unordered_set<string> result;
   if (calledByStarMap.find(procedure) == calledByStarMap.end()) {
     return {};
   }
-  return calledByStarMap[procedure];
+  return calledByStarMap.at(procedure);
 }
 
 unordered_set<string> CallsStorage::getAllCallerProcs() {

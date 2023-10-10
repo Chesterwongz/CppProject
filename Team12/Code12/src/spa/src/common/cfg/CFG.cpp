@@ -34,11 +34,11 @@ unordered_set<int> CFG::getStmtsFromMap(
   return map.at(stmtNum);
 }
 
-unordered_set<int> CFG::getNextStmtsFrom(int stmtNum) {
+unordered_set<int> CFG::getNextStmtsFrom(int stmtNum) const {
   return getStmtsFromMap(adjList, stmtNum);
 }
 
-unordered_set<int> CFG::getPrevStmtsFrom(int stmtNum) {
+unordered_set<int> CFG::getPrevStmtsFrom(int stmtNum) const {
   return getStmtsFromMap(reversedAdjList, stmtNum);
 }
 

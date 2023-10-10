@@ -22,7 +22,7 @@ class FunctionUtils {
   }
 
  public:
-  using NeighborFunction = unordered_set<ElementType> (ClassType::*)(ArgType);
+  using NeighborFunction = unordered_set<ElementType> (ClassType::*)(ArgType) const;
 
   static unordered_set<ElementType> computeTransitiveRelationship(
       ArgType element, NeighborFunction getNeighbor,
