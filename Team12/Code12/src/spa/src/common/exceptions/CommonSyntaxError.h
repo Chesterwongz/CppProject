@@ -5,6 +5,7 @@
 #include "Exception.h"
 
 const char QPS_TOKENIZATION_ERR_UNMATCHED_QUOTE[] = "Unmatched quotes";
+const char QPS_TOKENIZATION_ERR_EMPTY_QUOTE[] = "Empty quotes";
 
 class CommonSyntaxError : public Exception {
  public:
