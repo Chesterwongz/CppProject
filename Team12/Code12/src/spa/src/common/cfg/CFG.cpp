@@ -14,6 +14,11 @@ void CFG::addEdge(int from, int to) {
   reversedAdjList[to].insert(from);
 }
 
+void CFG::addTransitiveEdge(int from, int to) {
+  nextTCache[from].insert(to);
+  prevTCache[to].insert(from);
+}
+
 bool CFG::operator==(const CFG &other) const {
   return adjList == other.adjList && reversedAdjList == other.reversedAdjList;
 }
@@ -34,11 +39,11 @@ unordered_set<int> CFG::getStmtsFromMap(
   return map.at(stmtNum);
 }
 
-unordered_set<int> CFG::getNextStmtsFrom(int stmtNum) const {
+unordered_set<int> CFG::getNextStmts(int stmtNum) const {
   return getStmtsFromMap(adjList, stmtNum);
 }
 
-unordered_set<int> CFG::getPrevStmtsFrom(int stmtNum) const {
+unordered_set<int> CFG::getPrevStmts(int stmtNum) const {
   return getStmtsFromMap(reversedAdjList, stmtNum);
 }
 
@@ -50,19 +55,22 @@ const unordered_map<int, unordered_set<int>> &CFG::getReversedAdjList() const {
   return reversedAdjList;
 }
 
-unordered_set<int> CFG::getNextStarStmtFrom(int stmtNum) {
-  unordered_set<int> nextStarStmts =
+unordered_set<int> CFG::getNextTStmts(int stmtNum) {
+  unordered_set<int> nextTStmts =
       FunctionUtils<int, CFG>::computeTransitiveRelationship(
-          stmtNum, &CFG::getNextStmtsFrom, cacheNextStar, this);
-  // TODO(Xiaoyun): update add transitive edges
-  cacheNextStar[stmtNum] = nextStarStmts;
-  return nextStarStmts;
+          stmtNum, &CFG::getNextStmts, nextTCache, this);
+  for (int next : nextTStmts) {
+    addTransitiveEdge(stmtNum, next);
+  }
+  return nextTStmts;
 }
 
-unordered_set<int> CFG::getPrevStarStmtFrom(int stmtNum) {
-  unordered_set<int> prevStarStmts =
+unordered_set<int> CFG::getPrevTStmts(int stmtNum) {
+  unordered_set<int> prevTStmts =
       FunctionUtils<int, CFG>::computeTransitiveRelationship(
-          stmtNum, &CFG::getPrevStmtsFrom, cachePrevStar, this);
-  cachePrevStar[stmtNum] = prevStarStmts;
-  return prevStarStmts;
+          stmtNum, &CFG::getPrevStmts, prevTCache, this);
+  for (int prev : prevTStmts) {
+    addTransitiveEdge(prev, stmtNum);
+  }
+  return prevTStmts;
 }

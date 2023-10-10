@@ -16,20 +16,30 @@ class CfgStorage : public ICfgStorage {
   std::unordered_set<int> getStmtsFrom(
       std::unordered_set<int> (CFG::*cfgFunction)(int) const,
       const std::string& procName, int stmtNum);
-  void addNextPairForCfg(
-      const std::unique_ptr<CFG>& cfg,
-      std::vector<std::pair<int, int>>& nextPairs);
+  void addNextPairForCfg(const std::unique_ptr<CFG>& cfg,
+                         std::vector<std::pair<int, int>>& nextPairs);
 
  public:
   void addCfg(const std::string& procName, std::unique_ptr<CFG> cfg) override;
 
   std::vector<std::pair<int, int>> getNextPairs() override;
 
-  unordered_set<int> getNextStmtsFrom(const std::string& procName,
+  unordered_set<int> getNextStmts(const std::string& procName,
                                       int stmtNum) override;
-  unordered_set<int> getPrevStmtsFrom(const std::string& procName,
+  unordered_set<int> getPrevStmts(const std::string& procName,
                                       int stmtNum) override;
 
   bool isNext(const std::string& proc, int firstStmtNum,
               int secondStmtNum) override;
+
+  std::vector<std::pair<int, int>> getNextTPairs() override;
+
+  std::unordered_set<int> getNextTStmts(const std::string& procName,
+                                            int stmtNum) override;
+
+  std::unordered_set<int> getPrevTStmts(const std::string& procName,
+                                            int stmtNum) override;
+
+  bool isNextT(const std::string& proc, int firstStmtNum,
+               int secondStmtNum) override;
 };

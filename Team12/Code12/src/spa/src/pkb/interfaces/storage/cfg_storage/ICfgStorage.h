@@ -17,10 +17,21 @@ class ICfgStorage {
 
   virtual std::vector<std::pair<int, int>> getNextPairs() = 0;
 
-  virtual unordered_set<int> getNextStmtsFrom(const std::string& procName,
-                                              int stmtNum) = 0;
-  virtual unordered_set<int> getPrevStmtsFrom(const std::string& procName,
-                                              int stmtNum) = 0;
+  virtual std::unordered_set<int> getNextStmts(const std::string& procName,
+                                                   int stmtNum) = 0;
+  virtual std::unordered_set<int> getPrevStmts(const std::string& procName,
+                                                   int stmtNum) = 0;
   virtual bool isNext(const std::string& proc, int firstStmtNum,
                       int secondStmtNum) = 0;
+
+  virtual std::vector<std::pair<int, int>> getNextTPairs() = 0;
+
+  virtual std::unordered_set<int> getNextTStmts(const std::string& procName,
+                                                    int stmtNum) = 0;
+
+  virtual std::unordered_set<int> getPrevTStmts(const std::string& procName,
+                                                    int stmtNum) = 0;
+
+  virtual bool isNextT(const std::string& proc, int firstStmtNum,
+                       int secondStmtNum) = 0;
 };

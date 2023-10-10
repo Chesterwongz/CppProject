@@ -43,20 +43,18 @@ std::vector<std::string> NextReader::getStmtsFrom(GetStmtsFunction getStmtsFunc,
   return stmts;
 }
 
-std::vector<std::string> NextReader::getPrevStmtsFrom(int secondStmtNum,
-                                                      StmtType firstStmtType) {
-  return getStmtsFrom(&ICfgStorage::getPrevStmtsFrom, secondStmtNum,
-                      firstStmtType);
+std::vector<std::string> NextReader::getPrevStmts(int secondStmtNum,
+                                                  StmtType firstStmtType) {
+  return getStmtsFrom(&ICfgStorage::getPrevStmts, secondStmtNum, firstStmtType);
 }
 
-std::vector<std::string> NextReader::getNextStmtsFrom(int firstStmtNum,
-                                                      StmtType secondStmtType) {
-  return getStmtsFrom(&ICfgStorage::getNextStmtsFrom, firstStmtNum,
-                      secondStmtType);
+std::vector<std::string> NextReader::getNextStmts(int firstStmtNum,
+                                                  StmtType secondStmtType) {
+  return getStmtsFrom(&ICfgStorage::getNextStmts, firstStmtNum, secondStmtType);
 }
 
-std::vector<std::string> NextReader::getPrevStarStmtsFrom(
-    int stmtNum, StmtType firstStmtType) {
+std::vector<std::string> NextReader::getPrevTStmts(int stmtNum,
+                                                   StmtType firstStmtType) {
   std::string proc = entityStorage.getProcFromStmt(stmtNum);
   if (proc == common::INVALID_PROC_NAME) {
     return {};
@@ -64,26 +62,14 @@ std::vector<std::string> NextReader::getPrevStarStmtsFrom(
   return {};
 }
 
-std::vector<std::string> NextReader::getNextStarStmtsFrom(
-    int firstStmtNumber, StmtType secondStmtType) {
+std::vector<std::string> NextReader::getNextTStmts(int firstStmtNumber,
+                                                   StmtType secondStmtType) {
   return {};
 }
 
-std::vector<std::pair<std::string, std::string>> NextReader::getNextStarPairs(
+std::vector<std::pair<std::string, std::string>> NextReader::getNextTPairs(
     StmtType firstStmtType, StmtType secondStmtType) {
   return {};
 }
 
-bool NextReader::isNextStar(int firstStmtNum, int secondStmtNum) {
-  return false;
-}
-
-std::vector<std::string> NextReader::getNextStarFirstStmt(
-    int secondStmtNum, StmtType firstStmtType) {
-  return {};
-}
-
-std::vector<std::string> NextReader::getNextStarSecondStmt(
-    int firstStmtNum, StmtType secondStmtType) {
-  return {};
-}
+bool NextReader::isNextT(int firstStmtNum, int secondStmtNum) { return false; }

@@ -31,29 +31,19 @@ class NextReader : public INextReader {
 
   std::vector<std::pair<std::string, std::string>> getNextPairs(
       StmtType firstStmtType, StmtType secondStmtType) override;
-
-  bool isNext(int firstStmtNumber, int secondStmtNumber) override;
-
-  std::vector<std::string> getPrevStmtsFrom(int secondStmtNumber,
-                                            StmtType firstStmtType) override;
-
-  std::vector<std::string> getNextStmtsFrom(int firstStmtNumber,
-                                            StmtType secondStmtType) override;
-
-  std::vector<std::string> getPrevStarStmtsFrom(int secondStmtNumber,
-                                            StmtType firstStmtType) override;
-
-  std::vector<std::string> getNextStarStmtsFrom(int firstStmtNumber,
-                                            StmtType secondStmtType) override;
-
-  std::vector<std::pair<std::string, std::string>> getNextStarPairs(
+  std::vector<std::pair<std::string, std::string>> getNextTPairs(
       StmtType firstStmtType, StmtType secondStmtType) override;
 
-  bool isNextStar(int firstStmtNumber, int secondStmtNumber) override;
+  bool isNext(int firstStmtNum, int secondStmtNum) override;
+  bool isNextT(int firstStmtNum, int secondStmtNum) override;
 
-  std::vector<std::string> getNextStarFirstStmt(
-      int secondStmtNumber, StmtType firstStmtType) override;
+  std::vector<std::string> getPrevStmts(int secondStmtNum,
+                                        StmtType firstStmtType) override;
+  std::vector<std::string> getPrevTStmts(int secondStmtNum,
+                                         StmtType firstStmtType) override;
 
-  std::vector<std::string> getNextStarSecondStmt(
-      int firstStmtNumber, StmtType secondStmtType) override;
+  std::vector<std::string> getNextStmts(int firstStmtNum,
+                                        StmtType secondStmtType) override;
+  std::vector<std::string> getNextTStmts(int firstStmtNum,
+                                         StmtType secondStmtType) override;
 };
