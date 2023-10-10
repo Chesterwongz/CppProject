@@ -2,6 +2,8 @@
 
 #include <utility>
 
+#include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/clause/selectClause/SelectClause.h"
 #include "qps/common/QPSStringUtils.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
@@ -19,18 +21,18 @@ void PQLParserContext::addToContext(string entity, const string& synonym) {
   this->context->addSynonym(synonym, std::move(entity));
 }
 
-void PQLParserContext::addSelectSynonym(const string& synonym) {
+void PQLParserContext::addSelectClause(const string& synonym) {
   getValidSynonymType(synonym);
-  this->query->setSynonymToQuery(synonym);
+  SynonymsToSelect synonymVector = {};
+  unique_ptr<SynonymArg> synonymArg
+      = std::make_unique<SynonymArg>(synonym);
+  synonymVector.emplace_back(std::move(synonymArg));
+  this->query->setSynonymToQuery(std::move(synonymVector));
 }
 
 void PQLParserContext::addSelectClause(
-    vector<unique_ptr<AbstractArgument>> synonyms) {
-  vector<string> synonymValues = {};
-  for (unique_ptr<AbstractArgument> &synonym : synonyms) {
-    synonymValues.emplace_back(synonym->getValue());
-  }
-  this->query->setSynonymToQuery(synonymValues);
+    SynonymsToSelect synonyms) {
+  this->query->setSynonymToQuery(std::move(synonyms));
 }
 
 string PQLParserContext::getValidSynonymType(const string& synonym) {

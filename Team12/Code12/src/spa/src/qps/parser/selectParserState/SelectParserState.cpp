@@ -29,7 +29,7 @@ void SelectParserState::handleToken() {
     switch (token.getType()) {
       case PQL_SYNONYM_TOKEN:
         // TODO(Hwee): change to add vector syn
-        parserContext.addSelectSynonym(token.getValue());
+        parserContext.addSelectClause(token.getValue());
         break;
       case PQL_SUCH_TOKEN:
         parserContext.transitionTo(std::make_unique<SuchThatParserState>(

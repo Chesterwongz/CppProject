@@ -14,7 +14,7 @@ class SelectTupleParsersState : public BaseParserState {
   static PredictiveMap predictiveMap;
   static PQLTokenType exitToken;
   bool isInBracket;
-  vector<unique_ptr<AbstractArgument>> synonymsToSelect;
+  SynonymsToSelect synonymsToSelect;
   void processNameToken(PQLToken& curr) override;
 
  public:
