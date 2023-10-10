@@ -2,16 +2,15 @@
 
 std::vector<std::pair<std::string, std::string>> NextReader::getNextPairs(
     StmtType firstStmtType, StmtType secondStmtType) {
-  std::vector<std::pair<std::string, std::string>> allNextPairs =
-      cfgStorage.getNextPairs();
+  std::vector<std::pair<int, int>> allNextPairs = cfgStorage.getNextPairs();
   std::vector<std::pair<std::string, std::string>> result;
-  for (std::pair<std::string, std::string>& nextPair : allNextPairs) {
+  for (const auto& [first, second] : allNextPairs) {
     bool isFirstStmtRightType =
-        stmtStorage.isStatementType(stoi(nextPair.first), firstStmtType);
+        stmtStorage.isStatementType(first, firstStmtType);
     bool isSecondStmtRightType =
-        stmtStorage.isStatementType(stoi(nextPair.second), secondStmtType);
+        stmtStorage.isStatementType(second, secondStmtType);
     if (isFirstStmtRightType && isSecondStmtRightType) {
-      result.emplace_back(nextPair);
+      result.emplace_back(std::to_string(first), std::to_string(second));
     }
   }
   return result;

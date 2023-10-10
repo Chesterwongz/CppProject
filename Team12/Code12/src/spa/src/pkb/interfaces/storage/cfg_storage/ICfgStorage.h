@@ -15,7 +15,7 @@ class ICfgStorage {
   virtual void addCfg(const std::string& procName,
                       std::unique_ptr<CFG> cfg) = 0;
 
-  virtual std::vector<std::pair<std::string, std::string>> getNextPairs() = 0;
+  virtual std::vector<std::pair<int, int>> getNextPairs() = 0;
 
   virtual unordered_set<int> getNextStmtsFrom(const std::string& procName,
                                               int stmtNum) = 0;

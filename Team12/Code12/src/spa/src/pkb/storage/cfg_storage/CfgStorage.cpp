@@ -4,19 +4,23 @@ void CfgStorage::addCfg(const std::string& procName, std::unique_ptr<CFG> cfg) {
   procToCfgMap[procName] = std::move(cfg);
 }
 
-std::vector<std::pair<std::string, std::string>> CfgStorage::getNextPairs() {
-  std::vector<std::pair<std::string, std::string>> nextPairs;
-  // TODO(PKB): maybe can try optimise this ;-;
-  for (const auto& [procName, cfg] : procToCfgMap) {
-    for (const auto& [firstStmtNum, secondStmtNums] : cfg->getAdjList()) {
-      for (const auto& secondStmtNum : secondStmtNums) {
-        if (firstStmtNum < 0 || secondStmtNum < 0) {
-          continue;
-        }
-        nextPairs.emplace_back(std::to_string(firstStmtNum),
-                               std::to_string(secondStmtNum));
+void CfgStorage::addNextPairForCfg(
+    const std::unique_ptr<CFG>& cfg,
+    std::vector<std::pair<int, int>>& nextPairs) {
+  for (const auto& [firstStmtNum, secondStmtNums] : cfg->getAdjList()) {
+    for (const auto& secondStmtNum : secondStmtNums) {
+      if (secondStmtNum == common::INVALID_STMT_NUM) {
+        continue;
       }
+      nextPairs.emplace_back(firstStmtNum, secondStmtNum);
     }
+  }
+}
+
+std::vector<std::pair<int, int>> CfgStorage::getNextPairs() {
+  std::vector<std::pair<int, int>> nextPairs;
+  for (const auto& [procName, cfg] : procToCfgMap) {
+    addNextPairForCfg(cfg, nextPairs);
   }
   return nextPairs;
 }
