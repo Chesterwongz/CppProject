@@ -7,7 +7,7 @@
 #include "common/Constants.h"
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
 
-class DesignEntitiesStorage : public virtual IEntityStorage {
+class DesignEntitiesStorage : public IEntityStorage {
  public:
   // Setter for variables
   void setVariable(const std::string& variableName) override;

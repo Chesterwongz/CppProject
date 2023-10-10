@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include "pkb/storage/relation_storage/stmt_or_proc_to_var/UsesStorage.h"
+#include "pkb/storage/relation_storage/stmt_proc_to_var/UsesStorage.h"
 
 TEST_CASE("UsesStorage Tests") {
   UsesStorage storage;

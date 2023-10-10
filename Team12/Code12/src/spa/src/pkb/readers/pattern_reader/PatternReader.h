@@ -9,7 +9,7 @@
 #include "pkb/interfaces/readers/IPatternReader.h"
 #include "pkb/storage/pattern_storage/PatternStorage.h"
 
-class PatternReader : public virtual IPatternReader {
+class PatternReader : public IPatternReader {
  private:
   PatternStorage& pattern_storage_;
 

@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include "pkb/storage/relation_storage/stmt_or_proc_to_var/ModifiesStorage.h"
+#include "pkb/storage/relation_storage/stmt_proc_to_var/ModifiesStorage.h"
 
 TEST_CASE("ModifiesStorage Tests") {
   ModifiesStorage storage;

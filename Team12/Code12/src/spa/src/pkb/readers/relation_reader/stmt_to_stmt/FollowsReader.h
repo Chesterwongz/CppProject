@@ -10,7 +10,7 @@
 #include "pkb/storage/entity_storage/StmtStorage.h"
 #include "pkb/storage/relation_storage/stmt_to_stmt/FollowsStorage.h"
 
-class FollowsReader : public virtual IFollowsReader {
+class FollowsReader : public IFollowsReader {
  private:
   FollowsStorage& follows_storage_;
   StmtStorage& stmt_storage_;

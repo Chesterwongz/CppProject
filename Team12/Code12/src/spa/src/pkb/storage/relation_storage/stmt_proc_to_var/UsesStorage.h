@@ -10,7 +10,7 @@
 
 using std::string;
 
-class UsesStorage : public virtual IUsesStorage {
+class UsesStorage : public IUsesStorage {
  private:
   StmtOrProcToVarRelationStorage storage_;
 

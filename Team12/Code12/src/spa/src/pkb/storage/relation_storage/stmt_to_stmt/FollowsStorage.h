@@ -7,7 +7,7 @@
 
 #include "pkb/interfaces/storage/relation_storage/IFollowsStorage.h"
 
-class FollowsStorage : public virtual IFollowsStorage {
+class FollowsStorage : public IFollowsStorage {
  public:
   FollowsStorage();
 

@@ -8,7 +8,7 @@
 #include "StmtOrProcToVarRelationStorage.h"
 #include "pkb/interfaces/storage/relation_storage/IModifiesStorage.h"
 
-class ModifiesStorage : public virtual IModifiesStorage {
+class ModifiesStorage : public IModifiesStorage {
  private:
   StmtOrProcToVarRelationStorage storage_;
 

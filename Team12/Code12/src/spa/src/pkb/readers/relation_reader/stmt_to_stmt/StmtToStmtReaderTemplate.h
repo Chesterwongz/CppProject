@@ -9,11 +9,12 @@
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
 #include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
 #include "pkb/interfaces/storage/relation_storage/IModifiesStorage.h"
-#include "pkb/storage/relation_storage/stmt_or_proc_to_var/ModifiesStorage.h"
+#include "pkb/storage/relation_storage/stmt_proc_to_var/ModifiesStorage.h"
 
 using std::unordered_set, std::string;
 
-class StmtOrProcToVarReaderTemplate {
+// TODO(Chester): Change this
+class StmtToStmtReaderTemplate {
  private:
   IStmtStorage& stmt_storage_;
   IEntityStorage& entity_storage_;
@@ -23,7 +24,7 @@ class StmtOrProcToVarReaderTemplate {
   virtual std::set<int> getStmtsRelatedToVar(const std::string& varName) = 0;
 
  public:
-  explicit StmtOrProcToVarReaderTemplate(IStmtStorage& stmt_storage,
+  explicit StmtToStmtReaderTemplate(IStmtStorage& stmt_storage,
                                          IEntityStorage& entity_storage)
       : stmt_storage_(stmt_storage), entity_storage_(entity_storage) {}
 

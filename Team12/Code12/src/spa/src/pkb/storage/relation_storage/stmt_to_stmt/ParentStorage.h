@@ -6,7 +6,7 @@
 
 #include "pkb/interfaces/storage/relation_storage/IParentStorage.h"
 
-class ParentStorage : public virtual IParentStorage {
+class ParentStorage : public IParentStorage {
  public:
   ParentStorage();
 

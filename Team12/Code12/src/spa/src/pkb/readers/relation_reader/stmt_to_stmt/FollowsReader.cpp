@@ -95,6 +95,9 @@ bool FollowsReader::isFollowsStar(int statementNumber, int followingStatement) {
   return allFollowsStar.find(followingStatement) != allFollowsStar.end();
 }
 
+// TODO(Chester): S1 (Major): DRY Violation (multiple instances). There are
+//  method implementation structures that have been
+// repeated.
 std::vector<std::pair<std::string, std::string>>
 FollowsReader::getFollowsStarPairs(StmtType statementType1,
                                    StmtType statementType2) {
