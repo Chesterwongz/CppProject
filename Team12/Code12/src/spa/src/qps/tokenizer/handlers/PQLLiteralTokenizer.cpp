@@ -13,6 +13,10 @@ PQLToken PQLLiteralTokenizer::tokenize(char nextCh, InputStream &inputStream) {
   }
   inputStream.read();
 
+  if (literal.empty()) {
+    throw CommonSyntaxError(QPS_TOKENIZATION_ERR_EMPTY_QUOTE);
+  }
+
   string trimmed = QPSStringUtils::trimString(std::move(literal));
 
   PQLTokenType type = QPSStringUtils::hasMoreThanOneWord(trimmed)
