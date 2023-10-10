@@ -19,7 +19,6 @@ class AssignPatternParserState : public BaseParserState {
   static const int WILDCARD_MATCH_COUNT = 1;
   static const size_t maxNumberOfArgs = 2;
 
-  bool isInBracket;
   bool isPartialMatch;
   int secondArgWildcardCount;
   unique_ptr<SynonymArg> synAssign;
