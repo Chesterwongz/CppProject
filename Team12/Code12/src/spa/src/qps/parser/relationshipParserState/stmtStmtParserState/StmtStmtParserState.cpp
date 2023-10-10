@@ -1,5 +1,7 @@
 #include "StmtStmtParserState.h"
 
+#include <utility>
+
 unordered_map<string, Abstraction>
     StmtStmtParserState::stmtStmtKeywordToAbstraction = {
         {FOLLOWS_ABSTRACTION, FOLLOWS_ENUM},
@@ -22,7 +24,8 @@ PredictiveMap StmtStmtParserState::predictiveMap = {
 
 StmtStmtParserState::StmtStmtParserState(PQLParserContext &parserContext,
                                          string abstraction, PQLTokenType prev)
-    : RelationshipParserState(parserContext, false, abstraction, prev),
+    : RelationshipParserState(parserContext, false, std::move(abstraction),
+                              prev),
       isSuccess(false) {}
 
 void StmtStmtParserState::checkIsStmtSynonym(const std::string &synonym) {
@@ -64,6 +67,10 @@ void StmtStmtParserState::handleToken() {
         break;
       case PQL_PATTERN_TOKEN:
         this->parserContext.transitionTo(std::make_unique<PatternParserState>(
+            parserContext, token.getType()));
+        return;
+      case PQL_SUCH_TOKEN:
+        this->parserContext.transitionTo(std::make_unique<SuchThatParserState>(
             parserContext, token.getType()));
         return;
       default:
