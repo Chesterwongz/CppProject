@@ -1,5 +1,7 @@
 #include "CFG.h"
 
+#include "pkb/utils/FunctionUtils.h"
+
 CFG::CFG() = default;
 
 CFG::CFG(unordered_map<int, unordered_set<int>> adjList,
@@ -32,11 +34,11 @@ unordered_set<int> CFG::getStmtsFromMap(
   return map.at(stmtNum);
 }
 
-unordered_set<int> CFG::getNextStmtsFrom(int stmtNum) const {
+unordered_set<int> CFG::getNextStmtsFrom(int stmtNum) {
   return getStmtsFromMap(adjList, stmtNum);
 }
 
-unordered_set<int> CFG::getPrevStmtsFrom(int stmtNum) const {
+unordered_set<int> CFG::getPrevStmtsFrom(int stmtNum) {
   return getStmtsFromMap(reversedAdjList, stmtNum);
 }
 
@@ -46,4 +48,21 @@ const unordered_map<int, unordered_set<int>> &CFG::getAdjList() const {
 
 const unordered_map<int, unordered_set<int>> &CFG::getReversedAdjList() const {
   return reversedAdjList;
+}
+
+unordered_set<int> CFG::getNextStarStmtFrom(int stmtNum) {
+  unordered_set<int> nextStarStmts =
+      FunctionUtils<int, CFG>::computeTransitiveRelationship(
+          stmtNum, &CFG::getNextStmtsFrom, cacheNextStar, this);
+  // TODO(Xiaoyun): update add transitive edges
+  cacheNextStar[stmtNum] = nextStarStmts;
+  return nextStarStmts;
+}
+
+unordered_set<int> CFG::getPrevStarStmtFrom(int stmtNum) {
+  unordered_set<int> prevStarStmts =
+      FunctionUtils<int, CFG>::computeTransitiveRelationship(
+          stmtNum, &CFG::getPrevStmtsFrom, cachePrevStar, this);
+  cachePrevStar[stmtNum] = prevStarStmts;
+  return prevStarStmts;
 }

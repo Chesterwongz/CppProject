@@ -2,16 +2,25 @@
 
 std::vector<std::pair<std::string, std::string>> NextReader::getNextPairs(
     StmtType firstStmtType, StmtType secondStmtType) {
-  std::vector<std::pair<std::string, std::string>> allNextPairs =
-      cfgStorage.getNextPairs();
+//  std::vector<std::pair<std::string, std::string>> allNextPairs =
+//      cfgStorage.getNextPairs();
+//  std::vector<std::pair<std::string, std::string>> result;
+//  for (std::pair<std::string, std::string> nextPair : allNextPairs) {
+//    bool isFirstStmtRightType =
+//        stmtStorage.isStatementType(stoi(nextPair.first), firstStmtType);
+//    bool isSecondStmtRightType =
+//        stmtStorage.isStatementType(stoi(nextPair.second), secondStmtType);
+//    if (isFirstStmtRightType && isSecondStmtRightType) {
+//      result.emplace_back(nextPair);
   std::vector<std::pair<std::string, std::string>> result;
-  for (std::pair<std::string, std::string> nextPair : allNextPairs) {
-    bool isFirstStmtRightType =
-        stmtStorage.isStatementType(stoi(nextPair.first), firstStmtType);
-    bool isSecondStmtRightType =
-        stmtStorage.isStatementType(stoi(nextPair.second), secondStmtType);
-    if (isFirstStmtRightType && isSecondStmtRightType) {
-      result.emplace_back(nextPair);
+  std::set<int> stmtsOfFirstType =
+      stmtStorage.getStatementNumbersFromStatementType(firstStmtType);
+
+  for (int first : stmtsOfFirstType) {
+    std::vector<std::string> nextStmtsOfFirst =
+        getNextStmtsFrom(first, secondStmtType);
+    for (const std::string& second : nextStmtsOfFirst) {
+      result.emplace_back(std::to_string(first), second);
     }
   }
   return result;
@@ -54,6 +63,20 @@ std::vector<std::string> NextReader::getNextStmtsFrom(int firstStmtNum,
   return getStmtsFrom(&ICfgStorage::getNextStmtsFrom, firstStmtNum,
                       secondStmtType);
 }
+
+std::vector<std::string> NextReader::getPrevStarStmtsFrom(
+    int stmtNum, StmtType firstStmtType) {
+  std::string proc = entityStorage.getProcFromStmt(stmtNum);
+  if (proc == common::INVALID_PROC_NAME) {
+    return {};
+  }
+  cfgStorage
+};
+
+std::vector<std::string> NextReader::getNextStarStmtsFrom(
+    int firstStmtNumber, StmtType secondStmtType) {
+  return {};
+};
 
 std::vector<std::pair<std::string, std::string>> NextReader::getNextStarPairs(
     StmtType firstStmtType, StmtType secondStmtType) {

@@ -20,6 +20,12 @@ class INextReader {
   virtual std::vector<std::string> getNextStmtsFrom(
       int firstStmtNumber, StmtType secondStmtType) = 0;
 
+  virtual std::vector<std::string> getPrevStarStmtsFrom(int secondStmtNumber,
+                                                StmtType firstStmtType) = 0;
+
+  virutal std::vector<std::string> getNextStarStmtsFrom(int firstStmtNumber,
+                                                StmtType secondStmtType) = 0;
+
   virtual std::vector<std::pair<std::string, std::string>> getNextStarPairs(
       StmtType firstStmtType, StmtType secondStmtType) = 0;
 

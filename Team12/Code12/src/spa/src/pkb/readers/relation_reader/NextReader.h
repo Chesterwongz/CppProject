@@ -40,6 +40,12 @@ class NextReader : public INextReader {
   std::vector<std::string> getNextStmtsFrom(int firstStmtNumber,
                                             StmtType secondStmtType) override;
 
+  std::vector<std::string> getPrevStarStmtsFrom(int secondStmtNumber,
+                                            StmtType firstStmtType) override;
+
+  std::vector<std::string> getNextStarStmtsFrom(int firstStmtNumber,
+                                            StmtType secondStmtType) override;
+
   std::vector<std::pair<std::string, std::string>> getNextStarPairs(
       StmtType firstStmtType, StmtType secondStmtType) override;
 
