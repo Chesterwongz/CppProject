@@ -12,8 +12,7 @@
 #include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
 #include "pkb/interfaces/storage/relation_storage/INextStorage.h"
 
-using GetStmtsFunction =
-    std::unordered_set<int> (INextStorage::*)(int);
+using GetStmtsFunction = std::unordered_set<int> (INextStorage::*)(int);
 
 class NextReader : public INextReader {
  private:

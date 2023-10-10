@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "common/AliasTypes.h"
 
 class CFG {
@@ -15,5 +17,4 @@ class CFG {
   void addEdge(int from, int to);
   bool operator==(const CFG& other) const;
   [[nodiscard]] const IntToIntSetMap& getAdjList() const;
-  [[nodiscard]] const IntToIntSetMap& getReversedAdjList() const;
 };

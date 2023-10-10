@@ -35,12 +35,14 @@ std::vector<std::string> NextReader::getStmtsFrom(GetStmtsFunction getStmtsFunc,
 
 std::vector<std::string> NextReader::getPrevStmts(int secondStmtNum,
                                                   StmtType firstStmtType) {
-  return getStmtsFrom(&INextStorage::getPrevStmts, secondStmtNum, firstStmtType);
+  return getStmtsFrom(&INextStorage::getPrevStmts, secondStmtNum,
+                      firstStmtType);
 }
 
 std::vector<std::string> NextReader::getNextStmts(int firstStmtNum,
                                                   StmtType secondStmtType) {
-  return getStmtsFrom(&INextStorage::getNextStmts, firstStmtNum, secondStmtType);
+  return getStmtsFrom(&INextStorage::getNextStmts, firstStmtNum,
+                      secondStmtType);
 }
 
 std::vector<std::string> NextReader::getPrevTStmts(int stmtNum,

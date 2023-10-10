@@ -16,7 +16,3 @@ bool CFG::operator==(const CFG& other) const {
 }
 
 const IntToIntSetMap& CFG::getAdjList() const { return adjList; }
-
-const IntToIntSetMap& CFG::getReversedAdjList() const {
-  return reversedAdjList;
-}
