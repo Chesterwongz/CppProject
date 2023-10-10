@@ -12,7 +12,7 @@
 template <typename T>
 class TokenStream {
  private:
-  int cursor;
+  int cursor{};
   std::optional<T> currToken;
   std::vector<T> tokenLst;
 
@@ -32,6 +32,10 @@ class TokenStream {
   }
 
  public:
+  TokenStream<T>() = default;
+  explicit TokenStream<T>(std::vector<T> tokenList)
+      : tokenLst(tokenList), cursor(0), currToken(tokenList[0]) {}
+
   static inline std::unique_ptr<TokenStream<T>> initialize(
       InputStream &inputStream, ITokenHandler<T> &tokenizerChain) {
     std::unique_ptr<TokenStream<T>> tokenStream =
@@ -71,10 +75,4 @@ class TokenStream {
                                              : std::nullopt;
     return temp;
   }
-
-//  // For testing only:
-//  TokenStream<T>(std::vector<T> tokenList)
-//      : tokenLst(tokenList), cursor(0), currToken(tokenList[0]) {}
-//
-//  TokenStream<T>() {}
 };

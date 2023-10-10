@@ -10,6 +10,9 @@ std::vector<std::pair<std::string, std::string>> CfgStorage::getNextPairs() {
   for (const auto& [procName, cfg] : procToCfgMap) {
     for (const auto& [firstStmtNum, secondStmtNums] : cfg->getAdjList()) {
       for (const auto& secondStmtNum : secondStmtNums) {
+        if (firstStmtNum < 0 || secondStmtNum < 0) {
+          continue;
+        }
         nextPairs.emplace_back(std::to_string(firstStmtNum),
                                std::to_string(secondStmtNum));
       }
