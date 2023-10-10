@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "ITokenHandler.h"
-#include "sp/exceptions/SyntaxError.h"
+#include "common/exceptions/CommonSyntaxError.h"
 
 /**
  * The default chaining behavior can be implemented inside a base handler class.
@@ -20,7 +20,7 @@ class BaseTokenizer : public ITokenHandler<T> {
     if (this->nextHandler) {
       return this->nextHandler->tokenize(nextCh, inputStream);
     }
-    throw SyntaxError(std::string(1, nextCh));
+    throw CommonSyntaxError(std::string(1, nextCh));
   };
 
   inline ITokenHandler<T> &setNext(

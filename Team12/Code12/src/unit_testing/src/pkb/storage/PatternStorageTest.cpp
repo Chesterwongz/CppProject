@@ -1,8 +1,8 @@
 #include <unordered_set>
 #include <catch.hpp>
 
-#include "../../../../spa/src/pkb/storage/PatternStorage.h"
 #include "../../common/utils/HelperFunctions.h"
+#include "pkb/storage/pattern_storage/PatternStorage.h"
 
 TEST_CASE("PatternStorage Tests") {
   PatternStorage patternStorage;
@@ -13,7 +13,7 @@ TEST_CASE("PatternStorage Tests") {
   patternStorage.setAssignPattern("x", " a 2 + ", 4);          // "a+2"
   patternStorage.setAssignPattern("x", " a b c * + ", 5);      // "a+b*c"
 
-  SECTION("setAssignPattern and getAllStatements") {
+  SECTION("setAssignPattern and getAllStmtUsingVar") {
     std::unordered_set<std::string> actual =
         convertStringVectorToUnorderedSet(patternStorage.getAllStatements());
     REQUIRE(actual == std::unordered_set<std::string>{"1", "2", "3", "4", "5"});

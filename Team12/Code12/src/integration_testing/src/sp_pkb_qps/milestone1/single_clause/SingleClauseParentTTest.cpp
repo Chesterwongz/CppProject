@@ -95,7 +95,7 @@ TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/ParentT_queries.txt - 4") {
   string query =
       "stmt s, S;\n"
-      "Select s such that Parent *(s,S)";
+      "Select s such that Parent*    (s,S)";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(parentStarSource, pkb.getWriter());

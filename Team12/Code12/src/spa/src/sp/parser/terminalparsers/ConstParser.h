@@ -4,8 +4,8 @@
 #include <string>
 #include <utility>
 
-#include "sp/ast/terminals/ConstNode.h"
 #include "common/parser/abstractparser/AbstractParser.h"
+#include "sp/ast/terminals/ConstNode.h"
 
 class ConstParser : public AbstractParser {
  public:

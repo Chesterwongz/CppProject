@@ -16,7 +16,8 @@ class StmtStmtParserState : public RelationshipParserState {
   void checkIsStmtSynonym(const string& synonym);
 
  public:
-  explicit StmtStmtParserState(PQLParserContext& parserContext);
+  explicit StmtStmtParserState(PQLParserContext& parserContext,
+                               string abstraction, PQLTokenType prev);
   void handleToken() override;
   ~StmtStmtParserState() override = default;
 };

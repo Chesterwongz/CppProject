@@ -5,8 +5,8 @@
 #include <utility>
 
 #include "ProcedureParser.h"
-#include "sp/ast/ProgramNode.h"
 #include "common/parser/abstractparser/AbstractParser.h"
+#include "sp/ast/ProgramNode.h"
 
 class ProgramParser : public AbstractParser {
  public:

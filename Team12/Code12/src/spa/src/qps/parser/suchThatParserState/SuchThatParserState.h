@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <utility>
 
 #include "qps/parser/BaseParserState.h"
 #include "qps/parser/PQLParserContext.h"
@@ -12,7 +13,8 @@ class SuchThatParserState : public BaseParserState {
   void processNameToken(PQLToken& curr) override;
 
  public:
-  explicit SuchThatParserState(PQLParserContext& parserContext);
+  explicit SuchThatParserState(PQLParserContext& parserContext,
+                               PQLTokenType prev);
   void handleToken() override;
   ~SuchThatParserState() override = default;
 };
