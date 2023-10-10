@@ -1,4 +1,5 @@
 #include "SelectClause.h"
+
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 
@@ -46,5 +47,16 @@ bool SelectClause::isEquals(const Clause &other) {
   const auto *otherSelect = dynamic_cast<const SelectClause *>(&other);
   if (!otherSelect) return false;
 
-  return this->synonymsToSelect == otherSelect->synonymsToSelect;
+  if (this->synonymsToSelect.size() != otherSelect->synonymsToSelect.size()) {
+    return false;
+  }
+
+  for (size_t i = 0; i < this->synonymsToSelect.size(); i++) {
+    if (this->synonymsToSelect.at(i)->getValue() !=
+        otherSelect->synonymsToSelect.at(i)->getValue()) {
+      return false;
+    }
+  }
+
+  return true;
 }

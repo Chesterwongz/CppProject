@@ -18,7 +18,8 @@ void Query::setSynonymToQuery(SynonymsToSelect selectSynonyms) {
   for (auto &synonymArg : selectSynonyms) {
     this->synonymsToQuery.emplace_back(synonymArg->getValue());
   }
-  unique_ptr<SelectClause> selectClause = std::make_unique<SelectClause>(std::move(selectSynonyms));
+  unique_ptr<SelectClause> selectClause =
+      std::make_unique<SelectClause>(std::move(selectSynonyms));
   this->addClause(std::move(selectClause));
 }
 
@@ -53,10 +54,15 @@ bool Query::operator==(const Query &other) {
   bool res = this->context->getMap() == other.context->getMap();
   if (!res) return res;
 
-  for (int i = 0; i < this->clauses.size(); i++) {
-    res = clauses.at(i)->isEquals(*(other.clauses.at(i)));
-    if (!res) return false;
+  if (this->synonymsToQuery != other.synonymsToQuery) {
+    return false;
   }
 
-  return res;
+  for (int i = 0; i < this->clauses.size(); i++) {
+    if (!clauses.at(i)->isEquals(*(other.clauses.at(i)))) {
+      return false;
+    }
+  }
+
+  return true;
 }
