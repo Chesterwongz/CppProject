@@ -8,7 +8,7 @@
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/relationshipParserState/RelationshipParserState.h"
 
-class ProcProcParserState : public  RelationshipParserState {
+class ProcProcParserState : public RelationshipParserState {
  private:
   static unordered_map<string, Abstraction> procProcKeywordToAbstraction;
   static PredictiveMap predictiveMap;
