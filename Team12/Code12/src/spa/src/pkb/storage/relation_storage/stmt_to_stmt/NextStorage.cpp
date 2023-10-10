@@ -82,4 +82,7 @@ std::vector<std::pair<int, int>> NextStorage::getNextPairs() {
   return nextPairs;
 }
 
-std::vector<std::pair<int, int>> NextStorage::getNextTPairs() { return {}; }
+void NextStorage::clearCache() {
+  nextTCache.clear();
+  prevTCache.clear();
+}

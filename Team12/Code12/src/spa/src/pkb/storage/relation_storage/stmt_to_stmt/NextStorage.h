@@ -32,5 +32,5 @@ class NextStorage : public INextStorage {
   bool isNext(int firstStmtNum, int secondStmtNum) override;
   bool isNextT(int firstStmtNum, int secondStmtNum) override;
   std::vector<std::pair<int, int>> getNextPairs() override;
-  std::vector<std::pair<int, int>> getNextTPairs() override;
+  void clearCache() override;
 };

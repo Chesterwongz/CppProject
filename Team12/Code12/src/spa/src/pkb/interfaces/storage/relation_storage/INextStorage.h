@@ -16,5 +16,5 @@ class INextStorage {
   virtual bool isNext(int firstStmtNum, int secondStmtNum) = 0;
   virtual bool isNextT(int firstStmtNum, int secondStmtNum) = 0;
   virtual std::vector<std::pair<int, int>> getNextPairs() = 0;
-  virtual std::vector<std::pair<int, int>> getNextTPairs() = 0;
+  virtual void clearCache() = 0;
 };

@@ -58,7 +58,20 @@ std::vector<std::string> NextReader::getNextTStmts(int firstStmtNumber,
 
 std::vector<std::pair<std::string, std::string>> NextReader::getNextTPairs(
     StmtType firstStmtType, StmtType secondStmtType) {
-  return {};
+  std::set<int> stmtsOfFirstType =
+      stmtStorage.getStatementNumbersFromStatementType(firstStmtType);
+  std::set<int> stmtsOfSecondType =
+      stmtStorage.getStatementNumbersFromStatementType(secondStmtType);
+
+  std::vector<std::pair<std::string, std::string>> result;
+  for (int first : stmtsOfFirstType) {
+    for (int second : stmtsOfSecondType) {
+      if (nextStorage.isNextT(first, second)) {
+        result.emplace_back(std::to_string(first), std::to_string(second));
+      }
+    }
+  }
+  return result;
 }
 
 bool NextReader::isNextT(int firstStmtNum, int secondStmtNum) { return false; }
