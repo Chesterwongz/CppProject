@@ -25,24 +25,28 @@ std::vector<std::pair<int, int>> CfgStorage::getNextPairs() {
   return nextPairs;
 }
 
-std::unordered_set<int> CfgStorage::getStmtsFrom(
-    std::unordered_set<int> (CFG::*cfgFunction)(int) const,
+IntSet CfgStorage::getStmtsFrom(
+    const IntToIntSetMap& (CFG::*cfgFunction)() const,
     const std::string& procName, int stmtNum) {
   if (procToCfgMap.find(procName) == procToCfgMap.end()) {
     return {};
   }
   const CFG& procCfg = *procToCfgMap.at(procName);
-  return (procCfg.*cfgFunction)(stmtNum);
+  const IntToIntSetMap& stmtToStmtSetMap = (procCfg.*cfgFunction)();
+  if (stmtToStmtSetMap.find(stmtNum) == stmtToStmtSetMap.end()) {
+    return {};
+  }
+  return stmtToStmtSetMap.at(stmtNum);
 }
 
-std::unordered_set<int> CfgStorage::getNextStmts(const std::string& procName,
+IntSet CfgStorage::getNextStmts(const std::string& procName,
                                                  int stmtNum) {
-  return getStmtsFrom(&CFG::getNextStmts, procName, stmtNum);
+  return getStmtsFrom(&CFG::getAdjList, procName, stmtNum);
 }
 
-std::unordered_set<int> CfgStorage::getPrevStmts(const std::string& procName,
+IntSet CfgStorage::getPrevStmts(const std::string& procName,
                                                  int stmtNum) {
-  return getStmtsFrom(&CFG::getPrevStmts, procName, stmtNum);
+  return getStmtsFrom(&CFG::getReversedAdjList, procName, stmtNum);
 }
 
 bool CfgStorage::isNext(const std::string& proc, int firstStmtNum,
@@ -50,20 +54,29 @@ bool CfgStorage::isNext(const std::string& proc, int firstStmtNum,
   if (procToCfgMap.find(proc) == procToCfgMap.end()) {
     return false;
   }
-  return procToCfgMap[proc]->isNext(firstStmtNum, secondStmtNum);
+  const IntToIntSetMap& adjList = procToCfgMap.at(proc)->getAdjList();
+  if (adjList.find(firstStmtNum) == adjList.end()) {
+    return false;
+  }
+  IntSet nextStmtsOfFirst = adjList.at(firstStmtNum);
+  return nextStmtsOfFirst.find(secondStmtNum) != nextStmtsOfFirst.end();
 }
-std::unordered_set<int> CfgStorage::getNextTStmts(const std::string& procName,
+IntSet CfgStorage::getNextTStmts(const std::string& procName,
                                                   int stmtNum) {
-  return std::unordered_set<int>();
+  return IntSet();
 }
-std::unordered_set<int> CfgStorage::getPrevTStmts(const std::string& procName,
+IntSet CfgStorage::getPrevTStmts(const std::string& procName,
                                                   int stmtNum) {
-  return std::unordered_set<int>();
+  return IntSet();
 }
 std::vector<std::pair<int, int>> CfgStorage::getNextTPairs() {
   return std::vector<std::pair<int, int>>();
 }
 bool CfgStorage::isNextT(const std::string& proc, int firstStmtNum,
                          int secondStmtNum) {
+  if (procToCfgMap.find(proc) == procToCfgMap.end()) {
+    return false;
+  }
   return false;
+//  return procToCfgMap[proc]->isNextT(firstStmtNum, secondStmtNum);
 }
