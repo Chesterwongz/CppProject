@@ -18,16 +18,20 @@ class CallsStorage {
   void setCallsStarRelationship(const string& caller, const string& callee);
 
   // return calleeNames that are directly called by caller
-  [[nodiscard]] unordered_set<string> getCalleeProcs(const string& caller) const;
+  [[nodiscard]] unordered_set<string> getCalleeProcs(
+      const string& caller) const;
 
   // return calleeNames that are directly or indirectly called by caller
-  [[nodiscard]] unordered_set<string> getCalleeProcsStar(const string& caller) const;
+  [[nodiscard]] unordered_set<string> getCalleeProcsStar(
+      const string& caller) const;
 
   // return callerNames that directly call callee
-  [[nodiscard]] unordered_set<string> getCallerProcs(const string& callee) const;
+  [[nodiscard]] unordered_set<string> getCallerProcs(
+      const string& callee) const;
 
   // return callerNames that indirectly call callee
-  [[nodiscard]] unordered_set<string> getCallerProcsStar(const string& callee) const;
+  [[nodiscard]] unordered_set<string> getCallerProcsStar(
+      const string& callee) const;
 
   bool isCalls(const string& caller, const string& callee);
   bool isCallsStar(const string& caller, const string& callee);
