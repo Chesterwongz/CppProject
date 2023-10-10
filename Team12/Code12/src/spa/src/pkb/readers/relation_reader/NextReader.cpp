@@ -2,7 +2,7 @@
 
 std::vector<std::pair<std::string, std::string>> NextReader::getNextPairs(
     StmtType firstStmtType, StmtType secondStmtType) {
-  std::vector<std::pair<int, int>> allNextPairs = cfgStorage.getNextPairs();
+  std::vector<std::pair<int, int>> allNextPairs = nextStorage.getNextPairs();
   std::vector<std::pair<std::string, std::string>> result;
   for (const auto& [first, second] : allNextPairs) {
     bool isFirstStmtRightType =
@@ -17,22 +17,12 @@ std::vector<std::pair<std::string, std::string>> NextReader::getNextPairs(
 }
 
 bool NextReader::isNext(int firstStmtNum, int secondStmtNum) {
-  std::string proc1 = entityStorage.getProcFromStmt(firstStmtNum);
-  std::string proc2 = entityStorage.getProcFromStmt(secondStmtNum);
-  if (proc1 == common::INVALID_PROC_NAME ||
-      proc2 == common::INVALID_PROC_NAME || proc1 != proc2) {
-    return false;
-  }
-  return cfgStorage.isNext(proc1, firstStmtNum, secondStmtNum);
+  return nextStorage.isNext(firstStmtNum, secondStmtNum);
 }
 
 std::vector<std::string> NextReader::getStmtsFrom(GetStmtsFunction getStmtsFunc,
                                                   int stmtNum, StmtType type) {
-  std::string proc = entityStorage.getProcFromStmt(stmtNum);
-  if (proc == common::INVALID_PROC_NAME) {
-    return {};
-  }
-  const auto& stmtNums = (cfgStorage.*getStmtsFunc)(proc, stmtNum);
+  const IntSet& stmtNums = (nextStorage.*getStmtsFunc)(stmtNum);
   std::vector<std::string> stmts;
   for (int num : stmtNums) {
     if (num != common::INVALID_STMT_NUM &&
@@ -45,26 +35,23 @@ std::vector<std::string> NextReader::getStmtsFrom(GetStmtsFunction getStmtsFunc,
 
 std::vector<std::string> NextReader::getPrevStmts(int secondStmtNum,
                                                   StmtType firstStmtType) {
-  return getStmtsFrom(&ICfgStorage::getPrevStmts, secondStmtNum, firstStmtType);
+  return getStmtsFrom(&INextStorage::getPrevStmts, secondStmtNum, firstStmtType);
 }
 
 std::vector<std::string> NextReader::getNextStmts(int firstStmtNum,
                                                   StmtType secondStmtType) {
-  return getStmtsFrom(&ICfgStorage::getNextStmts, firstStmtNum, secondStmtType);
+  return getStmtsFrom(&INextStorage::getNextStmts, firstStmtNum, secondStmtType);
 }
 
 std::vector<std::string> NextReader::getPrevTStmts(int stmtNum,
                                                    StmtType firstStmtType) {
-  std::string proc = entityStorage.getProcFromStmt(stmtNum);
-  if (proc == common::INVALID_PROC_NAME) {
-    return {};
-  }
-  return {};
+  return getStmtsFrom(&INextStorage::getPrevTStmts, stmtNum, firstStmtType);
 }
 
 std::vector<std::string> NextReader::getNextTStmts(int firstStmtNumber,
                                                    StmtType secondStmtType) {
-  return {};
+  return getStmtsFrom(&INextStorage::getNextTStmts, firstStmtNumber,
+                      secondStmtType);
 }
 
 std::vector<std::pair<std::string, std::string>> NextReader::getNextTPairs(

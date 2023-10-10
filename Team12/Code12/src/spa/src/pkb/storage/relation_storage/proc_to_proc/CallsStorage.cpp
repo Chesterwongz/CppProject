@@ -12,24 +12,22 @@ void CallsStorage::setCallsStarRelationship(const string& caller,
   calledByStarMap[callee].insert(caller);
 }
 
-unordered_set<string> CallsStorage::getCalleeProcs(
-    const string& procedure) const {
-  if (callsMap.find(procedure) == callsMap.end()) {
+unordered_set<string> CallsStorage::getCalleeProcs(const string& caller) {
+  if (callsMap.find(caller) == callsMap.end()) {
     return {};
   }
-  return callsMap.at(procedure);
+  return callsMap.at(caller);
 }
 
 unordered_set<string> CallsStorage::getCalleeProcsStar(
-    const string& procedure) const {
+    const string& procedure) {
   if (callsStarMap.find(procedure) == callsStarMap.end()) {
     return {};
   }
   return callsStarMap.at(procedure);
 }
 
-unordered_set<string> CallsStorage::getCallerProcs(
-    const string& procedure) const {
+unordered_set<string> CallsStorage::getCallerProcs(const string& procedure) {
   if (calledByMap.find(procedure) == calledByMap.end()) {
     return {};
   }
@@ -37,7 +35,7 @@ unordered_set<string> CallsStorage::getCallerProcs(
 }
 
 unordered_set<string> CallsStorage::getCallerProcsStar(
-    const string& procedure) const {
+    const string& procedure) {
   unordered_set<string> result;
   if (calledByStarMap.find(procedure) == calledByStarMap.end()) {
     return {};
@@ -86,8 +84,8 @@ void CallsStorage::computeCallsStar() {
   for (const auto& [caller, calleeSet] : callsMap) {
     unordered_set<string> transitiveCallees =
         FunctionUtils<string, CallsStorage, const string&>::
-            computeTransitiveRelationship(caller, &CallsStorage::getCalleeProcs,
-                                          callsStarMap, this);
+            computeTransitiveRelationshipWithMemo(
+                caller, &CallsStorage::getCalleeProcs, callsStarMap, this);
     for (const auto& callee : transitiveCallees) {
       setCallsStarRelationship(caller, callee);
     }

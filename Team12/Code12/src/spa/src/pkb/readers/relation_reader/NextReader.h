@@ -10,22 +10,23 @@
 #include "pkb/interfaces/storage/cfg_storage/ICfgStorage.h"
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
 #include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
+#include "pkb/interfaces/storage/relation_storage/INextStorage.h"
 
 using GetStmtsFunction =
-    std::unordered_set<int> (ICfgStorage::*)(const std::string&, int);
+    std::unordered_set<int> (INextStorage::*)(int);
 
 class NextReader : public INextReader {
  private:
-  ICfgStorage& cfgStorage;
+  INextStorage& nextStorage;
   IEntityStorage& entityStorage;
   IStmtStorage& stmtStorage;
   std::vector<std::string> getStmtsFrom(GetStmtsFunction getStmtsFunc,
                                         int stmtNum, StmtType type);
 
  public:
-  NextReader(ICfgStorage& cfgStorage, IEntityStorage& entityStorage,
+  NextReader(INextStorage& nextStorage, IEntityStorage& entityStorage,
              IStmtStorage& stmtStorage)
-      : cfgStorage(cfgStorage),
+      : nextStorage(nextStorage),
         entityStorage(entityStorage),
         stmtStorage(stmtStorage) {}
 

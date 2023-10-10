@@ -23,9 +23,9 @@ class FunctionUtils {
 
  public:
   using NeighborFunction =
-      unordered_set<ElementType> (ClassType::*)(ArgType) const;
+      unordered_set<ElementType> (ClassType::*)(ArgType);
 
-  static unordered_set<ElementType> computeTransitiveRelationship(
+  static unordered_set<ElementType> computeTransitiveRelationshipWithMemo(
       ArgType element, NeighborFunction getNeighbor,
       const unordered_map<ElementType, unordered_set<ElementType>>& cache,
       ClassType* instance) {
@@ -51,5 +51,22 @@ class FunctionUtils {
     }
     return visited;
   }
+  // ai-gen end
+
+  static unordered_set<ElementType> computeTransitiveRelationship(
+      ArgType element, NeighborFunction getNeighbor, ClassType* instance) {
+    unordered_set<ElementType> visited;
+    stack<ElementType> toVisit;
+    for (ElementType s : (instance->*getNeighbor)(element)) {
+      toVisit.push(s);
+    }
+    while (!toVisit.empty()) {
+      ElementType curr = toVisit.top();
+      toVisit.pop();
+      visited.insert(curr);
+      unordered_set<ElementType> directNbrs = (instance->*getNeighbor)(curr);
+      addToVisit(visited, toVisit, directNbrs);
+    }
+    return visited;
+  }
 };
-// ai-gen end

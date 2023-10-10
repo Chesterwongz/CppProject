@@ -12,6 +12,7 @@ void CFGExtractor::addEdgesToLine(int toLine) {
   while (!currLines.empty()) {
     int line = currLines.top();
     cfg->addEdge(line, toLine);
+    pkbWriter.addNext(line, toLine);
     currLines.pop();
   }
 }
@@ -66,6 +67,7 @@ void CFGExtractor::visitStmtList(const StmtListNode& node) {
   if (curr.decisionLine == common::INVALID_STMT_NUM) return;
 
   cfg->addEdge(curr.decisionLine, node.getStartLineNum());
+  pkbWriter.addNext(curr.decisionLine, node.getStartLineNum());
 }
 
 void CFGExtractor::postVisitStmtList(const StmtListNode& node) {
