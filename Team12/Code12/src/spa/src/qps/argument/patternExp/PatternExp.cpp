@@ -1,11 +1,14 @@
+#include "PatternExp.h"
+
 #include <string>
 
-#include "PatternExp.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
 string PatternExp::getValue() { return patternExpValue; }
 
-QPSStringUtils::ArgumentType PatternExp::getArgumentType() { return argumentType; }
+QPSStringUtils::ArgumentType PatternExp::getArgumentType() {
+  return argumentType;
+}
 
 bool PatternExp::isPatternExp() { return true; }
 
