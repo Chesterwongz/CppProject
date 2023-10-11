@@ -94,7 +94,7 @@ TEST_CASE(
   // synonym first arg, but select different while - return all while statments
   string query =
       "while w1, w2; variable d;\n"
-      "Select w1 pattern w2(d, _, _)";
+      "Select w1 pattern w2(d, _)";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(whileSource, pkb.getWriter());
@@ -144,7 +144,7 @@ TEST_CASE(
   // since a while statement that uses "huehue" DOES NOT exist
   string query =
       "while w1, w2;\n"
-      "Select w1 pattern w2(\"huehue\", _, _)";
+      "Select w1 pattern w2(\"huehue\", _)";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(whileSource, pkb.getWriter());
