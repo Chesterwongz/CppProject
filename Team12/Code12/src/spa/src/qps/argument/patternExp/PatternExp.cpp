@@ -13,8 +13,8 @@ QPSStringUtils::ArgumentType PatternExp::getArgumentType() {
 bool PatternExp::isPatternExp() { return true; }
 
 bool PatternExp::operator==(const AbstractArgument& other) const {
-  const auto* otherInteger = dynamic_cast<const PatternExp*>(&other);
-  if (!otherInteger) return false;
+  const auto* otherPatternExp = dynamic_cast<const PatternExp*>(&other);
+  if (!otherPatternExp) return false;
 
-  return this->patternExpValue == otherInteger->patternExpValue;
+  return this->patternExpValue == otherPatternExp->patternExpValue;
 }
