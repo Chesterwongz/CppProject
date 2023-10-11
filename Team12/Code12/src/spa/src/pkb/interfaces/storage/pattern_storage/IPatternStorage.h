@@ -11,11 +11,23 @@ class IPatternStorage {
   virtual void setAssignPattern(const std::string& variableName,
                                 const std::string& rpn,
                                 int statementNumber) = 0;
+  
+  virtual void setWhilePattern(int statementNumber,
+      const std::string& variableName) = 0;
 
-  virtual std::vector<std::string> getExactAssignPattern(
+  virtual void setIfPattern(int statementNumber,
+      const std::string& variableName) = 0;
+
+  virtual std::vector<std::pair<std::string, std::string>> getExactAssignPattern(
       const std::string& variableName, const std::string& rpn,
       bool isSynonym) = 0;
-  virtual std::vector<std::string> getPartialAssignPattern(
+  virtual std::vector<std::pair<std::string, std::string>> getPartialAssignPattern(
       const std::string& variableName, const std::string& rpn,
       bool isSynonym) = 0;
+
+  virtual std::vector<std::pair<std::string, std::string>> getWhilePattern(
+      const std::string& variableName) = 0;
+
+  virtual std::vector<std::pair<std::string, std::string>> getIfPattern(
+      const std::string& variableName) = 0;
 };

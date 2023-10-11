@@ -1,5 +1,5 @@
-#include <unordered_set>
 #include <catch.hpp>
+#include <unordered_set>
 
 #include "../../common/utils/HelperFunctions.h"
 #include "pkb/storage/pattern_storage/PatternStorage.h"
@@ -14,19 +14,23 @@ TEST_CASE("PatternStorage Tests") {
   patternStorage.setAssignPattern("x", " a b c * + ", 5);      // "a+b*c"
 
   SECTION("setAssignPattern and getAllStmtUsingVar") {
-    std::unordered_set<std::string> actual =
-        convertStringVectorToUnorderedSet(patternStorage.getAllStatements());
-    REQUIRE(actual == std::unordered_set<std::string>{"1", "2", "3", "4", "5"});
+    std::unordered_set<std::pair<std::string, std::string>> actual =
+        convertStringVectorToUnorderedSet(
+            patternStorage.getAllAssignStatements());
+    REQUIRE(actual ==
+            std::unordered_set<std::pair<std::string, std::string>>{
+                {"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}, {"5", "x"}});
   }
 
   SECTION("getAllStatementsWithVariable") {
-    REQUIRE(patternStorage.getAllStatementsWithVariable("x") ==
-            std::vector<std::string>{"1", "4", "5"});
-    REQUIRE(patternStorage.getAllStatementsWithVariable("y") ==
-            std::vector<std::string>{"2"});
-    REQUIRE(patternStorage.getAllStatementsWithVariable("z") ==
-            std::vector<std::string>{"3"});
-    REQUIRE(patternStorage.getAllStatementsWithVariable("w").empty());
+    REQUIRE(patternStorage.getAllAssignStatementsWithVariable("x") ==
+            std::vector<std::pair<std::string, std::string>>{
+                {"1", "x"}, {"4", "x"}, {"5", "x"}});
+    REQUIRE(patternStorage.getAllAssignStatementsWithVariable("y") ==
+            std::vector<std::pair<std::string, std::string>>{{"2", "y"}});
+    REQUIRE(patternStorage.getAllAssignStatementsWithVariable("z") ==
+            std::vector<std::pair<std::string, std::string>>{{"3", "y"}});
+    REQUIRE(patternStorage.getAllAssignStatementsWithVariable("w").empty());
   }
 
   SECTION("getExactAssignPattern") {

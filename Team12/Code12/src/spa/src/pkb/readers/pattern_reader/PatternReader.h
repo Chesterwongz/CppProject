@@ -17,11 +17,17 @@ class PatternReader : public virtual IPatternReader {
   explicit PatternReader(PatternStorage& storage) : pattern_storage_(storage) {}
 
  public:
-  std::vector<std::string> getExactAssignPattern(
+  std::vector<std::pair<std::string, std::string>> getExactAssignPattern(
       const std::string& variableName, const std::string& rpn,
       bool isSynonym) override;
 
-  std::vector<std::string> getPartialAssignPattern(
+  std::vector<std::pair<std::string, std::string>> getPartialAssignPattern(
       const std::string& variableName, const std::string& rpn,
       bool isSynonym) override;
+
+  std::vector<std::pair<std::string, std::string>> getWhilePattern(
+      const std::string& variableName) override;
+
+  std::vector<std::pair<std::string, std::string>> getIfPattern(
+      const std::string& variableName) override;
 };

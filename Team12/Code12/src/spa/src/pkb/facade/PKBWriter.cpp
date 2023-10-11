@@ -44,10 +44,16 @@ void PKBWriter::setAssignPattern(const std::string &variableName,
                                  const std::string &rpn, int statementNumber) {
   storage.setAssignPattern(variableName, rpn, statementNumber);
 }
-void PKBWriter::setWhilePattern(int statementNumber,
-                                const std::string &varName) {}
 
-void PKBWriter::setIfPattern(int statementNumber, const std::string &varName) {}
+void PKBWriter::setWhilePattern(int statementNumber,
+                                const std::string &variableName) {
+  storage.setWhilePattern(statementNumber, variableName);
+}
+
+void PKBWriter::setIfPattern(int statementNumber,
+                             const std::string &variableName) {
+  storage.setIfPattern(statementNumber, variableName);
+}
 
 void PKBWriter::setUsesRelationship(const string &variableName,
                                     const string &procName) {
