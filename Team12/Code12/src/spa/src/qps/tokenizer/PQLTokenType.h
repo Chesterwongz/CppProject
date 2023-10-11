@@ -68,6 +68,8 @@ enum PQLTokenType {
   // Pattern
   PQL_PATTERN_TOKEN,
   PQL_ASSIGN_PATTERN_TOKEN,
+  PQL_IF_PATTERN_TOKEN,
+  PQL_WHILE_PATTERN_TOKEN
 };
 
 extern unordered_map<string, PQLTokenType> keywordToTokenType;

@@ -1,9 +1,10 @@
 #include "PatternParserState.h"
 
 #include "qps/parser/patternParserState/assignPatternParserState/AssignPatternParserState.h"
+#include "qps/parser/patternParserState/ifPatternParserState/IfPatternParserState.h"
 
 PredictiveMap PatternParserState::predictiveMap = {
-    {PQL_PATTERN_TOKEN, {PQL_ASSIGN_PATTERN_TOKEN}}};
+    {PQL_PATTERN_TOKEN, {PQL_ASSIGN_PATTERN_TOKEN, PQL_IF_PATTERN_TOKEN}}};
 
 PatternParserState::PatternParserState(PQLParserContext& parserContext,
                                        PQLTokenType prev)
@@ -24,6 +25,8 @@ void PatternParserState::processSynonymToken(PQLToken& curr) {
 
   if (synType == ASSIGN_ENTITY) {
     curr.updateTokenType(PQL_ASSIGN_PATTERN_TOKEN);
+  } else if (synType == IF_ENTITY) {
+    curr.updateTokenType(PQL_IF_PATTERN_TOKEN);
   } else {
     throw QPSSemanticError(QPS_SEMANTIC_ERR_INVALID_PATTERN_SYN);
   }
@@ -38,6 +41,11 @@ void PatternParserState::handleToken() {
     switch (token.getType()) {
       case PQL_ASSIGN_PATTERN_TOKEN:
         parserContext.transitionTo(std::make_unique<AssignPatternParserState>(
+            parserContext, token.getType(),
+            std::make_unique<SynonymArg>(token.getValue())));
+        return;
+      case PQL_IF_PATTERN_TOKEN:
+        parserContext.transitionTo(std::make_unique<IfPatternParserState>(
             parserContext, token.getType(),
             std::make_unique<SynonymArg>(token.getValue())));
         return;

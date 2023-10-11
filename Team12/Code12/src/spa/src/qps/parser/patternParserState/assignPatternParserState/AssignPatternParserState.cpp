@@ -24,15 +24,6 @@ AssignPatternParserState::AssignPatternParserState(
       synAssign(std::move(synAssign)),
       secondArgWildcardCount(0) {}
 
-void AssignPatternParserState::processNameToken(PQLToken& curr) {
-  if (prev == PQL_OPEN_BRACKET_TOKEN) {
-    curr.updateTokenType(PQL_SYNONYM_TOKEN);
-  } else {
-    curr.updateTokenType(
-        PQLParserUtils::getTokenTypeFromKeyword(curr.getValue()));
-  }
-}
-
 void AssignPatternParserState::processSynonymToken(PQLToken& curr) {
   string synType = parserContext.getValidSynonymType(curr.getValue());
 
@@ -51,10 +42,10 @@ void AssignPatternParserState::processSynonymToken(PQLToken& curr) {
 void AssignPatternParserState::processLastArgument() {
   bool isWildcardMatch = patternArg.size() == SECOND_ARG &&
                          secondArgWildcardCount == WILDCARD_MATCH_COUNT;
-  bool isExactMatch = patternArg.size() == maxNumberOfArgs &&
+  bool isExactMatch = patternArg.size() == expectedNumberOfArgs &&
                       secondArgWildcardCount == EXACT_MATCH_COUNT;
   isPartialMatch = secondArgWildcardCount == PARTIAL_MATCH_COUNT &&
-                   patternArg.size() == maxNumberOfArgs;
+                   patternArg.size() == expectedNumberOfArgs;
 
   if (isWildcardMatch) {
     patternArg.push_back(std::move(std::make_unique<Wildcard>()));
@@ -69,7 +60,7 @@ bool AssignPatternParserState::checkSafeExit() {
   if (!synAssign) {
     throw QPSParserError(QPS_PARSER_ERR_SYN_ASSIGN_MISSING);
   }
-  if (patternArg.size() != maxNumberOfArgs) {
+  if (patternArg.size() != expectedNumberOfArgs) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
   return true;
@@ -114,8 +105,7 @@ void AssignPatternParserState::handleToken() {
         break;
       case PQL_LITERAL_REF_TOKEN:
         checkIsValidIdent(token.getValue());
-        patternArg.push_back(
-            std::move(std::make_unique<Ident>(token.getValue())));
+        patternArg.push_back(std::make_unique<Ident>(token.getValue()));
         break;
       case PQL_LITERAL_EXPRESSION_TOKEN:
         checkIsValidExpr(token.getValue());

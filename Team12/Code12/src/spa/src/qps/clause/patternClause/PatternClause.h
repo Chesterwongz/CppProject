@@ -26,6 +26,11 @@ class PatternClause : public Clause {
       : synonym(std::move(synonym)),
         patternArgsStream(std::move(patternArgsStream)),
         isPartialMatch(isPartialMatch) {}
+  explicit PatternClause(unique_ptr<AbstractArgument> synonym,
+                         PatternArgsStream patternArgsStream)
+      : synonym(std::move(synonym)),
+        patternArgsStream(std::move(patternArgsStream)),
+        isPartialMatch(false) {}
 
   IntermediateTable evaluate(Context& context, PKBReader& pkb) override;
   bool isEquals(const Clause& other) override;

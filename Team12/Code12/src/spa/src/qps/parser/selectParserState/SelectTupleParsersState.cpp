@@ -9,10 +9,6 @@ SelectTupleParsersState::SelectTupleParsersState(
     PQLParserContext& parserContext, PQLTokenType prev)
     : BaseParserState(parserContext, prev) {}
 
-void SelectTupleParsersState::processNameToken(PQLToken& curr) {
-  curr.updateTokenType(PQL_SYNONYM_TOKEN);
-}
-
 void SelectTupleParsersState::handleToken() {
   auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 

@@ -12,7 +12,6 @@ class SelectTupleParsersState : public BaseParserState {
  private:
   static PredictiveMap predictiveMap;
   vector<unique_ptr<AbstractArgument>> synonymsToSelect;
-  void processNameToken(PQLToken& curr) override;
 
  public:
   explicit SelectTupleParsersState(PQLParserContext& parserContext,

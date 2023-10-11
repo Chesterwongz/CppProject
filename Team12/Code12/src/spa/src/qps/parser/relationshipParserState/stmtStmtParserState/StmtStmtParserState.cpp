@@ -24,8 +24,7 @@ PredictiveMap StmtStmtParserState::predictiveMap = {
 StmtStmtParserState::StmtStmtParserState(PQLParserContext &parserContext,
                                          string abstraction, PQLTokenType prev)
     : RelationshipParserState(parserContext, false, std::move(abstraction),
-                              prev),
-      isSuccess(false) {}
+                              prev) {}
 
 void StmtStmtParserState::checkIsStmtSynonym(const std::string &synonym) {
   auto synType = parserContext.getValidSynonymType(synonym);

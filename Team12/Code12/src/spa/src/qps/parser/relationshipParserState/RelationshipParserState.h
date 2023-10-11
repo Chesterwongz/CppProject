@@ -16,8 +16,6 @@
 
 class RelationshipParserState : public BaseParserState {
  protected:
-  static constexpr int FIRST_ARG = 0;
-  static constexpr int SECOND_ARG = 1;
   static constexpr size_t expectedNumberOfArgs = 2;
 
   bool isInBracket;

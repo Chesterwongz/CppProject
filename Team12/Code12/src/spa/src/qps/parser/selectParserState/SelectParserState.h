@@ -11,8 +11,6 @@ class SelectParserState : public BaseParserState {
  private:
   static PredictiveMap predictiveMap;
 
-  void processNameToken(PQLToken& curr) override;
-
  public:
   explicit SelectParserState(PQLParserContext& parserContext,
                              PQLTokenType prev);
