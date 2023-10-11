@@ -3,6 +3,7 @@
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
+#include "qps/argument/patternExp/PatternExp.h"
 #include "qps/clause/patternClause/PatternClause.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/parser/patternParserState/PatternParserState.h"
@@ -119,7 +120,7 @@ void AssignPatternParserState::handleToken() {
       case PQL_LITERAL_EXPRESSION_TOKEN:
         checkIsValidExpr(token.getValue());
         patternArg.push_back(
-            std::move(std::make_unique<Ident>(token.getValue())));
+            std::move(std::make_unique<PatternExp>(token.getValue())));
         break;
       case PQL_SUCH_TOKEN:
         this->parserContext.transitionTo(std::make_unique<SuchThatParserState>(
