@@ -36,8 +36,8 @@ IntSet NextStorage::getPrevStmts(int stmtNum) {
 
 IntSet NextStorage::getNextTStmts(int stmtNum) {
   IntSet nextTStmts =
-      FunctionUtils<int, NextStorage>::computeTransitiveRelationshipWithMemo(
-          stmtNum, &NextStorage::getNextStmts, nextTCache, this);
+      FunctionUtils<int, NextStorage>::computeTransitiveRelationship(
+          stmtNum, &NextStorage::getNextStmts, this);
   for (int next : nextTStmts) {
     addNextT(stmtNum, next);
   }
