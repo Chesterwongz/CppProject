@@ -5,8 +5,8 @@
 #include <utility>
 
 #include "RelExprParser.h"
-#include "sp/ast/expressions/conditional/NotNode.h"
 #include "common/parser/abstractparser/AbstractParser.h"
+#include "sp/ast/expressions/conditional/NotNode.h"
 
 class CondExprParser : public AbstractParser {
  public:

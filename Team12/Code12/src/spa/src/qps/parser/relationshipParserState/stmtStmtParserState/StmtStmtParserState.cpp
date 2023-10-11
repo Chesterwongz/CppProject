@@ -1,5 +1,7 @@
 #include "StmtStmtParserState.h"
 
+#include <utility>
+
 unordered_map<string, Abstraction>
     StmtStmtParserState::stmtStmtKeywordToAbstraction = {
         {FOLLOWS_ABSTRACTION, FOLLOWS_ENUM},
@@ -10,7 +12,6 @@ unordered_map<string, Abstraction>
         {NEXT_STAR_ABSTRACTION, NEXT_STAR_ENUM}};
 
 PredictiveMap StmtStmtParserState::predictiveMap = {
-    {PQL_NULL_TOKEN, {PQL_STMT_STMT_TOKEN}},
     {PQL_STMT_STMT_TOKEN, {PQL_OPEN_BRACKET_TOKEN}},
     {PQL_OPEN_BRACKET_TOKEN,
      {PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_INTEGER_TOKEN}},
@@ -21,8 +22,11 @@ PredictiveMap StmtStmtParserState::predictiveMap = {
      {PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_INTEGER_TOKEN}},
     {PQL_CLOSE_BRACKET_TOKEN, startTokensOfAvailClauses}};
 
-StmtStmtParserState::StmtStmtParserState(PQLParserContext &parserContext)
-    : RelationshipParserState(parserContext, false), isSuccess(false) {}
+StmtStmtParserState::StmtStmtParserState(PQLParserContext &parserContext,
+                                         string abstraction, PQLTokenType prev)
+    : RelationshipParserState(parserContext, false, std::move(abstraction),
+                              prev),
+      isSuccess(false) {}
 
 void StmtStmtParserState::checkIsStmtSynonym(const std::string &synonym) {
   auto synType = parserContext.getValidSynonymType(synonym);
@@ -32,22 +36,12 @@ void StmtStmtParserState::checkIsStmtSynonym(const std::string &synonym) {
 }
 
 void StmtStmtParserState::handleToken() {
-  while (!this->tokenStream.isTokenStreamEnd()) {
-    auto &curr = tokenStream.getCurrentToken();
+  auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
-    if (curr.getType() == PQL_NAME_TOKEN) {
-      RelationshipParserState::processNameToken(curr);
-    }
+  while (curr.has_value()) {
+    PQLToken token = curr.value();
 
-    if (!PQLParserUtils::isExpectedToken(predictiveMap, prev, curr.getType())) {
-      throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
-    }
-
-    switch (curr.getType()) {
-      case PQL_STMT_STMT_TOKEN:
-        abstraction = curr.getValue();
-      case PQL_COMMA_TOKEN:
-        break;
+    switch (token.getType()) {
       case PQL_OPEN_BRACKET_TOKEN:
         isInBracket = true;
         break;
@@ -60,26 +54,31 @@ void StmtStmtParserState::handleToken() {
             std::move(arguments.at(SECOND_ARG))));
         break;
       case PQL_SYNONYM_TOKEN:
-        checkIsStmtSynonym(curr.getValue());
+        checkIsStmtSynonym(token.getValue());
         arguments.push_back(
-            std::move(std::make_unique<SynonymArg>(curr.getValue())));
+            std::move(std::make_unique<SynonymArg>(token.getValue())));
         break;
       case PQL_INTEGER_TOKEN:
         arguments.push_back(
-            std::move(std::make_unique<Integer>(curr.getValue())));
+            std::move(std::make_unique<Integer>(token.getValue())));
         break;
       case PQL_WILDCARD_TOKEN:
         arguments.push_back(std::move(std::make_unique<Wildcard>()));
         break;
       case PQL_PATTERN_TOKEN:
-        this->parserContext.transitionTo(
-            std::make_unique<PatternParserState>(parserContext));
+        this->parserContext.transitionTo(std::make_unique<PatternParserState>(
+            parserContext, token.getType()));
+        return;
+      case PQL_SUCH_TOKEN:
+        this->parserContext.transitionTo(std::make_unique<SuchThatParserState>(
+            parserContext, token.getType()));
         return;
       default:
-        throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr.getValue());
+        break;
     }
-    this->prev = curr.getType();
-    tokenStream.next();
+    this->prev = token.getType();
+
+    curr = parserContext.eatExpectedToken(prev, predictiveMap);
   }
   if (!isSuccess) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);

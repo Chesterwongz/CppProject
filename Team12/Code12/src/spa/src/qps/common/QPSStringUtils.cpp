@@ -47,7 +47,7 @@ bool QPSStringUtils::isInteger(string data) {
   return std::regex_match(data, integerPattern);
 }
 
-// used chat gpt for the algo, just changed variable names
+// used chatgpt for the algo, just changed variable names
 string QPSStringUtils::convertToRPN(string exp) {
   // shunting yard algo
 
@@ -87,4 +87,35 @@ string QPSStringUtils::convertToRPN(string exp) {
   rpnResult += " ";
 
   return rpnResult;
+}
+
+bool QPSStringUtils::isNameTokenChar(const char ch) {
+  return isalnum(ch) || ch == kAsterisks || ch == kHash;
+}
+
+bool QPSStringUtils::isNotQuoteEnd(const char ch) { return ch != '\"'; }
+
+string QPSStringUtils::trimString(const std::string s) {
+  auto begin = s.begin();
+  while (begin != s.end() && std::isspace(*begin)) ++begin;
+
+  auto end = s.end();
+  do {
+    --end;
+  } while (end != begin && std::isspace(*end));
+
+  return std::move(std::string(begin, end + 1));
+}
+
+bool QPSStringUtils::hasMoreThanOneWord(const std::string str) {
+  // Find the first word.
+  std::size_t firstWordPos = str.find_first_of(" \t\n\r");
+  if (firstWordPos == std::string::npos) {
+    // If no word separator is found, then there's only one word or no words.
+    return false;
+  }
+
+  // Find the second word.
+  std::size_t secondWordPos = str.find_first_not_of(" \t\n\r", firstWordPos);
+  return (secondWordPos != std::string::npos);
 }

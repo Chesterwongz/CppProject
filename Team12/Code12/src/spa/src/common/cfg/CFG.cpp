@@ -15,3 +15,35 @@ void CFG::addEdge(int from, int to) {
 bool CFG::operator==(const CFG &other) const {
   return adjList == other.adjList && reversedAdjList == other.reversedAdjList;
 }
+
+bool CFG::isNext(int firstStmtNum, int secondStmtNum) const {
+  if (adjList.find(firstStmtNum) == adjList.end()) {
+    return false;
+  }
+  unordered_set<int> nextStmtsOfFirst = adjList.at(firstStmtNum);
+  return nextStmtsOfFirst.find(secondStmtNum) != nextStmtsOfFirst.end();
+}
+
+unordered_set<int> CFG::getStmtsFromMap(
+    const unordered_map<int, unordered_set<int>> &map, int stmtNum) const {
+  if (map.find(stmtNum) == map.end()) {
+    return {};
+  }
+  return map.at(stmtNum);
+}
+
+unordered_set<int> CFG::getNextStmtsFrom(int stmtNum) const {
+  return getStmtsFromMap(adjList, stmtNum);
+}
+
+unordered_set<int> CFG::getPrevStmtsFrom(int stmtNum) const {
+  return getStmtsFromMap(reversedAdjList, stmtNum);
+}
+
+const unordered_map<int, unordered_set<int>> &CFG::getAdjList() const {
+  return adjList;
+}
+
+const unordered_map<int, unordered_set<int>> &CFG::getReversedAdjList() const {
+  return reversedAdjList;
+}

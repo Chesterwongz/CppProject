@@ -1,9 +1,9 @@
 #include <catch.hpp>
 
-#include "../../../../spa/src/pkb/storage/StatementStorage.h"
+#include "pkb/storage/entity_storage/StmtStorage.h"
 
-TEST_CASE("StatementStorage Tests") {
-  StatementStorage storage;
+TEST_CASE("StmtStorage Tests") {
+  StmtStorage storage;
 
   storage.setStatement(1, StmtType::IF);
   storage.setStatement(2, StmtType::IF);
@@ -23,7 +23,7 @@ TEST_CASE("StatementStorage Tests") {
             std::set<int>{});
   }
 
-  SECTION("getAllStatements") {
+  SECTION("getAllStmtUsingVar") {
     REQUIRE(storage.getAllStatements() == std::set<int>{1, 2, 3, 4, 5, 6});
   }
 

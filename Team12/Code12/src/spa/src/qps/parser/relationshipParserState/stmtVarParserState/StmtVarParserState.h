@@ -17,7 +17,8 @@ class StmtVarParserState : public RelationshipParserState {
   static void checkIsValidIdent(const string& ref);
 
  public:
-  explicit StmtVarParserState(PQLParserContext& parserContext);
+  explicit StmtVarParserState(PQLParserContext& parserContext,
+                              string abstraction, PQLTokenType prev);
   void handleToken() override;
   ~StmtVarParserState() override = default;
 };

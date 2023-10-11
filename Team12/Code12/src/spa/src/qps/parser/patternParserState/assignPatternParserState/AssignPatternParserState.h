@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "qps/argument/AbstractArgument.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/parser/BaseParserState.h"
 #include "qps/parser/PQLParserContext.h"
 
@@ -18,10 +19,9 @@ class AssignPatternParserState : public BaseParserState {
   static const int WILDCARD_MATCH_COUNT = 1;
   static const size_t maxNumberOfArgs = 2;
 
-  bool isInBracket;
   bool isPartialMatch;
   int secondArgWildcardCount;
-  unique_ptr<AbstractArgument> synAssign;
+  unique_ptr<SynonymArg> synAssign;
   static PredictiveMap predictiveMap;
   static PQLTokenType exitToken;
   vector<unique_ptr<AbstractArgument>> patternArg;
@@ -32,7 +32,9 @@ class AssignPatternParserState : public BaseParserState {
   static void checkIsValidExpr(const string& ref);
 
  public:
-  explicit AssignPatternParserState(PQLParserContext& parserContext);
+  explicit AssignPatternParserState(PQLParserContext& parserContext,
+                                    PQLTokenType prev,
+                                    unique_ptr<SynonymArg> synAssign);
   void handleToken() override;
   ~AssignPatternParserState() override = default;
 };

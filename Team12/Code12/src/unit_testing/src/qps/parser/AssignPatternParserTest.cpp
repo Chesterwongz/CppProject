@@ -2,13 +2,11 @@
 #include <vector>
 #include <catch.hpp>
 
-#include "pkb/facade/PKBReader.h"
+#include "PQLParserTestUtils.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/patternClause/PatternClause.h"
-#include "qps/parser/PQLParserContext.h"
-#include "qps/parser/declarativeParserState/DeclarativeParserState.h"
 #include "qps/query/Query.h"
 #include "qps/token/PQLToken.h"
 
@@ -29,19 +27,12 @@ TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_MATCH)") {
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  parserContext.handleTokens();
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
-  Query expected(pkbReader);
+  Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym("newa", ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
@@ -55,7 +46,7 @@ TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_MATCH)") {
       std::move(outerSynonym), std::move(patternArg), true);
   expected.addClause(std::move(patternClause));
 
-  bool res = query == expected;
+  bool res = *query == expected;
   REQUIRE(res);
 }
 
@@ -76,19 +67,11 @@ TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_EXPR_MATCH)") {
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
-
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  parserContext.handleTokens();
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
-  Query expected(pkbReader);
+  Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym("newa", ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
@@ -102,7 +85,7 @@ TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_EXPR_MATCH)") {
       std::move(outerSynonym), std::move(patternArg), true);
   expected.addClause(std::move(patternClause));
 
-  bool res = query == expected;
+  bool res = *query == expected;
   REQUIRE(res);
 }
 
@@ -128,19 +111,12 @@ TEST_CASE("Valid Pattern a (SYNONYM, PARTIAL_MATCH)") {
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  parserContext.handleTokens();
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
-  Query expected(pkbReader);
+  Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym(a1, ASSIGN_ENTITY);
   expectedContext->addSynonym(var1, VARIABLE_ENTITY);
@@ -155,7 +131,7 @@ TEST_CASE("Valid Pattern a (SYNONYM, PARTIAL_MATCH)") {
       std::move(outerSynonym), std::move(patternArg), true);
   expected.addClause(std::move(patternClause));
 
-  bool res = query == expected;
+  bool res = *query == expected;
   REQUIRE(res);
 }
 
@@ -181,19 +157,12 @@ TEST_CASE("Valid Pattern a (_, PARTIAL_MATCH)") {
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  parserContext.handleTokens();
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
-  Query expected(pkbReader);
+  Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym(a1, ASSIGN_ENTITY);
   expectedContext->addSynonym(var1, VARIABLE_ENTITY);
@@ -208,7 +177,7 @@ TEST_CASE("Valid Pattern a (_, PARTIAL_MATCH)") {
       std::move(outerSynonym), std::move(patternArg), true);
   expected.addClause(std::move(patternClause));
 
-  bool res = query == expected;
+  bool res = *query == expected;
   REQUIRE(res);
 }
 
@@ -232,19 +201,12 @@ TEST_CASE("Valid Pattern a (SYNONYM, EXACT_MATCH)") {
       PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  parserContext.handleTokens();
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
-  Query expected(pkbReader);
+  Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym(a1, ASSIGN_ENTITY);
   expectedContext->addSynonym(var1, VARIABLE_ENTITY);
@@ -259,7 +221,7 @@ TEST_CASE("Valid Pattern a (SYNONYM, EXACT_MATCH)") {
       std::move(outerSynonym), std::move(patternArg), false);
   expected.addClause(std::move(patternClause));
 
-  bool res = query == expected;
+  bool res = *query == expected;
   REQUIRE(res);
 }
 
@@ -284,17 +246,10 @@ TEST_CASE("Invalid Pattern a (SYNONYM, LEFT_PARTIAL_MATCH)") {
       PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  REQUIRE_THROWS_WITH(parserContext.handleTokens(),
-                      QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH);
+  REQUIRE_THROWS_WITH(
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH);
 }
 
 TEST_CASE("Invalid Pattern a (LITERAL_REF, RIGHT_PARTIAL_MATCH)") {
@@ -313,17 +268,10 @@ TEST_CASE("Invalid Pattern a (LITERAL_REF, RIGHT_PARTIAL_MATCH)") {
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  REQUIRE_THROWS_WITH(parserContext.handleTokens(),
-                      QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH);
+  REQUIRE_THROWS_WITH(
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH);
 }
 
 TEST_CASE("Invalid Pattern a (SYNONYM, PARTIAL_MATCH) - non variable synonym") {
@@ -348,17 +296,10 @@ TEST_CASE("Invalid Pattern a (SYNONYM, PARTIAL_MATCH) - non variable synonym") {
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  REQUIRE_THROWS_MATCHES(parserContext.handleTokens(), QPSSemanticError,
-                         Catch::Message(QPS_SEMANTIC_ERR_NOT_VAR_SYN));
+  REQUIRE_THROWS_MATCHES(
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPSSemanticError, Catch::Message(QPS_SEMANTIC_ERR_NOT_VAR_SYN));
 }
 
 TEST_CASE("Invalid Pattern a (LITERAL_REF, PARTIAL_MATCH) - integer entRef") {
@@ -383,17 +324,10 @@ TEST_CASE("Invalid Pattern a (LITERAL_REF, PARTIAL_MATCH) - integer entRef") {
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  REQUIRE_THROWS_MATCHES(parserContext.handleTokens(), QPSSyntaxError,
-                         Catch::Message(QPS_TOKENIZATION_ERR_IDENT));
+  REQUIRE_THROWS_MATCHES(
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPSSyntaxError, Catch::Message(QPS_TOKENIZATION_ERR_IDENT));
 }
 
 TEST_CASE("Invalid Pattern a (LITERAL_REF_, PARTIAL_MATCH) - invalid 1st arg") {
@@ -419,17 +353,10 @@ TEST_CASE("Invalid Pattern a (LITERAL_REF_, PARTIAL_MATCH) - invalid 1st arg") {
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  REQUIRE_THROWS_MATCHES(parserContext.handleTokens(), QPSSyntaxError,
-                         Catch::Message(QPS_TOKENIZATION_ERR_IDENT));
+  REQUIRE_THROWS_MATCHES(
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPSSyntaxError, Catch::Message(QPS_TOKENIZATION_ERR_IDENT));
 }
 
 TEST_CASE("Invalid Pattern a (SYNONYM, EXACT_EXPR_MATCH) - invalid expr") {
@@ -452,17 +379,10 @@ TEST_CASE("Invalid Pattern a (SYNONYM, EXACT_EXPR_MATCH) - invalid expr") {
       PQLToken(PQL_LITERAL_EXPRESSION_TOKEN, "+ x"),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  REQUIRE_THROWS_MATCHES(parserContext.handleTokens(), QPSSyntaxError,
-                         Catch::Message(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH));
+  REQUIRE_THROWS_MATCHES(
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPSSyntaxError, Catch::Message(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH));
 }
 
 TEST_CASE(
@@ -487,15 +407,8 @@ TEST_CASE(
       PQLToken(PQL_LITERAL_EXPRESSION_TOKEN, "5 + (x + y"),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  PQLTokenStream tokenStream(tokenList);
 
-  PKBStorage storage{};
-  PKBReader pkbReader(storage);
-  Query query(pkbReader);
-  PQLParserContext parserContext(tokenStream, query);
-  unique_ptr<DeclarativeParserState> declarativeParserState =
-      std::make_unique<DeclarativeParserState>(parserContext);
-  parserContext.transitionTo(std::move(declarativeParserState));
-  REQUIRE_THROWS_MATCHES(parserContext.handleTokens(), QPSSyntaxError,
-                         Catch::Message(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH));
+  REQUIRE_THROWS_MATCHES(
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPSSyntaxError, Catch::Message(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH));
 }
