@@ -1,8 +1,8 @@
 #include <catch.hpp>
 
-#include "IntermediateTableTestData.h"
 #include "IntermediateTableTestUtils.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
+#include "testData/StringTestData.h"
 
 TEST_CASE(
     "IntermediateTableFactory - buildIntermediateTable - "

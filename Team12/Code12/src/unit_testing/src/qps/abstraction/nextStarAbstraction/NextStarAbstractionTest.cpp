@@ -37,7 +37,7 @@ TEST_CASE("NextStarAbstraction - Next*(Synonym, Synonym)") {
   NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_NEXT_STAR_VECTORS);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_NEXT_STAR_VECTORS);
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
@@ -57,7 +57,7 @@ TEST_CASE("NextStarAbstraction - Next*(Synonym, Integer)") {
   NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_NEXT_STAR_FIRST_STMTS_2D);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_NEXT_STAR_FIRST_STMTS_2D);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
@@ -93,7 +93,7 @@ TEST_CASE("NextStarAbstraction - Next*(Synonym, Wildcard)") {
   NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_NEXT_STAR_COL_1);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_NEXT_STAR_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
@@ -111,7 +111,7 @@ TEST_CASE("NextStarAbstraction - Next*(Integer, Synonym)") {
 
   NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
-  REQUIRE(resultTable.getData() == MOCK_NEXT_STAR_SECOND_STMTS_2D);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_NEXT_STAR_SECOND_STMTS_2D);
 }
 
 TEST_CASE("NextStarAbstraction - Next*(Integer, Synonym)_no_next") {
@@ -208,7 +208,7 @@ TEST_CASE("NextStarAbstraction - Next*(Wildcard, Synonym)") {
   NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_NEXT_STAR_COL_2);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_NEXT_STAR_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
 }

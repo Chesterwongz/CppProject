@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 
-#include "../intermediateTable/IntermediateTableTestData.h"
 #include "../testUtils/argumentFactory/ArgumentFactory.h"
 #include "common/utils/StringUtils.h"
 #include "pkb/facade/PKBReader.h"
