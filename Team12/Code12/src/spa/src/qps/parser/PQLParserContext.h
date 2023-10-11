@@ -22,7 +22,8 @@ class PQLParserContext {
   unique_ptr<IParserState> currState;
 
   //  handling of TokenStream
-  static bool isExpectedToken(PQLTokenType curr, PQLTokenType prev, PredictiveMap& pm);
+  static bool isExpectedToken(PQLTokenType curr, PQLTokenType prev,
+                              PredictiveMap& pm);
 
  public:
   explicit PQLParserContext(unique_ptr<PQLTokenStream> tokenStream,

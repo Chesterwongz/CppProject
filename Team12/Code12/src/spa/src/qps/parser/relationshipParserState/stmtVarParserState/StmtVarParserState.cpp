@@ -16,12 +16,12 @@ PredictiveMap StmtVarParserState::predictiveMap = {
     {PQL_SYNONYM_TOKEN, {PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
     {PQL_WILDCARD_TOKEN, {PQL_CLOSE_BRACKET_TOKEN}},
     {PQL_LITERAL_REF_TOKEN, {PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
-    {PQL_INTEGER_TOKEN, {PQL_COMMA_TOKEN}}
-};
+    {PQL_INTEGER_TOKEN, {PQL_COMMA_TOKEN}}};
 
 StmtVarParserState::StmtVarParserState(PQLParserContext& parserContext,
                                        string abstraction, PQLTokenType prev)
-    : RelationshipParserState(parserContext, false, std::move(abstraction), prev),
+    : RelationshipParserState(parserContext, false, std::move(abstraction),
+                              prev),
       isSuccess(false) {}
 
 void StmtVarParserState::checkIsValidSynonym(const std::string& synonym,
@@ -57,7 +57,7 @@ void StmtVarParserState::handleToken() {
       case PQL_CLOSE_BRACKET_TOKEN:
         isInBracket = false;
         parserContext.addClause(std::move(createSuchThatClause(
-                getAbstractionType(abstraction, stmtVarKeywordToAbstraction))));
+            getAbstractionType(abstraction, stmtVarKeywordToAbstraction))));
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
       case PQL_SYNONYM_TOKEN:

@@ -4,8 +4,8 @@
 
 #include "qps/parser/BaseParserState.h"
 #include "qps/parser/PQLParserContext.h"
-#include "qps/parser/selectParserState/SelectTupleParsersState.h"
 #include "qps/parser/clauseTransitionParserState/ClauseTransitionParserState.h"
+#include "qps/parser/selectParserState/SelectTupleParsersState.h"
 
 class SelectParserState : public BaseParserState {
  private:

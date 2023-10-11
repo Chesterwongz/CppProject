@@ -19,8 +19,7 @@ PredictiveMap StmtStmtParserState::predictiveMap = {
     {PQL_WILDCARD_TOKEN, {PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
     {PQL_INTEGER_TOKEN, {PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
     {PQL_COMMA_TOKEN,
-     {PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_INTEGER_TOKEN}}
-};
+     {PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_INTEGER_TOKEN}}};
 
 StmtStmtParserState::StmtStmtParserState(PQLParserContext &parserContext,
                                          string abstraction, PQLTokenType prev)

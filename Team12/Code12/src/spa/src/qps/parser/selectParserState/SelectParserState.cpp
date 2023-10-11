@@ -1,8 +1,7 @@
 #include "SelectParserState.h"
 
 PredictiveMap SelectParserState::predictiveMap = {
-    {PQL_SELECT_TOKEN, {PQL_SYNONYM_TOKEN, PQL_LEFT_ANGLE_TOKEN}}
-};
+    {PQL_SELECT_TOKEN, {PQL_SYNONYM_TOKEN, PQL_LEFT_ANGLE_TOKEN}}};
 
 SelectParserState::SelectParserState(PQLParserContext& parserContext,
                                      PQLTokenType prev)

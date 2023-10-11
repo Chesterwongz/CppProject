@@ -3,8 +3,7 @@
 PredictiveMap SelectTupleParsersState::predictiveMap = {
     {PQL_LEFT_ANGLE_TOKEN, {PQL_SYNONYM_TOKEN}},
     {PQL_SYNONYM_TOKEN, {PQL_COMMA_TOKEN, PQL_RIGHT_ANGLE_TOKEN}},
-    {PQL_COMMA_TOKEN, {PQL_SYNONYM_TOKEN}}
-};
+    {PQL_COMMA_TOKEN, {PQL_SYNONYM_TOKEN}}};
 
 SelectTupleParsersState::SelectTupleParsersState(
     PQLParserContext& parserContext, PQLTokenType prev)

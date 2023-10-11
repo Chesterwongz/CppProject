@@ -13,8 +13,8 @@ PredictiveMap AssignPatternParserState::predictiveMap = {
     {PQL_LITERAL_EXPRESSION_TOKEN,
      {PQL_WILDCARD_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
     {PQL_COMMA_TOKEN,
-     {PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN, PQL_LITERAL_EXPRESSION_TOKEN}}
-};
+     {PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN,
+      PQL_LITERAL_EXPRESSION_TOKEN}}};
 
 AssignPatternParserState::AssignPatternParserState(
     PQLParserContext& parserContext, PQLTokenType prev,
