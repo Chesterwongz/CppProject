@@ -1,8 +1,8 @@
-#include <catch.hpp>
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <catch.hpp>
 
 #include "../mocks/MockCFG.h"
 #include "ExtractorUtils.h"
@@ -612,5 +612,40 @@ TEST_CASE("CFGExtractor - wiki code 6") {
   IntToIntSetMap expectedNext = {{1, {2}},  {2, {3}},   {3, {4, 7}}, {4, {5}},
                                  {5, {6}},  {6, {3}},   {7, {8, 9}}, {8, {10}},
                                  {9, {10}}, {10, {11}}, {11, {12}}};
+  REQUIRE(mockPKB.isNextEqual(expectedNext));
+}
+
+TEST_CASE("CFGExtractor - integration test") {
+  string input =
+      "procedure Next {"
+      "  read line1;"                                    // 1
+      "  if (line2 > line2)then {"                       // 2
+      "    while((line3 < line3)&& ( line3 == line3)){"  // 3
+      "      print line4;"                               // 4
+      "    }"
+      "    call Potato;"  // 5
+      "  } else {"
+      "  call Potato;"     // 6
+      "  assign = line7;"  // 7
+      "  }"
+      "  assign = line8;"  // 8
+      "}"
+      "procedure Potato {"
+      "  assign = line9;"  // 9
+      "}";
+  PKBStorage storage{};
+  MockPKBWriter mockPKB(storage);
+  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+
+  IntToIntSetMap expectedCfgNext = {
+      {1, {2}}, {2, {3, 6}}, {3, {4, 5}}, {4, {3}},
+      {5, {8}}, {6, {7}},    {7, {8}},    {8, {common::CFG_END_STMT_NUM}}};
+  IntToIntSetMap expectedCfgPotato = {{9, {common::CFG_END_STMT_NUM}}};
+  unordered_map<string, unique_ptr<CFG>> expected;
+  expected.emplace("Next", make_unique<MockCFG>(expectedCfgNext));
+  expected.emplace("Potato", make_unique<MockCFG>(expectedCfgPotato));
+  REQUIRE(mockPKB.isCFGEqual(expected));
+  IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 6}}, {3, {4, 5}}, {4, {3}},
+                                 {5, {8}}, {6, {7}},    {7, {8}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }

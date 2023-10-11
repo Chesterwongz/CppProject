@@ -25,8 +25,7 @@ std::vector<std::string> NextReader::getStmtsFrom(GetStmtsFunction getStmtsFunc,
   const IntSet& stmtNums = (nextStorage.*getStmtsFunc)(stmtNum);
   std::vector<std::string> stmts;
   for (int num : stmtNums) {
-    if (num != common::INVALID_STMT_NUM &&
-        stmtStorage.isStatementType(num, type)) {
+    if (stmtStorage.isStatementType(num, type)) {
       stmts.emplace_back(std::to_string(num));
     }
   }
