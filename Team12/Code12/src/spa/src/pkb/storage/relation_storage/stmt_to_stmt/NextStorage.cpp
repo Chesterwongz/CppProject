@@ -3,10 +3,8 @@
 NextStorage::NextStorage() = default;
 
 void NextStorage::addNext(int from, int to) {
-  if (to != common::CFG_END_STMT_NUM) {
-    nextStmts[from].insert(to);
-    prevStmts[to].insert(from);
-  }
+  nextStmts[from].insert(to);
+  prevStmts[to].insert(from);
 }
 
 void NextStorage::addNext(const std::unique_ptr<CFG>& cfg) {

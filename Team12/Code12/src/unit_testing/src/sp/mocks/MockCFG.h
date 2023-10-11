@@ -8,6 +8,5 @@
 
 class MockCFG : public CFG {
  public:
-  explicit MockCFG(IntToIntSetMap adjList, IntToIntSetMap reversedAdjList)
-      : CFG(std::move(adjList), std::move(reversedAdjList)){};
+  explicit MockCFG(IntToIntSetMap adjList) : CFG(std::move(adjList)){};
 };

@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "common/AliasTypes.h"
-#include "common/Constants.h"
 #include "common/cfg/CFG.h"
 #include "pkb/interfaces/storage/relation_storage/INextStorage.h"
 #include "pkb/utils/FunctionUtils.h"
