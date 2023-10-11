@@ -102,10 +102,10 @@ IntermediateTable ParentsAbstraction::handleSecondArgInteger() {
   string firstArgStmtSynonym = this->firstArgValue;
   StmtType firstArgStmtType = this->getFirstArgStmtType();
   int secondArgStmtNumber = stoi(this->secondArgValue);
-  vector<pair<string, string>> results;
 
   pair<string, string> immediateParent =
       pkb.getImmediateParentOf(secondArgStmtNumber, firstArgStmtType);
+
   if (immediateParent.first.empty() && immediateParent.second.empty()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }

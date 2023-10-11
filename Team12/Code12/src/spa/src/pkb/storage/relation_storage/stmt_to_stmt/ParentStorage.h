@@ -7,9 +7,17 @@
 #include "pkb/interfaces/storage/relation_storage/IParentStorage.h"
 
 class ParentStorage : public IParentStorage {
- public:
-  ParentStorage();
+ private:
+  // (statement number -> immediate children statement numbers)
+  std::unordered_map<int, std::set<int>> immediateSuccessorMap;
 
+  // (statement number -> all children statement numbers)
+  std::unordered_map<int, std::set<int>> successorMap;
+
+  // (child statement number -> parents statement numbers)
+  std::unordered_map<int, std::set<int>> ancestorMap;
+
+ public:
   // Setter for parent relationship
   void setParent(int statementNumber, int childStatement) override;
 
@@ -33,14 +41,4 @@ class ParentStorage : public IParentStorage {
 
   // Return all statements that are a children of some statement in the program
   std::set<int> getAllChildren();
-
- private:
-  // (statement number -> immediate children statement numbers)
-  std::unordered_map<int, std::set<int>> immediateChildrenOf;
-
-  // (statement number -> all children statement numbers)
-  std::unordered_map<int, std::set<int>> childrenOf;
-
-  // (child statement number -> parents statement numbers)
-  std::unordered_map<int, std::set<int>> parentsOf;
 };

@@ -1,34 +1,32 @@
 #include "ParentStorage.h"
 
-ParentStorage::ParentStorage() = default;
-
 void ParentStorage::setParent(int statementNumber, int childStatement) {
-  immediateChildrenOf[statementNumber].insert(childStatement);
-  parentsOf[childStatement].insert(statementNumber);
+  immediateSuccessorMap[statementNumber].insert(childStatement);
+  ancestorMap[childStatement].insert(statementNumber);
 }
 
 void ParentStorage::setParentStar(int statementNumber, int childStatement) {
-  childrenOf[statementNumber].insert(childStatement);
-  parentsOf[childStatement].insert(statementNumber);
+  successorMap[statementNumber].insert(childStatement);
+  ancestorMap[childStatement].insert(statementNumber);
 }
 
 std::set<int> ParentStorage::getAllChildren(int statementNumber) {
-  if (childrenOf.find(statementNumber) == childrenOf.end()) {
+  if (successorMap.find(statementNumber) == successorMap.end()) {
     return {};
   }
-  return childrenOf[statementNumber];
+  return successorMap[statementNumber];
 }
 
 std::set<int> ParentStorage::getAllParents(int statementNumber) {
-  if (parentsOf.find(statementNumber) == parentsOf.end()) {
+  if (ancestorMap.find(statementNumber) == ancestorMap.end()) {
     return {};
   }
-  return parentsOf[statementNumber];
+  return ancestorMap[statementNumber];
 }
 
 std::set<int> ParentStorage::getAllParents() {
   std::set<int> allParents;
-  for (const auto& entry : childrenOf) {
+  for (const auto& entry : successorMap) {
     allParents.insert(entry.first);
   }
   return allParents;
@@ -36,22 +34,23 @@ std::set<int> ParentStorage::getAllParents() {
 
 std::set<int> ParentStorage::getAllChildren() {
   std::set<int> allChildren;
-  for (const auto& entry : parentsOf) {
+  for (const auto& entry : ancestorMap) {
     allChildren.insert(entry.first);
   }
   return allChildren;
 }
 
 std::set<int> ParentStorage::getImmediateChildren(int statementNumber) {
-  if (immediateChildrenOf.find(statementNumber) == immediateChildrenOf.end()) {
+  if (immediateSuccessorMap.find(statementNumber) ==
+      immediateSuccessorMap.end()) {
     return {};
   }
-  return immediateChildrenOf[statementNumber];
+  return immediateSuccessorMap[statementNumber];
 }
 
 int ParentStorage::getImmediateParent(int statementNumber) {
-  if (parentsOf.find(statementNumber) == parentsOf.end()) {
+  if (ancestorMap.find(statementNumber) == ancestorMap.end()) {
     return -1;
   }
-  return *parentsOf[statementNumber].rbegin();
+  return *ancestorMap[statementNumber].rbegin();
 }
