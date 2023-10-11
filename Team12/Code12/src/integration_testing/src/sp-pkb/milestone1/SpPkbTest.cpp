@@ -75,10 +75,9 @@ void validateUses(PKBReader &reader, StrStrPairSet &expectedUsesPairs) {
   REQUIRE(actualUsesPairs == expectedUsesPairs);
 }
 
-bool isAssignResultMatch(vector<string> actual,
-                         unordered_set<string> expected) {
-  unordered_set<string> actualSet = {actual.begin(), actual.end()};
-  return actualSet == expected;
+bool isAssignResultMatch(vector<pair<string, string>> actual,
+    vector<pair<string, string>> expected) {
+  return actual == expected;
 }
 
 TEST_CASE("SP-PKB integration - Non-nesting statements") {
@@ -109,7 +108,7 @@ TEST_CASE("SP-PKB integration - Non-nesting statements") {
   StrStrPairSet expectedParentChildStarPairs = {};
   StrStrPairSet expectedModifiesPairs = {{"1", "num1"}, {"3", "x"}};
   StrStrPairSet expectedUsesPairs = {{"2", "num2"}, {"3", "num1"}};
-  unordered_set<string> expectedAssignPatternStmts = {"3"};
+  vector<pair<string, string>> expectedAssignPatternStmts = std::vector<std::pair<std::string, std::string>>{ {"3", "x"} };
   validateEntities(reader, expectedVars, expectedConstants, expectedProcedures,
                    expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
                    expectedCallStmts, expectedWhileStmts, expectedIfStmts);
@@ -174,7 +173,7 @@ TEST_CASE("SP-PKB integration - if statement") {
   StrStrPairSet expectedUsesPairs = {{"2", "x"}, {"3", "num1"}, {"3", "num2"},
                                      {"5", "y"}, {"3", "y"},    {"4", "z"},
                                      {"3", "z"}};
-  unordered_set<string> expectedAssignPatternStmts = {"5"};
+  std::vector<std::pair<std::string, std::string>> expectedAssignPatternStmts = {"5"};
   validateEntities(reader, expectedVars, expectedConstants, expectedProcedures,
                    expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
                    expectedCallStmts, expectedWhileStmts, expectedIfStmts);
@@ -246,7 +245,7 @@ TEST_CASE("SP-PKB integration - if in while statements") {
   StrStrPairSet expectedUsesPairs = {
       {"3", "x"}, {"3", "y"}, {"4", "x"}, {"4", "y"}, {"5", "y"},
       {"3", "w"}, {"4", "w"}, {"6", "w"}, {"3", "z"}, {"7", "z"}};
-  unordered_set<string> expectedAssignPatternStmts = {"5"};
+  std::vector<std::pair<std::string, std::string>> expectedAssignPatternStmts = {"5"};
   validateEntities(reader, expectedVars, expectedConstants, expectedProcedures,
                    expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
                    expectedCallStmts, expectedWhileStmts, expectedIfStmts);
@@ -606,7 +605,7 @@ TEST_CASE("SP-PKB integration - assign pattern with all operators") {
   set<string> expectedProcedures = {"simple"};
   set<string> expectedReadStmts = {"1", "2", "3", "4", "5", "6"};
   set<string> expectedPrintStmts = {};
-  set<string> expectedAssignStmts = {"7",  "8",  "9",  "10", "11", "12", "13",
+  std::vector<std::pair<std::string, std::string>> expectedAssignStmts = {"7",  "8",  "9",  "10", "11", "12", "13",
                                      "14", "15", "16", "17", "18", "19", "20"};
   set<string> expectedCallStmts = {};
   set<string> expectedWhileStmts = {};
@@ -805,7 +804,7 @@ TEST_CASE(
   set<string> expectedProcedures = {"nestedWhile"};
   set<string> expectedReadStmts = {"1", "2", "3", "4", "5", "6"};
   set<string> expectedPrintStmts = {"22", "23", "24", "25", "26", "27", "28"};
-  set<string> expectedAssignStmts = {"7",  "9",  "11", "12", "14",
+  std::vector<std::pair<std::string, std::string>> expectedAssignStmts = {"7",  "9",  "11", "12", "14",
                                      "15", "18", "19", "20", "21"};
   set<string> expectedCallStmts = {};
   set<string> expectedWhileStmts = {"8", "13", "17"};
@@ -896,7 +895,7 @@ TEST_CASE(
   validateUses(reader, expectedUsesPairs);
   REQUIRE(isAssignResultMatch(
       reader.getExactAssignPattern("x", " a b c * + d e / f % - ", false),
-      unordered_set<string>{"7"}));
+      std::vector<std::pair<std::string, std::string>>{ {"7", "x"}}));
   REQUIRE(isAssignResultMatch(
       reader.getExactAssignPattern("y", " a b + c d - * e f % / ", false),
       unordered_set<string>{"9"}));

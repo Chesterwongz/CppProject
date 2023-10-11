@@ -3,7 +3,7 @@
 #include "common/utils/StringUtils.h"
 #include "qps/common/Keywords.h"
 
-vector<string> AssignEvaluator::processArguments() {
+vector<std::pair<string, string>> AssignEvaluator::processArguments() {
   string firstArgValue = patternArgsStream[0]->getValue();
   string secondArgValue = patternArgsStream[1]->getValue();
 
@@ -18,7 +18,7 @@ vector<string> AssignEvaluator::processArguments() {
     secondArgRPNValue = QPSStringUtils::convertToRPN(secondArgValue);
   }
 
-  vector<string> pkbResult;
+  vector<std::pair<string, string>> pkbResult;
 
   if (isPartialMatch) {
     pkbResult = pkbReader.getPartialAssignPattern(
@@ -31,7 +31,7 @@ vector<string> AssignEvaluator::processArguments() {
   return pkbResult;
 }
 
-IntermediateTable AssignEvaluator::buildResultTable(vector<string> pkbResult) {
+IntermediateTable AssignEvaluator::buildResultTable(vector<std::pair<string, string>> pkbResult) {
   bool isFirstArgSynonym = patternArgsStream[0]->isSynonym();
 
   string firstArgValue = patternArgsStream[0]->getValue();

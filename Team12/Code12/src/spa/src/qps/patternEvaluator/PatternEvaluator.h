@@ -34,7 +34,7 @@ class PatternEvaluator {
         isPartialMatch(isPartialMatch),
         synonymValue(synonymValue) {}
   virtual IntermediateTable evaluate();
-  virtual vector<string> processArguments() = 0;
-  virtual IntermediateTable buildResultTable(vector<string> pkbResult) = 0;
+  virtual vector<std::pair<string, string>> processArguments() = 0;
+  virtual IntermediateTable buildResultTable(vector<std::pair<string, string>> pkbResult) = 0;
   virtual ~PatternEvaluator() = default;
 };

@@ -70,7 +70,7 @@ TEST_CASE("test_PatternClause_evaluate_synonymFirstArg") {
   mockPkbReader.resetMockPartialAssignPatternStmts();
 
   vector<string> mockExactAssignPatternStmts = {"1", "2", "3"};
-  mockPkbReader.mockExactAssignPattern = mockExactAssignPatternStmts;
+  //mockPkbReader.mockExactAssignPattern = mockExactAssignPatternStmts;
   vector<pair<string, string>> mockModifiedPairs = {
       {"1", "a"}, {"3", "b"}, {"5", "c"}};
   mockPkbReader.mockAllModifiedVariables = mockModifiedPairs;
@@ -114,7 +114,7 @@ TEST_CASE("test_PatternClause_evaluate_identFirstArg") {
   mockPkbReader.resetMockPartialAssignPatternStmts();
 
   vector<string> mockExactAssignPatternStmts = {"3"};
-  mockPkbReader.mockExactAssignPattern = mockExactAssignPatternStmts;
+  //mockPkbReader.mockExactAssignPattern = mockExactAssignPatternStmts;
   vector<pair<string, string>> mockModifiedPairs = {
       {"1", "a"}, {"3", "b"}, {"5", "c"}};
   mockPkbReader.mockAllModifiedVariables = mockModifiedPairs;

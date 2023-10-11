@@ -11,3 +11,13 @@ PatternReader::getPartialAssignPattern(const std::string& variableName,
                                        const std::string& rpn, bool isSynonym) {
   return pattern_storage_.getPartialAssignPattern(variableName, rpn, isSynonym);
 }
+
+std::vector<std::pair<std::string, std::string>> PatternReader::getWhilePattern(
+    const std::string& variableName) {
+  return pattern_storage_.getWhilePattern(variableName);
+}
+
+std::vector<std::pair<std::string, std::string>> PatternReader::getIfPattern(
+    const std::string& variableName) {
+  return pattern_storage_.getIfPattern(variableName);
+}

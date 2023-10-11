@@ -14,11 +14,10 @@ TEST_CASE("PatternStorage Tests") {
   patternStorage.setAssignPattern("x", " a b c * + ", 5);      // "a+b*c"
 
   SECTION("setAssignPattern and getAllStmtUsingVar") {
-    std::unordered_set<std::pair<std::string, std::string>> actual =
-        convertStringVectorToUnorderedSet(
-            patternStorage.getAllAssignStatements());
+    std::vector<std::pair<std::string, std::string>> actual =
+        patternStorage.getAllAssignStatements();
     REQUIRE(actual ==
-            std::unordered_set<std::pair<std::string, std::string>>{
+            std::vector<std::pair<std::string, std::string>>{
                 {"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}, {"5", "x"}});
   }
 
@@ -34,63 +33,76 @@ TEST_CASE("PatternStorage Tests") {
   }
 
   SECTION("getExactAssignPattern") {
-    std::unordered_set<std::string> actual1 = convertStringVectorToUnorderedSet(
-        patternStorage.getExactAssignPattern("x", " a b c * + ", false));
-    REQUIRE(actual1 == std::unordered_set<std::string>{"1", "5"});
-    std::unordered_set<std::string> actual2 = convertStringVectorToUnorderedSet(
-        patternStorage.getExactAssignPattern("x", " a b c * + ", true));
+    std::vector<std::pair<std::string, std::string>> actual1 =
+        patternStorage.getExactAssignPattern("x", " a b c * + ", false);
+    REQUIRE(actual1 == std::vector<std::pair<std::string, std::string>>{
+                           {"1", "x"}, {"5", "x"}});
+    std::vector<std::pair<std::string, std::string>> actual2 =
+        patternStorage.getExactAssignPattern("x", " a b c * + ", true);
     REQUIRE(patternStorage.getExactAssignPattern("x", "b", false).empty());
-    std::unordered_set<std::string> actual3 = convertStringVectorToUnorderedSet(
-        patternStorage.getExactAssignPattern("y", " d e + f + ", false));
-    REQUIRE(actual3 == std::unordered_set<std::string>{"2"});
-    std::unordered_set<std::string> actual4 = convertStringVectorToUnorderedSet(
-        patternStorage.getExactAssignPattern("z", " a b c * + ", false));
+    std::vector<std::pair<std::string, std::string>> actual3 =
+        patternStorage.getExactAssignPattern("y", " d e + f + ", false);
+    REQUIRE(actual3 ==
+            std::vector<std::pair<std::string, std::string>>{{"2", "y"}});
+    std::vector<std::pair<std::string, std::string>> actual4 =
+        patternStorage.getExactAssignPattern("z", " a b c * + ", false);
     REQUIRE(actual4.empty());
-    std::unordered_set<std::string> actual5 = convertStringVectorToUnorderedSet(
-        patternStorage.getExactAssignPattern("v", " a b c * + ", true));
-    REQUIRE(actual5 == std::unordered_set<std::string>{"1", "5"});
-    std::unordered_set<std::string> actual6 = convertStringVectorToUnorderedSet(
-        patternStorage.getExactAssignPattern("_", "_", false));
+    std::vector<std::pair<std::string, std::string>> actual5 =
+        patternStorage.getExactAssignPattern("v", " a b c * + ", true);
+    REQUIRE(actual5 == std::vector<std::pair<std::string, std::string>>{
+                           {"1", "x"}, {"5", "x"}});
+    std::vector<std::pair<std::string, std::string>> actual6 =
+        patternStorage.getExactAssignPattern("_", "_", false);
     REQUIRE(actual6 ==
-            std::unordered_set<std::string>{"1", "2", "3", "4", "5"});
-    std::unordered_set<std::string> actual7 = convertStringVectorToUnorderedSet(
-        patternStorage.getExactAssignPattern("x", "_", false));
-    REQUIRE(actual7 == std::unordered_set<std::string>{"1", "4", "5"});
-    std::unordered_set<std::string> actual8 = convertStringVectorToUnorderedSet(
-        patternStorage.getExactAssignPattern("_", " a b c * + ", false));
-    REQUIRE(actual8 == std::unordered_set<std::string>{"1", "5"});
+            std::vector<std::pair<std::string, std::string>>{
+                {"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}, {"5", "x"}});
+    std::vector<std::pair<std::string, std::string>> actual7 =
+        patternStorage.getExactAssignPattern("x", "_", false);
+    REQUIRE(actual7 == std::vector<std::pair<std::string, std::string>>{
+                           {"1", "x"}, {"4", "x"}, {"5", "x"}});
+    std::vector<std::pair<std::string, std::string>> actual8 =
+        patternStorage.getExactAssignPattern("_", " a b c * + ", false);
+    REQUIRE(actual8 == std::vector<std::pair<std::string, std::string>>{
+                           {"1", "x"}, {"5", "x"}});
   }
 
   SECTION("getPartialAssignPattern") {
-  std:
-    unordered_set<std::string> actual1 = convertStringVectorToUnorderedSet(
-        patternStorage.getPartialAssignPattern("x", " a b c * + ", false));
-    REQUIRE(actual1 == std::unordered_set<std::string>{"1", "5"});
-    std::unordered_set<std::string> actual2 = convertStringVectorToUnorderedSet(
-        patternStorage.getPartialAssignPattern("x", " 2 ", false));
-    REQUIRE(actual2 == std::unordered_set<std::string>{"4"});
-    std::unordered_set<std::string> actual3 = convertStringVectorToUnorderedSet(
-        patternStorage.getPartialAssignPattern("x", " 3 ", false));
+    std::vector<std::pair<std::string, std::string>> actual1 =
+        patternStorage.getPartialAssignPattern("x", " a b c * + ", false);
+    REQUIRE(actual1 == std::vector<std::pair<std::string, std::string>>{
+                           {"1", "x"}, {"5", "x"}});
+    std::vector<std::pair<std::string, std::string>> actual2 =
+        patternStorage.getPartialAssignPattern("x", " 2 ", false);
+    REQUIRE(actual2 ==
+            std::vector<std::pair<std::string, std::string>>{{"4", "x"}});
+    std::vector<std::pair<std::string, std::string>> actual3 =
+        patternStorage.getPartialAssignPattern("x", " 3 ", false);
     REQUIRE(actual3.empty());
-    std::unordered_set<std::string> actual4 = convertStringVectorToUnorderedSet(
-        patternStorage.getPartialAssignPattern("y", " f ", false));
-    REQUIRE(actual4 == std::unordered_set<std::string>{"2"});
-    std::unordered_set<std::string> actual5 = convertStringVectorToUnorderedSet(
-        patternStorage.getPartialAssignPattern("_", " a ", false));
-    REQUIRE(actual5 == std::unordered_set<std::string>{"1", "3", "4", "5"});
-    std::unordered_set<std::string> actual6 = convertStringVectorToUnorderedSet(
-        patternStorage.getPartialAssignPattern("v", " a ", true));
-    REQUIRE(actual6 == std::unordered_set<std::string>{"1", "3", "4", "5"});
-    std::unordered_set<std::string> actual7 = convertStringVectorToUnorderedSet(
-        patternStorage.getPartialAssignPattern("x", "_", false));
-    REQUIRE(actual7 == std::unordered_set<std::string>{"1", "4", "5"});
-    std::unordered_set<std::string> actual8 = convertStringVectorToUnorderedSet(
-        patternStorage.getPartialAssignPattern("v", "_", true));
+    std::vector<std::pair<std::string, std::string>> actual4 =
+        patternStorage.getPartialAssignPattern("y", " f ", false);
+    REQUIRE(actual4 ==
+            std::vector<std::pair<std::string, std::string>>{{"2", "y"}});
+    std::vector<std::pair<std::string, std::string>> actual5 =
+        patternStorage.getPartialAssignPattern("_", " a ", false);
+    REQUIRE(actual5 == std::vector<std::pair<std::string, std::string>>{
+                           {"1", "x"}, {"3", "z"}, {"4", "x"}, {"5", "x"}});
+    std::vector<std::pair<std::string, std::string>> actual6 =
+        patternStorage.getPartialAssignPattern("v", " a ", true);
+    REQUIRE(actual6 == std::vector<std::pair<std::string, std::string>>{
+                           {"1", "x"}, {"3", "z"}, {"4", "x"}, {"5", "x"}});
+    std::vector<std::pair<std::string, std::string>> actual7 =
+        patternStorage.getPartialAssignPattern("x", "_", false);
+    REQUIRE(actual7 == std::vector<std::pair<std::string, std::string>>{
+                           {"1", "x"}, {"4", "x"}, {"5", "x"}});
+    std::vector<std::pair<std::string, std::string>> actual8 =
+        patternStorage.getPartialAssignPattern("v", "_", true);
     REQUIRE(actual8 ==
-            std::unordered_set<std::string>{"1", "2", "3", "4", "5"});
-    std::unordered_set<std::string> actual9 = convertStringVectorToUnorderedSet(
-        patternStorage.getPartialAssignPattern("_", "_", false));
+            std::vector<std::pair<std::string, std::string>>{
+                {"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}, {"5", "x"}});
+    std::vector<std::pair<std::string, std::string>> actual9 =
+        patternStorage.getPartialAssignPattern("_", "_", false);
     REQUIRE(actual9 ==
-            std::unordered_set<std::string>{"1", "2", "3", "4", "5"});
+            std::vector<std::pair<std::string, std::string>>{
+                {"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}, {"5", "x"}});
   }
 }
