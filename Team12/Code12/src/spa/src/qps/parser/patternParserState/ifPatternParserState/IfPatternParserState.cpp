@@ -10,11 +10,12 @@ PredictiveMap IfPatternParserState::predictiveMap = {
     {PQL_COMMA_TOKEN, {PQL_WILDCARD_TOKEN}},
 };
 
-IfPatternParserState::IfPatternParserState(
-    PQLParserContext &parserContext, PQLTokenType prev,
-    unique_ptr<SynonymArg> synIf)
+IfPatternParserState::IfPatternParserState(PQLParserContext &parserContext,
+                                           PQLTokenType prev,
+                                           unique_ptr<SynonymArg> synIf)
     : BaseParserState(parserContext, prev),
-      synIf(std::move(synIf)), nonFirstArgWildcardCount(0) {}
+      synIf(std::move(synIf)),
+      nonFirstArgWildcardCount(0) {}
 
 void IfPatternParserState::processSynonymToken(PQLToken &curr) {
   string synType = parserContext.getValidSynonymType(curr.getValue());
@@ -34,14 +35,14 @@ bool IfPatternParserState::checkSafeExit() {
   if (!synIf) {
     throw QPSParserError(QPS_PARSER_ERR_SYN_IF_MISSING);
   }
-  if (patternArg.size() != expectedNumberOfArgs
-      || nonFirstArgWildcardCount != 2) {
+  if (patternArg.size() != expectedNumberOfArgs ||
+      nonFirstArgWildcardCount != 2) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
   return true;
 }
 
-void IfPatternParserState::checkIsValidIdent(const std::string& ref) const {
+void IfPatternParserState::checkIsValidIdent(const std::string &ref) const {
   if (patternArg.size() == FIRST_ARG && !QPSStringUtils::isIdentValue(ref)) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_IDENT);
   }
