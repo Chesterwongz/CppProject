@@ -7,10 +7,9 @@
 class CFG {
  private:
   IntToIntSetMap adjList;
-  IntToIntSetMap reversedAdjList;
 
  protected:
-  explicit CFG(IntToIntSetMap adjList, IntToIntSetMap reversedAdjList);
+  explicit CFG(IntToIntSetMap adjList);
 
  public:
   CFG();
