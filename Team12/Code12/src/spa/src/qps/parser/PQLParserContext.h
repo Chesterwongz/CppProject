@@ -2,29 +2,46 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "IParserState.h"
 #include "qps/clause/Clause.h"
 #include "qps/common/PQLParserUtils.h"
 #include "qps/context/Context.h"
 #include "qps/query/Query.h"
-#include "qps/tokenizer/tokenStream/PQLTokenStream.h"
+#include "qps/tokenizer/PQLTokenizer.h"
 
 class PQLParserContext {
  private:
-  Query& query;  // belongs to driver
+  // TODO(Koon Hwee): After Select Clause is implemented,
+  //  PQLParserContext should not be a decorator, should
+  //  directly return Query object
+  unique_ptr<Query>& query;
   unique_ptr<Context> context;
-  PQLTokenStream& tokenStream;  // token stream belongs to driver
+  unique_ptr<PQLTokenStream> tokenStream;
   unique_ptr<IParserState> currState;
 
+  //  handling of TokenStream
+  bool isExpectedToken(PQLTokenType curr, PQLTokenType prev, PredictiveMap& pm);
+
  public:
-  explicit PQLParserContext(PQLTokenStream& tokenStream, Query& query);
+  explicit PQLParserContext(unique_ptr<PQLTokenStream> tokenStream,
+                            unique_ptr<Query>& query);
+
+  //  Build clause - handling of Synonym Context
   void addToContext(string entity, const string& synonym);
-  string getSynonymType(const string& synonym);
-  [[nodiscard]] PQLTokenStream& getTokenStream() const;
-  void transitionTo(unique_ptr<IParserState> nextState);
-  void addClause(unique_ptr<Clause> clause);
   void addSelectSynonym(const string& synonym);
-  bool checkValidSynonym(const string& synonym);
+  void addSelectClause(vector<unique_ptr<AbstractArgument>> synonyms);
+  string getValidSynonymType(const string& synonym);
+
+  //  Build clause - handling of query object
+  void addClause(unique_ptr<Clause> clause);
+
+  // handling of TokenStream
+  std::optional<PQLToken> eatExpectedToken(PQLTokenType prev,
+                                           PredictiveMap& pm);
+
+  // handling of parser state
+  void transitionTo(unique_ptr<IParserState> nextState);
   void handleTokens();
 };

@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "qps/common/Keywords.h"
+
 using std::unordered_map, std::string, std::unordered_set;
 
 enum PQLTokenType {
@@ -30,12 +32,18 @@ enum PQLTokenType {
   // literals and arguments
   PQL_OPEN_BRACKET_TOKEN,
   PQL_CLOSE_BRACKET_TOKEN,
+  PQL_LEFT_ANGLE_TOKEN,
+  PQL_RIGHT_ANGLE_TOKEN,
   PQL_QUOTE_TOKEN,
   PQL_LITERAL_EXPRESSION_TOKEN,
   PQL_LITERAL_REF_TOKEN,
 
+  // for attrRef
+  PQL_PERIOD_TOKEN,
+
   // for operators in expressions for patterns
   PQL_OPERATOR_TOKEN,
+  PQL_EQUALS_TOKEN,
 
   // should throw error if encountered
   PQL_INVALID_TOKEN,
@@ -53,15 +61,14 @@ enum PQLTokenType {
   // Such That
   PQL_SUCH_TOKEN,
   PQL_THAT_TOKEN,
-  PQL_FOLLOWS_TOKEN,
-  PQL_PARENT_TOKEN,
-  PQL_USES_TOKEN,
-  PQL_MODIFIES_TOKEN,
+  PQL_STMT_STMT_TOKEN,
+  PQL_STMT_VAR_TOKEN,
 
   // Pattern
   PQL_PATTERN_TOKEN,
+  PQL_ASSIGN_PATTERN_TOKEN,
 };
 
 extern unordered_map<string, PQLTokenType> keywordToTokenType;
-extern unordered_set<PQLTokenType> delimiterTokens;
+extern unordered_map<char, PQLTokenType> delimiterToTokenType;
 extern unordered_set<string> stmtEntities;

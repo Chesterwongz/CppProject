@@ -3,7 +3,7 @@
 #include <string>
 #include <utility>
 
-#include "sp/ast/TNode.h"
+#include "common/ast/TNode.h"
 
 class ConstNode : public TNode {
  public:

@@ -70,6 +70,7 @@ set<string> Query::returnAllPossibleQueriedSynonym() {
 
 bool Query::operator==(const Query &other) {
   bool res = this->context->getMap() == other.context->getMap();
+  if (!res) return res;
 
   for (int i = 0; i < this->clauses.size(); i++) {
     res = clauses.at(i)->isEquals(*(other.clauses.at(i)));

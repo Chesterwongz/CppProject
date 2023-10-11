@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 
+#include "common/StmtTypes.h"
 #include "qps/common/Keywords.h"
 
 using std::string, std::unordered_map;
@@ -20,6 +21,8 @@ enum Abstraction {
   FOLLOWS_ENUM,
   FOLLOWS_STAR_ENUM,
   MODIFIES_ENUM,
+  NEXT_ENUM,
+  NEXT_STAR_ENUM,
   PARENTS_ENUM,
   PARENTS_STAR_ENUM,
   USES_ENUM,

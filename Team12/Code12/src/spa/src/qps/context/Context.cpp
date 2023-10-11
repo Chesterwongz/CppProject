@@ -2,13 +2,13 @@
 
 #include <utility>
 
-#include "qps/exceptions/QPSInvalidQueryException.h"
+#include "qps/exceptions/QPSSemanticError.h"
 
 Entity Context::getTokenEntity(const Synonym &synonym) {
   auto entity = tokenNameToTokenMap.find(synonym);
 
   if (entity == tokenNameToTokenMap.end()) {
-    throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_SYNONYM);
+    throw QPSSemanticError(QPS_SEMANTIC_ERR_UNDECLARED_SYNONYM + synonym);
   }
 
   return entity->second;
@@ -16,7 +16,7 @@ Entity Context::getTokenEntity(const Synonym &synonym) {
 
 void Context::addSynonym(const Synonym &tokenSynonym, Entity tokenEntity) {
   if (tokenNameToTokenMap.find(tokenSynonym) != tokenNameToTokenMap.end()) {
-    throw QPSInvalidQueryException(QPS_INVALID_QUERY_REPEAT_SYNONYM_NAME);
+    throw QPSSemanticError(QPS_SEMANTIC_ERR_REPEATED_SYNONYM);
   }
   this->tokenNameToTokenMap[tokenSynonym] = std::move(tokenEntity);
 }

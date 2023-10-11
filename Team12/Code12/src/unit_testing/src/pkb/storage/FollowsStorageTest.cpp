@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include "../../spa/src/pkb/storage/FollowsStorage.h"
+#include "pkb/storage/relation_storage/stmt_to_stmt/FollowsStorage.h"
 
 TEST_CASE("FollowsStorage Tests") {
   FollowsStorage storage;

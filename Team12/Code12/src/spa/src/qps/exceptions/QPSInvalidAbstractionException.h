@@ -1,6 +1,6 @@
-#include "QPSException.h"
-
 #include <string>
+
+#include "QPSException.h"
 
 const char QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE[] =
     "abstraction does not support the argument types given";

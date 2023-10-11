@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <memory>
 #include <set>
 #include <string>
@@ -11,15 +12,13 @@
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/declarativeParserState/DeclarativeParserState.h"
 #include "qps/token/PQLToken.h"
-#include "qps/tokenizer/TokenizerFactory.h"
 
 using std::string, std::vector, std::unique_ptr;
 
 class QPS {
  private:
   PKBReader& pkb;
-  TokenizerFactory tokenizerFactory;
-  void setupParser(PQLParserContext& pc);
+  static void setupParser(PQLParserContext& pc);
 
  public:
   explicit QPS(PKBReader& pkb);

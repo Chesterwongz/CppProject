@@ -6,6 +6,9 @@
 
 using std::string, std::vector, std::unordered_set;
 
+typedef string Synonym;
+typedef string Entity;
+
 inline const string ASSIGN_ENTITY = "assign";
 inline const string CALL_ENTITY = "call";
 inline const string CONSTANT_ENTITY = "constant";
@@ -23,9 +26,26 @@ inline const string THAT_KEYWORD = "that";
 inline const string PATTERN_KEYWORD = "pattern";
 
 inline const string FOLLOWS_ABSTRACTION = "Follows";
+inline const string FOLLOWS_STAR_ABSTRACTION = "Follows*";
 inline const string MODIFIES_ABSTRACTION = "Modifies";
 inline const string PARENTS_ABSTRACTION = "Parent";
+inline const string PARENTS_STAR_ABSTRACTION = "Parent*";
+inline const string NEXT_ABSTRACTION = "Next";
+inline const string NEXT_STAR_ABSTRACTION = "Next*";
 inline const string USES_ABSTRACTION = "Uses";
 
 inline const string WILDCARD_KEYWORD = "_";
 inline const string INVALID_STATEMENT_NUMBER = "-1";
+
+namespace pqlDelim {
+constexpr char kSemicolonChar = ';';
+constexpr char kCommaChar = ',';
+constexpr char kQuoteChar = '\"';
+constexpr char kOpenBracketChar = '(';
+constexpr char kCloseBracketChar = ')';
+constexpr char kWildcardChar = '_';
+constexpr char kLeftAngleChar = '<';
+constexpr char kRightAngleChar = '>';
+constexpr char kPeriodChar = '.';
+constexpr char kEqualChar = '=';
+}  // namespace pqlDelim

@@ -2,35 +2,18 @@
 
 #include <memory>
 #include <string>
-#include <utility>
-#include <vector>
 
-#include "qps/argument/AbstractArgument.h"
-#include "qps/parser/IParserState.h"
-#include "qps/parser/PQLParserContext.h"
+#include "qps/parser/BaseParserState.h"
 
-using std::make_unique, std::unique_ptr;
-
-class PatternParserState : public IParserState {
+class PatternParserState : public BaseParserState {
  private:
-  PQLParserContext& parserContext;
-  PQLTokenStream& tokenStream;
-  PQLTokenType prev;
-  bool isInBracket;
-  string matchPattern;
-  int partialMatchWildCardCount;
-  int argumentCount;
-  unique_ptr<AbstractArgument> outerSynonym;
   static PredictiveMap predictiveMap;
-  static PQLTokenType exitToken;
-  static size_t maxNumberOfArgs;
-  vector<unique_ptr<AbstractArgument>> patternArg;
   void processNameToken(PQLToken& curr) override;
   void processSynonymToken(PQLToken& curr);
-  void processLastArgument();
 
  public:
-  explicit PatternParserState(PQLParserContext& parserContext);
+  explicit PatternParserState(PQLParserContext& parserContext,
+                              PQLTokenType prev);
   void handleToken() override;
   ~PatternParserState() override = default;
 };

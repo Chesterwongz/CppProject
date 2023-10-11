@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "TNode.h"
+#include "common/ast/TNode.h"
 #include "sp/ast/ProgramNode.h"
 
 class ProgramNode : public TNode {

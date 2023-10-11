@@ -1,36 +1,36 @@
 #include <catch.hpp>
 
-#include "../../../../spa/src/pkb/storage/ModifiesStorage.h"
+#include "pkb/storage/relation_storage/stmt_or_proc_to_var/ModifiesStorage.h"
 
 TEST_CASE("ModifiesStorage Tests") {
   ModifiesStorage storage;
 
-  storage.setVariableModification("x", 1);
-  storage.setVariableModification("y", 2);
-  storage.setVariableModification("x", 3);
-  storage.setVariableModification("z", 4);
-  storage.setVariableModification("y", 5);
-  storage.setVariableModification("extra_var", 1);
+  storage.addModifies("x", 1);
+  storage.addModifies("y", 2);
+  storage.addModifies("x", 3);
+  storage.addModifies("z", 4);
+  storage.addModifies("y", 5);
+  storage.addModifies("extra_var", 1);
 
   SECTION("Test Getting Variable Modification") {
-    REQUIRE(storage.getStatementNumbersForVariable("x") == std::set<int>{1, 3});
-    REQUIRE(storage.getStatementNumbersForVariable("y") == std::set<int>{2, 5});
-    REQUIRE(storage.getStatementNumbersForVariable("z") == std::set<int>{4});
-    REQUIRE(storage.getStatementNumbersForVariable("a") == std::set<int>{});
+    REQUIRE(storage.getStmtsModifyingVar("x") == std::set<int>{1, 3});
+    REQUIRE(storage.getStmtsModifyingVar("y") == std::set<int>{2, 5});
+    REQUIRE(storage.getStmtsModifyingVar("z") == std::set<int>{4});
+    REQUIRE(storage.getStmtsModifyingVar("a") == std::set<int>{});
   }
 
   SECTION("Test getting variables modified in a particular statement") {
-    REQUIRE(storage.getVariablesForStatement(1) ==
+    REQUIRE(storage.getVarsModifiedByStmt(1) ==
             std::set<std::string>{"x", "extra_var"});
-    REQUIRE(storage.getVariablesForStatement(2) == std::set<std::string>{"y"});
-    REQUIRE(storage.getVariablesForStatement(3) == std::set<std::string>{"x"});
-    REQUIRE(storage.getVariablesForStatement(4) == std::set<std::string>{"z"});
-    REQUIRE(storage.getVariablesForStatement(6) == std::set<std::string>{});
+    REQUIRE(storage.getVarsModifiedByStmt(2) == std::set<std::string>{"y"});
+    REQUIRE(storage.getVarsModifiedByStmt(3) == std::set<std::string>{"x"});
+    REQUIRE(storage.getVarsModifiedByStmt(4) == std::set<std::string>{"z"});
+    REQUIRE(storage.getVarsModifiedByStmt(6) == std::set<std::string>{});
   }
 
-  SECTION("Test getAllVariables and getAllStatements") {
-    REQUIRE(storage.getAllVariables() ==
+  SECTION("Test getAllVarUsedByStmt and getAllStmtUsingVar") {
+    REQUIRE(storage.getAllVarsModifiedByStmt() ==
             std::set<std::string>{"x", "y", "z", "extra_var"});
-    REQUIRE(storage.getAllStatements() == std::set<int>{1, 2, 3, 4, 5});
+    REQUIRE(storage.getAllStmtsModifyingVar() == std::set<int>{1, 2, 3, 4, 5});
   }
 }

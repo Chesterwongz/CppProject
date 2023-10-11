@@ -2,7 +2,7 @@
 #include <optional>
 #include <catch.hpp>
 
-#include "sp/ast/TNode.h"
+#include "common/ast/TNode.h"
 #include "sp/parser/condexprparser/CondExprParser.h"
 #include "sp/parser/toplevelparsers/ProgramParser.h"
 
@@ -106,7 +106,7 @@ TEST_CASE("Test invalid assign stmt") {
         StmtParser(std::move(std::make_shared<ParserContext>(std::move(input))))
             .parse();
     REQUIRE(false);
-  } catch (const SyntaxError &err) {
+  } catch (const SpSyntaxError &err) {
     std::string errMsg(err.what());
     REQUIRE(!errMsg.empty());
   }

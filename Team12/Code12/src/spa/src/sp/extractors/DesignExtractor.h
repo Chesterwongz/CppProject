@@ -9,8 +9,8 @@
 
 #include "Extractor.h"
 #include "Populator.h"
+#include "common/ast/TNode.h"
 #include "pkb/facade/PKBWriter.h"
-#include "sp/ast/TNode.h"
 #include "sp/extractors/calls/CallsExtractor.h"
 #include "sp/extractors/cfg/CFGExtractor.h"
 #include "sp/extractors/entity/EntityExtractor.h"
@@ -24,6 +24,7 @@ class DesignExtractor {
  private:
   std::vector<std::unique_ptr<Extractor>> extractors;
   Populator populator;
+  PKBWriter& pkbWriter;
 
  public:
   explicit DesignExtractor(PKBWriter& pkbWriter);

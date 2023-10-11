@@ -1,24 +1,14 @@
 #include "SelectParserState.h"
 
-#include <iostream>
-
-#include "qps/exceptions/QPSInvalidQueryException.h"
-#include "qps/parser/patternParserState/PatternParserState.h"
-#include "qps/parser/suchThatParserState/SuchThatParserState.h"
-
 PredictiveMap SelectParserState::predictiveMap = {
-    {PQL_NULL_TOKEN,
-     {PQL_SELECT_TOKEN}},  // Select should have been processed by previous
-                           // state to be transitioned here
-    {PQL_SELECT_TOKEN, {PQL_SYNONYM_TOKEN}},
-    {PQL_SYNONYM_TOKEN, {PQL_SUCH_TOKEN, PQL_PATTERN_TOKEN}}};
+    {PQL_SELECT_TOKEN, {PQL_SYNONYM_TOKEN, PQL_LEFT_ANGLE_TOKEN}},
+    {PQL_SYNONYM_TOKEN, startTokensOfAvailClausesForSelect}};
 
 PQLTokenType SelectParserState::exitToken = PQL_SYNONYM_TOKEN;
 
-SelectParserState::SelectParserState(PQLParserContext& parserContext)
-    : parserContext(parserContext),
-      tokenStream(parserContext.getTokenStream()),
-      prev(PQL_NULL_TOKEN) {}
+SelectParserState::SelectParserState(PQLParserContext& parserContext,
+                                     PQLTokenType prev)
+    : BaseParserState(parserContext, prev) {}
 
 void SelectParserState::processNameToken(PQLToken& curr) {
   if (prev == PQL_SELECT_TOKEN) {
@@ -31,38 +21,36 @@ void SelectParserState::processNameToken(PQLToken& curr) {
 }
 
 void SelectParserState::handleToken() {
-  while (!this->tokenStream.isTokenStreamEnd()) {
-    auto& curr = tokenStream.getCurrentToken();
+  auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
-    if (curr.getType() == PQL_NAME_TOKEN) {
-      processNameToken(curr);
-    }
+  while (curr.has_value()) {
+    PQLToken token = curr.value();
 
-    if (!PQLParserUtils::isExpectedToken(predictiveMap, prev, curr.getType())) {
-      throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNEXPECTED_TOKEN);
-    }
-
-    switch (curr.getType()) {
+    switch (token.getType()) {
       case PQL_SYNONYM_TOKEN:
-        parserContext.addSelectSynonym(curr.getValue());
-        break;
-      case PQL_SELECT_TOKEN:
+        // TODO(Hwee): change to add vector syn
+        parserContext.addSelectSynonym(token.getValue());
         break;
       case PQL_SUCH_TOKEN:
-        parserContext.transitionTo(
-            make_unique<SuchThatParserState>(parserContext));
+        parserContext.transitionTo(std::make_unique<SuchThatParserState>(
+            parserContext, token.getType()));
         return;
       case PQL_PATTERN_TOKEN:
-        parserContext.transitionTo(
-            make_unique<PatternParserState>(parserContext));
+        parserContext.transitionTo(std::make_unique<PatternParserState>(
+            parserContext, token.getType()));
+        return;
+      case PQL_LEFT_ANGLE_TOKEN:
+        parserContext.transitionTo(std::make_unique<SelectTupleParsersState>(
+            parserContext, token.getType()));
         return;
       default:
-        throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);
+        break;
     }
-    this->prev = curr.getType();
-    tokenStream.next();
+    this->prev = token.getType();
+
+    curr = parserContext.eatExpectedToken(prev, predictiveMap);
   }
   if (prev != exitToken) {
-    throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCOMPLETE_QUERY);
+    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_SELECT);
   }
 }
