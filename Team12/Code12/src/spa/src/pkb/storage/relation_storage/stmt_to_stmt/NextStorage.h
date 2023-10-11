@@ -19,6 +19,7 @@ class NextStorage : public INextStorage {
   IntToIntSetMap nextTCache;
   IntToIntSetMap prevTCache;
   void addNextT(int from, int to);
+  static IntSet getStmts(IntToIntSetMap& map, int stmtNum);
 
  public:
   NextStorage();

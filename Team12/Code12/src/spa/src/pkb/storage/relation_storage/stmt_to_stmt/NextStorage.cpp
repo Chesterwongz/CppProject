@@ -20,24 +20,25 @@ void NextStorage::addNextT(int from, int to) {
   prevTCache[to].insert(from);
 }
 
-IntSet NextStorage::getNextStmts(int stmtNum) {
-  if (nextStmts.find(stmtNum) == nextStmts.end()) {
+IntSet NextStorage::getStmts(IntToIntSetMap& map, int stmtNum) {
+  if (map.find(stmtNum) == map.end()) {
     return {};
   }
-  return nextStmts.at(stmtNum);
+  return map.at(stmtNum);
+}
+
+IntSet NextStorage::getNextStmts(int stmtNum) {
+  return getStmts(nextStmts, stmtNum);
 }
 
 IntSet NextStorage::getPrevStmts(int stmtNum) {
-  if (prevStmts.find(stmtNum) == prevStmts.end()) {
-    return {};
-  }
-  return prevStmts.at(stmtNum);
+  return getStmts(prevStmts, stmtNum);
 }
 
 IntSet NextStorage::getNextTStmts(int stmtNum) {
-  IntSet nextTStmts =
-      FunctionUtils<int, NextStorage>::computeTransitiveRelationship(
-          stmtNum, &NextStorage::getNextStmts, this);
+  auto lambdaGetNextStmts = [this](int s) { return this->getNextStmts(s); };
+  IntSet nextTStmts = FunctionUtils<int, decltype(lambdaGetNextStmts)>::
+      computeTransitiveRelationship(stmtNum, lambdaGetNextStmts);
   for (int next : nextTStmts) {
     addNextT(stmtNum, next);
   }
@@ -45,9 +46,9 @@ IntSet NextStorage::getNextTStmts(int stmtNum) {
 }
 
 IntSet NextStorage::getPrevTStmts(int stmtNum) {
-  IntSet prevTStmts =
-      FunctionUtils<int, NextStorage>::computeTransitiveRelationship(
-          stmtNum, &NextStorage::getPrevStmts, this);
+  auto lambdaGetPrevStmts = [this](int s) { return this->getPrevStmts(s); };
+  IntSet prevTStmts = FunctionUtils<int, decltype(lambdaGetPrevStmts)>::
+      computeTransitiveRelationship(stmtNum, lambdaGetPrevStmts);
   for (int prev : prevTStmts) {
     addNextT(prev, stmtNum);
   }
