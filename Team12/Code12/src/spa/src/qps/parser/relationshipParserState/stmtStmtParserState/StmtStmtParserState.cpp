@@ -19,8 +19,8 @@ PredictiveMap StmtStmtParserState::predictiveMap = {
     {PQL_WILDCARD_TOKEN, {PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
     {PQL_INTEGER_TOKEN, {PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
     {PQL_COMMA_TOKEN,
-     {PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_INTEGER_TOKEN}},
-    {PQL_CLOSE_BRACKET_TOKEN, startTokensOfAvailClauses}};
+     {PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_INTEGER_TOKEN}}
+};
 
 StmtStmtParserState::StmtStmtParserState(PQLParserContext &parserContext,
                                          string abstraction, PQLTokenType prev)
@@ -47,40 +47,25 @@ void StmtStmtParserState::handleToken() {
         break;
       case PQL_CLOSE_BRACKET_TOKEN:
         isInBracket = false;
-        isSuccess = checkSafeExit(arguments);
-        parserContext.addClause(std::make_unique<SuchThatClause>(
-            getAbstractionType(abstraction, stmtStmtKeywordToAbstraction),
-            std::move(arguments.at(FIRST_ARG)),
-            std::move(arguments.at(SECOND_ARG))));
-        break;
+        parserContext.addClause(std::move(createSuchThatClause(
+            getAbstractionType(abstraction, stmtStmtKeywordToAbstraction))));
+        ClauseTransitionParserState::setClauseTransitionState(parserContext);
+        return;
       case PQL_SYNONYM_TOKEN:
         checkIsStmtSynonym(token.getValue());
-        arguments.push_back(
-            std::move(std::make_unique<SynonymArg>(token.getValue())));
+        arguments.push_back(std::make_unique<SynonymArg>(token.getValue()));
         break;
       case PQL_INTEGER_TOKEN:
-        arguments.push_back(
-            std::move(std::make_unique<Integer>(token.getValue())));
+        arguments.push_back(std::make_unique<Integer>(token.getValue()));
         break;
       case PQL_WILDCARD_TOKEN:
-        arguments.push_back(std::move(std::make_unique<Wildcard>()));
+        arguments.push_back(std::make_unique<Wildcard>());
         break;
-      case PQL_PATTERN_TOKEN:
-        this->parserContext.transitionTo(std::make_unique<PatternParserState>(
-            parserContext, token.getType()));
-        return;
-      case PQL_SUCH_TOKEN:
-        this->parserContext.transitionTo(std::make_unique<SuchThatParserState>(
-            parserContext, token.getType()));
-        return;
       default:
         break;
     }
     this->prev = token.getType();
 
     curr = parserContext.eatExpectedToken(prev, predictiveMap);
-  }
-  if (!isSuccess) {
-    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
 }

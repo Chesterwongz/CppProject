@@ -63,6 +63,10 @@ std::optional<PQLToken> PQLParserContext::eatExpectedToken(PQLTokenType prev,
   return tokenOpt;
 }
 
+std::optional<PQLToken> PQLParserContext::eatCurrToken() {
+  return tokenStream->eat();
+}
+
 void PQLParserContext::transitionTo(unique_ptr<IParserState> nextState) {
   currState = std::move(nextState);
 }

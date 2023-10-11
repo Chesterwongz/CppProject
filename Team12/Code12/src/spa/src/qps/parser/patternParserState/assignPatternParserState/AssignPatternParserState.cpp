@@ -1,14 +1,5 @@
 #include "AssignPatternParserState.h"
 
-#include "qps/argument/ident/Ident.h"
-#include "qps/argument/synonymArg/SynonymArg.h"
-#include "qps/argument/wildcard/Wildcard.h"
-#include "qps/clause/patternClause/PatternClause.h"
-#include "qps/exceptions/QPSInvalidQueryException.h"
-#include "qps/parser/patternParserState/PatternParserState.h"
-#include "qps/parser/patternParserState/expressionParser/ExpressionValidator.h"
-#include "qps/parser/suchThatParserState/SuchThatParserState.h"
-
 PredictiveMap AssignPatternParserState::predictiveMap = {
     {PQL_ASSIGN_PATTERN_TOKEN, {PQL_OPEN_BRACKET_TOKEN}},
     {PQL_OPEN_BRACKET_TOKEN,
@@ -22,10 +13,8 @@ PredictiveMap AssignPatternParserState::predictiveMap = {
     {PQL_LITERAL_EXPRESSION_TOKEN,
      {PQL_WILDCARD_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
     {PQL_COMMA_TOKEN,
-     {PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN, PQL_LITERAL_EXPRESSION_TOKEN}},
-    {PQL_CLOSE_BRACKET_TOKEN, startTokensOfAvailClauses}};
-
-PQLTokenType AssignPatternParserState::exitToken = PQL_CLOSE_BRACKET_TOKEN;
+     {PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN, PQL_LITERAL_EXPRESSION_TOKEN}}
+};
 
 AssignPatternParserState::AssignPatternParserState(
     PQLParserContext& parserContext, PQLTokenType prev,
@@ -76,6 +65,16 @@ void AssignPatternParserState::processLastArgument() {
   }
 }
 
+bool AssignPatternParserState::checkSafeExit() {
+  if (!synAssign) {
+    throw QPSParserError(QPS_PARSER_ERR_SYN_ASSIGN_MISSING);
+  }
+  if (patternArg.size() != maxNumberOfArgs) {
+    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
+  }
+  return true;
+}
+
 void AssignPatternParserState::checkIsValidIdent(const std::string& ref) {
   if (patternArg.size() == FIRST_ARG && !QPSStringUtils::isIdentValue(ref)) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_IDENT);
@@ -101,9 +100,11 @@ void AssignPatternParserState::handleToken() {
         break;
       case PQL_CLOSE_BRACKET_TOKEN:
         processLastArgument();
+        checkSafeExit();
         parserContext.addClause(std::make_unique<PatternClause>(
             std::move(synAssign), std::move(patternArg), isPartialMatch));
-        break;
+        ClauseTransitionParserState::setClauseTransitionState(parserContext);
+        return;
       case PQL_WILDCARD_TOKEN:
         if (patternArg.size() >= SECOND_ARG) {
           secondArgWildcardCount++;
@@ -121,22 +122,11 @@ void AssignPatternParserState::handleToken() {
         patternArg.push_back(
             std::move(std::make_unique<Ident>(token.getValue())));
         break;
-      case PQL_SUCH_TOKEN:
-        this->parserContext.transitionTo(std::make_unique<SuchThatParserState>(
-            parserContext, token.getType()));
-        return;
-      case PQL_PATTERN_TOKEN:
-        this->parserContext.transitionTo(std::make_unique<PatternParserState>(
-            parserContext, token.getType()));
-        return;
       default:
         break;
     }
     this->prev = token.getType();
 
     curr = parserContext.eatExpectedToken(prev, predictiveMap);
-  }
-  if (prev != exitToken) {
-    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
 }

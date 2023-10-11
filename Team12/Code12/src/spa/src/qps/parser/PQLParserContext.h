@@ -22,7 +22,7 @@ class PQLParserContext {
   unique_ptr<IParserState> currState;
 
   //  handling of TokenStream
-  bool isExpectedToken(PQLTokenType curr, PQLTokenType prev, PredictiveMap& pm);
+  static bool isExpectedToken(PQLTokenType curr, PQLTokenType prev, PredictiveMap& pm);
 
  public:
   explicit PQLParserContext(unique_ptr<PQLTokenStream> tokenStream,
@@ -40,6 +40,7 @@ class PQLParserContext {
   // handling of TokenStream
   std::optional<PQLToken> eatExpectedToken(PQLTokenType prev,
                                            PredictiveMap& pm);
+  std::optional<PQLToken> eatCurrToken();
 
   // handling of parser state
   void transitionTo(unique_ptr<IParserState> nextState);
