@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include "Query.h"
 
 #include "../intermediateTable/IntermediateTableFactory.h"
@@ -31,9 +33,7 @@ set<string> Query::evaluate() {
 
   // todo 2: abstract out evaluation to evaluator
 
-  if (clauses.empty()) {
-    throw QPSInvalidQueryException(QPS_INVALID_QUERY_NO_CLAUSES);
-  }
+  assert(!clauses.empty());
 
   // iteratively join results of each clause
   IntermediateTable currIntermediateTable =
