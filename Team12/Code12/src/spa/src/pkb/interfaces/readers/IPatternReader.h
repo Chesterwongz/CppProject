@@ -9,13 +9,11 @@ class IPatternReader {
 
   // return list of statement numbers which match the given pattern exactly
   virtual std::vector<std::pair<std::string, std::string>> getExactAssignPattern(
-      const std::string& variableName, const std::string& rpn,
-      bool isSynonym) = 0;
+      const std::string& variableName, const std::string& rpn) = 0;
 
   // return list of statement numbers which match the given pattern partially
   virtual std::vector<std::pair<std::string, std::string>> getPartialAssignPattern(
-      const std::string& variableName, const std::string& rpn,
-      bool isSynonym) = 0;
+      const std::string& variableName, const std::string& rpn) = 0;
 
   // Return all pairs (stmtNum, variableName) where variableName is a variable
   // present in the condition of a while statement at stmtNum

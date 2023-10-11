@@ -48,16 +48,15 @@ PatternStorage::getAllAssignStatementsWithVariable(
 
 std::vector<std::pair<std::string, std::string>>
 PatternStorage::getExactAssignPattern(const std::string& variableName,
-                                      const std::string& rpn, bool isSynonym) {
+                                      const std::string& rpn) {
   std::vector<std::pair<std::string, std::string>> result;
-  if ((variableName == WILDCARD_KEYWORD || isSynonym) &&
-      rpn == WILDCARD_KEYWORD) {
+  if ((variableName == WILDCARD_KEYWORD) && rpn == WILDCARD_KEYWORD) {
     result = getAllAssignStatements();
-  } else if (variableName == WILDCARD_KEYWORD || isSynonym) {
+  } else if (variableName == WILDCARD_KEYWORD) {
     for (const auto& entry : statementPatternStorage) {
       if (entry.second.first == rpn) {
         result.push_back(
-            std::make_pair(std::to_string(entry.first), variableName));
+            std::make_pair(std::to_string(entry.first), entry.second.second));
       }
     }
   } else if (rpn == WILDCARD_KEYWORD) {
@@ -76,17 +75,15 @@ PatternStorage::getExactAssignPattern(const std::string& variableName,
 
 std::vector<std::pair<std::string, std::string>>
 PatternStorage::getPartialAssignPattern(const std::string& variableName,
-                                        const std::string& rpn,
-                                        bool isSynonym) {
+                                        const std::string& rpn) {
   std::vector<std::pair<std::string, std::string>> result;
-  if ((variableName == WILDCARD_KEYWORD || isSynonym) &&
-      rpn == WILDCARD_KEYWORD) {
+  if ((variableName == WILDCARD_KEYWORD) && rpn == WILDCARD_KEYWORD) {
     result = getAllAssignStatements();
-  } else if (variableName == WILDCARD_KEYWORD || isSynonym) {
+  } else if (variableName == WILDCARD_KEYWORD) {
     for (const auto& entry : statementPatternStorage) {
       if (entry.second.first.find(rpn) != std::string::npos) {
         result.push_back(
-            std::make_pair(std::to_string(entry.first), variableName));
+            std::make_pair(std::to_string(entry.first), entry.second.second));
       }
     }
   } else if (rpn == WILDCARD_KEYWORD) {

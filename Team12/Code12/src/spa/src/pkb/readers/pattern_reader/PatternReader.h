@@ -18,12 +18,10 @@ class PatternReader : public virtual IPatternReader {
 
  public:
   std::vector<std::pair<std::string, std::string>> getExactAssignPattern(
-      const std::string& variableName, const std::string& rpn,
-      bool isSynonym) override;
+      const std::string& variableName, const std::string& rpn) override;
 
   std::vector<std::pair<std::string, std::string>> getPartialAssignPattern(
-      const std::string& variableName, const std::string& rpn,
-      bool isSynonym) override;
+      const std::string& variableName, const std::string& rpn) override;
 
   std::vector<std::pair<std::string, std::string>> getWhilePattern(
       const std::string& variableName) override;

@@ -24,13 +24,11 @@ class PatternStorage : public virtual IPatternStorage {
 
   // Return all pairs (stmtNum, variableName) that contain the exact match
   std::vector<std::pair<std::string, std::string>> getExactAssignPattern(
-      const std::string& variableName, const std::string& rpn,
-      bool isSynonym) override;
+      const std::string& variableName, const std::string& rpn) override;
 
   // Return all pairs (stmtNum, variableName) that contain a partial match
   std::vector<std::pair<std::string, std::string>> getPartialAssignPattern(
-      const std::string& variableName, const std::string& rpn,
-      bool isSynonym) override;
+      const std::string& variableName, const std::string& rpn) override;
 
   // Return all assignment statements
   std::vector<std::pair<std::string, std::string>> getAllAssignStatements();
