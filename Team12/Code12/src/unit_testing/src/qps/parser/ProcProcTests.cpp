@@ -14,27 +14,24 @@
 TEST_CASE("Valid Calls(SYNONYM, SYNONYM)") {
   string p1 = "proc";
   string p2 = "procedure";
-  vector<PQLToken> tokenList = {
-      PQLToken(PQL_NAME_TOKEN, PROCEDURE_ENTITY),
-      PQLToken(PQL_NAME_TOKEN, p1),
-      PQLToken(PQL_COMMA_TOKEN, ","),
-      PQLToken(PQL_NAME_TOKEN, p2),
-      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, p1),
-      PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
-      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_NAME_TOKEN, p1),
-      PQLToken(PQL_COMMA_TOKEN, ","),
-      PQLToken(PQL_NAME_TOKEN, p2),
-      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")")
-  };
+  vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, PROCEDURE_ENTITY),
+                                PQLToken(PQL_NAME_TOKEN, p1),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, p2),
+                                PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, p1),
+                                PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
+                                PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+                                PQLToken(PQL_NAME_TOKEN, p1),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, p2),
+                                PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")")};
 
-  std::unique_ptr<Query> query
-      = parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
-
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
@@ -55,23 +52,21 @@ TEST_CASE("Valid Calls(SYNONYM, SYNONYM)") {
 TEST_CASE("Valid Calls(SYNONYM, _)") {
   string p1 = "proc";
   string p2 = "procedure";
-  vector<PQLToken> tokenList = {
-      PQLToken(PQL_NAME_TOKEN, PROCEDURE_ENTITY),
-      PQLToken(PQL_NAME_TOKEN, p1),
-      PQLToken(PQL_COMMA_TOKEN, ","),
-      PQLToken(PQL_NAME_TOKEN, p2),
-      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, p1),
-      PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
-      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_NAME_TOKEN, p1),
-      PQLToken(PQL_COMMA_TOKEN, ","),
-      PQLToken(PQL_WILDCARD_TOKEN, "_"),
-      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")")
-  };
+  vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, PROCEDURE_ENTITY),
+                                PQLToken(PQL_NAME_TOKEN, p1),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, p2),
+                                PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, p1),
+                                PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
+                                PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+                                PQLToken(PQL_NAME_TOKEN, p1),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_WILDCARD_TOKEN, "_"),
+                                PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")")};
 
   std::unique_ptr<Query> query =
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
@@ -516,8 +511,7 @@ TEST_CASE("Invalid Calls clause - invalid LITERAL_REF_TOKEN") {
   };
   REQUIRE_THROWS_MATCHES(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSyntaxError,
-      Catch::Message(QPS_TOKENIZATION_ERR_IDENT));
+      QPSSyntaxError, Catch::Message(QPS_TOKENIZATION_ERR_IDENT));
 }
 
 TEST_CASE("Invalid Calls clause - only 1 argument") {

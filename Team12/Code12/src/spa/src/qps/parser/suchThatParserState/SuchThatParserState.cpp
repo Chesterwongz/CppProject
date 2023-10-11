@@ -1,12 +1,13 @@
 #include "SuchThatParserState.h"
 
+#include "qps/parser/relationshipParserState/procProcParserState/ProcProcParserState.h"
 #include "qps/parser/relationshipParserState/stmtStmtParserState/StmtStmtParserState.h"
 #include "qps/parser/relationshipParserState/stmtVarParserState/StmtVarParserState.h"
-#include "qps/parser/relationshipParserState/procProcParserState/ProcProcParserState.h"
 
 PredictiveMap SuchThatParserState::predictiveMap = {
     {PQL_SUCH_TOKEN, {PQL_THAT_TOKEN}},
-    {PQL_THAT_TOKEN, {PQL_STMT_STMT_TOKEN, PQL_STMT_VAR_TOKEN, PQL_PROC_PROC_TOKEN}}};
+    {PQL_THAT_TOKEN,
+     {PQL_STMT_STMT_TOKEN, PQL_STMT_VAR_TOKEN, PQL_PROC_PROC_TOKEN}}};
 
 SuchThatParserState::SuchThatParserState(PQLParserContext &parserContext,
                                          PQLTokenType prev)
