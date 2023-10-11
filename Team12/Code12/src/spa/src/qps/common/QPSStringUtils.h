@@ -18,7 +18,7 @@ class QPSStringUtils {
   static constexpr char kAsterisks = '*';
   static constexpr char kHash = '#';
 
-  enum ArgumentType { IDENT, SYNONYM, WILDCARD, INTEGER };
+  enum ArgumentType { IDENT, SYNONYM, WILDCARD, INTEGER, PATTERNEXP };
 
   static bool isSynonym(const string data);
   static bool isStmtRef(const string data);
