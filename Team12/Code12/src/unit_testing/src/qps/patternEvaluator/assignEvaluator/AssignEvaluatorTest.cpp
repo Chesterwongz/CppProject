@@ -38,12 +38,12 @@ TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
   REQUIRE(actualColNames[0] == selectedSynonym.getValue());
   REQUIRE(actualColNames[1] == variableSynonym.getValue());
   REQUIRE(actualTableData.size() == 3);
-  REQUIRE(actualTableData[0][0] == mockExactAssignPatternStmts[0]);
-  REQUIRE(actualTableData[1][0] == mockExactAssignPatternStmts[1]);
-  REQUIRE(actualTableData[2][0] == mockExactAssignPatternStmts[2]);
-  REQUIRE(actualTableData[0][1] == mockAllModifiedVariables[0].second);
-  REQUIRE(actualTableData[1][1] == mockAllModifiedVariables[1].second);
-  REQUIRE(actualTableData[2][1] == mockAllModifiedVariables[2].second);
+  REQUIRE(actualTableData[0][0] == mockExactAssignPatternStmts[0].first);
+  REQUIRE(actualTableData[1][0] == mockExactAssignPatternStmts[1].first);
+  REQUIRE(actualTableData[2][0] == mockExactAssignPatternStmts[2].first);
+  REQUIRE(actualTableData[0][1] == mockExactAssignPatternStmts[0].second);
+  REQUIRE(actualTableData[1][1] == mockExactAssignPatternStmts[1].second);
+  REQUIRE(actualTableData[2][1] == mockExactAssignPatternStmts[2].second);
 }
 
 TEST_CASE("test_AssignEvaluator_evaluate_identFirstArg") {
@@ -77,5 +77,5 @@ TEST_CASE("test_AssignEvaluator_evaluate_identFirstArg") {
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == selectedSynonym.getValue());
   REQUIRE(actualTableData.size() == 1);
-  REQUIRE(actualTableData[0][0] == mockExactAssignPatternStmts[0]);
+  REQUIRE(actualTableData[0][0] == mockExactAssignPatternStmts[0].first);
 }
