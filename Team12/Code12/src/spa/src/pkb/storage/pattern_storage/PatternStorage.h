@@ -40,7 +40,7 @@ class PatternStorage : public virtual IPatternStorage {
 
   std::vector<std::pair<std::string, std::string>> getPattern(
       const std::unordered_map<int, std::unordered_set<std::string>>& storage,
-      const std::string& variableName, bool isWildcard);
+      const std::string& variableName);
 
   // Return all pairs (stmtNum, variableName) where variableName is a variable
   // present in the condition of a while statement at stmtNum
