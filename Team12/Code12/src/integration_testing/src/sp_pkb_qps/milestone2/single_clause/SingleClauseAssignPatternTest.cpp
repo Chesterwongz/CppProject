@@ -28,7 +28,7 @@ string ms2AssignSource =
 // partial matching tests with operator since ms1 no operator for partial match
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "1") {
   // wildcard first arg, partial match ident second arg (with operator)
   string query =
@@ -44,7 +44,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "2") {
   // wildcard first arg, partial match ident second arg version 2 - no results
   // (with operator)
@@ -61,7 +61,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "3") {
   // ident first arg, partial match ident second arg (with operator)
   string query =
@@ -77,7 +77,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "4") {
   // ident first arg, partial match ident second arg version 2 - no results
   // (with operator)
@@ -94,7 +94,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "5") {
   // synonym first arg, partial match ident second arg - select v (with
   // operator)
@@ -111,7 +111,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "6") {
   // synonym first arg, partial match ident second arg - select a (with
   // operator)
@@ -129,7 +129,7 @@ TEST_CASE(
 
 // Exact matching tests
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "7") {
   // wildcard first arg, exact match ident second arg (no operator)
   string query =
@@ -145,7 +145,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "8") {
   // wildcard first arg, exact match ident second arg version 2 (with operator)
   string query =
@@ -161,7 +161,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "9") {
   // wildcard first arg, exact match ident second arg version 3 - no results
   // (no operator)
@@ -178,7 +178,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "10") {
   // wildcard first arg, exact match ident second arg
   // select different assign
@@ -196,7 +196,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "11") {
   // wildcard first arg, exact match ident second arg
   // select different assign
@@ -214,7 +214,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "12") {
   // ident first arg, exact match ident second arg (with operator)
   string query =
@@ -230,7 +230,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "13") {
   // ident first arg, exact match ident second arg version 2 (no operator)
   string query =
@@ -246,7 +246,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "14") {
   // ident first arg, exact match ident second arg version 3 - no results
   // (with operator)
@@ -263,7 +263,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "15") {
   // ident first arg, exact match ident second arg version 4 - no results
   // (no operator)
@@ -280,7 +280,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "16") {
   // ident first arg, exact match ident second arg (no operator)
   // select different assign
@@ -298,7 +298,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "17") {
   // ident first arg, exact match ident second arg (with operator)
   // select different assign
@@ -316,7 +316,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "18") {
   // synonym first arg, exact match ident second arg - select v (no operator)
   string query =
@@ -332,7 +332,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "19") {
   // synonym first arg, exact match ident second arg - select a (no operator)
   string query =
@@ -348,7 +348,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "20") {
   // synonym first arg, exact match ident second arg - select v (with operator)
   string query =
@@ -364,7 +364,7 @@ TEST_CASE(
 }
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/AssignPattern_queries.txt - "
     "21") {
   // synonym first arg, exact match ident second arg - select a (with operator)
   string query =
