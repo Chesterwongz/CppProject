@@ -104,26 +104,28 @@ PatternStorage::getPartialAssignPattern(const std::string& variableName,
 std::vector<std::pair<std::string, std::string>> PatternStorage::getPattern(
     const std::unordered_map<int, std::unordered_set<std::string>>& storage,
     const std::string& variableName, bool isWildcard) {
-    std::vector<std::pair<std::string, std::string>> result;
+  std::vector<std::pair<std::string, std::string>> result;
 
-    for (const auto& entry : storage) {
-        const std::string& stmtNum = std::to_string(entry.first);
-        for (const std::string& var : entry.second) {
-            if (isWildcard || var == variableName) {
-                result.push_back({ stmtNum, var });
-            }
-        }
+  for (const auto& entry : storage) {
+    const std::string& stmtNum = std::to_string(entry.first);
+    for (const std::string& var : entry.second) {
+      if (isWildcard || var == variableName) {
+        result.push_back({stmtNum, var});
+      }
     }
+  }
 
-    return result;
+  return result;
 }
 
-std::vector<std::pair<std::string, std::string>> PatternStorage::getWhilePattern(
-    const std::string& variableName) {
-    return getPattern(whilePatternStorage, variableName, variableName == WILDCARD_KEYWORD);
+std::vector<std::pair<std::string, std::string>>
+PatternStorage::getWhilePattern(const std::string& variableName) {
+  return getPattern(whilePatternStorage, variableName,
+                    variableName == WILDCARD_KEYWORD);
 }
 
 std::vector<std::pair<std::string, std::string>> PatternStorage::getIfPattern(
     const std::string& variableName) {
-    return getPattern(ifPatternStorage, variableName, variableName == WILDCARD_KEYWORD);
+  return getPattern(ifPatternStorage, variableName,
+                    variableName == WILDCARD_KEYWORD);
 }

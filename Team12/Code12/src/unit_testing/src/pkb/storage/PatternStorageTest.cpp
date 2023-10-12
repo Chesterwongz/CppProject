@@ -99,57 +99,61 @@ TEST_CASE("PatternStorage Tests") {
 }
 
 TEST_CASE("PatternStorage") {
-    PatternStorage patternStorage;
+  PatternStorage patternStorage;
 
-    SECTION("setWhilePattern") {
-        patternStorage.setWhilePattern(6, "x");
-        patternStorage.setWhilePattern(6, "y");
-        patternStorage.setWhilePattern(7, "y");
-        patternStorage.setWhilePattern(8, "x");
-        patternStorage.setWhilePattern(8, "z");
-        patternStorage.setWhilePattern(9, "x");
-        
+  SECTION("setWhilePattern") {
+    patternStorage.setWhilePattern(6, "x");
+    patternStorage.setWhilePattern(6, "y");
+    patternStorage.setWhilePattern(7, "y");
+    patternStorage.setWhilePattern(8, "x");
+    patternStorage.setWhilePattern(8, "z");
+    patternStorage.setWhilePattern(9, "x");
 
-        REQUIRE(patternStorage.getWhilePattern("x") == std::vector<std::pair<std::string, std::string>>{
-            {"6", "x"}, { "8", "x" }, { "9", "x" }
-        });
+    REQUIRE(patternStorage.getWhilePattern("x") ==
+            std::vector<std::pair<std::string, std::string>>{
+                {"6", "x"}, {"8", "x"}, {"9", "x"}});
 
-        REQUIRE(patternStorage.getWhilePattern("y") == std::vector<std::pair<std::string, std::string>>{
-            {"6", "y"}, { "7", "y" }
-        });
+    REQUIRE(patternStorage.getWhilePattern("y") ==
+            std::vector<std::pair<std::string, std::string>>{{"6", "y"},
+                                                             {"7", "y"}});
 
-        REQUIRE(patternStorage.getWhilePattern("z") == std::vector<std::pair<std::string, std::string>>{
-            {"8", "z"}
-        });
+    REQUIRE(patternStorage.getWhilePattern("z") ==
+            std::vector<std::pair<std::string, std::string>>{{"8", "z"}});
 
-        REQUIRE(patternStorage.getWhilePattern("_") == std::vector<std::pair<std::string, std::string>>{
-            {"6", "x"}, { "6", "y" }, { "7", "y" }, { "8", "x" }, { "8", "z" }, { "9", "x" }
-        });
-    }
+    REQUIRE(patternStorage.getWhilePattern("_") ==
+            std::vector<std::pair<std::string, std::string>>{{"6", "x"},
+                                                             {"6", "y"},
+                                                             {"7", "y"},
+                                                             {"8", "x"},
+                                                             {"8", "z"},
+                                                             {"9", "x"}});
+  }
 
-    SECTION("setIfPattern") {
-        patternStorage.setIfPattern(6, "a");
-        patternStorage.setIfPattern(7, "b");
-        patternStorage.setIfPattern(8, "c");
-        patternStorage.setIfPattern(9, "a");
-        patternStorage.setIfPattern(10, "b");
-        patternStorage.setIfPattern(11, "d");
+  SECTION("setIfPattern") {
+    patternStorage.setIfPattern(6, "a");
+    patternStorage.setIfPattern(7, "b");
+    patternStorage.setIfPattern(8, "c");
+    patternStorage.setIfPattern(9, "a");
+    patternStorage.setIfPattern(10, "b");
+    patternStorage.setIfPattern(11, "d");
 
-        REQUIRE(patternStorage.getIfPattern("a") == std::vector<std::pair<std::string, std::string>>{
-            {"6", "a"}, { "9", "a" }
-        });
+    REQUIRE(patternStorage.getIfPattern("a") ==
+            std::vector<std::pair<std::string, std::string>>{{"6", "a"},
+                                                             {"9", "a"}});
 
-        REQUIRE(patternStorage.getIfPattern("b") == std::vector<std::pair<std::string, std::string>>{
-            {"7", "b"}, { "10", "b" }
-        });
+    REQUIRE(patternStorage.getIfPattern("b") ==
+            std::vector<std::pair<std::string, std::string>>{{"7", "b"},
+                                                             {"10", "b"}});
 
-        REQUIRE(patternStorage.getIfPattern("c") == std::vector<std::pair<std::string, std::string>>{
-            {"8", "c"}
-        });
+    REQUIRE(patternStorage.getIfPattern("c") ==
+            std::vector<std::pair<std::string, std::string>>{{"8", "c"}});
 
-        REQUIRE(patternStorage.getIfPattern("_") == std::vector<std::pair<std::string, std::string>>{
-            {"6", "a"}, { "7", "b" }, { "8", "c" }, { "9", "a" }, { "10", "b" }, { "11", "d" }
-        });
-    }
+    REQUIRE(patternStorage.getIfPattern("_") ==
+            std::vector<std::pair<std::string, std::string>>{{"6", "a"},
+                                                             {"7", "b"},
+                                                             {"8", "c"},
+                                                             {"9", "a"},
+                                                             {"10", "b"},
+                                                             {"11", "d"}});
+  }
 }
-

@@ -566,7 +566,7 @@ TEST_CASE("SP-PKB integration - multiple control variables in if statements") {
                   expectedParentChildStarPairs);
   validateModifies(reader, expectedModifiesPairs);
   validateUses(reader, expectedUsesPairs);
- REQUIRE(reader.getExactAssignPattern("_", "_").empty());
+  REQUIRE(reader.getExactAssignPattern("_", "_").empty());
   REQUIRE(reader.getPartialAssignPattern("_", "_").empty());
 }
 
@@ -681,88 +681,89 @@ TEST_CASE("SP-PKB integration - assign pattern with all operators") {
                   expectedParentChildStarPairs);
   validateModifies(reader, expectedModifiesPairs);
   validateUses(reader, expectedUsesPairs);
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("x", " a b c * + d e / f % - "),
-       StrStrPairVector{{"7", "x"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("y", " a b + c d - * e f % / "),
-       StrStrPairVector{{"8", "y"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("z", " a b c d * + e f / - * g % "),
-       StrStrPairVector{{"9", "z"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("a", " a b c / d * - e f % g * + "),
-       StrStrPairVector{{"10", "a"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("b", " a b * c - d e f / + % "),
-       StrStrPairVector{{"11", "b"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("c", " a b c + / d * e f % - g + "),
-       StrStrPairVector{{"12", "c"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("d", " a b c d % e - * f / + "),
-       StrStrPairVector{{"13", "d"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("e", " a b % c * d e f + / - "),
-       StrStrPairVector{{"14", "e"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("f", " a b / c d + * e % f - "),
-       StrStrPairVector{{"15", "f"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("g", " a b c % + d e f / - * "),
-       StrStrPairVector{{"16", "g"}}));
-   REQUIRE(isAssignResultMatch(reader.getExactAssignPattern("x", " a b c * - "),
-                               StrStrPairVector{{"17", "x"}, {"18", "x"}}));
-   REQUIRE(isAssignResultMatch(reader.getExactAssignPattern("x", " a b * c + "),
-                               StrStrPairVector{{"19", "x"}}));
-   REQUIRE(isAssignResultMatch(reader.getExactAssignPattern("x", " a b / c d * - "),
-                               StrStrPairVector{{"20", "x"}}));
-   REQUIRE(isAssignResultMatch(reader.getExactAssignPattern("_", "_"),
-                               StrStrPairVector{{"7", "x"},
-                                                {"8", "y"},
-                                                {"9", "z"},
-                                                {"10", "a"},
-                                                {"11", "b"},
-                                                {"12", "c"},
-                                                {"13", "d"},
-                                                {"14", "e"},
-                                                {"15", "f"},
-                                                {"16", "g"},
-                                                {"17", "x"},
-                                                {"18", "x"},
-                                                {"19", "x"},
-                                                {"20", "x"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("x", " a b c * + d e / f % - "),
+      StrStrPairVector{{"7", "x"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("y", " a b + c d - * e f % / "),
+      StrStrPairVector{{"8", "y"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("z", " a b c d * + e f / - * g % "),
+      StrStrPairVector{{"9", "z"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("a", " a b c / d * - e f % g * + "),
+      StrStrPairVector{{"10", "a"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("b", " a b * c - d e f / + % "),
+      StrStrPairVector{{"11", "b"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("c", " a b c + / d * e f % - g + "),
+      StrStrPairVector{{"12", "c"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("d", " a b c d % e - * f / + "),
+      StrStrPairVector{{"13", "d"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("e", " a b % c * d e f + / - "),
+      StrStrPairVector{{"14", "e"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("f", " a b / c d + * e % f - "),
+      StrStrPairVector{{"15", "f"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("g", " a b c % + d e f / - * "),
+      StrStrPairVector{{"16", "g"}}));
+  REQUIRE(isAssignResultMatch(reader.getExactAssignPattern("x", " a b c * - "),
+                              StrStrPairVector{{"17", "x"}, {"18", "x"}}));
+  REQUIRE(isAssignResultMatch(reader.getExactAssignPattern("x", " a b * c + "),
+                              StrStrPairVector{{"19", "x"}}));
+  REQUIRE(
+      isAssignResultMatch(reader.getExactAssignPattern("x", " a b / c d * - "),
+                          StrStrPairVector{{"20", "x"}}));
+  REQUIRE(isAssignResultMatch(reader.getExactAssignPattern("_", "_"),
+                              StrStrPairVector{{"7", "x"},
+                                               {"8", "y"},
+                                               {"9", "z"},
+                                               {"10", "a"},
+                                               {"11", "b"},
+                                               {"12", "c"},
+                                               {"13", "d"},
+                                               {"14", "e"},
+                                               {"15", "f"},
+                                               {"16", "g"},
+                                               {"17", "x"},
+                                               {"18", "x"},
+                                               {"19", "x"},
+                                               {"20", "x"}}));
 
-   REQUIRE(
-       isAssignResultMatch(reader.getPartialAssignPattern("x", " a b c * + "),
-                           StrStrPairVector{{"7", "x"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getPartialAssignPattern("y", " a b + c d - * "),
-       StrStrPairVector{{"8", "y"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getPartialAssignPattern("_", " e f / "),
-       StrStrPairVector{{"9", "z"}, {"11", "b"}, {"16", "g"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getPartialAssignPattern("_", " a b c / d * - e f % g * + "),
-       StrStrPairVector{{"10", "a"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getPartialAssignPattern("_", " e f % "),
-       StrStrPairVector{{"8", "y"}, {"10", "a"}, {"12", "c"}}));
-   REQUIRE(isAssignResultMatch(reader.getPartialAssignPattern("_", " c d % "),
-                               StrStrPairVector{{"13", "d"}}));
-   REQUIRE(
-       isAssignResultMatch(reader.getPartialAssignPattern("e", " d e f + / "),
-                           StrStrPairVector{{"14", "e"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getPartialAssignPattern("f", " a b / c d + * "),
-       StrStrPairVector{{"15", "f"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getPartialAssignPattern("g", " a b c % + d e f / - * "),
-       StrStrPairVector{{"16", "g"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getPartialAssignPattern("x", "_"),
-       StrStrPairVector{
-           {"7", "x"}, {"17", "x"}, {"18", "x"}, {"19", "x"}, {"20", "x"}}));
+  REQUIRE(
+      isAssignResultMatch(reader.getPartialAssignPattern("x", " a b c * + "),
+                          StrStrPairVector{{"7", "x"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getPartialAssignPattern("y", " a b + c d - * "),
+      StrStrPairVector{{"8", "y"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getPartialAssignPattern("_", " e f / "),
+      StrStrPairVector{{"9", "z"}, {"11", "b"}, {"16", "g"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getPartialAssignPattern("_", " a b c / d * - e f % g * + "),
+      StrStrPairVector{{"10", "a"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getPartialAssignPattern("_", " e f % "),
+      StrStrPairVector{{"8", "y"}, {"10", "a"}, {"12", "c"}}));
+  REQUIRE(isAssignResultMatch(reader.getPartialAssignPattern("_", " c d % "),
+                              StrStrPairVector{{"13", "d"}}));
+  REQUIRE(
+      isAssignResultMatch(reader.getPartialAssignPattern("e", " d e f + / "),
+                          StrStrPairVector{{"14", "e"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getPartialAssignPattern("f", " a b / c d + * "),
+      StrStrPairVector{{"15", "f"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getPartialAssignPattern("g", " a b c % + d e f / - * "),
+      StrStrPairVector{{"16", "g"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getPartialAssignPattern("x", "_"),
+      StrStrPairVector{
+          {"7", "x"}, {"17", "x"}, {"18", "x"}, {"19", "x"}, {"20", "x"}}));
 }
 
 TEST_CASE(
@@ -895,36 +896,36 @@ TEST_CASE(
                   expectedParentChildStarPairs);
   validateModifies(reader, expectedModifiesPairs);
   validateUses(reader, expectedUsesPairs);
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("x", " a b c * + d e / f % - "),
-       StrStrPairVector{{"7", "x"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("y", " a b + c d - * e f % / "),
-       StrStrPairVector{{"9", "y"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("z", " a b c d * + e f / - * g % "),
-       StrStrPairVector{{"11", "z"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("a", " a b c / d * - e f % g * + "),
-       StrStrPairVector{{"12", "a"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("b", " a b * c - d e f / + % "),
-       StrStrPairVector{{"14", "b"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("c", " a b c + / d * e f % - g + "),
-       StrStrPairVector{{"15", "c"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("d", " a b c d % e - * f / + "),
-       StrStrPairVector{{"18", "d"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("e", " a b % c * d e f + / - "),
-       StrStrPairVector{{"19", "e"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("f", " a b / c d + * e % f - "),
-       StrStrPairVector{{"20", "f"}}));
-   REQUIRE(isAssignResultMatch(
-       reader.getExactAssignPattern("g", " a b c % + d e f / - * "),
-       StrStrPairVector{{"21", "g"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("x", " a b c * + d e / f % - "),
+      StrStrPairVector{{"7", "x"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("y", " a b + c d - * e f % / "),
+      StrStrPairVector{{"9", "y"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("z", " a b c d * + e f / - * g % "),
+      StrStrPairVector{{"11", "z"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("a", " a b c / d * - e f % g * + "),
+      StrStrPairVector{{"12", "a"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("b", " a b * c - d e f / + % "),
+      StrStrPairVector{{"14", "b"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("c", " a b c + / d * e f % - g + "),
+      StrStrPairVector{{"15", "c"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("d", " a b c d % e - * f / + "),
+      StrStrPairVector{{"18", "d"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("e", " a b % c * d e f + / - "),
+      StrStrPairVector{{"19", "e"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("f", " a b / c d + * e % f - "),
+      StrStrPairVector{{"20", "f"}}));
+  REQUIRE(isAssignResultMatch(
+      reader.getExactAssignPattern("g", " a b c % + d e f / - * "),
+      StrStrPairVector{{"21", "g"}}));
   REQUIRE(isAssignResultMatch(reader.getExactAssignPattern("_", "_"),
                               StrStrPairVector{{"15", "c"},
                                                {"7", "x"},
@@ -943,7 +944,7 @@ TEST_CASE(
                           StrStrPairVector{{"7", "x"}}));
   REQUIRE(isAssignResultMatch(
       reader.getPartialAssignPattern("_", " e f % "),
-      StrStrPairVector{ {"15", "c"}, {"9", "y"}, {"12", "a"}  }));
+      StrStrPairVector{{"15", "c"}, {"9", "y"}, {"12", "a"}}));
   REQUIRE(isAssignResultMatch(
       reader.getPartialAssignPattern("_", " e f / "),
       StrStrPairVector{{"11", "z"}, {"14", "b"}, {"21", "g"}}));
