@@ -4,6 +4,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"
@@ -35,6 +36,7 @@ class PatternEvaluator {
         synonymValue(synonymValue) {}
   virtual IntermediateTable evaluate();
   virtual vector<std::pair<string, string>> processArguments() = 0;
-  virtual IntermediateTable buildResultTable(vector<std::pair<string, string>> pkbResult) = 0;
+  virtual IntermediateTable buildResultTable(
+      vector<std::pair<string, string>> pkbResult) = 0;
   virtual ~PatternEvaluator() = default;
 };

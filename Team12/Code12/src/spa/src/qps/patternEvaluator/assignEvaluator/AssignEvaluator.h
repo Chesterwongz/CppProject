@@ -16,5 +16,6 @@ class AssignEvaluator : public PatternEvaluator {
                          synonymValue) {}
   ~AssignEvaluator() override = default;
   vector<std::pair<string, string>> processArguments() override;
-  IntermediateTable buildResultTable(vector<std::pair<string, string>> pkbResult) override;
+  IntermediateTable buildResultTable(
+      vector<std::pair<string, string>> pkbResult) override;
 };
