@@ -36,6 +36,9 @@ string whileSource =
       "while (9 == 11) {"           // 11
         "while (oi == 2) {"         // 12
           "oi = oi - 1;"            // 13
+          "while (2 == oi) {"       // 14
+            "oi = oi - 2;"          // 15
+          "}"
         "}"
       "}"
     "}";
@@ -52,7 +55,7 @@ TEST_CASE(
   sp.processContent(whileSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"2", "4", "6", "9", "12"};
+  set<string> expected = {"2", "4", "6", "9", "12", "15"};
   REQUIRE(result == expected);
 }
 
@@ -68,7 +71,7 @@ TEST_CASE(
   sp.processContent(whileSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "2", "4", "6", "9", "11", "12"};
+  set<string> expected = {"1", "2", "4", "6", "9", "11", "12", "15"};
   REQUIRE(result == expected);
 }
 
@@ -84,7 +87,7 @@ TEST_CASE(
   sp.processContent(whileSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"2", "4", "6", "9", "12"};
+  set<string> expected = {"2", "4", "6", "9", "12", "15"};
   REQUIRE(result == expected);
 }
 
@@ -100,7 +103,7 @@ TEST_CASE(
   sp.processContent(whileSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "2", "4", "6", "9", "11", "12"};
+  set<string> expected = {"1", "2", "4", "6", "9", "11", "12", "15"};
   REQUIRE(result == expected);
 }
 
@@ -116,7 +119,7 @@ TEST_CASE(
   sp.processContent(whileSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"9", "12"};
+  set<string> expected = {"9", "12", "15"};
   REQUIRE(result == expected);
 }
 
@@ -133,7 +136,7 @@ TEST_CASE(
   sp.processContent(whileSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "2", "4", "6", "9", "11", "12"};
+  set<string> expected = {"1", "2", "4", "6", "9", "11", "12", "15"};
   REQUIRE(result == expected);
 }
 
