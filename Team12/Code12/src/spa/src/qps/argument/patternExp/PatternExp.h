@@ -17,6 +17,5 @@ class PatternExp : public AbstractArgument {
   string getValue() override;
   QPSStringUtils::ArgumentType getArgumentType() override;
   bool isPatternExp() override;
-  string myRPN(string exp);
   bool operator==(const AbstractArgument& other) const override;
 };
