@@ -3,6 +3,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <memory>
 
 #include "qps/patternEvaluator/PatternEvaluator.h"
 

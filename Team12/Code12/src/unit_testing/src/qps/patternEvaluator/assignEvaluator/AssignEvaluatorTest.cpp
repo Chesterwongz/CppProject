@@ -97,9 +97,10 @@ TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
   unique_ptr<PatternExp> patternExpPtr =
       make_unique<PatternExp>(patternExp.getValue());
 
-  AssignEvaluator assignEvaluator = AssignEvaluator(std::move(variableSynonymPtr), std::move(patternExpPtr),
-                      assignMockPKBReader,
-      assignIsPartialMatchFalse, selectedSynonym.getValue());
+  AssignEvaluator assignEvaluator =
+      AssignEvaluator(std::move(variableSynonymPtr), std::move(patternExpPtr),
+                      assignMockPKBReader, assignIsPartialMatchFalse,
+                      selectedSynonym.getValue());
 
   IntermediateTable actualTable = assignEvaluator.evaluate();
 
