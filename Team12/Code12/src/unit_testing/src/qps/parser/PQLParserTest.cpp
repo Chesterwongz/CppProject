@@ -8,7 +8,7 @@
 #include "qps/argument/integer/Integer.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
-#include "qps/clause/patternClause/PatternClause.h"
+#include "qps/clause/patternClause/AssignPatternClause.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
 #include "qps/query/Query.h"
 #include "qps/token/PQLToken.h"
@@ -165,7 +165,7 @@ TEST_CASE("valid such that before pattern") {
   vector<unique_ptr<AbstractArgument>> patternArg;
   patternArg.push_back(std::move(firstPatternArg));
   patternArg.push_back(std::move(secondPatternArg));
-  unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(
+  unique_ptr<AssignPatternClause> patternClause = make_unique<AssignPatternClause>(
       std::move(outerSynonym), std::move(patternArg), false);
   expected.addClause(std::move(patternClause));
 
@@ -263,7 +263,7 @@ TEST_CASE("valid pattern before such that") {
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstPatternArg));
   patternArg.push_back(std::move(secondPatternArg));
-  unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(
+  unique_ptr<AssignPatternClause> patternClause = make_unique<AssignPatternClause>(
       std::move(outerSynonym), std::move(patternArg), false);
   expected.addClause(std::move(patternClause));
 

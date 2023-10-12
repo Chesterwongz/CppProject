@@ -5,7 +5,7 @@
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/patternExp/PatternExp.h"
-#include "qps/clause/patternClause/PatternClause.h"
+#include "qps/clause/patternClause/AssignPatternClause.h"
 #include "qps/common/Keywords.h"
 
 using std::unique_ptr, std::make_unique;
@@ -26,7 +26,7 @@ TEST_CASE("test_PatternClause_isEqual") {
   patternArgsStreamTest1.push_back(std::move(firstArgPtr1));
   patternArgsStreamTest1.push_back(std::move(secondArgPtr1));
 
-  PatternClause patternClause1 = PatternClause(
+  AssignPatternClause patternClause1 = AssignPatternClause(
       std::move(patternSynonymPtr1), std::move(patternArgsStreamTest1), false);
 
   unique_ptr<SynonymArg> patternSynonymPtr2 =
@@ -40,7 +40,7 @@ TEST_CASE("test_PatternClause_isEqual") {
   patternArgsStreamTest2.push_back(std::move(firstArgPtr2));
   patternArgsStreamTest2.push_back(std::move(secondArgPtr2));
 
-  PatternClause patternClause2 = PatternClause(
+  AssignPatternClause patternClause2 = AssignPatternClause(
       std::move(patternSynonymPtr2), std::move(patternArgsStreamTest2), false);
 
   REQUIRE(patternClause1.isEquals(patternClause2));
@@ -64,7 +64,7 @@ TEST_CASE("test_PatternClause_evaluate_synonymFirstArg") {
   patternArgsStreamTest.push_back(std::move(firstArgPtr));
   patternArgsStreamTest.push_back(std::move(secondArgPtr));
 
-  PatternClause patternClause = PatternClause(
+  AssignPatternClause patternClause = AssignPatternClause(
       std::move(patternSynonymPtr), std::move(patternArgsStreamTest), false);
 
   PKBStorage pkbStorage = PKBStorage();
@@ -109,7 +109,7 @@ TEST_CASE("test_PatternClause_evaluate_identFirstArg") {
   patternArgsStreamTest.push_back(std::move(firstArgPtr));
   patternArgsStreamTest.push_back(std::move(secondArgPtr));
 
-  PatternClause patternClause = PatternClause(
+  AssignPatternClause patternClause = AssignPatternClause(
       std::move(patternSynonymPtr), std::move(patternArgsStreamTest), false);
 
   PKBStorage pkbStorage = PKBStorage();

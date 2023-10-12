@@ -13,14 +13,14 @@
 
 using std::string, std::unique_ptr, std::vector;
 
-class PatternClause : public Clause {
+class AssignPatternClause : public Clause {
  private:
   unique_ptr<AbstractArgument> synonym;
   PatternArgsStream patternArgsStream;
   bool isPartialMatch;
 
  public:
-  explicit PatternClause(unique_ptr<AbstractArgument> synonym,
+  explicit AssignPatternClause(unique_ptr<AbstractArgument> synonym,
                          PatternArgsStream patternArgsStream,
                          bool isPartialMatch)
       : synonym(std::move(synonym)),

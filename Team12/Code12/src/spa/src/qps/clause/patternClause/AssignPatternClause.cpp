@@ -1,21 +1,21 @@
-#include "PatternClause.h"
+#include "AssignPatternClause.h"
 
-IntermediateTable PatternClause::evaluate(Context& context,
+IntermediateTable AssignPatternClause::evaluate(Context& context,
                                           PKBReader& pkbReader) {
   string synonymValue = synonym->getValue();
   string entityType = context.getTokenEntity(synonymValue);
 
-  unique_ptr<PatternEvaluator> evaluatorPtr;
+  unique_ptr<AssignEvaluator> evaluatorPtr;
 
-  evaluatorPtr = PatternEvaluatorFactory::createEvaluator(
-      entityType, patternArgsStream, pkbReader, isPartialMatch,
-      synonymValue);
+  evaluatorPtr = std::make_unique<AssignEvaluator>(
+      std::move(patternArgsStream[0]), std::move(patternArgsStream[1]),
+      pkbReader, isPartialMatch, synonymValue);
 
   return evaluatorPtr->evaluate();
 }
 
-bool PatternClause::isEquals(const Clause& other) {
-  const auto* otherPattern = dynamic_cast<const PatternClause*>(&other);
+bool AssignPatternClause::isEquals(const Clause& other) {
+  const auto* otherPattern = dynamic_cast<const AssignPatternClause*>(&other);
   if (!otherPattern) return false;
 
   for (int i = 0; i < patternArgsStream.size(); ++i) {

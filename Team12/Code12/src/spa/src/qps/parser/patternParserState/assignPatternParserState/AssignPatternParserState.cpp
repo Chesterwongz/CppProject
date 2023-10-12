@@ -4,7 +4,7 @@
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
 #include "qps/argument/patternExp/PatternExp.h"
-#include "qps/clause/patternClause/PatternClause.h"
+#include "qps/clause/patternClause/AssignPatternClause.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/parser/patternParserState/PatternParserState.h"
 #include "qps/parser/patternParserState/expressionParser/ExpressionValidator.h"
@@ -102,7 +102,7 @@ void AssignPatternParserState::handleToken() {
         break;
       case PQL_CLOSE_BRACKET_TOKEN:
         processLastArgument();
-        parserContext.addClause(std::make_unique<PatternClause>(
+        parserContext.addClause(std::make_unique<AssignPatternClause>(
             std::move(synAssign), std::move(patternArg), isPartialMatch));
         break;
       case PQL_WILDCARD_TOKEN:
