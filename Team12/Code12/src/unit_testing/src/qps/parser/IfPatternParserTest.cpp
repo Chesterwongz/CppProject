@@ -1,7 +1,7 @@
-#include <catch.hpp>
 #include <memory>
 #include <string>
 #include <vector>
+#include <catch.hpp>
 
 #include "PQLParserTestUtils.h"
 #include "qps/argument/ident/Ident.h"
