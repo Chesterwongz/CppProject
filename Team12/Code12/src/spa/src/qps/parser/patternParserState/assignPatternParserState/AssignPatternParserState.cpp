@@ -66,7 +66,7 @@ bool AssignPatternParserState::checkSafeExit() {
   return true;
 }
 
-void AssignPatternParserState::processLiteralRefToken(PQLToken& curr){
+void AssignPatternParserState::processLiteralRefToken(PQLToken& curr) {
   if (patternArg.size() == SECOND_ARG) {
     curr.updateTokenType(PQL_LITERAL_EXPRESSION_TOKEN);
   }
