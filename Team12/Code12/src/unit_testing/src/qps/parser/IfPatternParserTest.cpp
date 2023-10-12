@@ -173,6 +173,5 @@ TEST_CASE("Invalid Pattern if (SYNONYM,_)") {
 
   REQUIRE_THROWS_MATCHES(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSyntaxError,
-      Catch::Message(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT));
+      QPSSyntaxError, Catch::Message(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT));
 }
