@@ -4,6 +4,7 @@
 #include "../../unit_testing/src/qps/mocks/MockPKBReader.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/argument/patternExp/PatternExp.h"
 #include "qps/clause/patternClause/PatternClause.h"
 #include "qps/common/Keywords.h"
 
@@ -12,13 +13,14 @@ using std::unique_ptr, std::make_unique;
 TEST_CASE("test_PatternClause_isEqual") {
   SynonymArg patternSynonym = SynonymArg("a");
   SynonymArg firstArg = SynonymArg("test");
-  Ident secondArg = Ident("x");
+  PatternExp secondArg = PatternExp("x");
 
   unique_ptr<SynonymArg> patternSynonymPtr1 =
       std::make_unique<SynonymArg>(patternSynonym.getValue());
   unique_ptr<SynonymArg> firstArgPtr1 =
       std::make_unique<SynonymArg>(firstArg.getValue());
-  unique_ptr<Ident> secondArgPtr1 = make_unique<Ident>(secondArg.getValue());
+  unique_ptr<PatternExp> secondArgPtr1 =
+      make_unique<PatternExp>(secondArg.getValue());
 
   PatternArgsStream patternArgsStreamTest1;
   patternArgsStreamTest1.push_back(std::move(firstArgPtr1));
@@ -31,7 +33,8 @@ TEST_CASE("test_PatternClause_isEqual") {
       std::make_unique<SynonymArg>(patternSynonym.getValue());
   unique_ptr<SynonymArg> firstArgPtr2 =
       std::make_unique<SynonymArg>(firstArg.getValue());
-  unique_ptr<Ident> secondArgPtr2 = make_unique<Ident>(secondArg.getValue());
+  unique_ptr<PatternExp> secondArgPtr2 =
+      make_unique<PatternExp>(secondArg.getValue());
 
   PatternArgsStream patternArgsStreamTest2;
   patternArgsStreamTest2.push_back(std::move(firstArgPtr2));
@@ -48,13 +51,14 @@ TEST_CASE("test_PatternClause_evaluate_synonymFirstArg") {
   // assign a; variable test; select a pattern (test, "x")
   SynonymArg patternSynonym = SynonymArg("a");
   SynonymArg firstArg = SynonymArg("test");
-  Ident secondArg = Ident("x");
+  PatternExp secondArg = PatternExp("x");
 
   unique_ptr<SynonymArg> patternSynonymPtr =
       std::make_unique<SynonymArg>(patternSynonym.getValue());
   unique_ptr<SynonymArg> firstArgPtr =
       std::make_unique<SynonymArg>(firstArg.getValue());
-  unique_ptr<Ident> secondArgPtr = make_unique<Ident>(secondArg.getValue());
+  unique_ptr<PatternExp> secondArgPtr =
+      make_unique<PatternExp>(secondArg.getValue());
 
   PatternArgsStream patternArgsStreamTest;
   patternArgsStreamTest.push_back(std::move(firstArgPtr));
@@ -92,12 +96,13 @@ TEST_CASE("test_PatternClause_evaluate_identFirstArg") {
   // assign a; select a pattern ("b", "x")
   SynonymArg patternSynonym = SynonymArg("a");
   Ident firstArg = Ident("b");
-  Ident secondArg = Ident("x");
+  PatternExp secondArg = PatternExp("x");
 
   unique_ptr<SynonymArg> patternSynonymPtr =
       std::make_unique<SynonymArg>(patternSynonym.getValue());
   unique_ptr<Ident> firstArgPtr = std::make_unique<Ident>(firstArg.getValue());
-  unique_ptr<Ident> secondArgPtr = make_unique<Ident>(secondArg.getValue());
+  unique_ptr<PatternExp> secondArgPtr =
+      make_unique<PatternExp>(secondArg.getValue());
 
   PatternArgsStream patternArgsStreamTest;
   patternArgsStreamTest.push_back(std::move(firstArgPtr));

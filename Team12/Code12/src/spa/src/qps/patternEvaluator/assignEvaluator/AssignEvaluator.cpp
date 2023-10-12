@@ -8,28 +8,19 @@ vector<std::pair<string, string>> AssignEvaluator::processArguments() {
   string secondArgValue = patternArgsStream[1]->getValue();
 
   bool isFirstArgSynonym = patternArgsStream[0]->isSynonym();
-  bool isSecondArgWildcard = patternArgsStream[1]->isWildcard();
-
-  string secondArgRPNValue;
 
   if (isFirstArgSynonym) {
     firstArgValue = WILDCARD_KEYWORD;
-  }
-  
-  if (isSecondArgWildcard) {
-    secondArgRPNValue = secondArgValue;
-  } else {
-    secondArgRPNValue = QPSStringUtils::convertToRPN(secondArgValue);
   }
 
   vector<std::pair<string, string>> pkbResult;
 
   if (isPartialMatch) {
     pkbResult = pkbReader.getPartialAssignPattern(
-        firstArgValue, secondArgRPNValue);
+        firstArgValue, secondArgValue);
   } else {
     pkbResult = pkbReader.getExactAssignPattern(
-        firstArgValue, secondArgRPNValue);
+        firstArgValue, secondArgValue);
   }
   
   return pkbResult;
