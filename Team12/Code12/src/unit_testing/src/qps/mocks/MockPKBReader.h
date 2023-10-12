@@ -48,12 +48,12 @@ class MockPKBReader : public PKBReader {
   bool mockIsVariableUsedBy{};
   vector<pair<string, string>> mockGetNextPairs;
   bool mockIsNext{};
-  vector<string> mockGetPrevStmtsFrom;
-  vector<string> mockGetNextStmtsFrom;
-  vector<pair<string, string>> mockGetNextStarPairs;
-  bool mockIsNextStar{};
-  vector<string> mockGetNextStarFirstStmt;
-  vector<string> mockGetNextStarSecondStmt;
+  vector<string> mockGetPrevStmts;
+  vector<string> mockGetNextStmts;
+  vector<pair<string, string>> mockGetNextTPairs;
+  bool mockIsNextT{};
+  vector<string> mockGetPrevTStmts;
+  vector<string> mockGetNextTStmts;
 
   explicit MockPKBReader(PKBStorage& storage) : PKBReader(storage) {}
 
@@ -208,32 +208,32 @@ class MockPKBReader : public PKBReader {
     return mockIsNext;
   }
 
-  vector<string> getPrevStmtsFrom(int secondStmtNumber,
+  vector<string> getPrevStmts(int secondStmtNumber,
                                   StmtType firstStmtType) override {
-    return mockGetPrevStmtsFrom;
+    return mockGetPrevStmts;
   };
 
-  vector<string> getNextStmtsFrom(int firstStmtNumber,
+  vector<string> getNextStmts(int firstStmtNumber,
                                   StmtType secondStmtType) override {
-    return mockGetNextStmtsFrom;
+    return mockGetNextStmts;
   }
 
-  vector<pair<string, string>> getNextStarPairs(
+  vector<pair<string, string>> getNextTPairs(
       StmtType firstStmtType, StmtType secondStmtType) override {
-    return mockGetNextStarPairs;
+    return mockGetNextTPairs;
   }
 
-  bool isNextStar(int firstStmtNumber, int secondStmtNumber) override {
-    return mockIsNextStar;
+  bool isNextT(int firstStmtNumber, int secondStmtNumber) override {
+    return mockIsNextT;
   }
 
-  vector<string> getNextStarFirstStmt(int secondStmtNumber,
+  vector<string> getPrevTStmts(int secondStmtNumber,
                                       StmtType firstStmtType) override {
-    return mockGetNextStarFirstStmt;
+    return mockGetPrevTStmts;
   }
 
-  vector<string> getNextStarSecondStmt(int firstStmtNumber,
+  vector<string> getNextTStmts(int firstStmtNumber,
                                        StmtType secondStmtType) override {
-    return mockGetNextStarSecondStmt;
+    return mockGetNextTStmts;
   }
 };

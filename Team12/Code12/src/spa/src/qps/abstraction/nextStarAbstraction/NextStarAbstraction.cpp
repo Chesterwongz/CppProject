@@ -62,7 +62,7 @@ IntermediateTable NextStarAbstraction::handleSynonymOrWildcardArgs() {
   StmtType secondStmtType = this->getSecondArgStmtType();
 
   vector<pair<string, string>> nextStarPairs =
-      pkb.getNextStarPairs(firstStmtType, secondStmtType);
+      pkb.getNextTPairs(firstStmtType, secondStmtType);
 
   //! If any of the args are "_", the column will be ignored.
   return IntermediateTableFactory::buildIntermediateTable(
@@ -77,9 +77,9 @@ IntermediateTable NextStarAbstraction::handleBothArgsInteger() {
   int firstStmtNumber = stoi(this->firstArgValue);
   int secondStmtNumber = stoi(this->secondArgValue);
 
-  bool isNextStar = pkb.isNextStar(firstStmtNumber, secondStmtNumber);
+  bool isNextT = pkb.isNextT(firstStmtNumber, secondStmtNumber);
 
-  return isNextStar ? IntermediateTableFactory::buildWildcardIntermediateTable()
+  return isNextT ? IntermediateTableFactory::buildWildcardIntermediateTable()
                     : IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
@@ -89,7 +89,7 @@ IntermediateTable NextStarAbstraction::handleFirstArgInteger() {
   string secondStmtSynonym = this->secondArgValue;
 
   vector<string> nextStarSecondStmt =
-      pkb.getNextStarSecondStmt(firstStmtNumber, secondStmtType);
+      pkb.getNextTStmts(firstStmtNumber, secondStmtType);
 
   return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
                                                        nextStarSecondStmt);
@@ -101,7 +101,7 @@ IntermediateTable NextStarAbstraction::handleSecondArgInteger() {
   int secondStmtNumber = stoi(this->secondArgValue);
 
   vector<string> nextStarFirstStmt =
-      pkb.getNextStarFirstStmt(secondStmtNumber, firstStmtType);
+      pkb.getPrevTStmts(secondStmtNumber, firstStmtType);
 
   return IntermediateTableFactory::buildSingleColTable(firstStmtSynonym,
                                                        nextStarFirstStmt);

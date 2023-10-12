@@ -109,3 +109,5 @@ void PKBWriter::setCallsStarRelationship(const string &callerProc,
 void PKBWriter::setCFG(const std::string &procName, unique_ptr<CFG> cfg) {
   storage.addCfg(procName, std::move(cfg));
 }
+
+void PKBWriter::addNext(int from, int to) { storage.addNext(from, to); }

@@ -1,8 +1,8 @@
 #include <unordered_set>
 #include <catch.hpp>
 
-#include "../../../../spa/src/pkb/facade/PKBReader.h"
-#include "../../../../spa/src/pkb/facade/PKBWriter.h"
+#include "pkb/facade/PKBReader.h"
+#include "pkb/facade/PKBWriter.h"
 #include "../../common/utils/HelperFunctions.h"
 
 TEST_CASE("PKBReader Tests") {
