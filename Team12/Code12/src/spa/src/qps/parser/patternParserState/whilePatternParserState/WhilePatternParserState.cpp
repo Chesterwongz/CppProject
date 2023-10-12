@@ -1,29 +1,28 @@
-#include "IfPatternParserState.h"
+#include "WhilePatternParserState.h"
 
-PredictiveMap IfPatternParserState::predictiveMap = {
-    {PQL_IF_PATTERN_TOKEN, {PQL_OPEN_BRACKET_TOKEN}},
+PredictiveMap WhilePatternParserState::predictiveMap = {
+    {PQL_WHILE_PATTERN_TOKEN, {PQL_OPEN_BRACKET_TOKEN}},
     {PQL_OPEN_BRACKET_TOKEN,
      {PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN}},
     {PQL_SYNONYM_TOKEN, {PQL_COMMA_TOKEN}},
     {PQL_LITERAL_REF_TOKEN, {PQL_COMMA_TOKEN}},
     {PQL_WILDCARD_TOKEN, {PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
-    {PQL_COMMA_TOKEN, {PQL_WILDCARD_TOKEN}},
+    {PQL_COMMA_TOKEN, {PQL_WILDCARD_TOKEN}}
 };
 
-IfPatternParserState::IfPatternParserState(PQLParserContext &parserContext,
-                                           PQLTokenType prev,
-                                           unique_ptr<SynonymArg> synIf)
+WhilePatternParserState::WhilePatternParserState(
+    PQLParserContext &parserContext,
+    PQLTokenType prev, unique_ptr<SynonymArg> synWhile)
     : BaseParserState(parserContext, prev),
-      synIf(std::move(synIf)),
+      synWhile(std::move(synWhile)),
       nonFirstArgWildcardCount(0) {}
 
-void IfPatternParserState::processSynonymToken(PQLToken &curr) {
+void WhilePatternParserState::processSynonymToken(PQLToken &curr) {
   string synType = parserContext.getValidSynonymType(curr.getValue());
 
   if (patternArg.size() != FIRST_ARG) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
-
   if (synType == VARIABLE_ENTITY) {
     patternArg.push_back(std::make_unique<SynonymArg>(curr.getValue()));
   } else {
@@ -31,25 +30,19 @@ void IfPatternParserState::processSynonymToken(PQLToken &curr) {
   }
 }
 
-bool IfPatternParserState::checkSafeExit() {
-  if (!synIf) {
-    throw QPSParserError(QPS_PARSER_ERR_SYN_IF_MISSING);
+bool WhilePatternParserState::checkSafeExit() {
+  if (!synWhile) {
+    throw QPSParserError(QPS_PARSER_ERR_SYN_WHILE_MISSING);
   }
-  if (patternArg.size() != expectedNumberOfArgs ||
+  if (patternArg.size() != expectedNumberOfArgs
+      ||
       nonFirstArgWildcardCount != expectedNonFirstArgWildcardCount) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
   return true;
 }
 
-// TODO(Hwee): Remove this and make checks done at literal stage
-void IfPatternParserState::checkIsValidIdent(const std::string &ref) const {
-  if (patternArg.size() == FIRST_ARG && !QPSStringUtils::isIdentValue(ref)) {
-    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_IDENT);
-  }
-}
-
-void IfPatternParserState::handleToken() {
+void WhilePatternParserState::handleToken() {
   auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
   while (curr.has_value()) {
@@ -62,7 +55,7 @@ void IfPatternParserState::handleToken() {
       case PQL_CLOSE_BRACKET_TOKEN:
         checkSafeExit();
         parserContext.addClause(std::make_unique<PatternClause>(
-            std::move(synIf), std::move(patternArg)));
+            std::move(synWhile), std::move(patternArg)));
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
       case PQL_WILDCARD_TOKEN:
@@ -73,7 +66,6 @@ void IfPatternParserState::handleToken() {
         }
         break;
       case PQL_LITERAL_REF_TOKEN:
-        checkIsValidIdent(token.getValue());
         patternArg.push_back(std::make_unique<Ident>(token.getValue()));
         break;
       default:

@@ -3,7 +3,6 @@
 #include <utility>
 
 #include "qps/common/QPSStringUtils.h"
-#include "qps/exceptions/QPSInvalidQueryException.h"
 
 PQLParserContext::PQLParserContext(unique_ptr<PQLTokenStream> tokenStream,
                                    unique_ptr<Query>& query)
@@ -14,7 +13,7 @@ PQLParserContext::PQLParserContext(unique_ptr<PQLTokenStream> tokenStream,
 
 void PQLParserContext::addToContext(string entity, const string& synonym) {
   if (!QPSStringUtils::isSynonym(synonym)) {
-    throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_SYNONYM);
+    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_NAME);
   }
   this->context->addSynonym(synonym, std::move(entity));
 }

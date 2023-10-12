@@ -19,6 +19,7 @@
 class IfPatternParserState : public BaseParserState {
  private:
   static constexpr int expectedNumberOfArgs = 3;
+  static constexpr int expectedNonFirstArgWildcardCount = 2;
   unique_ptr<SynonymArg> synIf;
   static PredictiveMap predictiveMap;
   vector<unique_ptr<AbstractArgument>> patternArg;
