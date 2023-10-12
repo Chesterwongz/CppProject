@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include "qps/patternEvaluator/ifEvaluator/IfEvaluator.h"
+#include "qps/patternEvaluator/whileEvaluator/WhileEvaluator.h"
 #include "qps/common/Keywords.h"
 #include "WhileEvaluatorTestData.h"
 
@@ -19,11 +19,11 @@ TEST_CASE("test_whileEvaluator_processArgs_synonymFirstArg") {
   PatternArgsStream patternArgsStreamTest;
   patternArgsStreamTest.push_back(std::move(variableSynonymPtr));
 
-  IfEvaluator ifEvaluator =
-      IfEvaluator(whileMockContext, patternArgsStreamTest, whileMockPKBReader,
+  WhileEvaluator whileEvaluator =
+      WhileEvaluator(patternArgsStreamTest, whileMockPKBReader,
                   whileIsPartialMatchFalse, patternSynonym.getValue());
 
-  vector<string> pkbResult = ifEvaluator.processArguments();
+  vector<string> pkbResult = whileEvaluator.processArguments();
 
   REQUIRE(pkbResult == mockWhilePatternStmtsSynonym);
 }
@@ -41,11 +41,11 @@ TEST_CASE("test_whileEvaluator_processArgs_identFirstArg") {
   PatternArgsStream patternArgsStreamTest;
   patternArgsStreamTest.push_back(std::move(patternFirstArgPtr));
 
-  IfEvaluator ifEvaluator =
-      IfEvaluator(whileMockContext, patternArgsStreamTest, whileMockPKBReader,
+  WhileEvaluator whileEvaluator =
+      WhileEvaluator(patternArgsStreamTest, whileMockPKBReader,
                   whileIsPartialMatchFalse, patternSynonym.getValue());
 
-  vector<string> pkbResult = ifEvaluator.processArguments();
+  vector<string> pkbResult = whileEvaluator.processArguments();
 
   REQUIRE(pkbResult == mockWhilePatternStmtsIdent);
 }
@@ -63,11 +63,11 @@ TEST_CASE("test_whileEvaluator_processArgs_wildcardFirstArg") {
   PatternArgsStream patternArgsStreamTest;
   patternArgsStreamTest.push_back(std::move(wildcardPtr));
 
-  IfEvaluator ifEvaluator =
-      IfEvaluator(whileMockContext, patternArgsStreamTest, whileMockPKBReader,
+  WhileEvaluator whileEvaluator =
+      WhileEvaluator(patternArgsStreamTest, whileMockPKBReader,
                   whileIsPartialMatchFalse, patternSynonym.getValue());
 
-  vector<string> pkbResult = ifEvaluator.processArguments();
+  vector<string> pkbResult = whileEvaluator.processArguments();
 
   REQUIRE(pkbResult == mockWhilePatternStmtsSynonym);
 }
@@ -85,11 +85,11 @@ TEST_CASE("test_whileEvaluator_evaluate_synonymFirstArg") {
   PatternArgsStream patternArgsStreamTest;
   patternArgsStreamTest.push_back(std::move(variableSynonymPtr));
 
-  IfEvaluator ifEvaluator =
-      IfEvaluator(whileMockContext, patternArgsStreamTest, whileMockPKBReader,
+  WhileEvaluator whileEvaluator =
+      WhileEvaluator(patternArgsStreamTest, whileMockPKBReader,
                   whileIsPartialMatchFalse, patternSynonym.getValue());
 
-  IntermediateTable actualTable = ifEvaluator.evaluate();
+  IntermediateTable actualTable = whileEvaluator.evaluate();
 
   vector<string> actualColNames = actualTable.getColNames();
   vector<vector<string>> actualTableData = actualTable.getData();
@@ -119,11 +119,11 @@ TEST_CASE("test_whileEvaluator_evaluate_identFirstArg") {
   PatternArgsStream patternArgsStreamTest;
   patternArgsStreamTest.push_back(std::move(patternFirstArgPtr));
 
-  IfEvaluator ifEvaluator =
-      IfEvaluator(whileMockContext, patternArgsStreamTest, whileMockPKBReader,
+  WhileEvaluator whileEvaluator =
+      WhileEvaluator(patternArgsStreamTest, whileMockPKBReader,
                   whileIsPartialMatchFalse, patternSynonym.getValue());
 
-  IntermediateTable actualTable = ifEvaluator.evaluate();
+  IntermediateTable actualTable = whileEvaluator.evaluate();
 
   vector<string> actualColNames = actualTable.getColNames();
   vector<vector<string>> actualTableData = actualTable.getData();
@@ -149,11 +149,11 @@ TEST_CASE("test_whileEvaluator_evaluate_wildcardFirstArg") {
   PatternArgsStream patternArgsStreamTest;
   patternArgsStreamTest.push_back(std::move(wildcardPtr));
 
-  IfEvaluator ifEvaluator =
-      IfEvaluator(whileMockContext, patternArgsStreamTest, whileMockPKBReader,
+  WhileEvaluator whileEvaluator =
+      WhileEvaluator(patternArgsStreamTest, whileMockPKBReader,
                   whileIsPartialMatchFalse, patternSynonym.getValue());
 
-  IntermediateTable actualTable = ifEvaluator.evaluate();
+  IntermediateTable actualTable = whileEvaluator.evaluate();
 
   vector<string> actualColNames = actualTable.getColNames();
   vector<vector<string>> actualTableData = actualTable.getData();

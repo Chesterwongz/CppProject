@@ -8,7 +8,7 @@ IntermediateTable PatternClause::evaluate(Context& context,
   unique_ptr<PatternEvaluator> evaluatorPtr;
 
   evaluatorPtr = PatternEvaluatorFactory::createEvaluator(
-      entityType, context, patternArgsStream, pkbReader, isPartialMatch,
+      entityType, patternArgsStream, pkbReader, isPartialMatch,
       synonymValue);
 
   return evaluatorPtr->evaluate();

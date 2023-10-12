@@ -12,7 +12,6 @@ using std::string, std::unique_ptr;
 class PatternEvaluatorFactory {
  public:
   static unique_ptr<PatternEvaluator> createEvaluator(
-      string& entityType, Context& context,
-      PatternArgsStream& patternArgsStream, PKBReader& pkbReader,
-      bool isPartialMatch, string synonymValue);
+      string& entityType, PatternArgsStream& patternArgsStream,
+      PKBReader& pkbReader, bool isPartialMatch, string synonymValue);
 };

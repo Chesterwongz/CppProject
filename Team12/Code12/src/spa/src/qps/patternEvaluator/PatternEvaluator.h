@@ -3,8 +3,8 @@
 #include <memory>
 #include <set>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"
@@ -18,19 +18,16 @@ typedef vector<unique_ptr<AbstractArgument>> PatternArgsStream;
 
 class PatternEvaluator {
  protected:
-  Context& context;
   PatternArgsStream& patternArgsStream;
   PKBReader& pkbReader;
   bool isPartialMatch;
   string synonymValue;
 
  public:
-  explicit PatternEvaluator(Context& context,
-                            PatternArgsStream& patternArgsStream,
+  explicit PatternEvaluator(PatternArgsStream& patternArgsStream,
                             PKBReader& pkbReader, bool isPartialMatch,
                             string synonymValue)
-      : context(context),
-        patternArgsStream(patternArgsStream),
+      : patternArgsStream(patternArgsStream),
         pkbReader(pkbReader),
         isPartialMatch(isPartialMatch),
         synonymValue(synonymValue) {}

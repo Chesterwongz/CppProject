@@ -8,11 +8,10 @@
 
 class WhileEvaluator : public PatternEvaluator {
  public:
-  explicit WhileEvaluator(Context& context,
-                          PatternArgsStream& patternArgsStream,
+  explicit WhileEvaluator(PatternArgsStream& patternArgsStream,
                           PKBReader& pkbReader, bool isPartialMatch,
                           string synonymValue)
-      : PatternEvaluator(context, patternArgsStream, pkbReader, isPartialMatch,
+      : PatternEvaluator(patternArgsStream, pkbReader, isPartialMatch,
                          synonymValue) {}
   ~WhileEvaluator() override = default;
   vector<string> processArguments() override;
