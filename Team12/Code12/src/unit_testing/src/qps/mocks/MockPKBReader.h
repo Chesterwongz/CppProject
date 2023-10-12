@@ -155,13 +155,13 @@ class MockPKBReader : public PKBReader {
     return mockAllUsedVariables;
   }
 
-  vector<pair<string, string>> getExactAssignPattern(const string& variableName,
-                                       const string& rpn) override {
+  vector<pair<string, string>> getExactAssignPattern(
+      const string& variableName, const string& rpn) override {
     return mockExactAssignPattern;
   }
 
-  vector<pair<string, string>> getPartialAssignPattern(const string& variableName,
-                                         const string& rpn) override {
+  vector<pair<string, string>> getPartialAssignPattern(
+      const string& variableName, const string& rpn) override {
     return mockPartialAssignPattern;
   }
 
