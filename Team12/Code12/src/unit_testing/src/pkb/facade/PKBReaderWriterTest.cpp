@@ -1,5 +1,5 @@
-#include <unordered_set>
 #include <catch.hpp>
+#include <unordered_set>
 
 #include "../../../../spa/src/pkb/facade/PKBReader.h"
 #include "../../../../spa/src/pkb/facade/PKBWriter.h"
@@ -361,53 +361,119 @@ TEST_CASE("PKBReader Tests") {
 
   SECTION("getExactAssignPattern") {
     std::vector<std::pair<std::string, std::string>> resultVector1 =
-        reader.getExactAssignPattern("x", " a b c * + ", false);
+        reader.getExactAssignPattern("x", " a b c * + ");
     std::vector<std::pair<std::string, std::string>> resultVector2 =
-        reader.getExactAssignPattern("x", " b ", false);
+        reader.getExactAssignPattern("x", " b ");
     std::vector<std::pair<std::string, std::string>> resultVector3 =
-        reader.getExactAssignPattern("y", " d e + f + ", false);
+        reader.getExactAssignPattern("y", " d e + f + ");
     std::vector<std::pair<std::string, std::string>> resultVector4 =
-        reader.getExactAssignPattern("z", " a b c * + ", false);
+        reader.getExactAssignPattern("z", " a b c * + ");
     std::vector<std::pair<std::string, std::string>> resultVector5 =
-        reader.getExactAssignPattern("v", " a b c * + ", true);
+        reader.getExactAssignPattern("_", " a b c * + ");
     std::vector<std::pair<std::string, std::string>> resultVector6 =
-        reader.getExactAssignPattern("_", "_", false);
+        reader.getExactAssignPattern("_", "_");
     std::vector<std::pair<std::string, std::string>> resultVector7 =
-        reader.getExactAssignPattern("x", "_", false);
-    REQUIRE(resultVector1 == std::vector<std::pair<std::string, std::string>>{ {"1", "x"}});
+        reader.getExactAssignPattern("x", "_");
+    REQUIRE(resultVector1 ==
+            std::vector<std::pair<std::string, std::string>>{{"1", "x"}});
     REQUIRE(resultVector2.empty());
-    REQUIRE(resultVector3 == std::vector<std::pair<std::string, std::string>>{ {"2", "y"}});
+    REQUIRE(resultVector3 ==
+            std::vector<std::pair<std::string, std::string>>{{"2", "y"}});
     REQUIRE(resultVector4.empty());
-    REQUIRE(resultVector5 == std::vector<std::pair<std::string, std::string>>{ {"1", "x"}});
-    REQUIRE(resultVector6 == std::vector<std::pair<std::string, std::string>>{ {"1", "x"}, { "2", "y" }, { "3", "z" }, { "4", "x" }});
-    REQUIRE(resultVector7 == std::vector<std::pair<std::string, std::string>>{"1", "4"});
+    REQUIRE(resultVector5 ==
+            std::vector<std::pair<std::string, std::string>>{{"1", "x"}});
+    REQUIRE(resultVector6 ==
+            std::vector<std::pair<std::string, std::string>>{
+                {"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}});
+    REQUIRE(resultVector7 == std::vector<std::pair<std::string, std::string>>{
+                                 {"1", "x"}, {"4", "x"}});
   }
 
   SECTION("getPartialAssignPattern") {
-      std::vector<std::pair<std::string, std::string>> resultVector1 =
-        reader.getPartialAssignPattern("x", " a b c * + ", false);
+    std::vector<std::pair<std::string, std::string>> resultVector1 =
+        reader.getPartialAssignPattern("x", " a b c * + ");
     std::vector<std::pair<std::string, std::string>> resultVector2 =
-        reader.getPartialAssignPattern("x", " 2 ", false);
+        reader.getPartialAssignPattern("x", " 2 ");
     std::vector<std::pair<std::string, std::string>> resultVector3 =
-        reader.getPartialAssignPattern("x", " 3 ", false);
+        reader.getPartialAssignPattern("x", " 3 ");
     std::vector<std::pair<std::string, std::string>> resultVector4 =
-        reader.getPartialAssignPattern("v", " a ", true);
+        reader.getPartialAssignPattern("_", " a ");
     std::vector<std::pair<std::string, std::string>> resultVector5 =
-        reader.getPartialAssignPattern("_", " a ", false);
+        reader.getPartialAssignPattern("_", " a ");
     std::vector<std::pair<std::string, std::string>> resultVector6 =
-        reader.getPartialAssignPattern("x", "_", false);
+        reader.getPartialAssignPattern("x", "_");
     std::vector<std::pair<std::string, std::string>> resultVector7 =
-        reader.getPartialAssignPattern("v", "_", true);
-    std::vector<std::pair<std::string, std::string>> resultVector8 =
-        reader.getPartialAssignPattern("_", "_", false);
+        reader.getPartialAssignPattern("_", "_");
 
-    REQUIRE(resultVector1 == std::vector<std::pair<std::string, std::string>>{ {"1", "x"}});
-    REQUIRE(resultVector2 == std::vector<std::pair<std::string, std::string>>{ { "4", "x" }});
+    REQUIRE(resultVector1 ==
+            std::vector<std::pair<std::string, std::string>>{{"1", "x"}});
+    REQUIRE(resultVector2 ==
+            std::vector<std::pair<std::string, std::string>>{{"4", "x"}});
     REQUIRE(resultVector3.empty());
-    REQUIRE(resultVector4 == std::vector<std::pair<std::string, std::string>>{ {"1", "x"}, { "3", "z" }, { "4", "x" }});
-    REQUIRE(resultVector5 == std::vector<std::pair<std::string, std::string>>{ {"1", "x"}, { "3", "z" }, { "4", "x" }});
-    REQUIRE(resultVector6 == std::vector<std::pair<std::string, std::string>>{ {"1", "x"}, { "4", "x" }});
-    REQUIRE(resultVector7 == std::vector<std::pair<std::string, std::string>>{ {"1", "x"}, { "2", "y" }, { "3", "z" }, { "4", "x" }});
-    REQUIRE(resultVector8 == std::vector<std::pair<std::string, std::string>>{ {"1", "x"}, { "2", "y" }, { "3", "z" }, { "4", "x" }});
+    REQUIRE(resultVector4 == std::vector<std::pair<std::string, std::string>>{
+                                 {"1", "x"}, {"3", "z"}, {"4", "x"}});
+    REQUIRE(resultVector5 == std::vector<std::pair<std::string, std::string>>{
+                                 {"1", "x"}, {"3", "z"}, {"4", "x"}});
+    REQUIRE(resultVector6 == std::vector<std::pair<std::string, std::string>>{
+                                 {"1", "x"}, {"4", "x"}});
+    REQUIRE(resultVector7 ==
+            std::vector<std::pair<std::string, std::string>>{
+                {"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}});
+  }
+
+  SECTION("Test whilePattern") {
+    writer.setWhilePattern(6, "x");
+    writer.setWhilePattern(6, "y");
+    writer.setWhilePattern(7, "y");
+    writer.setWhilePattern(8, "x");
+    writer.setWhilePattern(8, "z");
+    writer.setWhilePattern(9, "x");
+
+    REQUIRE(reader.getWhilePattern("x") ==
+            std::vector<std::pair<std::string, std::string>>{
+                {"6", "x"}, {"8", "x"}, {"9", "x"}});
+
+    REQUIRE(reader.getWhilePattern("y") ==
+            std::vector<std::pair<std::string, std::string>>{{"6", "y"},
+                                                             {"7", "y"}});
+
+    REQUIRE(reader.getWhilePattern("z") ==
+            std::vector<std::pair<std::string, std::string>>{{"8", "z"}});
+
+    REQUIRE(reader.getWhilePattern("_") ==
+            std::vector<std::pair<std::string, std::string>>{{"6", "x"},
+                                                             {"6", "y"},
+                                                             {"7", "y"},
+                                                             {"8", "x"},
+                                                             {"8", "z"},
+                                                             {"9", "x"}});
+  }
+
+  SECTION("Test ifPattern") {
+    writer.setIfPattern(6, "a");
+    writer.setIfPattern(7, "b");
+    writer.setIfPattern(8, "c");
+    writer.setIfPattern(9, "a");
+    writer.setIfPattern(10, "b");
+    writer.setIfPattern(11, "d");
+
+    REQUIRE(reader.getIfPattern("a") ==
+            std::vector<std::pair<std::string, std::string>>{{"6", "a"},
+                                                             {"9", "a"}});
+
+    REQUIRE(reader.getIfPattern("b") ==
+            std::vector<std::pair<std::string, std::string>>{{"7", "b"},
+                                                             {"10", "b"}});
+
+    REQUIRE(reader.getIfPattern("c") ==
+            std::vector<std::pair<std::string, std::string>>{{"8", "c"}});
+
+    REQUIRE(reader.getIfPattern("_") ==
+            std::vector<std::pair<std::string, std::string>>{{"6", "a"},
+                                                             {"7", "b"},
+                                                             {"8", "c"},
+                                                             {"9", "a"},
+                                                             {"10", "b"},
+                                                             {"11", "d"}});
   }
 }
