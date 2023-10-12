@@ -19,7 +19,8 @@ TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
 
   unique_ptr<SynonymArg> variableSynonymPtr =
       make_unique<SynonymArg>(variableSynonym.getValue());
-  unique_ptr<PatternExp> patternExpPtr = make_unique<PatternExp>(patternExp.getValue());
+  unique_ptr<PatternExp> patternExpPtr =
+      make_unique<PatternExp>(patternExp.getValue());
 
   PatternArgsStream patternArgsStreamTest;
   patternArgsStreamTest.push_back(std::move(variableSynonymPtr));

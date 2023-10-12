@@ -8,7 +8,7 @@ vector<string> AssignEvaluator::processArguments() {
   string secondArgValue = patternArgsStream[1]->getValue();
 
   bool isFirstArgSynonym = patternArgsStream[0]->isSynonym();
-  
+
   vector<string> pkbResult;
 
   if (isPartialMatch) {
