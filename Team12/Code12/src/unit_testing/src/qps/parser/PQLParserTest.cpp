@@ -1,6 +1,6 @@
+#include <catch.hpp>
 #include <memory>
 #include <vector>
-#include <catch.hpp>
 
 #include "PQLParserTestUtils.h"
 #include "pkb/facade/PKBReader.h"
@@ -165,8 +165,9 @@ TEST_CASE("valid such that before pattern") {
   vector<unique_ptr<AbstractArgument>> patternArg;
   patternArg.push_back(std::move(firstPatternArg));
   patternArg.push_back(std::move(secondPatternArg));
-  unique_ptr<AssignPatternClause> patternClause = make_unique<AssignPatternClause>(
-      std::move(outerSynonym), std::move(patternArg), false);
+  unique_ptr<AssignPatternClause> patternClause =
+      make_unique<AssignPatternClause>(std::move(outerSynonym),
+                                       std::move(patternArg), false);
   expected.addClause(std::move(patternClause));
 
   bool res = *query == expected;
@@ -263,8 +264,9 @@ TEST_CASE("valid pattern before such that") {
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstPatternArg));
   patternArg.push_back(std::move(secondPatternArg));
-  unique_ptr<AssignPatternClause> patternClause = make_unique<AssignPatternClause>(
-      std::move(outerSynonym), std::move(patternArg), false);
+  unique_ptr<AssignPatternClause> patternClause =
+      make_unique<AssignPatternClause>(std::move(outerSynonym),
+                                       std::move(patternArg), false);
   expected.addClause(std::move(patternClause));
 
   unique_ptr<Context> expectedContext = make_unique<Context>();

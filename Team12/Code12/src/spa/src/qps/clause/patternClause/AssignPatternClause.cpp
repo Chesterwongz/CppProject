@@ -1,11 +1,12 @@
 #include "AssignPatternClause.h"
+#include "qps/patternEvaluator/assignEvaluator/AssignEvaluator.h"
 
 IntermediateTable AssignPatternClause::evaluate(Context& context,
                                           PKBReader& pkbReader) {
   string synonymValue = synonym->getValue();
   string entityType = context.getTokenEntity(synonymValue);
 
-  unique_ptr<AssignEvaluator> evaluatorPtr;
+  unique_ptr<PatternEvaluator> evaluatorPtr;
 
   evaluatorPtr = std::make_unique<AssignEvaluator>(
       std::move(patternArgsStream[0]), std::move(patternArgsStream[1]),

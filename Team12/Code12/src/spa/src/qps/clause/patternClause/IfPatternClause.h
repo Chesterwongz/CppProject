@@ -9,7 +9,6 @@
 #include "qps/argument/AbstractArgument.h"
 #include "qps/clause/Clause.h"
 #include "qps/patternEvaluator/PatternEvaluator.h"
-#include "qps/patternEvaluator/PatternEvaluatorFactory.h"
 
 using std::string, std::unique_ptr, std::vector;
 

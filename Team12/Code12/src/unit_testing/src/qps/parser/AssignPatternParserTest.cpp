@@ -1,12 +1,12 @@
+#include <catch.hpp>
 #include <memory>
 #include <vector>
-#include <catch.hpp>
 
 #include "PQLParserTestUtils.h"
 #include "qps/argument/ident/Ident.h"
+#include "qps/argument/patternExp/PatternExp.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
-#include "qps/argument/patternExp/PatternExp.h"
 #include "qps/clause/patternClause/AssignPatternClause.h"
 #include "qps/query/Query.h"
 #include "qps/token/PQLToken.h"
@@ -43,8 +43,9 @@ TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_MATCH)") {
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
   patternArg.push_back(std::move(secondArg));
-  unique_ptr<AssignPatternClause> patternClause = std::make_unique<AssignPatternClause>(
-      std::move(outerSynonym), std::move(patternArg), true);
+  unique_ptr<AssignPatternClause> patternClause =
+      std::make_unique<AssignPatternClause>(std::move(outerSynonym),
+                                            std::move(patternArg), true);
   expected.addClause(std::move(patternClause));
 
   bool res = *query == expected;
@@ -82,8 +83,9 @@ TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_EXPR_MATCH)") {
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
   patternArg.push_back(std::move(secondArg));
-  unique_ptr<AssignPatternClause> patternClause = std::make_unique<AssignPatternClause>(
-      std::move(outerSynonym), std::move(patternArg), true);
+  unique_ptr<AssignPatternClause> patternClause =
+      std::make_unique<AssignPatternClause>(std::move(outerSynonym),
+                                            std::move(patternArg), true);
   expected.addClause(std::move(patternClause));
 
   bool res = *query == expected;
@@ -128,8 +130,9 @@ TEST_CASE("Valid Pattern a (SYNONYM, PARTIAL_MATCH)") {
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
   patternArg.push_back(std::move(secondArg));
-  unique_ptr<AssignPatternClause> patternClause = std::make_unique<AssignPatternClause>(
-      std::move(outerSynonym), std::move(patternArg), true);
+  unique_ptr<AssignPatternClause> patternClause =
+      std::make_unique<AssignPatternClause>(std::move(outerSynonym),
+                                            std::move(patternArg), true);
   expected.addClause(std::move(patternClause));
 
   bool res = *query == expected;
@@ -174,8 +177,9 @@ TEST_CASE("Valid Pattern a (_, PARTIAL_MATCH)") {
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
   patternArg.push_back(std::move(secondArg));
-  unique_ptr<AssignPatternClause> patternClause = std::make_unique<AssignPatternClause>(
-      std::move(outerSynonym), std::move(patternArg), true);
+  unique_ptr<AssignPatternClause> patternClause =
+      std::make_unique<AssignPatternClause>(std::move(outerSynonym),
+                                            std::move(patternArg), true);
   expected.addClause(std::move(patternClause));
 
   bool res = *query == expected;
@@ -218,8 +222,9 @@ TEST_CASE("Valid Pattern a (SYNONYM, EXACT_MATCH)") {
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
   patternArg.push_back(std::move(secondArg));
-  unique_ptr<AssignPatternClause> patternClause = std::make_unique<AssignPatternClause>(
-      std::move(outerSynonym), std::move(patternArg), false);
+  unique_ptr<AssignPatternClause> patternClause =
+      std::make_unique<AssignPatternClause>(std::move(outerSynonym),
+                                            std::move(patternArg), false);
   expected.addClause(std::move(patternClause));
 
   bool res = *query == expected;

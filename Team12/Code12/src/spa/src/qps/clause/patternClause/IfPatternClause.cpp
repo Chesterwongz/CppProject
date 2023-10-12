@@ -8,7 +8,7 @@ IntermediateTable IfPatternClause::evaluate(Context& context,
   string synonymValue = synonym->getValue();
   string entityType = context.getTokenEntity(synonymValue);
 
-  unique_ptr<IfEvaluator> evaluatorPtr;
+  unique_ptr<PatternEvaluator> evaluatorPtr;
 
   evaluatorPtr = std::make_unique<IfEvaluator>(std::move(firstArg),
                                                   pkbReader, synonymValue);

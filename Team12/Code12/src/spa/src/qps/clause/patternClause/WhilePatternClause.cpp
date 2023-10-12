@@ -9,7 +9,7 @@ IntermediateTable WhilePatternClause::evaluate(Context& context,
   string synonymValue = synonym->getValue();
   string entityType = context.getTokenEntity(synonymValue);
 
-  unique_ptr<WhileEvaluator> evaluatorPtr;
+  unique_ptr<PatternEvaluator> evaluatorPtr;
 
   evaluatorPtr = std::make_unique<WhileEvaluator>(std::move(firstArg),
                                                   pkbReader, synonymValue);

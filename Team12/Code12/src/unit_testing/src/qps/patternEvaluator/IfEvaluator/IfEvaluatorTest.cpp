@@ -20,11 +20,11 @@ TEST_CASE("test_ifEvaluator_processArgs_synonymFirstArg") {
       IfEvaluator(std::move(variableSynonymPtr), ifMockPKBReader,
                   patternSynonym.getValue());
 
-  // TODO(houten) change type to vector<pair<string, string>> 
+  // TODO(houten) change type to vector<pair<string, string>>
   // once merge saketh pr
-  //vector<string> pkbResult = ifEvaluator.processArguments();
+  // vector<string> pkbResult = ifEvaluator.processArguments();
 
-  //REQUIRE(pkbResult == mockIfPatternStmtsSynonym);
+  // REQUIRE(pkbResult == mockIfPatternStmtsSynonym);
 }
 
 TEST_CASE("test_ifEvaluator_processArgs_identFirstArg") {
@@ -44,9 +44,9 @@ TEST_CASE("test_ifEvaluator_processArgs_identFirstArg") {
   // TODO(houten) change type to vector<pair<string, string>>
   // once merge saketh pr
 
-  //vector<string> pkbResult = ifEvaluator.processArguments();
+  // vector<string> pkbResult = ifEvaluator.processArguments();
 
-  //REQUIRE(pkbResult == mockIfPatternStmtsIdent);
+  // REQUIRE(pkbResult == mockIfPatternStmtsIdent);
 }
 
 TEST_CASE("test_ifEvaluator_processArgs_wildcardFirstArg") {
@@ -59,9 +59,8 @@ TEST_CASE("test_ifEvaluator_processArgs_wildcardFirstArg") {
 
   unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
 
-  IfEvaluator ifEvaluator =
-      IfEvaluator(std::move(wildcardPtr), ifMockPKBReader,
-                  patternSynonym.getValue());
+  IfEvaluator ifEvaluator = IfEvaluator(std::move(wildcardPtr), ifMockPKBReader,
+                                        patternSynonym.getValue());
 
   // TODO(houten) change type to vector<pair<string, string>>
   // once merge saketh pr
@@ -139,9 +138,8 @@ TEST_CASE("test_ifEvaluator_evaluate_wildcardFirstArg") {
 
   unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
 
-  IfEvaluator ifEvaluator =
-      IfEvaluator(std::move(wildcardPtr), ifMockPKBReader,
-                  patternSynonym.getValue());
+  IfEvaluator ifEvaluator = IfEvaluator(std::move(wildcardPtr), ifMockPKBReader,
+                                        patternSynonym.getValue());
 
   IntermediateTable actualTable = ifEvaluator.evaluate();
 
