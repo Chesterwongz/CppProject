@@ -7,12 +7,13 @@
 #include <utility>
 #include <vector>
 
+#include "pkb/interfaces/storage/relation_storage/ICallsStorage.h"
 #include "pkb/utils/FunctionUtils.h"
 
 using std::unordered_set, std::unordered_map, std::string, std::vector,
     std::pair, std::make_pair;
 
-class CallsStorage {
+class CallsStorage : public ICallsStorage {
  public:
   void setCallsRelationship(const string& caller, const string& callee);
   void setCallsStarRelationship(const string& caller, const string& callee);

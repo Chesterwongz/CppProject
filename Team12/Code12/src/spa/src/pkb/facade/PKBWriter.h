@@ -16,6 +16,7 @@
 #include "pkb/interfaces/writers/IDesignEntitiesWriter.h"
 #include "pkb/interfaces/writers/IFollowsWriter.h"
 #include "pkb/interfaces/writers/IModifiesWriter.h"
+#include "pkb/interfaces/writers/INextWriter.h"
 #include "pkb/interfaces/writers/IParentWriter.h"
 #include "pkb/interfaces/writers/IPatternWriter.h"
 #include "pkb/interfaces/writers/IStatementWriter.h"
@@ -30,7 +31,8 @@ class PKBWriter : public IDesignEntitiesWriter,
                   public IUsesWriter,
                   public ICallsWriter,
                   public IStatementWriter,
-                  public IPatternWriter {
+                  public IPatternWriter,
+                  public INextWriter {
  public:
   explicit PKBWriter(PKBStorage& storage) : storage(storage) {}
   ~PKBWriter() override = default;
@@ -91,6 +93,8 @@ class PKBWriter : public IDesignEntitiesWriter,
   void setIndirectCallsRelationship();
 
   virtual void setCFG(const std::string& procName, unique_ptr<CFG> cfg);
+
+  void addNext(int from, int to) override;
 
  private:
   PKBStorage& storage;
