@@ -96,7 +96,8 @@ TEST_CASE(
 TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
     "5") {
-  // synonym first arg, partial match ident second arg - select v (with operator)
+  // synonym first arg, partial match ident second arg - select v (with
+  // operator)
   string query =
       "assign a; variable v;\n"
       "Select v pattern a(v,_\"2 + 3\"_)";
@@ -112,7 +113,8 @@ TEST_CASE(
 TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
     "6") {
-  // synonym first arg, partial match ident second arg - select a (with operator)
+  // synonym first arg, partial match ident second arg - select a (with
+  // operator)
   string query =
       "assign a; variable v;\n"
       "Select a pattern a(v,_\"2 + 3\"_)";
@@ -196,7 +198,7 @@ TEST_CASE(
 TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
     "11") {
-  // wildcard first arg, exact match ident second arg 
+  // wildcard first arg, exact match ident second arg
   // select different assign
   // return none since pattern evals to false (with operator)
   string query =

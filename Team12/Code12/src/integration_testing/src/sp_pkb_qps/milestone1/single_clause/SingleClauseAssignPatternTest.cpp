@@ -78,7 +78,7 @@ TEST_CASE(
 TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
     "4") {
-  // wildcard first arg, partial match ident second arg 
+  // wildcard first arg, partial match ident second arg
   // select different assign
   // return all assign statements since pattern evals to true
   string query =
@@ -96,7 +96,7 @@ TEST_CASE(
 TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
     "5") {
-  // wildcard first arg, partial match ident second arg 
+  // wildcard first arg, partial match ident second arg
   // select different assign
   // return none since pattern evals to false
   string query =
