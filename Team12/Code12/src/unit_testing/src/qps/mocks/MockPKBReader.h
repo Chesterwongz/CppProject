@@ -48,12 +48,12 @@ class MockPKBReader : public PKBReader {
   bool mockIsVariableUsedBy{};
   vector<pair<string, string>> mockGetNextPairs;
   bool mockIsNext{};
-  vector<string> mockgetPrevStmts;
-  vector<string> mockgetNextStmts;
-  vector<pair<string, string>> mockgetNextTPairs;
-  bool mockisNextT{};
-  vector<string> mockgetPrevTStmts;
-  vector<string> mockgetNextTStmts;
+  vector<string> mockGetPrevStmts;
+  vector<string> mockGetNextStmts;
+  vector<pair<string, string>> mockGetNextTPairs;
+  bool mockIsNextT{};
+  vector<string> mockGetPrevTStmts;
+  vector<string> mockGetNextTStmts;
 
   explicit MockPKBReader(PKBStorage& storage) : PKBReader(storage) {}
 
@@ -210,30 +210,30 @@ class MockPKBReader : public PKBReader {
 
   vector<string> getPrevStmts(int secondStmtNumber,
                                   StmtType firstStmtType) override {
-    return mockgetPrevStmts;
+    return mockGetPrevStmts;
   };
 
   vector<string> getNextStmts(int firstStmtNumber,
                                   StmtType secondStmtType) override {
-    return mockgetNextStmts;
+    return mockGetNextStmts;
   }
 
   vector<pair<string, string>> getNextTPairs(
       StmtType firstStmtType, StmtType secondStmtType) override {
-    return mockgetNextTPairs;
+    return mockGetNextTPairs;
   }
 
   bool isNextT(int firstStmtNumber, int secondStmtNumber) override {
-    return mockisNextT;
+    return mockIsNextT;
   }
 
   vector<string> getPrevTStmts(int secondStmtNumber,
                                       StmtType firstStmtType) override {
-    return mockgetPrevTStmts;
+    return mockGetPrevTStmts;
   }
 
   vector<string> getNextTStmts(int firstStmtNumber,
                                        StmtType secondStmtType) override {
-    return mockgetNextTStmts;
+    return mockGetNextTStmts;
   }
 };
