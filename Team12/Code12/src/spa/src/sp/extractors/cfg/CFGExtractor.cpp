@@ -2,6 +2,13 @@
 
 CFGExtractor::CFGExtractor(PKBWriter& pkbWriter) : Extractor(pkbWriter) {}
 
+void CFGExtractor::addNext(int from, int to) {
+  cfg->addEdge(from, to);
+  if (to != common::CFG_END_STMT_NUM) {
+    pkbWriter.addNext(from, to);
+  }
+}
+
 void CFGExtractor::visitProcedure(const ProcNode& node) {
   stmtListStates.emplace_back(StmtListState{common::INVALID_STMT_NUM});
   cfg = std::make_unique<CFG>();
@@ -11,7 +18,7 @@ void CFGExtractor::addEdgesToLine(int toLine) {
   stack<int>& currLines = stmtListStates.back().prevLines;
   while (!currLines.empty()) {
     int line = currLines.top();
-    cfg->addEdge(line, toLine);
+    addNext(line, toLine);
     currLines.pop();
   }
 }
@@ -65,7 +72,7 @@ void CFGExtractor::visitStmtList(const StmtListNode& node) {
   StmtListState& curr = stmtListStates.back();
   if (curr.decisionLine == common::INVALID_STMT_NUM) return;
 
-  cfg->addEdge(curr.decisionLine, node.getStartLineNum());
+  addNext(curr.decisionLine, node.getStartLineNum());
 }
 
 void CFGExtractor::postVisitStmtList(const StmtListNode& node) {

@@ -12,11 +12,11 @@ void CallsStorage::setCallsStarRelationship(const string& caller,
   calledByStarMap[callee].insert(caller);
 }
 
-unordered_set<string> CallsStorage::getCalleeProcs(const string& procedure) {
-  if (callsMap.find(procedure) == callsMap.end()) {
+unordered_set<string> CallsStorage::getCalleeProcs(const string& caller) {
+  if (callsMap.find(caller) == callsMap.end()) {
     return {};
   }
-  return callsMap[procedure];
+  return callsMap.at(caller);
 }
 
 unordered_set<string> CallsStorage::getCalleeProcsStar(
@@ -24,14 +24,14 @@ unordered_set<string> CallsStorage::getCalleeProcsStar(
   if (callsStarMap.find(procedure) == callsStarMap.end()) {
     return {};
   }
-  return callsStarMap[procedure];
+  return callsStarMap.at(procedure);
 }
 
 unordered_set<string> CallsStorage::getCallerProcs(const string& procedure) {
   if (calledByMap.find(procedure) == calledByMap.end()) {
     return {};
   }
-  return calledByMap[procedure];
+  return calledByMap.at(procedure);
 }
 
 unordered_set<string> CallsStorage::getCallerProcsStar(
@@ -40,7 +40,7 @@ unordered_set<string> CallsStorage::getCallerProcsStar(
   if (calledByStarMap.find(procedure) == calledByStarMap.end()) {
     return {};
   }
-  return calledByStarMap[procedure];
+  return calledByStarMap.at(procedure);
 }
 
 unordered_set<string> CallsStorage::getAllCallerProcs() {
@@ -82,10 +82,13 @@ CallsStorage::getCallsStarMap() {
 
 void CallsStorage::computeCallsStar() {
   for (const auto& [caller, calleeSet] : callsMap) {
+    auto lambdaGetNextStmts = [this](const string& callerProc) {
+      return this->getCalleeProcs(callerProc);
+    };
     unordered_set<string> transitiveCallees =
-        FunctionUtils<string, CallsStorage, const string&>::
-            computeTransitiveRelationship(caller, &CallsStorage::getCalleeProcs,
-                                          callsStarMap, this);
+        FunctionUtils<string, decltype(lambdaGetNextStmts), const string&>::
+            computeTransitiveRelationship(caller, lambdaGetNextStmts,
+                                          &callsStarMap);
     for (const auto& callee : transitiveCallees) {
       setCallsStarRelationship(caller, callee);
     }
