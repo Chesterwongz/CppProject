@@ -10,13 +10,18 @@ IntermediateTable::IntermediateTable(bool isTableWildcard)
     : isWildcard(isTableWildcard), isEmpty(true) {}
 
 IntermediateTable::IntermediateTable(const vector<string> &colNames,
-                                     const vector<vector<SynonymRes>> &data) {
-  for (auto &colName : colNames) {
+                                     vector<vector<unique_ptr<SynonymRes>>> data) {
+  for (const string &colName : colNames) {
     IntermediateTable::createNewCol(colName);
   }
-  for (auto &dataRow : data) {
-    this->tableData.push_back(dataRow);
-  }
+//  for (const auto &dataRow : data) {
+//    vector<unique_ptr<SynonymRes>> rowCopy = {};
+//    for (const auto &datum :dataRow) {
+//      rowCopy.emplace_back(std::move(datum->clone()));
+//    }
+//    this->tableData.emplace_back(std::move(rowCopy));
+//  }
+  this->tableData = std::move(data);
   this->isEmpty = false;
 }
 
@@ -40,19 +45,27 @@ int IntermediateTable::createNewCol(const string &newColName) {
 
 vector<vector<string>> IntermediateTable::getDataAsStrings() {
   vector<vector<string>> res;
-  for (auto &synonymDataRow : this->tableData) {
+  for (const vector<unique_ptr<SynonymRes>> &synonymDataRow : this->getTableData()) {
     vector<string> row = {};
     row.reserve(synonymDataRow.size());
-    for (auto &synonymRes : synonymDataRow) {
-      row.emplace_back(synonymRes.toString());
+    for (const auto &synonymRes : synonymDataRow) {
+      row.push_back(synonymRes->toString());
     }
-    res.emplace_back(row);
+    res.push_back(row);
   }
   return res;
 }
 
-vector<vector<SynonymRes>> IntermediateTable::getTableData() {
-  return this->tableData;
+vector<vector<unique_ptr<SynonymRes>>> IntermediateTable::getTableData() {
+  vector<vector<unique_ptr<SynonymRes>>> res{};
+  for (const vector<unique_ptr<SynonymRes>> &row : this->tableData) {
+    vector<unique_ptr<SynonymRes>> rowCopy = {};
+    for (const unique_ptr<SynonymRes> &datum : row) {
+      rowCopy.push_back(datum->clone());
+    }
+    res.push_back(std::move(rowCopy));
+  }
+  return std::move(res);
 }
 
 set<string> IntermediateTable::getColumns(const vector<string> &colNameVector) {
@@ -73,7 +86,7 @@ set<string> IntermediateTable::getColumns(const vector<string> &colNameVector) {
     for (const string &colName : colNameVector) {
       int colIndex = this->colNameToIndexMap.at(colName);
       row += (row.empty() ? "" : " ") +
-             this->tableData.at(rowIndex).at(colIndex).toString();
+             this->tableData.at(rowIndex).at(colIndex)->toString();
     }
     res.insert(row);
   }
@@ -86,7 +99,7 @@ set<string> IntermediateTable::getColumns(
     return {};
   }
 
-  for (pair<string, AttrRef> colNameAndAttrRef : colNameAndAttrRefVector) {
+  for (const pair<string, AttrRef>& colNameAndAttrRef : colNameAndAttrRefVector) {
     string colName = colNameAndAttrRef.first;
     // return empty if any column requested does not exist
     if (!this->isColExists(colName)) {
@@ -97,12 +110,12 @@ set<string> IntermediateTable::getColumns(
   set<string> res = {};
   for (int rowIndex = 0; rowIndex < this->getRowCount(); rowIndex++) {
     string row;
-    for (pair<string, AttrRef> colNameAndAttrRef : colNameAndAttrRefVector) {
+    for (const pair<string, AttrRef>& colNameAndAttrRef : colNameAndAttrRefVector) {
       string colName = colNameAndAttrRef.first;
       AttrRef attrRef = colNameAndAttrRef.second;
       int colIndex = this->colNameToIndexMap.at(colName);
       row += (row.empty() ? "" : " ") +
-             this->tableData.at(rowIndex).at(colIndex).getAttribute(attrRef);
+             this->tableData.at(rowIndex).at(colIndex)->getAttribute(attrRef);
     }
     res.insert(row);
   }
@@ -122,7 +135,7 @@ bool IntermediateTable::isColExists(const std::string &colName) {
   return this->colNameToIndexMap.find(colName) != this->colNameToIndexMap.end();
 }
 
-int IntermediateTable::getRowCount() { return this->tableData.size(); }
+size_t IntermediateTable::getRowCount() { return this->tableData.size(); }
 
 bool IntermediateTable::isTableWildcard() const { return this->isWildcard; }
 

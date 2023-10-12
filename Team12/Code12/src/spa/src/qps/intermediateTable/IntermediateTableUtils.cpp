@@ -38,11 +38,14 @@ IntermediateTable getCrossProduct(IntermediateTable table1,
         "Cross product not supported for tables with common columns");
   }
   vector<string> resColumns =
-      concatVectors<string>(table1.getColNames(), table2.getColNames());
-  vector<vector<SynonymRes>> resData = {};
-  for (auto &row1 : table1.getTableData()) {
-    for (auto &row2 : table2.getTableData()) {
-      resData.push_back(concatVectors<SynonymRes>(row1, row2));
+      concatColNames(table1.getColNames(), table2.getColNames());
+  vector<vector<unique_ptr<SynonymRes>>> resData = {};
+  vector<vector<unique_ptr<SynonymRes>>> table1Data = table1.getTableData();
+  vector<vector<unique_ptr<SynonymRes>>> table2Data = table2.getTableData();
+
+  for (const vector<unique_ptr<SynonymRes>> &row1 : table1.getTableData()) {
+    for (const vector<unique_ptr<SynonymRes>> &row2 : table2.getTableData()) {
+      resData.push_back(concatRow(row1, row2));
     }
   }
   return IntermediateTable(resColumns, resData);
@@ -52,12 +55,14 @@ IntermediateTable getInnerJoin(
     const pair<vector<int>, vector<int>> &sharedColumnIndexes,
     IntermediateTable table1, IntermediateTable table2) {
   vector<string> resColNames =
-      concatVectors(table1.getColNames(), table2.getColNames());
-  vector<vector<SynonymRes>> resData = {};
+      concatColNames(table1.getColNames(), table2.getColNames());
+  vector<vector<unique_ptr<SynonymRes>>> resData = {};
+  vector<vector<unique_ptr<SynonymRes>>> table1Data = table1.getTableData();
+  vector<vector<unique_ptr<SynonymRes>>> table2Data = table2.getTableData();
   vector<int> table1SharedColIndexes = sharedColumnIndexes.first;
   vector<int> table2SharedColIndexes = sharedColumnIndexes.second;
-  for (auto &table1Row : table1.getTableData()) {
-    for (auto &table2Row : table2.getTableData()) {
+  for (auto &table1Row : table1Data) {
+    for (auto &table2Row : table2Data) {
       bool isJoin = true;
       for (int i = 0; i < table1SharedColIndexes.size(); i++) {
         // check that for this particular row,
@@ -65,14 +70,14 @@ IntermediateTable getInnerJoin(
         // matches with all elements in shared cols of table 2
         int table1ColIndex = table1SharedColIndexes.at(i);
         int table2ColIndex = table2SharedColIndexes.at(i);
+        // todo fix comparison for unique ptr
         if (table1Row.at(table1ColIndex) != table2Row.at(table2ColIndex)) {
           isJoin = false;
           break;
         }
       }
       if (isJoin) {
-        vector<SynonymRes> resRow;
-        resData.push_back(concatVectors<SynonymRes>(table1Row, table2Row));
+        resData.push_back(concatRow(table1Row, table2Row));
       }
     }
   }
@@ -89,4 +94,26 @@ IntermediateTable getInnerJoin(
     }
   }
   return IntermediateTable(resColNames, resData);
+}
+
+vector<string> concatColNames(const vector<string> &vector1,
+                              const vector<string> &vector2) {
+  vector<string> newVector;
+  newVector.reserve(vector1.size() + vector2.size());
+  std::copy(vector1.begin(), vector1.end(), std::back_inserter(newVector));
+  std::copy(vector2.begin(), vector2.end(), std::back_inserter(newVector));
+  return newVector;
+}
+
+vector<unique_ptr<SynonymRes>> concatRow(
+    const vector<unique_ptr<SynonymRes>> &row1,
+    const vector<unique_ptr<SynonymRes>> &row2) {
+  vector<unique_ptr<SynonymRes>> rowCopy = {};
+  for (const unique_ptr<SynonymRes> &val : row1) {
+    rowCopy.emplace_back(val->clone());
+  }
+  for (const unique_ptr<SynonymRes> &val : row2) {
+    rowCopy.emplace_back(val->clone());
+  }
+  return rowCopy;
 }

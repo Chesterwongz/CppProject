@@ -1,7 +1,6 @@
 #pragma once
 
-#include "IntermediateTable.h"
-
+#include <functional>
 #include <set>
 #include <string>
 #include <utility>
@@ -15,11 +14,13 @@ class IntermediateTableFactory {
  private:
   /**
    * Helper function for building intermediate tables from vector data
-   * @tparam T either SynonymArg or string
+   * @tparam T            either unique_ptr<SynonymArg> or string
+   * @param converterFunc function to convert T into unique_ptr<SynonymArg>
    */
   template <typename T>
   static IntermediateTable tableBuilderHelper(
-      const vector<string> &colNames, const vector<vector<T>> &data) {
+      const vector<string> &colNames, const vector<vector<T>> &data,
+      std::function<unique_ptr<SynonymRes>(const T &)> converterFunc) {
     // if data is empty, return empty table
     // even if columns are wildcard
     if (data.empty()) {
@@ -33,7 +34,7 @@ class IntermediateTableFactory {
     }
 
     vector<string> columnNamesWithoutWildcard = {};
-    vector<vector<SynonymRes>> dataWithoutWildcardColumns = {};
+    vector<vector<unique_ptr<SynonymRes>>> dataWithoutWildcardColumns = {};
     dataWithoutWildcardColumns.reserve(data.size());
     // add empty vector for each row
     for ([[maybe_unused]] const vector<T> &row : data) {
@@ -47,9 +48,8 @@ class IntermediateTableFactory {
       }
       columnNamesWithoutWildcard.push_back(colName);
       for (int rowIndex = 0; rowIndex < data.size(); rowIndex++) {
-        T elementToAdd = data.at(rowIndex).at(colIndex);
-        // if T is string, emplace_back implicitly calls SynonymArg constructor
-        dataWithoutWildcardColumns.at(rowIndex).emplace_back(elementToAdd);
+        dataWithoutWildcardColumns.at(rowIndex).push_back(
+            std::move(converterFunc(std::move(data.at(rowIndex).at(colIndex)))));
       }
     }
     return IntermediateTable(columnNamesWithoutWildcard,
@@ -96,7 +96,8 @@ class IntermediateTableFactory {
    * using using a vector of vectors of SynonymRes
    */
   static IntermediateTable buildIntermediateTable(
-      const vector<string> &colNames, const vector<vector<SynonymRes>> &data);
+      const vector<string> &colNames,
+      vector<vector<unique_ptr<SynonymRes>>> data);
 
   static IntermediateTable buildEmptyIntermediateTable();
 

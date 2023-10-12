@@ -22,3 +22,10 @@ IntermediateTable getCrossProduct(IntermediateTable table1,
 IntermediateTable getInnerJoin(
     const pair<vector<int>, vector<int>>& sharedColumns,
     IntermediateTable table1, IntermediateTable table2);
+
+vector<string> concatColNames(const vector<string>& vector1,
+                              const vector<string>& vector2);
+
+vector<unique_ptr<SynonymRes>> concatRow(
+    const vector<unique_ptr<SynonymRes>>& row1,
+    const vector<unique_ptr<SynonymRes>>& row2);

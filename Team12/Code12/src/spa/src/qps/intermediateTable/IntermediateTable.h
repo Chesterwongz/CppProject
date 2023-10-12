@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -8,11 +9,12 @@
 #include <vector>
 #include "qps/intermediateTable/synonymRes/SynonymRes.h"
 
-using std::pair, std::unordered_map, std::string, std::vector, std::set;
+using std::pair, std::unordered_map, std::string, std::vector, std::set,
+    std::unique_ptr;
 class IntermediateTable {
  private:
   unordered_map<string, int> colNameToIndexMap = {};
-  vector<vector<SynonymRes>> tableData;
+  vector<vector<unique_ptr<SynonymRes>>> tableData;
   vector<string> colNames = {};
   int currentColCount = 0;
   bool isWildcard = false;
@@ -36,7 +38,7 @@ class IntermediateTable {
    * @param data data as vector of vectors
    */
   explicit IntermediateTable(const vector<string> &colNames,
-                             const vector<vector<SynonymRes>> &data);
+                             vector<vector<unique_ptr<SynonymRes>>> data);
 
   /**
    * Wildcard table * ANY = ANY
@@ -98,10 +100,10 @@ class IntermediateTable {
   /**
    * generic getter methods
    */
-  int getRowCount();
+  size_t getRowCount();
   bool isTableEmpty() const;
   bool isTableWildcard() const;
   bool isTableEmptyAndNotWildcard() const;
-  vector<vector<SynonymRes>> getTableData();
+  vector<vector<unique_ptr<SynonymRes>>> getTableData();
   void printTable();
 };
