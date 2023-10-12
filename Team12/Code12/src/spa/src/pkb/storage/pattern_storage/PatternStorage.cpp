@@ -73,7 +73,7 @@ PatternStorage::getAssignPattern(const std::string& variableName,
     } else {
       if (entry.second.first.find(rpn) != std::string::npos &&
           entry.second.second == variableName) {
-        result.push_back(
+        result.emplace_back(
             std::make_pair(std::to_string(entry.first), variableName));
       }
     }
