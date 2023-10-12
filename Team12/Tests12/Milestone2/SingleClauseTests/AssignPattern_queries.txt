@@ -1,0 +1,110 @@
+====== 1 - Assign pattern (_, partial with op) ======
+assign a;
+Select a pattern a(_, _"1 + 2 + 3"_)
+1
+1000
+====== 2 - Assign pattern (_, partial with op) no results ======
+assign a;
+Select a pattern a(_, _"2 + 3"_)
+none
+1000
+====== 3 - Assign pattern (ident, partial with op) ======
+assign a;
+Select a pattern a("line2", _"c * d / e"_)
+2
+1000
+====== 4 - Assign pattern (ident, partial with op) no results ======
+assign a;
+Select a pattern a("line1", _"d / e"_)
+none
+1000
+====== 5 - Assign pattern (synonym, partial with op) select v ======
+assign a; variable v;
+Select v pattern a(v,_"2 + 3"_)
+line8
+1000
+====== 6 - Assign pattern (synonym, partial with op) select a ======
+assign a; variable v;
+Select a pattern a(v,_"2 + 3"_)
+8
+1000
+====== 7 - Assign pattern (_, exact no op) ======
+assign a;
+Select a pattern a(_, "a")
+5
+1000
+====== 8 - Assign pattern (_, exact with op) ======
+assign a;
+Select a pattern a(_, "a+b-c*d/e%f")
+2
+1000
+====== 9 - Assign pattern (_, exact no op) no results ======
+assign a;
+Select a pattern a(_, "2")
+none
+1000
+====== 10 - Assign pattern (_, exact with op) no results ======
+assign a;
+Select a pattern a(_, "b - c * d")
+none
+1000
+====== 11 - Assign pattern (_, exact no op) select different assign ======
+assign a1, a2;
+Select a1 pattern a2(_, "1")
+1, 2, 4, 5, 7, 8
+1000
+====== 12 - Assign pattern (_, exact with op) select different assign, no results ======
+assign a1, a2;
+Select a1 pattern a2(_, "1 + 2 + 3 + 4 + 5 + 6")
+none
+1000
+====== 13 - Assign pattern (ident, exact with op) ======
+assign a;
+Select a pattern a("line1", "1 + 2 + 3 + 4")
+1
+1000
+====== 14 - Assign pattern (ident, exact no op) ======
+assign a;
+Select a pattern a("line4", "1")
+4
+1000
+====== 15 - Assign pattern (ident, exact with op) no results ======
+assign a;
+Select a pattern a("line1", "12 + abc")
+none
+1000
+====== 16 - Assign pattern (ident, exact no op) no results ======
+assign a;
+Select a pattern a("line2", "ab")
+none
+1000
+====== 17 - Assign pattern (ident, exact no op) select different assign ======
+assign a1, a2;
+Select a1 pattern a2("line5", "a")
+1, 2, 4, 5, 7, 8
+1000
+====== 18 - Assign pattern (ident, exact with op) select different assign, no results ======
+assign a1, a2;
+Select a1 pattern a2("line2", "a + a")
+none
+1000
+====== 19 - Assign pattern (synonym, exact no op) select v ======
+assign a; variable v;
+Select v pattern a(v, "1")
+line4
+1000
+====== 20 - Assign pattern (synonym, exact no op) select a ======
+assign a; variable v;
+Select a pattern a(v, "1")
+4
+1000
+====== 21 - Assign pattern (synonym, exact with op) select v ======
+assign a; variable v;
+Select v pattern a(v,"a + 1")
+line7
+1000
+====== 22 - Assign pattern (synonym, exact with op) select a ======
+assign a; variable v;
+Select a pattern a(v,"a + 1")
+7
+1000

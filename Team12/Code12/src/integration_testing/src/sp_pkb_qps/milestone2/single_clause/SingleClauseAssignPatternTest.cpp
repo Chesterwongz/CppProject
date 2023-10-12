@@ -319,7 +319,7 @@ TEST_CASE(
   // synonym first arg, exact match ident second arg - select v (no operator)
   string query =
       "assign a; variable v;\n"
-      "Select v pattern a(v,_\"1\"_)";
+      "Select v pattern a(v,\"1\")";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(ms2AssignSource, pkb.getWriter());
@@ -335,7 +335,7 @@ TEST_CASE(
   // synonym first arg, exact match ident second arg - select a (no operator)
   string query =
       "assign a; variable v;\n"
-      "Select a pattern a(v,_\"1\"_)";
+      "Select a pattern a(v,\"1\")";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(ms2AssignSource, pkb.getWriter());
