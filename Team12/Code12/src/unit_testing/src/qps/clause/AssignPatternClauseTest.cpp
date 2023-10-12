@@ -10,7 +10,7 @@
 
 using std::unique_ptr, std::make_unique;
 
-TEST_CASE("test_PatternClause_isEqual") {
+TEST_CASE("test_assignPatternClause_isEqual") {
   SynonymArg patternSynonym = SynonymArg("a");
   SynonymArg firstArg = SynonymArg("test");
   PatternExp secondArg = PatternExp("x");
@@ -47,7 +47,7 @@ TEST_CASE("test_PatternClause_isEqual") {
   REQUIRE(patternClause2.isEquals(patternClause1));
 }
 
-TEST_CASE("test_PatternClause_evaluate_synonymFirstArg") {
+TEST_CASE("test_assignPatternClause_evaluate_synonymFirstArg") {
   // assign a; variable test; select a pattern (test, "x")
   SynonymArg patternSynonym = SynonymArg("a");
   SynonymArg firstArg = SynonymArg("test");
@@ -93,7 +93,7 @@ TEST_CASE("test_PatternClause_evaluate_synonymFirstArg") {
   REQUIRE(actualTableData == expectedData);
 }
 
-TEST_CASE("test_PatternClause_evaluate_identFirstArg") {
+TEST_CASE("test_assignPatternClause_evaluate_identFirstArg") {
   // assign a; select a pattern ("b", "x")
   SynonymArg patternSynonym = SynonymArg("a");
   Ident firstArg = Ident("b");
