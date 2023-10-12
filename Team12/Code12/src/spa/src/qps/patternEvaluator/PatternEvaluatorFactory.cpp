@@ -1,5 +1,7 @@
-#include "PatternEvaluatorFactory.h"
+#include <utility>
+#include <memory>
 
+#include "PatternEvaluatorFactory.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
 unique_ptr<PatternEvaluator> PatternEvaluatorFactory::createEvaluator(

@@ -1,5 +1,6 @@
-#include "WhileEvaluator.h"
+#include <memory>
 
+#include "WhileEvaluator.h"
 #include "common/utils/StringUtils.h"
 #include "qps/common/Keywords.h"
 
