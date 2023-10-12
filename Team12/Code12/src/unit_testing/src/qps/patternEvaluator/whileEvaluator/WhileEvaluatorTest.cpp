@@ -1,8 +1,8 @@
 #include <catch.hpp>
 
-#include "qps/patternEvaluator/whileEvaluator/WhileEvaluator.h"
-#include "qps/common/Keywords.h"
 #include "WhileEvaluatorTestData.h"
+#include "qps/common/Keywords.h"
+#include "qps/patternEvaluator/whileEvaluator/WhileEvaluator.h"
 
 using std::make_unique;
 
@@ -16,12 +16,9 @@ TEST_CASE("test_whileEvaluator_processArgs_synonymFirstArg") {
   unique_ptr<SynonymArg> variableSynonymPtr =
       make_unique<SynonymArg>(variableSynonym.getValue());
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(variableSynonymPtr));
-
   WhileEvaluator whileEvaluator =
-      WhileEvaluator(patternArgsStreamTest, whileMockPKBReader,
-                  whileIsPartialMatchFalse, patternSynonym.getValue());
+      WhileEvaluator(std::move(variableSynonymPtr), whileMockPKBReader,
+                     patternSynonym.getValue());
 
   vector<string> pkbResult = whileEvaluator.processArguments();
 
@@ -38,12 +35,9 @@ TEST_CASE("test_whileEvaluator_processArgs_identFirstArg") {
   unique_ptr<Ident> patternFirstArgPtr =
       make_unique<Ident>(patternFirstArg.getValue());
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(patternFirstArgPtr));
-
   WhileEvaluator whileEvaluator =
-      WhileEvaluator(patternArgsStreamTest, whileMockPKBReader,
-                  whileIsPartialMatchFalse, patternSynonym.getValue());
+      WhileEvaluator(std::move(patternFirstArgPtr), whileMockPKBReader,
+                     patternSynonym.getValue());
 
   vector<string> pkbResult = whileEvaluator.processArguments();
 
@@ -60,12 +54,9 @@ TEST_CASE("test_whileEvaluator_processArgs_wildcardFirstArg") {
 
   unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(wildcardPtr));
-
-  WhileEvaluator whileEvaluator =
-      WhileEvaluator(patternArgsStreamTest, whileMockPKBReader,
-                  whileIsPartialMatchFalse, patternSynonym.getValue());
+  WhileEvaluator whileEvaluator = WhileEvaluator(
+      std::move(wildcardPtr), whileMockPKBReader,
+                     patternSynonym.getValue());
 
   vector<string> pkbResult = whileEvaluator.processArguments();
 
@@ -82,12 +73,9 @@ TEST_CASE("test_whileEvaluator_evaluate_synonymFirstArg") {
   unique_ptr<SynonymArg> variableSynonymPtr =
       make_unique<SynonymArg>(variableSynonym.getValue());
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(variableSynonymPtr));
-
   WhileEvaluator whileEvaluator =
-      WhileEvaluator(patternArgsStreamTest, whileMockPKBReader,
-                  whileIsPartialMatchFalse, patternSynonym.getValue());
+      WhileEvaluator(std::move(variableSynonymPtr), whileMockPKBReader,
+                     patternSynonym.getValue());
 
   IntermediateTable actualTable = whileEvaluator.evaluate();
 
@@ -116,12 +104,9 @@ TEST_CASE("test_whileEvaluator_evaluate_identFirstArg") {
   unique_ptr<Ident> patternFirstArgPtr =
       make_unique<Ident>(patternFirstArg.getValue());
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(patternFirstArgPtr));
-
   WhileEvaluator whileEvaluator =
-      WhileEvaluator(patternArgsStreamTest, whileMockPKBReader,
-                  whileIsPartialMatchFalse, patternSynonym.getValue());
+      WhileEvaluator(std::move(patternFirstArgPtr), whileMockPKBReader,
+                     patternSynonym.getValue());
 
   IntermediateTable actualTable = whileEvaluator.evaluate();
 
@@ -146,12 +131,9 @@ TEST_CASE("test_whileEvaluator_evaluate_wildcardFirstArg") {
 
   unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(wildcardPtr));
-
   WhileEvaluator whileEvaluator =
-      WhileEvaluator(patternArgsStreamTest, whileMockPKBReader,
-                  whileIsPartialMatchFalse, patternSynonym.getValue());
+      WhileEvaluator(std::move(wildcardPtr), whileMockPKBReader,
+                     patternSynonym.getValue());
 
   IntermediateTable actualTable = whileEvaluator.evaluate();
 

@@ -8,11 +8,9 @@
 
 class IfEvaluator : public PatternEvaluator {
  public:
-  explicit IfEvaluator(PatternArgsStream& patternArgsStream,
-                       PKBReader& pkbReader, bool isPartialMatch,
-                       string synonymValue)
-      : PatternEvaluator(patternArgsStream, pkbReader, isPartialMatch,
-                         synonymValue) {}
+  explicit IfEvaluator(unique_ptr<AbstractArgument> firstArg,
+                       PKBReader& pkbReader, string synonymValue)
+      : PatternEvaluator(std::move(firstArg), pkbReader, synonymValue) {}
   ~IfEvaluator() override = default;
   vector<string> processArguments() override;
 };

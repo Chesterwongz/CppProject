@@ -4,11 +4,11 @@
 #include "qps/common/Keywords.h"
 
 vector<string> AssignEvaluator::processArguments() {
-  string firstArgValue = patternArgsStream[0]->getValue();
-  string secondArgValue = patternArgsStream[1]->getValue();
+  string firstArgValue = firstArg->getValue();
+  string secondArgValue = secondArg->getValue();
 
-  bool isFirstArgSynonym = patternArgsStream[0]->isSynonym();
-  bool isSecondArgWildcard = patternArgsStream[1]->isWildcard();
+  bool isFirstArgSynonym = firstArg->isSynonym();
+  bool isSecondArgWildcard = secondArg->isWildcard();
 
   string secondArgRPNValue;
 

@@ -1,8 +1,8 @@
 #include <catch.hpp>
 
-#include "qps/patternEvaluator/ifEvaluator/IfEvaluator.h"
-#include "qps/common/Keywords.h"
 #include "IfEvaluatorTestData.h"
+#include "qps/common/Keywords.h"
+#include "qps/patternEvaluator/ifEvaluator/IfEvaluator.h"
 
 using std::make_unique;
 
@@ -16,12 +16,9 @@ TEST_CASE("test_ifEvaluator_processArgs_synonymFirstArg") {
   unique_ptr<SynonymArg> variableSynonymPtr =
       make_unique<SynonymArg>(variableSynonym.getValue());
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(variableSynonymPtr));
-
   IfEvaluator ifEvaluator =
-      IfEvaluator(patternArgsStreamTest, ifMockPKBReader,
-                  ifIsPartialMatchFalse, patternSynonym.getValue());
+      IfEvaluator(std::move(variableSynonymPtr), ifMockPKBReader,
+                  patternSynonym.getValue());
 
   vector<string> pkbResult = ifEvaluator.processArguments();
 
@@ -38,12 +35,9 @@ TEST_CASE("test_ifEvaluator_processArgs_identFirstArg") {
   unique_ptr<Ident> patternFirstArgPtr =
       make_unique<Ident>(patternFirstArg.getValue());
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(patternFirstArgPtr));
-
   IfEvaluator ifEvaluator =
-      IfEvaluator(patternArgsStreamTest, ifMockPKBReader,
-                  ifIsPartialMatchFalse, patternSynonym.getValue());
+      IfEvaluator(std::move(patternFirstArgPtr), ifMockPKBReader,
+                  patternSynonym.getValue());
 
   vector<string> pkbResult = ifEvaluator.processArguments();
 
@@ -60,12 +54,9 @@ TEST_CASE("test_ifEvaluator_processArgs_wildcardFirstArg") {
 
   unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(wildcardPtr));
-
   IfEvaluator ifEvaluator =
-      IfEvaluator(patternArgsStreamTest, ifMockPKBReader,
-                  ifIsPartialMatchFalse, patternSynonym.getValue());
+      IfEvaluator(std::move(wildcardPtr), ifMockPKBReader,
+                  patternSynonym.getValue());
 
   vector<string> pkbResult = ifEvaluator.processArguments();
 
@@ -82,12 +73,9 @@ TEST_CASE("test_ifEvaluator_evaluate_synonymFirstArg") {
   unique_ptr<SynonymArg> variableSynonymPtr =
       make_unique<SynonymArg>(variableSynonym.getValue());
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(variableSynonymPtr));
-
   IfEvaluator ifEvaluator =
-      IfEvaluator(patternArgsStreamTest, ifMockPKBReader,
-                  ifIsPartialMatchFalse, patternSynonym.getValue());
+      IfEvaluator(std::move(variableSynonymPtr), ifMockPKBReader,
+                  patternSynonym.getValue());
 
   IntermediateTable actualTable = ifEvaluator.evaluate();
 
@@ -116,12 +104,9 @@ TEST_CASE("test_ifEvaluator_evaluate_identFirstArg") {
   unique_ptr<Ident> patternFirstArgPtr =
       make_unique<Ident>(patternFirstArg.getValue());
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(patternFirstArgPtr));
-
   IfEvaluator ifEvaluator =
-      IfEvaluator(patternArgsStreamTest, ifMockPKBReader,
-                  ifIsPartialMatchFalse, patternSynonym.getValue());
+      IfEvaluator(std::move(patternFirstArgPtr), ifMockPKBReader,
+                  patternSynonym.getValue());
 
   IntermediateTable actualTable = ifEvaluator.evaluate();
 
@@ -146,12 +131,9 @@ TEST_CASE("test_ifEvaluator_evaluate_wildcardFirstArg") {
 
   unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(wildcardPtr));
-
   IfEvaluator ifEvaluator =
-      IfEvaluator(patternArgsStreamTest, ifMockPKBReader,
-                  ifIsPartialMatchFalse, patternSynonym.getValue());
+      IfEvaluator(std::move(wildcardPtr), ifMockPKBReader,
+                  patternSynonym.getValue());
 
   IntermediateTable actualTable = ifEvaluator.evaluate();
 

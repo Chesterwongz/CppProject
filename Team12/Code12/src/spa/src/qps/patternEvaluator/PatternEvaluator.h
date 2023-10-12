@@ -18,19 +18,27 @@ typedef vector<unique_ptr<AbstractArgument>> PatternArgsStream;
 
 class PatternEvaluator {
  protected:
-  PatternArgsStream& patternArgsStream;
+  unique_ptr<AbstractArgument> firstArg;
   PKBReader& pkbReader;
   bool isPartialMatch;
   string synonymValue;
 
  public:
-  explicit PatternEvaluator(PatternArgsStream& patternArgsStream,
+  explicit PatternEvaluator(unique_ptr<AbstractArgument> firstArg,
                             PKBReader& pkbReader, bool isPartialMatch,
                             string synonymValue)
-      : patternArgsStream(patternArgsStream),
+      : firstArg(std::move(firstArg)),
         pkbReader(pkbReader),
         isPartialMatch(isPartialMatch),
         synonymValue(synonymValue) {}
+
+  explicit PatternEvaluator(unique_ptr<AbstractArgument> firstArg,
+                            PKBReader& pkbReader, string synonymValue)
+      : firstArg(std::move(firstArg)),
+        pkbReader(pkbReader),
+        isPartialMatch(false),
+        synonymValue(synonymValue) {}
+
   virtual IntermediateTable evaluate();
   virtual IntermediateTable buildResultTable(vector<string> pkbResult);
   virtual vector<string> processArguments() = 0;

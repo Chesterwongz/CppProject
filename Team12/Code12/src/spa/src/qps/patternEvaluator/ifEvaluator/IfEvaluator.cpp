@@ -3,9 +3,9 @@
 #include "qps/common/Keywords.h"
 
 vector<string> IfEvaluator::processArguments() {
-  string firstArgValue = patternArgsStream[0]->getValue();
+  string firstArgValue = firstArg->getValue();
 
-  bool isFirstArgSynonym = patternArgsStream[0]->isSynonym();
+  bool isFirstArgSynonym = firstArg->isSynonym();
 
   vector<string> pkbResult;
 

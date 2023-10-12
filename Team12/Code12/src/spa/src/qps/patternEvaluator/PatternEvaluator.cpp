@@ -7,9 +7,9 @@ IntermediateTable PatternEvaluator::evaluate() {
 }
 
 IntermediateTable PatternEvaluator::buildResultTable(vector<string> pkbResult) {
-  bool isFirstArgSynonym = patternArgsStream[0]->isSynonym();
+  bool isFirstArgSynonym = firstArg->isSynonym();
 
-  string firstArgValue = patternArgsStream[0]->getValue();
+  string firstArgValue = firstArg->getValue();
 
   IntermediateTable linesSatisfyingPattern =
       IntermediateTableFactory::buildSingleColTable(synonymValue, pkbResult);

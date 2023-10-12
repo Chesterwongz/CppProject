@@ -20,12 +20,8 @@ TEST_CASE("test_AssignEvaluator_processArgs_synonymFirstArg") {
       make_unique<SynonymArg>(variableSynonym.getValue());
   unique_ptr<Ident> identPtr = make_unique<Ident>(ident.getValue());
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(variableSynonymPtr));
-  patternArgsStreamTest.push_back(std::move(identPtr));
-
   AssignEvaluator assignEvaluator = AssignEvaluator(
-      patternArgsStreamTest, assignMockPKBReader,
+      std::move(variableSynonymPtr), std::move(identPtr), assignMockPKBReader,
       assignIsPartialMatchFalse, selectedSynonym.getValue());
 
   vector<string> pkbResult = assignEvaluator.processArguments();
@@ -48,13 +44,10 @@ TEST_CASE("test_AssignEvaluator_processArgs_identFirstArg") {
       make_unique<Ident>(patternFirstArg.getValue());
   unique_ptr<Ident> patternExpPtr = make_unique<Ident>(patternExp.getValue());
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(patternFirstArgPtr));
-  patternArgsStreamTest.push_back(std::move(patternExpPtr));
-
-  AssignEvaluator assignEvaluator = AssignEvaluator(
-      patternArgsStreamTest, assignMockPKBReader,
-      assignIsPartialMatchFalse, selectedSynonym.getValue());
+  AssignEvaluator assignEvaluator =
+      AssignEvaluator(std::move(patternFirstArgPtr), std::move(patternExpPtr),
+                      assignMockPKBReader, assignIsPartialMatchFalse,
+                      selectedSynonym.getValue());
 
   vector<string> pkbResult = assignEvaluator.processArguments();
 
@@ -75,12 +68,8 @@ TEST_CASE("test_AssignEvaluator_processArgs_wildcardFirstArg") {
   unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
   unique_ptr<Ident> identPtr = make_unique<Ident>(ident.getValue());
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(wildcardPtr));
-  patternArgsStreamTest.push_back(std::move(identPtr));
-
   AssignEvaluator assignEvaluator = AssignEvaluator(
-      patternArgsStreamTest, assignMockPKBReader,
+      std::move(wildcardPtr), std::move(identPtr), assignMockPKBReader,
       assignIsPartialMatchFalse, selectedSynonym.getValue());
 
   vector<string> pkbResult = assignEvaluator.processArguments();
@@ -103,12 +92,8 @@ TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
       make_unique<SynonymArg>(variableSynonym.getValue());
   unique_ptr<Ident> identPtr = make_unique<Ident>(ident.getValue());
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(variableSynonymPtr));
-  patternArgsStreamTest.push_back(std::move(identPtr));
-
   AssignEvaluator assignEvaluator = AssignEvaluator(
-      patternArgsStreamTest, assignMockPKBReader,
+      std::move(variableSynonymPtr), std::move(identPtr), assignMockPKBReader,
       assignIsPartialMatchFalse, selectedSynonym.getValue());
 
   IntermediateTable actualTable = assignEvaluator.evaluate();
@@ -143,13 +128,10 @@ TEST_CASE("test_AssignEvaluator_evaluate_identFirstArg") {
       make_unique<Ident>(patternFirstArg.getValue());
   unique_ptr<Ident> patternExpPtr = make_unique<Ident>(patternExp.getValue());
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(patternFirstArgPtr));
-  patternArgsStreamTest.push_back(std::move(patternExpPtr));
-
-  AssignEvaluator assignEvaluator = AssignEvaluator(
-      patternArgsStreamTest, assignMockPKBReader,
-      assignIsPartialMatchFalse, selectedSynonym.getValue());
+  AssignEvaluator assignEvaluator =
+      AssignEvaluator(std::move(patternFirstArgPtr), std::move(patternExpPtr),
+                      assignMockPKBReader, assignIsPartialMatchFalse,
+                      selectedSynonym.getValue());
 
   IntermediateTable actualTable = assignEvaluator.evaluate();
 
@@ -179,12 +161,8 @@ TEST_CASE("test_AssignEvaluator_evaluate_wildcardFirstArg") {
   unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
   unique_ptr<Ident> identPtr = make_unique<Ident>(ident.getValue());
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(wildcardPtr));
-  patternArgsStreamTest.push_back(std::move(identPtr));
-
   AssignEvaluator assignEvaluator = AssignEvaluator(
-      patternArgsStreamTest, assignMockPKBReader,
+      std::move(wildcardPtr), std::move(identPtr), assignMockPKBReader,
       assignIsPartialMatchFalse, selectedSynonym.getValue());
 
   IntermediateTable actualTable = assignEvaluator.evaluate();
