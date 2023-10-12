@@ -50,7 +50,7 @@ TEST_CASE(
   // (with operator)
   string query =
       "assign a;\n"
-      "Select a pattern a(_, _\"2 + 3\"_)";
+      "Select a pattern a(_, _\"2 + 3 + 4\"_)";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(ms2AssignSource, pkb.getWriter());
@@ -150,7 +150,7 @@ TEST_CASE(
   // wildcard first arg, exact match ident second arg version 2 (with operator)
   string query =
       "assign a;\n"
-      "Select a pattern a(_, \"a+b-c*d/e%f\")";
+      "Select a pattern a(_, \"a +b - c*d/ e % f\")";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(ms2AssignSource, pkb.getWriter());

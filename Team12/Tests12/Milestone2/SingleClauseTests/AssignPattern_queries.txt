@@ -5,7 +5,7 @@ Select a pattern a(_, _"1 + 2 + 3"_)
 1000
 ====== 2 - Assign pattern (_, partial with op) no results ======
 assign a;
-Select a pattern a(_, _"2 + 3"_)
+Select a pattern a(_, _"2 + 3 + 4"_)
 none
 1000
 ====== 3 - Assign pattern (ident, partial with op) ======
@@ -35,7 +35,7 @@ Select a pattern a(_, "a")
 1000
 ====== 8 - Assign pattern (_, exact with op) ======
 assign a;
-Select a pattern a(_, "a+b-c*d/e%f")
+Select a pattern a(_, "a+ b-c *d/ e%f")
 2
 1000
 ====== 9 - Assign pattern (_, exact no op) no results ======
