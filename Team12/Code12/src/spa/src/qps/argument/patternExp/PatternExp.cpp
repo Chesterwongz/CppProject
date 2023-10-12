@@ -4,6 +4,10 @@
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
+PatternExp::PatternExp(string argumentValue) {
+  patternExpValue = QPSStringUtils::convertToRPN(argumentValue);
+}
+
 string PatternExp::getValue() { return patternExpValue; }
 
 QPSStringUtils::ArgumentType PatternExp::getArgumentType() {
@@ -18,3 +22,5 @@ bool PatternExp::operator==(const AbstractArgument& other) const {
 
   return this->patternExpValue == otherPatternExp->patternExpValue;
 }
+
+

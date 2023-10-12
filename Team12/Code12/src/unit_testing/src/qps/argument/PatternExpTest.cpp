@@ -3,7 +3,7 @@
 #include "qps/argument/patternExp/PatternExp.h"
 
 string patternArgString = "test + 1234";
-string expectedPatternExpValue = "test + 1234";
+string expectedPatternExpValue = " test 1234 + ";
 string patternExpType = "patternArg";
 
 PatternExp patternArg = PatternExp(patternArgString);

@@ -13,8 +13,7 @@ class PatternExp : public AbstractArgument {
   string patternExpValue;
 
  public:
-  explicit PatternExp(string argumentValue)
-      : patternExpValue(std::move(argumentValue)) {}
+  explicit PatternExp(string argumentValue);
   string getValue() override;
   QPSStringUtils::ArgumentType getArgumentType() override;
   bool isPatternExp() override;
