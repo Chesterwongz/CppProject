@@ -16,13 +16,11 @@ PQLToken PQLLiteralTokenizer::tokenize(char nextCh, InputStream &inputStream) {
   if (literal.empty()) {
     throw CommonSyntaxError(QPS_TOKENIZATION_ERR_EMPTY_QUOTE);
   }
+  QPSStringUtils::trimString(literal);
 
-  string trimmed = QPSStringUtils::trimString(std::move(literal));
+  PQLTokenType type = QPSStringUtils::isIdentValue(literal)
+                          ? PQLTokenType::PQL_LITERAL_REF_TOKEN
+                          : PQLTokenType::PQL_LITERAL_EXPRESSION_TOKEN;
 
-  PQLTokenType type = QPSStringUtils::hasMoreThanOneWord(trimmed) ||
-                              QPSStringUtils::isInteger(trimmed)
-                          ? PQLTokenType::PQL_LITERAL_EXPRESSION_TOKEN
-                          : PQLTokenType::PQL_LITERAL_REF_TOKEN;
-
-  return {type, trimmed};
+  return {type, literal};
 }

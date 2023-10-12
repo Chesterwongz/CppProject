@@ -21,8 +21,7 @@ PredictiveMap StmtVarParserState::predictiveMap = {
 StmtVarParserState::StmtVarParserState(PQLParserContext& parserContext,
                                        string abstraction, PQLTokenType prev)
     : RelationshipParserState(parserContext, false, std::move(abstraction),
-                              prev),
-      isSuccess(false) {}
+                              prev) {}
 
 void StmtVarParserState::checkIsValidSynonym(const std::string& synonym,
                                              size_t argumentNumber) {
@@ -35,12 +34,6 @@ void StmtVarParserState::checkIsValidSynonym(const std::string& synonym,
 void StmtVarParserState::checkIsValidWildcard() {
   if (arguments.size() == FIRST_ARG) {
     throw QPSSemanticError(QPS_SEMANTIC_ERR_WILDCARD_FIRSTARG);
-  }
-}
-
-void StmtVarParserState::checkIsValidIdent(const string& ref) {
-  if (!QPSStringUtils::isIdentValue(ref)) {
-    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_IDENT);
   }
 }
 
@@ -69,7 +62,6 @@ void StmtVarParserState::handleToken() {
         arguments.push_back(std::make_unique<Wildcard>());
         break;
       case PQL_LITERAL_REF_TOKEN:
-        checkIsValidIdent(token.getValue());
         arguments.push_back(std::make_unique<Ident>(token.getValue()));
         break;
       case PQL_INTEGER_TOKEN:

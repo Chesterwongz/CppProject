@@ -25,7 +25,6 @@ class IfPatternParserState : public BaseParserState {
   int nonFirstArgWildcardCount;
   void processSynonymToken(PQLToken& curr);
   bool checkSafeExit();
-  void checkIsValidIdent(const string& ref) const;
 
  public:
   explicit IfPatternParserState(PQLParserContext& parserContext,

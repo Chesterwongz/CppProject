@@ -1,6 +1,6 @@
+#include <catch.hpp>
 #include <memory>
 #include <vector>
-#include <catch.hpp>
 
 #include "PQLParserTestUtils.h"
 #include "qps/argument/ident/Ident.h"
@@ -493,7 +493,7 @@ TEST_CASE("Invalid Calls clause - undeclared synonym") {
       QPSSemanticError, Catch::Message("Using undeclared synonym: a"));
 }
 
-TEST_CASE("Invalid Calls clause - invalid LITERAL_REF_TOKEN") {
+TEST_CASE("Invalid Calls clause - invalid LITERAL_EXP_TOKEN") {
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
       PQLToken(PQL_NAME_TOKEN, "v"),
@@ -504,14 +504,15 @@ TEST_CASE("Invalid Calls clause - invalid LITERAL_REF_TOKEN") {
       PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
       PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_LITERAL_REF_TOKEN, "1"),
+      PQLToken(PQL_LITERAL_EXPRESSION_TOKEN, "1"),
       PQLToken(PQL_COMMA_TOKEN, ","),
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   REQUIRE_THROWS_MATCHES(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSyntaxError, Catch::Message(QPS_TOKENIZATION_ERR_IDENT));
+      QPSSyntaxError,
+      Catch::Message("Error occurred during tokenization, invalid token: 1"));
 }
 
 TEST_CASE("Invalid Calls clause - only 1 argument") {

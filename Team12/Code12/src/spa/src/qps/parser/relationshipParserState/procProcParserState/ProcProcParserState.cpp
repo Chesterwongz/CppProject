@@ -30,12 +30,6 @@ void ProcProcParserState::checkIsProcSynonym(const std::string &synonym) {
   }
 }
 
-void ProcProcParserState::checkIsValidIdent(const std::string &ident) {
-  if (!QPSStringUtils::isIdentValue(ident)) {
-    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_IDENT);
-  }
-}
-
 void ProcProcParserState::handleToken() {
   auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
@@ -57,7 +51,6 @@ void ProcProcParserState::handleToken() {
         arguments.push_back(std::make_unique<SynonymArg>(token.getValue()));
         break;
       case PQL_LITERAL_REF_TOKEN:
-        checkIsValidIdent(token.getValue());
         arguments.push_back(std::make_unique<Ident>(token.getValue()));
         break;
       case PQL_WILDCARD_TOKEN:

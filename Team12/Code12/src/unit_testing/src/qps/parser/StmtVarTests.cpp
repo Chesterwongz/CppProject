@@ -1,6 +1,6 @@
+#include <catch.hpp>
 #include <memory>
 #include <vector>
-#include <catch.hpp>
 
 #include "PQLParserTestUtils.h"
 #include "pkb/facade/PKBReader.h"
@@ -385,8 +385,7 @@ TEST_CASE("Valid Uses(LITERAL_REF, LITERAL_REF)") {
   REQUIRE(res);
 }
 
-TEST_CASE(
-    "Invalid Uses(LITERAL_REF, LITERAL_REF) - Literal ref is an integer") {
+TEST_CASE("Invalid Uses(LITERAL_EXPR, LITERAL_REF)") {
   string d1 = "hello";
   string d2 = "assign";
   string int1 = "4";
@@ -403,7 +402,7 @@ TEST_CASE(
       PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
       PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_LITERAL_REF_TOKEN, "2"),
+      PQLToken(PQL_LITERAL_EXPRESSION_TOKEN, "2"),
       PQLToken(PQL_COMMA_TOKEN, ","),
       PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
@@ -411,7 +410,8 @@ TEST_CASE(
 
   REQUIRE_THROWS_MATCHES(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSyntaxError, Catch::Message(QPS_TOKENIZATION_ERR_IDENT));
+      QPSSyntaxError,
+      Catch::Message("Error occurred during tokenization, invalid token: 2"));
 }
 
 TEST_CASE("Invalid Uses(_, SYNONYM) - Wildcard cannot be first arg") {

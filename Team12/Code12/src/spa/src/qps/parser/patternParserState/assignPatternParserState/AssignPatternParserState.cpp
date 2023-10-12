@@ -66,9 +66,9 @@ bool AssignPatternParserState::checkSafeExit() {
   return true;
 }
 
-void AssignPatternParserState::checkIsValidIdent(const std::string& ref) {
-  if (patternArg.size() == FIRST_ARG && !QPSStringUtils::isIdentValue(ref)) {
-    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_IDENT);
+void AssignPatternParserState::processLiteralRefToken(PQLToken& curr){
+  if (patternArg.size() == SECOND_ARG) {
+    curr.updateTokenType(PQL_LITERAL_EXPRESSION_TOKEN);
   }
 }
 
@@ -84,6 +84,7 @@ void AssignPatternParserState::handleToken() {
 
   while (curr.has_value()) {
     PQLToken token = curr.value();
+    if (token.getType() == PQL_LITERAL_REF_TOKEN) processLiteralRefToken(token);
 
     switch (token.getType()) {
       case PQL_SYNONYM_TOKEN:
@@ -104,7 +105,6 @@ void AssignPatternParserState::handleToken() {
         }
         break;
       case PQL_LITERAL_REF_TOKEN:
-        checkIsValidIdent(token.getValue());
         patternArg.push_back(std::make_unique<Ident>(token.getValue()));
         break;
       case PQL_LITERAL_EXPRESSION_TOKEN:

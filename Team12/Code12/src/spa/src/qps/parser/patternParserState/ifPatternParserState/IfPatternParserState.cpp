@@ -42,13 +42,6 @@ bool IfPatternParserState::checkSafeExit() {
   return true;
 }
 
-// TODO(Hwee): Remove this and make checks done at literal stage
-void IfPatternParserState::checkIsValidIdent(const std::string &ref) const {
-  if (patternArg.size() == FIRST_ARG && !QPSStringUtils::isIdentValue(ref)) {
-    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_IDENT);
-  }
-}
-
 void IfPatternParserState::handleToken() {
   auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
@@ -73,7 +66,6 @@ void IfPatternParserState::handleToken() {
         }
         break;
       case PQL_LITERAL_REF_TOKEN:
-        checkIsValidIdent(token.getValue());
         patternArg.push_back(std::make_unique<Ident>(token.getValue()));
         break;
       default:

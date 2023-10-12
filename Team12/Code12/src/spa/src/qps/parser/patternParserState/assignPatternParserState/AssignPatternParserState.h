@@ -29,9 +29,9 @@ class AssignPatternParserState : public BaseParserState {
   static PredictiveMap predictiveMap;
   vector<unique_ptr<AbstractArgument>> patternArg;
   void processSynonymToken(PQLToken& curr);
+  void processLiteralRefToken(PQLToken& curr);
   void processLastArgument();
   bool checkSafeExit();
-  void checkIsValidIdent(const string& ref);
   static void checkIsValidExpr(const string& ref);
 
  public:

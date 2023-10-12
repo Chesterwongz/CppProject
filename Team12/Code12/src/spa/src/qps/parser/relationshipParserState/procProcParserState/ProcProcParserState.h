@@ -13,7 +13,6 @@ class ProcProcParserState : public RelationshipParserState {
   static unordered_map<string, Abstraction> procProcKeywordToAbstraction;
   static PredictiveMap predictiveMap;
   void checkIsProcSynonym(const string& synonym);
-  static void checkIsValidIdent(const string& ident);
 
  public:
   explicit ProcProcParserState(PQLParserContext& parserContext,
