@@ -36,6 +36,12 @@ string ifSource =
       "else {"
         "while (oi == 2) {"       // 10
           "oi = oi - 1;"          // 11
+          "if (11 == oi) then {"  // 12
+            "oi = hi;"            // 13
+          "}"
+          "else {"
+            "oi = bye;"           // 14
+          "}"
         "}"
       "}"
     "}";
@@ -53,7 +59,7 @@ TEST_CASE(
   sp.processContent(ifSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"2", "4", "8"};
+  set<string> expected = {"4", "8", "12"};
   REQUIRE(result == expected);
 }
 
@@ -69,7 +75,7 @@ TEST_CASE(
   sp.processContent(ifSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "2", "4", "8"};
+  set<string> expected = {"1", "4", "8", "12"};
   REQUIRE(result == expected);
 }
 
@@ -85,7 +91,7 @@ TEST_CASE(
   sp.processContent(ifSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"2", "4", "8"};
+  set<string> expected = {"4", "8", "12"};
   REQUIRE(result == expected);
 }
 
@@ -101,7 +107,7 @@ TEST_CASE(
   sp.processContent(ifSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "2", "4", "8"};
+  set<string> expected = {"1", "4", "8", "12"};
   REQUIRE(result == expected);
 }
 
@@ -134,7 +140,7 @@ TEST_CASE(
   sp.processContent(ifSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "2", "4", "8"};
+  set<string> expected = {"1", "4", "8", "12"};
   REQUIRE(result == expected);
 }
 
