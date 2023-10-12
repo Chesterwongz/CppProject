@@ -1,16 +1,16 @@
 #pragma once
 
 #include <functional>
-#include <utility>
 #include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
+#include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/clause/Clause.h"
 #include "qps/clause/utils/ClauseConstants.h"
-#include "qps/argument/AbstractArgument.h"
 
 using std::unique_ptr;
 

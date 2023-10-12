@@ -45,6 +45,12 @@ TEST_CASE("Valid Uses(SYNONYM, SYNONYM)") {
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, VARIABLE_ENTITY);
   expected.addContext(std::move(expectedContext));
+
+  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1);
+  SynonymsToSelect synonymsToSelect = {};
+  synonymsToSelect.emplace_back(std::move(synonymArg));
+  expected.setSynonymToQuery(std::move(synonymsToSelect));
+
   unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>(d1);
   unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>(d2);
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
@@ -86,6 +92,12 @@ TEST_CASE("Valid Uses(SYNONYM, _)") {
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, VARIABLE_ENTITY);
   expected.addContext(std::move(expectedContext));
+
+  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1);
+  SynonymsToSelect synonymsToSelect = {};
+  synonymsToSelect.emplace_back(std::move(synonymArg));
+  expected.setSynonymToQuery(std::move(synonymsToSelect));
+
   unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>(d1);
   unique_ptr<Wildcard> secondArg = std::make_unique<Wildcard>();
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
@@ -127,6 +139,12 @@ TEST_CASE("Valid Uses(SYNONYM, LITERAL_REF)") {
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, VARIABLE_ENTITY);
   expected.addContext(std::move(expectedContext));
+
+  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1);
+  SynonymsToSelect synonymsToSelect = {};
+  synonymsToSelect.emplace_back(std::move(synonymArg));
+  expected.setSynonymToQuery(std::move(synonymsToSelect));
+
   unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>(d1);
   unique_ptr<Ident> secondArg = std::make_unique<Ident>("x");
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
@@ -169,6 +187,12 @@ TEST_CASE("Valid Uses(INTEGER, SYNONYM)") {
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, VARIABLE_ENTITY);
   expected.addContext(std::move(expectedContext));
+
+  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1);
+  SynonymsToSelect synonymsToSelect = {};
+  synonymsToSelect.emplace_back(std::move(synonymArg));
+  expected.setSynonymToQuery(std::move(synonymsToSelect));
+
   unique_ptr<Integer> firstArg = std::make_unique<Integer>(int1);
   unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>(d2);
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
@@ -210,6 +234,12 @@ TEST_CASE("Valid Uses(INTEGER, _)") {
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, VARIABLE_ENTITY);
   expected.addContext(std::move(expectedContext));
+
+  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1);
+  SynonymsToSelect synonymsToSelect = {};
+  synonymsToSelect.emplace_back(std::move(synonymArg));
+  expected.setSynonymToQuery(std::move(synonymsToSelect));
+
   unique_ptr<Integer> firstArg = std::make_unique<Integer>(int1);
   unique_ptr<Wildcard> secondArg = std::make_unique<Wildcard>();
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
@@ -251,6 +281,12 @@ TEST_CASE("Valid Uses(INTEGER, LITERAL_REF)") {
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, VARIABLE_ENTITY);
   expected.addContext(std::move(expectedContext));
+
+  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1);
+  SynonymsToSelect synonymsToSelect = {};
+  synonymsToSelect.emplace_back(std::move(synonymArg));
+  expected.setSynonymToQuery(std::move(synonymsToSelect));
+
   unique_ptr<Integer> firstArg = std::make_unique<Integer>(int1);
   unique_ptr<Ident> secondArg = std::make_unique<Ident>("x");
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
@@ -293,6 +329,12 @@ TEST_CASE("Valid Uses(LITERAL_REF, SYNONYM)") {
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, VARIABLE_ENTITY);
   expected.addContext(std::move(expectedContext));
+
+  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1);
+  SynonymsToSelect synonymsToSelect = {};
+  synonymsToSelect.emplace_back(std::move(synonymArg));
+  expected.setSynonymToQuery(std::move(synonymsToSelect));
+
   unique_ptr<Ident> firstArg = std::make_unique<Ident>("x");
   unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>(d2);
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
@@ -306,7 +348,6 @@ TEST_CASE("Valid Uses(LITERAL_REF, SYNONYM)") {
 TEST_CASE("Valid Uses(LITERAL_REF, _)") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
@@ -334,6 +375,12 @@ TEST_CASE("Valid Uses(LITERAL_REF, _)") {
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, VARIABLE_ENTITY);
   expected.addContext(std::move(expectedContext));
+
+  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1);
+  SynonymsToSelect synonymsToSelect = {};
+  synonymsToSelect.emplace_back(std::move(synonymArg));
+  expected.setSynonymToQuery(std::move(synonymsToSelect));
+
   unique_ptr<Ident> firstArg = std::make_unique<Ident>("x");
   unique_ptr<Wildcard> secondArg = std::make_unique<Wildcard>();
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
@@ -347,7 +394,6 @@ TEST_CASE("Valid Uses(LITERAL_REF, _)") {
 TEST_CASE("Valid Uses(LITERAL_REF, LITERAL_REF)") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
@@ -375,6 +421,12 @@ TEST_CASE("Valid Uses(LITERAL_REF, LITERAL_REF)") {
   expectedContext->addSynonym(d1, STMT_ENTITY);
   expectedContext->addSynonym(d2, VARIABLE_ENTITY);
   expected.addContext(std::move(expectedContext));
+
+  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1);
+  SynonymsToSelect synonymsToSelect = {};
+  synonymsToSelect.emplace_back(std::move(synonymArg));
+  expected.setSynonymToQuery(std::move(synonymsToSelect));
+
   unique_ptr<Ident> firstArg = std::make_unique<Ident>("y");
   unique_ptr<Ident> secondArg = std::make_unique<Ident>("x");
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
@@ -494,6 +546,12 @@ TEST_CASE("Valid Modifies(INTEGER, SYNONYM)") {
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym("v", VARIABLE_ENTITY);
   expected.addContext(std::move(expectedContext));
+
+  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>("v");
+  SynonymsToSelect synonymsToSelect = {};
+  synonymsToSelect.emplace_back(std::move(synonymArg));
+  expected.setSynonymToQuery(std::move(synonymsToSelect));
+
   unique_ptr<Integer> firstArg = std::make_unique<Integer>("6");
   unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>("v");
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(

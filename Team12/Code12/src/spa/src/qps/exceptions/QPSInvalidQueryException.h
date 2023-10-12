@@ -15,7 +15,6 @@ const char QPS_INVALID_QUERY_INVALID_NAME[] = "Invalid Name";
 const char QPS_INVALID_QUERY_INVALID_INTEGER[] = "Invalid Integer";
 const char QPS_INVALID_QUERY_INVALID_ENTITY[] = "Invalid entity: ";
 const char QPS_INVALID_QUERY_INCOMPLETE_QUERY[] = "Incomplete query";
-const char QPS_INVALID_QUERY_NO_CLAUSES[] = "No clauses found";
 const char QPS_INVALID_QUERY_INVALID_PATTERN_SYNONYM[] =
     "Invalid pattern synonym";
 const char QPS_INVALID_QUERY_NO_SELECT_SYNONYM[] = "No synonyms to  select";

@@ -1,7 +1,9 @@
+#include <cassert>
+
 #include "Query.h"
 
-#include "../clause/utils/ClauseConstants.h"
 #include "../intermediateTable/IntermediateTableFactory.h"
+#include "qps/clause/selectClause/SelectClause.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
 Query::Query(PKBReader &pkb) : pkb(pkb) {}
@@ -14,14 +16,13 @@ void Query::addClause(unique_ptr<Clause> clause) {
   this->clauses.push_back(std::move(clause));
 }
 
-void Query::setSynonymToQuery(const string &selectSynonym) {
-  this->synonymsToQuery.push_back(selectSynonym);
-}
-
-void Query::setSynonymToQuery(vector<string> &selectSynonyms) {
-  for (auto &synonym : selectSynonyms) {
-    this->synonymsToQuery.push_back(synonym);
+void Query::setSynonymToQuery(SynonymsToSelect selectSynonyms) {
+  for (auto &synonymArg : selectSynonyms) {
+    this->synonymsToQuery.emplace_back(synonymArg->getValue());
   }
+  unique_ptr<SelectClause> selectClause =
+      std::make_unique<SelectClause>(std::move(selectSynonyms));
+  this->addClause(std::move(selectClause));
 }
 
 set<string> Query::evaluate() {
@@ -32,9 +33,7 @@ set<string> Query::evaluate() {
 
   // todo 2: abstract out evaluation to evaluator
 
-  if (clauses.empty()) {
-    throw QPSInvalidQueryException(QPS_INVALID_QUERY_NO_CLAUSES);
-  }
+  assert(!clauses.empty());
 
   // iteratively join results of each clause
   IntermediateTable currIntermediateTable =
@@ -55,10 +54,15 @@ bool Query::operator==(const Query &other) {
   bool res = this->context->getMap() == other.context->getMap();
   if (!res) return res;
 
-  for (int i = 0; i < this->clauses.size(); i++) {
-    res = clauses.at(i)->isEquals(*(other.clauses.at(i)));
-    if (!res) return false;
+  if (this->synonymsToQuery != other.synonymsToQuery) {
+    return false;
   }
 
-  return res;
+  for (int i = 0; i < this->clauses.size(); i++) {
+    if (!clauses.at(i)->isEquals(*(other.clauses.at(i)))) {
+      return false;
+    }
+  }
+
+  return true;
 }
