@@ -1,23 +1,20 @@
-#include <catch.hpp>
 #include <memory>
 #include <vector>
+#include <catch.hpp>
 
 #include "PQLParserTestUtils.h"
-#include "pkb/facade/PKBReader.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/integer/Integer.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
 #include "qps/parser/PQLParserContext.h"
-#include "qps/parser/declarativeParserState/DeclarativeParserState.h"
 #include "qps/query/Query.h"
 #include "qps/token/PQLToken.h"
 
 TEST_CASE("Valid Uses(SYNONYM, SYNONYM)") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
@@ -58,7 +55,6 @@ TEST_CASE("Valid Uses(SYNONYM, SYNONYM)") {
 TEST_CASE("Valid Uses(SYNONYM, _)") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
@@ -99,7 +95,6 @@ TEST_CASE("Valid Uses(SYNONYM, _)") {
 TEST_CASE("Valid Uses(SYNONYM, LITERAL_REF)") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
@@ -264,7 +259,6 @@ TEST_CASE("Valid Uses(INTEGER, LITERAL_REF)") {
 TEST_CASE("Valid Uses(LITERAL_REF, SYNONYM)") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
@@ -306,7 +300,6 @@ TEST_CASE("Valid Uses(LITERAL_REF, SYNONYM)") {
 TEST_CASE("Valid Uses(LITERAL_REF, _)") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
@@ -347,7 +340,6 @@ TEST_CASE("Valid Uses(LITERAL_REF, _)") {
 TEST_CASE("Valid Uses(LITERAL_REF, LITERAL_REF)") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
@@ -388,7 +380,6 @@ TEST_CASE("Valid Uses(LITERAL_REF, LITERAL_REF)") {
 TEST_CASE("Invalid Uses(LITERAL_EXPR, LITERAL_REF)") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
@@ -417,7 +408,6 @@ TEST_CASE("Invalid Uses(LITERAL_EXPR, LITERAL_REF)") {
 TEST_CASE("Invalid Uses(_, SYNONYM) - Wildcard cannot be first arg") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
