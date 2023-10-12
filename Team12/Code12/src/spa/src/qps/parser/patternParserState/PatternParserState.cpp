@@ -1,11 +1,9 @@
 #include "PatternParserState.h"
 
-#include "qps/parser/patternParserState/assignPatternParserState/AssignPatternParserState.h"
-#include "qps/parser/patternParserState/ifPatternParserState/IfPatternParserState.h"
-#include "qps/parser/patternParserState/whilePatternParserState/WhilePatternParserState.h"
-
 PredictiveMap PatternParserState::predictiveMap = {
-    {PQL_PATTERN_TOKEN, {PQL_ASSIGN_PATTERN_TOKEN, PQL_IF_PATTERN_TOKEN}}};
+    {PQL_PATTERN_TOKEN,
+     {PQL_ASSIGN_PATTERN_TOKEN, PQL_IF_PATTERN_TOKEN,
+      PQL_WHILE_PATTERN_TOKEN}}};
 
 PatternParserState::PatternParserState(PQLParserContext& parserContext,
                                        PQLTokenType prev)

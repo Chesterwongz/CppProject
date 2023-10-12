@@ -10,7 +10,6 @@
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/patternClause/PatternClause.h"
-#include "qps/exceptions/QPSParserError.h"
 #include "qps/parser/BaseParserState.h"
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/clauseTransitionParserState/ClauseTransitionParserState.h"
@@ -18,7 +17,7 @@
 
 class WhilePatternParserState : public BaseParserState {
  private:
-  static constexpr int expectedNumberOfArgs = 2;
+  static constexpr int expectedNumberOfArgs = 1;
   static constexpr int expectedNonFirstArgWildcardCount = 1;
   unique_ptr<SynonymArg> synWhile;
   static PredictiveMap predictiveMap;

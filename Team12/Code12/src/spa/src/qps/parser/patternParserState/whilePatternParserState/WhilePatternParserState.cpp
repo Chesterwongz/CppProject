@@ -7,12 +7,11 @@ PredictiveMap WhilePatternParserState::predictiveMap = {
     {PQL_SYNONYM_TOKEN, {PQL_COMMA_TOKEN}},
     {PQL_LITERAL_REF_TOKEN, {PQL_COMMA_TOKEN}},
     {PQL_WILDCARD_TOKEN, {PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
-    {PQL_COMMA_TOKEN, {PQL_WILDCARD_TOKEN}}
-};
+    {PQL_COMMA_TOKEN, {PQL_WILDCARD_TOKEN}}};
 
 WhilePatternParserState::WhilePatternParserState(
-    PQLParserContext &parserContext,
-    PQLTokenType prev, unique_ptr<SynonymArg> synWhile)
+    PQLParserContext &parserContext, PQLTokenType prev,
+    unique_ptr<SynonymArg> synWhile)
     : BaseParserState(parserContext, prev),
       synWhile(std::move(synWhile)),
       nonFirstArgWildcardCount(0) {}
@@ -34,8 +33,7 @@ bool WhilePatternParserState::checkSafeExit() {
   if (!synWhile) {
     throw QPSParserError(QPS_PARSER_ERR_SYN_WHILE_MISSING);
   }
-  if (patternArg.size() != expectedNumberOfArgs
-      ||
+  if (patternArg.size() != expectedNumberOfArgs ||
       nonFirstArgWildcardCount != expectedNonFirstArgWildcardCount) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
