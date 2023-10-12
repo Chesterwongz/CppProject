@@ -14,14 +14,15 @@ TEST_CASE("test_AssignEvaluator_processArgs_synonymFirstArg") {
   // assign meow; variable test; select meow pattern meow (test, "x");
   SynonymArg selectedSynonym = SynonymArg(assignSynonymValue);
   SynonymArg variableSynonym = SynonymArg("test");
-  Ident ident = Ident("x");
+  PatternExp patternExp = PatternExp("x");
 
   unique_ptr<SynonymArg> variableSynonymPtr =
       make_unique<SynonymArg>(variableSynonym.getValue());
-  unique_ptr<Ident> identPtr = make_unique<Ident>(ident.getValue());
+  unique_ptr<PatternExp> patternExpPtr =
+      make_unique<PatternExp>(patternExp.getValue());
 
   AssignEvaluator assignEvaluator = AssignEvaluator(
-      std::move(variableSynonymPtr), std::move(identPtr), assignMockPKBReader,
+      std::move(variableSynonymPtr), std::move(patternExpPtr), assignMockPKBReader,
       assignIsPartialMatchFalse, selectedSynonym.getValue());
 
   vector<string> pkbResult = assignEvaluator.processArguments();
@@ -122,11 +123,12 @@ TEST_CASE("test_AssignEvaluator_evaluate_identFirstArg") {
   // assign meow; select meow pattern meow ("a", "x");
   SynonymArg selectedSynonym = SynonymArg(assignSynonymValue);
   Ident patternFirstArg = Ident("a");
-  Ident patternExp = Ident("x");
+  PatternExp patternExp = PatternExp("x");
 
   unique_ptr<Ident> patternFirstArgPtr =
       make_unique<Ident>(patternFirstArg.getValue());
-  unique_ptr<Ident> patternExpPtr = make_unique<Ident>(patternExp.getValue());
+  unique_ptr<PatternExp> patternExpPtr =
+      make_unique<PatternExp>(patternExp.getValue());
 
   AssignEvaluator assignEvaluator =
       AssignEvaluator(std::move(patternFirstArgPtr), std::move(patternExpPtr),

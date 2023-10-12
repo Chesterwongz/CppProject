@@ -10,22 +10,14 @@ vector<string> AssignEvaluator::processArguments() {
   bool isFirstArgSynonym = firstArg->isSynonym();
   bool isSecondArgWildcard = secondArg->isWildcard();
 
-  string secondArgRPNValue;
-
-  if (isSecondArgWildcard) {
-    secondArgRPNValue = secondArgValue;
-  } else {
-    secondArgRPNValue = QPSStringUtils::convertToRPN(secondArgValue);
-  }
-
   vector<string> pkbResult;
 
   if (isPartialMatch) {
-    pkbResult = pkbReader.getPartialAssignPattern(
-        firstArgValue, secondArgRPNValue, isFirstArgSynonym);
+    pkbResult = pkbReader.getPartialAssignPattern(firstArgValue, secondArgValue,
+                                                  isFirstArgSynonym);
   } else {
-    pkbResult = pkbReader.getExactAssignPattern(
-        firstArgValue, secondArgRPNValue, isFirstArgSynonym);
+    pkbResult = pkbReader.getExactAssignPattern(firstArgValue, secondArgValue,
+                                                isFirstArgSynonym);
   }
 
   return pkbResult;
