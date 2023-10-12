@@ -6,6 +6,7 @@
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
+#include "qps/argument/patternExp/PatternExp.h"
 #include "qps/clause/patternClause/PatternClause.h"
 #include "qps/query/Query.h"
 #include "qps/token/PQLToken.h"
@@ -77,7 +78,7 @@ TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_EXPR_MATCH)") {
   expected.addContext(std::move(expectedContext));
   unique_ptr<SynonymArg> outerSynonym = std::make_unique<SynonymArg>("newa");
   unique_ptr<Ident> firstArg = std::make_unique<Ident>("cenX");
-  unique_ptr<Ident> secondArg = std::make_unique<Ident>("x4 + y");
+  unique_ptr<PatternExp> secondArg = std::make_unique<PatternExp>("x4 + y");
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
   patternArg.push_back(std::move(secondArg));
