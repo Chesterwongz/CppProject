@@ -15,6 +15,7 @@ class AbstractArgument {
   virtual bool isInteger();
   virtual bool isSynonym();
   virtual bool isWildcard();
+  virtual bool isPatternExp();
   virtual ~AbstractArgument() = default;
   virtual bool operator==(const AbstractArgument& other) const = 0;
 };

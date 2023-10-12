@@ -19,7 +19,8 @@ PQLToken PQLLiteralTokenizer::tokenize(char nextCh, InputStream &inputStream) {
 
   string trimmed = QPSStringUtils::trimString(std::move(literal));
 
-  PQLTokenType type = QPSStringUtils::hasMoreThanOneWord(trimmed)
+  PQLTokenType type = QPSStringUtils::hasMoreThanOneWord(trimmed) ||
+                              QPSStringUtils::isInteger(trimmed)
                           ? PQLTokenType::PQL_LITERAL_EXPRESSION_TOKEN
                           : PQLTokenType::PQL_LITERAL_REF_TOKEN;
 

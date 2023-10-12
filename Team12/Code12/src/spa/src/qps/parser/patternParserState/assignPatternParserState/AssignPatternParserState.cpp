@@ -110,7 +110,7 @@ void AssignPatternParserState::handleToken() {
       case PQL_LITERAL_EXPRESSION_TOKEN:
         checkIsValidExpr(token.getValue());
         patternArg.push_back(
-            std::move(std::make_unique<Ident>(token.getValue())));
+            std::move(std::make_unique<PatternExp>(token.getValue())));
         break;
       default:
         break;
