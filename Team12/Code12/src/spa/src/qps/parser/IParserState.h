@@ -6,12 +6,7 @@
 
 class PQLParserContext;
 
-enum ClauseType {
-  NULL_CLAUSE,
-  SUCH_THAT_CLAUSE,
-  PATTERN_CLAUSE,
-  WITH_CLAUSE
-};
+enum ClauseType { NULL_CLAUSE, SUCH_THAT_CLAUSE, PATTERN_CLAUSE, WITH_CLAUSE };
 
 class IParserState {
  protected:
