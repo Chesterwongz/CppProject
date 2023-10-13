@@ -22,8 +22,7 @@ PatternStorage::getAllAssignStatements() {
   std::vector<std::pair<std::string, std::string>> result;
   result.reserve(statementPatternStorage.size());
   for (const auto& entry : statementPatternStorage) {
-    result.emplace_back(
-        std::to_string(entry.first), entry.second.second);
+    result.emplace_back(std::to_string(entry.first), entry.second.second);
   }
 
   return result;
@@ -37,8 +36,7 @@ PatternStorage::getAllAssignStatementsWithVariable(
   auto it = variablePatternStorage.find(variableName);
   if (it != variablePatternStorage.end()) {
     for (const auto& pair : it->second) {
-      result.emplace_back(
-          std::to_string(pair.second), variableName);
+      result.emplace_back(std::to_string(pair.second), variableName);
     }
   }
 
@@ -46,36 +44,21 @@ PatternStorage::getAllAssignStatementsWithVariable(
 }
 
 std::vector<std::pair<std::string, std::string>>
-PatternStorage::getAssignPattern(const std::string& variableName,
-                                 const std::string& rpn, bool isExact) {
+PatternStorage::getAssignPattern(
+    const std::string& variableName, const std::string& rpn,
+    std::function<bool(const std::string&, const std::string&)> matchFunction) {
   std::vector<std::pair<std::string, std::string>> result;
 
-  auto processEntryWithWildcard = [&](const auto& entry) {
-    if (isExact) {
-      if (entry.second.first == rpn) {
-        result.emplace_back(
-            std::to_string(entry.first), entry.second.second);
-      }
-    } else {
-      if (entry.second.first.find(rpn) != std::string::npos) {
-        result.emplace_back(
-            std::to_string(entry.first), entry.second.second);
-      }
+  auto processEntryWithWildcardVariable = [&](const auto& entry) {
+    if (matchFunction(entry.second.first, rpn)) {
+      result.emplace_back(std::to_string(entry.first), entry.second.second);
     }
   };
 
-  auto processEntryWithoutWildcard = [&](const auto& entry) {
-    if (isExact) {
-      if (entry.second.first == rpn && entry.second.second == variableName) {
-        result.emplace_back(
-            std::to_string(entry.first), variableName);
-      }
-    } else {
-      if (entry.second.first.find(rpn) != std::string::npos &&
-          entry.second.second == variableName) {
-        result.emplace_back(
-            std::to_string(entry.first), variableName);
-      }
+  auto processEntryWithoutWildcardVariable = [&](const auto& entry) {
+    if (matchFunction(entry.second.first, rpn) &&
+        (entry.second.second == variableName)) {
+      result.emplace_back(std::to_string(entry.first), variableName);
     }
   };
 
@@ -83,13 +66,13 @@ PatternStorage::getAssignPattern(const std::string& variableName,
     result = getAllAssignStatements();
   } else if (variableName == WILDCARD_KEYWORD) {
     for (const auto& entry : statementPatternStorage) {
-      processEntryWithWildcard(entry);
+      processEntryWithWildcardVariable(entry);
     }
   } else if (rpn == WILDCARD_KEYWORD) {
     result = getAllAssignStatementsWithVariable(variableName);
   } else {
     for (const auto& entry : statementPatternStorage) {
-      processEntryWithoutWildcard(entry);
+      processEntryWithoutWildcardVariable(entry);
     }
   }
 
@@ -99,13 +82,21 @@ PatternStorage::getAssignPattern(const std::string& variableName,
 std::vector<std::pair<std::string, std::string>>
 PatternStorage::getExactAssignPattern(const std::string& variableName,
                                       const std::string& rpn) {
-  return getAssignPattern(variableName, rpn, true);
+  auto exactMatch = [](const std::string& a, const std::string& b) {
+    return a == b;
+  };
+
+  return getAssignPattern(variableName, rpn, exactMatch);
 }
 
 std::vector<std::pair<std::string, std::string>>
 PatternStorage::getPartialAssignPattern(const std::string& variableName,
                                         const std::string& rpn) {
-  return getAssignPattern(variableName, rpn, false);
+  auto partialMatch = [](const std::string& a, const std::string& b) {
+    return a.find(b) != std::string::npos;
+  };
+
+  return getAssignPattern(variableName, rpn, partialMatch);
 }
 
 std::vector<std::pair<std::string, std::string>>

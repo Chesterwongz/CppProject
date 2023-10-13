@@ -39,8 +39,10 @@ class PatternStorage : public virtual IPatternStorage {
   std::vector<std::pair<std::string, std::string>>
   getAllAssignStatementsWithVariable(const std::string& variableName);
 
-  std::vector<std::pair<std::string, std::string>> getAssignPattern(
-      const std::string& variableName, const std::string& rpn, bool isExact);
+  std::vector<std::pair<std::string, std::string>>
+      getAssignPattern(
+          const std::string& variableName, const std::string& rpn,
+          std::function<bool(const std::string&, const std::string&)> matchFunction);
 
   std::vector<std::pair<std::string, std::string>> getConditionPattern(
       const std::unordered_map<int, std::unordered_set<std::string>>& storage,
