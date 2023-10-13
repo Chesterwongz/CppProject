@@ -252,4 +252,3 @@ TEST_CASE(
   set<string> expected = {"2", "5", "7"};
   REQUIRE(result == expected);
 }
-
