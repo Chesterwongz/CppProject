@@ -24,7 +24,7 @@ class AssignPatternParserState : public BaseParserState {
   static constexpr size_t expectedNumberOfArgs = 2;
 
   bool isPartialMatch;
-  int secondArgWildcardCount;
+  int secondArgWildcardCount = 0;
   unique_ptr<SynonymArg> synAssign;
   static PredictiveMap predictiveMap;
   vector<unique_ptr<AbstractArgument>> patternArg;

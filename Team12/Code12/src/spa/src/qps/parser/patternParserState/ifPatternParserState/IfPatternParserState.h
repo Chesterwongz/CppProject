@@ -22,7 +22,7 @@ class IfPatternParserState : public BaseParserState {
   unique_ptr<SynonymArg> synIf;
   static PredictiveMap predictiveMap;
   vector<unique_ptr<AbstractArgument>> patternArg;
-  int nonFirstArgWildcardCount;
+  int nonFirstArgWildcardCount = 0;
   void processSynonymToken(PQLToken& curr);
   bool checkSafeExit();
 

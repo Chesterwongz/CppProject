@@ -14,8 +14,7 @@ IfPatternParserState::IfPatternParserState(PQLParserContext &parserContext,
                                            PQLTokenType prev,
                                            unique_ptr<SynonymArg> synIf)
     : BaseParserState(parserContext, prev),
-      synIf(std::move(synIf)),
-      nonFirstArgWildcardCount(0) {}
+      synIf(std::move(synIf)) {}
 
 void IfPatternParserState::processSynonymToken(PQLToken &curr) {
   string synType = parserContext.getValidSynonymType(curr.getValue());

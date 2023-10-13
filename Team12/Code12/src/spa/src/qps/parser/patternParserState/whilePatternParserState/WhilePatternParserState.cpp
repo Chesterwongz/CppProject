@@ -13,8 +13,7 @@ WhilePatternParserState::WhilePatternParserState(
     PQLParserContext &parserContext, PQLTokenType prev,
     unique_ptr<SynonymArg> synWhile)
     : BaseParserState(parserContext, prev),
-      synWhile(std::move(synWhile)),
-      nonFirstArgWildcardCount(0) {}
+      synWhile(std::move(synWhile)) {}
 
 void WhilePatternParserState::processSynonymToken(PQLToken &curr) {
   string synType = parserContext.getValidSynonymType(curr.getValue());

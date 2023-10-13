@@ -21,8 +21,7 @@ AssignPatternParserState::AssignPatternParserState(
     unique_ptr<SynonymArg> synAssign)
     : BaseParserState(parserContext, prev),
       isPartialMatch(false),
-      synAssign(std::move(synAssign)),
-      secondArgWildcardCount(0) {}
+      synAssign(std::move(synAssign)) {}
 
 void AssignPatternParserState::processSynonymToken(PQLToken& curr) {
   string synType = parserContext.getValidSynonymType(curr.getValue());
