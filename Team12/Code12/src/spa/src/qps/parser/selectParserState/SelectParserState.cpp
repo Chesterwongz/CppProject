@@ -1,11 +1,23 @@
 #include "SelectParserState.h"
 
 PredictiveMap SelectParserState::predictiveMap = {
-    {PQL_SELECT_TOKEN, {PQL_SYNONYM_TOKEN, PQL_LEFT_ANGLE_TOKEN}}};
+    {PQL_SELECT_TOKEN,
+     {PQL_BOOLEAN_TOKEN, PQL_SYNONYM_TOKEN, PQL_LEFT_ANGLE_TOKEN}}};
 
 SelectParserState::SelectParserState(PQLParserContext& parserContext,
                                      PQLTokenType prev)
     : BaseParserState(parserContext, prev) {}
+
+void SelectParserState::processNameToken(PQLToken& curr) {
+  if (parserContext.checkSynonymExists(curr.getValue())) {
+    curr.updateTokenType(PQL_SYNONYM_TOKEN);
+  } else if (curr.getValue() == BOOLEAN_KEYWORD) {
+    curr.updateTokenType(PQL_BOOLEAN_TOKEN);
+  } else {
+    throw QPSSemanticError(QPS_SEMANTIC_ERR_UNDECLARED_SYNONYM +
+                           curr.getValue());
+  }
+}
 
 void SelectParserState::handleToken() {
   auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
@@ -14,6 +26,10 @@ void SelectParserState::handleToken() {
     PQLToken token = curr.value();
 
     switch (token.getType()) {
+      case PQL_BOOLEAN_TOKEN:
+        // TODO(Hwee): create new SelectBoolClause
+        ClauseTransitionParserState::setClauseTransitionState(parserContext);
+        return;
       case PQL_SYNONYM_TOKEN:
         // TODO(Hwee): change to add vector syn
         parserContext.addSelectSynonym(token.getValue());

@@ -20,6 +20,8 @@ inline const string STMT_ENTITY = "stmt";
 inline const string VARIABLE_ENTITY = "variable";
 inline const string WHILE_ENTITY = "while";
 
+inline const string BOOLEAN_KEYWORD = "BOOLEAN";
+
 inline const string SELECT_KEYWORD = "Select";
 inline const string SUCH_KEYWORD = "such";
 inline const string THAT_KEYWORD = "that";

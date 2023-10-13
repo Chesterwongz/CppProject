@@ -14,6 +14,12 @@ Entity Context::getTokenEntity(const Synonym &synonym) {
   return entity->second;
 }
 
+bool Context::checkIfSynonymExists(const Synonym &tokenName) {
+  auto entity = tokenNameToTokenMap.find(tokenName);
+
+  return entity != tokenNameToTokenMap.end();
+}
+
 void Context::addSynonym(const Synonym &tokenSynonym, Entity tokenEntity) {
   if (tokenNameToTokenMap.find(tokenSynonym) != tokenNameToTokenMap.end()) {
     throw QPSSemanticError(QPS_SEMANTIC_ERR_REPEATED_SYNONYM);

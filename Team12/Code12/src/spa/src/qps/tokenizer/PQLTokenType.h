@@ -53,6 +53,7 @@ enum PQLTokenType {
 
   // Declarative
   PQL_ENTITY_TOKEN,
+  PQL_BOOLEAN_TOKEN,
   PQL_SYNONYM_TOKEN,
 
   // Select

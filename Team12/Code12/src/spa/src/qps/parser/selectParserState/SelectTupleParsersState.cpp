@@ -17,6 +17,7 @@ void SelectTupleParsersState::handleToken() {
 
     switch (token.getType()) {
       case PQL_SYNONYM_TOKEN:
+        // will throw exception if not valid
         parserContext.getValidSynonymType(token.getValue());
         synonymsToSelect.push_back(
             std::make_unique<SynonymArg>(token.getValue()));

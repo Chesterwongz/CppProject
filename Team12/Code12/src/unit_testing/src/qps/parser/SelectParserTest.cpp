@@ -1,0 +1,105 @@
+#include <memory>
+#include <vector>
+#include <catch.hpp>
+
+#include "PQLParserTestUtils.h"
+#include "qps/argument/integer/Integer.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/argument/wildcard/Wildcard.h"
+#include "qps/clause/suchThatClause/SuchThatClause.h"
+#include "qps/query/Query.h"
+#include "qps/token/PQLToken.h"
+
+TEST_CASE("Valid Select BOOLEAN") {
+  vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+                                PQLToken(PQL_NAME_TOKEN, "a"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "b"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "c"),
+                                PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, BOOLEAN_KEYWORD)};
+
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+}
+
+TEST_CASE("Valid Select BOOLEAN - BOOLEAN as synonym") {
+  vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+                                PQLToken(PQL_NAME_TOKEN, BOOLEAN_KEYWORD),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "b"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "c"),
+                                PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, BOOLEAN_KEYWORD)};
+
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+
+  // expected query obj
+  Query expected(dummyQpsParserPkbReader);
+  unique_ptr<Context> expectedContext = std::make_unique<Context>();
+  expectedContext->addSynonym(BOOLEAN_KEYWORD, ASSIGN_ENTITY);
+  expectedContext->addSynonym("b", ASSIGN_ENTITY);
+  expectedContext->addSynonym("c", ASSIGN_ENTITY);
+  expected.addContext(std::move(expectedContext));
+
+  bool res = *query == expected;
+  REQUIRE(res);
+}
+
+TEST_CASE("Invalid Select<BOOLEAN, b, c>") {
+  vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+                                PQLToken(PQL_NAME_TOKEN, "a"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "b"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "c"),
+                                PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+                                PQLToken(PQL_LEFT_ANGLE_TOKEN, "<"),
+                                PQLToken(PQL_NAME_TOKEN, BOOLEAN_KEYWORD),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "b"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "c"),
+                                PQLToken(PQL_RIGHT_ANGLE_TOKEN, ">")};
+
+  REQUIRE_THROWS_MATCHES(
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPSSemanticError,
+      Catch::Message("Using undeclared synonym: BOOLEAN")
+      );
+}
+
+TEST_CASE("Valid Select BOOLEAN - no declarations") {
+  vector<PQLToken> tokenList = {PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, BOOLEAN_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, FOLLOWS_ABSTRACTION),
+                                PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+                                PQLToken(PQL_INTEGER_TOKEN, "1"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_INTEGER_TOKEN, "2"),
+                                PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),};
+
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+
+  // expected query obj
+  Query expected(dummyQpsParserPkbReader);
+  unique_ptr<Context> expectedContext = std::make_unique<Context>();
+  expected.addContext(std::move(expectedContext));
+  unique_ptr<Integer> firstArg = std::make_unique<Integer>("1");
+  unique_ptr<Integer> secondArg = std::make_unique<Integer>("2");
+  unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
+      FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
+  expected.addClause(std::move(suchThatClause));
+
+  bool res = *query == expected;
+  REQUIRE(res);
+}

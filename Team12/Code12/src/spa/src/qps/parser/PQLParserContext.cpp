@@ -33,6 +33,10 @@ string PQLParserContext::getValidSynonymType(const string& synonym) {
   return selectSynonym;
 }
 
+bool PQLParserContext::checkSynonymExists(const std::string& synonym) {
+  return context->checkIfSynonymExists(synonym);
+}
+
 void PQLParserContext::addClause(unique_ptr<Clause> clause) {
   query->addClause(std::move(clause));
 }

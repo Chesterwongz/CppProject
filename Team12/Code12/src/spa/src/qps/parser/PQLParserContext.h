@@ -34,6 +34,7 @@ class PQLParserContext {
   void addSelectSynonym(const string& synonym);
   void addSelectClause(vector<unique_ptr<AbstractArgument>> synonyms);
   string getValidSynonymType(const string& synonym);
+  bool checkSynonymExists(const string& synonym);
 
   //  Build clause - handling of query object
   void addClause(unique_ptr<Clause> clause);
