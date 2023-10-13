@@ -75,7 +75,7 @@ TEST_CASE("Valid Pattern while (_,_)") {
       PQLToken(PQL_NAME_TOKEN, PATTERN_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, whiles),
       PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_WILDCARD_TOKEN, "_"),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_COMMA_TOKEN, ","),
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),

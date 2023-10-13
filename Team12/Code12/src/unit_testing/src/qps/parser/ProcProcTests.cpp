@@ -65,7 +65,7 @@ TEST_CASE("Valid Calls(SYNONYM, _)") {
                                 PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
                                 PQLToken(PQL_NAME_TOKEN, p1),
                                 PQLToken(PQL_COMMA_TOKEN, ","),
-                                PQLToken(PQL_WILDCARD_TOKEN, "_"),
+                                PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
                                 PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")")};
 
   std::unique_ptr<Query> query =
