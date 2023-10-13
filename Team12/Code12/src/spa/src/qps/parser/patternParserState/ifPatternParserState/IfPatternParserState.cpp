@@ -73,4 +73,5 @@ void IfPatternParserState::handleToken() {
 
     curr = parserContext.eatExpectedToken(prev, predictiveMap);
   }
+  throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_QUERY);
 }

@@ -62,5 +62,5 @@ void PatternParserState::handleToken() {
 
     curr = parserContext.eatExpectedToken(prev, predictiveMap);
   }
-  throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
+  throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_QUERY);
 }

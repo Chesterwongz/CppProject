@@ -45,5 +45,5 @@ void SuchThatParserState::handleToken() {
     curr = parserContext.eatExpectedToken(prev, predictiveMap);
   }
   // should never exit in this parser
-  throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
+  throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_QUERY);
 }

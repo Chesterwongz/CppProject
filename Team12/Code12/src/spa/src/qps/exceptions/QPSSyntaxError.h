@@ -8,6 +8,7 @@ const char QPS_TOKENIZATION_ERR_INCOMPLETE_DECLARATION[] =
     "Incomplete declaration";
 const char QPS_TOKENIZATION_ERR_INCOMPLETE_SELECT[] = "Incomplete Select";
 const char QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT[] = "Incorrect arguments";
+const char QPS_TOKENIZATION_ERR_INCOMPLETE_QUERY[] = "Incomplete query";
 const char QPS_TOKENIZATION_ERR_NAME[] = "Name token is invalid: ";
 const char QPS_TOKENIZATION_ERR_SYNONYM[] = "Invalid Synonym";
 const char QPS_TOKENIZATION_ERR_IDENT[] = "Invalid Ident";
