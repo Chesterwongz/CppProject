@@ -1,6 +1,6 @@
-#include <cassert>
-
 #include "Query.h"
+
+#include <cassert>
 
 #include "../intermediateTable/IntermediateTableFactory.h"
 #include "qps/clause/selectClause/SelectClause.h"
@@ -20,9 +20,8 @@ void Query::setSynonymToQuery(SynonymsToSelect selectSynonyms) {
   for (auto &synonymArg : selectSynonyms) {
     this->synonymsToQuery.emplace_back(synonymArg->getValue());
   }
-  unique_ptr<SelectClause> selectClause =
+  this->selectClause =
       std::make_unique<SelectClause>(std::move(selectSynonyms));
-  this->addClause(std::move(selectClause));
 }
 
 set<string> Query::evaluate() {
@@ -33,11 +32,16 @@ set<string> Query::evaluate() {
 
   // todo 2: abstract out evaluation to evaluator
 
-  assert(!clauses.empty());
+  assert(selectClause);
+
+  // evaluate SelectClause first
+  IntermediateTable currIntermediateTable =
+      selectClause->evaluate(*context, pkb);
+  if (currIntermediateTable.isTableEmptyAndNotWildcard()) {
+    return {};
+  }
 
   // iteratively join results of each clause
-  IntermediateTable currIntermediateTable =
-      IntermediateTableFactory::buildWildcardIntermediateTable();
   for (unique_ptr<Clause> &clause : clauses) {
     IntermediateTable clauseResult = clause->evaluate(*context, pkb);
     currIntermediateTable = currIntermediateTable.join(clauseResult);
