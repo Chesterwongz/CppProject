@@ -59,41 +59,46 @@ PatternStorage::getAssignPattern(
     result = getAllAssignStatementsWithVariable(variableName);
   } else {
     for (const auto& entry : statementPatternStorage) {
-      result = processEntryWithoutWildcardVariable(rpn, variableName, matchFunction);
+      result =
+          processEntryWithoutWildcardVariable(rpn, variableName, matchFunction);
     }
   }
 
   return result;
 }
 
-std::vector<std::pair<std::string, std::string>> PatternStorage::processEntryWithWildcardVariable(const std::string& rpn,
-    const std::function<bool(const std::string&, const std::string&)>& matchFunction) {
-    std::vector<std::pair<std::string, std::string>> result;
+std::vector<std::pair<std::string, std::string>>
+PatternStorage::processEntryWithWildcardVariable(
+    const std::string& rpn,
+    const std::function<bool(const std::string&, const std::string&)>&
+        matchFunction) {
+  std::vector<std::pair<std::string, std::string>> result;
 
-    for (const auto& entry : statementPatternStorage) {
-        if (matchFunction(entry.second.first, rpn)) {
-            result.emplace_back(std::to_string(entry.first), entry.second.second);
-        }
+  for (const auto& entry : statementPatternStorage) {
+    if (matchFunction(entry.second.first, rpn)) {
+      result.emplace_back(std::to_string(entry.first), entry.second.second);
     }
+  }
 
-    return result;
+  return result;
 }
 
-std::vector<std::pair<std::string, std::string>> PatternStorage::processEntryWithoutWildcardVariable(const std::string& rpn,
-    const std::string& variableName,
-    const std::function<bool(const std::string&, const std::string&)>& matchFunction) {
-    std::vector<std::pair<std::string, std::string>> result;
+std::vector<std::pair<std::string, std::string>>
+PatternStorage::processEntryWithoutWildcardVariable(
+    const std::string& rpn, const std::string& variableName,
+    const std::function<bool(const std::string&, const std::string&)>&
+        matchFunction) {
+  std::vector<std::pair<std::string, std::string>> result;
 
-    for (const auto& entry : statementPatternStorage) {
-        if (matchFunction(entry.second.first, rpn) &&
-            (entry.second.second == variableName)) {
-            result.emplace_back(std::to_string(entry.first), variableName);
-        }
+  for (const auto& entry : statementPatternStorage) {
+    if (matchFunction(entry.second.first, rpn) &&
+        (entry.second.second == variableName)) {
+      result.emplace_back(std::to_string(entry.first), variableName);
     }
+  }
 
-    return result;
+  return result;
 }
-
 
 std::vector<std::pair<std::string, std::string>>
 PatternStorage::getExactAssignPattern(const std::string& variableName,
