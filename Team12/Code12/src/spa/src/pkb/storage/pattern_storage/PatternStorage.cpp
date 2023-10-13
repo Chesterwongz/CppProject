@@ -23,7 +23,7 @@ PatternStorage::getAllAssignStatements() {
   result.reserve(statementPatternStorage.size());
   for (const auto& entry : statementPatternStorage) {
     result.emplace_back(
-        std::make_pair(std::to_string(entry.first), entry.second.second));
+        std::to_string(entry.first), entry.second.second);
   }
 
   return result;
@@ -38,7 +38,7 @@ PatternStorage::getAllAssignStatementsWithVariable(
   if (it != variablePatternStorage.end()) {
     for (const auto& pair : it->second) {
       result.emplace_back(
-          std::make_pair(std::to_string(pair.second), variableName));
+          std::to_string(pair.second), variableName);
     }
   }
 
@@ -54,12 +54,12 @@ PatternStorage::getAssignPattern(const std::string& variableName,
     if (isExact) {
       if (entry.second.first == rpn) {
         result.emplace_back(
-            std::make_pair(std::to_string(entry.first), entry.second.second));
+            std::to_string(entry.first), entry.second.second);
       }
     } else {
       if (entry.second.first.find(rpn) != std::string::npos) {
         result.emplace_back(
-            std::make_pair(std::to_string(entry.first), entry.second.second));
+            std::to_string(entry.first), entry.second.second);
       }
     }
   };
@@ -68,13 +68,13 @@ PatternStorage::getAssignPattern(const std::string& variableName,
     if (isExact) {
       if (entry.second.first == rpn && entry.second.second == variableName) {
         result.emplace_back(
-            std::make_pair(std::to_string(entry.first), variableName));
+            std::to_string(entry.first), variableName);
       }
     } else {
       if (entry.second.first.find(rpn) != std::string::npos &&
           entry.second.second == variableName) {
         result.emplace_back(
-            std::make_pair(std::to_string(entry.first), variableName));
+            std::to_string(entry.first), variableName);
       }
     }
   };
@@ -120,7 +120,7 @@ PatternStorage::getConditionPattern(
     const std::string& stmtNum = std::to_string(entry.first);
     for (const std::string& var : entry.second) {
       if (isWildcard || var == variableName) {
-        result.emplace_back(std::make_pair(stmtNum, var));
+        result.emplace_back(stmtNum, var);
       }
     }
   }
