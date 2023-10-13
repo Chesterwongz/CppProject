@@ -12,6 +12,8 @@ const char QPS_TOKENIZATION_ERR_INCOMPLETE_QUERY[] = "Incomplete query";
 const char QPS_TOKENIZATION_ERR_NAME[] = "Name token is invalid: ";
 const char QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH[] =
     "Invalid Pattern Expression";
+const char QPS_SYNTAX_ERR_AND[] =
+    "and should appear after a clause";
 
 class QPSSyntaxError : public QPSException {
  public:

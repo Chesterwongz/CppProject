@@ -27,6 +27,8 @@ inline const string SUCH_KEYWORD = "such";
 inline const string THAT_KEYWORD = "that";
 inline const string PATTERN_KEYWORD = "pattern";
 
+inline const string AND_KEYWORD = "and";
+
 inline const string FOLLOWS_ABSTRACTION = "Follows";
 inline const string FOLLOWS_STAR_ABSTRACTION = "Follows*";
 inline const string MODIFIES_ABSTRACTION = "Modifies";

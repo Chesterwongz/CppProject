@@ -70,22 +70,22 @@ TEST_CASE("Invalid Select<BOOLEAN, b, c>") {
 
   REQUIRE_THROWS_MATCHES(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSemanticError,
-      Catch::Message("Using undeclared synonym: BOOLEAN")
-      );
+      QPSSemanticError, Catch::Message("Using undeclared synonym: BOOLEAN"));
 }
 
 TEST_CASE("Valid Select BOOLEAN - no declarations") {
-  vector<PQLToken> tokenList = {PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
-                                PQLToken(PQL_NAME_TOKEN, BOOLEAN_KEYWORD),
-                                PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
-                                PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-                                PQLToken(PQL_NAME_TOKEN, FOLLOWS_ABSTRACTION),
-                                PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-                                PQLToken(PQL_INTEGER_TOKEN, "1"),
-                                PQLToken(PQL_COMMA_TOKEN, ","),
-                                PQLToken(PQL_INTEGER_TOKEN, "2"),
-                                PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),};
+  vector<PQLToken> tokenList = {
+      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, BOOLEAN_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, FOLLOWS_ABSTRACTION),
+      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+      PQLToken(PQL_INTEGER_TOKEN, "1"),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_INTEGER_TOKEN, "2"),
+      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+  };
 
   std::unique_ptr<Query> query =
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);

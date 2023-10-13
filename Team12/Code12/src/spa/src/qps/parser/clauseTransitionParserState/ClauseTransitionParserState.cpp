@@ -16,6 +16,21 @@ void ClauseTransitionParserState::setClauseTransitionState(
   pc.transitionTo(std::make_unique<ClauseTransitionParserState>(pc));
 }
 
+void ClauseTransitionParserState::createAndClause(PQLParserContext &pc) {
+  switch (prevClauseType) {
+    case SUCH_THAT_CLAUSE:
+      this->parserContext.transitionTo(
+          std::make_unique<SuchThatParserState>(pc, PQL_THAT_TOKEN));
+      return;
+    case PATTERN_CLAUSE:
+      this->parserContext.transitionTo(std::make_unique<PatternParserState>(
+          parserContext, PQL_PATTERN_TOKEN));
+      return;
+    default:
+      throw QPSSyntaxError(QPS_SYNTAX_ERR_AND);
+  }
+}
+
 void ClauseTransitionParserState::handleToken() {
   auto curr = parserContext.eatCurrToken();
 
@@ -31,6 +46,9 @@ void ClauseTransitionParserState::handleToken() {
     case PQL_PATTERN_TOKEN:
       this->parserContext.transitionTo(
           std::make_unique<PatternParserState>(parserContext, curr->getType()));
+      return;
+    case PQL_AND_TOKEN:
+      createAndClause(parserContext);
       return;
     default:
       throw QPSSyntaxError(QPS_TOKENIZATION_ERR + curr->getValue());

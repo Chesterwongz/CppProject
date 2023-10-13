@@ -16,6 +16,7 @@ class ClauseTransitionParserState : public IParserState {
  public:
   void handleToken() override;
   static void setClauseTransitionState(PQLParserContext& pc);
+  void createAndClause(PQLParserContext& pc);
   explicit ClauseTransitionParserState(PQLParserContext& parserContext);
   ~ClauseTransitionParserState() override = default;
 };
