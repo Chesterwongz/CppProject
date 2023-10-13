@@ -24,6 +24,11 @@ void PQLParserContext::addSelectSynonym(const string& synonym) {
   this->query->setSynonymToQuery(synonym);
 }
 
+void PQLParserContext::addSelectClause(
+    vector<unique_ptr<AbstractArgument>> synonyms) {
+  // TODO(@teoyuqi): create the select clause here and add the synonyms
+}
+
 string PQLParserContext::getValidSynonymType(const string& synonym) {
   auto selectSynonym = context->getTokenEntity(synonym);
   return selectSynonym;

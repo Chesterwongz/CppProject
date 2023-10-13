@@ -1,0 +1,90 @@
+====== 1 - Next (_,_) (+) ======
+stmt Next;
+Select Next such that Next (_,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9
+1000
+====== 2 - Next (stmt,_) (+) ======
+stmt stmt;
+Select stmt such that Next (stmt ,_)
+1, 2, 3, 4, 5, 6, 7
+1000
+====== 3 - Next (_,stmt) (+) ======
+stmt Select;
+Select Select such that Next (_,Select)
+2, 3, 4, 5, 6, 7, 8
+1000
+====== 4 - Next (stmt1,stmt1) (-) ======
+stmt s, S;
+Select s such that Next (s,s)
+none
+1000
+====== 5 - Next (stmt1,stmt2) (+) ======
+stmt s, S;
+Select s such that Next (s,S)
+1, 2, 3, 4, 5, 6, 7
+1000
+====== 6 - Next (1, stmt) (+) ======
+if Next;
+Select Next such that Next   ( 1,Next )
+2
+1000
+====== 7 - Next (2, stmt) (+) ======
+stmt Next;
+Select Next such that Next   ( 2,Next )
+3, 6
+1000
+====== 8 - Next (4, stmt) (+) ======
+stmt Next;
+Select Next such that Next   ( 4,Next )
+3
+1000
+====== 9 - Next (stmt, 3) (+) ======
+stmt if;
+Select if such that Next   ( if,3 )
+2, 4
+1000
+====== 10 - Next (4, 3) (+) ======
+procedure p;
+Select p such that Next   ( 4,3 )
+Next, Potato
+1000
+====== 11 - Next (4, 5) (+) ======
+procedure p;
+Select p such that Next   ( 4,5 )
+none
+1000
+====== 12 - Next (2, _) (+) ======
+stmt s;
+Select s such that Next(2,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9
+1000
+====== 13 - Next (5, 9) (+) ======
+stmt s;
+Select s such that Next(5,9)
+none
+1000
+====== 14 - Next (_, 9) (-) ======
+stmt s;
+Select s such that Next   ( _,1 )
+none
+1000
+====== 15 - Next (_, print) (-) ======
+print p;
+Select p such that Next( _,p)
+4
+1000
+====== 16 - Next (print, _) (-) ======
+print pn;
+Select pn such that Next ( pn,_)
+4
+1000
+====== 17 - Next (stmt,assign) (+) ======
+stmt s;assign a;
+Select a such that Next( s,a )
+7, 8
+1000
+====== 18 - Next (proc,_) (+) ======
+stmt s;
+Select s such that Next( Next,_ )
+SemanticError
+1000

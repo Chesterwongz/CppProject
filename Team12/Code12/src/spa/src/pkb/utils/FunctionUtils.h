@@ -6,8 +6,8 @@
 
 using std::stack, std::unordered_map, std::unordered_set;
 
-// ai-gen start(gpt-4, 1)
-template <typename ElementType, typename ClassType,
+// ai-gen start(gpt-4, 2)
+template <typename ElementType, typename FuncType,
           typename ArgType = ElementType>
 class FunctionUtils {
  private:
@@ -22,33 +22,32 @@ class FunctionUtils {
   }
 
  public:
-  using NeighborFunction = unordered_set<ElementType> (ClassType::*)(ArgType);
-
   static unordered_set<ElementType> computeTransitiveRelationship(
-      ArgType element, NeighborFunction getNeighbor,
-      const unordered_map<ElementType, unordered_set<ElementType>>& cache,
-      ClassType* instance) {
-    if (cache.find(element) != cache.end()) {
-      return cache.at(element);
+      ArgType element, FuncType getNeighbor,
+      const unordered_map<ElementType, unordered_set<ElementType>>* cache =
+          nullptr) {
+    if (cache && cache->find(element) != cache->end()) {
+      return cache->at(element);
     }
     unordered_set<ElementType> visited;
     stack<ElementType> toVisit;
-    for (ElementType s : (instance->*getNeighbor)(element)) {
+    for (ElementType s : getNeighbor(element)) {
       toVisit.push(s);
     }
     while (!toVisit.empty()) {
       ElementType curr = toVisit.top();
       toVisit.pop();
       visited.insert(curr);
-      if (cache.find(element) == cache.end()) {
-        unordered_set<ElementType> directNbrs = (instance->*getNeighbor)(curr);
-        addToVisit(visited, toVisit, directNbrs);
-      } else {
-        unordered_set<ElementType> nbrsOfCurr = cache.at(curr);
+
+      if (cache && cache->find(curr) != cache->end()) {
+        unordered_set<ElementType> nbrsOfCurr = cache->at(curr);
         visited.insert(nbrsOfCurr.begin(), nbrsOfCurr.end());
+      } else {
+        unordered_set<ElementType> directNbrs = getNeighbor(curr);
+        addToVisit(visited, toVisit, directNbrs);
       }
     }
     return visited;
   }
 };
-// ai-gen end
+// ai-gen end(gpt-4, 2)
