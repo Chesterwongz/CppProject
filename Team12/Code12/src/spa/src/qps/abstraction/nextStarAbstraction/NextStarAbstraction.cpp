@@ -80,7 +80,7 @@ IntermediateTable NextStarAbstraction::handleBothArgsInteger() {
   bool isNextT = pkb.isNextT(firstStmtNumber, secondStmtNumber);
 
   return isNextT ? IntermediateTableFactory::buildWildcardIntermediateTable()
-                    : IntermediateTableFactory::buildEmptyIntermediateTable();
+                 : IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
 IntermediateTable NextStarAbstraction::handleFirstArgInteger() {

@@ -209,17 +209,17 @@ class MockPKBReader : public PKBReader {
   }
 
   vector<string> getPrevStmts(int secondStmtNumber,
-                                  StmtType firstStmtType) override {
+                              StmtType firstStmtType) override {
     return mockGetPrevStmts;
   };
 
   vector<string> getNextStmts(int firstStmtNumber,
-                                  StmtType secondStmtType) override {
+                              StmtType secondStmtType) override {
     return mockGetNextStmts;
   }
 
-  vector<pair<string, string>> getNextTPairs(
-      StmtType firstStmtType, StmtType secondStmtType) override {
+  vector<pair<string, string>> getNextTPairs(StmtType firstStmtType,
+                                             StmtType secondStmtType) override {
     return mockGetNextTPairs;
   }
 
@@ -228,12 +228,12 @@ class MockPKBReader : public PKBReader {
   }
 
   vector<string> getPrevTStmts(int secondStmtNumber,
-                                      StmtType firstStmtType) override {
+                               StmtType firstStmtType) override {
     return mockGetPrevTStmts;
   }
 
   vector<string> getNextTStmts(int firstStmtNumber,
-                                       StmtType secondStmtType) override {
+                               StmtType secondStmtType) override {
     return mockGetNextTStmts;
   }
 };
