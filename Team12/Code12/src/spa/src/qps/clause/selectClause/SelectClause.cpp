@@ -1,5 +1,7 @@
 #include "SelectClause.h"
 
+#include <cassert>
+
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 
@@ -7,9 +9,8 @@ SelectClause::SelectClause(SynonymsToSelect synonymsToSelect)
     : synonymsToSelect(std::move(synonymsToSelect)) {}
 
 IntermediateTable SelectClause::evaluate(Context &context, PKBReader &pkb) {
-  if (this->synonymsToSelect.empty()) {
-    throw QPSInvalidQueryException(QPS_INVALID_QUERY_NO_SELECT_SYNONYM);
-  }
+  assert(!this->synonymsToSelect.empty());
+
   IntermediateTable result =
       IntermediateTableFactory::buildWildcardIntermediateTable();
   for (auto &synonymArg : this->synonymsToSelect) {
