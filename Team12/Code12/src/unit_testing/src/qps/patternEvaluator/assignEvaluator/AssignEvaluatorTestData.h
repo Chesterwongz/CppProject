@@ -8,6 +8,7 @@
 #include "../../mocks/MockContext.h"
 #include "../../mocks/MockPKBReader.h"
 #include "qps/argument/ident/Ident.h"
+#include "qps/argument/patternExp/PatternExp.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/patternEvaluator/PatternEvaluatorFactory.h"
 

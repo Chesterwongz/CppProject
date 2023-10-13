@@ -41,7 +41,7 @@ Select Next such that Next   ( 4,Next )
 ====== 9 - Next (stmt, 3) (+) ======
 stmt if;
 Select if such that Next   ( if,3 )
-2，4
+2, 4
 1000
 ====== 10 - Next (4, 3) (+) ======
 procedure p;
@@ -86,5 +86,5 @@ Select a such that Next( s,a )
 ====== 18 - Next (proc,_) (+) ======
 stmt s;
 Select s such that Next( Next,_ )
-SyntaxError
+SemanticError
 1000

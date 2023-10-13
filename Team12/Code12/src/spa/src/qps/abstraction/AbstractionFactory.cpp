@@ -5,7 +5,7 @@
 #include "qps/abstraction/followsAbstraction/FollowsAbstraction.h"
 #include "qps/abstraction/followsStarAbstraction/FollowsStarAbstraction.h"
 #include "qps/abstraction/modifiesAbstraction/ModifiesAbstraction.h"
-#include "qps/abstraction/nextAbstraction/nextAbstraction.h"
+#include "qps/abstraction/nextAbstraction/NextAbstraction.h"
 #include "qps/abstraction/nextStarAbstraction/NextStarAbstraction.h"
 #include "qps/abstraction/parentsAbstraction/ParentsAbstraction.h"
 #include "qps/abstraction/parentsStarAbstraction/ParentsStarAbstraction.h"
