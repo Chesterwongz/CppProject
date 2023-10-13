@@ -15,33 +15,37 @@ using std::unordered_set, std::unordered_map, std::string, std::vector,
 
 class CallsStorage : public ICallsStorage {
  public:
-  void setCallsRelationship(const string& caller, const string& callee);
-  void setCallsStarRelationship(const string& caller, const string& callee);
+  void setCallsRelationship(const string& caller, const string& callee,
+                            int stmtNum) override;
+  void setCallsStarRelationship(const string& caller,
+                                const string& callee) override;
 
   // return calleeNames that are directly called by caller
-  unordered_set<string> getCalleeProcs(const string& caller);
+  unordered_set<string> getCalleeProcs(const string& caller) override;
 
   // return calleeNames that are directly or indirectly called by caller
-  unordered_set<string> getCalleeProcsStar(const string& caller);
+  unordered_set<string> getCalleeProcsStar(const string& caller) override;
 
   // return callerNames that directly call callee
-  unordered_set<string> getCallerProcs(const string& callee);
+  unordered_set<string> getCallerProcs(const string& callee) override;
 
   // return callerNames that indirectly call callee
-  unordered_set<string> getCallerProcsStar(const string& callee);
+  unordered_set<string> getCallerProcsStar(const string& callee) override;
 
-  bool isCalls(const string& caller, const string& callee);
-  bool isCallsStar(const string& caller, const string& callee);
+  bool isCalls(const string& caller, const string& callee) override;
+  bool isCallsStar(const string& caller, const string& callee) override;
 
   // return all callers
-  unordered_set<string> getAllCallerProcs();
+  unordered_set<string> getAllCallerProcs() override;
 
   // return all pairs (stmtNum, calleeName) that are called by another procedure
-  unordered_set<string> getAllCalleeProcs();
+  unordered_set<string> getAllCalleeProcs() override;
 
   const unordered_map<string, unordered_set<string>>& getCallsStarMap();
 
   void computeCallsStar();
+
+  unordered_set<int> getCallStmtsFromCallee(const string& callee) override;
 
  private:
   // callerProc -> calleeProc
@@ -52,4 +56,8 @@ class CallsStorage : public ICallsStorage {
   unordered_map<string, unordered_set<string>> calledByMap;
   // calleeProc -> callerProc
   unordered_map<string, unordered_set<string>> calledByStarMap;
+  // call stmt -> direct calleeProc
+  unordered_map<int, string> stmtProcMap;
+  // direct calleeProc -> call stmt
+  unordered_map<string, unordered_set<int>> procStmtMap;
 };

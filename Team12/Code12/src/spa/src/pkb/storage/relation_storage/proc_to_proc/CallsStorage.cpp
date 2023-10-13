@@ -1,9 +1,11 @@
 #include "CallsStorage.h"
 
 void CallsStorage::setCallsRelationship(const string& caller,
-                                        const string& callee) {
+                                        const string& callee, int stmtNum) {
   callsMap[caller].insert(callee);
   calledByMap[callee].insert(caller);
+  stmtProcMap[stmtNum] = callee;
+  procStmtMap[callee].insert(stmtNum);
 }
 
 void CallsStorage::setCallsStarRelationship(const string& caller,
@@ -93,4 +95,12 @@ void CallsStorage::computeCallsStar() {
       setCallsStarRelationship(caller, callee);
     }
   }
+}
+
+unordered_set<int> CallsStorage::getCallStmtsFromCallee(
+    const string& callee) {
+  if (procStmtMap.find(callee) == procStmtMap.end()) {
+    return {};
+  }
+  return procStmtMap.at(callee);
 }

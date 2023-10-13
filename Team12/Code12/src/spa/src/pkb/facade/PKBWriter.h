@@ -80,8 +80,8 @@ class PKBWriter : public IDesignEntitiesWriter,
                                        const std::string& procedureName);
 
   // direct calls, not transitive
-  void setCallsRelationship(const string& callerProc,
-                            const string& calleeProc) override;
+  void setCallsRelationship(const string& callerProc, const string& calleeProc,
+                            int stmtNum) override;
 
   void setCallsStarRelationship(const string& callerProc,
                                 const string& calleeProc) override;
@@ -105,5 +105,12 @@ class PKBWriter : public IDesignEntitiesWriter,
   void processCallRelations(
       const string& caller, const unordered_set<string>& callees,
       unordered_set<string> (PKBStorage::*retrieveVars)(const string&),
-      void (PKBWriter::*setRelationship)(const string&, const string&));
+      void (PKBWriter::*setProcRelationship)(const string&, const string&),
+      void (PKBWriter::*setStmtRelationship)(const string&, int));
+  void processCallStmtRelations(
+      void (PKBWriter::*setStmtRelationship)(const string&, int),
+      const std::basic_string<char, std::char_traits<char>,
+                              std::allocator<char>>& callee,
+      const std::basic_string<char, std::char_traits<char>,
+                              std::allocator<char>>& var);
 };

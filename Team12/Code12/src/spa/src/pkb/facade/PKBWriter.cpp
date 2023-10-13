@@ -59,32 +59,42 @@ void PKBWriter::setModifiesRelationship(const string &variableName,
   storage.addModifies(variableName, procName);
 }
 
-// ai-gen start(gpt-4, 0)
+void PKBWriter::processCallStmtRelations(
+    void (PKBWriter::*setStmtRelationship)(const string &, int),
+    const string &callee, const string &var) {
+  unordered_set<int> stmts = storage.getCallStmtsFromCallee(callee);
+  for (const auto &callStmt : stmts) {
+    (this->*setStmtRelationship)(var, callStmt);
+  }
+}
+
+// ai-gen start(gpt-4, 2)
 void PKBWriter::processCallRelations(
     const string &caller, const unordered_set<string> &callees,
     unordered_set<string> (PKBStorage::*retrieveVars)(const string &),
-    void (PKBWriter::*setRelationship)(const string &, const string &)) {
-  unordered_set<string> relatedVars;
-  for (auto &callee : callees) {
+    void (PKBWriter::*setProcRelationship)(const string &, const string &),
+    void (PKBWriter::*setStmtRelationship)(const string &, int)) {
+  for (const auto &callee : callees) {
     unordered_set<string> vars = (storage.*retrieveVars)(callee);
-    relatedVars.insert(vars.begin(), vars.end());
-  }
-  for (const auto &var : relatedVars) {
-    (this->*setRelationship)(var, caller);
+    for (const auto &var : vars) {
+      (this->*setProcRelationship)(var, caller);
+      processCallStmtRelations(setStmtRelationship, callee, var);
+    }
   }
 }
 
 void PKBWriter::setUsesForCalls(const string &callerProc,
                                 const unordered_set<string> &calleeProcs) {
   processCallRelations(callerProc, calleeProcs, &PKBStorage::getVarsUsedByProc,
+                       &PKBWriter::setUsesRelationship,
                        &PKBWriter::setUsesRelationship);
 }
 
 void PKBWriter::setModifiesForCalls(const string &callerProc,
                                     const unordered_set<string> &calleeProcs) {
-  processCallRelations(callerProc, calleeProcs,
-                       &PKBStorage::getVarsModifiedByProc,
-                       &PKBWriter::setModifiesRelationship);
+  processCallRelations(
+      callerProc, calleeProcs, &PKBStorage::getVarsModifiedByProc,
+      &PKBWriter::setModifiesRelationship, &PKBWriter::setModifiesRelationship);
 }
 // ai-gen end
 
@@ -97,8 +107,8 @@ void PKBWriter::setIndirectCallsRelationship() {
 }
 
 void PKBWriter::setCallsRelationship(const string &callerProc,
-                                     const string &calleeProc) {
-  storage.setCallsRelationship(callerProc, calleeProc);
+                                     const string &calleeProc, int stmtNum) {
+  storage.setCallsRelationship(callerProc, calleeProc, stmtNum);
 }
 
 void PKBWriter::setCallsStarRelationship(const string &callerProc,
