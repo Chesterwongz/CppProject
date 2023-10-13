@@ -10,16 +10,9 @@ IntermediateTable::IntermediateTable(bool isTableWildcard)
     : isWildcard(isTableWildcard), isEmpty(true) {}
 
 IntermediateTable::IntermediateTable(const vector<string> &colNames,
-                                     vector<vector<unique_ptr<SynonymRes>>> data) {
+                                     vector<vector<SynonymRes>> data) {
   for (const string &colName : colNames) {
     IntermediateTable::createNewCol(colName);
-  }
-  for (const auto &dataRow : data) {
-    vector<unique_ptr<SynonymRes>> rowCopy = {};
-    for (const auto &datum :dataRow) {
-      rowCopy.emplace_back(std::move(datum->clone()));
-    }
-    this->tableData.emplace_back(std::move(rowCopy));
   }
   this->tableData = std::move(data);
   this->isEmpty = false;
@@ -45,19 +38,18 @@ int IntermediateTable::createNewCol(const string &newColName) {
 
 vector<vector<string>> IntermediateTable::getDataAsStrings() {
   vector<vector<string>> res;
-  for (size_t rowIndex = 0; rowIndex < this->tableData.size(); ++rowIndex) {
-    auto &synonymDataRow = this->tableData.at(rowIndex);
-    vector<string> row{};
-    size_t rowSize = synonymDataRow.size();
-    for (size_t colIndex = 0; colIndex < rowSize; colIndex++) {
-      row.emplace_back(synonymDataRow.at(colIndex)->toString());
+  for (const vector<SynonymRes> &synonymDataRow : this->tableData) {
+    vector<string> row = {};
+    row.reserve(synonymDataRow.size());
+    for (const SynonymRes &synonymRes : synonymDataRow) {
+      row.emplace_back(synonymRes.toString());
     }
     res.emplace_back(row);
   }
   return res;
 }
 
-vector<vector<unique_ptr<SynonymRes>>> &IntermediateTable::getTableData() {
+vector<vector<SynonymRes>> IntermediateTable::getTableData() {
   return this->tableData;
 }
 
@@ -79,7 +71,7 @@ set<string> IntermediateTable::getColumns(const vector<string> &colNameVector) {
     for (const string &colName : colNameVector) {
       int colIndex = this->colNameToIndexMap.at(colName);
       row += (row.empty() ? "" : " ") +
-             this->tableData.at(rowIndex).at(colIndex)->toString();
+             this->tableData.at(rowIndex).at(colIndex).toString();
     }
     res.insert(row);
   }
@@ -108,7 +100,7 @@ set<string> IntermediateTable::getColumns(
       AttrRef attrRef = colNameAndAttrRef.second;
       int colIndex = this->colNameToIndexMap.at(colName);
       row += (row.empty() ? "" : " ") +
-             this->tableData.at(rowIndex).at(colIndex)->getAttribute(attrRef);
+             this->tableData.at(rowIndex).at(colIndex).getAttribute(attrRef);
     }
     res.insert(row);
   }

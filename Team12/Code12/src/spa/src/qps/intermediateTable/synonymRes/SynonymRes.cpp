@@ -5,7 +5,7 @@
 SynonymRes::SynonymRes(const string &defaultSynonymValue)
     : defaultSynonymValue(defaultSynonymValue) {}
 
-string SynonymRes::toString() { return this->defaultSynonymValue; }
+string SynonymRes::toString() const { return this->defaultSynonymValue; }
 
 string SynonymRes::getAttribute(AttrRef attrRef) {
   if (attrRef == AttrRef::DEFAULT) {
@@ -19,9 +19,9 @@ string SynonymRes::getAttribute(AttrRef attrRef) {
   return {};
 }
 
-unique_ptr<SynonymRes> SynonymRes::clone() const {
+SynonymRes SynonymRes::clone() const {
   string synonymValueCopy = this->defaultSynonymValue;
-  return std::move(std::make_unique<SynonymRes>(synonymValueCopy));
+  return SynonymRes(synonymValueCopy);
 }
 
 bool SynonymRes::operator==(const SynonymRes& other) const {

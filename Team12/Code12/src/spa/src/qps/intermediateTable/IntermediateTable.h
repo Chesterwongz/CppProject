@@ -14,7 +14,7 @@ using std::pair, std::unordered_map, std::string, std::vector, std::set,
 class IntermediateTable {
  private:
   unordered_map<string, int> colNameToIndexMap = {};
-  vector<vector<unique_ptr<SynonymRes>>> tableData = {};
+  vector<vector<SynonymRes>> tableData;
   vector<string> colNames = {};
   int currentColCount = 0;
   bool isWildcard = false;
@@ -38,7 +38,7 @@ class IntermediateTable {
    * @param data data as vector of vectors
    */
   explicit IntermediateTable(const vector<string> &colNames,
-                             vector<vector<unique_ptr<SynonymRes>>> data);
+                             vector<vector<SynonymRes>> data);
 
   /**
    * Wildcard table * ANY = ANY
@@ -104,6 +104,6 @@ class IntermediateTable {
   bool isTableEmpty() const;
   bool isTableWildcard() const;
   bool isTableEmptyAndNotWildcard() const;
-  vector<vector<unique_ptr<SynonymRes>>> &getTableData();
+  vector<vector<SynonymRes>> getTableData();
   void printTable();
 };

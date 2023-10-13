@@ -5,5 +5,5 @@
 class VarSynonymRes : public SynonymRes {
  public:
   explicit VarSynonymRes(const string& defaultSynonymValue);
-  [[nodiscard]] unique_ptr<SynonymRes> clone() const override;
+  [[nodiscard]] SynonymRes clone() const override;
 };

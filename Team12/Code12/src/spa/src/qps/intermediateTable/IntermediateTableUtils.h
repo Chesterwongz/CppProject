@@ -26,6 +26,6 @@ IntermediateTable getInnerJoin(
 vector<string> concatColNames(const vector<string>& vector1,
                               const vector<string>& vector2);
 
-vector<unique_ptr<SynonymRes>> concatRow(
-    const vector<unique_ptr<SynonymRes>>& row1,
-    const vector<unique_ptr<SynonymRes>>& row2);
+vector<SynonymRes> concatRow(
+    const vector<SynonymRes>& row1,
+    const vector<SynonymRes>& row2);

@@ -22,11 +22,11 @@ class SynonymRes {
   unordered_map<AttrRef, string> attributeMap = {};
 
  public:
-  explicit SynonymRes(const string &defaultSynonymValue);
-  string toString();
+  explicit SynonymRes(string  defaultSynonymValue);
+  [[nodiscard]] string toString() const;
   string getAttribute(AttrRef attrRef);
   // deep clone for polymorphic objects
-  virtual unique_ptr<SynonymRes> clone() const;
+  [[nodiscard]] virtual SynonymRes clone() const;
   bool operator==(const SynonymRes& other) const;
   bool operator!=(const SynonymRes& other) const;
 };

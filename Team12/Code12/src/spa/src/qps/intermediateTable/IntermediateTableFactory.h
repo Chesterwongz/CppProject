@@ -15,12 +15,10 @@ class IntermediateTableFactory {
   /**
    * Helper function for building intermediate tables from vector data
    * @tparam T            either unique_ptr<SynonymArg> or string
-   * @param converterFunc function to convert T into unique_ptr<SynonymArg>
    */
   template <typename T>
   static IntermediateTable tableBuilderHelper(
-      const vector<string> &colNames, const vector<vector<T>> &data,
-      std::function<unique_ptr<SynonymRes>(const T &)> converterFunc) {
+      const vector<string> &colNames, vector<vector<T>> data) {
     // if data is empty, return empty table
     // even if columns are wildcard
     if (data.empty()) {
@@ -34,7 +32,7 @@ class IntermediateTableFactory {
     }
 
     vector<string> columnNamesWithoutWildcard = {};
-    vector<vector<unique_ptr<SynonymRes>>> dataWithoutWildcardColumns = {};
+    vector<vector<SynonymRes>> dataWithoutWildcardColumns = {};
     dataWithoutWildcardColumns.reserve(data.size());
     // add empty vector for each row
     for ([[maybe_unused]] const vector<T> &row : data) {
@@ -48,8 +46,7 @@ class IntermediateTableFactory {
       }
       columnNamesWithoutWildcard.push_back(colName);
       for (int rowIndex = 0; rowIndex < data.size(); rowIndex++) {
-        dataWithoutWildcardColumns.at(rowIndex).push_back(
-            std::move(converterFunc(std::move(data.at(rowIndex).at(colIndex)))));
+        dataWithoutWildcardColumns.at(rowIndex).emplace_back(std::move(data.at(rowIndex).at(colIndex)));
       }
     }
     return IntermediateTable(columnNamesWithoutWildcard,
@@ -97,7 +94,7 @@ class IntermediateTableFactory {
    */
   static IntermediateTable buildIntermediateTable(
       const vector<string> &colNames,
-      vector<vector<unique_ptr<SynonymRes>>> data);
+      vector<vector<SynonymRes>> data);
 
   static IntermediateTable buildEmptyIntermediateTable();
 

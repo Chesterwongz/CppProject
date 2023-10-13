@@ -71,7 +71,7 @@ using std::string, std::unordered_map,std::map, std::unordered_set, std::set, st
         
 """
         source_code = process_source_file(source_path)
-        with open(f"../src/integration_testing/src/sp_pkb_qps/{dest_path}",
+        with open(f"src/integration_testing/src/sp_pkb_qps/{dest_path}",
                   "w") as out_file:
             out_file.write(prefix)
             out_file.write(source_code)
@@ -87,9 +87,7 @@ if __name__ == "__main__":
     #           "TestFollows.cpp ")
     #     sys.exit(1)
 
-    source_filename = "../../Tests12/Milestone1/InvalidQueries" \
-                      "/SyntacticallyInvalid_source.txt"
-    query_filename = "../../Tests12/Milestone1/InvalidQueries" \
-                     "/SyntacticallyInvalid_queries.txt"
-    destination_filename = "milestone1/invalid_queries/TestInvalidSyntax.cpp"
+    source_filename = "../Tests12/Milestone2/SingleClauseTests/Modifies_source.txt"
+    query_filename = "../Tests12/Milestone2/SingleClauseTests/Modifies_queries.txt"
+    destination_filename = "milestone2/single_clause/SingleClauseModifies.cpp"
     process_files(source_filename, query_filename, destination_filename)
