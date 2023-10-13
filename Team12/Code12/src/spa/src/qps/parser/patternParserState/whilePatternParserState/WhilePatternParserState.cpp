@@ -30,9 +30,7 @@ void WhilePatternParserState::processSynonymToken(PQLToken &curr) {
 }
 
 bool WhilePatternParserState::checkSafeExit() {
-  if (!synWhile) {
-    throw QPSParserError(QPS_PARSER_ERR_SYN_WHILE_MISSING);
-  }
+  assert(synWhile);
   if (patternArg.size() != expectedNumberOfArgs ||
       nonFirstArgWildcardCount != expectedNonFirstArgWildcardCount) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);

@@ -32,9 +32,7 @@ void IfPatternParserState::processSynonymToken(PQLToken &curr) {
 }
 
 bool IfPatternParserState::checkSafeExit() {
-  if (!synIf) {
-    throw QPSParserError(QPS_PARSER_ERR_SYN_IF_MISSING);
-  }
+  assert(synIf);
   if (patternArg.size() != expectedNumberOfArgs ||
       nonFirstArgWildcardCount != expectedNonFirstArgWildcardCount) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);

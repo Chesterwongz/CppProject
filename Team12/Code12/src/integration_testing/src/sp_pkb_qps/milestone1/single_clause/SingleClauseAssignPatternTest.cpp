@@ -206,3 +206,50 @@ TEST_CASE(
   set<string> expected = {"line2", "line5", "line7"};
   REQUIRE(result == expected);
 }
+
+TEST_CASE(
+    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "13") {
+  string query =
+      "assign a; variable v;\n"
+      "Select v pattern a(v,_\"     a\"_)";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(assignSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  set<string> expected = {"line2", "line5", "line7"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "14") {
+  string query =
+      "assign a; variable v;\n"
+      "Select a pattern a(\"    v   \",_)";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(assignSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  set<string> expected = {};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
+    "15") {
+  string query =
+      "assign a;\n"
+      "Select a pattern a(_, _\"   a  "
+      "    \"_)";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(assignSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  set<string> expected = {"2", "5", "7"};
+  REQUIRE(result == expected);
+}
+

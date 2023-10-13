@@ -57,9 +57,7 @@ void AssignPatternParserState::processLastArgument() {
 }
 
 bool AssignPatternParserState::checkSafeExit() {
-  if (!synAssign) {
-    throw QPSParserError(QPS_PARSER_ERR_SYN_ASSIGN_MISSING);
-  }
+  assert(synAssign);
   if (patternArg.size() != expectedNumberOfArgs) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
