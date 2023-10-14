@@ -1,5 +1,5 @@
-#include <catch.hpp>
 #include <vector>
+#include <catch.hpp>
 
 #include "common/utils/CollectionUtils.h"
 
