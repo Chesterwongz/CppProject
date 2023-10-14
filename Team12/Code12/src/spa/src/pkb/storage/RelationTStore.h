@@ -1,6 +1,5 @@
 #pragma once
 
-#include <algorithm>
 #include <functional>
 #include <unordered_map>
 #include <unordered_set>
@@ -43,7 +42,7 @@ class RelationTStore : public RelationStore<S, T> {
   }
 
   [[nodiscard]] std::vector<T> getSuccessorsOf(
-      S from, const std::function<bool(S)>& filter) const {
+      S from, const std::function<bool(T)>& filter) const {
     return RelationStore<S, T>::map(from, successorMap, filter);
   }
 
