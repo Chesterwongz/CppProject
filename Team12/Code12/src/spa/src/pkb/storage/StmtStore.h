@@ -19,12 +19,6 @@ class StmtStore {
 
   [[nodiscard]] bool hasStmtType(StmtType stmtType) const;
 
-  // returns -1 if stmt doesnt exist, or stmt if it does
-  [[nodiscard]] int getStmt(int stmt, StmtType stmtType) const;
-
-  [[nodiscard]] const std::unordered_set<int>& getStmts(
-      StmtType stmtType) const;
-
   [[nodiscard]] std::function<bool(int)> getStmtFilterPredicate(
       StmtType stmtType) const;
 
