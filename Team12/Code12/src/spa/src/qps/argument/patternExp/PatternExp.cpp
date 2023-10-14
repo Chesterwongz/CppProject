@@ -22,5 +22,3 @@ bool PatternExp::operator==(const AbstractArgument& other) const {
 
   return this->patternExpValue == otherPatternExp->patternExpValue;
 }
-
-

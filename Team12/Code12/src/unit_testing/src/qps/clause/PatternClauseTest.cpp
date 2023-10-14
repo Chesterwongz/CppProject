@@ -3,8 +3,8 @@
 #include "../../unit_testing/src/qps/mocks/MockContext.h"
 #include "../../unit_testing/src/qps/mocks/MockPKBReader.h"
 #include "qps/argument/ident/Ident.h"
-#include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/patternExp/PatternExp.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/clause/patternClause/PatternClause.h"
 #include "qps/common/Keywords.h"
 
@@ -74,11 +74,10 @@ TEST_CASE("test_PatternClause_evaluate_synonymFirstArg") {
   mockPkbReader.resetMockExactAssignPatternStmts();
   mockPkbReader.resetMockPartialAssignPatternStmts();
 
-  vector<string> mockExactAssignPatternStmts = {"1", "2", "3"};
+  vector<pair<string, string>> mockExactAssignPatternStmts = {
+      make_pair("1", "a"), make_pair("2", "b"), make_pair("3", "c")
+  };
   mockPkbReader.mockExactAssignPattern = mockExactAssignPatternStmts;
-  vector<pair<string, string>> mockModifiedPairs = {
-      {"1", "a"}, {"3", "b"}, {"5", "c"}};
-  mockPkbReader.mockAllModifiedVariables = mockModifiedPairs;
 
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
@@ -87,7 +86,7 @@ TEST_CASE("test_PatternClause_evaluate_synonymFirstArg") {
       patternClause.evaluate(mockContext, mockPkbReader);
   vector<string> actualColNames = actualTable.getColNames();
   vector<vector<string>> actualTableData = actualTable.getData();
-  vector<vector<string>> expectedData = {{"1", "a"}, {"3", "b"}};
+  vector<vector<string>> expectedData = {{"1", "a"}, {"2", "b"}, {"3", "c"}};
 
   REQUIRE(actualColNames.size() == 2);
   REQUIRE(actualColNames[1] == firstArg.getValue());
@@ -120,11 +119,10 @@ TEST_CASE("test_PatternClause_evaluate_identFirstArg") {
   mockPkbReader.resetMockExactAssignPatternStmts();
   mockPkbReader.resetMockPartialAssignPatternStmts();
 
-  vector<string> mockExactAssignPatternStmts = {"3"};
+  vector<pair<string, string>> mockExactAssignPatternStmts = {
+      make_pair("3", "x")
+  };
   mockPkbReader.mockExactAssignPattern = mockExactAssignPatternStmts;
-  vector<pair<string, string>> mockModifiedPairs = {
-      {"1", "a"}, {"3", "b"}, {"5", "c"}};
-  mockPkbReader.mockAllModifiedVariables = mockModifiedPairs;
 
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;

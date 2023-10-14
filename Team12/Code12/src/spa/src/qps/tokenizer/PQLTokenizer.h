@@ -4,7 +4,6 @@
 #include <string>
 #include <utility>
 
-#include "PQLTokenTable.h"
 #include "common/tokenizer/TokenStream.h"
 #include "qps/token/PQLToken.h"
 #include "qps/tokenizer/handlers/PQLDelimiterTokenizer.h"

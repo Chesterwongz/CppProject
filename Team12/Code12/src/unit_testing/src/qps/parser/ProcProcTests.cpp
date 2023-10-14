@@ -4,7 +4,6 @@
 
 #include "PQLParserTestUtils.h"
 #include "qps/argument/ident/Ident.h"
-#include "qps/argument/integer/Integer.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
@@ -12,23 +11,261 @@
 #include "qps/query/Query.h"
 #include "qps/token/PQLToken.h"
 
-TEST_CASE("Valid Uses(SYNONYM, SYNONYM)") {
+TEST_CASE("Valid Calls(SYNONYM, SYNONYM)") {
+  string p1 = "proc";
+  string p2 = "procedure";
+  vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, PROCEDURE_ENTITY),
+                                PQLToken(PQL_NAME_TOKEN, p1),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, p2),
+                                PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, p1),
+                                PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
+                                PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+                                PQLToken(PQL_NAME_TOKEN, p1),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, p2),
+                                PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")")};
+
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+
+  // expected query object
+  Query expected(dummyQpsParserPkbReader);
+  unique_ptr<Context> expectedContext = std::make_unique<Context>();
+  expectedContext->addSynonym(p1, PROCEDURE_ENTITY);
+  expectedContext->addSynonym(p2, PROCEDURE_ENTITY);
+  expected.addContext(std::move(expectedContext));
+  unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>(p1);
+  unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>(p2);
+  unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
+      CALLS_ENUM, std::move(firstArg), std::move(secondArg));
+  expected.addClause(std::move(suchThatClause));
+
+  bool res = *query == expected;
+  REQUIRE(res);
+}
+
+TEST_CASE("Valid Calls(SYNONYM, _)") {
+  string p1 = "proc";
+  string p2 = "procedure";
+  vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, PROCEDURE_ENTITY),
+                                PQLToken(PQL_NAME_TOKEN, p1),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, p2),
+                                PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, p1),
+                                PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
+                                PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+                                PQLToken(PQL_NAME_TOKEN, p1),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+                                PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")")};
+
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+
+  // expected query object
+  Query expected(dummyQpsParserPkbReader);
+  unique_ptr<Context> expectedContext = std::make_unique<Context>();
+  expectedContext->addSynonym(p1, PROCEDURE_ENTITY);
+  expectedContext->addSynonym(p2, PROCEDURE_ENTITY);
+  expected.addContext(std::move(expectedContext));
+  unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>(p1);
+  unique_ptr<Wildcard> secondArg = std::make_unique<Wildcard>();
+  unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
+      CALLS_ENUM, std::move(firstArg), std::move(secondArg));
+  expected.addClause(std::move(suchThatClause));
+
+  bool res = *query == expected;
+  REQUIRE(res);
+}
+
+TEST_CASE("Valid Calls(SYNONYM, LITERAL_REF)") {
+  string p1 = "hello";
+  string p2 = "assign";
+  vector<PQLToken> tokenList = {
+      PQLToken(PQL_NAME_TOKEN, PROCEDURE_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, p1),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, p2),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, p1),
+      PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
+      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+      PQLToken(PQL_NAME_TOKEN, p1),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_LITERAL_REF_TOKEN, "potato"),
+      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+  };
+
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+
+  // expected query object
+  Query expected(dummyQpsParserPkbReader);
+  unique_ptr<Context> expectedContext = std::make_unique<Context>();
+  expectedContext->addSynonym(p1, PROCEDURE_ENTITY);
+  expectedContext->addSynonym(p2, ASSIGN_ENTITY);
+  expected.addContext(std::move(expectedContext));
+  unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>(p1);
+  unique_ptr<Ident> secondArg = std::make_unique<Ident>("potato");
+  unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
+      CALLS_ENUM, std::move(firstArg), std::move(secondArg));
+  expected.addClause(std::move(suchThatClause));
+
+  bool res = *query == expected;
+  REQUIRE(res);
+}
+
+TEST_CASE("Valid Calls(_, SYNONYM)") {
   string d1 = "hello";
   string d2 = "assign";
   vector<PQLToken> tokenList = {
-      PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, PROCEDURE_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
       PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, PROCEDURE_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d2),
       PQLToken(PQL_SEMICOLON_TOKEN, ";"),
       PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, d1),
       PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
+      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
       PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_NAME_TOKEN, d2),
+      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+  };
+
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+
+  // expected query object
+  Query expected(dummyQpsParserPkbReader);
+  unique_ptr<Context> expectedContext = std::make_unique<Context>();
+  expectedContext->addSynonym(d1, PROCEDURE_ENTITY);
+  expectedContext->addSynonym(d2, PROCEDURE_ENTITY);
+  expected.addContext(std::move(expectedContext));
+  unique_ptr<Wildcard> firstArg = std::make_unique<Wildcard>();
+  unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>(d2);
+  unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
+      CALLS_ENUM, std::move(firstArg), std::move(secondArg));
+  expected.addClause(std::move(suchThatClause));
+
+  bool res = *query == expected;
+  REQUIRE(res);
+}
+
+TEST_CASE("Valid Calls(_, _)") {
+  string d1 = "hello";
+  string d2 = "assign";
+  vector<PQLToken> tokenList = {
+      PQLToken(PQL_NAME_TOKEN, PROCEDURE_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, d2),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
+      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+  };
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+
+  // expected query object
+  Query expected(dummyQpsParserPkbReader);
+  unique_ptr<Context> expectedContext = std::make_unique<Context>();
+  expectedContext->addSynonym(d1, PROCEDURE_ENTITY);
+  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
+  expected.addContext(std::move(expectedContext));
+  unique_ptr<Wildcard> firstArg = std::make_unique<Wildcard>();
+  unique_ptr<Wildcard> secondArg = std::make_unique<Wildcard>();
+  unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
+      CALLS_ENUM, std::move(firstArg), std::move(secondArg));
+  expected.addClause(std::move(suchThatClause));
+
+  bool res = *query == expected;
+  REQUIRE(res);
+}
+
+TEST_CASE("Valid Calls(_, LITERAL_REF)") {
+  string d1 = "hello";
+  string d2 = "assign";
+  vector<PQLToken> tokenList = {
+      PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, d2),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
+      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_LITERAL_REF_TOKEN, "potato"),
+      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+  };
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+
+  // expected query object
+  Query expected(dummyQpsParserPkbReader);
+  unique_ptr<Context> expectedContext = std::make_unique<Context>();
+  expectedContext->addSynonym(d1, STMT_ENTITY);
+  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
+  expected.addContext(std::move(expectedContext));
+  unique_ptr<Wildcard> firstArg = std::make_unique<Wildcard>();
+  unique_ptr<Ident> secondArg = std::make_unique<Ident>("potato");
+  unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
+      CALLS_ENUM, std::move(firstArg), std::move(secondArg));
+  expected.addClause(std::move(suchThatClause));
+
+  bool res = *query == expected;
+  REQUIRE(res);
+}
+
+TEST_CASE("Valid Calls(LITERAL_REF, SYNONYM)") {
+  string d1 = "hello";
+  string d2 = "assign";
+  vector<PQLToken> tokenList = {
+      PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_NAME_TOKEN, PROCEDURE_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, d2),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
+      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+      PQLToken(PQL_LITERAL_REF_TOKEN, "literal"),
       PQLToken(PQL_COMMA_TOKEN, ","),
       PQLToken(PQL_NAME_TOKEN, d2),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
@@ -40,35 +277,35 @@ TEST_CASE("Valid Uses(SYNONYM, SYNONYM)") {
   Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, VARIABLE_ENTITY);
+  expectedContext->addSynonym(d2, PROCEDURE_ENTITY);
   expected.addContext(std::move(expectedContext));
-  unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>(d1);
+  unique_ptr<Ident> firstArg = std::make_unique<Ident>("literal");
   unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>(d2);
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
-      USES_ENUM, std::move(firstArg), std::move(secondArg));
+      CALLS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
   bool res = *query == expected;
   REQUIRE(res);
 }
 
-TEST_CASE("Valid Uses(SYNONYM, _)") {
+TEST_CASE("Valid Calls(LITERAL_REF, _)") {
   string d1 = "hello";
   string d2 = "assign";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
       PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d2),
       PQLToken(PQL_SEMICOLON_TOKEN, ";"),
       PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, d1),
       PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
+      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
       PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_LITERAL_REF_TOKEN, "literal"),
       PQLToken(PQL_COMMA_TOKEN, ","),
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
@@ -80,37 +317,37 @@ TEST_CASE("Valid Uses(SYNONYM, _)") {
   Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, VARIABLE_ENTITY);
+  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
-  unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>(d1);
+  unique_ptr<Ident> firstArg = std::make_unique<Ident>("literal");
   unique_ptr<Wildcard> secondArg = std::make_unique<Wildcard>();
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
-      USES_ENUM, std::move(firstArg), std::move(secondArg));
+      CALLS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
   bool res = *query == expected;
   REQUIRE(res);
 }
 
-TEST_CASE("Valid Uses(SYNONYM, LITERAL_REF)") {
+TEST_CASE("Valid Calls(LITERAL_REF, LITERAL_REF)") {
   string d1 = "hello";
   string d2 = "assign";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
       PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d2),
       PQLToken(PQL_SEMICOLON_TOKEN, ";"),
       PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, d1),
       PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
+      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
       PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_LITERAL_REF_TOKEN, "literal1"),
       PQLToken(PQL_COMMA_TOKEN, ","),
-      PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
+      PQLToken(PQL_LITERAL_REF_TOKEN, "literal2"),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
@@ -120,41 +357,39 @@ TEST_CASE("Valid Uses(SYNONYM, LITERAL_REF)") {
   Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, VARIABLE_ENTITY);
+  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
-  unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>(d1);
-  unique_ptr<Ident> secondArg = std::make_unique<Ident>("x");
+  unique_ptr<Ident> firstArg = std::make_unique<Ident>("literal1");
+  unique_ptr<Ident> secondArg = std::make_unique<Ident>("literal2");
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
-      USES_ENUM, std::move(firstArg), std::move(secondArg));
+      CALLS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
   bool res = *query == expected;
   REQUIRE(res);
 }
 
-TEST_CASE("Valid Uses(INTEGER, SYNONYM)") {
+TEST_CASE("Valid Calls*(LITERAL_REF, LITERAL_REF)") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
       PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d2),
       PQLToken(PQL_SEMICOLON_TOKEN, ";"),
       PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, d1),
       PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
+      PQLToken(PQL_NAME_TOKEN, CALLS_STAR_ABSTRACTION),
       PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_INTEGER_TOKEN, int1),
+      PQLToken(PQL_LITERAL_REF_TOKEN, "literal1"),
       PQLToken(PQL_COMMA_TOKEN, ","),
-      PQLToken(PQL_NAME_TOKEN, d2),
+      PQLToken(PQL_LITERAL_REF_TOKEN, "literal2"),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-
   std::unique_ptr<Query> query =
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
@@ -162,36 +397,30 @@ TEST_CASE("Valid Uses(INTEGER, SYNONYM)") {
   Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
   expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, VARIABLE_ENTITY);
+  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
-  unique_ptr<Integer> firstArg = std::make_unique<Integer>(int1);
-  unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>(d2);
+  unique_ptr<Ident> firstArg = std::make_unique<Ident>("literal1");
+  unique_ptr<Ident> secondArg = std::make_unique<Ident>("literal2");
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
-      USES_ENUM, std::move(firstArg), std::move(secondArg));
+      CALLS_STAR_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
   bool res = *query == expected;
   REQUIRE(res);
 }
 
-TEST_CASE("Valid Uses(INTEGER, _)") {
-  string d1 = "hello";
-  string d2 = "assign";
-  string int1 = "4";
+TEST_CASE("Valid Calls(SYNONYM, _) - keyword as synonym") {
   vector<PQLToken> tokenList = {
-      PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
-      PQLToken(PQL_NAME_TOKEN, d1),
-      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
-      PQLToken(PQL_NAME_TOKEN, d2),
+      PQLToken(PQL_NAME_TOKEN, PROCEDURE_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
       PQLToken(PQL_SEMICOLON_TOKEN, ";"),
       PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
       PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
+      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
       PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_INTEGER_TOKEN, int1),
+      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
       PQLToken(PQL_COMMA_TOKEN, ","),
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
@@ -202,294 +431,106 @@ TEST_CASE("Valid Uses(INTEGER, _)") {
   // expected query object
   Query expected(dummyQpsParserPkbReader);
   unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, VARIABLE_ENTITY);
+  expectedContext->addSynonym(CALLS_ABSTRACTION, PROCEDURE_ENTITY);
   expected.addContext(std::move(expectedContext));
-  unique_ptr<Integer> firstArg = std::make_unique<Integer>(int1);
+  unique_ptr<SynonymArg> firstArg =
+      std::make_unique<SynonymArg>(CALLS_ABSTRACTION);
   unique_ptr<Wildcard> secondArg = std::make_unique<Wildcard>();
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
-      USES_ENUM, std::move(firstArg), std::move(secondArg));
+      CALLS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
 
   bool res = *query == expected;
   REQUIRE(res);
 }
 
-TEST_CASE("Valid Uses(INTEGER, LITERAL_REF)") {
+TEST_CASE("Invalid Calls(SYNONYM, SYNONYM) - both are not proc synonyms") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
-      PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, WHILE_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
       PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d2),
       PQLToken(PQL_SEMICOLON_TOKEN, ";"),
       PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, d1),
       PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
+      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
       PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_INTEGER_TOKEN, int1),
-      PQLToken(PQL_COMMA_TOKEN, ","),
-      PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
-      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
-  };
-  std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
-
-  // expected query object
-  Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, VARIABLE_ENTITY);
-  expected.addContext(std::move(expectedContext));
-  unique_ptr<Integer> firstArg = std::make_unique<Integer>(int1);
-  unique_ptr<Ident> secondArg = std::make_unique<Ident>("x");
-  unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
-      USES_ENUM, std::move(firstArg), std::move(secondArg));
-  expected.addClause(std::move(suchThatClause));
-
-  bool res = *query == expected;
-  REQUIRE(res);
-}
-
-TEST_CASE("Valid Uses(LITERAL_REF, SYNONYM)") {
-  string d1 = "hello";
-  string d2 = "assign";
-  vector<PQLToken> tokenList = {
-      PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
-      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
-      PQLToken(PQL_NAME_TOKEN, d2),
-      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, d1),
-      PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
-      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
       PQLToken(PQL_COMMA_TOKEN, ","),
       PQLToken(PQL_NAME_TOKEN, d2),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
-
-  // expected query object
-  Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, VARIABLE_ENTITY);
-  expected.addContext(std::move(expectedContext));
-  unique_ptr<Ident> firstArg = std::make_unique<Ident>("x");
-  unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>(d2);
-  unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
-      USES_ENUM, std::move(firstArg), std::move(secondArg));
-  expected.addClause(std::move(suchThatClause));
-
-  bool res = *query == expected;
-  REQUIRE(res);
+  REQUIRE_THROWS_MATCHES(
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPSSemanticError, Catch::Message(QPS_SEMANTIC_ERR_NOT_PROC_SYN));
 }
 
-TEST_CASE("Valid Uses(LITERAL_REF, _)") {
-  string d1 = "hello";
-  string d2 = "assign";
+TEST_CASE("Invalid Calls clause - undeclared synonym") {
   vector<PQLToken> tokenList = {
-      PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
-      PQLToken(PQL_NAME_TOKEN, d1),
-      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
       PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
-      PQLToken(PQL_NAME_TOKEN, d2),
+      PQLToken(PQL_NAME_TOKEN, "v"),
       PQLToken(PQL_SEMICOLON_TOKEN, ";"),
       PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_NAME_TOKEN, "v"),
       PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
+      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
       PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
+      PQLToken(PQL_NAME_TOKEN, "a"),
       PQLToken(PQL_COMMA_TOKEN, ","),
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 
-  // expected query object
-  Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, VARIABLE_ENTITY);
-  expected.addContext(std::move(expectedContext));
-  unique_ptr<Ident> firstArg = std::make_unique<Ident>("x");
-  unique_ptr<Wildcard> secondArg = std::make_unique<Wildcard>();
-  unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
-      USES_ENUM, std::move(firstArg), std::move(secondArg));
-  expected.addClause(std::move(suchThatClause));
-
-  bool res = *query == expected;
-  REQUIRE(res);
+  REQUIRE_THROWS_MATCHES(
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPSSemanticError, Catch::Message("Using undeclared synonym: a"));
 }
 
-TEST_CASE("Valid Uses(LITERAL_REF, LITERAL_REF)") {
-  string d1 = "hello";
-  string d2 = "assign";
+TEST_CASE("Invalid Calls clause - invalid LITERAL_EXP_TOKEN") {
   vector<PQLToken> tokenList = {
-      PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
-      PQLToken(PQL_NAME_TOKEN, d1),
-      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
       PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
-      PQLToken(PQL_NAME_TOKEN, d2),
+      PQLToken(PQL_NAME_TOKEN, "v"),
       PQLToken(PQL_SEMICOLON_TOKEN, ";"),
       PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_NAME_TOKEN, "v"),
       PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
+      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
       PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_LITERAL_REF_TOKEN, "y"),
+      PQLToken(PQL_LITERAL_EXPRESSION_TOKEN, "1"),
       PQLToken(PQL_COMMA_TOKEN, ","),
-      PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
-  std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
-
-  // expected query object
-  Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, VARIABLE_ENTITY);
-  expected.addContext(std::move(expectedContext));
-  unique_ptr<Ident> firstArg = std::make_unique<Ident>("y");
-  unique_ptr<Ident> secondArg = std::make_unique<Ident>("x");
-  unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
-      USES_ENUM, std::move(firstArg), std::move(secondArg));
-  expected.addClause(std::move(suchThatClause));
-
-  bool res = *query == expected;
-  REQUIRE(res);
-}
-
-TEST_CASE("Invalid Uses(LITERAL_EXPR, LITERAL_REF)") {
-  string d1 = "hello";
-  string d2 = "assign";
-  vector<PQLToken> tokenList = {
-      PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
-      PQLToken(PQL_NAME_TOKEN, d1),
-      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
-      PQLToken(PQL_NAME_TOKEN, d2),
-      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, d1),
-      PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
-      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_LITERAL_EXPRESSION_TOKEN, "2"),
-      PQLToken(PQL_COMMA_TOKEN, ","),
-      PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
-      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
-  };
-
   REQUIRE_THROWS_MATCHES(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
       QPSSyntaxError,
-      Catch::Message("Error occurred during tokenization, invalid token: 2"));
+      Catch::Message("Error occurred during tokenization, invalid token: 1"));
 }
 
-TEST_CASE("Invalid Uses(_, SYNONYM) - Wildcard cannot be first arg") {
-  string d1 = "hello";
-  string d2 = "assign";
+TEST_CASE("Invalid Calls clause - only 1 argument") {
   vector<PQLToken> tokenList = {
-      PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
-      PQLToken(PQL_NAME_TOKEN, d1),
-      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
       PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
-      PQLToken(PQL_NAME_TOKEN, d2),
+      PQLToken(PQL_NAME_TOKEN, "v"),
       PQLToken(PQL_SEMICOLON_TOKEN, ";"),
       PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_NAME_TOKEN, "v"),
       PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
+      PQLToken(PQL_NAME_TOKEN, CALLS_ABSTRACTION),
       PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
-      PQLToken(PQL_COMMA_TOKEN, ","),
-      PQLToken(PQL_NAME_TOKEN, d1),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
   REQUIRE_THROWS_MATCHES(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSemanticError, Catch::Message(QPS_SEMANTIC_ERR_WILDCARD_FIRSTARG));
-}
-
-TEST_CASE("Invalid Uses(INTEGER, SYNONYM) - invalid synonym type") {
-  string d1 = "hello";
-  string d2 = "assign";
-  string int1 = "4";
-  vector<PQLToken> tokenList = {
-      PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
-      PQLToken(PQL_NAME_TOKEN, d1),
-      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
-      PQLToken(PQL_NAME_TOKEN, d2),
-      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, d1),
-      PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
-      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_INTEGER_TOKEN, int1),
-      PQLToken(PQL_COMMA_TOKEN, ","),
-      PQLToken(PQL_NAME_TOKEN, d1),
-      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
-  };
-
-  REQUIRE_THROWS_MATCHES(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSemanticError, Catch::Message(QPS_SEMANTIC_ERR_NOT_VAR_SYN));
-}
-
-TEST_CASE("Valid Modifies(INTEGER, SYNONYM)") {
-  vector<PQLToken> tokenList = {
-      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
-      PQLToken(PQL_NAME_TOKEN, "v"),
-      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
-      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, "v"),
-      PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
-      PQLToken(PQL_NAME_TOKEN, MODIFIES_ABSTRACTION),
-      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_INTEGER_TOKEN, "6"),
-      PQLToken(PQL_COMMA_TOKEN, ","),
-      PQLToken(PQL_NAME_TOKEN, "v"),
-      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
-  };
-  std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
-
-  // expected query object
-  Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym("v", VARIABLE_ENTITY);
-  expected.addContext(std::move(expectedContext));
-  unique_ptr<Integer> firstArg = std::make_unique<Integer>("6");
-  unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>("v");
-  unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
-      MODIFIES_ENUM, std::move(firstArg), std::move(secondArg));
-  expected.addClause(std::move(suchThatClause));
-
-  bool res = *query == expected;
-  REQUIRE(res);
+      QPSSyntaxError, Catch::Message(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT));
 }

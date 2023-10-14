@@ -230,11 +230,8 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Synonym)") {
       mockReader, mockContext, USES_ENUM, *mockArgument1, *mockArgument2);
 
   UsesAbstraction abstraction(*abstractionParams);
-  IntermediateTable resultTable = abstraction.evaluate();
-
-  REQUIRE(resultTable.getData() == MOCK_USED_VECTORS_COL_2);
-  REQUIRE(resultTable.getColNames().size() == 1);
-  REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
+  REQUIRE_THROWS_WITH(abstraction.evaluate(),
+                      QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Synonym)_empty") {
@@ -248,9 +245,8 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Synonym)_empty") {
       mockReader, mockContext, USES_ENUM, *mockArgument1, *mockArgument2);
 
   UsesAbstraction abstraction(*abstractionParams);
-  IntermediateTable resultTable = abstraction.evaluate();
-
-  REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  REQUIRE_THROWS_WITH(abstraction.evaluate(),
+                      QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)") {
@@ -265,9 +261,8 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)") {
       mockReader, mockContext, USES_ENUM, *mockArgument1, *mockArgument2);
 
   UsesAbstraction abstraction(*abstractionParams);
-  IntermediateTable resultTable = abstraction.evaluate();
-
-  REQUIRE(resultTable.isTableWildcard());
+  REQUIRE_THROWS_WITH(abstraction.evaluate(),
+                      QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)_false") {
@@ -281,9 +276,8 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)_false") {
       mockReader, mockContext, USES_ENUM, *mockArgument1, *mockArgument2);
 
   UsesAbstraction abstraction(*abstractionParams);
-  IntermediateTable resultTable = abstraction.evaluate();
-
-  REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  REQUIRE_THROWS_WITH(abstraction.evaluate(),
+                      QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Wildcard)") {
@@ -298,9 +292,8 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Wildcard)") {
       mockReader, mockContext, USES_ENUM, *mockArgument1, *mockArgument2);
 
   UsesAbstraction abstraction(*abstractionParams);
-  IntermediateTable resultTable = abstraction.evaluate();
-
-  REQUIRE(resultTable.isTableWildcard());
+  REQUIRE_THROWS_WITH(abstraction.evaluate(),
+                      QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Wildcard)_empty") {
@@ -314,7 +307,6 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Wildcard)_empty") {
       mockReader, mockContext, USES_ENUM, *mockArgument1, *mockArgument2);
 
   UsesAbstraction abstraction(*abstractionParams);
-  IntermediateTable resultTable = abstraction.evaluate();
-
-  REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  REQUIRE_THROWS_WITH(abstraction.evaluate(),
+                      QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }

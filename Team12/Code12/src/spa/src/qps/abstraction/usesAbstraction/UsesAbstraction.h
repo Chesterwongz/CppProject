@@ -22,8 +22,4 @@ class UsesAbstraction : public BaseAbstraction {
   IntermediateTable evaluateIntegerSynonym() override;
   IntermediateTable evaluateIntegerIdent() override;
   IntermediateTable evaluateIntegerWildcard() override;
-
-  IntermediateTable evaluateWildcardSynonym() override;
-  IntermediateTable evaluateWildcardIdent() override;
-  IntermediateTable evaluateWildcardWildcard() override;
 };
