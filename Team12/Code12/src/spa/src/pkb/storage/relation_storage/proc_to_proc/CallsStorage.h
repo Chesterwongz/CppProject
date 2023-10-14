@@ -45,7 +45,7 @@ class CallsStorage : public ICallsStorage {
 
   void computeCallsStar();
 
-  unordered_set<int> getCallStmtsFromCallee(const string& callee) override;
+  const unordered_map<int, string>& getStmtCalleeMap();
 
  private:
   // callerProc -> calleeProc
@@ -56,8 +56,9 @@ class CallsStorage : public ICallsStorage {
   unordered_map<string, unordered_set<string>> calledByMap;
   // calleeProc -> callerProc
   unordered_map<string, unordered_set<string>> calledByStarMap;
-  // call stmt -> direct calleeProc
-  unordered_map<int, string> stmtProcMap;
-  // direct calleeProc -> call stmt
-  unordered_map<string, unordered_set<int>> procStmtMap;
+  // call stmt -> direct calleeProc, for call.procName
+  unordered_map<int, string> stmtCalleeMap;
+  // direct calleeProc -> call stmt,
+  // for computing uses and modifies for indirect calls
+  unordered_map<string, unordered_set<int>> calleeStmtMap;
 };

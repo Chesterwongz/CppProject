@@ -4,8 +4,8 @@ void CallsStorage::setCallsRelationship(const string& caller,
                                         const string& callee, int stmtNum) {
   callsMap[caller].insert(callee);
   calledByMap[callee].insert(caller);
-  stmtProcMap[stmtNum] = callee;
-  procStmtMap[callee].insert(stmtNum);
+  stmtCalleeMap[stmtNum] = callee;
+  calleeStmtMap[callee].insert(stmtNum);
 }
 
 void CallsStorage::setCallsStarRelationship(const string& caller,
@@ -97,10 +97,6 @@ void CallsStorage::computeCallsStar() {
   }
 }
 
-unordered_set<int> CallsStorage::getCallStmtsFromCallee(
-    const string& callee) {
-  if (procStmtMap.find(callee) == procStmtMap.end()) {
-    return {};
-  }
-  return procStmtMap.at(callee);
+const unordered_map<int, string>& CallsStorage::getStmtCalleeMap() {
+  return stmtCalleeMap;
 }

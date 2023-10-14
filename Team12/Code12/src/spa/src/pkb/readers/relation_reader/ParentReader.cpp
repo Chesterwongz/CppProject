@@ -27,7 +27,7 @@ std::pair<std::string, std::string> ParentReader::getImmediateParentOf(
 
   std::pair<std::string, std::string> result;
 
-  if (immediateParent != -1 &&
+  if (immediateParent != common::INVALID_STMT_NUM &&
       statement_storage_.isStatementType(immediateParent, statementType)) {
     result = std::make_pair(std::to_string(immediateParent),
                             std::to_string(statementNumber));

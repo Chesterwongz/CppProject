@@ -5,6 +5,7 @@
 #include <utility>
 #include <vector>
 
+#include "common/Constants.h"
 #include "pkb/interfaces/readers/IParentReader.h"
 #include "pkb/storage/entity_storage/StmtStorage.h"
 #include "pkb/storage/relation_storage/stmt_to_stmt/ParentStorage.h"

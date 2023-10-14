@@ -9,6 +9,27 @@ void HelperFunctions::printEntities(const string& abstraction,
   std::cout << std::endl << "-------------" << std::endl;
 }
 
+void HelperFunctions::printDifferences(const StrStrPairSet& actual,
+                             const StrStrPairSet& expected) {
+  StrStrPairSet actualCopy = actual;
+  StrStrPairSet expectedCopy = expected;
+  for (const auto& actualPair : actual) {
+    if (expectedCopy.find(actualPair) != expectedCopy.end()) {
+      expectedCopy.erase(actualPair);
+      actualCopy.erase(actualPair);
+    }
+  }
+  std::cout << "Actual - Expected: " << std::endl;
+  for (const auto& actualPair : actualCopy) {
+    std::cout << actualPair.first << ", " << actualPair.second << std::endl;
+  }
+  std::cout << "Expected - Actual: " << std::endl;
+  for (const auto& expectedPair : expectedCopy) {
+    std::cout << expectedPair.first << ", " << expectedPair.second
+              << std::endl;
+  }
+}
+
 bool HelperFunctions::validateEntities(
     PKBReader& reader, const set<string>& expectedVars,
     const set<string>& expectedConstants, const set<string>& expectedProcedures,

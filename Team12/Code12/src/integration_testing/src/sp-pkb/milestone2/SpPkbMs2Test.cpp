@@ -1,5 +1,5 @@
-#include <catch.hpp>
 #include <string>
+#include <catch.hpp>
 
 #include "../../utils/HelperFunctions.h"
 #include "common/AliasTypes.h"
@@ -27,8 +27,8 @@ TEST_CASE("SP-PKB integration MS2 - Non-nesting statements") {
   ProcToStrSetMap expectedCallsStarMap = {{"simple", {}}};
   StrStrPairSet expectedModifiesPairs = {{"1", "num1"}, {"3", "x"}};
   StrStrPairSet expectedUsesPairs = {{"2", "num2"}, {"3", "num1"}};
-  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
   REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
                                                    expectedModifiesMap));
@@ -63,6 +63,12 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call") {
   ProcToStrSetMap expectedCallsMap = {{"A", {"B"}}, {"B", {"C"}}, {"C", {}}};
   ProcToStrSetMap expectedCallsStarMap = {
       {"A", {"B", "C"}}, {"B", {"C"}}, {"C", {}}};
+  StrStrPairSet expectedModifiesPairs = {
+      {"2", "x"}, {"4", "y"}, {"3", "y"}, {"1", "x"}, {"1", "y"}};
+  StrStrPairSet expectedUsesPairs = {
+      {"2", "a"}, {"4", "b"}, {"3", "b"}, {"1", "a"}, {"1", "b"}};
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
   REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
                                                    expectedModifiesMap));
@@ -82,8 +88,8 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with while") {
       "    call Z;"       // 5
       "    a = a - 1; }"  // 6
       "}"
-      "procedure Z {"  // 7
-      "print c;"       // 8
+      "procedure Z {"
+      "print c;"  // 7
       "}";
   // extract
   SourceProcessor sp;
@@ -98,6 +104,13 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with while") {
   ProcToStrSetMap expectedCallsMap = {{"X", {"Y"}}, {"Y", {"Z"}}, {"Z", {}}};
   ProcToStrSetMap expectedCallsStarMap = {
       {"X", {"Y", "Z"}}, {"Y", {"Z"}}, {"Z", {}}};
+  StrStrPairSet expectedModifiesPairs = {
+      {"3", "a"}, {"6", "a"}, {"1", "a"}, {"2", "a"}, {"4", "a"}};
+  StrStrPairSet expectedUsesPairs = {{"3", "b"}, {"6", "a"}, {"2", "a"},
+                                     {"2", "b"}, {"2", "c"}, {"5", "c"},
+                                     {"4", "a"}, {"4", "c"}, {"7", "c"}};
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
   REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
                                                    expectedModifiesMap));
@@ -128,6 +141,11 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with if") {
   ProcToStrSetMap expectedUsesMap = {{"A", {"x"}}, {"B", {"x"}}};
   ProcToStrSetMap expectedCallsMap = {{"A", {"B"}}, {"B", {}}};
   ProcToStrSetMap expectedCallsStarMap = {{"A", {"B"}}, {"B", {}}};
+  StrStrPairSet expectedModifiesPairs = {
+      {"4", "z"}, {"3", "y"}, {"2", "z"}, {"1", "y"}, {"1", "z"}};
+  StrStrPairSet expectedUsesPairs = {{"4", "x"}, {"2", "x"}, {"1", "x"}};
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
   REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
                                                    expectedModifiesMap));
@@ -165,6 +183,12 @@ TEST_CASE("SP-PKB integration MS2 - multiple transitive calls") {
       {"P", {"Q"}}, {"Q", {"R"}}, {"R", {"S"}}, {"S", {}}};
   ProcToStrSetMap expectedCallsStarMap = {
       {"P", {"Q", "R", "S"}}, {"Q", {"R", "S"}}, {"R", {"S"}}, {"S", {}}};
+  StrStrPairSet expectedModifiesPairs = {
+      {"2", "z"}, {"5", "z"}, {"3", "z"}, {"1", "z"}, {"4", "z"}};
+  StrStrPairSet expectedUsesPairs = {{"2", "y"}, {"5", "z"}, {"4", "z"},
+                                     {"3", "z"}, {"1", "z"}, {"1", "y"}};
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
   REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
                                                    expectedModifiesMap));
@@ -199,6 +223,12 @@ TEST_CASE("SP-PKB integration MS2 - multiple calls without transitivity") {
       {"Alpha", {"Beta", "Gamma"}}, {"Beta", {}}, {"Gamma", {}}};
   ProcToStrSetMap expectedCallsStarMap = {
       {"Alpha", {"Beta", "Gamma"}}, {"Beta", {}}, {"Gamma", {}}};
+  StrStrPairSet expectedModifiesPairs = {
+      {"3", "b"}, {"4", "g"}, {"1", "b"}, {"2", "g"}};
+  StrStrPairSet expectedUsesPairs = {
+      {"3", "y"}, {"4", "z"}, {"1", "y"}, {"2", "z"}};
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
   REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
                                                    expectedModifiesMap));
@@ -218,8 +248,8 @@ TEST_CASE("SP-PKB integration MS2 - two chained calls and containers") {
       "procedure Helper {"
       "   if (b > 5) then {"  // 6
       "       a = a + 1;"     // 7
-      "   } else {"           // 8
-      "       a = a - 1; }"   // 9
+      "   } else {"
+      "       a = a - 1; }"  // 8
       "}";
   // extract
   SourceProcessor sp;
@@ -234,6 +264,14 @@ TEST_CASE("SP-PKB integration MS2 - two chained calls and containers") {
                                      {"Helper", {"a", "b"}}};
   ProcToStrSetMap expectedCallsMap = {{"Main", {"Helper"}}, {"Helper", {}}};
   ProcToStrSetMap expectedCallsStarMap = {{"Main", {"Helper"}}, {"Helper", {}}};
+  StrStrPairSet expectedModifiesPairs = {{"1", "a"}, {"3", "b"}, {"2", "b"},
+                                         {"7", "a"}, {"6", "a"}, {"8", "a"},
+                                         {"4", "a"}, {"2", "a"}};
+  StrStrPairSet expectedUsesPairs = {
+      {"2", "a"}, {"3", "a"}, {"5", "b"}, {"6", "b"}, {"6", "a"},
+      {"7", "a"}, {"4", "a"}, {"4", "b"}, {"2", "b"}, {"8", "a"}};
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
   REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
                                                    expectedModifiesMap));
@@ -274,6 +312,20 @@ TEST_CASE("SP-PKB integration MS2 - three chained calls and containers") {
   ProcToStrSetMap expectedCallsStarMap = {{"Start", {"Operate", "Increment"}},
                                           {"Operate", {"Increment"}},
                                           {"Increment", {}}};
+  StrStrPairSet expectedModifiesPairs = {{"1", "k"}, {"2", "i"}, {"3", "i"},
+                                         {"4", "i"}, {"5", "i"}, {"6", "i"}};
+  StrStrPairSet expectedUsesPairs = {
+      {"2", "a"}, {"2", "b"}, {"2", "c"}, {"2", "d"},
+
+      {"3", "p"}, {"3", "q"}, {"3", "x"}, {"3", "y"}, {"3", "i"}, {"3", "j"},
+      {"3", "k"},
+
+      {"4", "p"}, {"4", "q"}, {"4", "x"}, {"4", "y"}, {"4", "i"}, {"4", "j"},
+      {"4", "k"},
+
+      {"5", "i"}, {"5", "j"}, {"5", "k"}, {"6", "i"}, {"6", "j"}, {"6", "k"}};
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
   REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
                                                    expectedModifiesMap));
@@ -353,6 +405,26 @@ TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
       {"Epsilon", {"Zeta", "Eta"}},
       {"Zeta", {"Eta"}},
       {"Eta", {}}};
+  StrStrPairSet expectedModifiesPairs = {
+      {"1", "w"},  {"2", "m"},  {"3", "n"},  {"3", "o"},  {"3", "p"},
+      {"3", "q"},  {"3", "r"},  {"3", "s"},  {"3", "t"},  {"4", "n"},
+      {"4", "o"},  {"4", "p"},  {"4", "q"},  {"4", "r"},  {"4", "s"},
+      {"4", "t"},  {"5", "n"},  {"6", "o"},  {"6", "q"},  {"6", "r"},
+      {"6", "s"},  {"6", "t"},  {"7", "p"},  {"8", "n"},  {"10", "o"},
+      {"11", "q"}, {"11", "r"}, {"11", "s"}, {"11", "t"}, {"12", "p"},
+      {"13", "q"}, {"14", "r"}, {"15", "s"}, {"15", "t"}, {"17", "s"},
+      {"17", "t"}, {"18", "s"}, {"19", "t"}};
+  StrStrPairSet expectedUsesPairs = {
+      {"2", "w"},  {"3", "m"},  {"3", "n"},  {"3", "o"},  {"3", "q"},
+      {"3", "r"},  {"3", "s"},  {"4", "m"},  {"4", "n"},  {"4", "o"},
+      {"4", "q"},  {"4", "r"},  {"4", "s"},  {"5", "m"},  {"6", "n"},
+      {"6", "o"},  {"6", "q"},  {"6", "r"},  {"6", "s"},  {"7", "n"},
+      {"8", "m"},  {"9", "n"},  {"10", "n"}, {"11", "o"}, {"11", "q"},
+      {"11", "r"}, {"11", "s"}, {"12", "n"}, {"14", "o"}, {"14", "q"},
+      {"15", "r"}, {"15", "s"}, {"16", "r"}, {"17", "r"}, {"17", "s"},
+      {"19", "r"}, {"19", "s"}};
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
   REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
                                                    expectedModifiesMap));
@@ -422,6 +494,24 @@ TEST_CASE(
       {"Clean", {}},
       {"Finish", {}},
       {"Update", {}}};
+  StrStrPairSet expectedModifiesPairs = {
+      {"1", "h"}, {"2", "u"},  {"3", "u"},  {"3", "j"},  {"3", "v"},
+      {"4", "u"}, {"4", "j"},  {"4", "v"},  {"5", "u"},  {"6", "u"},
+      {"6", "j"}, {"6", "v"},  {"7", "j"},  {"7", "v"},  {"8", "u"},
+      {"9", "v"}, {"10", "v"}, {"12", "u"}, {"13", "j"}, {"14", "v"},
+      {"15", "v"}};
+  StrStrPairSet expectedUsesPairs = {
+      {"2", "h"},  {"3", "a"}, {"3", "b"}, {"3", "c"},  {"3", "d"},
+      {"3", "e"},  {"3", "f"}, {"3", "p"}, {"3", "q"},  {"3", "r"},
+      {"3", "u"},  {"3", "v"}, {"3", "j"}, {"4", "a"},  {"4", "b"},
+      {"4", "c"},  {"4", "d"}, {"4", "f"}, {"4", "p"},  {"4", "q"},
+      {"4", "r"},  {"4", "u"}, {"4", "v"}, {"4", "j"},  {"5", "u"},
+      {"6", "a"},  {"6", "b"}, {"6", "c"}, {"6", "d"},  {"6", "f"},
+      {"6", "p"},  {"6", "q"}, {"6", "r"}, {"6", "j"},  {"6", "u"},
+      {"6", "v"},  {"7", "j"}, {"9", "u"}, {"10", "v"}, {"11", "v"},
+      {"14", "j"}, {"15", "v"}};
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
   REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
                                                    expectedModifiesMap));

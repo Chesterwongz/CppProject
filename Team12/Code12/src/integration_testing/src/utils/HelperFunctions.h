@@ -14,9 +14,10 @@ using std::string, std::unordered_set, std::set, std::vector;
 
 class HelperFunctions {
  private:
-  // TODO(Xiaoyun): remove print methods after MS2 testing
   static void printEntities(const string& abstraction,
                             const unordered_set<string>& set);
+  static void printDifferences(const StrStrPairSet& actual,
+                               const StrStrPairSet& expected);
 
  public:
   static bool validateEntities(PKBReader& reader,
