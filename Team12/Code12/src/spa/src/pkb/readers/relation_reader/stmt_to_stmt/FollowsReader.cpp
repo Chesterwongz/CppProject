@@ -10,7 +10,7 @@ std::vector<std::string> FollowsReader::getFollowing(int stmt,
 
   auto rawRes = followsStore.getDirectSuccessor(stmt, stmtFilter);
 
-  return VectorUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformIntToStrVector(rawRes);
 }
 
 std::vector<std::string> FollowsReader::getFollowed(int stmt,
@@ -23,7 +23,7 @@ std::vector<std::string> FollowsReader::getFollowed(int stmt,
 
   auto rawRes = followsStore.getDirectAncestor(stmt, stmtFilter);
 
-  return VectorUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformIntToStrVector(rawRes);
 }
 
 bool FollowsReader::isFollows(int stmt1, int stmt2) {
@@ -41,7 +41,7 @@ std::vector<std::pair<std::string, std::string>> FollowsReader::getFollowsPairs(
 
   auto rawRes = followsStore.getAllRelations(stmtFilters);
 
-  return VectorUtils::transformIntIntToStrStrVector(rawRes);
+  return CollectionUtils::transformIntIntToStrStrVector(rawRes);
 }
 
 // ================================= FollowsT =================================
@@ -56,7 +56,7 @@ std::vector<std::string> FollowsReader::getFollowsStar(int stmt,
 
   auto rawRes = followsStore.getSuccessorsOf(stmt, stmtFilter);
 
-  return VectorUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformIntToStrVector(rawRes);
 }
 
 std::vector<std::string> FollowsReader::getFollowedStar(int stmt,
@@ -69,7 +69,7 @@ std::vector<std::string> FollowsReader::getFollowedStar(int stmt,
 
   auto rawRes = followsStore.getAncestorsOf(stmt, stmtFilter);
 
-  return VectorUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformIntToStrVector(rawRes);
 }
 
 bool FollowsReader::isFollowsStar(int stmt1, int stmt2) {
@@ -87,5 +87,5 @@ FollowsReader::getFollowsStarPairs(StmtType stmtType1, StmtType stmtType2) {
 
   auto rawRes = followsStore.getAllRelationsT(stmtFilters);
 
-  return VectorUtils::transformIntIntToStrStrVector(rawRes);
+  return CollectionUtils::transformIntIntToStrStrVector(rawRes);
 }

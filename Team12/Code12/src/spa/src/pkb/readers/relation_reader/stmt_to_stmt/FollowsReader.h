@@ -8,7 +8,7 @@
 
 #include "common/Constants.h"
 #include "common/StmtTypes.h"
-#include "common/utils/VectorUtils.h"
+#include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/IFollowsReader.h"
 #include "pkb/storage/FollowsStore.h"
 #include "pkb/storage/StmtStore.h"

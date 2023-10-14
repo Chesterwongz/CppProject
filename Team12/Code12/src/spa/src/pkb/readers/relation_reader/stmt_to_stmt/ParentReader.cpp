@@ -10,7 +10,7 @@ std::vector<std::string> ParentReader::getImmediateChildrenOf(
 
   auto rawRes = parentStore.getDirectSuccessor(stmt, stmtFilter);
 
-  return VectorUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformIntToStrVector(rawRes);
 }
 
 std::vector<std::string> ParentReader::getImmediateParentOf(int stmt,
@@ -23,7 +23,7 @@ std::vector<std::string> ParentReader::getImmediateParentOf(int stmt,
 
   auto rawRes = parentStore.getDirectAncestor(stmt, stmtFilter);
 
-  return VectorUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformIntToStrVector(rawRes);
 }
 
 bool ParentReader::isParent(int stmt1, int stmt2) {
@@ -41,7 +41,7 @@ ParentReader::getParentChildPairs(StmtType stmtType1, StmtType stmtType2) {
 
   auto rawRes = parentStore.getAllRelations(stmtFilters);
 
-  return VectorUtils::transformIntIntToStrStrVector(rawRes);
+  return CollectionUtils::transformIntIntToStrStrVector(rawRes);
 }
 
 // ================================== ParentT ==================================
@@ -56,7 +56,7 @@ std::vector<std::string> ParentReader::getChildrenStarOf(int stmt,
 
   auto rawRes = parentStore.getSuccessorsOf(stmt, stmtFilter);
 
-  return VectorUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformIntToStrVector(rawRes);
 }
 
 std::vector<std::string> ParentReader::getParentStarOf(int stmt,
@@ -69,7 +69,7 @@ std::vector<std::string> ParentReader::getParentStarOf(int stmt,
 
   auto rawRes = parentStore.getAncestorsOf(stmt, stmtFilter);
 
-  return VectorUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformIntToStrVector(rawRes);
 }
 
 bool ParentReader::isParentStar(int stmt1, int stmt2) {
@@ -87,5 +87,5 @@ ParentReader::getParentChildStarPairs(StmtType stmtType1, StmtType stmtType2) {
 
   auto rawRes = parentStore.getAllRelationsT(stmtFilters);
 
-  return VectorUtils::transformIntIntToStrStrVector(rawRes);
+  return CollectionUtils::transformIntIntToStrStrVector(rawRes);
 }

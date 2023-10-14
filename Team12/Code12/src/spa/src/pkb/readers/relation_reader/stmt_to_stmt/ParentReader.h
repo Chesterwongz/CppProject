@@ -5,7 +5,7 @@
 #include <utility>
 #include <vector>
 
-#include "common/utils/VectorUtils.h"
+#include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/IParentReader.h"
 #include "pkb/storage/ParentStore.h"
 #include "pkb/storage/StmtStore.h"
