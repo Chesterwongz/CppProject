@@ -7,44 +7,33 @@
 #include <vector>
 
 #include "common/Constants.h"
+#include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/INextReader.h"
-#include "pkb/interfaces/storage/cfg_storage/ICfgStorage.h"
-#include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
-#include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
-#include "pkb/interfaces/storage/relation_storage/INextStorage.h"
-
-using GetStmtsFunction = std::unordered_set<int> (INextStorage::*)(int);
+#include "pkb/storage/NextStore.h"
+#include "pkb/storage/StmtStore.h"
 
 class NextReader : public INextReader {
  private:
-  INextStorage& nextStorage;
-  IEntityStorage& entityStorage;
-  IStmtStorage& stmtStorage;
-  std::vector<std::string> getStmtsFrom(GetStmtsFunction getStmtsFunc,
-                                        int stmtNum, StmtType type);
+  NextStore& nextStore;
+  StmtStore& stmtStore;
 
  public:
-  NextReader(INextStorage& nextStorage, IEntityStorage& entityStorage,
-             IStmtStorage& stmtStorage)
-      : nextStorage(nextStorage),
-        entityStorage(entityStorage),
-        stmtStorage(stmtStorage) {}
+  NextReader(NextStore& nextStore, StmtStore& stmtStore)
+      : nextStore(nextStore), stmtStore(stmtStore) {}
 
   std::vector<std::pair<std::string, std::string>> getNextPairs(
-      StmtType firstStmtType, StmtType secondStmtType) override;
+      StmtType stmtType1, StmtType stmtType2) override;
   std::vector<std::pair<std::string, std::string>> getNextTPairs(
-      StmtType firstStmtType, StmtType secondStmtType) override;
+      StmtType stmtType1, StmtType stmtType2) override;
 
-  bool isNext(int firstStmtNum, int secondStmtNum) override;
-  bool isNextT(int firstStmtNum, int secondStmtNum) override;
+  bool isNext(int stmt1, int stmt2) override;
+  bool isNextT(int stmt1, int stmt2) override;
 
-  std::vector<std::string> getPrevStmts(int secondStmtNum,
-                                        StmtType firstStmtType) override;
-  std::vector<std::string> getPrevTStmts(int secondStmtNum,
-                                         StmtType firstStmtType) override;
+  std::vector<std::string> getPrevStmts(int stmt2, StmtType stmtType1) override;
+  std::vector<std::string> getPrevTStmts(int stmt2,
+                                         StmtType stmtType1) override;
 
-  std::vector<std::string> getNextStmts(int firstStmtNum,
-                                        StmtType secondStmtType) override;
-  std::vector<std::string> getNextTStmts(int firstStmtNum,
-                                         StmtType secondStmtType) override;
+  std::vector<std::string> getNextStmts(int stmt1, StmtType stmtType2) override;
+  std::vector<std::string> getNextTStmts(int stmt1,
+                                         StmtType stmtType2) override;
 };
