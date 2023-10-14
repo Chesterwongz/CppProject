@@ -61,7 +61,6 @@ std::optional<PQLToken> PQLParserContext::eatExpectedToken(PQLTokenType prev,
   std::optional<PQLToken> tokenOpt = tokenStream->eat();
   if (!tokenOpt.has_value()) return std::nullopt;
 
-  // TODO(Hwee): Check is valid syn since now can have * and # in name
   if (tokenOpt->getType() == PQL_NAME_TOKEN) {
     currState->processNameToken(tokenOpt.value());
   }

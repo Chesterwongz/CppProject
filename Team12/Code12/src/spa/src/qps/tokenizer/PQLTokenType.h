@@ -34,6 +34,7 @@ enum PQLTokenType {
   // for attrRef
   PQL_PERIOD_TOKEN,
   PQL_EQUALS_TOKEN,
+  PQL_ATTR_REF_TOKEN,
 
   // more detailed states after going through the parser
   // main usage for predictive parser map

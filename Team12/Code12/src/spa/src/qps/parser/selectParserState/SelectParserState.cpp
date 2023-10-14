@@ -2,7 +2,9 @@
 
 PredictiveMap SelectParserState::predictiveMap = {
     {PQL_SELECT_TOKEN,
-     {PQL_BOOLEAN_TOKEN, PQL_SYNONYM_TOKEN, PQL_LEFT_ANGLE_TOKEN}}};
+     {PQL_BOOLEAN_TOKEN, PQL_SYNONYM_TOKEN, PQL_LEFT_ANGLE_TOKEN}},
+    {PQL_SYNONYM_TOKEN, {PQL_PERIOD_TOKEN}},
+    {PQL_PERIOD_TOKEN, {PQL_ATTR_REF_TOKEN}}};
 
 SelectParserState::SelectParserState(PQLParserContext& parserContext,
                                      PQLTokenType prev)
@@ -12,6 +14,8 @@ void SelectParserState::processNameToken(PQLToken& curr) {
   if (parserContext.checkSynonymExists(curr.getValue())) {
     curr.updateTokenType(PQL_SYNONYM_TOKEN);
   } else if (curr.getValue() == BOOLEAN_KEYWORD) {
+    curr.updateTokenType(PQL_BOOLEAN_TOKEN);
+  }  else if (curr.getValue() == BOOLEAN_KEYWORD) {
     curr.updateTokenType(PQL_BOOLEAN_TOKEN);
   } else {
     throw QPSSemanticError(QPS_SEMANTIC_ERR_UNDECLARED_SYNONYM +
@@ -31,10 +35,11 @@ void SelectParserState::handleToken() {
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
       case PQL_SYNONYM_TOKEN:
-        // TODO(Hwee): change to add vector syn
         parserContext.addSelectClause(token.getValue());
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
+      case PQL_PERIOD_TOKEN:
+
       case PQL_LEFT_ANGLE_TOKEN:
         parserContext.transitionTo(std::make_unique<SelectTupleParsersState>(
             parserContext, token.getType()));
