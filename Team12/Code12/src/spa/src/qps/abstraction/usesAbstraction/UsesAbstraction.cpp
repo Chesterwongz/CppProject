@@ -2,7 +2,7 @@
 
 /**
  * Uses abstraction:
- * firstArg: Synonym OR Integer OR Wildcard
+ * firstArg: Synonym OR Integer (stmt) OR Identifier (Proc)
  * secondArg: Synonym OR Identifier OR Wildcard
  */
 
@@ -61,28 +61,6 @@ IntermediateTable UsesAbstraction::evaluateIntegerWildcard() {
 
   return IntermediateTableFactory::buildIntermediateTable(
       WILDCARD_KEYWORD, WILDCARD_KEYWORD, result);
-}
-
-// Uses (_, VarSynonym)
-IntermediateTable UsesAbstraction::evaluateWildcardSynonym() {
-  return handleSynonymOrWildcardArgs();
-}
-
-// Uses (_, VarIdentifier)
-IntermediateTable UsesAbstraction::evaluateWildcardIdent() {
-  StmtType firstArgStmtType = getFirstArgStmtType();
-  string secondArgIdent = this->secondArgValue;
-
-  vector<string> statementsUsingVar =
-      pkb.getStatementsUsing(secondArgIdent, firstArgStmtType);
-
-  return IntermediateTableFactory::buildSingleColTable(WILDCARD_KEYWORD,
-                                                       statementsUsingVar);
-}
-
-// Uses (_, _)
-IntermediateTable UsesAbstraction::evaluateWildcardWildcard() {
-  return handleSynonymOrWildcardArgs();
 }
 
 IntermediateTable UsesAbstraction::handleSynonymOrWildcardArgs() {
