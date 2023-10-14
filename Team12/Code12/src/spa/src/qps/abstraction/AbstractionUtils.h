@@ -117,7 +117,7 @@ inline StmtType getArgStmtType(AbstractArgument &argument, Context &context) {
   if (argument.isSynonym()) {
     Entity firstStmtEntity = context.getTokenEntity(argument.getValue());
     assert(firstStmtEntity != PROCEDURE_ENTITY);
-    return EntityToStatementType.at(firstStmtEntity);
+    return StmtEntityToStatementType.at(firstStmtEntity);
   } else if (argument.isWildcard()) {
     return StmtType::STMT;
   }

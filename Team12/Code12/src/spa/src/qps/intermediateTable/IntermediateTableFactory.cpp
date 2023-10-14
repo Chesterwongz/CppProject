@@ -79,6 +79,12 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
 }
 
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
+    const string &firstColName, const set<string> &data) {
+  vector<string> dataAsVector(data.begin(), data.end());
+  return buildSingleColTable(firstColName, dataAsVector);
+}
+
+IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const string &colName, const string &value) {
   vector<string> dataCol = {value};
   return IntermediateTableFactory::buildSingleColTable(colName, dataCol);

@@ -44,8 +44,8 @@ class MockPKBReader : public PKBReader {
   vector<pair<string, string>> mockAllModifiedVariablesByProcs;
   vector<pair<string, string>> mockAllUsedVariables;
   vector<pair<string, string>> mockAllUsedVariablesByProcs;
-  vector<string> mockExactAssignPattern;
-  vector<string> mockPartialAssignPattern;
+  vector<pair<string, string>> mockExactAssignPattern;
+  vector<pair<string, string>> mockPartialAssignPattern;
   bool mockIsFollowsStar{};
   bool mockIsParentStar{};
   bool mockIsFollows{};
@@ -193,15 +193,13 @@ class MockPKBReader : public PKBReader {
     return mockAllUsedVariablesByProcs;
   }
 
-  vector<string> getExactAssignPattern(const string& variableName,
-                                       const string& rpn,
-                                       bool isSynonym) override {
+  vector<pair<string, string>> getExactAssignPattern(
+      const string& variableName, const string& rpn) override {
     return mockExactAssignPattern;
   }
 
-  vector<string> getPartialAssignPattern(const string& variableName,
-                                         const string& rpn,
-                                         bool isSynonym) override {
+  vector<pair<string, string>> getPartialAssignPattern(
+      const string& variableName, const string& rpn) override {
     return mockPartialAssignPattern;
   }
 

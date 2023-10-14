@@ -10,7 +10,9 @@
 #include <vector>
 
 #include "pkb/facade/PKBReader.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/clause/Clause.h"
+#include "qps/clause/selectClause/SelectClause.h"
 
 using std::set, std::vector, std::unique_ptr, std::string;
 
@@ -20,17 +22,16 @@ class Query {
  private:
   PKBReader& pkb;
   unique_ptr<Context> context;
+  vector<string> synonymsToQuery = {};
+  unique_ptr<SelectClause> selectClause = {};
   ClauseList clauses = {};
-  // e.g. `Select a such that ...`
-  //   -> `a` is the synonymToQuery
-  string synonymToQuery;
 
  public:
   explicit Query(PKBReader& pkb);
-  void addContext(unique_ptr<Context> context);
+  void addContext(unique_ptr<Context> contextToAdd);
   void addClause(unique_ptr<Clause> clause);
-  void setSynonymToQuery(const string& selectSynonym);
-  set<string> returnAllPossibleQueriedSynonym();
+  void setSynonymToQuery(SynonymsToSelect selectSynonyms);
+
   set<string> evaluate();
   bool operator==(const Query& other);
 };
