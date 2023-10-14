@@ -1,8 +1,8 @@
-#include <catch.hpp>
 #include <set>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <catch.hpp>
 
 #include "../../common/utils.h"
 #include "pkb/facade/PKB.h"

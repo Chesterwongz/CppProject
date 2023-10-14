@@ -7,7 +7,6 @@
 #include <unordered_map>
 #include <vector>
 #include <utility>
-#include <vector>
 
 #include "pkb/facade/PKBReader.h"
 
