@@ -30,12 +30,21 @@ class RelationStore {
     return result;
   }
 
+  template <typename K, typename V>
+  [[nodiscard]] std::vector<V> map(
+      K key, const std::unordered_map<K, std::unordered_set<V>>& relationMap,
+      const std::function<bool(V)>& filter) const {
+    std::vector<V> res;
+    auto it = relationMap.find(key);
+    if (it == relationMap.end()) {
+      return res;
+    }
+    const auto& setV = it->second;
+    std::copy_if(setV.begin(), setV.end(), std::back_inserter(res), filter);
+    return res;
+  }
+
  public:
-  /**
-   * adds a relation from S to T. E.g., Follows(S,T)
-   * @param from
-   * @param to
-   */
   virtual void addRelation(S from, T to) {
     directSuccessorMap[from].insert(to);
     directAncestorMap[to].insert(from);
@@ -50,20 +59,24 @@ class RelationStore {
   }
 
   [[nodiscard]] bool hasDirectRelation(S from, T to) const {
-    return hasDirectSuccessor(from) && directSuccessorMap.at(from).count(to);
+    return directSuccessorMap.count(from) &&
+           directSuccessorMap.at(from).count(to);
   }
 
-  [[nodiscard]] const std::unordered_set<T>& getDirectSuccessor(S from) const {
-    return directSuccessorMap.at(from);
+  [[nodiscard]] std::vector<T> getDirectSuccessor(
+      S from, const std::function<bool(S)>& filter) const {
+    return map(from, directSuccessorMap, filter);
   }
 
-  [[nodiscard]] const std::unordered_set<S>& getDirectAncestor(T to) const {
-    return directAncestorMap.at(to);
+  [[nodiscard]] std::vector<S> getDirectAncestor(
+      T to, const std::function<bool(T)>& filter) const {
+    return map(to, directAncestorMap, filter);
   }
 
   [[nodiscard]] std::vector<std::pair<S, T>> getAllRelations(
-      const std::function<bool(S)>& filterStmt1,
-      const std::function<bool(T)>& filterStmt2) const {
-    return flatMap(directSuccessorMap, filterStmt1, filterStmt2);
+      std::pair<const std::function<bool(S)>&, const std::function<bool(T)>&>
+          filterStmtPair) const {
+    return flatMap(directSuccessorMap, filterStmtPair.first,
+                   filterStmtPair.second);
   }
 };

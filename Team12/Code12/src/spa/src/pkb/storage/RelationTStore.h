@@ -38,35 +38,24 @@ class RelationTStore : public RelationStore<S, T> {
     }
   }
 
-  bool hasRelationT(S from, T to) const {
+  [[nodiscard]] bool hasRelationT(S from, T to) const {
     return successorMap.count(from) && successorMap.at(from).count(to);
   }
 
-  //  std::unordered_set<T>& getAllSuccessors(S from) const {
-  //    return successorMap[from];
-  //  }
-  //  std::unordered_set<S>& getAllAncestors(T to) const { return
-  //  ancestorMap[to]; }
-
-  std::vector<S> getAncestorsOf(T to,
-                                const std::function<bool(S)>& filter) const {
-    std::vector<S> res;
-    const auto& setS = ancestorMap.at(to);
-    std::copy_if(setS.begin(), setS.end(), std::back_inserter(res), filter);
-    return res;
+  [[nodiscard]] std::vector<T> getSuccessorsOf(
+      S from, const std::function<bool(S)>& filter) const {
+    return RelationStore<S, T>::map(from, successorMap, filter);
   }
 
-  std::vector<T> getSuccessorsOf(S from,
-                                 const std::function<bool(S)>& filter) const {
-    std::vector<T> res;
-    const auto& setT = successorMap.at(from);
-    std::copy_if(setT.begin(), setT.end(), std::back_inserter(res), filter);
-    return res;
+  [[nodiscard]] std::vector<S> getAncestorsOf(
+      T to, const std::function<bool(S)>& filter) const {
+    return RelationStore<S, T>::map(to, ancestorMap, filter);
   }
 
-  std::vector<std::pair<S, T>> getAllRelationsT(
-      const std::function<bool(S)>& filterStmt1,
-      const std::function<bool(T)>& filterStmt2) const {
-    return RelationStore<S, T>::flatMap(successorMap, filterStmt1, filterStmt2);
+  [[nodiscard]] std::vector<std::pair<S, T>> getAllRelationsT(
+      std::pair<const std::function<bool(S)>&, const std::function<bool(T)>&>
+          filterStmtPair) const {
+    return RelationStore<S, T>::flatMap(successorMap, filterStmtPair.first,
+                                        filterStmtPair.second);
   }
 };

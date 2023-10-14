@@ -34,7 +34,7 @@ class PKBReader : public DesignEntitiesReader,
         FollowsReader(store.getFollowsStore(), store.getStmtStore()),
         ModifiesReader(storage, storage, storage),
         NextReader(storage, storage, storage),
-        ParentReader(storage, storage),
+        ParentReader(store.getParentStore(), store.getStmtStore()),
         PatternReader(storage),
         UsesReader(storage, storage, storage),
         CallsReader(storage) {}

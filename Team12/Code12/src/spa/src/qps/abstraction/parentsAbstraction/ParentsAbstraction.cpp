@@ -90,12 +90,12 @@ IntermediateTable ParentsAbstraction::handleFirstArgInteger() {
   StmtType secondStmtType = this->getSecondArgStmtType();
   string secondStmtSynonym = this->secondArgValue;
 
-  vector<pair<string, string>> results =
+  vector<string> results =
       pkb.getImmediateChildrenOf(firstArgStmtNumber, secondStmtType);
 
   // pass first col as wildcard so the table ignores integer column
-  return IntermediateTableFactory::buildIntermediateTable(
-      WILDCARD_KEYWORD, secondStmtSynonym, results);
+  return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
+                                                       results);
 }
 
 IntermediateTable ParentsAbstraction::handleSecondArgInteger() {
@@ -103,13 +103,9 @@ IntermediateTable ParentsAbstraction::handleSecondArgInteger() {
   StmtType firstArgStmtType = this->getFirstArgStmtType();
   int secondArgStmtNumber = stoi(this->secondArgValue);
 
-  pair<string, string> immediateParent =
+  vector<string> immediateParent =
       pkb.getImmediateParentOf(secondArgStmtNumber, firstArgStmtType);
 
-  if (immediateParent.first.empty() && immediateParent.second.empty()) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
-
-  return IntermediateTableFactory::buildIntermediateTable(
-      firstArgStmtSynonym, immediateParent.first);
+  return IntermediateTableFactory::buildSingleColTable(firstArgStmtSynonym,
+                                                       immediateParent);
 }

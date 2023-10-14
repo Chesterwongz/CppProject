@@ -5,41 +5,43 @@
 #include <utility>
 #include <vector>
 
+#include "common/utils/VectorUtils.h"
 #include "pkb/interfaces/readers/IParentReader.h"
-#include "pkb/storage/entity_storage/StmtStorage.h"
-#include "pkb/storage/relation_storage/stmt_to_stmt/ParentStorage.h"
+#include "pkb/storage/ParentStore.h"
+#include "pkb/storage/StmtStore.h"
 
 class ParentReader : public IParentReader {
  private:
-  ParentStorage& parent_storage_;
-  StmtStorage& statement_storage_;
+  ParentStore& parentStore;
+  StmtStore& stmtStore;
 
  protected:
-  explicit ParentReader(ParentStorage& parent_storage,
-                        StmtStorage& statement_storage)
-      : parent_storage_(parent_storage),
-        statement_storage_(statement_storage) {}
+  explicit ParentReader(ParentStore& parent_storage,
+                        StmtStore& statement_storage)
+      : parentStore(parent_storage), stmtStore(statement_storage) {}
 
  public:
-  std::vector<std::pair<std::string, std::string>> getImmediateChildrenOf(
-      int statementNumber, StmtType statementType) override;
+  std::vector<std::string> getImmediateChildrenOf(int stmt,
+                                                  StmtType stmtType) override;
 
-  std::pair<std::string, std::string> getImmediateParentOf(
-      int statementNumber, StmtType statementType) override;
+  std::vector<std::string> getImmediateParentOf(int stmt,
+                                                StmtType stmtType) override;
 
-  bool isParent(int statementNumber, int childStatement) override;
+  bool isParent(int stmt1, int stmt2) override;
 
   std::vector<std::pair<std::string, std::string>> getParentChildPairs(
-      StmtType parentType, StmtType childType) override;
+      StmtType stmtType1, StmtType stmtType2) override;
 
-  std::vector<std::pair<std::string, std::string>> getChildrenStarOf(
-      int statementNumber, StmtType statementType) override;
+  // ================================ ParentT ================================
 
-  std::vector<std::pair<std::string, std::string>> getParentStarOf(
-      int statementNumber, StmtType statementType) override;
+  std::vector<std::string> getChildrenStarOf(int stmt,
+                                             StmtType stmtType) override;
 
-  bool isParentStar(int statementNumber, int childStatement) override;
+  std::vector<std::string> getParentStarOf(int stmt,
+                                           StmtType stmtType) override;
+
+  bool isParentStar(int stmt1, int stmt2) override;
 
   std::vector<std::pair<std::string, std::string>> getParentChildStarPairs(
-      StmtType parentType, StmtType childType) override;
+      StmtType stmtType1, StmtType stmtType2) override;
 };

@@ -78,11 +78,11 @@ class MockPKBReader : public PKBReader {
     return mockStatements;
   }
 
-  string getFollowing(int statementNumber, StmtType statementType) override {
+  std::vector<std::string> getFollowing(int statementNumber, StmtType statementType) override {
     return mockFollowing;
   }
 
-  string getFollowed(int statementNumber, StmtType statementType) override {
+  std::vector<std::string> getFollowed(int statementNumber, StmtType statementType) override {
     return mockFollowed;
   }
 
@@ -106,12 +106,12 @@ class MockPKBReader : public PKBReader {
     return mockFollowsStarPairs;
   }
 
-  vector<pair<string, string>> getImmediateChildrenOf(
+  std::vector<std::string> getImmediateChildrenOf(
       int statementNumber, StmtType statementType) override {
     return mockImmediateChildrenOf;
   }
 
-  pair<string, string> getImmediateParentOf(int statementNumber,
+  std::vector<std::string> getImmediateParentOf(int statementNumber,
                                             StmtType statementType) override {
     return mockImmediateParentOf;
   }
@@ -121,12 +121,12 @@ class MockPKBReader : public PKBReader {
     return mockParentChildPairs;
   }
 
-  vector<pair<string, string>> getChildrenStarOf(
+  std::vector<std::string> getChildrenStarOf(
       int statementNumber, StmtType statementType) override {
     return mockChildrenStar;
   }
 
-  vector<pair<string, string>> getParentStarOf(
+  std::vector<std::string> getParentStarOf(
       int statementNumber, StmtType statementType) override {
     return mockParentStarOf;
   }

@@ -1,130 +1,91 @@
 #include "ParentReader.h"
 
-std::vector<std::pair<std::string, std::string>>
-ParentReader::getImmediateChildrenOf(int statementNumber,
-                                     StmtType statementType) {
-  const auto& allImmediateChildren =
-      parent_storage_.getImmediateChildren(statementNumber);
-
-  const auto& allMatchingStatements =
-      statement_storage_.getStatementNumbersFromStatementType(statementType);
-
-  std::vector<std::pair<std::string, std::string>> result;
-
-  for (int stmt : allImmediateChildren) {
-    if (allMatchingStatements.find(stmt) != allMatchingStatements.end()) {
-      result.emplace_back(std::to_string(statementNumber),
-                          std::to_string(stmt));
-    }
+std::vector<std::string> ParentReader::getImmediateChildrenOf(
+    int stmt, StmtType stmtType) {
+  if (!stmtStore.hasStmtType(stmtType)) {
+    return {};
   }
 
-  return result;
+  auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
+
+  auto rawRes = parentStore.getDirectSuccessor(stmt, stmtFilter);
+
+  return VectorUtils::transformIntToStrVector(rawRes);
 }
 
-std::pair<std::string, std::string> ParentReader::getImmediateParentOf(
-    int statementNumber, StmtType statementType) {
-  int immediateParent = parent_storage_.getImmediateParent(statementNumber);
-
-  std::pair<std::string, std::string> result;
-
-  if (immediateParent != -1 &&
-      statement_storage_.isStatementType(immediateParent, statementType)) {
-    result = std::make_pair(std::to_string(immediateParent),
-                            std::to_string(statementNumber));
+std::vector<std::string> ParentReader::getImmediateParentOf(int stmt,
+                                                            StmtType stmtType) {
+  if (!stmtStore.hasStmtType(stmtType)) {
+    return {};
   }
 
-  return result;
+  auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
+
+  auto rawRes = parentStore.getDirectAncestor(stmt, stmtFilter);
+
+  return VectorUtils::transformIntToStrVector(rawRes);
 }
 
-bool ParentReader::isParent(int statementNumber, int childStatement) {
-  const auto& allImmediateChildren =
-      parent_storage_.getImmediateChildren(statementNumber);
-  return allImmediateChildren.find(childStatement) !=
-         allImmediateChildren.end();
+bool ParentReader::isParent(int stmt1, int stmt2) {
+  return parentStore.hasDirectRelation(stmt1, stmt2);
 }
 
 std::vector<std::pair<std::string, std::string>>
-ParentReader::getParentChildPairs(StmtType parentType, StmtType childType) {
-  const auto& firstStatementList =
-      statement_storage_.getStatementNumbersFromStatementType(parentType);
-  const auto& secondStatementList =
-      statement_storage_.getStatementNumbersFromStatementType(childType);
-
-  std::vector<std::pair<std::string, std::string>> parentChildPairs;
-
-  for (int firstStatement : firstStatementList) {
-    const auto& allChildren =
-        parent_storage_.getImmediateChildren(firstStatement);
-    for (int child : allChildren) {
-      if (secondStatementList.find(child) != secondStatementList.end()) {
-        parentChildPairs.emplace_back(std::to_string(firstStatement),
-                                      std::to_string(child));
-      }
-    }
+ParentReader::getParentChildPairs(StmtType stmtType1, StmtType stmtType2) {
+  if (!stmtStore.hasStmtType(stmtType1) || !stmtStore.hasStmtType(stmtType2)) {
+    return {};
   }
-  return parentChildPairs;
+
+  auto stmtFilters =
+      stmtStore.getStmtPairFilterPredicates(stmtType1, stmtType2);
+
+  auto rawRes = parentStore.getAllRelations(stmtFilters);
+
+  return VectorUtils::transformIntIntToStrStrVector(rawRes);
+}
+
+// ================================== ParentT ==================================
+
+std::vector<std::string> ParentReader::getChildrenStarOf(int stmt,
+                                                         StmtType stmtType) {
+  if (!stmtStore.hasStmtType(stmtType)) {
+    return {};
+  }
+
+  auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
+
+  auto rawRes = parentStore.getSuccessorsOf(stmt, stmtFilter);
+
+  return VectorUtils::transformIntToStrVector(rawRes);
+}
+
+std::vector<std::string> ParentReader::getParentStarOf(int stmt,
+                                                       StmtType stmtType) {
+  if (!stmtStore.hasStmtType(stmtType)) {
+    return {};
+  }
+
+  auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
+
+  auto rawRes = parentStore.getAncestorsOf(stmt, stmtFilter);
+
+  return VectorUtils::transformIntToStrVector(rawRes);
+}
+
+bool ParentReader::isParentStar(int stmt1, int stmt2) {
+  return parentStore.hasRelationT(stmt1, stmt2);
 }
 
 std::vector<std::pair<std::string, std::string>>
-ParentReader::getChildrenStarOf(int statementNumber, StmtType statementType) {
-  const auto& allChildren = parent_storage_.getAllChildren(statementNumber);
-
-  const auto& allMatchingStatements =
-      statement_storage_.getStatementNumbersFromStatementType(statementType);
-
-  std::vector<std::pair<std::string, std::string>> result;
-
-  for (int stmt : allChildren) {
-    if (allMatchingStatements.find(stmt) != allMatchingStatements.end()) {
-      result.emplace_back(std::to_string(statementNumber),
-                          std::to_string(stmt));
-    }
+ParentReader::getParentChildStarPairs(StmtType stmtType1, StmtType stmtType2) {
+  if (!stmtStore.hasStmtType(stmtType1) || !stmtStore.hasStmtType(stmtType2)) {
+    return {};
   }
 
-  return result;
-}
+  auto stmtFilters =
+      stmtStore.getStmtPairFilterPredicates(stmtType1, stmtType2);
 
-std::vector<std::pair<std::string, std::string>> ParentReader::getParentStarOf(
-    int statementNumber, StmtType statementType) {
-  const auto& allParents = parent_storage_.getAllParents(statementNumber);
+  auto rawRes = parentStore.getAllRelationsT(stmtFilters);
 
-  const auto& allMatchingStatements =
-      statement_storage_.getStatementNumbersFromStatementType(statementType);
-
-  std::vector<std::pair<std::string, std::string>> result;
-
-  for (int stmt : allParents) {
-    if (allMatchingStatements.find(stmt) != allMatchingStatements.end()) {
-      result.emplace_back(std::to_string(stmt),
-                          std::to_string(statementNumber));
-    }
-  }
-
-  return result;
-}
-
-bool ParentReader::isParentStar(int statementNumber, int childStatement) {
-  const auto& allChildren = parent_storage_.getAllChildren(statementNumber);
-  return allChildren.find(childStatement) != allChildren.end();
-}
-
-std::vector<std::pair<std::string, std::string>>
-ParentReader::getParentChildStarPairs(StmtType parentType, StmtType childType) {
-  const auto& firstStatementList =
-      statement_storage_.getStatementNumbersFromStatementType(parentType);
-  const auto& secondStatementList =
-      statement_storage_.getStatementNumbersFromStatementType(childType);
-
-  std::vector<std::pair<std::string, std::string>> parentChildStarPairs;
-
-  for (int firstStatement : firstStatementList) {
-    const auto& allChildren = parent_storage_.getAllChildren(firstStatement);
-    for (int child : allChildren) {
-      if (secondStatementList.find(child) != secondStatementList.end()) {
-        parentChildStarPairs.emplace_back(std::to_string(firstStatement),
-                                          std::to_string(child));
-      }
-    }
-  }
-  return parentChildStarPairs;
+  return VectorUtils::transformIntIntToStrStrVector(rawRes);
 }
