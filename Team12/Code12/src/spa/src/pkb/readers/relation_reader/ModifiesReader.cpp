@@ -6,6 +6,11 @@ std::vector<std::string> ModifiesReader::getStatementsModifying(
                                                          statementType);
 }
 
+std::unordered_set<std::string> ModifiesReader::getProceduresModifying(
+    const string& variableName) {
+  return modifies_reader_.getProcsRelatedToVar(variableName);
+}
+
 std::vector<std::pair<std::string, std::string>>
 ModifiesReader::getVariablesModifiedBy(int statementNumber,
                                        StmtType statementType) {
@@ -18,6 +23,11 @@ bool ModifiesReader::isVariableModifiedBy(const std::string& variableName,
   return modifies_reader_.isVarRelatedToStmt(variableName, statementNumber);
 }
 
+bool ModifiesReader::isVariableModifiedByProc(const string& variableName,
+                                              const string& procName) {
+  return modifies_reader_.isVarRelatedToProc(variableName, procName);
+}
+
 std::vector<std::pair<std::string, std::string>>
 ModifiesReader::getAllModifiedVariables(StmtType statementType) {
   return modifies_reader_.getAllRelationsByStmtType(statementType);
@@ -26,4 +36,9 @@ ModifiesReader::getAllModifiedVariables(StmtType statementType) {
 unordered_set<string> ModifiesReader::getModifiedVariablesForProc(
     const string& procName) {
   return modifies_reader_.getVarsRelatedToProc(procName);
+}
+
+std::vector<std::pair<std::string, std::string>>
+ModifiesReader::getAllModifiedVariablesByProcs() {
+  return modifies_reader_.getAllProcRelations();
 }
