@@ -4,7 +4,7 @@
 #include "common/utils/StringUtils.h"
 #include "qps/common/Keywords.h"
 
-vector<string> AssignEvaluator::processArguments() {
+vector<pair<string, string>> AssignEvaluator::processArguments() {
   string firstArgValue = firstArg->getValue();
   string secondArgValue = secondArg->getValue();
 
@@ -15,7 +15,7 @@ vector<string> AssignEvaluator::processArguments() {
     firstArgValue = WILDCARD_KEYWORD;
   }
 
-  vector<std::pair<string, string>> pkbResult;
+  vector<pair<string, string>> pkbResult;
 
   if (isPartialMatch) {
     pkbResult =

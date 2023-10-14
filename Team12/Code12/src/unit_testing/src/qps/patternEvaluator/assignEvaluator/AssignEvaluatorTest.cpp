@@ -26,7 +26,7 @@ TEST_CASE("test_AssignEvaluator_processArgs_synonymFirstArg") {
                       assignMockPKBReader, assignIsPartialMatchFalse,
                       selectedSynonym.getValue());
 
-  vector<string> pkbResult = assignEvaluator.processArguments();
+  vector<pair<string, string>> pkbResult = assignEvaluator.processArguments();
 
   REQUIRE(pkbResult == mockExactAssignPatternStmts);
 }
@@ -52,7 +52,7 @@ TEST_CASE("test_AssignEvaluator_processArgs_identFirstArg") {
                       assignMockPKBReader, assignIsPartialMatchFalse,
                       selectedSynonym.getValue());
 
-  vector<string> pkbResult = assignEvaluator.processArguments();
+  vector<pair<string, string>> pkbResult = assignEvaluator.processArguments();
 
   REQUIRE(pkbResult == mockExactAssignPatternStmtsIdent);
 }
@@ -76,7 +76,7 @@ TEST_CASE("test_AssignEvaluator_processArgs_wildcardFirstArg") {
       std::move(wildcardPtr), std::move(patternExpPtr), assignMockPKBReader,
       assignIsPartialMatchFalse, selectedSynonym.getValue());
 
-  vector<string> pkbResult = assignEvaluator.processArguments();
+  vector<pair<string, string>> pkbResult = assignEvaluator.processArguments();
 
   REQUIRE(pkbResult == mockExactAssignPatternStmts);
 }
@@ -181,7 +181,7 @@ TEST_CASE("test_AssignEvaluator_evaluate_wildcardFirstArg") {
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == selectedSynonym.getValue());
   REQUIRE(actualTableData.size() == 3);
-  REQUIRE(actualTableData[0][0] == mockExactAssignPatternStmts[0]);
-  REQUIRE(actualTableData[1][0] == mockExactAssignPatternStmts[1]);
-  REQUIRE(actualTableData[2][0] == mockExactAssignPatternStmts[2]);
+  REQUIRE(actualTableData[0][0] == mockExactAssignPatternStmts[0].first);
+  REQUIRE(actualTableData[1][0] == mockExactAssignPatternStmts[1].first);
+  REQUIRE(actualTableData[2][0] == mockExactAssignPatternStmts[2].first);
 }

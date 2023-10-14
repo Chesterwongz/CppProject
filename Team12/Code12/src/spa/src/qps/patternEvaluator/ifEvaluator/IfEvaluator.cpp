@@ -1,18 +1,22 @@
+#include "IfEvaluator.h"
+
 #include <memory>
 
-#include "IfEvaluator.h"
 #include "common/utils/StringUtils.h"
 #include "qps/common/Keywords.h"
 
-vector<string> IfEvaluator::processArguments() {
+vector<pair<string, string>> IfEvaluator::processArguments() {
   string firstArgValue = firstArg->getValue();
 
   bool isFirstArgSynonym = firstArg->isSynonym();
 
-  vector<string> pkbResult;
+  vector<pair<string, string>> pkbResult;
 
-  // TODO(houtenteo): call pkb ifPattern API when its implemented
-  // pkbResult = pkbReader.getIfPattern(firstArgValue, isFirstArgSynonym);
+  if (isFirstArgSynonym) {
+    pkbResult = pkbReader.getIfPattern(WILDCARD_KEYWORD);
+  } else {
+    pkbResult = pkbReader.getIfPattern(firstArgValue);
+  }
 
   return pkbResult;
 }

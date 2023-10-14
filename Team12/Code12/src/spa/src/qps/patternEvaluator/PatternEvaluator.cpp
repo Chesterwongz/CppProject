@@ -7,31 +7,27 @@ IntermediateTable PatternEvaluator::evaluate() {
   return result;
 }
 
-IntermediateTable PatternEvaluator::buildResultTable(vector<string> pkbResult) {
+IntermediateTable PatternEvaluator::buildResultTable(
+    vector<pair<string, string>> pkbResult) {
   bool isFirstArgSynonym = firstArg->isSynonym();
 
   string firstArgValue = firstArg->getValue();
-
-  IntermediateTable linesSatisfyingPattern =
-      IntermediateTableFactory::buildSingleColTable(synonymValue, pkbResult);
 
   if (isFirstArgSynonym) {
     // need to add additional variable column to result
     const string& varColName = firstArgValue;
 
-    vector<pair<string, string>> lineVariablePairs =
-        pkbReader.getAllModifiedVariables(StmtType::ASSIGN);
-
-    IntermediateTable lineAndVarsModified =
-        IntermediateTableFactory::buildIntermediateTable(
-            synonymValue, varColName, lineVariablePairs);
-
     IntermediateTable linesSatisfyingPatternAndVarsModified =
-        linesSatisfyingPattern.join(lineAndVarsModified);
+        IntermediateTableFactory::buildIntermediateTable(
+            synonymValue, varColName, pkbResult);
 
     return linesSatisfyingPatternAndVarsModified;
   }
 
   // otherwise just return the single column table
+  IntermediateTable linesSatisfyingPattern =
+      IntermediateTableFactory::buildIntermediateTable(
+          synonymValue, WILDCARD_KEYWORD, pkbResult);
+
   return linesSatisfyingPattern;
 }
