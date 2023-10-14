@@ -67,9 +67,11 @@ class PKBWriter : public IDesignEntitiesWriter,
   // Add statement number and type to storage
   void setStatement(int statementNumber, StmtType statementType) override;
 
-  virtual void setWhilePattern(int statementNumber, const std::string& varName);
+  virtual void setWhilePattern(int statementNumber,
+                               const std::string& varName) override;
 
-  virtual void setIfPattern(int statementNumber, const std::string& varName);
+  virtual void setIfPattern(int statementNumber,
+                            const std::string& varName) override;
 
   virtual void setUsesRelationship(const std::string& variableName,
                                    const std::string& procedureName);

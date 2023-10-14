@@ -51,7 +51,7 @@ class PatternStorage : public virtual IPatternStorage {
           matchFunction);
 
   std::vector<std::pair<std::string, std::string>>
-  PatternStorage::processEntryWithoutWildcardVariable(
+  processEntryWithoutWildcardVariable(
       const std::string& rpn, const std::string& variableName,
       const std::function<bool(const std::string&, const std::string&)>&
           matchFunction);
