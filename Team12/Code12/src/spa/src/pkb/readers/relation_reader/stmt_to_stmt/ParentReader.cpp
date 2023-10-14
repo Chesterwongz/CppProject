@@ -3,10 +3,10 @@
 std::vector<std::pair<std::string, std::string>>
 ParentReader::getImmediateChildrenOf(int statementNumber,
                                      StmtType statementType) {
-  std::set<int> allImmediateChildren =
+  const auto& allImmediateChildren =
       parent_storage_.getImmediateChildren(statementNumber);
 
-  std::set<int> allMatchingStatements =
+  const auto& allMatchingStatements =
       statement_storage_.getStatementNumbersFromStatementType(statementType);
 
   std::vector<std::pair<std::string, std::string>> result;
@@ -37,7 +37,7 @@ std::pair<std::string, std::string> ParentReader::getImmediateParentOf(
 }
 
 bool ParentReader::isParent(int statementNumber, int childStatement) {
-  std::set<int> allImmediateChildren =
+  const auto& allImmediateChildren =
       parent_storage_.getImmediateChildren(statementNumber);
   return allImmediateChildren.find(childStatement) !=
          allImmediateChildren.end();
@@ -45,15 +45,15 @@ bool ParentReader::isParent(int statementNumber, int childStatement) {
 
 std::vector<std::pair<std::string, std::string>>
 ParentReader::getParentChildPairs(StmtType parentType, StmtType childType) {
-  std::set<int> firstStatementList =
+  const auto& firstStatementList =
       statement_storage_.getStatementNumbersFromStatementType(parentType);
-  std::set<int> secondStatementList =
+  const auto& secondStatementList =
       statement_storage_.getStatementNumbersFromStatementType(childType);
 
   std::vector<std::pair<std::string, std::string>> parentChildPairs;
 
   for (int firstStatement : firstStatementList) {
-    std::set<int> allChildren =
+    const auto& allChildren =
         parent_storage_.getImmediateChildren(firstStatement);
     for (int child : allChildren) {
       if (secondStatementList.find(child) != secondStatementList.end()) {
@@ -67,9 +67,9 @@ ParentReader::getParentChildPairs(StmtType parentType, StmtType childType) {
 
 std::vector<std::pair<std::string, std::string>>
 ParentReader::getChildrenStarOf(int statementNumber, StmtType statementType) {
-  std::set<int> allChildren = parent_storage_.getAllChildren(statementNumber);
+  const auto& allChildren = parent_storage_.getAllChildren(statementNumber);
 
-  std::set<int> allMatchingStatements =
+  const auto& allMatchingStatements =
       statement_storage_.getStatementNumbersFromStatementType(statementType);
 
   std::vector<std::pair<std::string, std::string>> result;
@@ -86,9 +86,9 @@ ParentReader::getChildrenStarOf(int statementNumber, StmtType statementType) {
 
 std::vector<std::pair<std::string, std::string>> ParentReader::getParentStarOf(
     int statementNumber, StmtType statementType) {
-  std::set<int> allParents = parent_storage_.getAllParents(statementNumber);
+  const auto& allParents = parent_storage_.getAllParents(statementNumber);
 
-  std::set<int> allMatchingStatements =
+  const auto& allMatchingStatements =
       statement_storage_.getStatementNumbersFromStatementType(statementType);
 
   std::vector<std::pair<std::string, std::string>> result;
@@ -104,21 +104,21 @@ std::vector<std::pair<std::string, std::string>> ParentReader::getParentStarOf(
 }
 
 bool ParentReader::isParentStar(int statementNumber, int childStatement) {
-  std::set<int> allChildren = parent_storage_.getAllChildren(statementNumber);
+  const auto& allChildren = parent_storage_.getAllChildren(statementNumber);
   return allChildren.find(childStatement) != allChildren.end();
 }
 
 std::vector<std::pair<std::string, std::string>>
 ParentReader::getParentChildStarPairs(StmtType parentType, StmtType childType) {
-  std::set<int> firstStatementList =
+  const auto& firstStatementList =
       statement_storage_.getStatementNumbersFromStatementType(parentType);
-  std::set<int> secondStatementList =
+  const auto& secondStatementList =
       statement_storage_.getStatementNumbersFromStatementType(childType);
 
   std::vector<std::pair<std::string, std::string>> parentChildStarPairs;
 
   for (int firstStatement : firstStatementList) {
-    std::set<int> allChildren = parent_storage_.getAllChildren(firstStatement);
+    const auto& allChildren = parent_storage_.getAllChildren(firstStatement);
     for (int child : allChildren) {
       if (secondStatementList.find(child) != secondStatementList.end()) {
         parentChildStarPairs.emplace_back(std::to_string(firstStatement),

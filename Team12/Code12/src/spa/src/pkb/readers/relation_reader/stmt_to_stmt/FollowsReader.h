@@ -1,43 +1,47 @@
 #pragma once
 
+#include <cassert>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "common/Constants.h"
 #include "common/StmtTypes.h"
+#include "common/utils/VectorUtils.h"
 #include "pkb/interfaces/readers/IFollowsReader.h"
-#include "pkb/storage/entity_storage/StmtStorage.h"
-#include "pkb/storage/relation_storage/stmt_to_stmt/FollowsStorage.h"
+#include "pkb/storage/FollowsStore.h"
+#include "pkb/storage/StmtStore.h"
 
 class FollowsReader : public IFollowsReader {
  private:
-  FollowsStorage& follows_storage_;
-  StmtStorage& stmt_storage_;
+  FollowsStore& followsStore;
+  StmtStore& stmtStore;
 
  protected:
-  explicit FollowsReader(FollowsStorage& storage, StmtStorage& stmtStorage)
-      : follows_storage_(storage), stmt_storage_(stmtStorage) {}
+  explicit FollowsReader(FollowsStore& storage, StmtStore& stmtStorage)
+      : followsStore(storage), stmtStore(stmtStorage) {}
 
  public:
-  std::string getFollowing(int statementNumber,
-                           StmtType statementType) override;
+  std::string getFollowing(int stmt, StmtType stmtType) override;
 
-  std::string getFollowed(int statementNumber, StmtType statementType) override;
+  std::string getFollowed(int stmt, StmtType stmtType) override;
 
-  bool isFollows(int statementNumber, int followingStatement) override;
+  bool isFollows(int stmt1, int stmt2) override;
 
   std::vector<std::pair<std::string, std::string>> getFollowsPairs(
-      StmtType statementType1, StmtType statementType2) override;
+      StmtType stmtType1, StmtType stmtType2) override;
 
-  std::vector<std::pair<std::string, std::string>> getFollowsStar(
-      int statementNumber, StmtType statementType) override;
+  // ================================ FollowsT ================================
 
-  std::vector<std::pair<std::string, std::string>> getFollowedStar(
-      int statementNumber, StmtType statementType) override;
+  std::vector<std::string> getFollowsStar(
+      int stmt, StmtType stmtType) override;
 
-  bool isFollowsStar(int statementNumber, int followingStatement) override;
+  std::vector<std::string> getFollowedStar(
+      int stmt, StmtType stmtType) override;
+
+  bool isFollowsStar(int stmt1, int stmt2) override;
 
   std::vector<std::pair<std::string, std::string>> getFollowsStarPairs(
-      StmtType statementType1, StmtType statementType2) override;
+      StmtType stmtType1, StmtType stmtType2) override;
 };

@@ -7,8 +7,9 @@
 
 TEST_CASE("PKBReader Tests") {
   PKBStorage storage;
+  PKBStore store;
   PKBWriter writer(storage);
-  PKBReader reader(storage);
+  PKBReader reader(storage, store);
 
   writer.setVariable("x");
   writer.setVariable("y");
@@ -120,34 +121,34 @@ TEST_CASE("PKBReader Tests") {
 
   SECTION("getAllFollowing") {
     REQUIRE(reader.getFollowsStar(1, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "2"}});
+            std::vector<std::string>{{"2"}});
     REQUIRE(reader.getFollowsStar(3, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"3", "4"},
-                                                             {"3", "5"}});
+            std::vector<std::string>{{"4"},
+                                                             {"5"}});
     REQUIRE(reader.getFollowsStar(3, StmtType::IF) ==
-            std::vector<std::pair<std::string, std::string>>{{"3", "4"}});
+            std::vector<std::string>{{"4"}});
     REQUIRE(reader.getFollowsStar(3, StmtType::READ) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::string>{});
     REQUIRE(reader.getFollowsStar(4, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"4", "5"}});
+            std::vector<std::string>{{"5"}});
     REQUIRE(reader.getFollowsStar(5, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::string>{});
   }
 
   SECTION("getAllFollowed") {
     REQUIRE(reader.getFollowedStar(2, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "2"}});
+            std::vector<std::string>{{"1"}});
     REQUIRE(reader.getFollowedStar(5, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"3", "5"},
-                                                             {"4", "5"}});
+            std::vector<std::string>{{"3" },
+                                                             {"4"}});
     REQUIRE(reader.getFollowedStar(5, StmtType::ASSIGN) ==
-            std::vector<std::pair<std::string, std::string>>{{"3", "5"}});
+            std::vector<std::string>{{"3"}});
     REQUIRE(reader.getFollowedStar(4, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"3", "4"}});
+            std::vector<std::string>{{"3"}});
     REQUIRE(reader.getFollowedStar(4, StmtType::PRINT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::string>{});
     REQUIRE(reader.getFollowedStar(1, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::string>{});
   }
 
   SECTION("isFollowsStar") {

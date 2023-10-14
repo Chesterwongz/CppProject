@@ -10,6 +10,16 @@
 #include <vector>
 
 #include "pkb/facade/PKBReader.h"
+#include "pkb/facade/PKBStore.h"
+#include "pkb/storage/CallsStore.h"
+#include "pkb/storage/ModifiesPStore.h"
+#include "pkb/storage/ModifiesStore.h"
+#include "pkb/storage/NextStore.h"
+#include "pkb/storage/ParentStore.h"
+#include "pkb/storage/RelationTStore.h"
+#include "pkb/storage/StmtStore.h"
+#include "pkb/storage/UsesPStore.h"
+#include "pkb/storage/UsesStore.h"
 
 using std::vector, std::set, std::string, std::pair;
 
@@ -22,8 +32,8 @@ class MockPKBReader : public PKBReader {
   string mockFollowing;
   string mockFollowed;
   vector<pair<string, string>> mockFollowsPairs;
-  vector<pair<string, string>> mockFollowsStar;
-  vector<pair<string, string>> mockFollowedStar;
+  vector<string> mockFollowsStar;
+  vector<string> mockFollowedStar;
   vector<pair<string, string>> mockFollowedPairs;
   vector<pair<string, string>> mockFollowsStarPairs;
   vector<pair<string, string>> mockImmediateChildrenOf;
@@ -55,7 +65,8 @@ class MockPKBReader : public PKBReader {
   vector<string> mockGetPrevTStmts;
   vector<string> mockGetNextTStmts;
 
-  explicit MockPKBReader(PKBStorage& storage) : PKBReader(storage) {}
+  explicit MockPKBReader(PKBStorage& storage, PKBStore& store)
+      : PKBReader(storage, store) {}
 
   set<string> getAllVariables() override { return mockAllVariables; }
 
@@ -80,13 +91,13 @@ class MockPKBReader : public PKBReader {
     return mockFollowsPairs;
   }
 
-  vector<pair<string, string>> getFollowsStar(int statementNumber,
-                                              StmtType statementType) override {
+  std::vector<std::string> getFollowsStar(int statementNumber,
+                                          StmtType statementType) override {
     return mockFollowsStar;
   }
 
-  vector<pair<string, string>> getFollowedStar(
-      int statementNumber, StmtType statementType) override {
+  std::vector<std::string> getFollowedStar(int statementNumber,
+                                           StmtType statementType) override {
     return mockFollowedStar;
   }
 
@@ -209,17 +220,17 @@ class MockPKBReader : public PKBReader {
   }
 
   vector<string> getPrevStmts(int secondStmtNumber,
-                                  StmtType firstStmtType) override {
+                              StmtType firstStmtType) override {
     return mockGetPrevStmts;
   };
 
   vector<string> getNextStmts(int firstStmtNumber,
-                                  StmtType secondStmtType) override {
+                              StmtType secondStmtType) override {
     return mockGetNextStmts;
   }
 
-  vector<pair<string, string>> getNextTPairs(
-      StmtType firstStmtType, StmtType secondStmtType) override {
+  vector<pair<string, string>> getNextTPairs(StmtType firstStmtType,
+                                             StmtType secondStmtType) override {
     return mockGetNextTPairs;
   }
 
@@ -228,12 +239,12 @@ class MockPKBReader : public PKBReader {
   }
 
   vector<string> getPrevTStmts(int secondStmtNumber,
-                                      StmtType firstStmtType) override {
+                               StmtType firstStmtType) override {
     return mockGetPrevTStmts;
   }
 
   vector<string> getNextTStmts(int firstStmtNumber,
-                                       StmtType secondStmtType) override {
+                               StmtType secondStmtType) override {
     return mockGetNextTStmts;
   }
 };

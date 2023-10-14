@@ -1,3 +1,5 @@
+#pragma once
+
 #include <catch.hpp>
 
 #include "../../intermediateTable/IntermediateTableTestUtils.h"
@@ -7,7 +9,7 @@
 #include "qps/abstraction/usesAbstraction/UsesAbstraction.h"
 
 TEST_CASE("UsesAbstraction - Uses(Synonym, Synonym)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   mockReader.mockAllUsedVariables = MOCK_USED_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
@@ -27,7 +29,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Synonym)") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Synonym, Synonym)_empty") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -44,7 +46,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Synonym)_empty") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Synonym, Ident)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   mockReader.mockStatementsUsing = MOCK_USING_STATEMENTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
@@ -63,7 +65,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Ident)") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Synonym, Ident)_empty") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -79,7 +81,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Ident)_empty") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Synonym, Wildcard)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   mockReader.mockAllUsedVariables = MOCK_USED_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
@@ -98,7 +100,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Wildcard)") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Synonym, Wildcard)_empty") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -114,7 +116,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Wildcard)_empty") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Integer, Synonym)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   mockReader.mockVariablesUsedBy = MOCK_USED_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
@@ -133,7 +135,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Synonym)") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Integer, Synonym)_empty") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -150,7 +152,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Synonym)_empty") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Integer, Ident)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   mockReader.mockIsVariableUsedBy = true;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
@@ -167,7 +169,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Ident)") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Integer, Ident)_false") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   mockReader.mockIsVariableUsedBy = false;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
@@ -184,7 +186,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Ident)_false") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Integer, Wildcard)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   mockReader.mockVariablesUsedBy = MOCK_USED_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
@@ -201,7 +203,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Wildcard)") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Integer, Wildcard)_empty") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -217,7 +219,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Wildcard)_empty") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Synonym)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   mockReader.mockAllUsedVariables = MOCK_USED_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
@@ -236,7 +238,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Synonym)") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Synonym)_empty") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -252,7 +254,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Synonym)_empty") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   mockReader.mockStatementsUsing = MOCK_USING_STATEMENTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
@@ -269,7 +271,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)_false") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -285,7 +287,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)_false") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Wildcard)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   mockReader.mockAllUsedVariables = MOCK_USED_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
@@ -302,7 +304,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Wildcard)") {
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Wildcard)_empty") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   unique_ptr<AbstractArgument> mockArgument2 =

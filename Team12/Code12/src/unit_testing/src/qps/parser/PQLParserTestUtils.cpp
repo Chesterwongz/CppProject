@@ -1,7 +1,8 @@
 #include "PQLParserTestUtils.h"
 
 PKBStorage dummyQpsParserStorage{};
-PKBReader dummyQpsParserPkbReader(dummyQpsParserStorage);
+PKBStore dummyQpsParserStore{};
+PKBReader dummyQpsParserPkbReader(dummyQpsParserStorage, dummyQpsParserStore);
 
 std::unique_ptr<Query> parseToQuery(std::vector<PQLToken> tokenList,
                                     PKBReader& pkbReader) {
