@@ -13,7 +13,9 @@ DeclarativeParserState::DeclarativeParserState(PQLParserContext& parserContext)
     : BaseParserState(parserContext, PQL_NULL_TOKEN) {}
 
 void DeclarativeParserState::processNameToken(PQLToken& curr) {
-  if (prev == PQL_ENTITY_TOKEN || prev == PQL_COMMA_TOKEN) {
+  bool isSynonym = (prev == PQL_ENTITY_TOKEN || prev == PQL_COMMA_TOKEN) &&
+                   QPSStringUtils::isSynonym(curr.getValue());
+  if (isSynonym) {
     curr.updateTokenType(PQL_SYNONYM_TOKEN);
   } else {
     auto tokenType = PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
