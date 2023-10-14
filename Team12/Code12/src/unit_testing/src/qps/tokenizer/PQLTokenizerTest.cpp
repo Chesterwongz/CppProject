@@ -71,7 +71,7 @@ TEST_CASE("Tokenizer - valid Select<a,b,c>") {
 //  string query = "stmt sa&;";
 //  PQLTokenizer tokenizer(query);
 //
-//  REQUIRE_THROWS_WITH(tokenizer.tokenize(), QPS_INVALID_QUERY_INAVLID_NAME);
+//  REQUIRE_THROWS_WITH(tokenizer.tokenize(), QPS_INVALID_QUERY_INVALID_NAME);
 //}
 //
 // TEST_CASE("query with literals and many whitespaces") {
@@ -95,5 +95,5 @@ TEST_CASE("Tokenizer - valid Select<a,b,c>") {
 //  PQLTokenizer tokenizer(integer);
 //
 //  REQUIRE_THROWS_WITH(tokenizer.tokenize(),
-//  QPS_INVALID_QUERY_INAVLID_INTEGER);
+//  QPS_INVALID_QUERY_INVALID_INTEGER);
 //}

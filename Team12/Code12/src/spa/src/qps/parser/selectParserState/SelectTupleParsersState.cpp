@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "SelectTupleParsersState.h"
 
 PredictiveMap SelectTupleParsersState::predictiveMap = {
@@ -23,7 +25,7 @@ void SelectTupleParsersState::handleToken() {
         break;
       case PQL_RIGHT_ANGLE_TOKEN:
         // TODO(Hwee):
-        //  parserContext.addSelectClause(std::move(synonymsToSelect));
+        parserContext.addSelectClause(std::move(synonymsToSelect));
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
       default:

@@ -1,12 +1,13 @@
 #pragma once
 
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "qps/common/Keywords.h"
 
-using std::string, std::pair, std::vector;
+using std::string, std::pair, std::vector, std::set;
 
 inline string COL_NAME_1 = "column 1";
 inline string COL_NAME_2 = "column 2";
@@ -391,6 +392,8 @@ inline vector<string> COL_3 = {"banana", "lettuce", "pear",   "meow",
                                "carrot", "tomato",  "hamster"};
 inline vector<string> COL_4 = {"cat",    "pineapple", "dog",  "woof",
                                "durian", "cucumber",  "mouse"};
+inline set<string> COL_4_SET = {"cat",    "pineapple", "dog",  "woof",
+                                "durian", "cucumber",  "mouse"};
 inline string COL_SINGLETON = "cat";
 
 inline vector<vector<string>> COL_1_2D = {
@@ -422,6 +425,10 @@ inline vector<vector<string>> COL_2_2D = {
 inline vector<vector<string>> COL_3_2D = {
     {"banana"}, {"lettuce"}, {"pear"},    {"meow"},
     {"carrot"}, {"tomato"},  {"hamster"},
+};
+inline vector<vector<string>> COL_4_2D = {
+    {"cat"},    {"pineapple"}, {"dog"},   {"woof"},
+    {"durian"}, {"cucumber"},  {"mouse"},
 };
 inline vector<vector<string>> COL_SINGLETON_2D = {
     {"cat"},

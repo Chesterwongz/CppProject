@@ -16,7 +16,7 @@ void SelectParserState::handleToken() {
     switch (token.getType()) {
       case PQL_SYNONYM_TOKEN:
         // TODO(Hwee): change to add vector syn
-        parserContext.addSelectSynonym(token.getValue());
+        parserContext.addSelectClause(token.getValue());
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
       case PQL_LEFT_ANGLE_TOKEN:
