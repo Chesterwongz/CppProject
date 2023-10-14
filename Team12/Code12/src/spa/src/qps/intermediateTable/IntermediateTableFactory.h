@@ -1,7 +1,5 @@
 #pragma once
 
-#include "IntermediateTable.h"
-
 #include <set>
 #include <string>
 #include <utility>

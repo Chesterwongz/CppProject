@@ -70,10 +70,9 @@ class PKBWriter : public IDesignEntitiesWriter,
   void setStatement(int statementNumber, StmtType statementType) override;
 
   void setWhilePattern(int statementNumber,
-                               const std::string& varName) override;
+                       const std::string& varName) override;
 
-  void setIfPattern(int statementNumber,
-                            const std::string& varName) override;
+  void setIfPattern(int statementNumber, const std::string& varName) override;
 
   virtual void setUsesRelationship(const std::string& variableName,
                                    const std::string& procedureName);

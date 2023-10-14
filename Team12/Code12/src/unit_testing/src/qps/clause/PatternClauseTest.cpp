@@ -74,8 +74,7 @@ TEST_CASE("test_PatternClause_evaluate_synonymFirstArg") {
   mockPkbReader.resetMockPartialAssignPatternStmts();
 
   vector<pair<string, string>> mockExactAssignPatternStmts = {
-      make_pair("1", "a"), make_pair("2", "b"), make_pair("3", "c")
-  };
+      make_pair("1", "a"), make_pair("2", "b"), make_pair("3", "c")};
   mockPkbReader.mockExactAssignPattern = mockExactAssignPatternStmts;
 
   MockContext mockContext = MockContext();
@@ -118,8 +117,7 @@ TEST_CASE("test_PatternClause_evaluate_identFirstArg") {
   mockPkbReader.resetMockPartialAssignPatternStmts();
 
   vector<pair<string, string>> mockExactAssignPatternStmts = {
-      make_pair("3", "x")
-  };
+      make_pair("3", "x")};
   mockPkbReader.mockExactAssignPattern = mockExactAssignPatternStmts;
 
   MockContext mockContext = MockContext();

@@ -1,8 +1,8 @@
 #include <unordered_set>
 #include <catch.hpp>
 
-#include "pkb/storage/pattern_storage/PatternStorage.h"
 #include "../../common/utils/HelperFunctions.h"
+#include "pkb/storage/pattern_storage/PatternStorage.h"
 
 TEST_CASE("PatternStorage Tests") {
   PatternStorage patternStorage;

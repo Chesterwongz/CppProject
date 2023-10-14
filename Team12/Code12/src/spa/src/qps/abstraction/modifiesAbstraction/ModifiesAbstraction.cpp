@@ -2,7 +2,7 @@
 
 /**
  * Modifies abstraction:
-* firstArg: Synonym OR Integer (stmt) OR Identifier (Proc)
+ * firstArg: Synonym OR Integer (stmt) OR Identifier (Proc)
  * secondArg: Synonym OR Identifier OR Wildcard
  */
 

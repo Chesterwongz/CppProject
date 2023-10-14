@@ -3,8 +3,8 @@
 #include <memory>
 #include <set>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"

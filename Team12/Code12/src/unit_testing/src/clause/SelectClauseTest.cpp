@@ -2,10 +2,10 @@
 
 #include <catch.hpp>
 
+#include "../qps/mocks/MockPKBReader.h"
+#include "../qps/mocks/MockPKBReaderData.h"
 #include "qps/clause/selectClause/SelectClause.h"
 #include "qps/common/Keywords.h"
-#include "../qps/mocks/MockPKBReaderData.h"
-#include "../qps/mocks/MockPKBReader.h"
 
 TEST_CASE("SelectClause - evaluate - no data") {
   MockPKBReader mockPKB = MockPKBReader(MOCK_STORAGE);
