@@ -4,6 +4,7 @@
 #include <functional>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 
 #include "RelationStore.h"
 
@@ -41,10 +42,11 @@ class RelationTStore : public RelationStore<S, T> {
     return successorMap.count(from) && successorMap.at(from).count(to);
   }
 
-//  std::unordered_set<T>& getAllSuccessors(S from) const {
-//    return successorMap[from];
-//  }
-//  std::unordered_set<S>& getAllAncestors(T to) const { return ancestorMap[to]; }
+  //  std::unordered_set<T>& getAllSuccessors(S from) const {
+  //    return successorMap[from];
+  //  }
+  //  std::unordered_set<S>& getAllAncestors(T to) const { return
+  //  ancestorMap[to]; }
 
   std::vector<S> getAncestorsOf(T to,
                                 const std::function<bool(S)>& filter) const {
@@ -61,7 +63,6 @@ class RelationTStore : public RelationStore<S, T> {
     std::copy_if(setT.begin(), setT.end(), std::back_inserter(res), filter);
     return res;
   }
-
 
   std::vector<std::pair<S, T>> getAllRelationsT(
       const std::function<bool(S)>& filterStmt1,

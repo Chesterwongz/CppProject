@@ -26,6 +26,8 @@ TEST_CASE("Vector utils concat") {
 }
 
 TEST_CASE("Vector utils intersect") {
-  REQUIRE(VectorUtils::intersectVectors(vector1, vector2) == VECTOR_1_INTERSECT_2);
-  REQUIRE(VectorUtils::intersectVectors(vector1, vector3) == VECTOR_1_INTERSECT_3);
+  REQUIRE(VectorUtils::intersectVectors(vector1, vector2) ==
+          VECTOR_1_INTERSECT_2);
+  REQUIRE(VectorUtils::intersectVectors(vector1, vector3) ==
+          VECTOR_1_INTERSECT_3);
 }
