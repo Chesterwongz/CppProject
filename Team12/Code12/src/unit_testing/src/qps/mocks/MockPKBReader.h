@@ -33,13 +33,13 @@ class MockPKBReader : public PKBReader {
   vector<pair<string, string>> mockParentStarOf;
   vector<pair<string, string>> mockParentChildStarPairs;
   vector<string> mockStatementsModifying;
-  std::unordered_set<std::string> mockProceduresModifying;
+  unordered_set<string> mockProceduresModifying;
   vector<pair<string, string>> mockVariablesModifiedBy;
-  std::unordered_set<std::string> mockModifiedVariablesForProc;
+  unordered_set<string> mockModifiedVariablesForProc;
   vector<string> mockStatementsUsing;
   unordered_set<string> mockProceduresUsing;
   vector<pair<string, string>> mockVariablesUsedBy;
-  std::unordered_set<std::string> mockUsedVariablesForProc;
+  unordered_set<string> mockUsedVariablesForProc;
   vector<pair<string, string>> mockAllModifiedVariables;
   vector<pair<string, string>> mockAllModifiedVariablesByProcs;
   vector<pair<string, string>> mockAllUsedVariables;
@@ -138,8 +138,8 @@ class MockPKBReader : public PKBReader {
     return mockStatementsModifying;
   }
 
-  std::unordered_set<std::string> getProceduresModifying(
-      const std::string& variableName) override {
+  unordered_set<string> getProceduresModifying(
+      const string& variableName) override {
     return mockProceduresModifying;
   }
 
@@ -149,8 +149,8 @@ class MockPKBReader : public PKBReader {
   }
 
   // return all variables modified by specified procedure
-  std::unordered_set<std::string> getModifiedVariablesForProc(
-      const std::string& procName) override {
+  unordered_set<string> getModifiedVariablesForProc(
+      const string& procName) override {
     return mockModifiedVariablesForProc;
   }
 
@@ -159,8 +159,8 @@ class MockPKBReader : public PKBReader {
     return mockStatementsUsing;
   }
 
-  std::unordered_set<std::string> getProceduresUsing(
-      const std::string& variableName) override {
+  unordered_set<string> getProceduresUsing(
+      const string& variableName) override {
     return mockProceduresUsing;
   }
 
@@ -169,8 +169,8 @@ class MockPKBReader : public PKBReader {
     return mockVariablesUsedBy;
   }
 
-  std::unordered_set<std::string> getUsedVariablesForProc(
-      const std::string& procName) override {
+  unordered_set<string> getUsedVariablesForProc(
+      const string& procName) override {
     return mockUsedVariablesForProc;
   }
 
@@ -188,8 +188,8 @@ class MockPKBReader : public PKBReader {
     return mockAllUsedVariables;
   }
 
-  std::vector<std::pair<std::string, std::string>>
-  getAllUsedVariablesByProcs() override {
+  vector<pair<string, string>> getAllUsedVariablesByProcs()
+      override {
     return mockAllUsedVariablesByProcs;
   }
 
@@ -232,9 +232,9 @@ class MockPKBReader : public PKBReader {
     return mockIsVariableModifiedBy;
   }
 
-  bool isVariableModifiedByProc(const std::string& variableName,
-                                        const std::string& procName) override {
-   return mockIsVariableModifiedByProc;
+  bool isVariableModifiedByProc(const string& variableName,
+                                const string& procName) override {
+    return mockIsVariableModifiedByProc;
   }
 
   bool isVariableUsedBy(const string& variableName,
@@ -242,8 +242,8 @@ class MockPKBReader : public PKBReader {
     return mockIsVariableUsedBy;
   }
 
-  bool isVariableUsedByProc(const std::string& variableName,
-                            const std::string& procName) override {
+  bool isVariableUsedByProc(const string& variableName,
+                            const string& procName) override {
     return mockIsVariableUsedByProc;
   }
 
