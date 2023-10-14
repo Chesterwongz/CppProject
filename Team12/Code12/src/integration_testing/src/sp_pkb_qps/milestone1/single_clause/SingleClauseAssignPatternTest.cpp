@@ -347,7 +347,7 @@ TEST_CASE(
       "Select v pattern a(v,_\"     a\"_)";
   SourceProcessor sp;
   PKB pkb;
-  sp.processContent(assignSource, pkb.getWriter());
+  sp.processContent(ms1AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
   set<string> expected = {"line2", "line5", "line7"};
@@ -362,7 +362,7 @@ TEST_CASE(
       "Select a pattern a(\"    v   \",_)";
   SourceProcessor sp;
   PKB pkb;
-  sp.processContent(assignSource, pkb.getWriter());
+  sp.processContent(ms1AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
   set<string> expected = {};
@@ -371,14 +371,14 @@ TEST_CASE(
 
 TEST_CASE(
     "SP-PKB-QPS tests/Milestone1/SingleClauseTests/AssignPattern_queries.txt - "
-    "2") {
+    "22") {
   string query =
       "assign a;\n"
       "Select a pattern a(_, _\"   a  "
       "    \"_)";
   SourceProcessor sp;
   PKB pkb;
-  sp.processContent(assignSource, pkb.getWriter());
+  sp.processContent(ms1AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
   set<string> expected = {"2", "5", "7"};
