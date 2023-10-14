@@ -17,6 +17,8 @@ inline PKBStorage MOCK_STORAGE{};
 
 inline string MOCK_SYNONYM_VALUE_1 = "x";
 inline string MOCK_SYNONYM_VALUE_2 = "y";
+inline string MOCK_SYNONYM_VALUE_3 = "z";
+inline string MOCK_SYNONYM_VALUE_4 = "potato";
 
 inline string MOCK_IDENT_VALUE_1 = "\"x\"";
 inline string MOCK_IDENT_VALUE_2 = "\"y\"";

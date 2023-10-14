@@ -115,7 +115,7 @@ inline ArgumentPermutation getPermutation(AbstractArgument &firstArg,
 inline StmtType getArgStmtType(AbstractArgument &argument, Context &context) {
   if (argument.isSynonym()) {
     Entity firstStmtEntity = context.getTokenEntity(argument.getValue());
-    return EntityToStatementType.at(firstStmtEntity);
+    return StmtEntityToStatementType.at(firstStmtEntity);
   } else if (argument.isWildcard()) {
     return StmtType::STMT;
   }

@@ -56,32 +56,31 @@ TEST_CASE("IntermediateTable - makeWildcardTable") {
   REQUIRE(WILDCARD_TABLE.getData().empty());
 }
 
-TEST_CASE("IntermediateTable - getCol") {
-  // get column 1
-  vector<string> vectorWithColName1 = {COL_NAME_1};
-  vector<vector<string>> vectorWithCol1 = COL_1_2D;
-  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getCol(vectorWithColName1) ==
-          vectorWithCol1);
+TEST_CASE("IntermediateTable - getColumns") {
+  // get 0 column
+  vector<string> vectorWithNoCol = {};
+  set<string> expectedNoCol = {};
+  REQUIRE(MULTI_COLUMN_TABLE_1.getColumns(vectorWithNoCol) == expectedNoCol);
 
-  // get column 2
-  vector<string> vectorWithColName2 = {COL_NAME_2};
-  vector<vector<string>> vectorWithCol2 = COL_2_2D;
-  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getCol(vectorWithColName2) ==
-          vectorWithCol2);
+  // get 1 column
+  vector<string> vectorWithOneCol = {COL_NAME_4};
+  set<string> expectedOneCol = {"0", "2", "4", "6", "6", "4", "2"};
+  REQUIRE(MULTI_COLUMN_TABLE_1.getColumns(vectorWithOneCol) == expectedOneCol);
 
-  // get both columns
-  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getCol(DOUBLE_COL_NAME_VECTOR) ==
-          DOUBLE_COL_VECTOR_DATA);
-}
+  // get >1 columns
+  vector<string> vectorWithMultiCols = {COL_NAME_1, COL_NAME_3, COL_NAME_4};
+  set<string> expectedMultiCols = {"cat 1 0",  "pineapple 3 2", "dog 5 4",
+                                   "woof 7 6", "durian 5 6",    "cucumber 3 4",
+                                   "mouse 1 2"};
+  REQUIRE(MULTI_COLUMN_TABLE_1.getColumns(vectorWithMultiCols) ==
+          expectedMultiCols);
 
-TEST_CASE("IntermediateTable - getSingleCol") {
-  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getSingleCol(COL_NAME_1) == COL_1);
-  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getSingleCol(COL_NAME_2) == COL_2);
-  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_VECTORS_2.getSingleCol(COL_NAME_3) == COL_3);
-  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_VECTORS_2.getSingleCol(COL_NAME_4) == COL_4);
-
-  // non-existent column name
-  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getSingleCol(COL_NAME_3).empty());
+  // get non-existent columns
+  vector<string> vectorWithNonExistentCols = {COL_NAME_1, COL_NAME_3,
+                                              COL_NAME_6};
+  set<string> expectedWithNonExistent = {};
+  REQUIRE(MULTI_COLUMN_TABLE_1.getColumns(vectorWithNonExistentCols) ==
+          expectedWithNonExistent);
 }
 
 TEST_CASE("IntermediateTable - isColExists") {
