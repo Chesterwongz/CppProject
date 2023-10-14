@@ -23,7 +23,3 @@ std::set<std::string> DesignEntitiesReader::getStatement(
   }
   return result;
 }
-
-std::string DesignEntitiesReader::getProcFromStmt(int stmtNum) {
-  return entity_storage_.getProcFromStmt(stmtNum);
-}

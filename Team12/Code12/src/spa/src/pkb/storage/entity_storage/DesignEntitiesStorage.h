@@ -27,8 +27,6 @@ class DesignEntitiesStorage : public IEntityStorage {
   // Return the names of all procedures in the program
   std::set<std::string> getAllProcedures() override;
 
-  std::string getProcFromStmt(int stmtNum) override;
-
  private:
   std::set<std::string> variableData;
 

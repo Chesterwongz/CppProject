@@ -30,5 +30,4 @@ class DesignEntitiesReader : public IDesignEntitiesReader {
   // return the statement numbers of specified statement type
   std::set<std::string> getStatement(StmtType statementType) override;
 
-  std::string getProcFromStmt(int stmtNum) override;
 };
