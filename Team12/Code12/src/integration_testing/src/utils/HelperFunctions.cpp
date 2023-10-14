@@ -84,9 +84,9 @@ bool HelperFunctions::validateUses(PKBReader& reader,
   return actualUsesPairs == expectedUsesPairs;
 }
 
-bool HelperFunctions::isAssignResultMatch(vector<string> actual,
-                                          unordered_set<string> expected) {
-  unordered_set<string> actualSet = {actual.begin(), actual.end()};
+bool HelperFunctions::isAssignResultMatch(vector<pair<string, string>> actual,
+                                          StrStrPairSet expected) {
+  StrStrPairSet actualSet = {actual.begin(), actual.end()};
   return actualSet == expected;
 }
 

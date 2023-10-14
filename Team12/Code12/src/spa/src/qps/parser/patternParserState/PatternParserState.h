@@ -4,6 +4,9 @@
 #include <string>
 
 #include "qps/parser/BaseParserState.h"
+#include "qps/parser/patternParserState/assignPatternParserState/AssignPatternParserState.h"
+#include "qps/parser/patternParserState/ifPatternParserState/IfPatternParserState.h"
+#include "qps/parser/patternParserState/whilePatternParserState/WhilePatternParserState.h"
 
 class PatternParserState : public BaseParserState {
  private:

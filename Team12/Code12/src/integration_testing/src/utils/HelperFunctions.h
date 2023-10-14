@@ -7,7 +7,7 @@
 #include <utility>
 #include <vector>
 
-#include "AliasTypes.h"
+#include "common/AliasTypes.h"
 #include "pkb/facade/PKBReader.h"
 
 using std::string, std::unordered_set, std::set, std::vector;
@@ -43,8 +43,8 @@ class HelperFunctions {
 
   static bool validateUses(PKBReader& reader, StrStrPairSet& expectedUsesPairs);
 
-  static bool isAssignResultMatch(vector<string> actual,
-                                  unordered_set<string> expected);
+  static bool isAssignResultMatch(vector<pair<string, string>> actual,
+                                  StrStrPairSet expected);
 
   static bool validateModifiesProcVar(PKBReader& reader,
                                       const vector<string>& procs,

@@ -1,7 +1,7 @@
 #include <string>
 #include <catch.hpp>
 
-#include "../../utils/AliasTypes.h"
+#include "common/AliasTypes.h"
 #include "../../utils/HelperFunctions.h"
 #include "pkb/facade/PKB.h"
 #include "pkb/facade/PKBReader.h"

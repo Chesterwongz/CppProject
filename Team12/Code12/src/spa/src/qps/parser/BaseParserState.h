@@ -7,12 +7,13 @@
 
 class BaseParserState : public IParserState {
  protected:
-  static unordered_set<PQLTokenType> startTokensOfAvailClauses;
-  static unordered_set<PQLTokenType> startTokensOfAvailClausesForSelect;
+  static constexpr int FIRST_ARG = 0;
+  static constexpr int SECOND_ARG = 1;
+  static constexpr int THIRD_ARG = 2;
   PQLParserContext& parserContext;
   PQLTokenType prev;
+  void processNameToken(PQLToken& curr) override;
 
- protected:
   explicit BaseParserState(PQLParserContext& parserContext, PQLTokenType prev);
   ~BaseParserState() override = default;
 };
