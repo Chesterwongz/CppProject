@@ -11,7 +11,7 @@
 class SelectTupleParsersState : public BaseParserState {
  private:
   static PredictiveMap predictiveMap;
-  vector<unique_ptr<AbstractArgument>> synonymsToSelect;
+  SynonymsToSelect synonymsToSelect;
 
  public:
   explicit SelectTupleParsersState(PQLParserContext& parserContext,
