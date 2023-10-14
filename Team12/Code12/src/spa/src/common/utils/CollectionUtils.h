@@ -7,9 +7,9 @@
 
 using std::vector;
 
-class VectorUtils {
+class CollectionUtils {
  private:
-  VectorUtils() = default;
+  CollectionUtils() = default;
 
  public:
   template <typename T>
@@ -51,6 +51,19 @@ class VectorUtils {
                    [](const std::pair<int, int>& intPair) {
                      return std::make_pair(std::to_string(intPair.first),
                                            std::to_string(intPair.second));
+                   });
+    return res;
+  }
+
+  static vector<std::pair<std::string, std::string>>
+  transformIntStrToStrStrVector(
+      vector<std::pair<int, std::string>> toTransform) {
+    std::vector<std::pair<std::string, std::string>> res;
+    std::transform(toTransform.begin(), toTransform.end(),
+                   std::back_inserter(res),
+                   [](const std::pair<int, std::string>& intStrPair) {
+                     return std::make_pair(std::to_string(intStrPair.first),
+                                           intStrPair.second);
                    });
     return res;
   }
