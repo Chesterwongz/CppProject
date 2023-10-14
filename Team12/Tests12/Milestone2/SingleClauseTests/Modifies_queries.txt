@@ -11,12 +11,12 @@ ModifiesForProcsAndCalls1, ModifiesForProcsAndCalls2, ModifiesForProcsAndCalls3,
 ====== 3 - Modifies (proc, varSyn) select p ======
 procedure p; variable v;
 Select p such that Modifies(p, v)
-ModifiesForProcsAndCalls1, ModifiesForProcsAndCalls2
+ModifiesForProcsAndCalls1, ModifiesForProcsAndCalls2, ModifiesForProcsAndCalls5
 1000
 ====== 4 - Modifies (proc, varSyn) select v ======
 procedure p; variable v;
 Select v such that Modifies(p, v)
-i, x, y, z
+i, q, x, y, z, special1, special2, special5
 1000
 ====== 4 - Modifies (proc, varSyn) select different p ======
 procedure p1, p2; variable v;
@@ -31,7 +31,7 @@ SemanticError
 ====== 6 - Modifies (proc, ident) ======
 procedure p;
 Select p such that Modifies(p, "special1")
-ModifiesForProcsAndCalls1
+ModifiesForProcsAndCalls1, ModifiesForProcsAndCalls5
 1000
 ====== 7 - Modifies (proc, ident) no results ======
 procedure p;
@@ -76,7 +76,7 @@ i, x, z, special2
 ====== 15 - Modifies (procIdent, varSyn) select v version2 ======
 variable v;
 Select v such that Modifies("ModifiesForProcsAndCalls5", v)
-x, y, z, special1, special5
+i, q, x, y, z, special1, special2, special5
 1000
 ====== 16 - Modifies (procIdent, varSyn) select p no results ======
 procedure p; variable v;
@@ -95,7 +95,7 @@ ModifiesForProcsAndCalls1, ModifiesForProcsAndCalls2, ModifiesForProcsAndCalls3,
 1000
 ====== 18 - Modifies (procIdent, ident) no results ======
 procedure p;
-Select p such that Modifies("ModifiesForProcsAndCalls5", "haha")
+Select p such that Modifies("ModifiesForProcsAndCalls5", "hello")
 none
 1000
 ====== 19 - Modifies (call, _) ======
@@ -116,7 +116,7 @@ Select c such that Modifies(c, v)
 ====== 21 - Modifies (call, varSyn) select v ======
 call c; variable v;
 Select v such that Modifies(c, v)
-i, x, y, z, special1, special2
+i, q, x, y, z, special1, special2
 1000
 ====== 22 - Modifies (call, ident) ======
 call c;
@@ -135,7 +135,7 @@ Select c1 such that Modifies(c2, "x")
 1000
 ====== 25 - Modifies (callIdent, _) ======
 call c;
-Select c such that Modifies("6", "x")
+Select c such that Modifies("6", _)
 6, 23, 24
 1000
 ====== 26 - Modifies (callIdent, _) no results ======

@@ -1,7 +1,7 @@
 procedure ModifiesForProcsAndCalls1 {            
   while (i!=0) {      
     x = x - 1;       
-    if (x==1) then {  
+    if (hello==1) then {  
       z = x + 1; }    
     else {
       y = z + x; 
@@ -13,7 +13,7 @@ procedure ModifiesForProcsAndCalls1 {
     
 procedure ModifiesForProcsAndCalls2 {
   if (x<0) then {         
-    while (i>0) {         
+    while (100>hihi) {         
       x = z * 3 + 2 * y;  
       print q;            
       i = i - 1; }        
