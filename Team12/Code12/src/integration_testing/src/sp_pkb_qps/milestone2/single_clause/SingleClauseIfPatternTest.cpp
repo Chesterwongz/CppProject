@@ -123,7 +123,7 @@ TEST_CASE(
   sp.processContent(ifSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"8"};
+  set<string> expected = {"8", "12"};
   REQUIRE(result == expected);
 }
 
