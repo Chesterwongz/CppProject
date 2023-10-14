@@ -2,7 +2,7 @@
 
 /**
  * Modifies abstraction:
-* firstArg: Synonym OR Integer (stmt) OR Identifier (Proc)
+ * firstArg: Synonym OR Integer (stmt) OR Identifier (Proc)
  * secondArg: Synonym OR Identifier OR Wildcard
  */
 
@@ -13,13 +13,25 @@ IntermediateTable ModifiesAbstraction::evaluateSynonymSynonym() {
 
 // Modifies (StmtSynonym, VarIdentifier)
 IntermediateTable ModifiesAbstraction::evaluateSynonymIdent() {
-  string firstArgStmtSynonym = this->firstArgValue;
-  StmtType firstArgStmtType = getFirstArgStmtType();
-  string secondArgIdent = this->secondArgValue;
-  vector<string> statementsModifyingVar =
-      pkb.getStatementsModifying(secondArgIdent, firstArgStmtType);
-  return IntermediateTableFactory::buildSingleColTable(firstArgStmtSynonym,
-                                                       statementsModifyingVar);
+  string firstArgSynonym = this->firstArgValue;
+  bool isFirstArgProcedure =
+      this->context.getTokenEntity(firstArgSynonym) == PROCEDURE_ENTITY;
+  string secondArgVarName = this->secondArgValue;
+
+  // Modifies(procSynonym, *) and Modifies(stmtSynonym, *) has different APIs
+  // with different return types
+  if (isFirstArgProcedure) {
+    unordered_set<string> proceduresModifyingVar
+        = pkb.getProceduresModifying(secondArgVarName);
+    return IntermediateTableFactory::buildSingleColTable(firstArgSynonym,
+                                                         proceduresModifyingVar);
+  } else {
+    StmtType firstArgStmtType = getFirstArgStmtType();
+    vector<string> statementsModifyingVar
+        = pkb.getStatementsModifying(secondArgVarName, firstArgStmtType);
+    return IntermediateTableFactory::buildSingleColTable(firstArgSynonym,
+                                                         statementsModifyingVar);
+  }
 }
 
 // Modifies (StmtSynonym, _)
@@ -37,6 +49,28 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerSynonym() {
 
   return IntermediateTableFactory::buildIntermediateTable(
       WILDCARD_KEYWORD, secondArgVarSynonym, result);
+}
+
+// Modifies (ProcName, VarSynonym)
+IntermediateTable ModifiesAbstraction::evaluateIdentSynonym() {
+  return handleProcNameWithVarSynonymOrWildcard();
+}
+
+// Modifies (ProcName, VarName)
+IntermediateTable ModifiesAbstraction::evaluateIdentIdent() {
+  string firstArgProcName = this->firstArgValue;
+  string secondArgVarName = this->secondArgValue;
+  bool isProcModifyingVar =
+      pkb.isVariableModifiedByProc(firstArgProcName, secondArgVarName);
+
+  return isProcModifyingVar
+             ? IntermediateTableFactory::buildWildcardIntermediateTable()
+             : IntermediateTableFactory::buildEmptyIntermediateTable();
+}
+
+// Modifies (ProcName, _)
+IntermediateTable ModifiesAbstraction::evaluateIdentWildcard() {
+  return handleProcNameWithVarSynonymOrWildcard();
 }
 
 // Modifies (StmtNumber, VarIdentifier)
@@ -63,14 +97,32 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerWildcard() {
 }
 
 IntermediateTable ModifiesAbstraction::handleSynonymOrWildcardArgs() {
-  string firstArgStmtSynonym = this->firstArgValue;
-  StmtType firstArgStmtType = getFirstArgStmtType();
+  string firstArgSynonym = this->firstArgValue;
+  bool isFirstArgProcedure =
+      this->context.getTokenEntity(firstArgSynonym) == PROCEDURE_ENTITY;
   string secondArgVarSynonym = this->secondArgValue;
 
-  vector<pair<string, string>> statementsModifiedVar =
-      pkb.getAllModifiedVariables(firstArgStmtType);
+  // Modifies(procSynonym, *) and Modifies(stmtSynonym, *) has different APIs
+  vector<pair<string, string>> result;
+  if (isFirstArgProcedure) {
+    result = pkb.getAllModifiedVariablesByProcs();
+  } else {
+    StmtType firstArgStmtType = getFirstArgStmtType();
+    result = pkb.getAllModifiedVariables(firstArgStmtType);
+  }
 
   //! If any of the args are "_", the column will be ignored.
   return IntermediateTableFactory::buildIntermediateTable(
-      firstArgStmtSynonym, secondArgVarSynonym, statementsModifiedVar);
+      firstArgSynonym, secondArgVarSynonym, result);
+}
+
+IntermediateTable
+ModifiesAbstraction::handleProcNameWithVarSynonymOrWildcard() {
+  string firstArgProcName = this->firstArgValue;
+  string secondArgVarValue = this->secondArgValue;
+  unordered_set<string> modifiedVariables =
+      pkb.getModifiedVariablesForProc(firstArgProcName);
+  //! If second arg is "_", wildcard table is built instead.
+  return IntermediateTableFactory::buildSingleColTable(secondArgVarValue,
+                                                       modifiedVariables);
 }

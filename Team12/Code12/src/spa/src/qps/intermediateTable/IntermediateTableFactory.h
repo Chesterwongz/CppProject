@@ -24,9 +24,31 @@ class IntermediateTableFactory {
   /**
    * Builds intermediate table without any WILDCARD columns
    * and only one column
+   * @tparam VectorOrSetOfStrings vector/unordered_set/set of strings
+   * @param  data                 take in vector/unordered_set/set of strings
    */
-  static IntermediateTable buildSingleColTable(const string &firstColName,
-                                               const vector<string> &data);
+  template <typename VectorOrSetOfStrings>
+  static IntermediateTable buildSingleColTable(
+      const string &colName, const VectorOrSetOfStrings &data) {
+    // if data is empty, return empty table
+    // even if columns are wildcard
+    if (data.empty()) {
+      return IntermediateTable::makeEmptyTable();
+    }
+
+    if (colName == WILDCARD_KEYWORD) {
+      return IntermediateTable::makeWildcardTable();
+    }
+
+    vector<string> columnNames = {colName};
+    vector<vector<string>> dataColumn = {};
+    dataColumn.reserve(data.size());
+    for (const auto &rowIndex : data) {
+      vector<string> elementToAdd = {rowIndex};
+      dataColumn.push_back(elementToAdd);
+    }
+    return IntermediateTable(columnNames, dataColumn);
+  }
 
   /**
    * Builds intermediate table without any WILDCARD columns

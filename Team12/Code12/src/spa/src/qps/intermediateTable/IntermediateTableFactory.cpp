@@ -78,28 +78,6 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
                            dataWithoutWildcardColumns);
 }
 
-IntermediateTable IntermediateTableFactory::buildSingleColTable(
-    const string &colName, const vector<string> &data) {
-  // if data is empty, return empty table
-  // even if columns are wildcard
-  if (data.empty()) {
-    return IntermediateTable::makeEmptyTable();
-  }
-
-  if (colName == WILDCARD_KEYWORD) {
-    return IntermediateTable::makeWildcardTable();
-  }
-
-  vector<string> columnNames = {colName};
-  vector<vector<string>> dataColumn = {};
-  dataColumn.reserve(data.size());
-  for (const auto &rowIndex : data) {
-    vector<string> elementToAdd = {rowIndex};
-    dataColumn.push_back(elementToAdd);
-  }
-  return IntermediateTable(columnNames, dataColumn);
-}
-
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const string &colName, const string &value) {
   vector<string> dataCol = {value};
