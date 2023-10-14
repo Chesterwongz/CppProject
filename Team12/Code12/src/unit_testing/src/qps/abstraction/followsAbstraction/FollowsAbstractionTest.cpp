@@ -59,7 +59,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Integer)") {
 
   REQUIRE(resultTable.getData().size() == 1);
   REQUIRE(resultTable.getData().at(0).size() == 1);
-  REQUIRE(resultTable.getData().at(0).at(0) == MOCK_FOLLOWED);
+  REQUIRE(resultTable.getData().at(0).at(0) == MOCK_FOLLOWED[0]);
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Synonym, Integer) not followed") {
@@ -113,7 +113,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)") {
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.getData().size() == 1);
   REQUIRE(resultTable.getData().at(0).size() == 1);
-  REQUIRE(resultTable.getData().at(0).at(0) == MOCK_FOLLOWED);
+  REQUIRE(resultTable.getData().at(0).at(0) == MOCK_FOLLOWED[0]);
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)_no followed") {

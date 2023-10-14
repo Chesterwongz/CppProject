@@ -59,7 +59,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Integer)") {
 
   REQUIRE(resultTable.getData().size() == 1);
   REQUIRE(resultTable.getData().at(0).size() == 1);
-  REQUIRE(resultTable.getData().at(0).at(0) == MOCK_IMMEDIATE_PARENT_OF.first);
+  REQUIRE(resultTable.getData().at(0).at(0) == MOCK_IMMEDIATE_PARENT_OF[0]);
 }
 
 TEST_CASE(
@@ -117,7 +117,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Synonym)_EMPTY") {
 
 TEST_CASE("ParentsAbstraction - Parents(Integer, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
-  mockReader.mockImmediateChildrenOf = MOCK_PARENT_CHILD_PAIRS;
+  mockReader.mockImmediateChildrenOf = MOCK_CHILD;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -184,7 +184,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Integer)_same_integer") {
 
 TEST_CASE("ParentsAbstraction - Parents(Integer, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
-  mockReader.mockImmediateChildrenOf = MOCK_PARENT_CHILD_PAIRS;
+  mockReader.mockImmediateChildrenOf = MOCK_CHILD;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =

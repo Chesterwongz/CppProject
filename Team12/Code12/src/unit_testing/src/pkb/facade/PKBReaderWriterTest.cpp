@@ -1,5 +1,5 @@
-#include <unordered_set>
 #include <catch.hpp>
+#include <unordered_set>
 
 #include "../../common/utils/HelperFunctions.h"
 #include "pkb/facade/PKBReader.h"
@@ -86,17 +86,25 @@ TEST_CASE("PKBReader Tests") {
   }
 
   SECTION("getFollowing") {
-    REQUIRE(reader.getFollowing(1, StmtType::STMT) == "2");
-    REQUIRE(reader.getFollowing(3, StmtType::STMT) == "4");
-    REQUIRE(reader.getFollowing(4, StmtType::STMT) == "5");
-    REQUIRE(reader.getFollowing(5, StmtType::STMT) == "-1");
+    REQUIRE(reader.getFollowing(1, StmtType::STMT) ==
+            std::vector<std::string>{"2"});
+    REQUIRE(reader.getFollowing(3, StmtType::STMT) ==
+            std::vector<std::string>{"4"});
+    REQUIRE(reader.getFollowing(4, StmtType::STMT) ==
+            std::vector<std::string>{"5"});
+    REQUIRE(reader.getFollowing(5, StmtType::STMT) ==
+            std::vector<std::string>{});
   }
 
   SECTION("getFollowed") {
-    REQUIRE(reader.getFollowed(2, StmtType::STMT) == "1");
-    REQUIRE(reader.getFollowed(5, StmtType::STMT) == "4");
-    REQUIRE(reader.getFollowed(4, StmtType::STMT) == "3");
-    REQUIRE(reader.getFollowed(1, StmtType::STMT) == "-1");
+    REQUIRE(reader.getFollowed(2, StmtType::STMT) ==
+            std::vector<std::string>{"1"});
+    REQUIRE(reader.getFollowed(5, StmtType::STMT) ==
+            std::vector<std::string>{"4"});
+    REQUIRE(reader.getFollowed(4, StmtType::STMT) ==
+            std::vector<std::string>{"3"});
+    REQUIRE(reader.getFollowed(1, StmtType::STMT) ==
+            std::vector<std::string>{});
   }
 
   SECTION("isFollows") {
@@ -123,8 +131,7 @@ TEST_CASE("PKBReader Tests") {
     REQUIRE(reader.getFollowsStar(1, StmtType::STMT) ==
             std::vector<std::string>{{"2"}});
     REQUIRE(reader.getFollowsStar(3, StmtType::STMT) ==
-            std::vector<std::string>{{"4"},
-                                                             {"5"}});
+            std::vector<std::string>{{"4"}, {"5"}});
     REQUIRE(reader.getFollowsStar(3, StmtType::IF) ==
             std::vector<std::string>{{"4"}});
     REQUIRE(reader.getFollowsStar(3, StmtType::READ) ==
@@ -139,8 +146,7 @@ TEST_CASE("PKBReader Tests") {
     REQUIRE(reader.getFollowedStar(2, StmtType::STMT) ==
             std::vector<std::string>{{"1"}});
     REQUIRE(reader.getFollowedStar(5, StmtType::STMT) ==
-            std::vector<std::string>{{"3" },
-                                                             {"4"}});
+            std::vector<std::string>{{"3"}, {"4"}});
     REQUIRE(reader.getFollowedStar(5, StmtType::ASSIGN) ==
             std::vector<std::string>{{"3"}});
     REQUIRE(reader.getFollowedStar(4, StmtType::STMT) ==
@@ -172,34 +178,32 @@ TEST_CASE("PKBReader Tests") {
 
   SECTION("getImmediateChildren") {
     REQUIRE(reader.getImmediateChildrenOf(1, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "2"},
-                                                             {"1", "3"}});
+            std::vector<std::string>{"2", "3"});
     REQUIRE(reader.getImmediateChildrenOf(3, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"3", "4"},
-                                                             {"3", "5"}});
+            std::vector<std::string>{"4", "5"});
     REQUIRE(reader.getImmediateChildrenOf(3, StmtType::IF) ==
-            std::vector<std::pair<std::string, std::string>>{{"3", "4"}});
+            std::vector<std::string>{"4"});
     REQUIRE(reader.getImmediateChildrenOf(3, StmtType::READ) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::string>{});
     REQUIRE(reader.getImmediateChildrenOf(4, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::string>{});
   }
 
   SECTION("getImmediateParent") {
     REQUIRE(reader.getImmediateParentOf(2, StmtType::STMT) ==
-            std::pair<std::string, std::string>{"1", "2"});
+            std::vector<std::string>{"1"});
     REQUIRE(reader.getImmediateParentOf(3, StmtType::STMT) ==
-            std::pair<std::string, std::string>{"1", "3"});
+            std::vector<std::string>{"1"});
     REQUIRE(reader.getImmediateParentOf(3, StmtType::ASSIGN) ==
-            std::pair<std::string, std::string>{"1", "3"});
+            std::vector<std::string>{"1"});
     REQUIRE(reader.getImmediateParentOf(3, StmtType::READ) ==
-            std::pair<std::string, std::string>{});
+            std::vector<std::string>{});
     REQUIRE(reader.getImmediateParentOf(3, StmtType::CALL) ==
-            std::pair<std::string, std::string>{});
+            std::vector<std::string>{});
     REQUIRE(reader.getImmediateParentOf(4, StmtType::STMT) ==
-            std::pair<std::string, std::string>{"3", "4"});
+            std::vector<std::string>{"3"});
     REQUIRE(reader.getImmediateParentOf(5, StmtType::STMT) ==
-            std::pair<std::string, std::string>{"3", "5"});
+            std::vector<std::string>{"3"});
   }
 
   SECTION("isParent") {
@@ -218,39 +222,34 @@ TEST_CASE("PKBReader Tests") {
 
   SECTION("getChildrenStar") {
     REQUIRE(reader.getChildrenStarOf(1, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{
-                {"1", "2"}, {"1", "3"}, {"1", "4"}, {"1", "5"}});
+            std::vector<std::string>{"2", "3", "4", "5"});
     REQUIRE(reader.getChildrenStarOf(1, StmtType::WHILE) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "2"},
-                                                             {"1", "5"}});
+            std::vector<std::string>{"2", "5"});
     REQUIRE(reader.getChildrenStarOf(1, StmtType::READ) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::string>{});
     REQUIRE(reader.getChildrenStarOf(2, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::string>{});
     REQUIRE(reader.getChildrenStarOf(3, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"3", "4"},
-                                                             {"3", "5"}});
+            std::vector<std::string>{"4", "5"});
     REQUIRE(reader.getChildrenStarOf(5, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::string>{});
   }
 
   SECTION("getParentStar") {
     REQUIRE(reader.getParentStarOf(1, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::string>{});
     REQUIRE(reader.getParentStarOf(2, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "2"}});
+            std::vector<std::string>{"1"});
     REQUIRE(reader.getParentStarOf(2, StmtType::ASSIGN) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "2"}});
+            std::vector<std::string>{"1"});
     REQUIRE(reader.getParentStarOf(2, StmtType::READ) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::string>{});
     REQUIRE(reader.getParentStarOf(4, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "4"},
-                                                             {"3", "4"}});
+            std::vector<std::string>{"1", "3"});
     REQUIRE(reader.getParentStarOf(4, StmtType::ASSIGN) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "4"},
-                                                             {"3", "4"}});
+            std::vector<std::string>{"1", "3"});
     REQUIRE(reader.getParentStarOf(5, StmtType::PRINT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::string>{});
   }
 
   SECTION("isParentStar") {
