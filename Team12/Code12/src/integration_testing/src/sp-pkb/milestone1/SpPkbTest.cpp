@@ -70,8 +70,7 @@ void validateModifies(PKBReader &reader, StrStrPairSet &expectedModifiesPairs) {
 }
 
 void validateUses(PKBReader &reader, StrStrPairSet &expectedUsesPairs) {
-  vector<pair<string, string>> actual =
-      reader.getAllUsedVariables(StmtType::STMT);
+  vector<pair<string, string>> actual = reader.getUsesPairs(StmtType::STMT);
   StrStrPairSet actualUsesPairs = {actual.begin(), actual.end()};
   REQUIRE(actualUsesPairs == expectedUsesPairs);
 }
