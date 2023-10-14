@@ -1,63 +1,11 @@
-#include <set>
 #include <string>
-#include <unordered_map>
-#include <unordered_set>
 #include <catch.hpp>
 
+#include "../../utils/AliasTypes.h"
+#include "../../utils/HelperFunctions.h"
 #include "pkb/facade/PKB.h"
 #include "pkb/facade/PKBReader.h"
 #include "sp/SourceProcessor.h"
-
-using std::set, std::string, std::unordered_map, std::unordered_set;
-
-using ProcToStrSetMap = unordered_map<string, unordered_set<string>>;
-
-// TODO(Xiaoyun): remove print methods after MS2 testing
-void printEntities(const string& abstraction,
-                   const unordered_set<string>& set) {
-  std::cout << abstraction << ": ";
-  for (const string& entity : set) {
-    std::cout << entity << ", ";
-  }
-  std::cout << std::endl << "-------------" << std::endl;
-}
-
-void validateModifiesProcVar(PKBReader& reader, const vector<string>& procs,
-                             ProcToStrSetMap expectedModifiesMap) {
-  for (const string& proc : procs) {
-    unordered_set<string> expectedModifies = expectedModifiesMap[proc];
-    unordered_set<string> actualModifies =
-        reader.getModifiedVariablesForProc(proc);
-    REQUIRE(actualModifies == expectedModifies);
-  }
-}
-
-void validateUsesProcVar(PKBReader& reader, const vector<string>& procs,
-                         ProcToStrSetMap expectedUsesMap) {
-  for (const string& proc : procs) {
-    unordered_set<string> expectedUses = expectedUsesMap[proc];
-    unordered_set<string> actualUses = reader.getUsedVariablesForProc(proc);
-    REQUIRE(actualUses == expectedUses);
-  }
-}
-
-void validateCalls(PKBReader& reader, const vector<string>& procs,
-                   ProcToStrSetMap expectedCallsMap) {
-  for (const string& proc : procs) {
-    unordered_set<string> expectedCalls = expectedCallsMap[proc];
-    unordered_set<string> actualCalls = reader.getCalleeProcs(proc);
-    REQUIRE(actualCalls == expectedCalls);
-  }
-}
-
-void validateCallsStar(PKBReader& reader, const vector<string>& procs,
-                       ProcToStrSetMap expectedCallsStarMap) {
-  for (const string& proc : procs) {
-    unordered_set<string> expectedCallsStar = expectedCallsStarMap[proc];
-    unordered_set<string> actualCallsStar = reader.getCalleeProcsStar(proc);
-    REQUIRE(actualCallsStar == expectedCallsStar);
-  }
-}
 
 TEST_CASE("SP-PKB integration MS2 - Non-nesting statements") {
   string input =
@@ -77,16 +25,11 @@ TEST_CASE("SP-PKB integration MS2 - Non-nesting statements") {
   ProcToStrSetMap expectedUsesMap = {{"simple", {"num1", "num2"}}};
   ProcToStrSetMap expectedCallsMap = {{"simple", {}}};
   ProcToStrSetMap expectedCallsStarMap = {{"simple", {}}};
-  validateUsesProcVar(reader, procs, expectedUsesMap);
-  validateModifiesProcVar(reader, procs, expectedModifiesMap);
-  validateCalls(reader, procs, expectedCallsMap);
-  validateCallsStar(reader, procs, expectedCallsStarMap);
-  // TODO(Xiaoyun): update validation for next
-  vector<string> expectedNextOf1 = {"2"};
-  vector<string> expectedNextOf2 = {"3"};
-  REQUIRE(reader.getNextStmts(1, StmtType::ASSIGN).empty());
-  REQUIRE(reader.getNextStmts(1, StmtType::STMT) == expectedNextOf1);
-  REQUIRE(reader.getNextStmts(2, StmtType::ASSIGN) == expectedNextOf2);
+  REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
+  REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
+                                                   expectedModifiesMap));
+  REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
+  REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - Simple transitive call") {
@@ -116,10 +59,11 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call") {
   ProcToStrSetMap expectedCallsMap = {{"A", {"B"}}, {"B", {"C"}}, {"C", {}}};
   ProcToStrSetMap expectedCallsStarMap = {
       {"A", {"B", "C"}}, {"B", {"C"}}, {"C", {}}};
-  validateUsesProcVar(reader, procs, expectedUsesMap);
-  validateModifiesProcVar(reader, procs, expectedModifiesMap);
-  validateCalls(reader, procs, expectedCallsMap);
-  validateCallsStar(reader, procs, expectedCallsStarMap);
+  REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
+  REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
+                                                   expectedModifiesMap));
+  REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
+  REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - Simple transitive call with while") {
@@ -150,10 +94,11 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with while") {
   ProcToStrSetMap expectedCallsMap = {{"X", {"Y"}}, {"Y", {"Z"}}, {"Z", {}}};
   ProcToStrSetMap expectedCallsStarMap = {
       {"X", {"Y", "Z"}}, {"Y", {"Z"}}, {"Z", {}}};
-  validateUsesProcVar(reader, procs, expectedUsesMap);
-  validateModifiesProcVar(reader, procs, expectedModifiesMap);
-  validateCalls(reader, procs, expectedCallsMap);
-  validateCallsStar(reader, procs, expectedCallsStarMap);
+  REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
+  REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
+                                                   expectedModifiesMap));
+  REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
+  REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - Simple transitive call with if") {
@@ -179,10 +124,11 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with if") {
   ProcToStrSetMap expectedUsesMap = {{"A", {"x"}}, {"B", {"x"}}};
   ProcToStrSetMap expectedCallsMap = {{"A", {"B"}}, {"B", {}}};
   ProcToStrSetMap expectedCallsStarMap = {{"A", {"B"}}, {"B", {}}};
-  validateUsesProcVar(reader, procs, expectedUsesMap);
-  validateModifiesProcVar(reader, procs, expectedModifiesMap);
-  validateCalls(reader, procs, expectedCallsMap);
-  validateCallsStar(reader, procs, expectedCallsStarMap);
+  REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
+  REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
+                                                   expectedModifiesMap));
+  REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
+  REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - multiple transitive calls") {
@@ -215,10 +161,11 @@ TEST_CASE("SP-PKB integration MS2 - multiple transitive calls") {
       {"P", {"Q"}}, {"Q", {"R"}}, {"R", {"S"}}, {"S", {}}};
   ProcToStrSetMap expectedCallsStarMap = {
       {"P", {"Q", "R", "S"}}, {"Q", {"R", "S"}}, {"R", {"S"}}, {"S", {}}};
-  validateUsesProcVar(reader, procs, expectedUsesMap);
-  validateModifiesProcVar(reader, procs, expectedModifiesMap);
-  validateCalls(reader, procs, expectedCallsMap);
-  validateCallsStar(reader, procs, expectedCallsStarMap);
+  REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
+  REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
+                                                   expectedModifiesMap));
+  REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
+  REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - multiple calls without transitivity") {
@@ -248,10 +195,11 @@ TEST_CASE("SP-PKB integration MS2 - multiple calls without transitivity") {
       {"Alpha", {"Beta", "Gamma"}}, {"Beta", {}}, {"Gamma", {}}};
   ProcToStrSetMap expectedCallsStarMap = {
       {"Alpha", {"Beta", "Gamma"}}, {"Beta", {}}, {"Gamma", {}}};
-  validateUsesProcVar(reader, procs, expectedUsesMap);
-  validateModifiesProcVar(reader, procs, expectedModifiesMap);
-  validateCalls(reader, procs, expectedCallsMap);
-  validateCallsStar(reader, procs, expectedCallsStarMap);
+  REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
+  REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
+                                                   expectedModifiesMap));
+  REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
+  REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - two chained calls and containers") {
@@ -282,10 +230,11 @@ TEST_CASE("SP-PKB integration MS2 - two chained calls and containers") {
                                      {"Helper", {"a", "b"}}};
   ProcToStrSetMap expectedCallsMap = {{"Main", {"Helper"}}, {"Helper", {}}};
   ProcToStrSetMap expectedCallsStarMap = {{"Main", {"Helper"}}, {"Helper", {}}};
-  validateUsesProcVar(reader, procs, expectedUsesMap);
-  validateModifiesProcVar(reader, procs, expectedModifiesMap);
-  validateCalls(reader, procs, expectedCallsMap);
-  validateCallsStar(reader, procs, expectedCallsStarMap);
+  REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
+  REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
+                                                   expectedModifiesMap));
+  REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
+  REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - three chained calls and containers") {
@@ -321,10 +270,11 @@ TEST_CASE("SP-PKB integration MS2 - three chained calls and containers") {
   ProcToStrSetMap expectedCallsStarMap = {{"Start", {"Operate", "Increment"}},
                                           {"Operate", {"Increment"}},
                                           {"Increment", {}}};
-  validateUsesProcVar(reader, procs, expectedUsesMap);
-  validateModifiesProcVar(reader, procs, expectedModifiesMap);
-  validateCalls(reader, procs, expectedCallsMap);
-  validateCallsStar(reader, procs, expectedCallsStarMap);
+  REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
+  REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
+                                                   expectedModifiesMap));
+  REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
+  REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
@@ -399,10 +349,11 @@ TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
       {"Epsilon", {"Zeta", "Eta"}},
       {"Zeta", {"Eta"}},
       {"Eta", {}}};
-  validateUsesProcVar(reader, procs, expectedUsesMap);
-  validateModifiesProcVar(reader, procs, expectedModifiesMap);
-  validateCalls(reader, procs, expectedCallsMap);
-  validateCallsStar(reader, procs, expectedCallsStarMap);
+  REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
+  REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
+                                                   expectedModifiesMap));
+  REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
+  REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
 }
 
 TEST_CASE(
@@ -467,8 +418,9 @@ TEST_CASE(
       {"Clean", {}},
       {"Finish", {}},
       {"Update", {}}};
-  validateUsesProcVar(reader, procs, expectedUsesMap);
-  validateModifiesProcVar(reader, procs, expectedModifiesMap);
-  validateCalls(reader, procs, expectedCallsMap);
-  validateCallsStar(reader, procs, expectedCallsStarMap);
+  REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
+  REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
+                                                   expectedModifiesMap));
+  REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
+  REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
 }

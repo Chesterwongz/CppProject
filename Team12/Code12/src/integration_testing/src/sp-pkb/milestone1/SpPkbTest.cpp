@@ -6,80 +6,13 @@
 #include <vector>
 #include <catch.hpp>
 
+#include "../../utils/AliasTypes.h"
+#include "../../utils/HelperFunctions.h"
 #include "pkb/facade/PKB.h"
 #include "sp/SourceProcessor.h"
 
 using std::string, std::unordered_map, std::map, std::unordered_set, std::set,
     std::vector, std::pair;
-using StrStrPairSet = unordered_set<pair<string, string>, PairUtils::PairHash>;
-
-void validateEntities(PKBReader &reader, const set<string> &expectedVars,
-                      const set<string> &expectedConstants,
-                      const set<string> &expectedProcedures,
-                      const set<string> &expectedReadStmts,
-                      const set<string> &expectedPrintStmts,
-                      const set<string> &expectedAssignStmts,
-                      const set<string> &expectedCallStmts,
-                      const set<string> &expectedWhileStmts,
-                      const set<string> &expectedIfStmts) {
-  REQUIRE(reader.getAllVariables() == expectedVars);
-  REQUIRE(reader.getAllConstants() == expectedConstants);
-  REQUIRE(reader.getAllProcedures() == expectedProcedures);
-  REQUIRE(reader.getStatement(StmtType::READ) == expectedReadStmts);
-  REQUIRE(reader.getStatement(StmtType::PRINT) == expectedPrintStmts);
-  REQUIRE(reader.getStatement(StmtType::ASSIGN) == expectedAssignStmts);
-  REQUIRE(reader.getStatement(StmtType::CALL) == expectedCallStmts);
-  REQUIRE(reader.getStatement(StmtType::WHILE) == expectedWhileStmts);
-  REQUIRE(reader.getStatement(StmtType::IF) == expectedIfStmts);
-}
-
-void validateFollows(PKBReader &reader, StrStrPairSet &expectedFollowsPairs,
-                     StrStrPairSet &expectedFollowsStarPairs) {
-  vector<pair<string, string>> actualFollowsPairs =
-      reader.getFollowsPairs(StmtType::STMT, StmtType::STMT);
-  StrStrPairSet actualFollowsSet = {actualFollowsPairs.begin(),
-                                    actualFollowsPairs.end()};
-  vector<pair<string, string>> actualFollowsStarPairs =
-      reader.getFollowsStarPairs(StmtType::STMT, StmtType::STMT);
-  StrStrPairSet actualFollowsStarSet = {actualFollowsStarPairs.begin(),
-                                        actualFollowsStarPairs.end()};
-  REQUIRE(actualFollowsSet == expectedFollowsPairs);
-  REQUIRE(actualFollowsStarSet == expectedFollowsStarPairs);
-}
-
-void validateParents(PKBReader &reader, StrStrPairSet &expectedParentChildPairs,
-                     StrStrPairSet &expectedParentChildStarPairs) {
-  vector<pair<string, string>> actualParentChildPairs =
-      reader.getParentChildPairs(StmtType::STMT, StmtType::STMT);
-  StrStrPairSet actualParentChildSet = {actualParentChildPairs.begin(),
-                                        actualParentChildPairs.end()};
-  vector<pair<string, string>> actualParentChildStarPairs =
-      reader.getParentChildStarPairs(StmtType::STMT, StmtType::STMT);
-  StrStrPairSet actualParentChildStarSet = {actualParentChildStarPairs.begin(),
-                                            actualParentChildStarPairs.end()};
-  REQUIRE(actualParentChildSet == expectedParentChildPairs);
-  REQUIRE(actualParentChildStarSet == expectedParentChildStarPairs);
-}
-
-void validateModifies(PKBReader &reader, StrStrPairSet &expectedModifiesPairs) {
-  vector<pair<string, string>> actual =
-      reader.getAllModifiedVariables(StmtType::STMT);
-  StrStrPairSet actualModifiesPairs = {actual.begin(), actual.end()};
-  REQUIRE(actualModifiesPairs == expectedModifiesPairs);
-}
-
-void validateUses(PKBReader &reader, StrStrPairSet &expectedUsesPairs) {
-  vector<pair<string, string>> actual =
-      reader.getAllUsedVariables(StmtType::STMT);
-  StrStrPairSet actualUsesPairs = {actual.begin(), actual.end()};
-  REQUIRE(actualUsesPairs == expectedUsesPairs);
-}
-
-bool isAssignResultMatch(vector<string> actual,
-                         unordered_set<string> expected) {
-  unordered_set<string> actualSet = {actual.begin(), actual.end()};
-  return actualSet == expected;
-}
 
 TEST_CASE("SP-PKB integration - Non-nesting statements") {
   string input =
@@ -110,32 +43,37 @@ TEST_CASE("SP-PKB integration - Non-nesting statements") {
   StrStrPairSet expectedModifiesPairs = {{"1", "num1"}, {"3", "x"}};
   StrStrPairSet expectedUsesPairs = {{"2", "num2"}, {"3", "num1"}};
   unordered_set<string> expectedAssignPatternStmts = {"3"};
-  validateEntities(reader, expectedVars, expectedConstants, expectedProcedures,
-                   expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
-                   expectedCallStmts, expectedWhileStmts, expectedIfStmts);
-  validateFollows(reader, expectedFollowsPairs, expectedFollowsStarPairs);
-  validateParents(reader, expectedParentChildPairs,
-                  expectedParentChildStarPairs);
-  validateModifies(reader, expectedModifiesPairs);
-  validateUses(reader, expectedUsesPairs);
+  REQUIRE(HelperFunctions::validateEntities(
+      reader, expectedVars, expectedConstants, expectedProcedures,
+      expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
+      expectedCallStmts, expectedWhileStmts, expectedIfStmts));
+  REQUIRE(HelperFunctions::validateFollows(reader, expectedFollowsPairs,
+                                           expectedFollowsStarPairs));
+  REQUIRE(HelperFunctions::validateParents(reader, expectedParentChildPairs,
+                                           expectedParentChildStarPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
 
-  REQUIRE(isAssignResultMatch(reader.getExactAssignPattern("_", "_", false),
-                              expectedAssignPatternStmts));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getExactAssignPattern("_", "_", false),
+      expectedAssignPatternStmts));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("x", " num1 1 + ", false),
       expectedAssignPatternStmts));
   REQUIRE(reader.getExactAssignPattern("x", " num1 2 + ", false).empty());
   REQUIRE(reader.getExactAssignPattern("num1", " num1 1 + ", false).empty());
-  REQUIRE(isAssignResultMatch(reader.getPartialAssignPattern("_", "_", false),
-                              expectedAssignPatternStmts));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("_", "_", false),
+      expectedAssignPatternStmts));
+  REQUIRE(HelperFunctions::HelperFunctions::isAssignResultMatch(
       reader.getPartialAssignPattern("x", " num1 1 + ", false),
       expectedAssignPatternStmts));
-  REQUIRE(
-      isAssignResultMatch(reader.getPartialAssignPattern("x", " num1 ", false),
-                          expectedAssignPatternStmts));
-  REQUIRE(isAssignResultMatch(reader.getPartialAssignPattern("x", " 1 ", false),
-                              expectedAssignPatternStmts));
+  REQUIRE(HelperFunctions::HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("x", " num1 ", false),
+      expectedAssignPatternStmts));
+  REQUIRE(HelperFunctions::HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("x", " 1 ", false),
+      expectedAssignPatternStmts));
   REQUIRE(reader.getPartialAssignPattern("x", " num1 2 + ", false).empty());
   REQUIRE(reader.getPartialAssignPattern("num1", "n um1 1 + ", false).empty());
 }
@@ -175,30 +113,36 @@ TEST_CASE("SP-PKB integration - if statement") {
                                      {"5", "y"}, {"3", "y"},    {"4", "z"},
                                      {"3", "z"}};
   unordered_set<string> expectedAssignPatternStmts = {"5"};
-  validateEntities(reader, expectedVars, expectedConstants, expectedProcedures,
-                   expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
-                   expectedCallStmts, expectedWhileStmts, expectedIfStmts);
-  validateFollows(reader, expectedFollowsPairs, expectedFollowsStarPairs);
-  validateParents(reader, expectedParentChildPairs,
-                  expectedParentChildStarPairs);
-  validateModifies(reader, expectedModifiesPairs);
-  validateUses(reader, expectedUsesPairs);
-  REQUIRE(isAssignResultMatch(reader.getExactAssignPattern("_", "_", false),
-                              expectedAssignPatternStmts));
-  REQUIRE(
-      isAssignResultMatch(reader.getExactAssignPattern("x", " y 1 + ", false),
-                          expectedAssignPatternStmts));
+  REQUIRE(HelperFunctions::validateEntities(
+      reader, expectedVars, expectedConstants, expectedProcedures,
+      expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
+      expectedCallStmts, expectedWhileStmts, expectedIfStmts));
+  REQUIRE(HelperFunctions::validateFollows(reader, expectedFollowsPairs,
+                                           expectedFollowsStarPairs));
+  REQUIRE(HelperFunctions::validateParents(reader, expectedParentChildPairs,
+                                           expectedParentChildStarPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getExactAssignPattern("_", "_", false),
+      expectedAssignPatternStmts));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getExactAssignPattern("x", " y 1 + ", false),
+      expectedAssignPatternStmts));
   REQUIRE(reader.getExactAssignPattern("x", " y 2 + ", false).empty());
   REQUIRE(reader.getExactAssignPattern("y", " y 1 + ", false).empty());
-  REQUIRE(isAssignResultMatch(reader.getPartialAssignPattern("_", "_", false),
-                              expectedAssignPatternStmts));
-  REQUIRE(
-      isAssignResultMatch(reader.getPartialAssignPattern("x", " y 1 + ", false),
-                          expectedAssignPatternStmts));
-  REQUIRE(isAssignResultMatch(reader.getPartialAssignPattern("x", " y ", false),
-                              expectedAssignPatternStmts));
-  REQUIRE(isAssignResultMatch(reader.getPartialAssignPattern("x", " 1 ", false),
-                              expectedAssignPatternStmts));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("_", "_", false),
+      expectedAssignPatternStmts));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("x", " y 1 + ", false),
+      expectedAssignPatternStmts));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("x", " y ", false),
+      expectedAssignPatternStmts));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("x", " 1 ", false),
+      expectedAssignPatternStmts));
   REQUIRE(reader.getPartialAssignPattern("x", " y 2 + ", false).empty());
   REQUIRE(reader.getPartialAssignPattern("y", " y 1 + ", false).empty());
 }
@@ -247,30 +191,36 @@ TEST_CASE("SP-PKB integration - if in while statements") {
       {"3", "x"}, {"3", "y"}, {"4", "x"}, {"4", "y"}, {"5", "y"},
       {"3", "w"}, {"4", "w"}, {"6", "w"}, {"3", "z"}, {"7", "z"}};
   unordered_set<string> expectedAssignPatternStmts = {"5"};
-  validateEntities(reader, expectedVars, expectedConstants, expectedProcedures,
-                   expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
-                   expectedCallStmts, expectedWhileStmts, expectedIfStmts);
-  validateFollows(reader, expectedFollowsPairs, expectedFollowsStarPairs);
-  validateParents(reader, expectedParentChildPairs,
-                  expectedParentChildStarPairs);
-  validateModifies(reader, expectedModifiesPairs);
-  validateUses(reader, expectedUsesPairs);
-  REQUIRE(isAssignResultMatch(reader.getExactAssignPattern("_", "_", false),
-                              expectedAssignPatternStmts));
-  REQUIRE(
-      isAssignResultMatch(reader.getExactAssignPattern("x", " y 1 + ", false),
-                          expectedAssignPatternStmts));
+  REQUIRE(HelperFunctions::validateEntities(
+      reader, expectedVars, expectedConstants, expectedProcedures,
+      expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
+      expectedCallStmts, expectedWhileStmts, expectedIfStmts));
+  REQUIRE(HelperFunctions::validateFollows(reader, expectedFollowsPairs,
+                                           expectedFollowsStarPairs));
+  REQUIRE(HelperFunctions::validateParents(reader, expectedParentChildPairs,
+                                           expectedParentChildStarPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getExactAssignPattern("_", "_", false),
+      expectedAssignPatternStmts));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getExactAssignPattern("x", " y 1 + ", false),
+      expectedAssignPatternStmts));
   REQUIRE(reader.getExactAssignPattern("x", " y 2 + ", false).empty());
   REQUIRE(reader.getExactAssignPattern("y", " y 1 + ", false).empty());
-  REQUIRE(isAssignResultMatch(reader.getPartialAssignPattern("_", "_", false),
-                              expectedAssignPatternStmts));
-  REQUIRE(
-      isAssignResultMatch(reader.getPartialAssignPattern("x", " y 1 + ", false),
-                          expectedAssignPatternStmts));
-  REQUIRE(isAssignResultMatch(reader.getPartialAssignPattern("x", " y ", false),
-                              expectedAssignPatternStmts));
-  REQUIRE(isAssignResultMatch(reader.getPartialAssignPattern("x", " 1 ", false),
-                              expectedAssignPatternStmts));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("_", "_", false),
+      expectedAssignPatternStmts));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("x", " y 1 + ", false),
+      expectedAssignPatternStmts));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("x", " y ", false),
+      expectedAssignPatternStmts));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("x", " 1 ", false),
+      expectedAssignPatternStmts));
   REQUIRE(reader.getPartialAssignPattern("x", " y 2 + ", false).empty());
   REQUIRE(reader.getPartialAssignPattern("y", " y 1 + ", false).empty());
 }
@@ -324,14 +274,16 @@ TEST_CASE("SP-PKB integration - 3 if statements") {
       {"3", "x"}, {"5", "x"}, {"7", "x"},  {"9", "x"}, {"3", "y"},
       {"5", "y"}, {"7", "y"}, {"3", "z"},  {"5", "z"}, {"10", "z"},
   };
-  validateEntities(reader, expectedVars, expectedConstants, expectedProcedures,
-                   expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
-                   expectedCallStmts, expectedWhileStmts, expectedIfStmts);
-  validateFollows(reader, expectedFollowsPairs, expectedFollowsStarPairs);
-  validateParents(reader, expectedParentChildPairs,
-                  expectedParentChildStarPairs);
-  validateModifies(reader, expectedModifiesPairs);
-  validateUses(reader, expectedUsesPairs);
+  REQUIRE(HelperFunctions::validateEntities(
+      reader, expectedVars, expectedConstants, expectedProcedures,
+      expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
+      expectedCallStmts, expectedWhileStmts, expectedIfStmts));
+  REQUIRE(HelperFunctions::validateFollows(reader, expectedFollowsPairs,
+                                           expectedFollowsStarPairs));
+  REQUIRE(HelperFunctions::validateParents(reader, expectedParentChildPairs,
+                                           expectedParentChildStarPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(reader.getExactAssignPattern("_", "_", false).empty());
   REQUIRE(reader.getPartialAssignPattern("_", "_", false).empty());
 }
@@ -382,14 +334,16 @@ TEST_CASE("SP-PKB integration - 3 while statements") {
       {"3", "v"}, {"5", "v"}, {"5", "w"}, {"3", "w"}, {"7", "x"},
       {"5", "x"}, {"3", "x"}, {"7", "y"}, {"5", "y"}, {"3", "y"},
   };
-  validateEntities(reader, expectedVars, expectedConstants, expectedProcedures,
-                   expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
-                   expectedCallStmts, expectedWhileStmts, expectedIfStmts);
-  validateFollows(reader, expectedFollowsPairs, expectedFollowsStarPairs);
-  validateParents(reader, expectedParentChildPairs,
-                  expectedParentChildStarPairs);
-  validateModifies(reader, expectedModifiesPairs);
-  validateUses(reader, expectedUsesPairs);
+  REQUIRE(HelperFunctions::validateEntities(
+      reader, expectedVars, expectedConstants, expectedProcedures,
+      expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
+      expectedCallStmts, expectedWhileStmts, expectedIfStmts));
+  REQUIRE(HelperFunctions::validateFollows(reader, expectedFollowsPairs,
+                                           expectedFollowsStarPairs));
+  REQUIRE(HelperFunctions::validateParents(reader, expectedParentChildPairs,
+                                           expectedParentChildStarPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(reader.getExactAssignPattern("_", "_", false).empty());
   REQUIRE(reader.getPartialAssignPattern("_", "_", false).empty());
 }
@@ -432,14 +386,16 @@ TEST_CASE("SP-PKB integration - sequential if pattern") {
                                          {"7", "l"}, {"6", "l"}};
   StrStrPairSet expectedUsesPairs = {
       {"2", "i"}, {"6", "i"}, {"8", "i"}, {"6", "k"}};
-  validateEntities(reader, expectedVars, expectedConstants, expectedProcedures,
-                   expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
-                   expectedCallStmts, expectedWhileStmts, expectedIfStmts);
-  validateFollows(reader, expectedFollowsPairs, expectedFollowsStarPairs);
-  validateParents(reader, expectedParentChildPairs,
-                  expectedParentChildStarPairs);
-  validateModifies(reader, expectedModifiesPairs);
-  validateUses(reader, expectedUsesPairs);
+  REQUIRE(HelperFunctions::validateEntities(
+      reader, expectedVars, expectedConstants, expectedProcedures,
+      expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
+      expectedCallStmts, expectedWhileStmts, expectedIfStmts));
+  REQUIRE(HelperFunctions::validateFollows(reader, expectedFollowsPairs,
+                                           expectedFollowsStarPairs));
+  REQUIRE(HelperFunctions::validateParents(reader, expectedParentChildPairs,
+                                           expectedParentChildStarPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(reader.getExactAssignPattern("_", "_", false).empty());
   REQUIRE(reader.getPartialAssignPattern("_", "_", false).empty());
 }
@@ -478,14 +434,16 @@ TEST_CASE("SP-PKB integration - sequential while statements") {
   StrStrPairSet expectedModifiesPairs = {{"1", "i"}, {"2", "j"}, {"3", "j"},
                                          {"4", "k"}, {"6", "l"}, {"5", "l"}};
   StrStrPairSet expectedUsesPairs = {{"2", "i"}, {"5", "i"}, {"5", "k"}};
-  validateEntities(reader, expectedVars, expectedConstants, expectedProcedures,
-                   expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
-                   expectedCallStmts, expectedWhileStmts, expectedIfStmts);
-  validateFollows(reader, expectedFollowsPairs, expectedFollowsStarPairs);
-  validateParents(reader, expectedParentChildPairs,
-                  expectedParentChildStarPairs);
-  validateModifies(reader, expectedModifiesPairs);
-  validateUses(reader, expectedUsesPairs);
+  REQUIRE(HelperFunctions::validateEntities(
+      reader, expectedVars, expectedConstants, expectedProcedures,
+      expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
+      expectedCallStmts, expectedWhileStmts, expectedIfStmts));
+  REQUIRE(HelperFunctions::validateFollows(reader, expectedFollowsPairs,
+                                           expectedFollowsStarPairs));
+  REQUIRE(HelperFunctions::validateParents(reader, expectedParentChildPairs,
+                                           expectedParentChildStarPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(reader.getExactAssignPattern("_", "_", false).empty());
   REQUIRE(reader.getPartialAssignPattern("_", "_", false).empty());
 }
@@ -522,14 +480,16 @@ TEST_CASE(
       {"1", "p"}, {"2", "q"}, {"4", "r"}, {"3", "r"}};
   StrStrPairSet expectedUsesPairs = {
       {"3", "p"}, {"3", "q"}, {"3", "x"}, {"3", "y"}};
-  validateEntities(reader, expectedVars, expectedConstants, expectedProcedures,
-                   expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
-                   expectedCallStmts, expectedWhileStmts, expectedIfStmts);
-  validateFollows(reader, expectedFollowsPairs, expectedFollowsStarPairs);
-  validateParents(reader, expectedParentChildPairs,
-                  expectedParentChildStarPairs);
-  validateModifies(reader, expectedModifiesPairs);
-  validateUses(reader, expectedUsesPairs);
+  REQUIRE(HelperFunctions::validateEntities(
+      reader, expectedVars, expectedConstants, expectedProcedures,
+      expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
+      expectedCallStmts, expectedWhileStmts, expectedIfStmts));
+  REQUIRE(HelperFunctions::validateFollows(reader, expectedFollowsPairs,
+                                           expectedFollowsStarPairs));
+  REQUIRE(HelperFunctions::validateParents(reader, expectedParentChildPairs,
+                                           expectedParentChildStarPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(reader.getExactAssignPattern("_", "_", false).empty());
   REQUIRE(reader.getPartialAssignPattern("_", "_", false).empty());
 }
@@ -565,14 +525,16 @@ TEST_CASE("SP-PKB integration - multiple control variables in if statements") {
       {"1", "p"}, {"2", "q"}, {"4", "r"}, {"3", "r"}};
   StrStrPairSet expectedUsesPairs = {
       {"3", "p"}, {"3", "q"}, {"3", "x"}, {"3", "y"}, {"5", "p"}};
-  validateEntities(reader, expectedVars, expectedConstants, expectedProcedures,
-                   expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
-                   expectedCallStmts, expectedWhileStmts, expectedIfStmts);
-  validateFollows(reader, expectedFollowsPairs, expectedFollowsStarPairs);
-  validateParents(reader, expectedParentChildPairs,
-                  expectedParentChildStarPairs);
-  validateModifies(reader, expectedModifiesPairs);
-  validateUses(reader, expectedUsesPairs);
+  REQUIRE(HelperFunctions::validateEntities(
+      reader, expectedVars, expectedConstants, expectedProcedures,
+      expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
+      expectedCallStmts, expectedWhileStmts, expectedIfStmts));
+  REQUIRE(HelperFunctions::validateFollows(reader, expectedFollowsPairs,
+                                           expectedFollowsStarPairs));
+  REQUIRE(HelperFunctions::validateParents(reader, expectedParentChildPairs,
+                                           expectedParentChildStarPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(reader.getExactAssignPattern("_", "_", false).empty());
   REQUIRE(reader.getPartialAssignPattern("_", "_", false).empty());
 }
@@ -680,88 +642,90 @@ TEST_CASE("SP-PKB integration - assign pattern with all operators") {
       {"14", "f"}, {"15", "f"}, {"16", "f"}, {"9", "g"},  {"10", "g"},
       {"12", "g"},
   };
-  validateEntities(reader, expectedVars, expectedConstants, expectedProcedures,
-                   expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
-                   expectedCallStmts, expectedWhileStmts, expectedIfStmts);
-  validateFollows(reader, expectedFollowsPairs, expectedFollowsStarPairs);
-  validateParents(reader, expectedParentChildPairs,
-                  expectedParentChildStarPairs);
-  validateModifies(reader, expectedModifiesPairs);
-  validateUses(reader, expectedUsesPairs);
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::validateEntities(
+      reader, expectedVars, expectedConstants, expectedProcedures,
+      expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
+      expectedCallStmts, expectedWhileStmts, expectedIfStmts));
+  REQUIRE(HelperFunctions::validateFollows(reader, expectedFollowsPairs,
+                                           expectedFollowsStarPairs));
+  REQUIRE(HelperFunctions::validateParents(reader, expectedParentChildPairs,
+                                           expectedParentChildStarPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("x", " a b c * + d e / f % - ", false),
       unordered_set<string>{"7"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("y", " a b + c d - * e f % / ", false),
       unordered_set<string>{"8"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("z", " a b c d * + e f / - * g % ", false),
       unordered_set<string>{"9"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("a", " a b c / d * - e f % g * + ", false),
       unordered_set<string>{"10"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("b", " a b * c - d e f / + % ", false),
       unordered_set<string>{"11"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("c", " a b c + / d * e f % - g + ", false),
       unordered_set<string>{"12"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("d", " a b c d % e - * f / + ", false),
       unordered_set<string>{"13"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("e", " a b % c * d e f + / - ", false),
       unordered_set<string>{"14"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("f", " a b / c d + * e % f - ", false),
       unordered_set<string>{"15"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("g", " a b c % + d e f / - * ", false),
       unordered_set<string>{"16"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("x", " a b c * - ", false),
       unordered_set<string>{"18", "17"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("x", " a b * c + ", false),
       unordered_set<string>{"19"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("x", " a b / c d * - ", false),
       unordered_set<string>{"20"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("_", "_", false),
       unordered_set<string>{"20", "19", "18", "17", "16", "15", "14", "13",
                             "12", "11", "10", "9", "8", "7"}));
 
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getPartialAssignPattern("x", " a b c * + ", false),
       unordered_set<string>{"7"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getPartialAssignPattern("y", " a b + c d - * ", false),
       unordered_set<string>{"8"}));
-  REQUIRE(
-      isAssignResultMatch(reader.getPartialAssignPattern("_", " e f / ", false),
-                          unordered_set<string>{"16", "11", "9"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("_", " e f / ", false),
+      unordered_set<string>{"16", "11", "9"}));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getPartialAssignPattern("_", " a b c / d * - e f % g * + ", false),
       unordered_set<string>{"10"}));
-  REQUIRE(
-      isAssignResultMatch(reader.getPartialAssignPattern("_", " e f % ", false),
-                          unordered_set<string>{"12", "10", "8"}));
-  REQUIRE(
-      isAssignResultMatch(reader.getPartialAssignPattern("_", " c d % ", false),
-                          unordered_set<string>{"13"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("_", " e f % ", false),
+      unordered_set<string>{"12", "10", "8"}));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("_", " c d % ", false),
+      unordered_set<string>{"13"}));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getPartialAssignPattern("e", " d e f + / ", false),
       unordered_set<string>{"14"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getPartialAssignPattern("f", " a b / c d + * ", false),
       unordered_set<string>{"15"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getPartialAssignPattern("g", " a b c % + d e f / - * ", false),
       unordered_set<string>{"16"}));
-  REQUIRE(
-      isAssignResultMatch(reader.getPartialAssignPattern("x", "_", false),
-                          unordered_set<string>{"7", "17", "18", "19", "20"}));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("x", "_", false),
+      unordered_set<string>{"7", "17", "18", "19", "20"}));
 }
 
 TEST_CASE(
@@ -886,63 +850,65 @@ TEST_CASE(
       {"13", "g"}, {"15", "g"}, {"28", "g"}, {"13", "x"}, {"8", "x"},
       {"8", "y"},  {"13", "y"},
   };
-  validateEntities(reader, expectedVars, expectedConstants, expectedProcedures,
-                   expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
-                   expectedCallStmts, expectedWhileStmts, expectedIfStmts);
-  validateFollows(reader, expectedFollowsPairs, expectedFollowsStarPairs);
-  validateParents(reader, expectedParentChildPairs,
-                  expectedParentChildStarPairs);
-  validateModifies(reader, expectedModifiesPairs);
-  validateUses(reader, expectedUsesPairs);
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::validateEntities(
+      reader, expectedVars, expectedConstants, expectedProcedures,
+      expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
+      expectedCallStmts, expectedWhileStmts, expectedIfStmts));
+  REQUIRE(HelperFunctions::validateFollows(reader, expectedFollowsPairs,
+                                           expectedFollowsStarPairs));
+  REQUIRE(HelperFunctions::validateParents(reader, expectedParentChildPairs,
+                                           expectedParentChildStarPairs));
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("x", " a b c * + d e / f % - ", false),
       unordered_set<string>{"7"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("y", " a b + c d - * e f % / ", false),
       unordered_set<string>{"9"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("z", " a b c d * + e f / - * g % ", false),
       unordered_set<string>{"11"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("a", " a b c / d * - e f % g * + ", false),
       unordered_set<string>{"12"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("b", " a b * c - d e f / + % ", false),
       unordered_set<string>{"14"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("c", " a b c + / d * e f % - g + ", false),
       unordered_set<string>{"15"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("d", " a b c d % e - * f / + ", false),
       unordered_set<string>{"18"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("e", " a b % c * d e f + / - ", false),
       unordered_set<string>{"19"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("f", " a b / c d + * e % f - ", false),
       unordered_set<string>{"20"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getExactAssignPattern("g", " a b c % + d e f / - * ", false),
       unordered_set<string>{"21"}));
-  REQUIRE(
-      isAssignResultMatch(reader.getExactAssignPattern("_", "_", false),
-                          unordered_set<string>{"21", "19", "15", "11", "14",
-                                                "20", "9", "12", "18", "7"}));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getExactAssignPattern("_", "_", false),
+      unordered_set<string>{"21", "19", "15", "11", "14", "20", "9", "12", "18",
+                            "7"}));
 
   REQUIRE(reader.getPartialAssignPattern("x", " a b c * - ", false).empty());
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getPartialAssignPattern("x", " a b c * + ", false),
       unordered_set<string>{"7"}));
-  REQUIRE(
-      isAssignResultMatch(reader.getPartialAssignPattern("_", " e f % ", false),
-                          unordered_set<string>{"15", "9", "12"}));
-  REQUIRE(
-      isAssignResultMatch(reader.getPartialAssignPattern("_", " e f / ", false),
-                          unordered_set<string>{"21", "11", "14"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("_", " e f % ", false),
+      unordered_set<string>{"15", "9", "12"}));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
+      reader.getPartialAssignPattern("_", " e f / ", false),
+      unordered_set<string>{"21", "11", "14"}));
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getPartialAssignPattern("_", " d e f + / ", false),
       unordered_set<string>{"19"}));
-  REQUIRE(isAssignResultMatch(
+  REQUIRE(HelperFunctions::isAssignResultMatch(
       reader.getPartialAssignPattern("g", " a b c % + ", false),
       unordered_set<string>{"21"}));
 }
