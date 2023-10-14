@@ -5,7 +5,6 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include <utility>
 
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"

@@ -6,7 +6,6 @@
 IntermediateTable IfPatternClause::evaluate(Context& context,
                                                PKBReader& pkbReader) {
   string synonymValue = synonym->getValue();
-  string entityType = context.getTokenEntity(synonymValue);
 
   unique_ptr<PatternEvaluator> evaluatorPtr;
 
