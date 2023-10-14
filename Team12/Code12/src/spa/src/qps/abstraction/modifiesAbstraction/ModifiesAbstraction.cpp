@@ -1,6 +1,6 @@
-#include <unordered_set>
-
 #include "ModifiesAbstraction.h"
+
+#include <unordered_set>
 
 /**
  * Modifies abstraction:
@@ -20,20 +20,15 @@ IntermediateTable ModifiesAbstraction::evaluateSynonymIdent() {
       this->context.getTokenEntity(firstArgSynonym) == PROCEDURE_ENTITY;
   string secondArgVarName = this->secondArgValue;
 
+  vector<string> result;
   // Modifies(procSynonym, *) and Modifies(stmtSynonym, *) has different APIs
-  // with different return types
   if (isFirstArgProcedure) {
-    unordered_set<string> proceduresModifyingVar =
-        pkb.getProceduresModifying(secondArgVarName);
-    return IntermediateTableFactory::buildSingleColTable(
-        firstArgSynonym, proceduresModifyingVar);
+    result = pkb.getProceduresModifying(secondArgVarName);
   } else {
     StmtType firstArgStmtType = getFirstArgStmtType();
-    vector<string> statementsModifyingVar =
-        pkb.getStatementsModifying(secondArgVarName, firstArgStmtType);
-    return IntermediateTableFactory::buildSingleColTable(
-        firstArgSynonym, statementsModifyingVar);
+    result = pkb.getStatementsModifying(secondArgVarName, firstArgStmtType);
   }
+  return IntermediateTableFactory::buildSingleColTable(firstArgSynonym, result);
 }
 
 // Modifies (StmtSynonym, _)
@@ -122,7 +117,7 @@ IntermediateTable
 ModifiesAbstraction::handleProcNameWithVarSynonymOrWildcard() {
   string firstArgProcName = this->firstArgValue;
   string secondArgVarValue = this->secondArgValue;
-  unordered_set<string> modifiedVariables =
+  vector<string> modifiedVariables =
       pkb.getModifiedVariablesForProc(firstArgProcName);
   //! If second arg is "_", wildcard table is built instead.
   return IntermediateTableFactory::buildSingleColTable(secondArgVarValue,

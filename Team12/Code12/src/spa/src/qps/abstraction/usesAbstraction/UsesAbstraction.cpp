@@ -1,6 +1,6 @@
-#include <unordered_set>
-
 #include "UsesAbstraction.h"
+
+#include <unordered_set>
 
 /**
  * Uses abstraction:
@@ -20,20 +20,15 @@ IntermediateTable UsesAbstraction::evaluateSynonymIdent() {
       this->context.getTokenEntity(firstArgSynonym) == PROCEDURE_ENTITY;
   string secondArgVarName = this->secondArgValue;
 
+  vector<string> result;
   // Uses(procSynonym, *) and Uses(stmtSynonym, *) has different APIs
-  // with different return types
   if (isFirstArgProcedure) {
-    unordered_set<string> proceduresUsingVar =
-        pkb.getProceduresUsing(secondArgVarName);
-    return IntermediateTableFactory::buildSingleColTable(firstArgSynonym,
-                                                         proceduresUsingVar);
+    result = pkb.getProceduresUsing(secondArgVarName);
   } else {
     StmtType firstArgStmtType = getFirstArgStmtType();
-    vector<string> statementsUsingVar =
-        pkb.getStatementsUsing(secondArgVarName, firstArgStmtType);
-    return IntermediateTableFactory::buildSingleColTable(firstArgSynonym,
-                                                         statementsUsingVar);
+    result = pkb.getStatementsUsing(secondArgVarName, firstArgStmtType);
   }
+  return IntermediateTableFactory::buildSingleColTable(firstArgSynonym, result);
 }
 
 // Uses (StatementOrProcSynonym, _)
@@ -120,8 +115,7 @@ IntermediateTable UsesAbstraction::handleSynonymOrWildcardArgs() {
 IntermediateTable UsesAbstraction::handleProcNameWithVarSynonymOrWildcard() {
   string firstArgProcName = this->firstArgValue;
   string secondArgVarValue = this->secondArgValue;
-  unordered_set<string> usedVariables =
-      pkb.getUsedVariablesForProc(firstArgProcName);
+  vector<string> usedVariables = pkb.getUsedVariablesForProc(firstArgProcName);
   //! If second arg is "_", wildcard table is built instead.
   return IntermediateTableFactory::buildSingleColTable(secondArgVarValue,
                                                        usedVariables);

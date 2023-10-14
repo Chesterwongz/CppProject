@@ -6,9 +6,16 @@ std::vector<std::string> ModifiesReader::getStatementsModifying(
                                                          statementType);
 }
 
-std::unordered_set<std::string> ModifiesReader::getProceduresModifying(
+std::vector<std::string> ModifiesReader::getProceduresModifying(
     const string& variableName) {
-  return modifies_reader_.getProcsRelatedToVar(variableName);
+  std::unordered_set<std::string> modifyingProcedures
+      = modifies_reader_.getProcsRelatedToVar(variableName);
+  std::vector<std::string> modifyingProceduresVector{};
+  modifyingProceduresVector.reserve(modifyingProcedures.size());
+  modifyingProceduresVector.insert(modifyingProceduresVector.end(),
+                                   modifyingProcedures.begin(),
+                                   modifyingProcedures.end());
+  return modifyingProceduresVector;
 }
 
 std::vector<std::pair<std::string, std::string>>
@@ -33,9 +40,16 @@ ModifiesReader::getAllModifiedVariables(StmtType statementType) {
   return modifies_reader_.getAllRelationsByStmtType(statementType);
 }
 
-unordered_set<string> ModifiesReader::getModifiedVariablesForProc(
+std::vector<std::string> ModifiesReader::getModifiedVariablesForProc(
     const string& procName) {
-  return modifies_reader_.getVarsRelatedToProc(procName);
+  std::unordered_set<std::string> modifiedVariables =
+      modifies_reader_.getVarsRelatedToProc(procName);
+  std::vector<std::string> modifiedVariablesVector{};
+  modifiedVariablesVector.reserve(modifiedVariables.size());
+  modifiedVariablesVector.insert(modifiedVariablesVector.end(),
+                                 modifiedVariables.begin(),
+                                 modifiedVariables.end());
+  return modifiedVariablesVector;
 }
 
 std::vector<std::pair<std::string, std::string>>

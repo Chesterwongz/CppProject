@@ -1,9 +1,10 @@
+#include <catch.hpp>
 #include <set>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
-#include <catch.hpp>
 
+#include "../../common/utils.h"
 #include "pkb/facade/PKB.h"
 #include "pkb/facade/PKBReader.h"
 #include "sp/SourceProcessor.h"
@@ -26,9 +27,13 @@ void validateModifiesProcVar(PKBReader& reader, const vector<string>& procs,
                              ProcToStrSetMap expectedModifiesMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedModifies = expectedModifiesMap[proc];
-    unordered_set<string> actualModifies =
-        reader.getModifiedVariablesForProc(proc);
-    REQUIRE(actualModifies == expectedModifies);
+    vector<string> expectedModifiesVector{};
+    expectedModifiesVector.insert(expectedModifiesVector.end(),
+                                  expectedModifies.begin(),
+                                  expectedModifies.end());
+    vector<string> actualModifies = reader.getModifiedVariablesForProc(proc);
+    REQUIRE(
+        compareVectorContents<string>(actualModifies, expectedModifiesVector));
   }
 }
 
@@ -36,8 +41,11 @@ void validateUsesProcVar(PKBReader& reader, const vector<string>& procs,
                          ProcToStrSetMap expectedUsesMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedUses = expectedUsesMap[proc];
-    unordered_set<string> actualUses = reader.getUsedVariablesForProc(proc);
-    REQUIRE(actualUses == expectedUses);
+    vector<string> expectedUsesVector{};
+    expectedUsesVector.insert(expectedUsesVector.end(), expectedUses.begin(),
+                              expectedUses.end());
+    vector<string> actualUses = reader.getUsedVariablesForProc(proc);
+    REQUIRE(compareVectorContents<string>(actualUses, expectedUsesVector));
   }
 }
 

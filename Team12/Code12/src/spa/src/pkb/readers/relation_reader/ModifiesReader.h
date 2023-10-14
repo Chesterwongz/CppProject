@@ -27,13 +27,13 @@ class ModifiesReader : public IModifiesReader {
   std::vector<std::string> getStatementsModifying(
       const std::string& variableName, StmtType statementType) override;
 
-  std::unordered_set<std::string> getProceduresModifying(
+  std::vector<std::string> getProceduresModifying(
       const std::string& variableName) override;
 
   std::vector<std::pair<std::string, std::string>> getVariablesModifiedBy(
       int statementNumber, StmtType statementType) override;
 
-  unordered_set<string> getModifiedVariablesForProc(
+  std::vector<std::string> getModifiedVariablesForProc(
       const string& procName) override;
 
   bool isVariableModifiedBy(const std::string& variableName,

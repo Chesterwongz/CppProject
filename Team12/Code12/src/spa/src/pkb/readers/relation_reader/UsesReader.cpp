@@ -6,9 +6,15 @@ std::vector<std::string> UsesReader::getStatementsUsing(
                                                      statementType);
 }
 
-std::unordered_set<std::string> UsesReader::getProceduresUsing(
+std::vector<std::string> UsesReader::getProceduresUsing(
     const string& variableName) {
-  return uses_reader_.getProcsRelatedToVar(variableName);
+  std::unordered_set<std::string> proceduresUsing =
+      uses_reader_.getProcsRelatedToVar(variableName);
+  std::vector<std::string> proceduresUsingVector{};
+  proceduresUsingVector.reserve(proceduresUsing.size());
+  proceduresUsingVector.insert(proceduresUsingVector.end(),
+                               proceduresUsing.begin(), proceduresUsing.end());
+  return proceduresUsingVector;
 }
 
 std::vector<std::pair<std::string, std::string>> UsesReader::getVariablesUsedBy(
@@ -32,9 +38,15 @@ UsesReader::getAllUsedVariables(StmtType statementType) {
   return uses_reader_.getAllRelationsByStmtType(statementType);
 }
 
-std::unordered_set<std::string> UsesReader::getUsedVariablesForProc(
+std::vector<std::string> UsesReader::getUsedVariablesForProc(
     const std::string& procName) {
-  return uses_reader_.getVarsRelatedToProc(procName);
+  std::unordered_set<std::string> variablesUsed =
+      uses_reader_.getVarsRelatedToProc(procName);
+  std::vector<std::string> variablesUsedVector{};
+  variablesUsedVector.reserve(variablesUsed.size());
+  variablesUsedVector.insert(variablesUsedVector.end(), variablesUsed.begin(),
+                             variablesUsed.end());
+  return variablesUsedVector;
 }
 
 std::vector<std::pair<std::string, std::string>>

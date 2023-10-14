@@ -5,7 +5,7 @@
 #include <set>
 #include <string>
 #include <unordered_map>
-#include <unordered_set>
+#include <vector>
 #include <utility>
 #include <vector>
 
@@ -33,13 +33,13 @@ class MockPKBReader : public PKBReader {
   vector<pair<string, string>> mockParentStarOf;
   vector<pair<string, string>> mockParentChildStarPairs;
   vector<string> mockStatementsModifying;
-  unordered_set<string> mockProceduresModifying;
+  vector<string> mockProceduresModifying;
   vector<pair<string, string>> mockVariablesModifiedBy;
-  unordered_set<string> mockModifiedVariablesForProc;
+  vector<string> mockModifiedVariablesForProc;
   vector<string> mockStatementsUsing;
-  unordered_set<string> mockProceduresUsing;
+  vector<string> mockProceduresUsing;
   vector<pair<string, string>> mockVariablesUsedBy;
-  unordered_set<string> mockUsedVariablesForProc;
+  vector<string> mockUsedVariablesForProc;
   vector<pair<string, string>> mockAllModifiedVariables;
   vector<pair<string, string>> mockAllModifiedVariablesByProcs;
   vector<pair<string, string>> mockAllUsedVariables;
@@ -138,7 +138,7 @@ class MockPKBReader : public PKBReader {
     return mockStatementsModifying;
   }
 
-  unordered_set<string> getProceduresModifying(
+  vector<string> getProceduresModifying(
       const string& variableName) override {
     return mockProceduresModifying;
   }
@@ -149,7 +149,7 @@ class MockPKBReader : public PKBReader {
   }
 
   // return all variables modified by specified procedure
-  unordered_set<string> getModifiedVariablesForProc(
+  vector<string> getModifiedVariablesForProc(
       const string& procName) override {
     return mockModifiedVariablesForProc;
   }
@@ -159,7 +159,7 @@ class MockPKBReader : public PKBReader {
     return mockStatementsUsing;
   }
 
-  unordered_set<string> getProceduresUsing(
+  vector<string> getProceduresUsing(
       const string& variableName) override {
     return mockProceduresUsing;
   }
@@ -169,7 +169,7 @@ class MockPKBReader : public PKBReader {
     return mockVariablesUsedBy;
   }
 
-  unordered_set<string> getUsedVariablesForProc(
+  vector<string> getUsedVariablesForProc(
       const string& procName) override {
     return mockUsedVariablesForProc;
   }
