@@ -1,8 +1,8 @@
-#include <string>
 #include <catch.hpp>
+#include <string>
 
-#include "common/AliasTypes.h"
 #include "../../utils/HelperFunctions.h"
+#include "common/AliasTypes.h"
 #include "pkb/facade/PKB.h"
 #include "pkb/facade/PKBReader.h"
 #include "sp/SourceProcessor.h"
@@ -25,6 +25,10 @@ TEST_CASE("SP-PKB integration MS2 - Non-nesting statements") {
   ProcToStrSetMap expectedUsesMap = {{"simple", {"num1", "num2"}}};
   ProcToStrSetMap expectedCallsMap = {{"simple", {}}};
   ProcToStrSetMap expectedCallsStarMap = {{"simple", {}}};
+  StrStrPairSet expectedModifiesPairs = {{"1", "num1"}, {"3", "x"}};
+  StrStrPairSet expectedUsesPairs = {{"2", "num2"}, {"3", "num1"}};
+  REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
+  REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
   REQUIRE(HelperFunctions::validateModifiesProcVar(reader, procs,
                                                    expectedModifiesMap));
