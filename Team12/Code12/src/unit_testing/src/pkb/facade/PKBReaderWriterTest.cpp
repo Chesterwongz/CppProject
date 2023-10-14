@@ -184,8 +184,10 @@ TEST_CASE("PKBReader Tests") {
             std::pair<std::string, std::string>{"1", "3"});
     REQUIRE(reader.getImmediateParentOf(3, StmtType::ASSIGN) ==
             std::pair<std::string, std::string>{"1", "3"});
-    REQUIRE(reader.getImmediateParentOf(3, StmtType::READ) == {});
-    REQUIRE(reader.getImmediateParentOf(3, StmtType::CALL) == {});
+    REQUIRE(reader.getImmediateParentOf(3, StmtType::READ) ==
+            std::pair<std::string, std::string>{"", ""});
+    REQUIRE(reader.getImmediateParentOf(3, StmtType::CALL) ==
+            std::pair<std::string, std::string>{"", ""});
     REQUIRE(reader.getImmediateParentOf(4, StmtType::STMT) ==
             std::pair<std::string, std::string>{"3", "4"});
     REQUIRE(reader.getImmediateParentOf(5, StmtType::STMT) ==
