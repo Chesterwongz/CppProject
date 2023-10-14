@@ -1,4 +1,4 @@
-#include "nextAbstraction.h"
+#include "NextAbstraction.h"
 
 /**
  * Next abstraction:
@@ -89,7 +89,7 @@ IntermediateTable NextAbstraction::handleFirstArgInteger() {
   string secondStmtSynonym = this->secondArgValue;
 
   vector<string> nextSecondStmt =
-      pkb.getNextStmtsFrom(firstStmtNumber, secondStmtType);
+      pkb.getNextStmts(firstStmtNumber, secondStmtType);
 
   return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
                                                        nextSecondStmt);
@@ -101,7 +101,7 @@ IntermediateTable NextAbstraction::handleSecondArgInteger() {
   int secondStmtNumber = stoi(this->secondArgValue);
 
   vector<string> nextFirstStmt =
-      pkb.getPrevStmtsFrom(secondStmtNumber, firstStmtType);
+      pkb.getPrevStmts(secondStmtNumber, firstStmtType);
 
   return IntermediateTableFactory::buildSingleColTable(firstStmtSynonym,
                                                        nextFirstStmt);

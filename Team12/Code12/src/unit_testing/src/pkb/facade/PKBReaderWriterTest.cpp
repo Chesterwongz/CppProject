@@ -1,9 +1,9 @@
 #include <unordered_set>
 #include <catch.hpp>
 
-#include "../../../../spa/src/pkb/facade/PKBReader.h"
-#include "../../../../spa/src/pkb/facade/PKBWriter.h"
 #include "../../common/utils/HelperFunctions.h"
+#include "pkb/facade/PKBReader.h"
+#include "pkb/facade/PKBWriter.h"
 
 TEST_CASE("PKBReader Tests") {
   PKBStorage storage;

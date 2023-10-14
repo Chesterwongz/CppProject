@@ -3,9 +3,9 @@
 #include "../../unit_testing/src/qps/mocks/MockContext.h"
 #include "../../unit_testing/src/qps/mocks/MockPKBReader.h"
 #include "qps/argument/ident/Ident.h"
-#include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/patternExp/PatternExp.h"
 #include "qps/clause/patternClause/AssignPatternClause.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/common/Keywords.h"
 
 using std::unique_ptr, std::make_unique;
