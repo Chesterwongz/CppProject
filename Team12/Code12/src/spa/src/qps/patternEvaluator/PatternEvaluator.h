@@ -31,7 +31,7 @@ class PatternEvaluator {
         synonymValue(synonymValue) {}
 
   virtual IntermediateTable evaluate();
-  virtual vector<std::pair<string, string>> processArguments() = 0;
+  virtual vector<std::pair<string, string>> evaluateArguments() = 0;
   virtual IntermediateTable buildResultTable(
       vector<std::pair<string, string>> pkbResult);
   virtual ~PatternEvaluator() = default;

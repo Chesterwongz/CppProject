@@ -21,5 +21,5 @@ class AssignEvaluator : public PatternEvaluator {
         secondArg(std::move(secondArg)),
         isPartialMatch(isPartialMatch) {}
   ~AssignEvaluator() override = default;
-  vector<pair<string, string>> processArguments() override;
+  vector<pair<string, string>> evaluateArguments() override;
 };

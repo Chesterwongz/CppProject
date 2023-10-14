@@ -4,7 +4,7 @@
 #include "common/utils/StringUtils.h"
 #include "qps/common/Keywords.h"
 
-vector<pair<string, string>> AssignEvaluator::processArguments() {
+vector<pair<string, string>> AssignEvaluator::evaluateArguments() {
   string firstArgValue = firstArg->getValue();
   string secondArgValue = secondArg->getValue();
 

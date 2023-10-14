@@ -26,7 +26,7 @@ TEST_CASE("test_AssignEvaluator_processArgs_synonymFirstArg") {
                       assignMockPKBReader, assignIsPartialMatchFalse,
                       selectedSynonym.getValue());
 
-  vector<pair<string, string>> pkbResult = assignEvaluator.processArguments();
+  vector<pair<string, string>> pkbResult = assignEvaluator.evaluateArguments();
 
   REQUIRE(pkbResult == mockExactAssignPatternStmts);
 }
@@ -52,7 +52,7 @@ TEST_CASE("test_AssignEvaluator_processArgs_identFirstArg") {
                       assignMockPKBReader, assignIsPartialMatchFalse,
                       selectedSynonym.getValue());
 
-  vector<pair<string, string>> pkbResult = assignEvaluator.processArguments();
+  vector<pair<string, string>> pkbResult = assignEvaluator.evaluateArguments();
 
   REQUIRE(pkbResult == mockExactAssignPatternStmtsIdent);
 }
@@ -76,7 +76,7 @@ TEST_CASE("test_AssignEvaluator_processArgs_wildcardFirstArg") {
       std::move(wildcardPtr), std::move(patternExpPtr), assignMockPKBReader,
       assignIsPartialMatchFalse, selectedSynonym.getValue());
 
-  vector<pair<string, string>> pkbResult = assignEvaluator.processArguments();
+  vector<pair<string, string>> pkbResult = assignEvaluator.evaluateArguments();
 
   REQUIRE(pkbResult == mockExactAssignPatternStmts);
 }

@@ -1,7 +1,7 @@
 #include "PatternEvaluator.h"
 
 IntermediateTable PatternEvaluator::evaluate() {
-  vector<std::pair<string, string>> pkbResult = processArguments();
+  vector<std::pair<string, string>> pkbResult = evaluateArguments();
 
   IntermediateTable result = buildResultTable(pkbResult);
   return result;

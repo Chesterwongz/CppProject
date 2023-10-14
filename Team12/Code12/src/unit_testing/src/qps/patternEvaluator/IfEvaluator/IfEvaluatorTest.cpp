@@ -22,7 +22,7 @@ TEST_CASE("test_ifEvaluator_processArgs_synonymFirstArg") {
 
   // TODO(houten) change type to vector<pair<string, string>>
   // once merge saketh pr
-  // vector<string> pkbResult = ifEvaluator.processArguments();
+  // vector<string> pkbResult = ifEvaluator.evaluateArguments();
 
   // REQUIRE(pkbResult == mockIfPatternStmtsSynonym);
 }
@@ -44,7 +44,7 @@ TEST_CASE("test_ifEvaluator_processArgs_identFirstArg") {
   // TODO(houten) change type to vector<pair<string, string>>
   // once merge saketh pr
 
-  // vector<string> pkbResult = ifEvaluator.processArguments();
+  // vector<string> pkbResult = ifEvaluator.evaluateArguments();
 
   // REQUIRE(pkbResult == mockIfPatternStmtsIdent);
 }
@@ -65,7 +65,7 @@ TEST_CASE("test_ifEvaluator_processArgs_wildcardFirstArg") {
   // TODO(houten) change type to vector<pair<string, string>>
   // once merge saketh pr
 
-  // vector<string> pkbResult = ifEvaluator.processArguments();
+  // vector<string> pkbResult = ifEvaluator.evaluateArguments();
 
   // REQUIRE(pkbResult == mockIfPatternStmtsSynonym);
 }

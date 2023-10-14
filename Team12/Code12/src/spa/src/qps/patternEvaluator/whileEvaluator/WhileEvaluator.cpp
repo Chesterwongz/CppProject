@@ -5,7 +5,7 @@
 #include "common/utils/StringUtils.h"
 #include "qps/common/Keywords.h"
 
-vector<pair<string, string>> WhileEvaluator::processArguments() {
+vector<pair<string, string>> WhileEvaluator::evaluateArguments() {
   string firstArgValue = firstArg->getValue();
 
   bool isFirstArgSynonym = firstArg->isSynonym();

@@ -13,5 +13,5 @@ class WhileEvaluator : public PatternEvaluator {
                           PKBReader& pkbReader, string synonymValue)
       : PatternEvaluator(std::move(firstArg), pkbReader, synonymValue) {}
   ~WhileEvaluator() override = default;
-  vector<pair<string, string>> processArguments() override;
+  vector<pair<string, string>> evaluateArguments() override;
 };
