@@ -21,19 +21,17 @@ IntermediateTable UsesAbstraction::evaluateSynonymIdent() {
   // Uses(procSynonym, *) and Uses(stmtSynonym, *) has different APIs
   // with different return types
   if (isFirstArgProcedure) {
-    unordered_set<string> proceduresUsingVar
-        = pkb.getProceduresUsing(secondArgVarName);
+    unordered_set<string> proceduresUsingVar =
+        pkb.getProceduresUsing(secondArgVarName);
     return IntermediateTableFactory::buildSingleColTable(firstArgSynonym,
                                                          proceduresUsingVar);
   } else {
     StmtType firstArgStmtType = getFirstArgStmtType();
-    vector<string> statementsUsingVar
-        = pkb.getStatementsUsing(secondArgVarName, firstArgStmtType);
+    vector<string> statementsUsingVar =
+        pkb.getStatementsUsing(secondArgVarName, firstArgStmtType);
     return IntermediateTableFactory::buildSingleColTable(firstArgSynonym,
                                                          statementsUsingVar);
   }
-
-
 }
 
 // Uses (StatementOrProcSynonym, _)

@@ -21,16 +21,16 @@ IntermediateTable ModifiesAbstraction::evaluateSynonymIdent() {
   // Modifies(procSynonym, *) and Modifies(stmtSynonym, *) has different APIs
   // with different return types
   if (isFirstArgProcedure) {
-    unordered_set<string> proceduresModifyingVar
-        = pkb.getProceduresModifying(secondArgVarName);
-    return IntermediateTableFactory::buildSingleColTable(firstArgSynonym,
-                                                         proceduresModifyingVar);
+    unordered_set<string> proceduresModifyingVar =
+        pkb.getProceduresModifying(secondArgVarName);
+    return IntermediateTableFactory::buildSingleColTable(
+        firstArgSynonym, proceduresModifyingVar);
   } else {
     StmtType firstArgStmtType = getFirstArgStmtType();
-    vector<string> statementsModifyingVar
-        = pkb.getStatementsModifying(secondArgVarName, firstArgStmtType);
-    return IntermediateTableFactory::buildSingleColTable(firstArgSynonym,
-                                                         statementsModifyingVar);
+    vector<string> statementsModifyingVar =
+        pkb.getStatementsModifying(secondArgVarName, firstArgStmtType);
+    return IntermediateTableFactory::buildSingleColTable(
+        firstArgSynonym, statementsModifyingVar);
   }
 }
 
