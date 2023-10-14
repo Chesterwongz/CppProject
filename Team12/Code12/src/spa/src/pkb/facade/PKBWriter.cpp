@@ -128,29 +128,6 @@ void PKBWriter::setIndirectCallsRelationship() {
     processCallStmtRelations(s, callee, indirectCallees,
                              &PKBStorage::getVarsModifiedByProc,
                              &PKBWriter::setModifiesRelationship);
-    //    unordered_set<string> allUsedVars = storage.getVarsUsedByProc(callee);
-    //    unordered_set<string> allModifiedVars =
-    //        storage.getVarsModifiedByProc(callee);
-    //    for (const auto &indirectCallee : indirectCallees) {
-    //      unordered_set<string> usedVars =
-    //          storage.getVarsUsedByProc(indirectCallee);
-    //      unordered_set<string> modifiedVars =
-    //          storage.getVarsModifiedByProc(indirectCallee);
-    //      allUsedVars.insert(usedVars.begin(), usedVars.end());
-    //      allModifiedVars.insert(modifiedVars.begin(), modifiedVars.end());
-    //    }
-    //    for (const auto &var : allUsedVars) {
-    //      storage.addUses(var, s);
-    //      for (int p : storage.getAllParents(s)) {
-    //        storage.addUses(var, p);
-    //      }
-    //    }
-    //    for (const auto &var : allModifiedVars) {
-    //      storage.addModifies(var, s);
-    //      for (int p : storage.getAllParents(s)) {
-    //        storage.addModifies(var, p);
-    //      }
-    //    }
   }
 }
 
