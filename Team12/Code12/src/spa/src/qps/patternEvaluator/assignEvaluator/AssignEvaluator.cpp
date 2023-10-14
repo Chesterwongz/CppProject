@@ -11,14 +11,17 @@ vector<string> AssignEvaluator::processArguments() {
   bool isFirstArgSynonym = firstArg->isSynonym();
   bool isSecondArgWildcard = secondArg->isWildcard();
 
-  vector<string> pkbResult;
+  if (isFirstArgSynonym) {
+    firstArgValue = WILDCARD_KEYWORD;
+  }
+
+  vector<std::pair<string, string>> pkbResult;
 
   if (isPartialMatch) {
-    pkbResult = pkbReader.getPartialAssignPattern(firstArgValue, secondArgValue,
-                                                  isFirstArgSynonym);
+    pkbResult =
+        pkbReader.getPartialAssignPattern(firstArgValue, secondArgValue);
   } else {
-    pkbResult = pkbReader.getExactAssignPattern(firstArgValue, secondArgValue,
-                                                isFirstArgSynonym);
+    pkbResult = pkbReader.getExactAssignPattern(firstArgValue, secondArgValue);
   }
 
   return pkbResult;

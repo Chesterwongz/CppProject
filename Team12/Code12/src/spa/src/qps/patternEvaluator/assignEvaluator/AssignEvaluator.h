@@ -20,5 +20,5 @@ class AssignEvaluator : public PatternEvaluator {
                          synonymValue),
         secondArg(std::move(secondArg)) {}
   ~AssignEvaluator() override = default;
-  vector<string> processArguments() override;
+  vector<std::pair<string, string>> processArguments() override;
 };
