@@ -15,6 +15,7 @@ class AssignEvaluator : public PatternEvaluator {
       : PatternEvaluator(context, patternArgsStream, pkbReader, isPartialMatch,
                          synonymValue) {}
   ~AssignEvaluator() override = default;
-  vector<string> processArguments() override;
-  IntermediateTable buildResultTable(vector<string> pkbResult) override;
+  vector<std::pair<string, string>> processArguments() override;
+  IntermediateTable buildResultTable(
+      vector<std::pair<string, string>> pkbResult) override;
 };
