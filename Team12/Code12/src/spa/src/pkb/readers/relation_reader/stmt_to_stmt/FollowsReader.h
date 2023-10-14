@@ -23,9 +23,9 @@ class FollowsReader : public IFollowsReader {
       : followsStore(storage), stmtStore(stmtStorage) {}
 
  public:
-  std::string getFollowing(int stmt, StmtType stmtType) override;
+  std::vector<std::string> getFollowing(int stmt, StmtType stmtType) override;
 
-  std::string getFollowed(int stmt, StmtType stmtType) override;
+  std::vector<std::string> getFollowed(int stmt, StmtType stmtType) override;
 
   bool isFollows(int stmt1, int stmt2) override;
 

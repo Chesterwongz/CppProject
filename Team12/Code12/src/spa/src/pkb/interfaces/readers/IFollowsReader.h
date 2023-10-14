@@ -14,14 +14,13 @@ class IFollowsReader {
   // return the statement number of the statement immediately following
   // stmt return s2 that satisfies Follows(s1, s2) and is of same
   // type as stmtType
-  virtual std::string getFollowing(int stmt,
-                                   StmtType stmtType) = 0;
+  virtual std::vector<std::string> getFollowing(int stmt,
+                                                StmtType stmtType) = 0;
 
   // return the statement number of the statement that stmt
   // immediately follows return s1 that satisfies Follows(s1, s2) and is of same
   // type as stmtType
-  virtual std::string getFollowed(int stmt,
-                                  StmtType stmtType) = 0;
+  virtual std::vector<std::string> getFollowed(int stmt, StmtType stmtType) = 0;
 
   // return true if Follows(stmt1, stmt2) holds and false
   // otherwise

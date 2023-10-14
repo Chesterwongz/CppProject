@@ -88,14 +88,11 @@ IntermediateTable FollowsAbstraction::handleFirstArgInteger() {
   StmtType secondStmtType = this->getSecondArgStmtType();
   string secondStmtSynonym = this->secondArgValue;
 
-  string followingStmt = pkb.getFollowing(firstStmtNumber, secondStmtType);
+  vector<string> followingStmt =
+      pkb.getFollowing(firstStmtNumber, secondStmtType);
 
-  if (followingStmt == INVALID_STATEMENT_NUMBER) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
-
-  return IntermediateTableFactory::buildIntermediateTable(secondStmtSynonym,
-                                                          followingStmt);
+  return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
+                                                       followingStmt);
 }
 
 IntermediateTable FollowsAbstraction::handleSecondArgInteger() {
@@ -103,12 +100,9 @@ IntermediateTable FollowsAbstraction::handleSecondArgInteger() {
   string firstStmtSynonym = this->firstArgValue;
   int secondStmtNumber = stoi(this->secondArgValue);
 
-  string followedStmt = pkb.getFollowed(secondStmtNumber, firstStmtType);
+  vector<string> followedStmt =
+      pkb.getFollowed(secondStmtNumber, firstStmtType);
 
-  if (followedStmt == INVALID_STATEMENT_NUMBER) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
-
-  return IntermediateTableFactory::buildIntermediateTable(firstStmtSynonym,
-                                                          followedStmt);
+  return IntermediateTableFactory::buildSingleColTable(firstStmtSynonym,
+                                                       followedStmt);
 }
