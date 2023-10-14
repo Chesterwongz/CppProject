@@ -1,28 +1,49 @@
 #include "UsesReader.h"
 
+// (1, v)
+std::vector<std::string> UsesReader::getVariablesUsedBy(int stmt) {
+  auto varFilter = PredicateUtils::truePredicate<std::string>();
+
+  auto rawRes = usesStore.getDirectSuccessor(stmt, varFilter);
+
+  return rawRes;
+}
+
+// (s, "name")
 std::vector<std::string> UsesReader::getStatementsUsing(
-    const std::string& variableName, StmtType statementType) {
-  return uses_reader_.getStmtsRelatedToVarByStmtType(variableName,
-                                                     statementType);
+    const std::string& varName, StmtType stmtType) {
+  if (!stmtStore.hasStmtType(stmtType)) {
+    return {};
+  }
+
+  auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
+
+  auto rawRes = usesStore.getDirectAncestor(varName, stmtFilter);
+
+  return CollectionUtils::transformIntToStrVector(rawRes);
 }
 
-std::vector<std::pair<std::string, std::string>> UsesReader::getVariablesUsedBy(
-    int statementNumber, StmtType statementType) {
-  return uses_reader_.getVarsRelatedToStmtByStmtType(statementNumber,
-                                                     statementType);
+bool UsesReader::isVariableUsedBy(int stmt, const std::string& varName) {
+  return usesStore.hasDirectRelation(stmt, varName);
 }
 
-bool UsesReader::isVariableUsedBy(const std::string& variableName,
-                                  const std::string& statementNumber) {
-  return uses_reader_.isVarRelatedToStmt(variableName, statementNumber);
+std::vector<std::pair<std::string, std::string>> UsesReader::getUsesPairs(
+    StmtType stmtType) {
+  if (!stmtStore.hasStmtType(stmtType)) {
+    return {};
+  }
+
+  auto filters = std::make_pair(stmtStore.getStmtFilterPredicate(stmtType),
+                                PredicateUtils::truePredicate<std::string>());
+
+  auto rawRes = usesStore.getAllRelations(filters);
+
+  return CollectionUtils::transformIntStrToStrStrVector(rawRes);
 }
 
-std::vector<std::pair<std::string, std::string>>
-UsesReader::getAllUsedVariables(StmtType statementType) {
-  return uses_reader_.getAllRelationsByStmtType(statementType);
-}
+// =================================== UsesP ===================================
 
 std::unordered_set<std::string> UsesReader::getUsedVariablesForProc(
     const std::string& procName) {
-  return uses_reader_.getVarsRelatedToProc(procName);
+  return {};
 }

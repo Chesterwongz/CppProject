@@ -347,16 +347,16 @@ TEST_CASE("PKBReader Tests") {
             std::vector<std::pair<std::string, std::string>>{});
   }
 
-  SECTION("getAllUsedVariables") {
-    REQUIRE(reader.getAllUsedVariables(StmtType::STMT) ==
+  SECTION("getUsesPairs") {
+    REQUIRE(reader.getUsesPairs(StmtType::STMT) ==
             std::vector<std::pair<std::string, std::string>>{
                 {"1", "x"}, {"2", "x"}, {"4", "x"}, {"1", "y"}, {"3", "z"}});
-    REQUIRE(reader.getAllUsedVariables(StmtType::ASSIGN) ==
+    REQUIRE(reader.getUsesPairs(StmtType::ASSIGN) ==
             std::vector<std::pair<std::string, std::string>>{
                 {"1", "x"}, {"1", "y"}, {"3", "z"}});
-    REQUIRE(reader.getAllUsedVariables(StmtType::IF) ==
+    REQUIRE(reader.getUsesPairs(StmtType::IF) ==
             std::vector<std::pair<std::string, std::string>>{{"4", "x"}});
-    REQUIRE(reader.getAllUsedVariables(StmtType::PRINT).empty());
+    REQUIRE(reader.getUsesPairs(StmtType::PRINT).empty());
   }
 
   SECTION("getExactAssignPattern") {

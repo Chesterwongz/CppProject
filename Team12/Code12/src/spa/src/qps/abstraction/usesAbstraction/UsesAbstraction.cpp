@@ -43,10 +43,10 @@ IntermediateTable UsesAbstraction::evaluateIntegerSynonym() {
 
 // Uses (StatementNumber, VarIdentifier)
 IntermediateTable UsesAbstraction::evaluateIntegerIdent() {
-  string firstArgStmtNumber = this->firstArgValue;
+  int firstArgStmtNumber = stoi(this->firstArgValue);
   string secondArgIdent = this->secondArgValue;
 
-  if (pkb.isVariableUsedBy(secondArgIdent, firstArgStmtNumber)) {
+  if (pkb.isVariableUsedBy(firstArgStmtNumber, secondArgIdent)) {
     return IntermediateTableFactory::buildWildcardIntermediateTable();
   }
   return IntermediateTableFactory::buildEmptyIntermediateTable();
@@ -69,7 +69,7 @@ IntermediateTable UsesAbstraction::handleSynonymOrWildcardArgs() {
   string secondArgVarSynonym = this->secondArgValue;
 
   vector<pair<string, string>> allStatementsUsingAllVar =
-      pkb.getAllUsedVariables(firstArgStmtType);
+      pkb.getUsesPairs(firstArgStmtType);
 
   //! If any of the args are "_", the column will be ignored.
   return IntermediateTableFactory::buildIntermediateTable(

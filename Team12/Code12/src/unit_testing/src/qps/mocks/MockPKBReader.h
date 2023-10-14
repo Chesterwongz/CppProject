@@ -78,11 +78,13 @@ class MockPKBReader : public PKBReader {
     return mockStatements;
   }
 
-  std::vector<std::string> getFollowing(int statementNumber, StmtType statementType) override {
+  std::vector<std::string> getFollowing(int statementNumber,
+                                        StmtType statementType) override {
     return mockFollowing;
   }
 
-  std::vector<std::string> getFollowed(int statementNumber, StmtType statementType) override {
+  std::vector<std::string> getFollowed(int statementNumber,
+                                       StmtType statementType) override {
     return mockFollowed;
   }
 
@@ -111,8 +113,8 @@ class MockPKBReader : public PKBReader {
     return mockImmediateChildrenOf;
   }
 
-  std::vector<std::string> getImmediateParentOf(int statementNumber,
-                                            StmtType statementType) override {
+  std::vector<std::string> getImmediateParentOf(
+      int statementNumber, StmtType statementType) override {
     return mockImmediateParentOf;
   }
 
@@ -121,13 +123,13 @@ class MockPKBReader : public PKBReader {
     return mockParentChildPairs;
   }
 
-  std::vector<std::string> getChildrenStarOf(
-      int statementNumber, StmtType statementType) override {
+  std::vector<std::string> getChildrenStarOf(int statementNumber,
+                                             StmtType statementType) override {
     return mockChildrenStar;
   }
 
-  std::vector<std::string> getParentStarOf(
-      int statementNumber, StmtType statementType) override {
+  std::vector<std::string> getParentStarOf(int statementNumber,
+                                           StmtType statementType) override {
     return mockParentStarOf;
   }
 
@@ -151,8 +153,8 @@ class MockPKBReader : public PKBReader {
     return mockStatementsUsing;
   }
 
-  vector<pair<string, string>> getVariablesUsedBy(
-      int statementNumber, StmtType statementType) override {
+  std::vector<std::string> getVariablesUsedBy(int statementNumber,
+                                              StmtType statementType) override {
     return mockVariablesUsedBy;
   }
 
@@ -161,7 +163,7 @@ class MockPKBReader : public PKBReader {
     return mockAllModifiedVariables;
   }
 
-  vector<pair<string, string>> getAllUsedVariables(
+  vector<pair<string, string>> getUsesPairs(
       StmtType statementType) override {
     return mockAllUsedVariables;
   }
@@ -203,8 +205,7 @@ class MockPKBReader : public PKBReader {
     return mockIsVariableModifiedBy;
   }
 
-  bool isVariableUsedBy(const string& variableName,
-                        const string& statementNumber) override {
+  bool isVariableUsedBy(int stmt, const string& varName) override {
     return mockIsVariableUsedBy;
   }
 
