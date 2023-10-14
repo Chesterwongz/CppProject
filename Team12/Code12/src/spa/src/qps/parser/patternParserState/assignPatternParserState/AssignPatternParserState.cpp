@@ -90,7 +90,7 @@ void AssignPatternParserState::handleToken() {
       case PQL_CLOSE_BRACKET_TOKEN:
         processLastArgument();
         checkSafeExit();
-        parserContext.addClause(std::make_unique<PatternClause>(
+        parserContext.addClause(std::make_unique<AssignPatternClause>(
             std::move(synAssign), std::move(patternArg), isPartialMatch));
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
