@@ -23,14 +23,12 @@ void PQLParserContext::addToContext(string entity, const string& synonym) {
 void PQLParserContext::addSelectClause(const string& synonym) {
   getValidSynonymType(synonym);
   SynonymsToSelect synonymVector = {};
-  unique_ptr<SynonymArg> synonymArg
-      = std::make_unique<SynonymArg>(synonym);
+  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(synonym);
   synonymVector.emplace_back(std::move(synonymArg));
   this->query->setSynonymToQuery(std::move(synonymVector));
 }
 
-void PQLParserContext::addSelectClause(
-    SynonymsToSelect synonyms) {
+void PQLParserContext::addSelectClause(SynonymsToSelect synonyms) {
   this->query->setSynonymToQuery(std::move(synonyms));
 }
 

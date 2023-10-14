@@ -15,7 +15,7 @@ void SelectParserState::processNameToken(PQLToken& curr) {
     curr.updateTokenType(PQL_SYNONYM_TOKEN);
   } else if (curr.getValue() == BOOLEAN_KEYWORD) {
     curr.updateTokenType(PQL_BOOLEAN_TOKEN);
-  }  else if (curr.getValue() == BOOLEAN_KEYWORD) {
+  } else if (curr.getValue() == BOOLEAN_KEYWORD) {
     curr.updateTokenType(PQL_BOOLEAN_TOKEN);
   } else {
     throw QPSSemanticError(QPS_SEMANTIC_ERR_UNDECLARED_SYNONYM +

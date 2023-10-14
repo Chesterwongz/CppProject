@@ -1,6 +1,6 @@
-#include <utility>
-
 #include "SelectTupleParsersState.h"
+
+#include <utility>
 
 PredictiveMap SelectTupleParsersState::predictiveMap = {
     {PQL_LEFT_ANGLE_TOKEN, {PQL_SYNONYM_TOKEN}},
