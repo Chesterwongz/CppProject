@@ -58,7 +58,4 @@ class CallsStorage : public ICallsStorage {
   unordered_map<string, unordered_set<string>> calledByStarMap;
   // call stmt -> direct calleeProc, for call.procName
   unordered_map<int, string> stmtCalleeMap;
-  // direct calleeProc -> call stmt,
-  // for computing uses and modifies for indirect calls
-  unordered_map<string, unordered_set<int>> calleeStmtMap;
 };

@@ -5,7 +5,6 @@ void CallsStorage::setCallsRelationship(const string& caller,
   callsMap[caller].insert(callee);
   calledByMap[callee].insert(caller);
   stmtCalleeMap[stmtNum] = callee;
-  calleeStmtMap[callee].insert(stmtNum);
 }
 
 void CallsStorage::setCallsStarRelationship(const string& caller,
