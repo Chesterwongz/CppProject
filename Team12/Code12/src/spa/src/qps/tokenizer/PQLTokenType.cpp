@@ -64,5 +64,4 @@ unordered_map<string, unordered_set<string>> entityToAttrRef = {
     {READ_ENTITY, {ATTR_REF_VAR_NAME, ATTR_REF_STMT_NUMBER}},
     {STMT_ENTITY, {ATTR_REF_STMT_NUMBER}},
     {VARIABLE_ENTITY, {ATTR_REF_VAR_NAME}},
-    {WHILE_ENTITY, {ATTR_REF_STMT_NUMBER}}
-};
+    {WHILE_ENTITY, {ATTR_REF_STMT_NUMBER}}};

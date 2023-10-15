@@ -170,7 +170,8 @@ TEST_CASE("Valid pattern a and if") {
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
   // pattern a1 ("x", _)
-  unique_ptr<SynonymArg> outerSyn1 = std::make_unique<SynonymArg>(ass1, ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> outerSyn1 =
+      std::make_unique<SynonymArg>(ass1, ASSIGN_ENTITY);
   unique_ptr<Ident> firstArg1 = std::make_unique<Ident>("x");
   unique_ptr<Wildcard> secondArg1 = std::make_unique<Wildcard>();
   PatternArgsStream patternArg1;
@@ -181,7 +182,8 @@ TEST_CASE("Valid pattern a and if") {
   expected.addClause(std::move(patternClause1));
 
   // pattern a2 ("x", _"x"_)
-  unique_ptr<SynonymArg> outerSyn2 = std::make_unique<SynonymArg>(ass2, ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> outerSyn2 =
+      std::make_unique<SynonymArg>(ass2, ASSIGN_ENTITY);
   unique_ptr<Ident> firstArg2 = std::make_unique<Ident>("x");
   unique_ptr<PatternExp> secondArg2 = std::make_unique<PatternExp>("x");
   PatternArgsStream patternArg2;
@@ -192,22 +194,28 @@ TEST_CASE("Valid pattern a and if") {
   expected.addClause(std::move(patternClause2));
 
   // Follows (a1, a2)
-  unique_ptr<SynonymArg> firstArg3 = std::make_unique<SynonymArg>(ass1, ASSIGN_ENTITY);
-  unique_ptr<SynonymArg> secondArg3 = std::make_unique<SynonymArg>(ass2, ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> firstArg3 =
+      std::make_unique<SynonymArg>(ass1, ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> secondArg3 =
+      std::make_unique<SynonymArg>(ass2, ASSIGN_ENTITY);
   unique_ptr<SuchThatClause> suchThatClause1 = std::make_unique<SuchThatClause>(
       FOLLOWS_ENUM, std::move(firstArg3), std::move(secondArg3));
   expected.addClause(std::move(suchThatClause1));
 
   // Parent* (w1, a2)
-  unique_ptr<SynonymArg> firstArg4 = std::make_unique<SynonymArg>(while2, WHILE_ENTITY);
-  unique_ptr<SynonymArg> secondArg4 = std::make_unique<SynonymArg>(ass2, ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> firstArg4 =
+      std::make_unique<SynonymArg>(while2, WHILE_ENTITY);
+  unique_ptr<SynonymArg> secondArg4 =
+      std::make_unique<SynonymArg>(ass2, ASSIGN_ENTITY);
   unique_ptr<SuchThatClause> suchThatClause4 = std::make_unique<SuchThatClause>(
       PARENTS_STAR_ENUM, std::move(firstArg4), std::move(secondArg4));
   expected.addClause(std::move(suchThatClause4));
 
   // Parent* (w1, w2)
-  unique_ptr<SynonymArg> firstArg5 = std::make_unique<SynonymArg>(while1, WHILE_ENTITY);
-  unique_ptr<SynonymArg> secondArg5 = std::make_unique<SynonymArg>(while2, WHILE_ENTITY);
+  unique_ptr<SynonymArg> firstArg5 =
+      std::make_unique<SynonymArg>(while1, WHILE_ENTITY);
+  unique_ptr<SynonymArg> secondArg5 =
+      std::make_unique<SynonymArg>(while2, WHILE_ENTITY);
   unique_ptr<SuchThatClause> suchThatClause5 = std::make_unique<SuchThatClause>(
       PARENTS_STAR_ENUM, std::move(firstArg5), std::move(secondArg5));
   expected.addClause(std::move(suchThatClause5));

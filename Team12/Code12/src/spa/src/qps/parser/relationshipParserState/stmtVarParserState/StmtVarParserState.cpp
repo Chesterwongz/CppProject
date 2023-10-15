@@ -24,7 +24,7 @@ StmtVarParserState::StmtVarParserState(PQLParserContext& parserContext,
                               prev) {}
 
 string StmtVarParserState::checkIsValidSynonym(const std::string& synonym,
-                                             size_t argumentNumber) {
+                                               size_t argumentNumber) {
   auto synType = parserContext.getValidSynonymType(synonym);
   if (argumentNumber == SECOND_ARG && synType != VARIABLE_ENTITY) {
     throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_VAR_SYN);

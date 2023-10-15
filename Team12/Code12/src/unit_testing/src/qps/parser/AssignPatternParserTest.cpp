@@ -38,12 +38,14 @@ TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_MATCH)") {
   expectedContext->addSynonym("newa", ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>("newa", ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>("newa", ASSIGN_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
-  unique_ptr<SynonymArg> outerSynonym = std::make_unique<SynonymArg>("newa", ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> outerSynonym =
+      std::make_unique<SynonymArg>("newa", ASSIGN_ENTITY);
   unique_ptr<Ident> firstArg = std::make_unique<Ident>("cenX");
   unique_ptr<PatternExp> secondArg = std::make_unique<PatternExp>("x");
   PatternArgsStream patternArg;
@@ -83,12 +85,14 @@ TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_EXPR_MATCH)") {
   expectedContext->addSynonym("newa", ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>("newa", ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>("newa", ASSIGN_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
-  unique_ptr<SynonymArg> outerSynonym = std::make_unique<SynonymArg>("newa", ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> outerSynonym =
+      std::make_unique<SynonymArg>("newa", ASSIGN_ENTITY);
   unique_ptr<Ident> firstArg = std::make_unique<Ident>("cenX");
   unique_ptr<PatternExp> secondArg = std::make_unique<PatternExp>("x4 + y");
   PatternArgsStream patternArg;
@@ -135,13 +139,16 @@ TEST_CASE("Valid Pattern a (SYNONYM, PARTIAL_MATCH)") {
   expectedContext->addSynonym(var1, VARIABLE_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
-  unique_ptr<SynonymArg> outerSynonym = std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
-  unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>(var1, VARIABLE_ENTITY);
+  unique_ptr<SynonymArg> outerSynonym =
+      std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> firstArg =
+      std::make_unique<SynonymArg>(var1, VARIABLE_ENTITY);
   unique_ptr<PatternExp> secondArg = std::make_unique<PatternExp>("x");
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
@@ -187,12 +194,14 @@ TEST_CASE("Valid Pattern a (_, PARTIAL_MATCH)") {
   expectedContext->addSynonym(var1, VARIABLE_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
-  unique_ptr<SynonymArg> outerSynonym = std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> outerSynonym =
+      std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
   unique_ptr<Wildcard> firstArg = std::make_unique<Wildcard>();
   unique_ptr<PatternExp> secondArg = std::make_unique<PatternExp>("x");
   PatternArgsStream patternArg;
@@ -237,13 +246,16 @@ TEST_CASE("Valid Pattern a (SYNONYM, EXACT_MATCH)") {
   expectedContext->addSynonym(var1, VARIABLE_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
-  unique_ptr<SynonymArg> outerSynonym = std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
-  unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>(var1, VARIABLE_ENTITY);
+  unique_ptr<SynonymArg> outerSynonym =
+      std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> firstArg =
+      std::make_unique<SynonymArg>(var1, VARIABLE_ENTITY);
   unique_ptr<PatternExp> secondArg = std::make_unique<PatternExp>("x");
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));

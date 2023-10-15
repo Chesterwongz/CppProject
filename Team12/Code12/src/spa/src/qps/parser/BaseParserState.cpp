@@ -11,8 +11,8 @@ void BaseParserState::processNameToken(PQLToken &curr) {
   curr.updateTokenType(PQL_SYNONYM_TOKEN);
 }
 
-string BaseParserState::checkValidAttrRef(const std::string& synonym,
-                                        std::string attrRef) {
+string BaseParserState::checkValidAttrRef(const std::string &synonym,
+                                          std::string attrRef) {
   auto entityType = parserContext.getValidSynonymType(synonym);
 
   if (PQLParserUtils::isValidAttrRefFromSynonym(synonym, attrRef)) {

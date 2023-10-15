@@ -31,8 +31,8 @@ void AssignPatternParserState::processSynonymToken(PQLToken& curr) {
   }
 
   if (synType == VARIABLE_ENTITY) {
-    patternArg.push_back(std::move(std::make_unique<SynonymArg>(
-        curr.getValue(), synType)));
+    patternArg.push_back(
+        std::move(std::make_unique<SynonymArg>(curr.getValue(), synType)));
   } else {
     throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_VAR_SYN);
   }

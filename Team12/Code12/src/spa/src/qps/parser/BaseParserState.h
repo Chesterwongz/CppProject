@@ -1,7 +1,7 @@
 #pragma once
 
-#include <unordered_set>
 #include <optional>
+#include <unordered_set>
 
 #include "PQLParserContext.h"
 #include "qps/clause/Clause.h"
@@ -13,7 +13,7 @@ class BaseParserState : public IParserState {
   PQLParserContext& parserContext;
   PQLTokenType prev;
   void processNameToken(PQLToken& curr) override;
-  void processAttrRef(unique_ptr<SynonymArg> &synArg);
+  void processAttrRef(unique_ptr<SynonymArg>& synArg);
   string checkValidAttrRef(const string& synonym, string attrRef);
 
   explicit BaseParserState(PQLParserContext& parserContext, PQLTokenType prev);

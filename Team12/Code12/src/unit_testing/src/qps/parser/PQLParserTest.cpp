@@ -79,7 +79,8 @@ TEST_CASE("valid simple transitive follows") {
   expectedContext->addSynonym("a", ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
@@ -120,13 +121,15 @@ TEST_CASE("valid simple uses") {
   expectedContext->addSynonym("v", VARIABLE_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>("v", VARIABLE_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>("v", VARIABLE_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
   unique_ptr<Integer> firstArg = std::make_unique<Integer>("14");
-  unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>("v", VARIABLE_ENTITY);
+  unique_ptr<SynonymArg> secondArg =
+      std::make_unique<SynonymArg>("v", VARIABLE_ENTITY);
   unique_ptr<SuchThatClause> suchThatClause = make_unique<SuchThatClause>(
       USES_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
@@ -166,18 +169,21 @@ TEST_CASE("valid such that before pattern") {
   expectedContext->addSynonym("a", "assign");
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
-  unique_ptr<SynonymArg> firstSuchThatArg = std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> firstSuchThatArg =
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   unique_ptr<Ident> secondSuchThatArg = std::make_unique<Ident>("x");
   unique_ptr<SuchThatClause> suchThatClause = make_unique<SuchThatClause>(
       USES_ENUM, std::move(firstSuchThatArg), std::move(secondSuchThatArg));
   expected.addClause(std::move(suchThatClause));
 
-  unique_ptr<SynonymArg> outerSynonym = std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> outerSynonym =
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   unique_ptr<Ident> firstPatternArg = std::make_unique<Ident>("x");
   unique_ptr<Wildcard> secondPatternArg = std::make_unique<Wildcard>();
   vector<unique_ptr<AbstractArgument>> patternArg;
@@ -275,12 +281,14 @@ TEST_CASE("valid pattern before such that") {
   // expected query object
   Query expected(dummyQpsParserPkbReader);
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
-  unique_ptr<SynonymArg> outerSynonym = std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> outerSynonym =
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   unique_ptr<Ident> firstPatternArg = std::make_unique<Ident>("x");
   unique_ptr<Wildcard> secondPatternArg = std::make_unique<Wildcard>();
   PatternArgsStream patternArg;
@@ -293,7 +301,8 @@ TEST_CASE("valid pattern before such that") {
   unique_ptr<Context> expectedContext = make_unique<Context>();
   expectedContext->addSynonym("a", "assign");
   expected.addContext(std::move(expectedContext));
-  unique_ptr<SynonymArg> firstSuchThatArg = std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> firstSuchThatArg =
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   unique_ptr<Ident> secondSuchThatArg = std::make_unique<Ident>("x");
   unique_ptr<SuchThatClause> suchThatClause = make_unique<SuchThatClause>(
       USES_ENUM, std::move(firstSuchThatArg), std::move(secondSuchThatArg));

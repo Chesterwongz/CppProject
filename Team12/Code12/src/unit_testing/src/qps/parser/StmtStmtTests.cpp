@@ -43,13 +43,16 @@ TEST_CASE("Valid Follows(SYNONYM, SYNONYM)") {
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1, STMT_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>(d1, STMT_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
-  unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>(d1, STMT_ENTITY);
-  unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>(d2, ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> firstArg =
+      std::make_unique<SynonymArg>(d1, STMT_ENTITY);
+  unique_ptr<SynonymArg> secondArg =
+      std::make_unique<SynonymArg>(d2, ASSIGN_ENTITY);
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
       FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
@@ -90,12 +93,14 @@ TEST_CASE("Valid Follows(SYNONYM, _)") {
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1, STMT_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>(d1, STMT_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
-  unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>(d1, STMT_ENTITY);
+  unique_ptr<SynonymArg> firstArg =
+      std::make_unique<SynonymArg>(d1, STMT_ENTITY);
   unique_ptr<Wildcard> secondArg = std::make_unique<Wildcard>();
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
       FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
@@ -138,12 +143,14 @@ TEST_CASE("Valid Follows(SYNONYM, INTEGER)") {
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1, STMT_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>(d1, STMT_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
-  unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>(d1, STMT_ENTITY);
+  unique_ptr<SynonymArg> firstArg =
+      std::make_unique<SynonymArg>(d1, STMT_ENTITY);
   unique_ptr<Integer> secondArg = std::make_unique<Integer>(int1);
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
       FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
@@ -185,13 +192,15 @@ TEST_CASE("Valid Follows(_, SYNONYM)") {
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1, STMT_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>(d1, STMT_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
   unique_ptr<Wildcard> firstArg = std::make_unique<Wildcard>();
-  unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>(d2, ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> secondArg =
+      std::make_unique<SynonymArg>(d2, ASSIGN_ENTITY);
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
       FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
@@ -231,7 +240,8 @@ TEST_CASE("Valid Follows(_, _)") {
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1, STMT_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>(d1, STMT_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
@@ -278,7 +288,8 @@ TEST_CASE("Valid Follows(_, INTEGER)") {
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1, STMT_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>(d1, STMT_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
@@ -325,13 +336,15 @@ TEST_CASE("Valid Follows(INTEGER, SYNONYM)") {
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1, STMT_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>(d1, STMT_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
   unique_ptr<Integer> firstArg = std::make_unique<Integer>(int1);
-  unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>(d2, ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> secondArg =
+      std::make_unique<SynonymArg>(d2, ASSIGN_ENTITY);
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
       FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
@@ -372,7 +385,8 @@ TEST_CASE("Valid Follows(INTEGER, _)") {
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1, STMT_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>(d1, STMT_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
@@ -420,7 +434,8 @@ TEST_CASE("Valid Follows(INTEGER, INTEGER)") {
   expectedContext->addSynonym(d2, ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>(d1, STMT_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>(d1, STMT_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
@@ -506,13 +521,16 @@ TEST_CASE("Valid Parents(SYNONYM, SYNONYM)") {
   expectedContext->addSynonym("w", STMT_ENTITY);
   expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
-  unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>("w", STMT_ENTITY);
-  unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
+  unique_ptr<SynonymArg> firstArg =
+      std::make_unique<SynonymArg>("w", STMT_ENTITY);
+  unique_ptr<SynonymArg> secondArg =
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
       PARENTS_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
