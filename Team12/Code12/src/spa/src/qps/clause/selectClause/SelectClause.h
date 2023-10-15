@@ -30,7 +30,7 @@ class SelectClause : public Clause {
 };
 
 typedef std::function<set<string>(PKBReader &pkb)> evaluatorFunc;
-inline unordered_map<Entity, evaluatorFunc> evaluatorFuncMap = {
+static inline unordered_map<Entity, evaluatorFunc> evaluatorFuncMap = {
     {PROCEDURE_ENTITY, [](PKBReader &pkb) { return pkb.getAllProcedures(); }},
     {VARIABLE_ENTITY, [](PKBReader &pkb) { return pkb.getAllVariables(); }},
     {CONSTANT_ENTITY, [](PKBReader &pkb) { return pkb.getAllConstants(); }},

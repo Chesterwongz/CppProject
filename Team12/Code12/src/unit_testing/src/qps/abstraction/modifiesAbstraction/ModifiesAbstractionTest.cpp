@@ -228,11 +228,8 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Synonym)") {
       mockReader, mockContext, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
-  IntermediateTable resultTable = abstraction.evaluate();
-
-  REQUIRE(resultTable.getDataAsStrings() == MOCK_MODIFIED_VECTORS_COL_2);
-  REQUIRE(resultTable.getColNames().size() == 1);
-  REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
+  REQUIRE_THROWS_WITH(abstraction.evaluate(),
+                      QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Synonym)_empty") {
@@ -246,9 +243,8 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Synonym)_empty") {
       mockReader, mockContext, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
-  IntermediateTable resultTable = abstraction.evaluate();
-
-  REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  REQUIRE_THROWS_WITH(abstraction.evaluate(),
+                      QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Ident)") {
@@ -263,9 +259,8 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Ident)") {
       mockReader, mockContext, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
-  IntermediateTable resultTable = abstraction.evaluate();
-
-  REQUIRE(resultTable.isTableWildcard());
+  REQUIRE_THROWS_WITH(abstraction.evaluate(),
+                      QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Ident)_empty") {
@@ -279,9 +274,8 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Ident)_empty") {
       mockReader, mockContext, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
-  IntermediateTable resultTable = abstraction.evaluate();
-
-  REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  REQUIRE_THROWS_WITH(abstraction.evaluate(),
+                      QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Wildcard)") {
@@ -296,9 +290,8 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Wildcard)") {
       mockReader, mockContext, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
-  IntermediateTable resultTable = abstraction.evaluate();
-
-  REQUIRE(resultTable.isTableWildcard());
+  REQUIRE_THROWS_WITH(abstraction.evaluate(),
+                      QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }
 
 TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Wildcard)_EMPTY") {
@@ -312,8 +305,6 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Wildcard)_EMPTY") {
       mockReader, mockContext, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
-  IntermediateTable resultTable = abstraction.evaluate();
-
-  REQUIRE(resultTable.isTableWildcard() == false);
-  REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  REQUIRE_THROWS_WITH(abstraction.evaluate(),
+                      QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
 }

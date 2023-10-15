@@ -32,7 +32,10 @@ inline const string PARENTS_ABSTRACTION = "Parent";
 inline const string PARENTS_STAR_ABSTRACTION = "Parent*";
 inline const string NEXT_ABSTRACTION = "Next";
 inline const string NEXT_STAR_ABSTRACTION = "Next*";
+inline const string AFFECTS_ABSTRACTION = "Affects";
 inline const string USES_ABSTRACTION = "Uses";
+inline const string CALLS_ABSTRACTION = "Calls";
+inline const string CALLS_STAR_ABSTRACTION = "Calls*";
 
 inline const string WILDCARD_KEYWORD = "_";
 inline const string INVALID_STATEMENT_NUMBER = "-1";

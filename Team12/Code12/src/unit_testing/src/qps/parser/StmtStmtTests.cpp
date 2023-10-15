@@ -3,13 +3,11 @@
 #include <catch.hpp>
 
 #include "PQLParserTestUtils.h"
-#include "pkb/facade/PKBReader.h"
 #include "qps/argument/integer/Integer.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
 #include "qps/parser/PQLParserContext.h"
-#include "qps/parser/declarativeParserState/DeclarativeParserState.h"
 #include "qps/query/Query.h"
 #include "qps/token/PQLToken.h"
 
@@ -521,6 +519,26 @@ TEST_CASE("Valid Parents(SYNONYM, SYNONYM)") {
 
   bool res = *query == expected;
   REQUIRE(res);
+}
+
+TEST_CASE("Valid Affects(SYNONYM, _)") {
+  vector<PQLToken> tokenList = {
+      PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, FOLLOWS_ABSTRACTION),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, FOLLOWS_ABSTRACTION),
+      PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, AFFECTS_ABSTRACTION),
+      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+      PQLToken(PQL_NAME_TOKEN, FOLLOWS_ABSTRACTION),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+  };
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
 }
 
 TEST_CASE("Invalid Parents(SYNONYM, SYNONYM) - both are not stmt synonyms") {

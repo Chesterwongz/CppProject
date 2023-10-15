@@ -4,6 +4,7 @@
 
 #include "PQLParserTestUtils.h"
 #include "qps/argument/ident/Ident.h"
+#include "qps/argument/patternExp/PatternExp.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/patternClause/PatternClause.h"
@@ -44,7 +45,7 @@ TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_MATCH)") {
 
   unique_ptr<SynonymArg> outerSynonym = std::make_unique<SynonymArg>("newa");
   unique_ptr<Ident> firstArg = std::make_unique<Ident>("cenX");
-  unique_ptr<Ident> secondArg = std::make_unique<Ident>("x");
+  unique_ptr<PatternExp> secondArg = std::make_unique<PatternExp>("x");
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
   patternArg.push_back(std::move(secondArg));
@@ -89,7 +90,7 @@ TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_EXPR_MATCH)") {
 
   unique_ptr<SynonymArg> outerSynonym = std::make_unique<SynonymArg>("newa");
   unique_ptr<Ident> firstArg = std::make_unique<Ident>("cenX");
-  unique_ptr<Ident> secondArg = std::make_unique<Ident>("x4 + y");
+  unique_ptr<PatternExp> secondArg = std::make_unique<PatternExp>("x4 + y");
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
   patternArg.push_back(std::move(secondArg));
@@ -141,7 +142,7 @@ TEST_CASE("Valid Pattern a (SYNONYM, PARTIAL_MATCH)") {
 
   unique_ptr<SynonymArg> outerSynonym = std::make_unique<SynonymArg>(a1);
   unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>(var1);
-  unique_ptr<Ident> secondArg = std::make_unique<Ident>("x");
+  unique_ptr<PatternExp> secondArg = std::make_unique<PatternExp>("x");
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
   patternArg.push_back(std::move(secondArg));
@@ -193,7 +194,7 @@ TEST_CASE("Valid Pattern a (_, PARTIAL_MATCH)") {
 
   unique_ptr<SynonymArg> outerSynonym = std::make_unique<SynonymArg>(a1);
   unique_ptr<Wildcard> firstArg = std::make_unique<Wildcard>();
-  unique_ptr<Ident> secondArg = std::make_unique<Ident>("x");
+  unique_ptr<PatternExp> secondArg = std::make_unique<PatternExp>("x");
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
   patternArg.push_back(std::move(secondArg));
@@ -243,7 +244,7 @@ TEST_CASE("Valid Pattern a (SYNONYM, EXACT_MATCH)") {
 
   unique_ptr<SynonymArg> outerSynonym = std::make_unique<SynonymArg>(a1);
   unique_ptr<SynonymArg> firstArg = std::make_unique<SynonymArg>(var1);
-  unique_ptr<Ident> secondArg = std::make_unique<Ident>("x");
+  unique_ptr<PatternExp> secondArg = std::make_unique<PatternExp>("x");
   PatternArgsStream patternArg;
   patternArg.push_back(std::move(firstArg));
   patternArg.push_back(std::move(secondArg));
@@ -332,7 +333,8 @@ TEST_CASE("Invalid Pattern a (SYNONYM, PARTIAL_MATCH) - non variable synonym") {
       QPSSemanticError, Catch::Message(QPS_SEMANTIC_ERR_NOT_VAR_SYN));
 }
 
-TEST_CASE("Invalid Pattern a (LITERAL_REF, PARTIAL_MATCH) - integer entRef") {
+TEST_CASE(
+    "Invalid Pattern a (_LITERAL_REF_, PARTIAL_MATCH) - invalid 1st arg") {
   string a1 = "newa";
   string var1 = "var";
   vector<PQLToken> tokenList = {
@@ -347,17 +349,17 @@ TEST_CASE("Invalid Pattern a (LITERAL_REF, PARTIAL_MATCH) - integer entRef") {
       PQLToken(PQL_NAME_TOKEN, PATTERN_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, a1),
       PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_LITERAL_REF_TOKEN, "3"),
-      PQLToken(PQL_COMMA_TOKEN, ","),
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
   REQUIRE_THROWS_MATCHES(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSyntaxError, Catch::Message(QPS_TOKENIZATION_ERR_IDENT));
+      QPSSyntaxError, Catch::Message(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH));
 }
 
 TEST_CASE("Invalid Pattern a (LITERAL_REF_, PARTIAL_MATCH) - invalid 1st arg") {
@@ -375,18 +377,16 @@ TEST_CASE("Invalid Pattern a (LITERAL_REF_, PARTIAL_MATCH) - invalid 1st arg") {
       PQLToken(PQL_NAME_TOKEN, PATTERN_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, a1),
       PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_LITERAL_REF_TOKEN, "3"),
-      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
-      PQLToken(PQL_COMMA_TOKEN, ","),
-      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
       PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
       PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
   REQUIRE_THROWS_MATCHES(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSyntaxError, Catch::Message(QPS_TOKENIZATION_ERR_IDENT));
+      QPSSyntaxError, Catch::Message(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH));
 }
 
 TEST_CASE("Invalid Pattern a (SYNONYM, EXACT_EXPR_MATCH) - invalid expr") {
@@ -441,4 +441,26 @@ TEST_CASE(
   REQUIRE_THROWS_MATCHES(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
       QPSSyntaxError, Catch::Message(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH));
+}
+
+TEST_CASE("Invalid Pattern a (SYNONYM, - incomplete query") {
+  string a1 = "newa";
+  string var1 = "var";
+  vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+                                PQLToken(PQL_NAME_TOKEN, a1),
+                                PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
+                                PQLToken(PQL_NAME_TOKEN, var1),
+                                PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, a1),
+                                PQLToken(PQL_NAME_TOKEN, PATTERN_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, a1),
+                                PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+                                PQLToken(PQL_NAME_TOKEN, var1),
+                                PQLToken(PQL_COMMA_TOKEN, ",")};
+
+  REQUIRE_THROWS_MATCHES(
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPSSyntaxError, Catch::Message(QPS_TOKENIZATION_ERR_INCOMPLETE_QUERY));
 }

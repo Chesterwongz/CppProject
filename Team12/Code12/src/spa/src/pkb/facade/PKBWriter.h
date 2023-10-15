@@ -16,6 +16,7 @@
 #include "pkb/interfaces/writers/IDesignEntitiesWriter.h"
 #include "pkb/interfaces/writers/IFollowsWriter.h"
 #include "pkb/interfaces/writers/IModifiesWriter.h"
+#include "pkb/interfaces/writers/INextWriter.h"
 #include "pkb/interfaces/writers/IParentWriter.h"
 #include "pkb/interfaces/writers/IPatternWriter.h"
 #include "pkb/interfaces/writers/IStatementWriter.h"
@@ -30,7 +31,8 @@ class PKBWriter : public IDesignEntitiesWriter,
                   public IUsesWriter,
                   public ICallsWriter,
                   public IStatementWriter,
-                  public IPatternWriter {
+                  public IPatternWriter,
+                  public INextWriter {
  public:
   explicit PKBWriter(PKBStorage& storage) : storage(storage) {}
   ~PKBWriter() override = default;
@@ -67,9 +69,10 @@ class PKBWriter : public IDesignEntitiesWriter,
   // Add statement number and type to storage
   void setStatement(int statementNumber, StmtType statementType) override;
 
-  virtual void setWhilePattern(int statementNumber, const std::string& varName);
+  void setWhilePattern(int statementNumber,
+                       const std::string& varName) override;
 
-  virtual void setIfPattern(int statementNumber, const std::string& varName);
+  void setIfPattern(int statementNumber, const std::string& varName) override;
 
   virtual void setUsesRelationship(const std::string& variableName,
                                    const std::string& procedureName);
@@ -78,8 +81,8 @@ class PKBWriter : public IDesignEntitiesWriter,
                                        const std::string& procedureName);
 
   // direct calls, not transitive
-  void setCallsRelationship(const string& callerProc,
-                            const string& calleeProc) override;
+  void setCallsRelationship(const string& callerProc, const string& calleeProc,
+                            int stmtNum) override;
 
   void setCallsStarRelationship(const string& callerProc,
                                 const string& calleeProc) override;
@@ -92,14 +95,21 @@ class PKBWriter : public IDesignEntitiesWriter,
 
   virtual void setCFG(const std::string& procName, unique_ptr<CFG> cfg);
 
+  void addNext(int from, int to) override;
+
  private:
   PKBStorage& storage;
   void setUsesForCalls(const string& callerProc,
                        const unordered_set<string>& calleeProc);
   void setModifiesForCalls(const string& callerProc,
                            const unordered_set<string>& calleeProc);
-  void processCallRelations(
+  void processCallProcRelations(
       const string& caller, const unordered_set<string>& callees,
       unordered_set<string> (PKBStorage::*retrieveVars)(const string&),
-      void (PKBWriter::*setRelationship)(const string&, const string&));
+      void (PKBWriter::*setProcRelationship)(const string&, const string&));
+  void processCallStmtRelations(
+      int stmtNum, const string& callee,
+      const unordered_set<string>& indirectCallees,
+      unordered_set<string> (PKBStorage::*retrieveVars)(const string&),
+      void (PKBWriter::*setStmtRelationship)(const string&, int));
 };

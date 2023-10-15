@@ -4,8 +4,8 @@
 
 using std::string;
 
-map<char, int> QPSStringUtils::precedence = {{'(', 0}, {')', 0}, {'+', 1},
-                                             {'-', 1}, {'*', 2}, {'/', 2}};
+map<char, int> QPSStringUtils::precedence = {
+    {'(', 0}, {')', 0}, {'+', 1}, {'-', 1}, {'*', 2}, {'/', 2}, {'%', 2}};
 
 bool QPSStringUtils::isSynonym(string data) {
   std::regex synonymPattern("^[A-Za-z][A-Za-z0-9]*$");
@@ -95,27 +95,20 @@ bool QPSStringUtils::isNameTokenChar(const char ch) {
 
 bool QPSStringUtils::isNotQuoteEnd(const char ch) { return ch != '\"'; }
 
-string QPSStringUtils::trimString(const std::string s) {
-  auto begin = s.begin();
-  while (begin != s.end() && std::isspace(*begin)) ++begin;
-
-  auto end = s.end();
-  do {
-    --end;
-  } while (end != begin && std::isspace(*end));
-
-  return std::move(std::string(begin, end + 1));
+void QPSStringUtils::ltrim(string& s) {
+  s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+            return !std::isspace(ch);
+          }));
 }
 
-bool QPSStringUtils::hasMoreThanOneWord(const std::string str) {
-  // Find the first word.
-  std::size_t firstWordPos = str.find_first_of(" \t\n\r");
-  if (firstWordPos == std::string::npos) {
-    // If no word separator is found, then there's only one word or no words.
-    return false;
-  }
+void QPSStringUtils::rtrim(string& s) {
+  s.erase(std::find_if(s.rbegin(), s.rend(),
+                       [](unsigned char ch) { return !std::isspace(ch); })
+              .base(),
+          s.end());
+}
 
-  // Find the second word.
-  std::size_t secondWordPos = str.find_first_not_of(" \t\n\r", firstWordPos);
-  return (secondWordPos != std::string::npos);
+void QPSStringUtils::trimString(string& s) {
+  rtrim(s);
+  ltrim(s);
 }

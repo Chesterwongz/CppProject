@@ -25,7 +25,7 @@ TEST_CASE("NextStarAbstraction - Next*(Synonym, Synonym)_EMPTY") {
 
 TEST_CASE("NextStarAbstraction - Next*(Synonym, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextStarPairs = MOCK_NEXT_STAR_PAIRS;
+  mockReader.mockGetNextTPairs = MOCK_NEXT_STAR_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -45,7 +45,7 @@ TEST_CASE("NextStarAbstraction - Next*(Synonym, Synonym)") {
 
 TEST_CASE("NextStarAbstraction - Next*(Synonym, Integer)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextStarFirstStmt = MOCK_NEXT_STAR_FIRST_STMTS;
+  mockReader.mockGetPrevTStmts = MOCK_NEXT_STAR_FIRST_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -64,7 +64,7 @@ TEST_CASE("NextStarAbstraction - Next*(Synonym, Integer)") {
 
 TEST_CASE("NextStarAbstraction - Next*(Synonym, Integer)_no_next") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextStarFirstStmt = MOCK_NO_NEXT_STAR_STMTS;
+  mockReader.mockGetPrevTStmts = MOCK_NO_NEXT_STAR_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -81,7 +81,7 @@ TEST_CASE("NextStarAbstraction - Next*(Synonym, Integer)_no_next") {
 
 TEST_CASE("NextStarAbstraction - Next*(Synonym, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextStarPairs = MOCK_NEXT_STAR_PAIRS;
+  mockReader.mockGetNextTPairs = MOCK_NEXT_STAR_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -100,7 +100,7 @@ TEST_CASE("NextStarAbstraction - Next*(Synonym, Wildcard)") {
 
 TEST_CASE("NextStarAbstraction - Next*(Integer, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextStarSecondStmt = MOCK_NEXT_STAR_SECOND_STMTS;
+  mockReader.mockGetNextTStmts = MOCK_NEXT_STAR_SECOND_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -116,7 +116,7 @@ TEST_CASE("NextStarAbstraction - Next*(Integer, Synonym)") {
 
 TEST_CASE("NextStarAbstraction - Next*(Integer, Synonym)_no_next") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextStarSecondStmt = MOCK_NO_NEXT_STAR_STMTS;
+  mockReader.mockGetNextTStmts = MOCK_NO_NEXT_STAR_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -132,7 +132,7 @@ TEST_CASE("NextStarAbstraction - Next*(Integer, Synonym)_no_next") {
 
 TEST_CASE("NextStarAbstraction - Next*(Integer, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextStarSecondStmt = MOCK_NEXT_STAR_SECOND_STMTS;
+  mockReader.mockGetNextTStmts = MOCK_NEXT_STAR_SECOND_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -148,7 +148,7 @@ TEST_CASE("NextStarAbstraction - Next*(Integer, Wildcard)") {
 
 TEST_CASE("NextStarAbstraction - Next*(Integer, Wildcard)_no_next") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextStarSecondStmt = MOCK_NO_NEXT_STAR_STMTS;
+  mockReader.mockGetNextTStmts = MOCK_NO_NEXT_STAR_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -164,7 +164,7 @@ TEST_CASE("NextStarAbstraction - Next*(Integer, Wildcard)_no_next") {
 
 TEST_CASE("NextStarAbstraction - Next*(Integer, Integer)_true") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockIsNextStar = true;
+  mockReader.mockIsNextT = true;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -180,7 +180,7 @@ TEST_CASE("NextStarAbstraction - Next*(Integer, Integer)_true") {
 
 TEST_CASE("NextStarAbstraction - Next*(Integer, Integer)_false") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockIsNextStar = false;
+  mockReader.mockIsNextT = false;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -196,7 +196,7 @@ TEST_CASE("NextStarAbstraction - Next*(Integer, Integer)_false") {
 
 TEST_CASE("NextStarAbstraction - Next*(Wildcard, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextStarPairs = MOCK_NEXT_STAR_PAIRS;
+  mockReader.mockGetNextTPairs = MOCK_NEXT_STAR_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -215,7 +215,7 @@ TEST_CASE("NextStarAbstraction - Next*(Wildcard, Synonym)") {
 
 TEST_CASE("NextStarAbstraction - Next*(Wildcard, Integer)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextStarFirstStmt = MOCK_NEXT_STAR_FIRST_STMTS;
+  mockReader.mockGetPrevTStmts = MOCK_NEXT_STAR_FIRST_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -231,7 +231,7 @@ TEST_CASE("NextStarAbstraction - Next*(Wildcard, Integer)") {
 
 TEST_CASE("NextStarAbstraction - Next*(Wildcard, Integer)_no_next") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextStarFirstStmt = MOCK_NO_NEXT_STAR_STMTS;
+  mockReader.mockGetPrevTStmts = MOCK_NO_NEXT_STAR_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -247,7 +247,7 @@ TEST_CASE("NextStarAbstraction - Next*(Wildcard, Integer)_no_next") {
 
 TEST_CASE("NextStarAbstraction - Next*(Wildcard, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockGetNextStarPairs = MOCK_NEXT_STAR_PAIRS;
+  mockReader.mockGetNextTPairs = MOCK_NEXT_STAR_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   unique_ptr<AbstractArgument> mockArgument2 =

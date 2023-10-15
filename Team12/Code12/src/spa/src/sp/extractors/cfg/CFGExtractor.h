@@ -30,6 +30,7 @@ class CFGExtractor : public Extractor {
  private:
   vector<StmtListState> stmtListStates;
   unique_ptr<CFG> cfg;
+  void addNext(int from, int to);
   void processStmt(const StmtNode& node);
   void addEdgesToLine(int toLine);
   static void transferLines(stack<int>& from, stack<int>& to);

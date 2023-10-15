@@ -34,6 +34,7 @@ class MockPKBWriter : public PKBWriter {
   unordered_map<int, unordered_set<string>> ifPatternStorage;
   unordered_map<string, unordered_set<string>> callsStorage;
   unordered_map<string, unique_ptr<CFG>> cfgStorage;
+  IntToIntSetMap nextStorage;
 
  public:
   explicit MockPKBWriter(PKBStorage &storage) : PKBWriter(storage) {}
@@ -99,12 +100,19 @@ class MockPKBWriter : public PKBWriter {
   }
 
   void setCallsRelationship(const string &caller,
-                            const string &callee) override {
+                            const string &callee,
+                            int stmtNum) override {
     callsStorage[caller].insert(callee);
   }
 
   void setCFG(const string &procName, unique_ptr<CFG> cfg) override {
     cfgStorage[procName] = std::move(cfg);
+  }
+
+  void addNext(int from, int to) override {
+    if (to != common::CFG_END_STMT_NUM) {
+      nextStorage[from].insert(to);
+    }
   }
 
   [[nodiscard]] bool isVariablesEqual(
@@ -199,5 +207,9 @@ class MockPKBWriter : public PKBWriter {
                          return other.find(procName) != other.end() &&
                                 *cfgPtr == *other.at(procName);
                        });
+  }
+
+  [[nodiscard]] bool isNextEqual(const IntToIntSetMap &next) const {
+    return nextStorage == next;
   }
 };

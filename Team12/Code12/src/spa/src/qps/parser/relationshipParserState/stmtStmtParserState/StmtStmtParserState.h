@@ -6,6 +6,7 @@
 #include <utility>
 
 #include "qps/parser/PQLParserContext.h"
+#include "qps/parser/clauseTransitionParserState/ClauseTransitionParserState.h"
 #include "qps/parser/relationshipParserState/RelationshipParserState.h"
 #include "qps/parser/suchThatParserState/SuchThatParserState.h"
 
@@ -13,7 +14,6 @@ class StmtStmtParserState : public RelationshipParserState {
  private:
   static unordered_map<string, Abstraction> stmtStmtKeywordToAbstraction;
   static PredictiveMap predictiveMap;
-  bool isSuccess;
   void checkIsStmtSynonym(const string& synonym);
 
  public:

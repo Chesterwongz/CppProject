@@ -3,21 +3,18 @@
 #include <catch.hpp>
 
 #include "PQLParserTestUtils.h"
-#include "pkb/facade/PKBReader.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/integer/Integer.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
 #include "qps/parser/PQLParserContext.h"
-#include "qps/parser/declarativeParserState/DeclarativeParserState.h"
 #include "qps/query/Query.h"
 #include "qps/token/PQLToken.h"
 
 TEST_CASE("Valid Uses(SYNONYM, SYNONYM)") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
@@ -64,7 +61,6 @@ TEST_CASE("Valid Uses(SYNONYM, SYNONYM)") {
 TEST_CASE("Valid Uses(SYNONYM, _)") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
@@ -111,7 +107,6 @@ TEST_CASE("Valid Uses(SYNONYM, _)") {
 TEST_CASE("Valid Uses(SYNONYM, LITERAL_REF)") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
@@ -300,7 +295,6 @@ TEST_CASE("Valid Uses(INTEGER, LITERAL_REF)") {
 TEST_CASE("Valid Uses(LITERAL_REF, SYNONYM)") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
@@ -437,11 +431,9 @@ TEST_CASE("Valid Uses(LITERAL_REF, LITERAL_REF)") {
   REQUIRE(res);
 }
 
-TEST_CASE(
-    "Invalid Uses(LITERAL_REF, LITERAL_REF) - Literal ref is an integer") {
+TEST_CASE("Invalid Uses(LITERAL_EXPR, LITERAL_REF)") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),
@@ -455,7 +447,7 @@ TEST_CASE(
       PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
       PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
       PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
-      PQLToken(PQL_LITERAL_REF_TOKEN, "2"),
+      PQLToken(PQL_LITERAL_EXPRESSION_TOKEN, "2"),
       PQLToken(PQL_COMMA_TOKEN, ","),
       PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
@@ -463,13 +455,13 @@ TEST_CASE(
 
   REQUIRE_THROWS_MATCHES(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSyntaxError, Catch::Message(QPS_TOKENIZATION_ERR_IDENT));
+      QPSSyntaxError,
+      Catch::Message("Error occurred during tokenization, invalid token: 2"));
 }
 
 TEST_CASE("Invalid Uses(_, SYNONYM) - Wildcard cannot be first arg") {
   string d1 = "hello";
   string d2 = "assign";
-  string int1 = "4";
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
       PQLToken(PQL_NAME_TOKEN, d1),

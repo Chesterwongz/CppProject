@@ -18,7 +18,7 @@ class QPSStringUtils {
   static constexpr char kAsterisks = '*';
   static constexpr char kHash = '#';
 
-  enum ArgumentType { IDENT, SYNONYM, WILDCARD, INTEGER };
+  enum ArgumentType { IDENT, SYNONYM, WILDCARD, INTEGER, PATTERNEXP };
 
   static bool isSynonym(const string data);
   static bool isStmtRef(const string data);
@@ -29,10 +29,11 @@ class QPSStringUtils {
   static bool isInteger(const string data);
   static bool isNameTokenChar(const char ch);
   static bool isNotQuoteEnd(const char ch);
-  static bool hasMoreThanOneWord(const string str);
-  static string trimString(const string s);
+  static void trimString(string& s);
   static string convertToRPN(string exp);
 
  private:
+  static void ltrim(string& s);
+  static void rtrim(string& s);
   QPSStringUtils() = default;
 };

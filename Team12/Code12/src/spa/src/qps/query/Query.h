@@ -22,8 +22,9 @@ class Query {
  private:
   PKBReader& pkb;
   unique_ptr<Context> context;
-  ClauseList clauses = {};
   vector<string> synonymsToQuery = {};
+  unique_ptr<SelectClause> selectClause = {};
+  ClauseList clauses = {};
 
  public:
   explicit Query(PKBReader& pkb);
