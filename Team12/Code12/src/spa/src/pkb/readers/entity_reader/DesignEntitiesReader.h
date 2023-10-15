@@ -6,16 +6,17 @@
 #include "pkb/interfaces/readers/IDesignEntitiesReader.h"
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
 #include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
+#include "pkb/storage/StmtStore.h"
 
 class DesignEntitiesReader : public IDesignEntitiesReader {
  private:
   IEntityStorage& entity_storage_;
-  IStmtStorage& stmt_storage_;
+  StmtStore& stmtStore;
 
  protected:
   DesignEntitiesReader(IEntityStorage& entity_storage,
-                       IStmtStorage& stmt_storage)
-      : entity_storage_(entity_storage), stmt_storage_(stmt_storage) {}
+                       StmtStore& stmtStore)
+      : entity_storage_(entity_storage), stmtStore(stmtStore) {}
 
  public:
   // return the names of all variables in the program
