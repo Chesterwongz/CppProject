@@ -16,7 +16,8 @@ class ProcProcParserState : public RelationshipParserState {
 
  public:
   explicit ProcProcParserState(PQLParserContext& parserContext,
-                               string abstraction, PQLTokenType prev);
+                               string abstraction, PQLTokenType prev,
+                               bool isNegated);
   void handleToken() override;
   ~ProcProcParserState() override = default;
 };

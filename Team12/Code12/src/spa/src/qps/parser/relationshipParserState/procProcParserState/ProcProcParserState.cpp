@@ -19,9 +19,9 @@ PredictiveMap ProcProcParserState::predictiveMap = {
 
 ProcProcParserState::ProcProcParserState(PQLParserContext &parserContext,
                                          std::string abstraction,
-                                         PQLTokenType prev)
+                                         PQLTokenType prev, bool isNegated)
     : RelationshipParserState(parserContext, false, std::move(abstraction),
-                              prev) {}
+                              prev, isNegated) {}
 
 void ProcProcParserState::checkIsProcSynonym(const std::string &synonym) {
   auto synType = parserContext.getValidSynonymType(synonym);

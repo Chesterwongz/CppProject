@@ -7,9 +7,10 @@
 
 RelationshipParserState::RelationshipParserState(
     PQLParserContext &parserContext, bool isInBracket, string abstraction,
-    PQLTokenType prev)
+    PQLTokenType prev, bool isNegated)
     : isInBracket(isInBracket),
       abstraction(std::move(abstraction)),
+      isNegated(isNegated),
       BaseParserState(parserContext, prev) {}
 
 void RelationshipParserState::processNameToken(PQLToken &curr) {

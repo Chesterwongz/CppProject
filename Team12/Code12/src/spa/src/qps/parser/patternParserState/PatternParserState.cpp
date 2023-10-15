@@ -2,6 +2,9 @@
 
 PredictiveMap PatternParserState::predictiveMap = {
     {PQL_PATTERN_TOKEN,
+     {PQL_NOT_TOKEN, PQL_ASSIGN_PATTERN_TOKEN, PQL_IF_PATTERN_TOKEN,
+      PQL_WHILE_PATTERN_TOKEN}},
+    {PQL_NOT_TOKEN,
      {PQL_ASSIGN_PATTERN_TOKEN, PQL_IF_PATTERN_TOKEN,
       PQL_WHILE_PATTERN_TOKEN}}};
 
@@ -42,20 +45,26 @@ void PatternParserState::handleToken() {
     PQLToken token = curr.value();
 
     switch (token.getType()) {
+      case PQL_NOT_TOKEN:
+        isNegated = true;
+        break;
       case PQL_ASSIGN_PATTERN_TOKEN:
         parserContext.transitionTo(std::make_unique<AssignPatternParserState>(
             parserContext, token.getType(),
-            std::make_unique<SynonymArg>(token.getValue(), ASSIGN_ENTITY)));
+            std::make_unique<SynonymArg>(token.getValue(), ASSIGN_ENTITY),
+            isNegated));
         return;
       case PQL_IF_PATTERN_TOKEN:
         parserContext.transitionTo(std::make_unique<IfPatternParserState>(
             parserContext, token.getType(),
-            std::make_unique<SynonymArg>(token.getValue(), IF_ENTITY)));
+            std::make_unique<SynonymArg>(token.getValue(), IF_ENTITY),
+            isNegated));
         return;
       case PQL_WHILE_PATTERN_TOKEN:
         parserContext.transitionTo(std::make_unique<WhilePatternParserState>(
             parserContext, token.getType(),
-            std::make_unique<SynonymArg>(token.getValue(), WHILE_ENTITY)));
+            std::make_unique<SynonymArg>(token.getValue(), WHILE_ENTITY),
+            isNegated));
         return;
       default:
         break;

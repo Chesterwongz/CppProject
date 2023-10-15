@@ -16,7 +16,8 @@ class StmtVarParserState : public RelationshipParserState {
 
  public:
   explicit StmtVarParserState(PQLParserContext& parserContext,
-                              string abstraction, PQLTokenType prev);
+                              string abstraction, PQLTokenType prev,
+                              bool isNegated);
   void handleToken() override;
   ~StmtVarParserState() override = default;
 };

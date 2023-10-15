@@ -62,7 +62,9 @@ enum PQLTokenType {
 
   PQL_AND_TOKEN,
 
-  PQL_WITH_TOKEN
+  PQL_WITH_TOKEN,
+
+  PQL_NOT_TOKEN
 };
 
 enum ArgumentType { NAME_TYPE, INTEGER_TYPE };

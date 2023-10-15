@@ -19,6 +19,7 @@ class WhilePatternParserState : public BaseParserState {
  private:
   static constexpr int expectedNumberOfArgs = 1;
   static constexpr int expectedNonFirstArgWildcardCount = 1;
+  bool isNegated;
   unique_ptr<SynonymArg> synWhile;
   static PredictiveMap predictiveMap;
   vector<unique_ptr<AbstractArgument>> patternArg;
@@ -29,7 +30,8 @@ class WhilePatternParserState : public BaseParserState {
  public:
   explicit WhilePatternParserState(PQLParserContext& parserContext,
                                    PQLTokenType prev,
-                                   unique_ptr<SynonymArg> synWhile);
+                                   unique_ptr<SynonymArg> synWhile,
+                                   bool isNegated);
   void handleToken() override;
   ~WhilePatternParserState() override = default;
 };

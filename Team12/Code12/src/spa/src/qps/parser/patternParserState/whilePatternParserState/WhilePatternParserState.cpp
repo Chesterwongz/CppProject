@@ -11,8 +11,10 @@ PredictiveMap WhilePatternParserState::predictiveMap = {
 
 WhilePatternParserState::WhilePatternParserState(
     PQLParserContext &parserContext, PQLTokenType prev,
-    unique_ptr<SynonymArg> synWhile)
-    : BaseParserState(parserContext, prev), synWhile(std::move(synWhile)) {}
+    unique_ptr<SynonymArg> synWhile, bool isNegated)
+    : BaseParserState(parserContext, prev),
+      synWhile(std::move(synWhile)),
+      isNegated(isNegated) {}
 
 void WhilePatternParserState::processSynonymToken(PQLToken &curr) {
   string synType = parserContext.getValidSynonymType(curr.getValue());

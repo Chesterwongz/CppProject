@@ -18,10 +18,11 @@ PredictiveMap AssignPatternParserState::predictiveMap = {
 
 AssignPatternParserState::AssignPatternParserState(
     PQLParserContext& parserContext, PQLTokenType prev,
-    unique_ptr<SynonymArg> synAssign)
+    unique_ptr<SynonymArg> synAssign, bool isNegated)
     : BaseParserState(parserContext, prev),
       isPartialMatch(false),
-      synAssign(std::move(synAssign)) {}
+      synAssign(std::move(synAssign)),
+      isNegated(isNegated) {}
 
 void AssignPatternParserState::processSynonymToken(PQLToken& curr) {
   string synType = parserContext.getValidSynonymType(curr.getValue());

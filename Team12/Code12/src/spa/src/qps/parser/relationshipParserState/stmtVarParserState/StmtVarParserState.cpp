@@ -19,9 +19,10 @@ PredictiveMap StmtVarParserState::predictiveMap = {
     {PQL_INTEGER_TOKEN, {PQL_COMMA_TOKEN}}};
 
 StmtVarParserState::StmtVarParserState(PQLParserContext& parserContext,
-                                       string abstraction, PQLTokenType prev)
+                                       string abstraction, PQLTokenType prev,
+                                       bool isNegated)
     : RelationshipParserState(parserContext, false, std::move(abstraction),
-                              prev) {}
+                              prev, isNegated) {}
 
 string StmtVarParserState::checkIsValidSynonym(const std::string& synonym,
                                                size_t argumentNumber) {

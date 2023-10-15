@@ -39,7 +39,10 @@ unordered_map<string, PQLTokenType> keywordToTokenType = {
 
     {PATTERN_KEYWORD, PQL_PATTERN_TOKEN},
 
-    {WITH_KEYWORD, PQL_WITH_TOKEN}};
+    {WITH_KEYWORD, PQL_WITH_TOKEN},
+
+    {NOT_KEYWORD, PQL_NOT_TOKEN}
+};
 
 unordered_map<char, PQLTokenType> delimiterToTokenType = {
     {pqlDelim::kSemicolonChar, PQL_SEMICOLON_TOKEN},

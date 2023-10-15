@@ -19,6 +19,7 @@ class IfPatternParserState : public BaseParserState {
  private:
   static constexpr int expectedNumberOfArgs = 1;
   static constexpr int expectedNonFirstArgWildcardCount = 2;
+  bool isNegated;
   unique_ptr<SynonymArg> synIf;
   static PredictiveMap predictiveMap;
   vector<unique_ptr<AbstractArgument>> patternArg;
@@ -29,7 +30,8 @@ class IfPatternParserState : public BaseParserState {
  public:
   explicit IfPatternParserState(PQLParserContext& parserContext,
                                 PQLTokenType prev,
-                                unique_ptr<SynonymArg> synIf);
+                                unique_ptr<SynonymArg> synIf,
+                                bool isNegated);
   void handleToken() override;
   ~IfPatternParserState() override = default;
 };
