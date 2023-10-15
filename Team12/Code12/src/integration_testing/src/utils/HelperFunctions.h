@@ -16,10 +16,13 @@ class HelperFunctions {
  private:
   static void printEntities(const string& abstraction,
                             const unordered_set<string>& set);
-  static void printDifferences(const StrStrPairSet& actual,
-                               const StrStrPairSet& expected);
+  static void printDifferences(const StrStrPairVec& actual,
+                               const StrStrPairVec& expected);
 
  public:
+  template <typename T>
+  static bool compareVectorContents(vector<T> a, vector<T> b);
+
   static bool validateEntities(PKBReader& reader,
                                const set<string>& expectedVars,
                                const set<string>& expectedConstants,
@@ -32,32 +35,31 @@ class HelperFunctions {
                                const set<string>& expectedIfStmts);
 
   static bool validateFollows(PKBReader& reader,
-                              StrStrPairSet& expectedFollowsPairs,
-                              StrStrPairSet& expectedFollowsTPairs);
+                              StrStrPairVec& expectedFollowsPairs,
+                              StrStrPairVec& expectedFollowsTPairs);
 
   static bool validateParents(PKBReader& reader,
-                              StrStrPairSet& expectedParentChildPairs,
-                              StrStrPairSet& expectedParentChildTPairs);
+                              StrStrPairVec& expectedParentChildPairs,
+                              StrStrPairVec& expectedParentChildTPairs);
 
   static bool validateModifies(PKBReader& reader,
-                               StrStrPairSet& expectedModifiesPairs);
+                               StrStrPairVec& expectedModifiesPairs);
 
-  static bool validateUses(PKBReader& reader, StrStrPairSet& expectedUsesPairs);
+  static bool validateUses(PKBReader& reader, StrStrPairVec& expectedUsesPairs);
 
-  static bool isAssignResultMatch(vector<pair<string, string>> actual,
-                                  StrStrPairSet expected);
+  static bool isAssignResultMatch(StrStrPairVec actual, StrStrPairVec expected);
 
   static bool validateModifiesProcVar(PKBReader& reader,
                                       const vector<string>& procs,
-                                      ProcToStrSetMap expectedModifiesMap);
+                                      ProcToStrSetMap& expectedModifiesMap);
 
   static bool validateUsesProcVar(PKBReader& reader,
                                   const vector<string>& procs,
-                                  ProcToStrSetMap expectedUsesMap);
+                                  ProcToStrSetMap& expectedUsesMap);
 
   static bool validateCalls(PKBReader& reader, const vector<string>& procs,
-                            ProcToStrSetMap expectedCallsMap);
+                            ProcToStrSetMap& expectedCallsMap);
 
   static bool validateCallsT(PKBReader& reader, const vector<string>& procs,
-                             ProcToStrSetMap expectedCallsTMap);
+                             ProcToStrSetMap& expectedCallsTMap);
 };

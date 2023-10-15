@@ -9,10 +9,10 @@ void HelperFunctions::printEntities(const string& abstraction,
   std::cout << std::endl << "-------------" << std::endl;
 }
 
-void HelperFunctions::printDifferences(const StrStrPairSet& actual,
-                             const StrStrPairSet& expected) {
-  StrStrPairSet actualCopy = actual;
-  StrStrPairSet expectedCopy = expected;
+void HelperFunctions::printDifferences(const StrStrPairVec& actual,
+                                       const StrStrPairVec& expected) {
+  StrStrPairSet actualCopy = {actual.begin(), actual.end()};
+  StrStrPairSet expectedCopy = {expected.begin(), expected.end()};
   for (const auto& actualPair : actual) {
     if (expectedCopy.find(actualPair) != expectedCopy.end()) {
       expectedCopy.erase(actualPair);
@@ -25,9 +25,23 @@ void HelperFunctions::printDifferences(const StrStrPairSet& actual,
   }
   std::cout << "Expected - Actual: " << std::endl;
   for (const auto& expectedPair : expectedCopy) {
-    std::cout << expectedPair.first << ", " << expectedPair.second
-              << std::endl;
+    std::cout << expectedPair.first << ", " << expectedPair.second << std::endl;
   }
+}
+
+template <typename T>
+bool HelperFunctions::compareVectorContents(vector<T> a, vector<T> b) {
+  if (a.size() != b.size()) {
+    return false;
+  }
+  for (T& item : a) {
+    bool isSameCountInBoth = std::count(a.begin(), a.end(), item) ==
+                             std::count(b.begin(), b.end(), item);
+    if (!isSameCountInBoth) {
+      return false;
+    }
+  }
+  return true;
 }
 
 bool HelperFunctions::validateEntities(
@@ -58,62 +72,53 @@ bool HelperFunctions::validateEntities(
 }
 
 bool HelperFunctions::validateFollows(PKBReader& reader,
-                                      StrStrPairSet& expectedFollowsPairs,
-                                      StrStrPairSet& expectedFollowsTPairs) {
-  vector<pair<string, string>> actualFollowsPairs =
+                                      StrStrPairVec& expectedFollowsPairs,
+                                      StrStrPairVec& expectedFollowsTPairs) {
+  StrStrPairVec actualFollowsPairs =
       reader.getFollowsPairs(StmtType::STMT, StmtType::STMT);
-  StrStrPairSet actualFollows = {actualFollowsPairs.begin(),
-                                 actualFollowsPairs.end()};
-  vector<pair<string, string>> actualFollowsTPairs =
+  StrStrPairVec actualFollowsTPairs =
       reader.getFollowsStarPairs(StmtType::STMT, StmtType::STMT);
-  StrStrPairSet actualFollowsT = {actualFollowsTPairs.begin(),
-                                  actualFollowsTPairs.end()};
-  bool isFollowsEqual = actualFollows == expectedFollowsPairs;
-  bool isFollowsTEqual = actualFollowsT == expectedFollowsTPairs;
+  bool isFollowsEqual =
+      compareVectorContents(actualFollowsPairs, expectedFollowsPairs);
+  bool isFollowsTEqual =
+      compareVectorContents(actualFollowsTPairs, expectedFollowsTPairs);
   return isFollowsEqual && isFollowsTEqual;
 }
 
 bool HelperFunctions::validateParents(
-    PKBReader& reader, StrStrPairSet& expectedParentChildPairs,
-    StrStrPairSet& expectedParentChildTPairs) {
-  vector<pair<string, string>> actualParentChildPairs =
+    PKBReader& reader, StrStrPairVec& expectedParentChildPairs,
+    StrStrPairVec& expectedParentChildTPairs) {
+  StrStrPairVec actualParentChildPairs =
       reader.getParentChildPairs(StmtType::STMT, StmtType::STMT);
-  StrStrPairSet actualParentChildSet = {actualParentChildPairs.begin(),
-                                        actualParentChildPairs.end()};
-  vector<pair<string, string>> actualParentChildTPairs =
+  StrStrPairVec actualParentChildTPairs =
       reader.getParentChildStarPairs(StmtType::STMT, StmtType::STMT);
-  StrStrPairSet actualParentChildTSet = {actualParentChildTPairs.begin(),
-                                         actualParentChildTPairs.end()};
-  bool isParentEqual = actualParentChildSet == expectedParentChildPairs;
-  bool isParentTEqual = actualParentChildTSet == expectedParentChildTPairs;
+  bool isParentEqual =
+      compareVectorContents(actualParentChildPairs, expectedParentChildPairs);
+  bool isParentTEqual =
+      compareVectorContents(actualParentChildTPairs, expectedParentChildTPairs);
   return isParentEqual && isParentTEqual;
 }
 
 bool HelperFunctions::validateModifies(PKBReader& reader,
-                                       StrStrPairSet& expectedModifiesPairs) {
-  vector<pair<string, string>> actual =
-      reader.getAllModifiedVariables(StmtType::STMT);
-  StrStrPairSet actualModifiesPairs = {actual.begin(), actual.end()};
-  return actualModifiesPairs == expectedModifiesPairs;
+                                       StrStrPairVec& expectedModifiesPairs) {
+  StrStrPairVec actual = reader.getAllModifiedVariables(StmtType::STMT);
+  return compareVectorContents(actual, expectedModifiesPairs);
 }
 
 bool HelperFunctions::validateUses(PKBReader& reader,
-                                   StrStrPairSet& expectedUsesPairs) {
-  vector<pair<string, string>> actual =
-      reader.getAllUsedVariables(StmtType::STMT);
-  StrStrPairSet actualUsesPairs = {actual.begin(), actual.end()};
-  return actualUsesPairs == expectedUsesPairs;
+                                   StrStrPairVec& expectedUsesPairs) {
+  StrStrPairVec actual = reader.getAllUsedVariables(StmtType::STMT);
+  return compareVectorContents(actual, expectedUsesPairs);
 }
 
-bool HelperFunctions::isAssignResultMatch(vector<pair<string, string>> actual,
-                                          StrStrPairSet expected) {
-  StrStrPairSet actualSet = {actual.begin(), actual.end()};
-  return actualSet == expected;
+bool HelperFunctions::isAssignResultMatch(StrStrPairVec actual,
+                                          StrStrPairVec expected) {
+  return compareVectorContents(actual, expected);
 }
 
 bool HelperFunctions::validateModifiesProcVar(
     PKBReader& reader, const vector<string>& procs,
-    ProcToStrSetMap expectedModifiesMap) {
+    ProcToStrSetMap& expectedModifiesMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedModifies = expectedModifiesMap[proc];
     unordered_set<string> actualModifies =
@@ -127,7 +132,7 @@ bool HelperFunctions::validateModifiesProcVar(
 
 bool HelperFunctions::validateUsesProcVar(PKBReader& reader,
                                           const vector<string>& procs,
-                                          ProcToStrSetMap expectedUsesMap) {
+                                          ProcToStrSetMap& expectedUsesMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedUses = expectedUsesMap[proc];
     unordered_set<string> actualUses = reader.getUsedVariablesForProc(proc);
@@ -140,7 +145,7 @@ bool HelperFunctions::validateUsesProcVar(PKBReader& reader,
 
 bool HelperFunctions::validateCalls(PKBReader& reader,
                                     const vector<string>& procs,
-                                    ProcToStrSetMap expectedCallsMap) {
+                                    ProcToStrSetMap& expectedCallsMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedCalls = expectedCallsMap[proc];
     unordered_set<string> actualCalls = reader.getCalleeProcs(proc);
@@ -153,7 +158,7 @@ bool HelperFunctions::validateCalls(PKBReader& reader,
 
 bool HelperFunctions::validateCallsT(PKBReader& reader,
                                      const vector<string>& procs,
-                                     ProcToStrSetMap expectedCallsTMap) {
+                                     ProcToStrSetMap& expectedCallsTMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedCallsT = expectedCallsTMap[proc];
     unordered_set<string> actualCallsT = reader.getCalleeProcsStar(proc);

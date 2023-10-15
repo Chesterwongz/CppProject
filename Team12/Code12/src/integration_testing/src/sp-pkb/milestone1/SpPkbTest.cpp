@@ -36,13 +36,13 @@ TEST_CASE("SP-PKB integration - Non-nesting statements") {
   set<string> expectedCallStmts = {};
   set<string> expectedWhileStmts = {};
   set<string> expectedIfStmts = {};
-  StrStrPairSet expectedFollowsPairs = {{"1", "2"}, {"2", "3"}};
-  StrStrPairSet expectedFollowsStarPairs = {{"1", "2"}, {"1", "3"}, {"2", "3"}};
-  StrStrPairSet expectedParentChildPairs = {};
-  StrStrPairSet expectedParentChildStarPairs = {};
-  StrStrPairSet expectedModifiesPairs = {{"1", "num1"}, {"3", "x"}};
-  StrStrPairSet expectedUsesPairs = {{"2", "num2"}, {"3", "num1"}};
-  StrStrPairSet expectedAssignPatternStmts = {{"3", "x"}};
+  StrStrPairVec expectedFollowsPairs = {{"1", "2"}, {"2", "3"}};
+  StrStrPairVec expectedFollowsStarPairs = {{"1", "2"}, {"1", "3"}, {"2", "3"}};
+  StrStrPairVec expectedParentChildPairs = {};
+  StrStrPairVec expectedParentChildStarPairs = {};
+  StrStrPairVec expectedModifiesPairs = {{"1", "num1"}, {"3", "x"}};
+  StrStrPairVec expectedUsesPairs = {{"2", "num2"}, {"3", "num1"}};
+  StrStrPairVec expectedAssignPatternStmts = {{"3", "x"}};
   REQUIRE(HelperFunctions::validateEntities(
       reader, expectedVars, expectedConstants, expectedProcedures,
       expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
@@ -101,15 +101,15 @@ TEST_CASE("SP-PKB integration - if statement") {
   set<string> expectedCallStmts = {};
   set<string> expectedWhileStmts = {};
   set<string> expectedIfStmts = {"3"};
-  StrStrPairSet expectedFollowsPairs = {{"1", "2"}, {"2", "3"}};
-  StrStrPairSet expectedFollowsStarPairs = {{"1", "2"}, {"1", "3"}, {"2", "3"}};
-  StrStrPairSet expectedParentChildPairs = {{"3", "4"}, {"3", "5"}};
-  StrStrPairSet expectedParentChildStarPairs = {{"3", "4"}, {"3", "5"}};
-  StrStrPairSet expectedModifiesPairs = {{"5", "x"}, {"3", "x"}, {"1", "y"}};
-  StrStrPairSet expectedUsesPairs = {{"2", "x"}, {"3", "num1"}, {"3", "num2"},
+  StrStrPairVec expectedFollowsPairs = {{"1", "2"}, {"2", "3"}};
+  StrStrPairVec expectedFollowsStarPairs = {{"1", "2"}, {"1", "3"}, {"2", "3"}};
+  StrStrPairVec expectedParentChildPairs = {{"3", "4"}, {"3", "5"}};
+  StrStrPairVec expectedParentChildStarPairs = {{"3", "4"}, {"3", "5"}};
+  StrStrPairVec expectedModifiesPairs = {{"5", "x"}, {"3", "x"}, {"1", "y"}};
+  StrStrPairVec expectedUsesPairs = {{"2", "x"}, {"3", "num1"}, {"3", "num2"},
                                      {"5", "y"}, {"3", "y"},    {"4", "z"},
                                      {"3", "z"}};
-  StrStrPairSet expectedAssignPatternStmts = {{"5", "x"}};
+  StrStrPairVec expectedAssignPatternStmts = {{"5", "x"}};
   REQUIRE(HelperFunctions::validateEntities(
       reader, expectedVars, expectedConstants, expectedProcedures,
       expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
@@ -168,22 +168,22 @@ TEST_CASE("SP-PKB integration - if in while statements") {
   set<string> expectedCallStmts = {};
   set<string> expectedWhileStmts = {"3"};
   set<string> expectedIfStmts = {"4"};
-  StrStrPairSet expectedFollowsPairs = {
+  StrStrPairVec expectedFollowsPairs = {
       {"1", "2"}, {"2", "3"}, {"3", "8"}, {"4", "7"}};
-  StrStrPairSet expectedFollowsStarPairs = {{"1", "2"}, {"1", "3"}, {"2", "3"},
+  StrStrPairVec expectedFollowsStarPairs = {{"1", "2"}, {"1", "3"}, {"2", "3"},
                                             {"1", "8"}, {"2", "8"}, {"3", "8"},
                                             {"4", "7"}};
-  StrStrPairSet expectedParentChildPairs = {
+  StrStrPairVec expectedParentChildPairs = {
       {"3", "4"}, {"3", "7"}, {"4", "5"}, {"4", "6"}};
-  StrStrPairSet expectedParentChildStarPairs = {
+  StrStrPairVec expectedParentChildStarPairs = {
       {"3", "4"}, {"3", "7"}, {"3", "5"}, {"3", "6"}, {"4", "5"}, {"4", "6"}};
-  StrStrPairSet expectedModifiesPairs = {
+  StrStrPairVec expectedModifiesPairs = {
       {"1", "x"}, {"3", "x"}, {"4", "x"}, {"5", "x"}, {"2", "y"}, {"8", "num1"},
   };
-  StrStrPairSet expectedUsesPairs = {
+  StrStrPairVec expectedUsesPairs = {
       {"3", "x"}, {"3", "y"}, {"4", "x"}, {"4", "y"}, {"5", "y"},
       {"3", "w"}, {"4", "w"}, {"6", "w"}, {"3", "z"}, {"7", "z"}};
-  StrStrPairSet expectedAssignPatternStmts = {{"5", "x"}};
+  StrStrPairVec expectedAssignPatternStmts = {{"5", "x"}};
   REQUIRE(HelperFunctions::validateEntities(
       reader, expectedVars, expectedConstants, expectedProcedures,
       expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
@@ -244,21 +244,21 @@ TEST_CASE("SP-PKB integration - 3 if statements") {
   set<string> expectedCallStmts = {};
   set<string> expectedWhileStmts = {};
   set<string> expectedIfStmts = {"3", "5", "7"};
-  StrStrPairSet expectedFollowsPairs = {
+  StrStrPairVec expectedFollowsPairs = {
       {"1", "2"}, {"2", "3"}, {"4", "5"}, {"6", "7"}};
-  StrStrPairSet expectedFollowsStarPairs = {
+  StrStrPairVec expectedFollowsStarPairs = {
       {"1", "2"}, {"1", "3"}, {"2", "3"}, {"4", "5"}, {"6", "7"}};
-  StrStrPairSet expectedParentChildPairs = {{"3", "4"}, {"3", "5"}, {"3", "11"},
+  StrStrPairVec expectedParentChildPairs = {{"3", "4"}, {"3", "5"}, {"3", "11"},
                                             {"5", "6"}, {"5", "7"}, {"5", "10"},
                                             {"7", "8"}, {"7", "9"}};
-  StrStrPairSet expectedParentChildStarPairs = {
+  StrStrPairVec expectedParentChildStarPairs = {
       {"3", "4"}, {"3", "5"},  {"3", "6"},  {"3", "7"}, {"3", "8"},
       {"3", "9"}, {"3", "10"}, {"3", "11"}, {"5", "6"}, {"5", "7"},
       {"5", "8"}, {"5", "9"},  {"5", "10"}, {"7", "8"}, {"7", "9"}};
-  StrStrPairSet expectedModifiesPairs = {
+  StrStrPairVec expectedModifiesPairs = {
       {"1", "v"}, {"2", "w"}, {"3", "x"}, {"4", "x"}, {"3", "y"}, {"5", "y"},
       {"6", "y"}, {"3", "z"}, {"5", "z"}, {"7", "z"}, {"8", "z"}};
-  StrStrPairSet expectedUsesPairs = {
+  StrStrPairVec expectedUsesPairs = {
       {"3", "v"}, {"5", "v"}, {"11", "v"}, {"3", "w"}, {"5", "w"},
       {"3", "x"}, {"5", "x"}, {"7", "x"},  {"9", "x"}, {"3", "y"},
       {"5", "y"}, {"7", "y"}, {"3", "z"},  {"5", "z"}, {"10", "z"},
@@ -307,19 +307,19 @@ TEST_CASE("SP-PKB integration - 3 while statements") {
   set<string> expectedCallStmts = {};
   set<string> expectedWhileStmts = {"3", "5", "7"};
   set<string> expectedIfStmts = {};
-  StrStrPairSet expectedFollowsPairs = {
+  StrStrPairVec expectedFollowsPairs = {
       {"1", "2"}, {"2", "3"}, {"4", "5"}, {"6", "7"}};
-  StrStrPairSet expectedFollowsStarPairs = {
+  StrStrPairVec expectedFollowsStarPairs = {
       {"1", "2"}, {"1", "3"}, {"2", "3"}, {"4", "5"}, {"6", "7"}};
-  StrStrPairSet expectedParentChildPairs = {
+  StrStrPairVec expectedParentChildPairs = {
       {"3", "4"}, {"3", "5"}, {"5", "6"}, {"5", "7"}, {"7", "8"}};
-  StrStrPairSet expectedParentChildStarPairs = {
+  StrStrPairVec expectedParentChildStarPairs = {
       {"3", "4"}, {"3", "5"}, {"3", "6"}, {"3", "7"}, {"3", "8"},
       {"5", "6"}, {"5", "7"}, {"5", "8"}, {"7", "8"}};
-  StrStrPairSet expectedModifiesPairs = {
+  StrStrPairVec expectedModifiesPairs = {
       {"1", "v"}, {"2", "w"}, {"3", "x"}, {"4", "x"}, {"3", "y"}, {"5", "y"},
       {"6", "y"}, {"3", "z"}, {"5", "z"}, {"7", "z"}, {"8", "z"}};
-  StrStrPairSet expectedUsesPairs = {
+  StrStrPairVec expectedUsesPairs = {
       {"3", "v"}, {"5", "v"}, {"5", "w"}, {"3", "w"}, {"7", "x"},
       {"5", "x"}, {"3", "x"}, {"7", "y"}, {"5", "y"}, {"3", "y"},
   };
@@ -363,17 +363,17 @@ TEST_CASE("SP-PKB integration - sequential if pattern") {
   set<string> expectedCallStmts = {};
   set<string> expectedWhileStmts = {};
   set<string> expectedIfStmts = {"2", "6"};
-  StrStrPairSet expectedFollowsPairs = {{"1", "2"}, {"2", "5"}, {"5", "6"}};
-  StrStrPairSet expectedFollowsStarPairs = {{"1", "2"}, {"1", "5"}, {"1", "6"},
+  StrStrPairVec expectedFollowsPairs = {{"1", "2"}, {"2", "5"}, {"5", "6"}};
+  StrStrPairVec expectedFollowsStarPairs = {{"1", "2"}, {"1", "5"}, {"1", "6"},
                                             {"2", "5"}, {"2", "6"}, {"5", "6"}};
-  StrStrPairSet expectedParentChildPairs = {
+  StrStrPairVec expectedParentChildPairs = {
       {"2", "3"}, {"2", "4"}, {"6", "7"}, {"6", "8"}};
-  StrStrPairSet expectedParentChildStarPairs = {
+  StrStrPairVec expectedParentChildStarPairs = {
       {"2", "3"}, {"2", "4"}, {"6", "7"}, {"6", "8"}};
-  StrStrPairSet expectedModifiesPairs = {{"1", "i"}, {"2", "i"}, {"4", "i"},
+  StrStrPairVec expectedModifiesPairs = {{"1", "i"}, {"2", "i"}, {"4", "i"},
                                          {"3", "j"}, {"2", "j"}, {"5", "k"},
                                          {"7", "l"}, {"6", "l"}};
-  StrStrPairSet expectedUsesPairs = {
+  StrStrPairVec expectedUsesPairs = {
       {"2", "i"}, {"6", "i"}, {"8", "i"}, {"6", "k"}};
   REQUIRE(HelperFunctions::validateEntities(
       reader, expectedVars, expectedConstants, expectedProcedures,
@@ -415,14 +415,14 @@ TEST_CASE("SP-PKB integration - sequential while statements") {
   set<string> expectedCallStmts = {};
   set<string> expectedWhileStmts = {"2", "5"};
   set<string> expectedIfStmts = {};
-  StrStrPairSet expectedFollowsPairs = {{"1", "2"}, {"2", "4"}, {"4", "5"}};
-  StrStrPairSet expectedFollowsStarPairs = {{"1", "2"}, {"1", "4"}, {"1", "5"},
+  StrStrPairVec expectedFollowsPairs = {{"1", "2"}, {"2", "4"}, {"4", "5"}};
+  StrStrPairVec expectedFollowsStarPairs = {{"1", "2"}, {"1", "4"}, {"1", "5"},
                                             {"2", "4"}, {"2", "5"}, {"4", "5"}};
-  StrStrPairSet expectedParentChildPairs = {{"2", "3"}, {"5", "6"}};
-  StrStrPairSet expectedParentChildStarPairs = {{"2", "3"}, {"5", "6"}};
-  StrStrPairSet expectedModifiesPairs = {{"1", "i"}, {"2", "j"}, {"3", "j"},
+  StrStrPairVec expectedParentChildPairs = {{"2", "3"}, {"5", "6"}};
+  StrStrPairVec expectedParentChildStarPairs = {{"2", "3"}, {"5", "6"}};
+  StrStrPairVec expectedModifiesPairs = {{"1", "i"}, {"2", "j"}, {"3", "j"},
                                          {"4", "k"}, {"6", "l"}, {"5", "l"}};
-  StrStrPairSet expectedUsesPairs = {{"2", "i"}, {"5", "i"}, {"5", "k"}};
+  StrStrPairVec expectedUsesPairs = {{"2", "i"}, {"5", "i"}, {"5", "k"}};
   REQUIRE(HelperFunctions::validateEntities(
       reader, expectedVars, expectedConstants, expectedProcedures,
       expectedReadStmts, expectedPrintStmts, expectedAssignStmts,
@@ -461,13 +461,13 @@ TEST_CASE(
   set<string> expectedCallStmts = {};
   set<string> expectedWhileStmts = {"3"};
   set<string> expectedIfStmts = {};
-  StrStrPairSet expectedFollowsPairs = {{"1", "2"}, {"2", "3"}};
-  StrStrPairSet expectedFollowsStarPairs = {{"1", "2"}, {"1", "3"}, {"2", "3"}};
-  StrStrPairSet expectedParentChildPairs = {{"3", "4"}};
-  StrStrPairSet expectedParentChildStarPairs = {{"3", "4"}};
-  StrStrPairSet expectedModifiesPairs = {
+  StrStrPairVec expectedFollowsPairs = {{"1", "2"}, {"2", "3"}};
+  StrStrPairVec expectedFollowsStarPairs = {{"1", "2"}, {"1", "3"}, {"2", "3"}};
+  StrStrPairVec expectedParentChildPairs = {{"3", "4"}};
+  StrStrPairVec expectedParentChildStarPairs = {{"3", "4"}};
+  StrStrPairVec expectedModifiesPairs = {
       {"1", "p"}, {"2", "q"}, {"4", "r"}, {"3", "r"}};
-  StrStrPairSet expectedUsesPairs = {
+  StrStrPairVec expectedUsesPairs = {
       {"3", "p"}, {"3", "q"}, {"3", "x"}, {"3", "y"}};
   REQUIRE(HelperFunctions::validateEntities(
       reader, expectedVars, expectedConstants, expectedProcedures,
@@ -506,13 +506,13 @@ TEST_CASE("SP-PKB integration - multiple control variables in if statements") {
   set<string> expectedCallStmts = {};
   set<string> expectedWhileStmts = {};
   set<string> expectedIfStmts = {"3"};
-  StrStrPairSet expectedFollowsPairs = {{"1", "2"}, {"2", "3"}};
-  StrStrPairSet expectedFollowsStarPairs = {{"1", "2"}, {"1", "3"}, {"2", "3"}};
-  StrStrPairSet expectedParentChildPairs = {{"3", "4"}, {"3", "5"}};
-  StrStrPairSet expectedParentChildStarPairs = {{"3", "4"}, {"3", "5"}};
-  StrStrPairSet expectedModifiesPairs = {
+  StrStrPairVec expectedFollowsPairs = {{"1", "2"}, {"2", "3"}};
+  StrStrPairVec expectedFollowsStarPairs = {{"1", "2"}, {"1", "3"}, {"2", "3"}};
+  StrStrPairVec expectedParentChildPairs = {{"3", "4"}, {"3", "5"}};
+  StrStrPairVec expectedParentChildStarPairs = {{"3", "4"}, {"3", "5"}};
+  StrStrPairVec expectedModifiesPairs = {
       {"1", "p"}, {"2", "q"}, {"4", "r"}, {"3", "r"}};
-  StrStrPairSet expectedUsesPairs = {
+  StrStrPairVec expectedUsesPairs = {
       {"3", "p"}, {"3", "q"}, {"3", "x"}, {"3", "y"}, {"5", "p"}};
   REQUIRE(HelperFunctions::validateEntities(
       reader, expectedVars, expectedConstants, expectedProcedures,
@@ -562,12 +562,12 @@ TEST_CASE("SP-PKB integration - assign pattern with all operators") {
   set<string> expectedCallStmts = {};
   set<string> expectedWhileStmts = {};
   set<string> expectedIfStmts = {};
-  StrStrPairSet expectedFollowsPairs = {
+  StrStrPairVec expectedFollowsPairs = {
       {"1", "2"},   {"2", "3"},   {"3", "4"},   {"4", "5"},   {"5", "6"},
       {"6", "7"},   {"7", "8"},   {"8", "9"},   {"9", "10"},  {"10", "11"},
       {"11", "12"}, {"12", "13"}, {"13", "14"}, {"14", "15"}, {"15", "16"},
       {"16", "17"}, {"17", "18"}, {"18", "19"}, {"19", "20"}};
-  StrStrPairSet expectedFollowsStarPairs = {
+  StrStrPairVec expectedFollowsStarPairs = {
       {"1", "2"},   {"1", "3"},   {"1", "4"},   {"1", "5"},   {"1", "6"},
       {"1", "7"},   {"1", "8"},   {"1", "9"},   {"1", "10"},  {"1", "11"},
       {"1", "12"},  {"1", "13"},  {"1", "14"},  {"1", "15"},  {"1", "16"},
@@ -606,14 +606,14 @@ TEST_CASE("SP-PKB integration - assign pattern with all operators") {
       {"15", "16"}, {"15", "17"}, {"15", "18"}, {"15", "19"}, {"15", "20"},
       {"16", "17"}, {"16", "18"}, {"16", "19"}, {"16", "20"}, {"17", "18"},
       {"17", "19"}, {"17", "20"}, {"18", "19"}, {"18", "20"}, {"19", "20"}};
-  StrStrPairSet expectedParentChildPairs = {};
-  StrStrPairSet expectedParentChildStarPairs = {};
-  StrStrPairSet expectedModifiesPairs = {
+  StrStrPairVec expectedParentChildPairs = {};
+  StrStrPairVec expectedParentChildStarPairs = {};
+  StrStrPairVec expectedModifiesPairs = {
       {"1", "a"},  {"2", "b"},  {"3", "c"},  {"4", "d"},  {"5", "e"},
       {"6", "f"},  {"7", "x"},  {"8", "y"},  {"9", "z"},  {"10", "a"},
       {"11", "b"}, {"12", "c"}, {"13", "d"}, {"14", "e"}, {"15", "f"},
       {"16", "g"}, {"17", "x"}, {"18", "x"}, {"19", "x"}, {"20", "x"}};
-  StrStrPairSet expectedUsesPairs = {
+  StrStrPairVec expectedUsesPairs = {
       {"7", "a"},  {"8", "a"},  {"9", "a"},  {"10", "a"}, {"11", "a"},
       {"12", "a"}, {"13", "a"}, {"14", "a"}, {"15", "a"}, {"16", "a"},
       {"17", "a"}, {"18", "a"}, {"19", "a"}, {"20", "a"}, {"7", "b"},
@@ -757,12 +757,12 @@ TEST_CASE(
   set<string> expectedCallStmts = {};
   set<string> expectedWhileStmts = {"8", "13", "17"};
   set<string> expectedIfStmts = {"10", "16"};
-  StrStrPairSet expectedFollowsPairs = {
+  StrStrPairVec expectedFollowsPairs = {
       {"1", "2"},   {"2", "3"},   {"3", "4"},   {"4", "5"},   {"5", "6"},
       {"6", "7"},   {"7", "8"},   {"8", "16"},  {"16", "21"}, {"9", "10"},
       {"10", "13"}, {"14", "15"}, {"17", "19"}, {"21", "22"}, {"22", "23"},
       {"23", "24"}, {"24", "25"}, {"25", "26"}, {"26", "27"}, {"27", "28"}};
-  StrStrPairSet expectedFollowsStarPairs = {
+  StrStrPairVec expectedFollowsStarPairs = {
       {"1", "2"},   {"1", "3"},   {"1", "4"},   {"1", "5"},   {"1", "6"},
       {"1", "7"},   {"1", "8"},   {"1", "16"},  {"1", "21"},  {"1", "22"},
       {"1", "23"},  {"1", "24"},  {"1", "25"},  {"1", "26"},  {"1", "27"},
@@ -792,24 +792,24 @@ TEST_CASE(
       {"23", "28"}, {"24", "25"}, {"24", "26"}, {"24", "27"}, {"24", "28"},
       {"25", "26"}, {"25", "27"}, {"25", "28"}, {"26", "27"}, {"26", "28"},
       {"27", "28"}};
-  StrStrPairSet expectedParentChildPairs = {
+  StrStrPairVec expectedParentChildPairs = {
       {"8", "9"},   {"8", "10"},  {"8", "13"},  {"10", "11"},
       {"10", "12"}, {"13", "14"}, {"13", "15"}, {"16", "17"},
       {"16", "19"}, {"16", "20"}, {"17", "18"},
   };
-  StrStrPairSet expectedParentChildStarPairs = {
+  StrStrPairVec expectedParentChildStarPairs = {
       {"8", "9"},   {"8", "10"},  {"8", "11"},  {"8", "12"},
       {"8", "13"},  {"8", "14"},  {"8", "15"},  {"10", "11"},
       {"10", "12"}, {"13", "14"}, {"13", "15"}, {"16", "17"},
       {"16", "18"}, {"16", "19"}, {"16", "20"}, {"17", "18"}};
-  StrStrPairSet expectedModifiesPairs = {
+  StrStrPairVec expectedModifiesPairs = {
       {"1", "a"},  {"12", "a"}, {"10", "a"}, {"8", "a"},  {"2", "b"},
       {"14", "b"}, {"13", "b"}, {"8", "b"},  {"3", "c"},  {"15", "c"},
       {"13", "c"}, {"8", "c"},  {"4", "d"},  {"18", "d"}, {"17", "d"},
       {"16", "d"}, {"5", "e"},  {"19", "e"}, {"16", "e"}, {"6", "f"},
       {"20", "f"}, {"16", "f"}, {"7", "x"},  {"9", "y"},  {"8", "y"},
       {"11", "z"}, {"10", "z"}, {"8", "z"},  {"21", "g"}};
-  StrStrPairSet expectedUsesPairs = {
+  StrStrPairVec expectedUsesPairs = {
       {"7", "a"},  {"8", "a"},  {"9", "a"},  {"10", "a"}, {"11", "a"},
       {"12", "a"}, {"13", "a"}, {"14", "a"}, {"15", "a"}, {"16", "a"},
       {"17", "a"}, {"18", "a"}, {"19", "a"}, {"20", "a"}, {"21", "a"},
