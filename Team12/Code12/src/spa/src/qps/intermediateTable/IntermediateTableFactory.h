@@ -1,13 +1,12 @@
 #pragma once
 
-#include "IntermediateTable.h"
-
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "IntermediateTable.h"
+#include "qps/common/Keywords.h"
 
 using std::set;
 
