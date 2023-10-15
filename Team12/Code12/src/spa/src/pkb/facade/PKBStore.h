@@ -36,8 +36,4 @@ class PKBStore {
   [[nodiscard]] UsesPStore& getUsesProcStore();
   [[nodiscard]] CallsStore& getCallsStore();
   [[nodiscard]] StmtStore& getStmtStore();
-
-  void addFollows(int from, int to) {
-    followsStore.addRelation(from, to);
-  }
 };
