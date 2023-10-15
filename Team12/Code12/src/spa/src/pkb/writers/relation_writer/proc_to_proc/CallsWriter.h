@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "pkb/storage/CallsStore.h"
 #include "pkb/interfaces/writers/ICallsWriter.h"
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
 #include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
 #include "pkb/interfaces/writers/IDesignEntitiesWriter.h"

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "pkb/interfaces/writers/IPatternWriter.h"
 #include "pkb/storage/pattern_storage/PatternStorage.h"
 

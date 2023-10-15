@@ -1,8 +1,8 @@
-#include <catch.hpp>
 #include <memory>
 #include <set>
 #include <unordered_map>
 #include <vector>
+#include <catch.hpp>
 
 #include "../ast/TNodeUtils.h"
 #include "../mocks/MockData.h"

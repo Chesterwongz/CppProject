@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "pkb/storage/UsesStore.h"
 #include "pkb/storage/UsesPStore.h"
 #include "pkb/interfaces/writers/IUsesWriter.h"
