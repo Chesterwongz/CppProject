@@ -107,7 +107,7 @@ bool HelperFunctions::validateModifies(PKBReader& reader,
 
 bool HelperFunctions::validateUses(PKBReader& reader,
                                    StrStrPairVec& expectedUsesPairs) {
-  StrStrPairVec actual = reader.getAllUsedVariables(StmtType::STMT);
+  StrStrPairVec actual = reader.getUsesPairs(StmtType::STMT);
   return compareVectorContents(actual, expectedUsesPairs);
 }
 
@@ -148,8 +148,10 @@ bool HelperFunctions::validateCalls(PKBReader& reader,
                                     ProcToStrSetMap& expectedCallsMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedCalls = expectedCallsMap[proc];
-    unordered_set<string> actualCalls = reader.getCalleeProcs(proc);
-    if (actualCalls != expectedCalls) {
+    vector<string> expectedCallsVec = {expectedCalls.begin(),
+                                       expectedCalls.end()};
+    vector<string> actualCalls = reader.getCalleeProcs(proc);
+    if (!compareVectorContents(actualCalls, expectedCallsVec)) {
       return false;
     }
   }
@@ -161,8 +163,10 @@ bool HelperFunctions::validateCallsT(PKBReader& reader,
                                      ProcToStrSetMap& expectedCallsTMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedCallsT = expectedCallsTMap[proc];
-    unordered_set<string> actualCallsT = reader.getCalleeProcsStar(proc);
-    if (actualCallsT != expectedCallsT) {
+    vector<string> expectedCallsTVec = {expectedCallsT.begin(),
+                                        expectedCallsT.end()};
+    vector<string> actualCallsT = reader.getCalleeProcsStar(proc);
+    if (!compareVectorContents(actualCallsT, expectedCallsTVec)) {
       return false;
     }
   }
