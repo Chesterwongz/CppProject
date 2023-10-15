@@ -45,7 +45,7 @@ class MockPKBReader : public PKBReader {
   vector<string> mockStatementsModifying;
   vector<pair<string, string>> mockVariablesModifiedBy;
   vector<string> mockStatementsUsing;
-  vector<pair<string, string>> mockVariablesUsedBy;
+  vector<string> mockVariablesUsedBy;
   vector<pair<string, string>> mockAllModifiedVariables;
   vector<pair<string, string>> mockAllUsedVariables;
   vector<pair<string, string>> mockExactAssignPattern;
@@ -153,8 +153,7 @@ class MockPKBReader : public PKBReader {
     return mockStatementsUsing;
   }
 
-  std::vector<std::string> getVariablesUsedBy(int statementNumber,
-                                              StmtType statementType) override {
+  std::vector<std::string> getVariablesUsedBy(int statementNumber) override {
     return mockVariablesUsedBy;
   }
 

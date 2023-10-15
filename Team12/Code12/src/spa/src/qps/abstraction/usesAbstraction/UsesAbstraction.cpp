@@ -34,11 +34,10 @@ IntermediateTable UsesAbstraction::evaluateIntegerSynonym() {
   int firstArgStmtNumber = stoi(this->firstArgValue);
   string secondArgVarSynonym = this->secondArgValue;
 
-  vector<pair<string, string>> result =
-      pkb.getVariablesUsedBy(firstArgStmtNumber, StmtType::STMT);
+  vector<string> result = pkb.getVariablesUsedBy(firstArgStmtNumber);
 
-  return IntermediateTableFactory::buildIntermediateTable(
-      WILDCARD_KEYWORD, secondArgVarSynonym, result);
+  return IntermediateTableFactory::buildSingleColTable(secondArgVarSynonym,
+                                                       result);
 }
 
 // Uses (StatementNumber, VarIdentifier)
@@ -56,11 +55,10 @@ IntermediateTable UsesAbstraction::evaluateIntegerIdent() {
 IntermediateTable UsesAbstraction::evaluateIntegerWildcard() {
   int firstArgStmtNumber = stoi(this->firstArgValue);
 
-  vector<pair<string, string>> result =
-      pkb.getVariablesUsedBy(firstArgStmtNumber, StmtType::STMT);
+  vector<string> result = pkb.getVariablesUsedBy(firstArgStmtNumber);
 
-  return IntermediateTableFactory::buildIntermediateTable(
-      WILDCARD_KEYWORD, WILDCARD_KEYWORD, result);
+  return IntermediateTableFactory::buildSingleColTable(WILDCARD_KEYWORD,
+                                                       result);
 }
 
 IntermediateTable UsesAbstraction::handleSynonymOrWildcardArgs() {
