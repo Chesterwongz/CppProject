@@ -1,5 +1,3 @@
-#pragma once
-
 #include <catch.hpp>
 
 #include "../../intermediateTable/IntermediateTableTestUtils.h"
@@ -47,7 +45,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Synonym)_empty") {
 
 TEST_CASE("UsesAbstraction - Uses(Synonym, Ident)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
-  mockReader.mockStatementsUsing = MOCK_USING_STATEMENTS;
+  mockReader.mockStatementsUsing = MOCK_USING_STATEMENTS_1;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -117,7 +115,7 @@ TEST_CASE("UsesAbstraction - Uses(Synonym, Wildcard)_empty") {
 
 TEST_CASE("UsesAbstraction - Uses(Integer, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
-  mockReader.mockVariablesUsedBy = MOCK_USED_PAIRS;
+  mockReader.mockVariablesUsedBy = MOCK_USING_STATEMENTS_2;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -187,7 +185,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Ident)_false") {
 
 TEST_CASE("UsesAbstraction - Uses(Integer, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
-  mockReader.mockVariablesUsedBy = MOCK_USED_PAIRS;
+  mockReader.mockVariablesUsedBy = MOCK_USING_STATEMENTS_2;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -251,7 +249,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Synonym)_empty") {
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE, MOCK_STORE);
-  mockReader.mockStatementsUsing = MOCK_USING_STATEMENTS;
+  mockReader.mockStatementsUsing = MOCK_USING_STATEMENTS_1;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   unique_ptr<AbstractArgument> mockArgument2 =
