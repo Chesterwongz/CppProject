@@ -5,7 +5,7 @@
 
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const string &firstColName, const string &secondColName,
-    const vector<pair<std::string, std::string>>& data) {
+    const vector<pair<std::string, std::string>> &data) {
   // if data is empty, return empty table
   // even if columns are wildcard
   if (data.empty()) {
@@ -42,11 +42,12 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
 
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const vector<string> &colNames, vector<vector<string>> data) {
-  return IntermediateTableFactory::tableBuilderHelper(colNames, std::move(data));
+  return IntermediateTableFactory::tableBuilderHelper(colNames,
+                                                      std::move(data));
 }
 
 IntermediateTable IntermediateTableFactory::buildSingleColTable(
-    const string &colName, const vector<string>& data) {
+    const string &colName, const vector<string> &data) {
   // if data is empty, return empty table
   // even if columns are wildcard
   if (data.empty()) {
@@ -61,7 +62,7 @@ IntermediateTable IntermediateTableFactory::buildSingleColTable(
   TableDataType dataColumn = {};
   dataColumn.reserve(data.size());
   for (const string &rowData : data) {
-    TableRowType row = { SynonymResFactory::buildDefaultSynonym(rowData) };
+    TableRowType row = {SynonymResFactory::buildDefaultSynonym(rowData)};
     dataColumn.emplace_back(std::move(row));
   }
   return IntermediateTable(columnNames, std::move(dataColumn));
@@ -76,8 +77,7 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const string &colName, string value) {
   vector<string> dataCol = {std::move(value)};
-  return IntermediateTableFactory::buildSingleColTable(colName,
-                                                       dataCol);
+  return IntermediateTableFactory::buildSingleColTable(colName, dataCol);
 }
 
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(

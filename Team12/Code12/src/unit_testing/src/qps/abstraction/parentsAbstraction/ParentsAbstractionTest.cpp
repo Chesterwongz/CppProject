@@ -59,7 +59,8 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Integer)") {
 
   REQUIRE(resultTable.getDataAsStrings().size() == 1);
   REQUIRE(resultTable.getDataAsStrings().at(0).size() == 1);
-  REQUIRE(resultTable.getDataAsStrings().at(0).at(0) == MOCK_IMMEDIATE_PARENT_OF.first);
+  REQUIRE(resultTable.getDataAsStrings().at(0).at(0) ==
+          MOCK_IMMEDIATE_PARENT_OF.first);
 }
 
 TEST_CASE(

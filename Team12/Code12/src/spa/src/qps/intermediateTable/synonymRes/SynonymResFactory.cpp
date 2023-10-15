@@ -1,5 +1,7 @@
 #include "SynonymResFactory.h"
 
+#include <utility>
+
 SynonymRes SynonymResFactory::buildDefaultSynonym(const string& value) {
   return SynonymRes(value);
 }

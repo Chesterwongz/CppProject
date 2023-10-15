@@ -55,7 +55,8 @@ TEST_CASE(
   IntermediateTable tableFromVectorsWithWildcard =
       IntermediateTableFactory::buildIntermediateTable(
           MULTI_COL_NAME_VECTOR_WITH_WILDCARD, MULTI_COL_DATA_1);
-  REQUIRE(tableFromVectorsWithWildcard.getDataAsStrings() == MULTI_COL_DATA_1_WILDCARD);
+  REQUIRE(tableFromVectorsWithWildcard.getDataAsStrings() ==
+          MULTI_COL_DATA_1_WILDCARD);
   REQUIRE(tableFromVectorsWithWildcard.isTableEmpty() == false);
   REQUIRE(tableFromVectorsWithWildcard.isTableEmptyAndNotWildcard() == false);
   REQUIRE(tableFromVectorsWithWildcard.isTableWildcard() == false);

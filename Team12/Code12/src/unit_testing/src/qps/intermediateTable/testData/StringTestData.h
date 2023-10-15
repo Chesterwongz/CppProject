@@ -436,6 +436,8 @@ inline vector<vector<string>> COL_SINGLETON_2D = {
     {"cat"},
 };
 
-inline IntermediateTable WILDCARD_TABLE = IntermediateTableFactory::buildWildcardIntermediateTable();
+inline IntermediateTable WILDCARD_TABLE =
+    IntermediateTableFactory::buildWildcardIntermediateTable();
 
-inline IntermediateTable EMPTY_TABLE = IntermediateTableFactory::buildEmptyIntermediateTable();
+inline IntermediateTable EMPTY_TABLE =
+    IntermediateTableFactory::buildEmptyIntermediateTable();

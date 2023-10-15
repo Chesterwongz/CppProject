@@ -6,8 +6,9 @@
 using std::string, std::vector;
 
 vector<string> testVector1 = {"0", "1", "banana",  "cat",
-                          "2", "3", "lettuce", "pineapple"};
-vector<string> testVector2 = {"4", "5", "pear", "dog", "6", "7", "meow", "woof"};
+                              "2", "3", "lettuce", "pineapple"};
+vector<string> testVector2 = {"4", "5", "pear", "dog",
+                              "6", "7", "meow", "woof"};
 vector<string> testVector3 = {"0", "1", "potato"};
 
 vector<string> VECTOR_1_INTERSECT_2 = {};

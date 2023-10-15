@@ -34,7 +34,6 @@ bool SynonymRes::isAttrExists(AttrRef attrRef) const {
   return this->attributeMap.find(attrRef) != this->attributeMap.end();
 }
 
-
 bool SynonymRes::operator==(const SynonymRes& other) const {
   return this->defaultSynonymValue == other.defaultSynonymValue;
 }

@@ -23,6 +23,7 @@ class SynonymRes {
   explicit SynonymRes(string defaultSynonymValue,
                       unordered_map<AttrRef, string> attributeMap);
   friend class SynonymResFactory;
+
  public:
   explicit SynonymRes(string defaultSynonymValue);
 
