@@ -40,14 +40,12 @@ IntermediateTable getCrossProduct(IntermediateTable table1,
   vector<string> resColumns =
       concatColNames(table1.getColNames(), table2.getColNames());
   vector<vector<unique_ptr<SynonymRes>>> resData = {};
-  vector<vector<unique_ptr<SynonymRes>>> table1Data = table1.getTableData();
-  vector<vector<unique_ptr<SynonymRes>>> table2Data = table2.getTableData();
-
-  for (const vector<unique_ptr<SynonymRes>> &row1 : table1.getTableData()) {
-    for (const vector<unique_ptr<SynonymRes>> &row2 : table2.getTableData()) {
-      resData.push_back(concatRow(row1, row2));
-    }
-  }
+//
+//  for (const vector<unique_ptr<SynonymRes>> &row1 : table1.getTableData()) {
+//    for (const vector<unique_ptr<SynonymRes>> &row2 : table2.getTableData()) {
+//      resData.emplace_back(std::move(concatRow(row1, row2)));
+//    }
+//  }
   return IntermediateTable(resColumns, resData);
 }
 
@@ -77,7 +75,7 @@ IntermediateTable getInnerJoin(
         }
       }
       if (isJoin) {
-        resData.push_back(concatRow(table1Row, table2Row));
+        resData.emplace_back(std::move(concatRow(table1Row, table2Row)));
       }
     }
   }

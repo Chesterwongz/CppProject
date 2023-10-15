@@ -62,34 +62,34 @@ class IntermediateTableFactory {
    */
   static IntermediateTable buildIntermediateTable(
       const string &firstColName, const string &secondColName,
-      const vector<pair<string, string>> &data);
+      vector<pair<string, string>> data);
 
   /**
    * Builds intermediate table without any WILDCARD columns
    */
   static IntermediateTable buildIntermediateTable(
-      const vector<string> &colNames, const vector<vector<string>> &data);
+      const vector<string> &colNames, vector<vector<string>> data);
 
   /**
    * Builds intermediate table without any WILDCARD columns
    * and only one column
    */
   static IntermediateTable buildSingleColTable(const string &firstColName,
-                                               const vector<string> &data);
+                                               vector<string> data);
 
   /**
    * Builds intermediate table without any WILDCARD columns
    * and only one column
    */
   static IntermediateTable buildIntermediateTable(const string &firstColName,
-                                                  const set<string> &data);
+                                                  set<string> data);
 
   /**
    * Builds intermediate table without any WILDCARD columns
    * and only one column AND one single row
    */
   static IntermediateTable buildIntermediateTable(const string &colName,
-                                                  const string &value);
+                                                  string value);
 
   /**
    * Builds intermediate table without any WILDCARD columns

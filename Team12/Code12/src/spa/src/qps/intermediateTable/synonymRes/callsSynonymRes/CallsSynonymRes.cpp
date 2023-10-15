@@ -5,7 +5,7 @@ CallSynonymRes::CallSynonymRes(string& stmtNumber, string& procName)
   this->attributeMap[AttrRef::PROC_NAME_ENUM] = procName;
 }
 
-unique_ptr<SynonymRes> SynonymRes::clone() const {
+unique_ptr<SynonymRes> CallSynonymRes::clone() const {
   string stmtNumberCopy = this->attributeMap.at(AttrRef::STMT_NUM_ENUM);
   string procNameCopy = this->attributeMap.at(AttrRef::PROC_NAME_ENUM);
   return std::move(

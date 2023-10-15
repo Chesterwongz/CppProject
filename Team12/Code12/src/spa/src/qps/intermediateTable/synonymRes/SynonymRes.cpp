@@ -2,8 +2,8 @@
 
 #include <utility>
 
-SynonymRes::SynonymRes(string  defaultSynonymValue)
-    : defaultSynonymValue(std::move(defaultSynonymValue)) {}
+SynonymRes::SynonymRes(const string &defaultSynonymValue)
+    : defaultSynonymValue(defaultSynonymValue) {}
 
 string SynonymRes::toString() { return this->defaultSynonymValue; }
 

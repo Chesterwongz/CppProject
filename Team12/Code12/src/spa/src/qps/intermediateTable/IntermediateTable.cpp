@@ -14,13 +14,13 @@ IntermediateTable::IntermediateTable(const vector<string> &colNames,
   for (const string &colName : colNames) {
     IntermediateTable::createNewCol(colName);
   }
-//  for (const auto &dataRow : data) {
-//    vector<unique_ptr<SynonymRes>> rowCopy = {};
-//    for (const auto &datum :dataRow) {
-//      rowCopy.emplace_back(std::move(datum->clone()));
-//    }
-//    this->tableData.emplace_back(std::move(rowCopy));
-//  }
+  for (const auto &dataRow : data) {
+    vector<unique_ptr<SynonymRes>> rowCopy = {};
+    for (const auto &datum :dataRow) {
+      rowCopy.emplace_back(std::move(datum->clone()));
+    }
+    this->tableData.emplace_back(std::move(rowCopy));
+  }
   this->tableData = std::move(data);
   this->isEmpty = false;
 }
@@ -39,33 +39,26 @@ IntermediateTable IntermediateTable::makeEmptyTable() {
 int IntermediateTable::createNewCol(const string &newColName) {
   this->isEmpty = false;
   this->colNameToIndexMap[newColName] = this->currentColCount;
-  this->colNames.push_back(newColName);
+  this->colNames.emplace_back(newColName);
   return this->currentColCount++;
 }
 
 vector<vector<string>> IntermediateTable::getDataAsStrings() {
   vector<vector<string>> res;
-  for (const vector<unique_ptr<SynonymRes>> &synonymDataRow : this->getTableData()) {
-    vector<string> row = {};
-    row.reserve(synonymDataRow.size());
-    for (const auto &synonymRes : synonymDataRow) {
-      row.push_back(synonymRes->toString());
+  for (size_t rowIndex = 0; rowIndex < this->tableData.size(); ++rowIndex) {
+    auto &synonymDataRow = this->tableData.at(rowIndex);
+    vector<string> row{};
+    size_t rowSize = synonymDataRow.size();
+    for (size_t colIndex = 0; colIndex < rowSize; colIndex++) {
+      row.emplace_back(synonymDataRow.at(colIndex)->toString());
     }
-    res.push_back(row);
+    res.emplace_back(row);
   }
   return res;
 }
 
-vector<vector<unique_ptr<SynonymRes>>> IntermediateTable::getTableData() {
-  vector<vector<unique_ptr<SynonymRes>>> res{};
-  for (const vector<unique_ptr<SynonymRes>> &row : this->tableData) {
-    vector<unique_ptr<SynonymRes>> rowCopy = {};
-    for (const unique_ptr<SynonymRes> &datum : row) {
-      rowCopy.push_back(datum->clone());
-    }
-    res.push_back(std::move(rowCopy));
-  }
-  return std::move(res);
+vector<vector<unique_ptr<SynonymRes>>> &IntermediateTable::getTableData() {
+  return this->tableData;
 }
 
 set<string> IntermediateTable::getColumns(const vector<string> &colNameVector) {
