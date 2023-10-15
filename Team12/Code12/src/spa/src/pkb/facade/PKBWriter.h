@@ -12,6 +12,7 @@
 #include "common/cfg/CFG.h"
 #include "common/utils/PairUtils.h"
 #include "pkb/facade/PKBStorage.h"
+#include "pkb/facade/PKBStore.h"
 #include "pkb/interfaces/writers/ICallsWriter.h"
 #include "pkb/interfaces/writers/IDesignEntitiesWriter.h"
 #include "pkb/interfaces/writers/IFollowsWriter.h"
@@ -34,7 +35,8 @@ class PKBWriter : public IDesignEntitiesWriter,
                   public IPatternWriter,
                   public INextWriter {
  public:
-  explicit PKBWriter(PKBStorage& storage) : storage(storage) {}
+  explicit PKBWriter(PKBStorage& storage, PKBStore& store)
+      : storage(storage), store(store) {}
   ~PKBWriter() override = default;
 
   // Add follows relationship
@@ -70,10 +72,9 @@ class PKBWriter : public IDesignEntitiesWriter,
   void setStatement(int statementNumber, StmtType statementType) override;
 
   void setWhilePattern(int statementNumber,
-                               const std::string& varName) override;
+                       const std::string& varName) override;
 
-  void setIfPattern(int statementNumber,
-                            const std::string& varName) override;
+  void setIfPattern(int statementNumber, const std::string& varName) override;
 
   virtual void setUsesRelationship(const std::string& variableName,
                                    const std::string& procedureName);
@@ -100,6 +101,7 @@ class PKBWriter : public IDesignEntitiesWriter,
 
  private:
   PKBStorage& storage;
+  PKBStore& store;
   void setUsesForCalls(const string& callerProc,
                        const unordered_set<string>& calleeProc);
   void setModifiesForCalls(const string& callerProc,

@@ -3,66 +3,80 @@
 void PKBWriter::setFollowsRelationship(int statementNumber,
                                        int followingStatement) {
   storage.setFollows(statementNumber, followingStatement);
+  store.setFollows(statementNumber, followingStatement);
 }
 
 void PKBWriter::setModifiesRelationship(const std::string &variableName,
                                         int statementNumber) {
   storage.addModifies(variableName, statementNumber);
+  store.addModifies(variableName, statementNumber);
 }
 
 void PKBWriter::setParentRelationship(int statementNumber, int childStatement) {
   storage.setParent(statementNumber, childStatement);
+  store.setParent(statementNumber, childStatement);
 }
 
 void PKBWriter::setParentStarRelationship(int statementNumber,
                                           int childStatement) {
   storage.setParentStar(statementNumber, childStatement);
+  store.setParentStar(statementNumber, childStatement);
 }
 
 void PKBWriter::setUsesRelationship(const std::string &variableName,
                                     int statementNumber) {
   storage.addUses(variableName, statementNumber);
+  store.addUses(variableName, statementNumber);
 }
 
 void PKBWriter::setStatement(int statementNumber, StmtType statementType) {
   storage.setStatement(statementNumber, statementType);
+  store.setStatement(statementNumber, statementType);
 }
 
 void PKBWriter::setVariable(const std::string &variableName) {
   storage.setVariable(variableName);
+  store.setVariable(variableName);
 }
 
 void PKBWriter::setConstant(const std::string &constantValue) {
   storage.setConstant(constantValue);
+  store.setConstant(constantValue);
 }
 
 void PKBWriter::setProcForStmt(const std::string &procedureName, int stmtNum) {
   storage.setProcForStmt(procedureName, stmtNum);
+  store.setProcForStmt(procedureName, stmtNum);
 }
 
 void PKBWriter::setAssignPattern(const std::string &variableName,
                                  const std::string &rpn, int statementNumber) {
   storage.setAssignPattern(variableName, rpn, statementNumber);
+  store.setAssignPattern(variableName, rpn, statementNumber);
 }
 
 void PKBWriter::setWhilePattern(int statementNumber,
                                 const std::string &variableName) {
   storage.setWhilePattern(statementNumber, variableName);
+  store.setWhilePattern(statementNumber, variableName);
 }
 
 void PKBWriter::setIfPattern(int statementNumber,
                              const std::string &variableName) {
   storage.setIfPattern(statementNumber, variableName);
+  store.setIfPattern(statementNumber, variableName);
 }
 
 void PKBWriter::setUsesRelationship(const string &variableName,
                                     const string &procName) {
   storage.addUses(variableName, procName);
+  store.addUses(variableName, procName);
 }
 
 void PKBWriter::setModifiesRelationship(const string &variableName,
                                         const string &procName) {
   storage.addModifies(variableName, procName);
+  store.addModifies(variableName, procName);
 }
 
 // ai-gen start(gpt-4, 0)
@@ -105,15 +119,21 @@ void PKBWriter::setIndirectCallsRelationship() {
 void PKBWriter::setCallsRelationship(const string &callerProc,
                                      const string &calleeProc) {
   storage.setCallsRelationship(callerProc, calleeProc);
+  store.setCallsRelationship(callerProc, calleeProc);
 }
 
 void PKBWriter::setCallsStarRelationship(const string &callerProc,
                                          const string &calleeProc) {
   storage.setCallsStarRelationship(callerProc, calleeProc);
+  store.setCallsStarRelationship(callerProc, calleeProc);
 }
 
 void PKBWriter::setCFG(const std::string &procName, unique_ptr<CFG> cfg) {
-  storage.addCfg(procName, std::move(cfg));
+//  store.addCfg(procName, std::move(cfg))
+  store.addCfg(procName, std::move(cfg));
 }
 
-void PKBWriter::addNext(int from, int to) { storage.addNext(from, to); }
+void PKBWriter::addNext(int from, int to) {
+  storage.addNext(from, to);
+  store.addNext(from, to);
+}
