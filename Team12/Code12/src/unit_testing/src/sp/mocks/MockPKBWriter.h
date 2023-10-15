@@ -100,7 +100,8 @@ class MockPKBWriter : public PKBWriter {
   }
 
   void setCallsRelationship(const string &caller,
-                            const string &callee) override {
+                            const string &callee,
+                            int stmtNum) override {
     callsStorage[caller].insert(callee);
   }
 
