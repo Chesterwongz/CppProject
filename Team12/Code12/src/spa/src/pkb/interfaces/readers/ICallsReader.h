@@ -8,18 +8,14 @@
 class ICallsReader {
  public:
   virtual ~ICallsReader() = default;
-  virtual std::unordered_set<std::string> getCallerProcs(
-      const std::string& procName) = 0;
-  virtual std::unordered_set<std::string> getCallerProcsStar(
-      const std::string& procName) = 0;
-  virtual std::unordered_set<std::string> getCalleeProcs(
-      const std::string& procName) = 0;
-  virtual std::unordered_set<std::string> getCalleeProcsStar(
-      const std::string& procName) = 0;
-  virtual std::unordered_set<std::string> getAllCallerProcs() = 0;
-  virtual std::unordered_set<std::string> getAllCalleeProcs() = 0;
-  virtual bool isCalling(const std::string& caller,
+  virtual vector<string> getCallerProcs(const std::string& procName) = 0;
+  virtual vector<string> getCallerProcsStar(const std::string& procName) = 0;
+  virtual vector<string> getCalleeProcs(const std::string& procName) = 0;
+  virtual vector<string> getCalleeProcsStar(const std::string& procName) = 0;
+  virtual vector<std::pair<string, string>> getCallPairs() = 0;
+  virtual vector<std::pair<string, string>> getCallsStarPairs() = 0;
+  virtual bool hasCalls(const std::string& caller,
+                        const std::string& callee) = 0;
+  virtual bool hasCallsT(const std::string& caller,
                          const std::string& callee) = 0;
-  virtual bool isCallingStar(const std::string& caller,
-                             const std::string& callee) = 0;
 };

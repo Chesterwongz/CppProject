@@ -38,5 +38,5 @@ class PKBReader : public DesignEntitiesReader,
         PatternReader(storage),
         UsesReader(store.getUsesStore(), store.getUsesProcStore(),
                    store.getStmtStore()),
-        CallsReader(storage) {}
+        CallsReader(store.getCallsStore()) {}
 };

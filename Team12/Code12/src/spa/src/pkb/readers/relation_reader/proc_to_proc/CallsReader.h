@@ -1,34 +1,40 @@
 #pragma once
 
 #include <string>
-#include <unordered_set>
+#include <vector>
 
 #include "pkb/interfaces/readers/ICallsReader.h"
-#include "pkb/storage/relation_storage/proc_to_proc/CallsStorage.h"
+#include "pkb/storage/CallsStore.h"
+#include "pkb/utils/PredicateUtils.h"
 
 class CallsReader : public ICallsReader {
  private:
-  CallsStorage& callsStorage;
+  CallsStore& callsStore;
 
  public:
-  explicit CallsReader(CallsStorage& callsStorage)
-      : callsStorage(callsStorage) {}
-  unordered_set<string> getCallerProcs(const std::string& procName) override;
+  explicit CallsReader(CallsStore& callsStore) : callsStore(callsStore) {}
 
-  unordered_set<string> getCallerProcsStar(
-      const std::string& procName) override;
+  // Calls(p, "proc1"), returns all p
+  std::vector<std::string> getCallerProcs(const std::string& proc1) override;
 
-  unordered_set<string> getCalleeProcs(const std::string& procName) override;
+  // Calls*(p, "proc1"), returns all p
+  std::vector<std::string> getCallerProcsStar(
+      const std::string& proc1) override;
 
-  unordered_set<string> getCalleeProcsStar(
-      const std::string& procName) override;
+  // Calls("proc2", p), returns all p
+  std::vector<std::string> getCalleeProcs(const std::string& proc2) override;
 
-  unordered_set<string> getAllCallerProcs() override;
+  // Calls*("proc2", p), returns all p
+  std::vector<std::string> getCalleeProcsStar(
+      const std::string& proc2) override;
 
-  unordered_set<string> getAllCalleeProcs() override;
+  // Calls(p1, p2)
+  std::vector<std::pair<std::string, std::string>> getCallPairs() override;
 
-  bool isCalling(const std::string& caller, const std::string& callee) override;
+  // Calls*(p1, p2)
+  std::vector<std::pair<std::string, std::string>> getCallsStarPairs() override;
 
-  bool isCallingStar(const std::string& caller,
-                     const std::string& callee) override;
+  bool hasCalls(const std::string& proc1, const std::string& proc2) override;
+
+  bool hasCallsT(const std::string& proc1, const std::string& proc2) override;
 };
