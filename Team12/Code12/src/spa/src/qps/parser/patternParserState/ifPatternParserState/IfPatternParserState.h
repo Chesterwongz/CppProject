@@ -29,8 +29,7 @@ class IfPatternParserState : public BaseParserState {
 
  public:
   explicit IfPatternParserState(PQLParserContext& parserContext,
-                                PQLTokenType prev,
-                                unique_ptr<SynonymArg> synIf,
+                                PQLTokenType prev, unique_ptr<SynonymArg> synIf,
                                 bool isNegated);
   void handleToken() override;
   ~IfPatternParserState() override = default;
