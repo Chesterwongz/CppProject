@@ -1,6 +1,6 @@
-#include <catch.hpp>
 #include <memory>
 #include <vector>
+#include <catch.hpp>
 
 #include "PQLParserTestUtils.h"
 #include "qps/argument/integer/Integer.h"

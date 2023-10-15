@@ -353,18 +353,18 @@ TEST_CASE("PKBReader Tests") {
         reader.getExactAssignPattern("_", "_");
     std::vector<std::pair<std::string, std::string>> resultVector7 =
         reader.getExactAssignPattern("x", "_");
-    REQUIRE(StrStrPairSet{resultVector1.begin(), resultVector1.end()} ==
-            StrStrPairSet{{"1", "x"}});
+    REQUIRE(StrStrPairSet {resultVector1.begin(), resultVector1.end()} ==
+            StrStrPairSet {{"1", "x"}});
     REQUIRE(resultVector2.empty());
-    REQUIRE(StrStrPairSet{resultVector3.begin(), resultVector3.end()} ==
-            StrStrPairSet{{"2", "y"}});
+    REQUIRE(StrStrPairSet {resultVector3.begin(), resultVector3.end()} ==
+            StrStrPairSet {{"2", "y"}});
     REQUIRE(resultVector4.empty());
-    REQUIRE(StrStrPairSet{resultVector5.begin(), resultVector5.end()} ==
-            StrStrPairSet{{"1", "x"}});
-    REQUIRE(StrStrPairSet{resultVector6.begin(), resultVector6.end()} ==
-            StrStrPairSet{{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}});
-    REQUIRE(StrStrPairSet{resultVector7.begin(), resultVector7.end()} ==
-            StrStrPairSet{{"1", "x"}, {"4", "x"}});
+    REQUIRE(StrStrPairSet {resultVector5.begin(), resultVector5.end()} ==
+            StrStrPairSet {{"1", "x"}});
+    REQUIRE(StrStrPairSet {resultVector6.begin(), resultVector6.end()} ==
+            StrStrPairSet {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}});
+    REQUIRE(StrStrPairSet {resultVector7.begin(), resultVector7.end()} ==
+            StrStrPairSet {{"1", "x"}, {"4", "x"}});
   }
 
   SECTION("getPartialAssignPattern") {
@@ -383,19 +383,19 @@ TEST_CASE("PKBReader Tests") {
     std::vector<std::pair<std::string, std::string>> resultVector7 =
         reader.getPartialAssignPattern("_", "_");
 
-    REQUIRE(StrStrPairSet{resultVector1.begin(), resultVector1.end()} ==
-            StrStrPairSet{{"1", "x"}});
-    REQUIRE(StrStrPairSet{resultVector2.begin(), resultVector2.end()} ==
-            StrStrPairSet{{"4", "x"}});
+    REQUIRE(StrStrPairSet {resultVector1.begin(), resultVector1.end()} ==
+            StrStrPairSet {{"1", "x"}});
+    REQUIRE(StrStrPairSet {resultVector2.begin(), resultVector2.end()} ==
+            StrStrPairSet {{"4", "x"}});
     REQUIRE(resultVector3.empty());
-    REQUIRE(StrStrPairSet{resultVector4.begin(), resultVector4.end()} ==
-            StrStrPairSet{{"1", "x"}, {"3", "z"}, {"4", "x"}});
-    REQUIRE(StrStrPairSet{resultVector5.begin(), resultVector5.end()} ==
-            StrStrPairSet{{"1", "x"}, {"3", "z"}, {"4", "x"}});
-    REQUIRE(StrStrPairSet{resultVector6.begin(), resultVector6.end()} ==
-            StrStrPairSet{{"1", "x"}, {"4", "x"}});
-    REQUIRE(StrStrPairSet{resultVector7.begin(), resultVector7.end()} ==
-            StrStrPairSet{{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}});
+    REQUIRE(StrStrPairSet {resultVector4.begin(), resultVector4.end()} ==
+            StrStrPairSet {{"1", "x"}, {"3", "z"}, {"4", "x"}});
+    REQUIRE(StrStrPairSet {resultVector5.begin(), resultVector5.end()} ==
+            StrStrPairSet {{"1", "x"}, {"3", "z"}, {"4", "x"}});
+    REQUIRE(StrStrPairSet {resultVector6.begin(), resultVector6.end()} ==
+            StrStrPairSet {{"1", "x"}, {"4", "x"}});
+    REQUIRE(StrStrPairSet {resultVector7.begin(), resultVector7.end()} ==
+            StrStrPairSet {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}});
   }
 
   SECTION("Test whilePattern") {
@@ -415,17 +415,17 @@ TEST_CASE("PKBReader Tests") {
     std::vector<std::pair<std::string, std::string>> resultVec4 =
         reader.getWhilePattern("_");
 
-    REQUIRE(StrStrPairSet{resultVec1.begin(), resultVec1.end()} ==
-            StrStrPairSet{{"6", "x"}, {"8", "x"}, {"9", "x"}});
+    REQUIRE(StrStrPairSet {resultVec1.begin(), resultVec1.end()} ==
+            StrStrPairSet {{"6", "x"}, {"8", "x"}, {"9", "x"}});
 
-    REQUIRE(StrStrPairSet{resultVec2.begin(), resultVec2.end()} ==
-            StrStrPairSet{{"6", "y"}, {"7", "y"}});
+    REQUIRE(StrStrPairSet {resultVec2.begin(), resultVec2.end()} ==
+            StrStrPairSet {{"6", "y"}, {"7", "y"}});
 
-    REQUIRE(StrStrPairSet{resultVec3.begin(), resultVec3.end()} ==
-            StrStrPairSet{{"8", "z"}});
+    REQUIRE(StrStrPairSet {resultVec3.begin(), resultVec3.end()} ==
+            StrStrPairSet {{"8", "z"}});
 
-    REQUIRE(StrStrPairSet{resultVec4.begin(), resultVec4.end()} ==
-            StrStrPairSet{{"6", "x"},
+    REQUIRE(StrStrPairSet {resultVec4.begin(), resultVec4.end()} ==
+            StrStrPairSet {{"6", "x"},
                           {"6", "y"},
                           {"7", "y"},
                           {"8", "x"},
@@ -450,17 +450,17 @@ TEST_CASE("PKBReader Tests") {
     std::vector<std::pair<std::string, std::string>> resultVec4 =
         reader.getIfPattern("_");
 
-    REQUIRE(StrStrPairSet{resultVec1.begin(), resultVec1.end()} ==
-            StrStrPairSet{{"6", "a"}, {"9", "a"}});
+    REQUIRE(StrStrPairSet {resultVec1.begin(), resultVec1.end()} ==
+            StrStrPairSet {{"6", "a"}, {"9", "a"}});
 
-    REQUIRE(StrStrPairSet{resultVec2.begin(), resultVec2.end()} ==
-            StrStrPairSet{{"7", "b"}, {"10", "b"}});
+    REQUIRE(StrStrPairSet {resultVec2.begin(), resultVec2.end()} ==
+            StrStrPairSet {{"7", "b"}, {"10", "b"}});
 
-    REQUIRE(StrStrPairSet{resultVec3.begin(), resultVec3.end()} ==
-            StrStrPairSet{{"8", "c"}});
+    REQUIRE(StrStrPairSet {resultVec3.begin(), resultVec3.end()} ==
+            StrStrPairSet {{"8", "c"}});
 
-    REQUIRE(StrStrPairSet{resultVec4.begin(), resultVec4.end()} ==
-            StrStrPairSet{{"6", "a"},
+    REQUIRE(StrStrPairSet {resultVec4.begin(), resultVec4.end()} ==
+            StrStrPairSet {{"6", "a"},
                           {"7", "b"},
                           {"8", "c"},
                           {"9", "a"},

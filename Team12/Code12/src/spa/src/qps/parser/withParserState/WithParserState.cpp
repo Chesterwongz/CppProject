@@ -49,7 +49,7 @@ void WithParserState::handleToken() {
         argumentTypes.emplace_back(INTEGER_TYPE);
         arguments.emplace_back(std::make_unique<Integer>(token.getValue()));
         break;
-      default:;
+      default:
         break;
     }
     if (arguments.size() == expectedNumberOfArgs) {

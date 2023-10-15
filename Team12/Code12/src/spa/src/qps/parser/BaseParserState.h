@@ -1,6 +1,8 @@
 #pragma once
 
+#include <memory>
 #include <optional>
+#include <string>
 #include <unordered_set>
 
 #include "PQLParserContext.h"
