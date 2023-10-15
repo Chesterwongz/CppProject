@@ -3,19 +3,19 @@
 #include <string>
 
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
-#include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
 #include "pkb/interfaces/writers/IDesignEntitiesWriter.h"
 #include "pkb/interfaces/writers/IStatementWriter.h"
+#include "pkb/storage/StmtStore.h"
 
 class DesignEntitiesWriter : public IDesignEntitiesWriter,
                              public IStatementWriter {
  private:
   IEntityStorage& entityStorage;
-  IStmtStorage& stmtStorage;
+  StmtStore& stmtStore;
 
  protected:
-  DesignEntitiesWriter(IEntityStorage& entityStorage, IStmtStorage& stmtStorage)
-      : entityStorage(entityStorage), stmtStorage(stmtStorage) {}
+  DesignEntitiesWriter(IEntityStorage& entityStorage, StmtStore& stmtStore)
+      : entityStorage(entityStorage), stmtStore(stmtStore) {}
 
  public:
   void addVariable(const std::string& varName) override;
