@@ -25,5 +25,4 @@ class IEntityStorage {
 
   // Return the names of all procedures in the program
   virtual std::set<std::string> getAllProcedures() = 0;
-
 };
