@@ -1,29 +1,50 @@
 #include "ModifiesReader.h"
 
-std::vector<std::string> ModifiesReader::getStatementsModifying(
-    const std::string& variableName, StmtType statementType) {
-  return modifies_reader_.getStmtsRelatedToVarByStmtType(variableName,
-                                                         statementType);
+#include "common/utils/CollectionUtils.h"
+
+// (1, v)
+std::vector<std::string> ModifiesReader::getVariablesModifiedBy(int stmt) {
+  auto varFilter = PredicateUtils::truePredicate<std::string>();
+
+  auto rawRes = modifiesStore.getDirectSuccessor(stmt, varFilter);
+
+  return rawRes;
 }
 
-std::vector<std::pair<std::string, std::string>>
-ModifiesReader::getVariablesModifiedBy(int statementNumber,
-                                       StmtType statementType) {
-  return modifies_reader_.getVarsRelatedToStmtByStmtType(statementNumber,
-                                                         statementType);
+// (s, "name")
+std::vector<std::string> ModifiesReader::getStatementsModifying(const std::string& varName, StmtType stmtType) {
+  if (!stmtStore.hasStmtType(stmtType)) {
+    return {};
+  }
+
+  auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
+
+  auto rawRes = modifiesStore.getDirectAncestor(varName, stmtFilter);
+
+  return CollectionUtils::transformIntToStrVector(rawRes);
 }
 
-bool ModifiesReader::isVariableModifiedBy(const std::string& variableName,
-                                          const std::string& statementNumber) {
-  return modifies_reader_.isVarRelatedToStmt(variableName, statementNumber);
+bool ModifiesReader::isVariableModifiedBy(int stmt, const std::string& varName) {
+  return modifiesStore.hasDirectRelation(stmt, varName);
 }
 
-std::vector<std::pair<std::string, std::string>>
-ModifiesReader::getAllModifiedVariables(StmtType statementType) {
-  return modifies_reader_.getAllRelationsByStmtType(statementType);
+std::vector<std::pair<std::string, std::string>> ModifiesReader::getModifiesPairs(
+    StmtType stmtType) {
+  if (!stmtStore.hasStmtType(stmtType)) {
+    return {};
+  }
+
+  auto filters = std::make_pair(stmtStore.getStmtFilterPredicate(stmtType),
+                                PredicateUtils::truePredicate<std::string>());
+
+  auto rawRes = modifiesStore.getAllRelations(filters);
+
+  return CollectionUtils::transformIntStrToStrStrVector(rawRes);
 }
 
-unordered_set<string> ModifiesReader::getModifiedVariablesForProc(
-    const string& procName) {
-  return modifies_reader_.getVarsRelatedToProc(procName);
+// =================================== ModifiesP ===================================
+
+std::unordered_set<std::string> ModifiesReader::getModifiedVariablesForProc(
+    const std::string& procName) {
+  return {};
 }

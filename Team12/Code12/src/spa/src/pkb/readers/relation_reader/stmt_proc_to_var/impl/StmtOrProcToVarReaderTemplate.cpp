@@ -5,8 +5,8 @@ StmtOrProcToVarReaderTemplate::getStmtsRelatedToVarByStmtType(
     const std::string& varName, StmtType stmtType) {
   std::vector<std::string> result;
 
-  std::set<int> allMatchingStatements =
-      stmt_storage_.getStatementNumbersFromStatementType(stmtType);
+  std::unordered_set<int> allMatchingStatements =
+      stmtStore.getStmtsForType(stmtType);
 
   for (int statement : allMatchingStatements) {
     std::set<std::string> variables = getVarsRelatedToStmt(statement);
@@ -23,7 +23,7 @@ StmtOrProcToVarReaderTemplate::getVarsRelatedToStmtByStmtType(
     int stmtNum, StmtType stmtType) {
   std::vector<std::pair<std::string, std::string>> result;
 
-  if (stmt_storage_.isStatementType(stmtNum, stmtType)) {
+  if (stmtStore.isStmtType(stmtNum, stmtType)) {
     std::set<std::string> variables = getVarsRelatedToStmt(stmtNum);
 
     for (const std::string& v : variables) {
@@ -52,8 +52,8 @@ StmtOrProcToVarReaderTemplate::getAllRelationsByStmtType(
     std::set<int> statementNumbers = getStmtsRelatedToVar(v);
 
     for (int stmt : statementNumbers) {
-      std::set<int> sameStatementType =
-          stmt_storage_.getStatementNumbersFromStatementType(statementType);
+      std::unordered_set<int> sameStatementType =
+          stmtStore.getStmtsForType(statementType);
       if (sameStatementType.find(stmt) != sameStatementType.end()) {
         result.emplace_back(std::to_string(stmt), v);
       }

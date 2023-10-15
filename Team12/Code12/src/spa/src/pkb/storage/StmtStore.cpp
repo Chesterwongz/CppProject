@@ -4,6 +4,15 @@ void StmtStore::addStmt(int stmt, StmtType stmtType) {
   stmtTypeToStmtMap[stmtType].insert(stmt);
   stmtTypeToStmtMap[StmtType::STMT].insert(stmt);
 }
+
+bool StmtStore::isStmtType(int stmt, StmtType stmtType) const {
+  if (stmtTypeToStmtMap.find(stmtType) == stmtTypeToStmtMap.end()) {
+    return false;
+  }
+  return stmtTypeToStmtMap.at(stmtType).find(stmt) !=
+         stmtTypeToStmtMap.at(stmtType).end();
+}
+
 std::unordered_set<int> StmtStore::getStmtsForType(StmtType stmtType) const {
   if (stmtTypeToStmtMap.find(stmtType) == stmtTypeToStmtMap.end()) {
     return {};

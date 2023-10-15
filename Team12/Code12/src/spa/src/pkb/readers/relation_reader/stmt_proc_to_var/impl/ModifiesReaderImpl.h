@@ -17,7 +17,7 @@ class ModifiesReaderImpl : public StmtOrProcToVarReaderTemplate {
 
  public:
   explicit ModifiesReaderImpl(IModifiesStorage& uses_storage,
-                              IStmtStorage& stmt_storage,
+                              StmtStore& stmt_storage,
                               IEntityStorage& entity_storage)
       : modifies_storage_(uses_storage),
         StmtOrProcToVarReaderTemplate(stmt_storage, entity_storage) {}

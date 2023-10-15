@@ -17,6 +17,8 @@ class StmtStore {
  public:
   void addStmt(int stmt, StmtType stmtType);
 
+  [[nodiscard]] bool isStmtType(int stmt, StmtType stmtType) const;
+
   [[nodiscard]] std::unordered_set<int> getStmtsForType(StmtType stmtType) const;
 
   [[nodiscard]] bool hasStmtType(StmtType stmtType) const;

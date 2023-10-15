@@ -306,7 +306,7 @@ TEST_CASE("PKBReader Tests") {
 
   SECTION("getVariablesModifiedBy") {
     REQUIRE(compareVectorContents(
-        reader.getVariablesModifiedBy(1, StmtType::STMT), {{"1", "x"}, {"2", "y"}}));
+        reader.getVariablesModifiedBy(1, StmtType::STMT), {{"1", "x"}}));
     REQUIRE(compareVectorContents(
         reader.getVariablesModifiedBy(2, StmtType::STMT), {{"2", "y"}}));
     REQUIRE(reader.getVariablesModifiedBy(7, StmtType::STMT).empty());

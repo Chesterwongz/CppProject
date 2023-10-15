@@ -32,7 +32,7 @@ class PKBReader : public DesignEntitiesReader,
   explicit PKBReader(PKBStorage& storage, PKBStore& store)
       : DesignEntitiesReader(storage, store.getStmtStore()),
         FollowsReader(store.getFollowsStore(), store.getStmtStore()),
-        ModifiesReader(storage, storage, storage),
+        ModifiesReader(storage, store.getStmtStore(), storage),
         NextReader(store.getNextStore(), store.getStmtStore()),
         ParentReader(store.getParentStore(), store.getStmtStore()),
         PatternReader(storage),

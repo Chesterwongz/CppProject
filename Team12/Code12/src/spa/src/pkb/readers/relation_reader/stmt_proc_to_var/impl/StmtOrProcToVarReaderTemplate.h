@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
-#include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
+#include "pkb/storage/StmtStore.h"
 #include "pkb/interfaces/storage/relation_storage/IModifiesStorage.h"
 #include "pkb/storage/relation_storage/stmt_proc_to_var/ModifiesStorage.h"
 
@@ -15,7 +15,7 @@ using std::unordered_set, std::string;
 
 class StmtOrProcToVarReaderTemplate {
  private:
-  IStmtStorage& stmt_storage_;
+  StmtStore& stmtStore;
   IEntityStorage& entity_storage_;
 
  protected:
@@ -23,9 +23,9 @@ class StmtOrProcToVarReaderTemplate {
   virtual std::set<int> getStmtsRelatedToVar(const std::string& varName) = 0;
 
  public:
-  explicit StmtOrProcToVarReaderTemplate(IStmtStorage& stmt_storage,
+  explicit StmtOrProcToVarReaderTemplate(StmtStore& stmtStore,
                                          IEntityStorage& entity_storage)
-      : stmt_storage_(stmt_storage), entity_storage_(entity_storage) {}
+      : stmtStore(stmtStore), entity_storage_(entity_storage) {}
 
   // return all s that satisfy Relation(s, v) where v is varName and s is
   // of same type as stmtType
