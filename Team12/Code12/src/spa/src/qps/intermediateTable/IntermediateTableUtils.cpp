@@ -3,6 +3,7 @@
 #include <stdexcept>
 
 #include "common/utils/VectorUtils.h"
+#include "qps/exceptions/QPSIntermediateTableException.h"
 
 vector<string> getSharedColNames(IntermediateTable table1,
                                  IntermediateTable table2) {
@@ -34,8 +35,8 @@ pair<vector<int>, vector<int>> getSharedColIndexes(IntermediateTable table1,
 IntermediateTable getCrossProduct(IntermediateTable table1,
                                   IntermediateTable table2) {
   if (!getSharedColNames(table1, table2).empty()) {
-    throw std::runtime_error(
-        "Cross product not supported for tables with common columns");
+    throw QPSIntermediateTableException(
+        QPS_UNSUPPORTED_CROSS_PRODUCT_EXCEPTION);
   }
   vector<string> resColumns =
       concatColNames(table1.getColNames(), table2.getColNames());
@@ -94,16 +95,17 @@ vector<string> concatColNames(const vector<string> &vector1,
                               const vector<string> &vector2) {
   vector<string> newVector;
   newVector.reserve(vector1.size() + vector2.size());
-  std::copy(vector1.begin(), vector1.end(), std::back_inserter(newVector));
-  std::copy(vector2.begin(), vector2.end(), std::back_inserter(newVector));
+  std::move(vector1.begin(), vector1.end(), std::back_inserter(newVector));
+  std::move(vector2.begin(), vector2.end(), std::back_inserter(newVector));
   return newVector;
 }
 
-TableRowType concatRow(const TableRowType &row1,
-                             const TableRowType &row2) {
+TableRowType concatRow(const TableRowType &row1, const TableRowType &row2) {
   TableRowType rowCopy = {};
   rowCopy.reserve(row1.size() + row2.size());
-for (const SynonymRes &val : row1) {
+  // cannot move since the same row may have to be copied
+  // multiple times for cross join
+  for (const SynonymRes &val : row1) {
     rowCopy.emplace_back(val.clone());
   }
   for (const SynonymRes &val : row2) {
