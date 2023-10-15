@@ -13,5 +13,5 @@ void DesignEntitiesWriter::addProcForStmt(const std::string& procName,
 }
 
 void DesignEntitiesWriter::addStmt(int stmtNum, StmtType stmtType) {
-  stmtStore.setStatement(stmtNum, stmtType);
+  stmtStore.addStmt(stmtNum, stmtType);
 }
