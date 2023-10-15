@@ -2,6 +2,7 @@
 
 void StmtStore::addStmt(int stmt, StmtType stmtType) {
   stmtTypeToStmtMap[stmtType].insert(stmt);
+  stmtTypeToStmtMap[StmtType::STMT].insert(stmt);
 }
 
 bool StmtStore::hasStmtType(StmtType stmtType) const {
