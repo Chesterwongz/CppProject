@@ -5,8 +5,9 @@
 class IDesignEntitiesWriter {
  public:
   virtual ~IDesignEntitiesWriter() = default;
-  virtual void setVariable(const std::string& variableName) = 0;
-  virtual void setConstant(const std::string& constantValue) = 0;
-  virtual void setProcForStmt(const std::string& procedureName,
-                              int startStatement) = 0;
+  virtual void addVariable(const std::string& varName) = 0;
+  virtual void addConstant(const std::string& constantValue) = 0;
+  virtual void addProcForStmt(const std::string& procName,
+                              int stmtNum) = 0;
+  virtual void addStmt(int stmtNum, StmtType stmtType) = 0;
 };

@@ -11,9 +11,9 @@ TEST_CASE("PKBReader Tests") {
   PKBWriter writer(storage);
   PKBReader reader(storage, store);
 
-  writer.setVariable("x");
-  writer.setVariable("y");
-  writer.setVariable("z");
+  writer.addVariable("x");
+  writer.addVariable("y");
+  writer.addVariable("z");
 
   writer.setStatement(1, StmtType::ASSIGN);
   writer.setStatement(2, StmtType::WHILE);
@@ -51,25 +51,25 @@ TEST_CASE("PKBReader Tests") {
   writer.setUsesRelationship("z", 3);
   writer.setUsesRelationship("x", 4);
 
-  writer.setAssignPattern("x", " a b c * + ", 1);
-  writer.setAssignPattern("y", " d e + f + ", 2);
-  writer.setAssignPattern("z", " a b * c * d + ", 3);
-  writer.setAssignPattern("x", " a 2 + ", 4);
+  writer.addAssignPattern("x", " a b c * + ", 1);
+  writer.addAssignPattern("y", " d e + f + ", 2);
+  writer.addAssignPattern("z", " a b * c * d + ", 3);
+  writer.addAssignPattern("x", " a 2 + ", 4);
 
   SECTION("getAllVarUsedByStmt") {
     REQUIRE(reader.getAllVariables() == std::set<std::string>{"x", "y", "z"});
   }
 
   SECTION("getAllConstants") {
-    writer.setConstant("1");
-    writer.setConstant("3");
-    writer.setConstant("10");
+    writer.addConstant("1");
+    writer.addConstant("3");
+    writer.addConstant("10");
     REQUIRE(reader.getAllConstants() == std::set<std::string>{"1", "3", "10"});
   }
 
   SECTION("getAllProcedures") {
-    writer.setProcForStmt("proc1", 1);
-    writer.setProcForStmt("proc2", 5);
+    writer.addProcForStmt("proc1", 1);
+    writer.addProcForStmt("proc2", 5);
     REQUIRE(reader.getAllProcedures() ==
             std::set<std::string>{"proc1", "proc2"});
   }
@@ -415,12 +415,12 @@ TEST_CASE("PKBReader Tests") {
   }
 
   SECTION("Test whilePattern") {
-    writer.setWhilePattern(6, "x");
-    writer.setWhilePattern(6, "y");
-    writer.setWhilePattern(7, "y");
-    writer.setWhilePattern(8, "x");
-    writer.setWhilePattern(8, "z");
-    writer.setWhilePattern(9, "x");
+    writer.addWhilePattern(6, "x");
+    writer.addWhilePattern(6, "y");
+    writer.addWhilePattern(7, "y");
+    writer.addWhilePattern(8, "x");
+    writer.addWhilePattern(8, "z");
+    writer.addWhilePattern(9, "x");
 
     REQUIRE(reader.getWhilePattern("x") ==
             std::vector<std::pair<std::string, std::string>>{
@@ -443,12 +443,12 @@ TEST_CASE("PKBReader Tests") {
   }
 
   SECTION("Test ifPattern") {
-    writer.setIfPattern(6, "a");
-    writer.setIfPattern(7, "b");
-    writer.setIfPattern(8, "c");
-    writer.setIfPattern(9, "a");
-    writer.setIfPattern(10, "b");
-    writer.setIfPattern(11, "d");
+    writer.addIfPattern(6, "a");
+    writer.addIfPattern(7, "b");
+    writer.addIfPattern(8, "c");
+    writer.addIfPattern(9, "a");
+    writer.addIfPattern(10, "b");
+    writer.addIfPattern(11, "d");
 
     REQUIRE(reader.getIfPattern("a") ==
             std::vector<std::pair<std::string, std::string>>{{"6", "a"},

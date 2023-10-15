@@ -70,15 +70,15 @@ class MockPKBWriter : public PKBWriter {
     usesProcStorage[varName].insert(procName);
   }
 
-  void setVariable(const string &varName) override {
+  void addVariable(const string &varName) override {
     variableStorage.insert(varName);
   }
 
-  void setConstant(const string &constantValue) override {
+  void addConstant(const string &constantValue) override {
     constantStorage.insert(constantValue);
   }
 
-  void setProcForStmt(const string &procName, int stmtNum) override {
+  void addProcForStmt(const string &procName, int stmtNum) override {
     stmtToProcStorage[stmtNum] = procName;
   }
 
@@ -86,16 +86,16 @@ class MockPKBWriter : public PKBWriter {
     statementStorage[statementType].insert(stmtNum);
   }
 
-  void setAssignPattern(const string &varName, const string &expr,
+  void addAssignPattern(const string &varName, const string &expr,
                         int lineNum) override {
     assignPatternStorage[lineNum] = std::make_pair(varName, expr);
   }
 
-  void setWhilePattern(int lineNum, const string &varName) override {
+  void addWhilePattern(int lineNum, const string &varName) override {
     whilePatternStorage[lineNum].insert(varName);
   }
 
-  void setIfPattern(int lineNum, const string &varName) override {
+  void addIfPattern(int lineNum, const string &varName) override {
     ifPatternStorage[lineNum].insert(varName);
   }
 

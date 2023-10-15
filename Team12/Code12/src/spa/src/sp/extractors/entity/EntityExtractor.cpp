@@ -5,7 +5,6 @@ EntityExtractor::EntityExtractor(PKBWriter& pkbWriter) : Extractor(pkbWriter) {}
 void EntityExtractor::processStmt(int lineNum, StmtType type) {
   currLine = lineNum;
   pkbWriter.setStatement(currLine, type);
-  pkbWriter.setProcForStmt(currProc, currLine);
 }
 
 void EntityExtractor::visitAssign(const AssignNode& node) {
@@ -33,11 +32,11 @@ void EntityExtractor::visitWhile(const WhileNode& node) {
 }
 
 void EntityExtractor::visitVariable(const VarNode& node) {
-  pkbWriter.setVariable(node.getValue());
+  pkbWriter.addVariable(node.getValue());
 }
 
 void EntityExtractor::visitConstant(const ConstNode& node) {
-  pkbWriter.setConstant(node.getValue());
+  pkbWriter.addConstant(node.getValue());
 }
 
 void EntityExtractor::visitProcedure(const ProcNode& node) {
