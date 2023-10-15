@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "IntermediateTable.h"
+#include "qps/common/Keywords.h"
 
 using std::set;
 
@@ -73,7 +74,7 @@ class IntermediateTableFactory {
    * and only one column
    */
   static IntermediateTable buildSingleColTable(const string &firstColName,
-                                               const vector<string>& data);
+                                               const vector<string> &data);
 
   /**
    * Builds intermediate table without any WILDCARD columns

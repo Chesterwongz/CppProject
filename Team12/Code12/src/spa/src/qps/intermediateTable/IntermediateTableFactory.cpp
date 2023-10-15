@@ -1,6 +1,7 @@
 #include "IntermediateTableFactory.h"
 
 #include "qps/common/Keywords.h"
+#include "qps/intermediateTable/synonymRes/SynonymResFactory.h"
 
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const string &firstColName, const string &secondColName,
@@ -28,10 +29,10 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
   for (auto &dataPair : data) {
     TableRowType row = {};
     if (!isFirstColWildcard) {
-      row.emplace_back(SynonymRes::buildDefaultSynonym(dataPair.first));
+      row.emplace_back(SynonymResFactory::buildDefaultSynonym(dataPair.first));
     }
     if (!isSecondColWildcard) {
-      row.emplace_back(SynonymRes::buildDefaultSynonym(dataPair.second));
+      row.emplace_back(SynonymResFactory::buildDefaultSynonym(dataPair.second));
     }
     dataWithoutWildcardColumns.emplace_back(std::move(row));
   }
@@ -60,7 +61,7 @@ IntermediateTable IntermediateTableFactory::buildSingleColTable(
   TableDataType dataColumn = {};
   dataColumn.reserve(data.size());
   for (const string &rowData : data) {
-    TableRowType row = { SynonymRes::buildDefaultSynonym(rowData) };
+    TableRowType row = { SynonymResFactory::buildDefaultSynonym(rowData) };
     dataColumn.emplace_back(std::move(row));
   }
   return IntermediateTable(columnNames, std::move(dataColumn));

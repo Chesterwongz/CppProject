@@ -22,7 +22,7 @@ class SynonymRes {
   unordered_map<AttrRef, string> attributeMap = {};
   explicit SynonymRes(string defaultSynonymValue,
                       unordered_map<AttrRef, string> attributeMap);
-
+  friend class SynonymResFactory;
  public:
   explicit SynonymRes(string defaultSynonymValue);
 
@@ -36,23 +36,4 @@ class SynonymRes {
 
   bool operator==(const SynonymRes& other) const;
   bool operator!=(const SynonymRes& other) const;
-
-  static SynonymRes buildDefaultSynonym(const string& value);
-
-  static SynonymRes buildCallsSynonym(const string& stmtNumber,
-                                      string procName);
-
-  static SynonymRes buildConstantSynonym(const string& value);
-
-  static SynonymRes buildPrintSynonym(const string& stmtNumber,
-                                      string varName);
-
-  static SynonymRes buildProcSynonym(const string& procName);
-
-  static SynonymRes buildReadSynonym(const string& stmtNumber,
-                                     string varName);
-
-  static SynonymRes buildStmtSynonym(const string& stmtNumber);
-
-  static SynonymRes buildVarSynonym(const string& varName);
 };

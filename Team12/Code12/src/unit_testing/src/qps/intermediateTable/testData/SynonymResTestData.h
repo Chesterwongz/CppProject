@@ -8,6 +8,7 @@
 #include "StringTestData.h"
 #include "qps/common/Keywords.h"
 #include "qps/intermediateTable/synonymRes/SynonymRes.h"
+#include "qps/intermediateTable/synonymRes/SynonymResFactory.h"
 
 using std::string, std::pair, std::vector, std::set;
 
@@ -20,55 +21,67 @@ inline string SYNONYM_VAL_1B = "synonym value 1b";
 inline string SYNONYM_VAL_2B = "synonym value 2b";
 
 inline SynonymRes MOCK_DEFAULT_SYN_1 =
-    SynonymRes::buildDefaultSynonym(SYNONYM_VAL_1);
+    SynonymResFactory::buildDefaultSynonym(SYNONYM_VAL_1);
 inline SynonymRes MOCK_DEFAULT_SYN_2 =
-    SynonymRes::buildDefaultSynonym(SYNONYM_VAL_2);
+    SynonymResFactory::buildDefaultSynonym(SYNONYM_VAL_2);
 inline SynonymRes MOCK_DEFAULT_SYN_3 =
-    SynonymRes::buildDefaultSynonym(SYNONYM_VAL_3);
+    SynonymResFactory::buildDefaultSynonym(SYNONYM_VAL_3);
 inline SynonymRes MOCK_DEFAULT_SYN_4 =
-    SynonymRes::buildDefaultSynonym(SYNONYM_VAL_4);
+    SynonymResFactory::buildDefaultSynonym(SYNONYM_VAL_4);
 
 inline SynonymRes MOCK_CALLS_SYN_1 =
-    SynonymRes::buildCallsSynonym(SYNONYM_VAL_1, SYNONYM_VAL_1B);
+    SynonymResFactory::buildCallsSynonym(SYNONYM_VAL_1, SYNONYM_VAL_1B);
 inline SynonymRes MOCK_CALLS_SYN_2 =
-    SynonymRes::buildCallsSynonym(SYNONYM_VAL_2, SYNONYM_VAL_1B);
+    SynonymResFactory::buildCallsSynonym(SYNONYM_VAL_2, SYNONYM_VAL_1B);
 inline SynonymRes MOCK_CALLS_SYN_3 =
-    SynonymRes::buildCallsSynonym(SYNONYM_VAL_1, SYNONYM_VAL_2B);
+    SynonymResFactory::buildCallsSynonym(SYNONYM_VAL_1, SYNONYM_VAL_2B);
 inline SynonymRes MOCK_CALLS_SYN_4 =
-    SynonymRes::buildCallsSynonym(SYNONYM_VAL_4, SYNONYM_VAL_2B);
+    SynonymResFactory::buildCallsSynonym(SYNONYM_VAL_4, SYNONYM_VAL_2B);
 
 inline SynonymRes MOCK_CONSTANT_SYN_1 =
-    SynonymRes::buildConstantSynonym(SYNONYM_VAL_1);
+    SynonymResFactory::buildConstantSynonym(SYNONYM_VAL_1);
 inline SynonymRes MOCK_CONSTANT_SYN_2 =
-    SynonymRes::buildConstantSynonym(SYNONYM_VAL_2);
+    SynonymResFactory::buildConstantSynonym(SYNONYM_VAL_2);
 inline SynonymRes MOCK_CONSTANT_SYN_3 =
-    SynonymRes::buildConstantSynonym(SYNONYM_VAL_3);
+    SynonymResFactory::buildConstantSynonym(SYNONYM_VAL_3);
 inline SynonymRes MOCK_CONSTANT_SYN_4 =
-    SynonymRes::buildConstantSynonym(SYNONYM_VAL_4);
+    SynonymResFactory::buildConstantSynonym(SYNONYM_VAL_4);
 
 inline SynonymRes MOCK_PRINT_SYN_1 =
-    SynonymRes::buildPrintSynonym(SYNONYM_VAL_1, SYNONYM_VAL_1B);
+    SynonymResFactory::buildPrintSynonym(SYNONYM_VAL_1, SYNONYM_VAL_1B);
 inline SynonymRes MOCK_PRINT_SYN_2 =
-    SynonymRes::buildPrintSynonym(SYNONYM_VAL_2, SYNONYM_VAL_1B);
+    SynonymResFactory::buildPrintSynonym(SYNONYM_VAL_2, SYNONYM_VAL_1B);
 inline SynonymRes MOCK_PRINT_SYN_3 =
-    SynonymRes::buildPrintSynonym(SYNONYM_VAL_3, SYNONYM_VAL_2B);
+    SynonymResFactory::buildPrintSynonym(SYNONYM_VAL_3, SYNONYM_VAL_2B);
 inline SynonymRes MOCK_PRINT_SYN_4 =
-    SynonymRes::buildPrintSynonym(SYNONYM_VAL_4, SYNONYM_VAL_2B);
+    SynonymResFactory::buildPrintSynonym(SYNONYM_VAL_4, SYNONYM_VAL_2B);
 
-inline SynonymRes MOCK_PROC_SYN_1 = SynonymRes::buildProcSynonym(SYNONYM_VAL_1);
-inline SynonymRes MOCK_PROC_SYN_2 = SynonymRes::buildProcSynonym(SYNONYM_VAL_2);
-inline SynonymRes MOCK_PROC_SYN_3 = SynonymRes::buildProcSynonym(SYNONYM_VAL_3);
-inline SynonymRes MOCK_PROC_SYN_4 = SynonymRes::buildProcSynonym(SYNONYM_VAL_4);
+inline SynonymRes MOCK_PROC_SYN_1 =
+    SynonymResFactory::buildProcSynonym(SYNONYM_VAL_1);
+inline SynonymRes MOCK_PROC_SYN_2 =
+    SynonymResFactory::buildProcSynonym(SYNONYM_VAL_2);
+inline SynonymRes MOCK_PROC_SYN_3 =
+    SynonymResFactory::buildProcSynonym(SYNONYM_VAL_3);
+inline SynonymRes MOCK_PROC_SYN_4 =
+    SynonymResFactory::buildProcSynonym(SYNONYM_VAL_4);
 
-inline SynonymRes MOCK_STMT_SYN_1 = SynonymRes::buildStmtSynonym(SYNONYM_VAL_1);
-inline SynonymRes MOCK_STMT_SYN_2 = SynonymRes::buildStmtSynonym(SYNONYM_VAL_2);
-inline SynonymRes MOCK_STMT_SYN_3 = SynonymRes::buildStmtSynonym(SYNONYM_VAL_3);
-inline SynonymRes MOCK_STMT_SYN_4 = SynonymRes::buildStmtSynonym(SYNONYM_VAL_4);
+inline SynonymRes MOCK_STMT_SYN_1 =
+    SynonymResFactory::buildStmtSynonym(SYNONYM_VAL_1);
+inline SynonymRes MOCK_STMT_SYN_2 =
+    SynonymResFactory::buildStmtSynonym(SYNONYM_VAL_2);
+inline SynonymRes MOCK_STMT_SYN_3 =
+    SynonymResFactory::buildStmtSynonym(SYNONYM_VAL_3);
+inline SynonymRes MOCK_STMT_SYN_4 =
+    SynonymResFactory::buildStmtSynonym(SYNONYM_VAL_4);
 
-inline SynonymRes MOCK_VAR_SYN_1 = SynonymRes::buildVarSynonym(SYNONYM_VAL_1);
-inline SynonymRes MOCK_VAR_SYN_2 = SynonymRes::buildVarSynonym(SYNONYM_VAL_2);
-inline SynonymRes MOCK_VAR_SYN_3 = SynonymRes::buildVarSynonym(SYNONYM_VAL_3);
-inline SynonymRes MOCK_VAR_SYN_4 = SynonymRes::buildVarSynonym(SYNONYM_VAL_4);
+inline SynonymRes MOCK_VAR_SYN_1 =
+    SynonymResFactory::buildVarSynonym(SYNONYM_VAL_1);
+inline SynonymRes MOCK_VAR_SYN_2 =
+    SynonymResFactory::buildVarSynonym(SYNONYM_VAL_2);
+inline SynonymRes MOCK_VAR_SYN_3 =
+    SynonymResFactory::buildVarSynonym(SYNONYM_VAL_3);
+inline SynonymRes MOCK_VAR_SYN_4 =
+    SynonymResFactory::buildVarSynonym(SYNONYM_VAL_4);
 
 inline vector<string> SYNONYM_RES_COL_NAME_1 = {"default", "calls"};
 inline vector<vector<SynonymRes>> DOUBLE_COL_SYNONYM_RES_DATA = {
