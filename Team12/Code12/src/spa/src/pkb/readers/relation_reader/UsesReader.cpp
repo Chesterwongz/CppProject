@@ -10,10 +10,8 @@ std::vector<std::string> UsesReader::getProceduresUsing(
     const string& variableName) {
   std::unordered_set<std::string> proceduresUsing =
       uses_reader_.getProcsRelatedToVar(variableName);
-  std::vector<std::string> proceduresUsingVector{};
-  proceduresUsingVector.reserve(proceduresUsing.size());
-  proceduresUsingVector.insert(proceduresUsingVector.end(),
-                               proceduresUsing.begin(), proceduresUsing.end());
+  std::vector<std::string> proceduresUsingVector(proceduresUsing.begin(),
+                                                 proceduresUsing.end());
   return proceduresUsingVector;
 }
 
@@ -42,10 +40,8 @@ std::vector<std::string> UsesReader::getUsedVariablesForProc(
     const std::string& procName) {
   std::unordered_set<std::string> variablesUsed =
       uses_reader_.getVarsRelatedToProc(procName);
-  std::vector<std::string> variablesUsedVector{};
-  variablesUsedVector.reserve(variablesUsed.size());
-  variablesUsedVector.insert(variablesUsedVector.end(), variablesUsed.begin(),
-                             variablesUsed.end());
+  std::vector<std::string> variablesUsedVector(variablesUsed.begin(),
+                                               variablesUsed.end());
   return variablesUsedVector;
 }
 

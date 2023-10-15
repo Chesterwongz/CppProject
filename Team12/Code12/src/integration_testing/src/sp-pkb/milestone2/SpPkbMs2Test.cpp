@@ -27,10 +27,8 @@ void validateModifiesProcVar(PKBReader& reader, const vector<string>& procs,
                              ProcToStrSetMap expectedModifiesMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedModifies = expectedModifiesMap[proc];
-    vector<string> expectedModifiesVector{};
-    expectedModifiesVector.insert(expectedModifiesVector.end(),
-                                  expectedModifies.begin(),
-                                  expectedModifies.end());
+    vector<string> expectedModifiesVector(expectedModifies.begin(),
+                                          expectedModifies.end());
     vector<string> actualModifies = reader.getModifiedVariablesForProc(proc);
     REQUIRE(
         compareVectorContents<string>(actualModifies, expectedModifiesVector));
@@ -41,9 +39,8 @@ void validateUsesProcVar(PKBReader& reader, const vector<string>& procs,
                          ProcToStrSetMap expectedUsesMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedUses = expectedUsesMap[proc];
-    vector<string> expectedUsesVector{};
-    expectedUsesVector.insert(expectedUsesVector.end(), expectedUses.begin(),
-                              expectedUses.end());
+    vector<string> expectedUsesVector(expectedUses.begin(),
+                                      expectedUses.end());
     vector<string> actualUses = reader.getUsedVariablesForProc(proc);
     REQUIRE(compareVectorContents<string>(actualUses, expectedUsesVector));
   }

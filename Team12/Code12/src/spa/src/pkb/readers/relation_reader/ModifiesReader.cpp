@@ -8,13 +8,10 @@ std::vector<std::string> ModifiesReader::getStatementsModifying(
 
 std::vector<std::string> ModifiesReader::getProceduresModifying(
     const string& variableName) {
-  std::unordered_set<std::string> modifyingProcedures
-      = modifies_reader_.getProcsRelatedToVar(variableName);
-  std::vector<std::string> modifyingProceduresVector{};
-  modifyingProceduresVector.reserve(modifyingProcedures.size());
-  modifyingProceduresVector.insert(modifyingProceduresVector.end(),
-                                   modifyingProcedures.begin(),
-                                   modifyingProcedures.end());
+  std::unordered_set<std::string> modifyingProcedures =
+      modifies_reader_.getProcsRelatedToVar(variableName);
+  std::vector<std::string> modifyingProceduresVector(
+      modifyingProcedures.begin(), modifyingProcedures.end());
   return modifyingProceduresVector;
 }
 
@@ -44,11 +41,8 @@ std::vector<std::string> ModifiesReader::getModifiedVariablesForProc(
     const string& procName) {
   std::unordered_set<std::string> modifiedVariables =
       modifies_reader_.getVarsRelatedToProc(procName);
-  std::vector<std::string> modifiedVariablesVector{};
-  modifiedVariablesVector.reserve(modifiedVariables.size());
-  modifiedVariablesVector.insert(modifiedVariablesVector.end(),
-                                 modifiedVariables.begin(),
-                                 modifiedVariables.end());
+  std::vector<std::string> modifiedVariablesVector(modifiedVariables.begin(),
+                                                   modifiedVariables.end());
   return modifiedVariablesVector;
 }
 
