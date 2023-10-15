@@ -1,9 +1,7 @@
-#include <string>
 #include <catch.hpp>
 
 #include "../../utils/HelperFunctions.h"
 #include "common/AliasTypes.h"
-#include "../../common/utils.h"
 #include "pkb/facade/PKB.h"
 #include "pkb/facade/PKBReader.h"
 #include "sp/SourceProcessor.h"
@@ -11,57 +9,6 @@
 using std::set, std::string, std::unordered_map, std::unordered_set;
 
 using ProcToStrSetMap = unordered_map<string, unordered_set<string>>;
-
-// TODO(Xiaoyun): remove print methods after MS2 testing
-void printEntities(const string& abstraction,
-                   const unordered_set<string>& set) {
-  std::cout << abstraction << ": ";
-  for (const string& entity : set) {
-    std::cout << entity << ", ";
-  }
-  std::cout << std::endl << "-------------" << std::endl;
-}
-
-void validateModifiesProcVar(PKBReader& reader, const vector<string>& procs,
-                             ProcToStrSetMap expectedModifiesMap) {
-  for (const string& proc : procs) {
-    unordered_set<string> expectedModifies = expectedModifiesMap[proc];
-    vector<string> expectedModifiesVector(expectedModifies.begin(),
-                                          expectedModifies.end());
-    vector<string> actualModifies = reader.getModifiedVariablesForProc(proc);
-    REQUIRE(
-        compareVectorContents<string>(actualModifies, expectedModifiesVector));
-  }
-}
-
-void validateUsesProcVar(PKBReader& reader, const vector<string>& procs,
-                         ProcToStrSetMap expectedUsesMap) {
-  for (const string& proc : procs) {
-    unordered_set<string> expectedUses = expectedUsesMap[proc];
-    vector<string> expectedUsesVector(expectedUses.begin(),
-                                      expectedUses.end());
-    vector<string> actualUses = reader.getUsedVariablesForProc(proc);
-    REQUIRE(compareVectorContents<string>(actualUses, expectedUsesVector));
-  }
-}
-
-void validateCalls(PKBReader& reader, const vector<string>& procs,
-                   ProcToStrSetMap expectedCallsMap) {
-  for (const string& proc : procs) {
-    unordered_set<string> expectedCalls = expectedCallsMap[proc];
-    unordered_set<string> actualCalls = reader.getCalleeProcs(proc);
-    REQUIRE(actualCalls == expectedCalls);
-  }
-}
-
-void validateCallsStar(PKBReader& reader, const vector<string>& procs,
-                       ProcToStrSetMap expectedCallsStarMap) {
-  for (const string& proc : procs) {
-    unordered_set<string> expectedCallsStar = expectedCallsStarMap[proc];
-    unordered_set<string> actualCallsStar = reader.getCalleeProcsStar(proc);
-    REQUIRE(actualCallsStar == expectedCallsStar);
-  }
-}
 
 TEST_CASE("SP-PKB integration MS2 - Non-nesting statements") {
   string input =
