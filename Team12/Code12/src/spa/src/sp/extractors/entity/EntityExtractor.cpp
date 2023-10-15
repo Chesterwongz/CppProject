@@ -4,7 +4,7 @@ EntityExtractor::EntityExtractor(PKBWriter& pkbWriter) : Extractor(pkbWriter) {}
 
 void EntityExtractor::processStmt(int lineNum, StmtType type) {
   currLine = lineNum;
-  pkbWriter.setStatement(currLine, type);
+  pkbWriter.addStmt(currLine, type);
 }
 
 void EntityExtractor::visitAssign(const AssignNode& node) {

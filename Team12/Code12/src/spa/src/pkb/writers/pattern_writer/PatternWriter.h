@@ -13,8 +13,8 @@ class PatternWriter : public IPatternWriter {
 
  public:
   void addAssignPattern(const std::string& varName, const std::string& rpn,
-                        int stmtNum) override = 0;
+                        int stmtNum) override;
 
-  void addWhilePattern(int stmtNum, const std::string& varName) override = 0;
-  void addIfPattern(int stmtNum, const std::string& varName) override = 0;
+  void addWhilePattern(int stmtNum, const std::string& varName) override;
+  void addIfPattern(int stmtNum, const std::string& varName) override;
 };

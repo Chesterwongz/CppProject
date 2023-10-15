@@ -40,11 +40,11 @@ class MockPKBWriter : public PKBWriter {
   explicit MockPKBWriter(PKBStorage &storage) : PKBWriter(storage) {}
   ~MockPKBWriter() override = default;
 
-  void setFollowsRelationship(int stmtNum, int followingStmt) override {
+  void addFollows(int stmtNum, int followingStmt) override {
     followsStorage[stmtNum].insert(followingStmt);
   }
 
-  void setParentRelationship(int stmtNum, int childStmt) override {
+  void addParent(int stmtNum, int childStmt) override {
     parentStorage[stmtNum].insert(childStmt);
   }
 
@@ -52,7 +52,7 @@ class MockPKBWriter : public PKBWriter {
     parentStarStorage[stmtNum].insert(childStmt);
   }
 
-  void setModifiesRelationship(const string &varName, int stmtNum) override {
+  void addModifies(const string &varName, int stmtNum) override {
     modifiesStorage[varName].insert(stmtNum);
   }
 
@@ -61,7 +61,7 @@ class MockPKBWriter : public PKBWriter {
     modifiesProcStorage[varName].insert(procName);
   }
 
-  void setUsesRelationship(const string &varName, int stmtNum) override {
+  void addUses(const string &varName, int stmtNum) override {
     usesStorage[varName].insert(stmtNum);
   }
 
@@ -99,8 +99,9 @@ class MockPKBWriter : public PKBWriter {
     ifPatternStorage[lineNum].insert(varName);
   }
 
-  void setCallsRelationship(const string &caller,
-                            const string &callee) override {
+  void addCalls(const string &caller,
+                            const string &callee,
+                            int stmtNum) override {
     callsStorage[caller].insert(callee);
   }
 
