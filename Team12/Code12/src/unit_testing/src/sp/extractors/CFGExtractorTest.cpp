@@ -1,10 +1,11 @@
+#include <catch.hpp>
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-#include <catch.hpp>
 
 #include "../mocks/MockCFG.h"
+#include "../mocks/MockData.h"
 #include "ExtractorUtils.h"
 #include "common/AliasTypes.h"
 #include "common/Constants.h"
@@ -19,8 +20,7 @@ TEST_CASE("CFGExtractor - 1 procedure with 1 read") {
       "read num1;"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfg = {{1, {common::CFG_END_STMT_NUM}}};
@@ -38,8 +38,7 @@ TEST_CASE("CFGExtractor - 1 procedure with different non-nesting statements") {
       "x = 1;"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfg = {
@@ -62,8 +61,7 @@ TEST_CASE("CFGExtractor - 1 procedure with a while loop") {
       "   print n;"  // 5
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfg = {{1, {2}},
@@ -90,8 +88,7 @@ TEST_CASE("CFGExtractor - 1 procedure with an if statement") {
       "   print m;"  // 5
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfg = {{1, {2}},
@@ -122,8 +119,7 @@ TEST_CASE("CFGExtractor - 1 procedure with multiple statements in if") {
       "   print l;"  // 9
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfg = {
@@ -154,8 +150,7 @@ TEST_CASE("CFGExtractor - 1 procedure with nested if statements") {
       "   } else { v = z; }"                // 11
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfg = {{1, {2}},
@@ -192,8 +187,7 @@ TEST_CASE("CFGExtractor - 1 procedure with nested while statements") {
       "   print v;"  // 8
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfg = {
@@ -221,8 +215,7 @@ TEST_CASE("CFGExtractor - 1 procedure with if in while statement") {
       "   print v;"  // 8
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfg = {
@@ -249,8 +242,7 @@ TEST_CASE("CFGExtractor - 1 procedure with while in if statement") {
       "   } else { a = 342; }"  // 7
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfg = {{1, {2}},
@@ -284,8 +276,7 @@ TEST_CASE("CFGExtractor - multiple procedures") {
       "   }"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfgFirst = {{1, {2}},
@@ -325,8 +316,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-if-while") {
       "  }"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfg = {
@@ -368,8 +358,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-if-if") {
       "  }"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfg = {
@@ -413,8 +402,7 @@ TEST_CASE("CFGExtractor - multiple nesting with if-if-while") {
       "  }"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfg = {{1, {2, 9}},
@@ -451,8 +439,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-while-if") {
       "  print x;"  // 7
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfg = {{1, {2, 7}},
@@ -489,8 +476,7 @@ TEST_CASE("CFGExtractor - multiple nesting with if-if-if") {
       "  }"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfg = {{1, {2, 8}},
@@ -524,8 +510,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-while-while") {
       "  print x;"  // 7
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfg = {{1, {2, 7}},
@@ -559,8 +544,7 @@ TEST_CASE("CFGExtractor - multiple nesting with if-while-while") {
       "  }"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfg = {{1, {2, 7}},
@@ -596,8 +580,7 @@ TEST_CASE("CFGExtractor - wiki code 6") {
       "    x= x * y + z; }"         // 12
       "procedure Third {read x;}";  // 13
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfgSecond = {
@@ -633,8 +616,7 @@ TEST_CASE("CFGExtractor - integration test") {
       "procedure Potato {"
       "  assign = line9;"  // 9
       "}";
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
   IntToIntSetMap expectedCfgNext = {

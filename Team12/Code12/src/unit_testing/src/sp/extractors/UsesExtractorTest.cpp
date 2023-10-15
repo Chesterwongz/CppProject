@@ -1,12 +1,13 @@
+#include <catch.hpp>
 #include <map>
 #include <memory>
 #include <set>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-#include <catch.hpp>
 
 #include "../ast/TNodeUtils.h"
+#include "../mocks/MockData.h"
 #include "../mocks/MockPKBWriter.h"
 #include "AbstractionTypes.h"
 #include "ExtractorUtils.h"
@@ -34,8 +35,7 @@ TEST_CASE("UsesExtractor - no uses") {
   programNode->addChild(std::move(procNode));
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::USES);
   unordered_map<string, unordered_set<int>> expected = {};
   REQUIRE(mockPKB.isUsesEqual(expected));
@@ -53,8 +53,7 @@ TEST_CASE("UsesExtractor with parser - no uses") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::USES);
   unordered_map<string, unordered_set<int>> expected = {};
   REQUIRE(mockPKB.isUsesEqual(expected));
@@ -81,8 +80,7 @@ TEST_CASE("UsesExtractor - non-nesting, 1 uses") {
   programNode->addChild(std::move(procNode));
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::USES);
   unordered_map<string, unordered_set<int>> expected = {};
   expected["x"] = {2};
@@ -105,8 +103,7 @@ TEST_CASE("UsesExtractor with parser - non-nesting, 1 uses") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::USES);
   unordered_map<string, unordered_set<int>> expected = {};
   expected["x"] = {2};
@@ -145,8 +142,7 @@ TEST_CASE("UsesExtractor - if node") {
   programNode->addChild(std::move(procNode));
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::USES);
   unordered_map<string, unordered_set<int>> expected = {};
   expected["x"] = {2};
@@ -179,8 +175,7 @@ TEST_CASE("UsesExtractor with parser - if node") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::USES);
   unordered_map<string, unordered_set<int>> expected = {};
   expected["x"] = {2};
@@ -242,8 +237,7 @@ TEST_CASE("UsesExtractor - if in while node") {
   programNode->addChild(std::move(procNode));
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::USES);
   unordered_map<string, unordered_set<int>> expected = {};
   expected["x"] = {3, 4};
@@ -275,8 +269,7 @@ TEST_CASE("UsesExtractor with parser - if in while node") {
       "read num1;"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::USES);
   unordered_map<string, unordered_set<int>> expected = {};
   expected["x"] = {3, 4};
@@ -308,8 +301,7 @@ TEST_CASE("UsesExtractor with parser - no proc call") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::USES);
   unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
   expectedVarToStmtNum["x"] = {1, 3};
@@ -340,8 +332,7 @@ TEST_CASE("UsesExtractor with parser - 3 nested if statements") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::USES);
   unordered_map<string, unordered_set<int>> expectedVarToStmtNum = {};
   expectedVarToStmtNum["v"] = {3, 5, 11};

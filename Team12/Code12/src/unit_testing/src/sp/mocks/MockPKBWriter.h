@@ -37,7 +37,8 @@ class MockPKBWriter : public PKBWriter {
   IntToIntSetMap nextStorage;
 
  public:
-  explicit MockPKBWriter(PKBStorage &storage) : PKBWriter(storage) {}
+  explicit MockPKBWriter(PKBStorage &storage, PKBStore store)
+      : PKBWriter(storage, store) {}
   ~MockPKBWriter() override = default;
 
   void addFollows(int stmtNum, int followingStmt) override {
@@ -56,8 +57,7 @@ class MockPKBWriter : public PKBWriter {
     modifiesStorage[varName].insert(stmtNum);
   }
 
-  void setModifiesRelationship(const string &varName,
-                               const string &procName) override {
+  void addModifies(const string &varName, const string &procName) override {
     modifiesProcStorage[varName].insert(procName);
   }
 
@@ -65,8 +65,7 @@ class MockPKBWriter : public PKBWriter {
     usesStorage[varName].insert(stmtNum);
   }
 
-  void setUsesRelationship(const string &varName,
-                           const string &procName) override {
+  void addUses(const string &varName, const string &procName) override {
     usesProcStorage[varName].insert(procName);
   }
 
@@ -82,7 +81,7 @@ class MockPKBWriter : public PKBWriter {
     stmtToProcStorage[stmtNum] = procName;
   }
 
-  void setStatement(int stmtNum, StmtType statementType) override {
+  void addStmt(int stmtNum, StmtType statementType) override {
     statementStorage[statementType].insert(stmtNum);
   }
 
@@ -99,9 +98,8 @@ class MockPKBWriter : public PKBWriter {
     ifPatternStorage[lineNum].insert(varName);
   }
 
-  void addCalls(const string &caller,
-                            const string &callee,
-                            int stmtNum) override {
+  void addCalls(const string &caller, const string &callee,
+                int stmtNum) override {
     callsStorage[caller].insert(callee);
   }
 
