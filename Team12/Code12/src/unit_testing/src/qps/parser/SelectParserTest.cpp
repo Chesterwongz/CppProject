@@ -154,9 +154,10 @@ TEST_CASE("Invalid Select a. - incomplete declaration") {
                                 PQLToken(PQL_NAME_TOKEN, "a"),
                                 PQLToken(PQL_PERIOD_TOKEN, ".")};
 
-  REQUIRE_THROWS_MATCHES(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-                         QPSSyntaxError,
-                         Catch::Message("Error occurred during tokenization, invalid token: "));
+  REQUIRE_THROWS_MATCHES(
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPSSyntaxError,
+      Catch::Message("Error occurred during tokenization, invalid token: "));
 }
 
 TEST_CASE("Invalid Select a.procName - incompatible attrRef") {
@@ -170,10 +171,9 @@ TEST_CASE("Invalid Select a.procName - incompatible attrRef") {
                                 PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
                                 PQLToken(PQL_NAME_TOKEN, "a"),
                                 PQLToken(PQL_PERIOD_TOKEN, "."),
-                                PQLToken(PQL_NAME_TOKEN, ATTR_REF_PROC_NAME)
-  };
+                                PQLToken(PQL_NAME_TOKEN, ATTR_REF_PROC_NAME)};
 
-  REQUIRE_THROWS_MATCHES(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-                         QPSSemanticError,
-                         Catch::Message(QPS_SEMANTIC_ERR_INVALID_ATTR_REF));
+  REQUIRE_THROWS_MATCHES(
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPSSemanticError, Catch::Message(QPS_SEMANTIC_ERR_INVALID_ATTR_REF));
 }

@@ -65,10 +65,7 @@ enum PQLTokenType {
   PQL_WITH_TOKEN
 };
 
-enum ArgumentType {
-  NAME_TYPE,
-  INTEGER_TYPE
-};
+enum ArgumentType { NAME_TYPE, INTEGER_TYPE };
 
 extern unordered_map<string, PQLTokenType> keywordToTokenType;
 extern unordered_map<char, PQLTokenType> delimiterToTokenType;

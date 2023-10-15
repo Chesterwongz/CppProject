@@ -19,8 +19,7 @@ class WithParserState : public BaseParserState {
   void checkSameTypeComparison();
 
  public:
-  explicit WithParserState(PQLParserContext& parserContext,
-                           PQLTokenType prev);
+  explicit WithParserState(PQLParserContext& parserContext, PQLTokenType prev);
   void handleToken() override;
   ~WithParserState() override = default;
 };
