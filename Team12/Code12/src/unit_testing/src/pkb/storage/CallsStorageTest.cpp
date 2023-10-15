@@ -5,8 +5,8 @@
 TEST_CASE("Setting and Getting Calls Relationships") {
   CallsStorage callsStorage;
 
-  callsStorage.setCallsRelationship("proc1", "proc2");
-  callsStorage.setCallsRelationship("proc1", "proc3");
+  callsStorage.setCallsRelationship("proc1", "proc2", 1);
+  callsStorage.setCallsRelationship("proc1", "proc3", 2);
   callsStorage.setCallsStarRelationship("proc1", "proc2");
   callsStorage.setCallsStarRelationship("proc1", "proc3");
 
@@ -34,7 +34,7 @@ TEST_CASE("Setting and Getting Calls Relationships") {
 TEST_CASE("Checking Calls Relationships") {
   CallsStorage callsStorage;
 
-  callsStorage.setCallsRelationship("proc1", "proc2");
+  callsStorage.setCallsRelationship("proc1", "proc2", 1);
   callsStorage.setCallsStarRelationship("proc1", "proc2");
 
   SECTION("Is Calls") {

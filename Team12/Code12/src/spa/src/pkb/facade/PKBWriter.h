@@ -70,10 +70,9 @@ class PKBWriter : public IDesignEntitiesWriter,
   void setStatement(int statementNumber, StmtType statementType) override;
 
   void setWhilePattern(int statementNumber,
-                               const std::string& varName) override;
+                       const std::string& varName) override;
 
-  void setIfPattern(int statementNumber,
-                            const std::string& varName) override;
+  void setIfPattern(int statementNumber, const std::string& varName) override;
 
   virtual void setUsesRelationship(const std::string& variableName,
                                    const std::string& procedureName);
@@ -82,8 +81,8 @@ class PKBWriter : public IDesignEntitiesWriter,
                                        const std::string& procedureName);
 
   // direct calls, not transitive
-  void setCallsRelationship(const string& callerProc,
-                            const string& calleeProc) override;
+  void setCallsRelationship(const string& callerProc, const string& calleeProc,
+                            int stmtNum) override;
 
   void setCallsStarRelationship(const string& callerProc,
                                 const string& calleeProc) override;
@@ -104,8 +103,13 @@ class PKBWriter : public IDesignEntitiesWriter,
                        const unordered_set<string>& calleeProc);
   void setModifiesForCalls(const string& callerProc,
                            const unordered_set<string>& calleeProc);
-  void processCallRelations(
+  void processCallProcRelations(
       const string& caller, const unordered_set<string>& callees,
       unordered_set<string> (PKBStorage::*retrieveVars)(const string&),
-      void (PKBWriter::*setRelationship)(const string&, const string&));
+      void (PKBWriter::*setProcRelationship)(const string&, const string&));
+  void processCallStmtRelations(
+      int stmtNum, const string& callee,
+      const unordered_set<string>& indirectCallees,
+      unordered_set<string> (PKBStorage::*retrieveVars)(const string&),
+      void (PKBWriter::*setStmtRelationship)(const string&, int));
 };

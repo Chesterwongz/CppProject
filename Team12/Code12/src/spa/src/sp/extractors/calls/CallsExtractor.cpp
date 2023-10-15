@@ -8,5 +8,5 @@ void CallsExtractor::visitProcedure(const ProcNode& node) {
 
 void CallsExtractor::visitCall(const CallNode& node) {
   std::string callee = node.getValue();
-  pkbWriter.setCallsRelationship(currProc, callee);
+  pkbWriter.setCallsRelationship(currProc, callee, node.getLineNum());
 }
