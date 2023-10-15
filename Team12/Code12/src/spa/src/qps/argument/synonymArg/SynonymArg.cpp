@@ -8,6 +8,10 @@ string SynonymArg::getValue() { return synonymValue; }
 
 void SynonymArg::setAttrRef(AttrRef ref) { this->attrRef = std::move(ref); }
 
+AttrRef SynonymArg::getAttrRef() {
+  return this->attrRef;
+}
+
 QPSStringUtils::ArgumentType SynonymArg::getArgumentType() {
   return argumentType;
 }

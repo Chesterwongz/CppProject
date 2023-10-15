@@ -108,3 +108,72 @@ TEST_CASE("Valid Select BOOLEAN - no declarations") {
   bool res = *query == expected;
   REQUIRE(res);
 }
+
+TEST_CASE("Valid Select a.stmt#") {
+  vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+                                PQLToken(PQL_NAME_TOKEN, "a"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "b"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "c"),
+                                PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, "a"),
+                                PQLToken(PQL_PERIOD_TOKEN, "."),
+                                PQLToken(PQL_NAME_TOKEN, ATTR_REF_STMT_NUMBER)};
+
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+
+  // expected query obj
+  Query expected(dummyQpsParserPkbReader);
+  unique_ptr<Context> expectedContext = std::make_unique<Context>();
+  expectedContext->addSynonym("a", ASSIGN_ENTITY);
+  expectedContext->addSynonym("b", ASSIGN_ENTITY);
+  expectedContext->addSynonym("c", ASSIGN_ENTITY);
+  expected.addContext(std::move(expectedContext));
+
+  vector<unique_ptr<AbstractArgument>> synonymsToQuery = {};
+  synonymsToQuery.push_back(
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY, ATTR_REF_STMT_NUMBER));
+  expected.setSynonymToQuery(std::move(synonymsToQuery));
+
+  bool res = *query == expected;
+  REQUIRE(res);
+}
+
+TEST_CASE("Invalid Select a. - incomplete declaration") {
+  vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+                                PQLToken(PQL_NAME_TOKEN, "a"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "b"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "c"),
+                                PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, "a"),
+                                PQLToken(PQL_PERIOD_TOKEN, ".")};
+
+  REQUIRE_THROWS_MATCHES(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+                         QPSSyntaxError,
+                         Catch::Message("Error occurred during tokenization, invalid token: "));
+}
+
+TEST_CASE("Invalid Select a.procName - incompatible attrRef") {
+  vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+                                PQLToken(PQL_NAME_TOKEN, "a"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "b"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "c"),
+                                PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, "a"),
+                                PQLToken(PQL_PERIOD_TOKEN, "."),
+                                PQLToken(PQL_NAME_TOKEN, ATTR_REF_PROC_NAME)
+  };
+
+  REQUIRE_THROWS_MATCHES(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+                         QPSSemanticError,
+                         Catch::Message(QPS_SEMANTIC_ERR_INVALID_ATTR_REF));
+}

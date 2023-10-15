@@ -31,6 +31,7 @@ class SynonymArg : public AbstractArgument {
 
   string getValue() override;
   void setAttrRef(AttrRef ref);
+  AttrRef getAttrRef();
   QPSStringUtils::ArgumentType getArgumentType() override;
   bool isSynonym() override;
   bool operator==(const AbstractArgument& other) const override;

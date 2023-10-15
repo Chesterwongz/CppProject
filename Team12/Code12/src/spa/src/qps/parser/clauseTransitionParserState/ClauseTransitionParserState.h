@@ -6,6 +6,7 @@
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/patternParserState/PatternParserState.h"
 #include "qps/parser/suchThatParserState/SuchThatParserState.h"
+#include "qps/parser/withParserState/WithParserState.h"
 
 class ClauseTransitionParserState : public IParserState {
  private:

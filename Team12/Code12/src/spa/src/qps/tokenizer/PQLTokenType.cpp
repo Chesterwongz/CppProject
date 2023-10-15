@@ -37,7 +37,10 @@ unordered_map<string, PQLTokenType> keywordToTokenType = {
     {ATTR_REF_VALUE, PQL_ATTR_REF_TOKEN},
     {ATTR_REF_STMT_NUMBER, PQL_ATTR_REF_TOKEN},
 
-    {PATTERN_KEYWORD, PQL_PATTERN_TOKEN}};
+    {PATTERN_KEYWORD, PQL_PATTERN_TOKEN},
+
+    {WITH_KEYWORD, PQL_WITH_TOKEN}
+};
 
 unordered_map<char, PQLTokenType> delimiterToTokenType = {
     {pqlDelim::kSemicolonChar, PQL_SEMICOLON_TOKEN},
@@ -65,3 +68,10 @@ unordered_map<string, unordered_set<string>> entityToAttrRef = {
     {STMT_ENTITY, {ATTR_REF_STMT_NUMBER}},
     {VARIABLE_ENTITY, {ATTR_REF_VAR_NAME}},
     {WHILE_ENTITY, {ATTR_REF_STMT_NUMBER}}};
+
+unordered_map<AttrRef, ArgumentType> attrRefToType = {
+    {ATTR_REF_STMT_NUMBER, INTEGER_TYPE},
+    {ATTR_REF_VAR_NAME, NAME_TYPE},
+    {ATTR_REF_PROC_NAME, NAME_TYPE},
+    {ATTR_REF_VALUE, INTEGER_TYPE},
+};

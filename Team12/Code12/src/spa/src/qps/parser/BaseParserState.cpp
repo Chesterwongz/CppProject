@@ -15,7 +15,7 @@ string BaseParserState::checkValidAttrRef(const std::string &synonym,
                                           std::string attrRef) {
   auto entityType = parserContext.getValidSynonymType(synonym);
 
-  if (PQLParserUtils::isValidAttrRefFromSynonym(synonym, attrRef)) {
+  if (PQLParserUtils::isValidAttrRefFromSynonym(entityType, attrRef)) {
     return attrRef;
   }
   throw QPSSemanticError(QPS_SEMANTIC_ERR_INVALID_ATTR_REF);

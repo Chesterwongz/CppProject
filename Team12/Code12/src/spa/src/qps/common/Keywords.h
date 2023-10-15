@@ -42,6 +42,8 @@ inline const string USES_ABSTRACTION = "Uses";
 inline const string CALLS_ABSTRACTION = "Calls";
 inline const string CALLS_STAR_ABSTRACTION = "Calls*";
 
+inline const string WITH_KEYWORD = "with";
+
 inline const string ATTR_REF_PROC_NAME = "procName";
 inline const string ATTR_REF_VAR_NAME = "varName";
 inline const string ATTR_REF_VALUE = "value";

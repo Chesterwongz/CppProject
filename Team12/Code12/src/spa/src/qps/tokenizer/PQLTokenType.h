@@ -60,10 +60,18 @@ enum PQLTokenType {
   PQL_IF_PATTERN_TOKEN,
   PQL_WHILE_PATTERN_TOKEN,
 
-  PQL_AND_TOKEN
+  PQL_AND_TOKEN,
+
+  PQL_WITH_TOKEN
+};
+
+enum ArgumentType {
+  NAME_TYPE,
+  INTEGER_TYPE
 };
 
 extern unordered_map<string, PQLTokenType> keywordToTokenType;
 extern unordered_map<char, PQLTokenType> delimiterToTokenType;
 extern unordered_set<string> stmtEntities;
 extern unordered_map<string, unordered_set<string>> entityToAttrRef;
+extern unordered_map<AttrRef, ArgumentType> attrRefToType;
