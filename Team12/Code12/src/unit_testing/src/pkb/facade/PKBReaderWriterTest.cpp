@@ -316,18 +316,11 @@ TEST_CASE("PKBReader Tests") {
   }
 
   SECTION("getVariablesUsedBy") {
-    REQUIRE(reader.getVariablesUsedBy(1, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "x"},
-                                                             {"1", "y"}});
-    REQUIRE(reader.getVariablesUsedBy(1, StmtType::ASSIGN) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "x"},
-                                                             {"1", "y"}});
-    REQUIRE(reader.getVariablesUsedBy(1, StmtType::PRINT) ==
-            std::vector<std::pair<std::string, std::string>>{});
-    REQUIRE(reader.getVariablesUsedBy(2, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"2", "x"}});
-    REQUIRE(reader.getVariablesUsedBy(7, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+    REQUIRE(reader.getVariablesUsedBy(1) == std::vector<std::string>{"x", "y"});
+    REQUIRE(reader.getVariablesUsedBy(1) == std::vector<std::string>{"x", "y"});
+    REQUIRE(reader.getVariablesUsedBy(1) == std::vector<std::string>{});
+    REQUIRE(reader.getVariablesUsedBy(2) == std::vector<std::string>{"x"});
+    REQUIRE(reader.getVariablesUsedBy(7) == std::vector<std::string>{});
   }
 
   SECTION("getAllModifiedVariables") {
