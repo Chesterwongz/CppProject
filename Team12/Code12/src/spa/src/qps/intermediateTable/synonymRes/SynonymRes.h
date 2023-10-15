@@ -32,6 +32,8 @@ class SynonymRes {
 
   [[nodiscard]] virtual SynonymRes clone() const;
 
+  [[nodiscard]] bool isAttrExists(AttrRef attrRef) const;
+
   bool operator==(const SynonymRes& other) const;
   bool operator!=(const SynonymRes& other) const;
 
@@ -42,7 +44,13 @@ class SynonymRes {
 
   static SynonymRes buildConstantSynonym(const string& value);
 
+  static SynonymRes buildPrintSynonym(const string& stmtNumber,
+                                      string varName);
+
   static SynonymRes buildProcSynonym(const string& procName);
+
+  static SynonymRes buildReadSynonym(const string& stmtNumber,
+                                     string varName);
 
   static SynonymRes buildStmtSynonym(const string& stmtNumber);
 

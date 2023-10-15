@@ -30,9 +30,13 @@ SynonymRes SynonymRes::clone() const {
   return SynonymRes(synonymValueCopy, attrRefCopy);
 }
 
+bool SynonymRes::isAttrExists(AttrRef attrRef) const {
+  return this->attributeMap.find(attrRef) != this->attributeMap.end();
+}
+
+
 bool SynonymRes::operator==(const SynonymRes& other) const {
-  return this->defaultSynonymValue == other.defaultSynonymValue &&
-         this->attributeMap == other.attributeMap;
+  return this->defaultSynonymValue == other.defaultSynonymValue;
 }
 
 bool SynonymRes::operator!=(const SynonymRes& other) const {
@@ -46,8 +50,7 @@ SynonymRes SynonymRes::buildDefaultSynonym(const string& value) {
 
 SynonymRes SynonymRes::buildCallsSynonym(const string& stmtNumber,
                                          string procName) {
-  SynonymRes synonymRes = SynonymRes(stmtNumber);
-  synonymRes.attributeMap[AttrRef::STMT_NUM_ENUM] = stmtNumber;
+  SynonymRes synonymRes = SynonymRes::buildStmtSynonym(stmtNumber);
   synonymRes.attributeMap[AttrRef::PROC_NAME_ENUM] = std::move(procName);
   return synonymRes;
 }
@@ -58,9 +61,23 @@ SynonymRes SynonymRes::buildConstantSynonym(const string& value) {
   return synonymRes;
 }
 
+SynonymRes SynonymRes::buildPrintSynonym(const string& stmtNumber,
+                                         string varName) {
+  SynonymRes synonymRes = SynonymRes::buildStmtSynonym(stmtNumber);
+  synonymRes.attributeMap[AttrRef::VAR_NAME_ENUM] = std::move(varName);
+  return synonymRes;
+}
+
 SynonymRes SynonymRes::buildProcSynonym(const string& procName) {
   SynonymRes synonymRes = SynonymRes(procName);
   synonymRes.attributeMap[AttrRef::PROC_NAME_ENUM] = procName;
+  return synonymRes;
+}
+
+SynonymRes SynonymRes::buildReadSynonym(const string& stmtNumber,
+                                         string varName) {
+  SynonymRes synonymRes = SynonymRes::buildStmtSynonym(stmtNumber);
+  synonymRes.attributeMap[AttrRef::VAR_NAME_ENUM] = std::move(varName);
   return synonymRes;
 }
 

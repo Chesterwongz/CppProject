@@ -6,6 +6,8 @@
 #include <vector>
 
 #include "qps/common/Keywords.h"
+#include "qps/intermediateTable/IntermediateTable.h"
+#include "qps/intermediateTable/IntermediateTableFactory.h"
 
 using std::string, std::pair, std::vector, std::set;
 
@@ -433,3 +435,7 @@ inline vector<vector<string>> COL_4_2D = {
 inline vector<vector<string>> COL_SINGLETON_2D = {
     {"cat"},
 };
+
+inline IntermediateTable WILDCARD_TABLE = IntermediateTableFactory::buildWildcardIntermediateTable();
+
+inline IntermediateTable EMPTY_TABLE = IntermediateTableFactory::buildEmptyIntermediateTable();

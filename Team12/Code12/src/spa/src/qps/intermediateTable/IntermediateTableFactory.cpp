@@ -45,7 +45,7 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
 }
 
 IntermediateTable IntermediateTableFactory::buildSingleColTable(
-    const string &colName, vector<string> data) {
+    const string &colName, const vector<string>& data) {
   // if data is empty, return empty table
   // even if columns are wildcard
   if (data.empty()) {
@@ -69,14 +69,14 @@ IntermediateTable IntermediateTableFactory::buildSingleColTable(
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const string &firstColName, set<string> data) {
   vector<string> dataAsVector(data.begin(), data.end());
-  return buildSingleColTable(firstColName, std::move(dataAsVector));
+  return buildSingleColTable(firstColName, dataAsVector);
 }
 
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const string &colName, string value) {
   vector<string> dataCol = {std::move(value)};
   return IntermediateTableFactory::buildSingleColTable(colName,
-                                                       std::move(dataCol));
+                                                       dataCol);
 }
 
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(

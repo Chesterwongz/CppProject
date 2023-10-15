@@ -73,7 +73,7 @@ class IntermediateTableFactory {
    * and only one column
    */
   static IntermediateTable buildSingleColTable(const string &firstColName,
-                                               vector<string> data);
+                                               const vector<string>& data);
 
   /**
    * Builds intermediate table without any WILDCARD columns

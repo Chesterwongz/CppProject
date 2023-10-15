@@ -1,5 +1,6 @@
 #include "IntermediateTable.h"
 
+#include <cassert>
 #include <iostream>
 #include <stdexcept>
 
@@ -81,9 +82,7 @@ set<string> IntermediateTable::getColumns(
     return {};
   }
 
-  for (const pair<string, AttrRef> &colNameAndAttrRef :
-       colNameAndAttrRefVector) {
-    string colName = colNameAndAttrRef.first;
+  for (auto [colName, attrRef] : colNameAndAttrRefVector) {
     // return empty if any column requested does not exist
     if (!this->isColExists(colName)) {
       return {};
@@ -93,11 +92,9 @@ set<string> IntermediateTable::getColumns(
   set<string> res = {};
   for (int rowIndex = 0; rowIndex < this->getRowCount(); rowIndex++) {
     string row;
-    for (const pair<string, AttrRef> &colNameAndAttrRef :
-         colNameAndAttrRefVector) {
-      string colName = colNameAndAttrRef.first;
-      AttrRef attrRef = colNameAndAttrRef.second;
+    for (auto &[colName, attrRef] : colNameAndAttrRefVector) {
       int colIndex = this->colNameToIndexMap.at(colName);
+      assert(this->tableData.at(rowIndex).at(colIndex).isAttrExists(attrRef));
       row += (row.empty() ? "" : " ") +
              this->tableData.at(rowIndex).at(colIndex).getAttribute(attrRef);
     }

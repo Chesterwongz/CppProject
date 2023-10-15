@@ -1,45 +1,45 @@
 #include <iostream>
 #include <catch.hpp>
 
-#include "testData/StringTestData.h"
 #include "IntermediateTableTestUtils.h"
-#include "qps/intermediateTable/IntermediateTableUtils.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
+#include "qps/intermediateTable/IntermediateTableUtils.h"
+#include "testData/StringTestData.h"
 
 IntermediateTable DOUBLE_COLUMN_TABLE_FROM_PAIR_1 =
-    IntermediateTableFactory::buildIntermediateTable(COL_NAME_1, COL_NAME_2, PAIR_DATA);
+    IntermediateTableFactory::buildIntermediateTable(COL_NAME_1, COL_NAME_2,
+                                                     PAIR_DATA);
 
 IntermediateTable DOUBLE_COLUMN_TABLE_FROM_VECTORS_1 =
-    IntermediateTableFactory::buildIntermediateTable(DOUBLE_COL_NAME_VECTOR, DOUBLE_COL_VECTOR_DATA);
+    IntermediateTableFactory::buildIntermediateTable(DOUBLE_COL_NAME_VECTOR,
+                                                     DOUBLE_COL_VECTOR_DATA);
 
 IntermediateTable DOUBLE_COLUMN_TABLE_FROM_VECTORS_2 =
-    IntermediateTableFactory::buildIntermediateTable(doubleColNameVector2, DOUBLE_COL_VECTOR_DATA_2);
+    IntermediateTableFactory::buildIntermediateTable(doubleColNameVector2,
+                                                     DOUBLE_COL_VECTOR_DATA_2);
 
 IntermediateTable MULTI_COLUMN_TABLE_1 =
-    IntermediateTableFactory::buildIntermediateTable(MULTI_COL_NAME_VECTOR_1, MULTI_COL_DATA_1);
+    IntermediateTableFactory::buildIntermediateTable(MULTI_COL_NAME_VECTOR_1,
+                                                     MULTI_COL_DATA_1);
 
 IntermediateTable MULTI_COLUMN_TABLE_2 =
-    IntermediateTableFactory::buildIntermediateTable(MULTI_COL_NAME_VECTOR_2, MULTI_COL_DATA_2);
-
-IntermediateTable WILDCARD_TABLE = IntermediateTableFactory::buildWildcardIntermediateTable();
-
-IntermediateTable EMPTY_TABLE = IntermediateTableFactory::buildEmptyIntermediateTable();
+    IntermediateTableFactory::buildIntermediateTable(MULTI_COL_NAME_VECTOR_2,
+                                                     MULTI_COL_DATA_2);
 
 TEST_CASE("IntermediateTable - constructors + getDataAsStrings") {
   REQUIRE(isVectorsSameAsPairs(
-      DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getDataAsStrings(),
-                               PAIR_DATA));
+      DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getDataAsStrings(), PAIR_DATA));
   REQUIRE(isVectorsSameAsPairs(
-      DOUBLE_COLUMN_TABLE_FROM_VECTORS_1.getDataAsStrings(),
-                               PAIR_DATA));
+      DOUBLE_COLUMN_TABLE_FROM_VECTORS_1.getDataAsStrings(), PAIR_DATA));
   std::cout << "expect \"row 0 incorrect\":" << std::endl;
   REQUIRE(isVectorsSameAsPairs(
               DOUBLE_COLUMN_TABLE_FROM_VECTORS_2.getDataAsStrings(),
-                               PAIR_DATA) == false);
+              PAIR_DATA) == false);
 
   REQUIRE(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getDataAsStrings() ==
           DOUBLE_COLUMN_TABLE_FROM_VECTORS_1.getDataAsStrings());
-  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getDataAsStrings() == DOUBLE_COL_VECTOR_DATA);
+  REQUIRE(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getDataAsStrings() ==
+          DOUBLE_COL_VECTOR_DATA);
   REQUIRE(DOUBLE_COLUMN_TABLE_FROM_VECTORS_1.getDataAsStrings() ==
           DOUBLE_COL_VECTOR_DATA);
   REQUIRE(DOUBLE_COLUMN_TABLE_FROM_VECTORS_2.getDataAsStrings() ==
@@ -94,9 +94,6 @@ TEST_CASE("IntermediateTable - isColExists") {
   REQUIRE(DOUBLE_COLUMN_TABLE_FROM_PAIR_1.isColExists(COL_NAME_4) == false);
   REQUIRE(DOUBLE_COLUMN_TABLE_FROM_VECTORS_2.isColExists(COL_NAME_3));
   REQUIRE(DOUBLE_COLUMN_TABLE_FROM_VECTORS_2.isColExists(COL_NAME_4));
-
-  auto newTable = DOUBLE_COLUMN_TABLE_FROM_VECTORS_1.join(
-      DOUBLE_COLUMN_TABLE_FROM_VECTORS_2);
 }
 
 TEST_CASE("IntermediateTable - getSharedColNames, getSharedColIndexes") {
@@ -123,28 +120,28 @@ TEST_CASE("IntermediateTable - join - inner join") {
 TEST_CASE("IntermediateTable - join - any_x_empty") {
   // data x EMPTY
   IntermediateTable dataJoinEmptyTable = MULTI_COLUMN_TABLE_1.join(EMPTY_TABLE);
-  REQUIRE(dataJoinEmptyTable.isTableEmpty());
-  REQUIRE(dataJoinEmptyTable.getDataAsStrings().empty());
+  REQUIRE(dataJoinEmptyTable.isTableEmptyAndNotWildcard());
+  REQUIRE(dataJoinEmptyTable.getColNames().empty());
 
   // EMPTY x data
   IntermediateTable emptyJoinDataTable = EMPTY_TABLE.join(MULTI_COLUMN_TABLE_1);
-  REQUIRE(emptyJoinDataTable.isTableEmpty());
-  REQUIRE(emptyJoinDataTable.getDataAsStrings().empty());
+  REQUIRE(emptyJoinDataTable.isTableEmptyAndNotWildcard());
+  REQUIRE(emptyJoinDataTable.getColNames().empty());
 
   // WILDCARD X EMPTY
   IntermediateTable wildcardJoinEmptyTable = WILDCARD_TABLE.join(EMPTY_TABLE);
-  REQUIRE(wildcardJoinEmptyTable.isTableEmpty());
-  REQUIRE(wildcardJoinEmptyTable.getDataAsStrings().empty());
+  REQUIRE(wildcardJoinEmptyTable.isTableEmptyAndNotWildcard());
+  REQUIRE(wildcardJoinEmptyTable.getColNames().empty());
 
   // EMPTY X WILDCARD
   IntermediateTable emptyJoinWildcardTable = EMPTY_TABLE.join(WILDCARD_TABLE);
-  REQUIRE(emptyJoinWildcardTable.isTableEmpty());
-  REQUIRE(emptyJoinWildcardTable.getDataAsStrings().empty());
+  REQUIRE(emptyJoinWildcardTable.isTableEmptyAndNotWildcard());
+  REQUIRE(emptyJoinWildcardTable.getColNames().empty());
 
   // EMPTY X EMPTY
   IntermediateTable emptyJoinEmptyTable = EMPTY_TABLE.join(EMPTY_TABLE);
-  REQUIRE(emptyJoinEmptyTable.isTableEmpty());
-  REQUIRE(emptyJoinEmptyTable.getDataAsStrings().empty());
+  REQUIRE(emptyJoinEmptyTable.isTableEmptyAndNotWildcard());
+  REQUIRE(emptyJoinEmptyTable.getColNames().empty());
 }
 
 TEST_CASE("IntermediateTable - join - any_x_wildcard") {
@@ -168,15 +165,4 @@ TEST_CASE("IntermediateTable - join - any_x_wildcard") {
 
   // WILDCARD X EMPTY and vice versa is already
   // tested in "any_x_empty" tests
-}
-
-TEST_CASE("SynonymRes") {
-  vector<vector<SynonymRes>> test = {};
-  SynonymRes a("a");
-  SynonymRes b("b");
-  vector<SynonymRes> row({a, b});
-  test.emplace_back(row);
-  vector<string> colName = { "a", "b" };
-  IntermediateTable table = IntermediateTableFactory::buildIntermediateTable(colName, test);
-  REQUIRE(table.getTableData().at(0).at(0) == a);
 }
