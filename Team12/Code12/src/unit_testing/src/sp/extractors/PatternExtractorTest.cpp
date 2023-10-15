@@ -8,6 +8,7 @@
 #include <catch.hpp>
 
 #include "../ast/TNodeUtils.h"
+#include "../mocks/MockData.h"
 #include "../mocks/MockPKBWriter.h"
 #include "AbstractionTypes.h"
 #include "ExtractorUtils.h"
@@ -31,8 +32,7 @@ TEST_CASE("PatternExtractor for assign - no assign pattern") {
   programNode->addChild(std::move(procNode));
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, pair<string, string>> expected =
       unordered_map<int, pair<string, string>>();
@@ -45,8 +45,7 @@ TEST_CASE("PatternExtractor for assign with parser - no assign pattern") {
       "print x;"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, pair<string, string>> expected =
       unordered_map<int, pair<string, string>>();
@@ -68,8 +67,7 @@ TEST_CASE("PatternExtractor for assign - 2 simple assign patterns") {
   programNode->addChild(std::move(procNode));
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::PATTERN);
 
   unordered_map<int, pair<string, string>> expected = {};
@@ -87,8 +85,7 @@ TEST_CASE(
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
 
   unordered_map<int, pair<string, string>> expected = {};
@@ -107,8 +104,7 @@ TEST_CASE(
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, pair<string, string>> expected = {};
   expected[1] = {"x", " a b c * - "};
@@ -127,8 +123,7 @@ TEST_CASE(
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, pair<string, string>> expected = {};
   expected[1] = {"x", " a b c * - "};
@@ -148,8 +143,7 @@ TEST_CASE(
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, pair<string, string>> expected = {};
   expected[1] = {"y", " a b + c * "};
@@ -172,8 +166,7 @@ TEST_CASE("PatternExtractor for assign with parser - one container node") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, pair<string, string>> expected = {};
   expected[2] = {"z", " a b + c d + * e f / g * - "};
@@ -197,8 +190,7 @@ TEST_CASE("PatternExtractor for assign with parser - nested container node") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, pair<string, string>> expected = {};
   expected[2] = {"y", " a b * c d % + e - "};
@@ -227,8 +219,7 @@ TEST_CASE(
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, pair<string, string>> expected = {};
   expected[7] = {"x", " a b c * + d e / f % - "};
@@ -250,8 +241,7 @@ TEST_CASE("PatternExtractor for while with parser - no while patter") {
       "print x;"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, unordered_set<string>> expected = {};
   REQUIRE(mockPKB.isWhilePatternEqual(expected));
@@ -267,8 +257,7 @@ TEST_CASE("PatternExtractor for while with parser - 1 while pattern") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, unordered_set<string>> expected = {};
   expected[2] = {"x", "y"};
@@ -289,8 +278,7 @@ TEST_CASE("PatternExtractor for while with parser - 2 nested while pattern") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, unordered_set<string>> expected = {};
   expected[3] = {"a", "b"};
@@ -315,8 +303,7 @@ TEST_CASE("PatternExtractor for while with parser - 3 nested while pattern") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, unordered_set<string>> expected = {};
   expected[3] = {"v"};
@@ -338,8 +325,7 @@ TEST_CASE("PatternExtractor for while with parser - sequential while pattern") {
       "   }"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, unordered_set<string>> expected = {};
   expected[2] = {"i"};
@@ -359,8 +345,7 @@ TEST_CASE(
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, unordered_set<string>> expected = {};
   expected[3] = {"p", "q", "x", "y"};
@@ -373,8 +358,7 @@ TEST_CASE("PatternExtractor for if with parser - no if patter") {
       "print x;"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, unordered_set<string>> expected = {};
   REQUIRE(mockPKB.isIfPatternEqual(expected));
@@ -390,8 +374,7 @@ TEST_CASE("PatternExtractor for if with parser - 1 if pattern") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, unordered_set<string>> expected = {};
   expected[2] = {"x", "y"};
@@ -412,8 +395,7 @@ TEST_CASE("PatternExtractor for if with parser - 2 nested if pattern") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, unordered_set<string>> expected = {};
   expected[3] = {"a", "b"};
@@ -438,8 +420,7 @@ TEST_CASE("PatternExtractor for if with parser - 3 nested if pattern") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, unordered_set<string>> expected = {};
   expected[3] = {"v"};
@@ -461,8 +442,7 @@ TEST_CASE("PatternExtractor for if with parser - sequential if pattern") {
       "   } else { print i; }"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, unordered_set<string>> expected = {};
   expected[2] = {"i"};
@@ -481,8 +461,7 @@ TEST_CASE("PatternExtractor for if with parser - multiple control variables") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, unordered_set<string>> expected = {};
   expected[3] = {"p", "q", "x", "y"};
@@ -518,8 +497,7 @@ TEST_CASE("PatternExtractor with all patterns") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::PATTERN);
   unordered_map<int, pair<string, string>> expectedAssignStorage = {};
   unordered_map<int, unordered_set<string>> expectedWhileStorage = {};

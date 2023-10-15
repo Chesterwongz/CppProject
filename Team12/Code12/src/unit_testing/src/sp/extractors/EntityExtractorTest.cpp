@@ -7,6 +7,7 @@
 #include <catch.hpp>
 
 #include "../ast/TNodeUtils.h"
+#include "../mocks/MockData.h"
 #include "ExtractorUtils.h"
 #include "sp/ast/ProcNode.h"
 #include "sp/ast/ProgramNode.h"
@@ -32,8 +33,7 @@ TEST_CASE("EntityExtractor - only reads") {
   programNode->addChild(std::move(procNode));
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
 
   unordered_map<int, string> expectedStmtToProcMap = {
@@ -58,8 +58,7 @@ TEST_CASE("EntityExtractor with parser - only reads") {
       "read y;"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
   unordered_map<int, string> expectedStmtToProcMap = {
@@ -94,8 +93,7 @@ TEST_CASE("EntityExtractor - non-nesting, 1 uses") {
   programNode->addChild(std::move(procNode));
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
 
   unordered_map<int, string> expectedStmtToProcMap = {
@@ -123,8 +121,7 @@ TEST_CASE("EntityExtractor with parser - non-nesting, 1 uses") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
   unordered_map<int, string> expectedStmtToProcMap = {
@@ -174,8 +171,7 @@ TEST_CASE("EntityExtractor - if node") {
   programNode->addChild(std::move(procNode));
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
 
   unordered_map<int, string> expectedStmtToProcMap = {
@@ -205,8 +201,7 @@ TEST_CASE("EntityExtractor with parser - if node") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
   unordered_map<int, string> expectedStmtToProcMap = {
@@ -265,8 +260,7 @@ TEST_CASE("EntityExtractor - if in while node") {
   programNode->addChild(std::move(procNode));
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
 
   unordered_map<int, string> expectedStmtToProcMap = {
@@ -298,8 +292,7 @@ TEST_CASE("EntityExtractor with parser - if in while node") {
       "read num1;"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
 
   unordered_map<int, string> expectedStmtToProcMap = {

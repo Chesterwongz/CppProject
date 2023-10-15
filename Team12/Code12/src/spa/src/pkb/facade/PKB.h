@@ -13,7 +13,7 @@ class PKB {
   PKBWriter writer;
 
  public:
-  PKB() : storage(), writer(storage), reader(storage, store) {}
+  PKB() : storage(), writer(storage, store), reader(storage, store) {}
   PKBWriter& getWriter() { return writer; }
   PKBReader& getReader() { return reader; }
 };

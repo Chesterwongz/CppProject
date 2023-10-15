@@ -45,5 +45,5 @@ void FollowsExtractor::processCurrStmt(const StmtNode& node) {
 }
 
 void FollowsExtractor::addFollows(int prevLine, int currLine) {
-  pkbWriter.setFollowsRelationship(prevLine, currLine);
+  pkbWriter.addFollows(prevLine, currLine);
 }
