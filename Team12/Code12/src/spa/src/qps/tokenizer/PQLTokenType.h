@@ -66,3 +66,4 @@ enum PQLTokenType {
 extern unordered_map<string, PQLTokenType> keywordToTokenType;
 extern unordered_map<char, PQLTokenType> delimiterToTokenType;
 extern unordered_set<string> stmtEntities;
+extern unordered_map<string, unordered_set<string>> entityToAttrRef;

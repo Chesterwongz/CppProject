@@ -8,6 +8,7 @@ using std::string, std::vector, std::unordered_set;
 
 typedef string Synonym;
 typedef string Entity;
+typedef string AttrRef;
 
 inline const Entity ASSIGN_ENTITY = "assign";
 inline const Entity CALL_ENTITY = "call";
@@ -40,6 +41,11 @@ inline const string AFFECTS_ABSTRACTION = "Affects";
 inline const string USES_ABSTRACTION = "Uses";
 inline const string CALLS_ABSTRACTION = "Calls";
 inline const string CALLS_STAR_ABSTRACTION = "Calls*";
+
+inline const string ATTR_REF_PROC_NAME = "procName";
+inline const string ATTR_REF_VAR_NAME = "varName";
+inline const string ATTR_REF_VALUE = "value";
+inline const string ATTR_REF_STMT_NUMBER = "stmt#";
 
 inline const string WILDCARD_KEYWORD = "_";
 inline const string INVALID_STATEMENT_NUMBER = "-1";

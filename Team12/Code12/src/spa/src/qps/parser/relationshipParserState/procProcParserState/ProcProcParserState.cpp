@@ -48,7 +48,8 @@ void ProcProcParserState::handleToken() {
         return;
       case PQL_SYNONYM_TOKEN:
         checkIsProcSynonym(token.getValue());
-        arguments.push_back(std::make_unique<SynonymArg>(token.getValue()));
+        arguments.push_back(
+            std::make_unique<SynonymArg>(token.getValue(), PROCEDURE_ENTITY));
         break;
       case PQL_LITERAL_REF_TOKEN:
         arguments.push_back(std::make_unique<Ident>(token.getValue()));

@@ -45,17 +45,17 @@ void PatternParserState::handleToken() {
       case PQL_ASSIGN_PATTERN_TOKEN:
         parserContext.transitionTo(std::make_unique<AssignPatternParserState>(
             parserContext, token.getType(),
-            std::make_unique<SynonymArg>(token.getValue())));
+            std::make_unique<SynonymArg>(token.getValue(), ASSIGN_ENTITY)));
         return;
       case PQL_IF_PATTERN_TOKEN:
         parserContext.transitionTo(std::make_unique<IfPatternParserState>(
             parserContext, token.getType(),
-            std::make_unique<SynonymArg>(token.getValue())));
+            std::make_unique<SynonymArg>(token.getValue(), IF_ENTITY)));
         return;
       case PQL_WHILE_PATTERN_TOKEN:
         parserContext.transitionTo(std::make_unique<WhilePatternParserState>(
             parserContext, token.getType(),
-            std::make_unique<SynonymArg>(token.getValue())));
+            std::make_unique<SynonymArg>(token.getValue(), WHILE_ENTITY)));
         return;
       default:
         break;

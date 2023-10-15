@@ -18,4 +18,5 @@ class PQLParserUtils {
  public:
   PQLParserUtils() = default;
   static PQLTokenType getTokenTypeFromKeyword(const string& keyword);
+  static bool isValidAttrRefFromSynonym(const string& synonymType, const string& ref);
 };

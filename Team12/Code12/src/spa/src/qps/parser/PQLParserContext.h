@@ -31,7 +31,7 @@ class PQLParserContext {
 
   //  Build clause - handling of Synonym Context
   void addToContext(string entity, const string& synonym);
-  void addSelectClause(const string& synonym);
+  void addSelectClause(unique_ptr<AbstractArgument> synonym);
   void addSelectClause(SynonymsToSelect synonyms);
   string getValidSynonymType(const string& synonym);
   bool checkSynonymExists(const string& synonym);
@@ -43,6 +43,7 @@ class PQLParserContext {
   std::optional<PQLToken> eatExpectedToken(PQLTokenType prev,
                                            PredictiveMap& pm);
   std::optional<PQLToken> eatCurrToken();
+  std::optional<PQLToken> peekNextToken();
 
   // handling of parser state
   void transitionTo(unique_ptr<IParserState> nextState);

@@ -11,7 +11,7 @@ class StmtVarParserState : public RelationshipParserState {
  private:
   static unordered_map<string, Abstraction> stmtVarKeywordToAbstraction;
   static PredictiveMap predictiveMap;
-  void checkIsValidSynonym(const string& synonym, size_t argumentNumber);
+  string checkIsValidSynonym(const string& synonym, size_t argumentNumber);
   void checkIsValidWildcard();
 
  public:

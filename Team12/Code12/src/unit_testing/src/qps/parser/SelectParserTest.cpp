@@ -1,6 +1,6 @@
+#include <catch.hpp>
 #include <memory>
 #include <vector>
-#include <catch.hpp>
 
 #include "PQLParserTestUtils.h"
 #include "qps/argument/integer/Integer.h"
@@ -46,6 +46,11 @@ TEST_CASE("Valid Select BOOLEAN - BOOLEAN as synonym") {
   expectedContext->addSynonym("b", ASSIGN_ENTITY);
   expectedContext->addSynonym("c", ASSIGN_ENTITY);
   expected.addContext(std::move(expectedContext));
+
+  vector<unique_ptr<AbstractArgument>> synonymsToQuery = {};
+  synonymsToQuery.push_back(
+      std::make_unique<SynonymArg>(BOOLEAN_KEYWORD, ASSIGN_ENTITY));
+  expected.setSynonymToQuery(std::move(synonymsToQuery));
 
   bool res = *query == expected;
   REQUIRE(res);

@@ -32,6 +32,11 @@ unordered_map<string, PQLTokenType> keywordToTokenType = {
     {CALLS_ABSTRACTION, PQL_PROC_PROC_TOKEN},
     {CALLS_STAR_ABSTRACTION, PQL_PROC_PROC_TOKEN},
 
+    {ATTR_REF_PROC_NAME, PQL_ATTR_REF_TOKEN},
+    {ATTR_REF_VAR_NAME, PQL_ATTR_REF_TOKEN},
+    {ATTR_REF_VALUE, PQL_ATTR_REF_TOKEN},
+    {ATTR_REF_STMT_NUMBER, PQL_ATTR_REF_TOKEN},
+
     {PATTERN_KEYWORD, PQL_PATTERN_TOKEN}};
 
 unordered_map<char, PQLTokenType> delimiterToTokenType = {
@@ -48,3 +53,16 @@ unordered_map<char, PQLTokenType> delimiterToTokenType = {
 unordered_set<string> stmtEntities = {STMT_ENTITY,   READ_ENTITY, PRINT_ENTITY,
                                       ASSIGN_ENTITY, CALL_ENTITY, WHILE_ENTITY,
                                       IF_ENTITY};
+
+unordered_map<string, unordered_set<string>> entityToAttrRef = {
+    {ASSIGN_ENTITY, {ATTR_REF_STMT_NUMBER}},
+    {CALL_ENTITY, {ATTR_REF_PROC_NAME, ATTR_REF_STMT_NUMBER}},
+    {CONSTANT_ENTITY, {ATTR_REF_VALUE}},
+    {IF_ENTITY, {ATTR_REF_STMT_NUMBER}},
+    {PRINT_ENTITY, {ATTR_REF_VAR_NAME, ATTR_REF_STMT_NUMBER}},
+    {PROCEDURE_ENTITY, {ATTR_REF_PROC_NAME}},
+    {READ_ENTITY, {ATTR_REF_VAR_NAME, ATTR_REF_STMT_NUMBER}},
+    {STMT_ENTITY, {ATTR_REF_STMT_NUMBER}},
+    {VARIABLE_ENTITY, {ATTR_REF_VAR_NAME}},
+    {WHILE_ENTITY, {ATTR_REF_STMT_NUMBER}}
+};

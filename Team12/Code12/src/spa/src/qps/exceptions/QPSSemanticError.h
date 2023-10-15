@@ -16,6 +16,8 @@ const char QPS_SEMANTIC_ERR_INVALID_PATTERN_SYN[] =
     "Invalid Pattern synonym type";
 const char QPS_SEMANTIC_ERR_INVALID_SELECT[] =
     "Select clause without declarations";
+const char QPS_SEMANTIC_ERR_INVALID_ATTR_REF[] =
+    "Invalid Attr Ref";
 
 class QPSSemanticError : public QPSException {
  public:

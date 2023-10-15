@@ -21,7 +21,8 @@ void WhilePatternParserState::processSynonymToken(PQLToken &curr) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
   if (synType == VARIABLE_ENTITY) {
-    patternArg.push_back(std::make_unique<SynonymArg>(curr.getValue()));
+    patternArg.push_back(
+        std::make_unique<SynonymArg>(curr.getValue(), synType));
   } else {
     throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_VAR_SYN);
   }

@@ -58,9 +58,8 @@ bool Query::operator==(const Query &other) {
   bool res = this->context->getMap() == other.context->getMap();
   if (!res) return res;
 
-  if (this->synonymsToQuery != other.synonymsToQuery) {
+  if (selectClause && !this->selectClause->isEquals(*other.selectClause))
     return false;
-  }
 
   for (int i = 0; i < this->clauses.size(); i++) {
     if (!clauses.at(i)->isEquals(*(other.clauses.at(i)))) {

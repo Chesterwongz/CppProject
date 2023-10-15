@@ -2,9 +2,7 @@
 
 PredictiveMap SelectParserState::predictiveMap = {
     {PQL_SELECT_TOKEN,
-     {PQL_BOOLEAN_TOKEN, PQL_SYNONYM_TOKEN, PQL_LEFT_ANGLE_TOKEN}},
-    {PQL_SYNONYM_TOKEN, {PQL_PERIOD_TOKEN}},
-    {PQL_PERIOD_TOKEN, {PQL_ATTR_REF_TOKEN}}};
+     {PQL_BOOLEAN_TOKEN, PQL_SYNONYM_TOKEN, PQL_LEFT_ANGLE_TOKEN}}};
 
 SelectParserState::SelectParserState(PQLParserContext& parserContext,
                                      PQLTokenType prev)
@@ -13,8 +11,6 @@ SelectParserState::SelectParserState(PQLParserContext& parserContext,
 void SelectParserState::processNameToken(PQLToken& curr) {
   if (parserContext.checkSynonymExists(curr.getValue())) {
     curr.updateTokenType(PQL_SYNONYM_TOKEN);
-  } else if (curr.getValue() == BOOLEAN_KEYWORD) {
-    curr.updateTokenType(PQL_BOOLEAN_TOKEN);
   } else if (curr.getValue() == BOOLEAN_KEYWORD) {
     curr.updateTokenType(PQL_BOOLEAN_TOKEN);
   } else {
@@ -28,6 +24,7 @@ void SelectParserState::handleToken() {
 
   while (curr.has_value()) {
     PQLToken token = curr.value();
+    unique_ptr<SynonymArg> selectedSyn;
 
     switch (token.getType()) {
       case PQL_BOOLEAN_TOKEN:
@@ -35,11 +32,13 @@ void SelectParserState::handleToken() {
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
       case PQL_SYNONYM_TOKEN:
-        parserContext.addSelectClause(token.getValue());
+        selectedSyn = std::make_unique<SynonymArg>(
+            token.getValue(),
+            parserContext.getValidSynonymType(token.getValue()));
+        processAttrRef(selectedSyn);
+        parserContext.addSelectClause(std::move(selectedSyn));
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
-      case PQL_PERIOD_TOKEN:
-
       case PQL_LEFT_ANGLE_TOKEN:
         parserContext.transitionTo(std::make_unique<SelectTupleParsersState>(
             parserContext, token.getType()));
