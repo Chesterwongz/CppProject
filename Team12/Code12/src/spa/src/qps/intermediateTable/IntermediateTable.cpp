@@ -10,7 +10,7 @@ IntermediateTable::IntermediateTable(bool isTableWildcard)
     : isWildcard(isTableWildcard), isEmpty(true) {}
 
 IntermediateTable::IntermediateTable(const vector<string> &colNames,
-                                     vector<vector<SynonymRes>> data) {
+                                     TableDataType data) {
   for (const string &colName : colNames) {
     IntermediateTable::createNewCol(colName);
   }
@@ -30,7 +30,6 @@ IntermediateTable IntermediateTable::makeEmptyTable() {
 }
 
 int IntermediateTable::createNewCol(const string &newColName) {
-  this->isEmpty = false;
   this->colNameToIndexMap[newColName] = this->currentColCount;
   this->colNames.emplace_back(newColName);
   return this->currentColCount++;
@@ -38,7 +37,7 @@ int IntermediateTable::createNewCol(const string &newColName) {
 
 vector<vector<string>> IntermediateTable::getDataAsStrings() {
   vector<vector<string>> res;
-  for (const vector<SynonymRes> &synonymDataRow : this->tableData) {
+  for (const TableRowType &synonymDataRow : this->tableData) {
     vector<string> row = {};
     row.reserve(synonymDataRow.size());
     for (const SynonymRes &synonymRes : synonymDataRow) {
@@ -49,9 +48,7 @@ vector<vector<string>> IntermediateTable::getDataAsStrings() {
   return res;
 }
 
-vector<vector<SynonymRes>> IntermediateTable::getTableData() {
-  return this->tableData;
-}
+TableDataType IntermediateTable::getTableData() { return this->tableData; }
 
 set<string> IntermediateTable::getColumns(const vector<string> &colNameVector) {
   if (colNameVector.empty()) {
@@ -84,7 +81,8 @@ set<string> IntermediateTable::getColumns(
     return {};
   }
 
-  for (const pair<string, AttrRef>& colNameAndAttrRef : colNameAndAttrRefVector) {
+  for (const pair<string, AttrRef> &colNameAndAttrRef :
+       colNameAndAttrRefVector) {
     string colName = colNameAndAttrRef.first;
     // return empty if any column requested does not exist
     if (!this->isColExists(colName)) {
@@ -95,7 +93,8 @@ set<string> IntermediateTable::getColumns(
   set<string> res = {};
   for (int rowIndex = 0; rowIndex < this->getRowCount(); rowIndex++) {
     string row;
-    for (const pair<string, AttrRef>& colNameAndAttrRef : colNameAndAttrRefVector) {
+    for (const pair<string, AttrRef> &colNameAndAttrRef :
+         colNameAndAttrRefVector) {
       string colName = colNameAndAttrRef.first;
       AttrRef attrRef = colNameAndAttrRef.second;
       int colIndex = this->colNameToIndexMap.at(colName);

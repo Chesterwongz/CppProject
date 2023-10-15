@@ -39,9 +39,9 @@ IntermediateTable getCrossProduct(IntermediateTable table1,
   }
   vector<string> resColumns =
       concatColNames(table1.getColNames(), table2.getColNames());
-  vector<vector<SynonymRes>> resData = {};
-  for (const vector<SynonymRes> &row1 : table1.getTableData()) {
-    for (const vector<SynonymRes> &row2 : table2.getTableData()) {
+  TableDataType resData = {};
+  for (const TableRowType &row1 : table1.getTableData()) {
+    for (const TableRowType &row2 : table2.getTableData()) {
       resData.push_back(concatRow(row1, row2));
     }
   }
@@ -53,7 +53,7 @@ IntermediateTable getInnerJoin(
     IntermediateTable table1, IntermediateTable table2) {
   vector<string> resColNames =
       concatColNames(table1.getColNames(), table2.getColNames());
-  vector<vector<SynonymRes>> resData = {};
+  TableDataType resData = {};
   vector<int> table1SharedColIndexes = sharedColumnIndexes.first;
   vector<int> table2SharedColIndexes = sharedColumnIndexes.second;
   for (auto &table1Row : table1.getTableData()) {
@@ -99,9 +99,9 @@ vector<string> concatColNames(const vector<string> &vector1,
   return newVector;
 }
 
-vector<SynonymRes> concatRow(const vector<SynonymRes> &row1,
-                             const vector<SynonymRes> &row2) {
-  vector<SynonymRes> rowCopy = {};
+TableRowType concatRow(const TableRowType &row1,
+                             const TableRowType &row2) {
+  TableRowType rowCopy = {};
   rowCopy.reserve(row1.size() + row2.size());
 for (const SynonymRes &val : row1) {
     rowCopy.emplace_back(val.clone());

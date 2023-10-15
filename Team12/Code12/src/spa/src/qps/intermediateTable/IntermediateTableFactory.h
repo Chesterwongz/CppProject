@@ -17,8 +17,8 @@ class IntermediateTableFactory {
    * @tparam T            either unique_ptr<SynonymArg> or string
    */
   template <typename T>
-  static IntermediateTable tableBuilderHelper(
-      const vector<string> &colNames, vector<vector<T>> data) {
+  static IntermediateTable tableBuilderHelper(const vector<string> &colNames,
+                                              vector<vector<T>> data) {
     // if data is empty, return empty table
     // even if columns are wildcard
     if (data.empty()) {
@@ -32,7 +32,7 @@ class IntermediateTableFactory {
     }
 
     vector<string> columnNamesWithoutWildcard = {};
-    vector<vector<SynonymRes>> dataWithoutWildcardColumns = {};
+    TableDataType dataWithoutWildcardColumns = {};
     dataWithoutWildcardColumns.reserve(data.size());
     // add empty vector for each row
     for ([[maybe_unused]] const vector<T> &row : data) {
@@ -46,7 +46,8 @@ class IntermediateTableFactory {
       }
       columnNamesWithoutWildcard.push_back(colName);
       for (int rowIndex = 0; rowIndex < data.size(); rowIndex++) {
-        dataWithoutWildcardColumns.at(rowIndex).emplace_back(std::move(data.at(rowIndex).at(colIndex)));
+        dataWithoutWildcardColumns.at(rowIndex).emplace_back(
+            std::move(data.at(rowIndex).at(colIndex)));
       }
     }
     return IntermediateTable(columnNamesWithoutWildcard,
@@ -59,7 +60,7 @@ class IntermediateTableFactory {
    */
   static IntermediateTable buildIntermediateTable(
       const string &firstColName, const string &secondColName,
-      vector<pair<string, string>> data);
+      const vector<pair<string, string>> &data);
 
   /**
    * Builds intermediate table without any WILDCARD columns
@@ -93,8 +94,7 @@ class IntermediateTableFactory {
    * using using a vector of vectors of SynonymRes
    */
   static IntermediateTable buildIntermediateTable(
-      const vector<string> &colNames,
-      vector<vector<SynonymRes>> data);
+      const vector<string> &colNames, TableDataType data);
 
   static IntermediateTable buildEmptyIntermediateTable();
 

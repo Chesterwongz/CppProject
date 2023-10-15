@@ -4,7 +4,7 @@
 
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const string &firstColName, const string &secondColName,
-    vector<pair<std::string, std::string>> data) {
+    const vector<pair<std::string, std::string>>& data) {
   // if data is empty, return empty table
   // even if columns are wildcard
   if (data.empty()) {
@@ -24,14 +24,14 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
   if (!isSecondColWildcard) {
     columnNamesWithoutWildcard.emplace_back(secondColName);
   }
-  vector<vector<SynonymRes>> dataWithoutWildcardColumns = {};
+  TableDataType dataWithoutWildcardColumns = {};
   for (auto &dataPair : data) {
-    vector<SynonymRes> row = {};
+    TableRowType row = {};
     if (!isFirstColWildcard) {
-      row.emplace_back(dataPair.first);
+      row.emplace_back(SynonymRes::buildDefaultSynonym(dataPair.first));
     }
     if (!isSecondColWildcard) {
-      row.emplace_back(dataPair.second);
+      row.emplace_back(SynonymRes::buildDefaultSynonym(dataPair.second));
     }
     dataWithoutWildcardColumns.emplace_back(std::move(row));
   }
@@ -57,11 +57,10 @@ IntermediateTable IntermediateTableFactory::buildSingleColTable(
   }
 
   vector<string> columnNames = {colName};
-  vector<vector<SynonymRes>> dataColumn = {};
+  TableDataType dataColumn = {};
   dataColumn.reserve(data.size());
   for (const string &rowData : data) {
-    vector<SynonymRes> row = {};
-    row.emplace_back(std::move(rowData));
+    TableRowType row = { SynonymRes::buildDefaultSynonym(rowData) };
     dataColumn.emplace_back(std::move(row));
   }
   return IntermediateTable(columnNames, std::move(dataColumn));
@@ -81,7 +80,7 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
 }
 
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
-    const vector<string> &colNames, vector<vector<SynonymRes>> data) {
+    const vector<string> &colNames, TableDataType data) {
   return IntermediateTableFactory::tableBuilderHelper(colNames,
                                                       std::move(data));
 }

@@ -9,7 +9,7 @@
 using std::string, std::unordered_map, std::unique_ptr;
 
 class SynonymRes {
- protected:
+ private:
   /**
    * defaultSynonymValue is the default value to return
    * when a synonym is referenced without any attrRef:
@@ -20,13 +20,31 @@ class SynonymRes {
    */
   string defaultSynonymValue;
   unordered_map<AttrRef, string> attributeMap = {};
+  explicit SynonymRes(string defaultSynonymValue,
+                      unordered_map<AttrRef, string> attributeMap);
 
  public:
-  explicit SynonymRes(string  defaultSynonymValue);
+  explicit SynonymRes(string defaultSynonymValue);
+
   [[nodiscard]] string toString() const;
+
   string getAttribute(AttrRef attrRef);
-  // deep clone for polymorphic objects
+
   [[nodiscard]] virtual SynonymRes clone() const;
+
   bool operator==(const SynonymRes& other) const;
   bool operator!=(const SynonymRes& other) const;
+
+  static SynonymRes buildDefaultSynonym(const string& value);
+
+  static SynonymRes buildCallsSynonym(const string& stmtNumber,
+                                      string procName);
+
+  static SynonymRes buildConstantSynonym(const string& value);
+
+  static SynonymRes buildProcSynonym(const string& procName);
+
+  static SynonymRes buildStmtSynonym(const string& stmtNumber);
+
+  static SynonymRes buildVarSynonym(const string& varName);
 };
