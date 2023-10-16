@@ -2,7 +2,7 @@
 
 #include "qps/exceptions/QPSSemanticError.h"
 #include "qps/exceptions/QPSSyntaxError.h"
-#include "qps/token/PQLToken.h"
+#include "qps/parser/tokenizer/token/PQLToken.h"
 
 class PQLParserContext;
 

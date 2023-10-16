@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "qps/tokenizer/PQLTokenType.h"
+#include "qps/parser/tokenizer/PQLTokenType.h"
 
 using std::string, std::vector, std::unique_ptr;
 

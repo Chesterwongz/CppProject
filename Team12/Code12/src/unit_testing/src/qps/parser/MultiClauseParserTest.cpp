@@ -10,7 +10,7 @@
 #include "qps/clause/patternClause/PatternClause.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
 #include "qps/query/Query.h"
-#include "qps/token/PQLToken.h"
+#include "qps/parser/tokenizer/token/PQLToken.h"
 
 TEST_CASE("Wiki Example - only such that clauses") {
   string syn1 = "a";

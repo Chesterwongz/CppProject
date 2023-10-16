@@ -8,7 +8,7 @@
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/declarativeParserState/DeclarativeParserState.h"
 #include "qps/query/Query.h"
-#include "qps/token/PQLToken.h"
+#include "qps/parser/tokenizer/token/PQLToken.h"
 
 extern PKBStorage dummyQpsParserStorage;
 extern PKBReader dummyQpsParserPkbReader;

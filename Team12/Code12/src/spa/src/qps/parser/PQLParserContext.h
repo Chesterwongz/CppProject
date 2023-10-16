@@ -8,8 +8,9 @@
 #include "qps/clause/Clause.h"
 #include "qps/common/PQLParserUtils.h"
 #include "qps/context/Context.h"
+#include "qps/parser/tokenizer/PQLTokenizer.h"
+#include "qps/parser/tokenizer/token/PQLToken.h"
 #include "qps/query/Query.h"
-#include "qps/tokenizer/PQLTokenizer.h"
 
 class PQLParserContext {
  private:

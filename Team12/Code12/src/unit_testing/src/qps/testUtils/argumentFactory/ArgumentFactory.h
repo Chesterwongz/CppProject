@@ -8,7 +8,7 @@
 #include "qps/argument/integer/Integer.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
-#include "qps/tokenizer/PQLTokenType.h"
+#include "qps/parser/tokenizer/token/PQLToken.h"
 
 using std::string;
 

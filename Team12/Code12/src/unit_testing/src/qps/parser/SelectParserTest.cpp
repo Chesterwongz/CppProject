@@ -8,7 +8,7 @@
 #include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
 #include "qps/query/Query.h"
-#include "qps/token/PQLToken.h"
+#include "qps/parser/tokenizer/token/PQLToken.h"
 
 TEST_CASE("Valid Select BOOLEAN") {
   vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),

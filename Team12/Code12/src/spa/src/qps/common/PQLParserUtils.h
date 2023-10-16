@@ -6,8 +6,8 @@
 #include <unordered_set>
 #include <utility>
 
-#include "qps/token/PQLToken.h"
-#include "qps/tokenizer/PQLTokenType.h"
+#include "qps/parser/tokenizer/token/PQLToken.h"
+#include "qps/parser/tokenizer/PQLTokenType.h"
 
 using std::regex, std::string, std::regex_match, std::unordered_map,
     std::unordered_set;
