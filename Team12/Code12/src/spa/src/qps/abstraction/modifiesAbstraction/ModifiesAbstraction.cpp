@@ -16,8 +16,10 @@ IntermediateTable ModifiesAbstraction::evaluateSynonymIdent() {
   string firstArgStmtSynonym = this->firstArgValue;
   StmtType firstArgStmtType = getFirstArgStmtType();
   string secondArgIdent = this->secondArgValue;
+
   vector<string> statementsModifyingVar =
       pkb.getStatementsModifying(secondArgIdent, firstArgStmtType);
+
   return IntermediateTableFactory::buildSingleColTable(firstArgStmtSynonym,
                                                        statementsModifyingVar);
 }
@@ -40,9 +42,10 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerSynonym() {
 
 // Modifies (StmtNumber, VarIdentifier)
 IntermediateTable ModifiesAbstraction::evaluateIntegerIdent() {
-  int stmtNumber = std::stoi(this->firstArgValue);
+  int firstArgStmtNumber = std::stoi(this->firstArgValue);
+  string secondArgIdent = this->secondArgValue;
 
-  if (pkb.isVariableModifiedBy(stmtNumber, this->secondArgValue)) {
+  if (pkb.isVariableUsedBy(firstArgStmtNumber, secondArgIdent)) {
     return IntermediateTableFactory::buildWildcardIntermediateTable();
   }
   return IntermediateTableFactory::buildEmptyIntermediateTable();
@@ -54,10 +57,8 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerWildcard() {
 
   vector<string> result = pkb.getVariablesModifiedBy(firstArgStmtNumber);
 
-  if (result.empty()) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
-  return IntermediateTableFactory::buildWildcardIntermediateTable();
+  return IntermediateTableFactory::buildSingleColTable(WILDCARD_KEYWORD,
+                                                       result);
 }
 
 IntermediateTable ModifiesAbstraction::handleSynonymOrWildcardArgs() {
