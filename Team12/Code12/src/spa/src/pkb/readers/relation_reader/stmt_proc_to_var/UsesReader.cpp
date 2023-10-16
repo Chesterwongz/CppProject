@@ -2,9 +2,7 @@
 
 // (1, v)
 std::vector<std::string> UsesReader::getVariablesUsedBy(int stmt) {
-  auto varFilter = PredicateUtils::truePredicate<std::string>();
-
-  auto rawRes = usesStore.getDirectSuccessor(stmt, varFilter);
+  auto rawRes = usesStore.getAllDirectSuccessorsOf(stmt);
 
   return rawRes;
 }
@@ -18,7 +16,7 @@ std::vector<std::string> UsesReader::getStatementsUsing(
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
 
-  auto rawRes = usesStore.getDirectAncestor(varName, stmtFilter);
+  auto rawRes = usesStore.getDirectAncestorsOf(varName, stmtFilter);
 
   return CollectionUtils::transformIntToStrVector(rawRes);
 }
@@ -28,15 +26,14 @@ bool UsesReader::isVariableUsedBy(int stmt, const std::string& varName) {
 }
 
 std::vector<std::pair<std::string, std::string>> UsesReader::getUsesPairs(
-    StmtType stmtType) {
-  if (!stmtStore.hasStmtType(stmtType)) {
+    StmtType stmtType1) {
+  if (!stmtStore.hasStmtType(stmtType1)) {
     return {};
   }
 
-  auto filters = std::make_pair(stmtStore.getStmtFilterPredicate(stmtType),
-                                PredicateUtils::truePredicate<std::string>());
+  auto filters = stmtStore.getStmtStrFilterPredicates(stmtType1);
 
-  auto rawRes = usesStore.getAllRelations(filters);
+  auto rawRes = usesStore.getDirectRelations(filters);
 
   return CollectionUtils::transformIntStrToStrStrVector(rawRes);
 }
