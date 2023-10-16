@@ -37,7 +37,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSemantics, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SemanticError"};
+  unordered_set<string> expected = {"SemanticError"};
   REQUIRE(result == expected);
 }
 
@@ -53,7 +53,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSemantics, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SemanticError"};
+  unordered_set<string> expected = {"SemanticError"};
   REQUIRE(result == expected);
 }
 
@@ -69,7 +69,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSemantics, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SemanticError"};
+  unordered_set<string> expected = {"SemanticError"};
   REQUIRE(result == expected);
 }
 
@@ -85,6 +85,6 @@ TEST_CASE(
   sp.processContent(sourceInvalidSemantics, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SemanticError"};
+  unordered_set<string> expected = {"SemanticError"};
   REQUIRE(result == expected);
 }

@@ -51,7 +51,8 @@ vector<vector<string>> IntermediateTable::getDataAsStrings() {
 
 TableDataType IntermediateTable::getTableData() { return this->tableData; }
 
-set<string> IntermediateTable::getColumns(const vector<string> &colNameVector) {
+unordered_set<string> IntermediateTable::getColumns(
+    const vector<string> &colNameVector) {
   if (colNameVector.empty()) {
     return {};
   }
@@ -63,7 +64,7 @@ set<string> IntermediateTable::getColumns(const vector<string> &colNameVector) {
     }
   }
 
-  set<string> res = {};
+  unordered_set<string> res = {};
   for (int rowIndex = 0; rowIndex < this->getRowCount(); rowIndex++) {
     string row;
     for (const string &colName : colNameVector) {
@@ -76,7 +77,7 @@ set<string> IntermediateTable::getColumns(const vector<string> &colNameVector) {
   return res;
 }
 
-set<string> IntermediateTable::getColumns(
+unordered_set<string> IntermediateTable::getColumns(
     const vector<pair<string, AttrRef>> &colNameAndAttrRefVector) {
   if (colNameAndAttrRefVector.empty()) {
     return {};
@@ -89,7 +90,7 @@ set<string> IntermediateTable::getColumns(
     }
   }
 
-  set<string> res = {};
+  unordered_set<string> res = {};
   for (int rowIndex = 0; rowIndex < this->getRowCount(); rowIndex++) {
     string row;
     for (auto &[colName, attrRef] : colNameAndAttrRefVector) {

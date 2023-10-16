@@ -35,14 +35,14 @@ TEST_CASE("IntermediateTable - constructors + getTableData") {
 TEST_CASE("IntermediateTable - getColumns - SynonymRes") {
   // get 0 column
   vector<pair<string, AttrRef>> vectorWithNoCol = {};
-  set<string> expectedNoCol = {};
+  unordered_set<string> expectedNoCol = {};
   REQUIRE(MULTI_COLUMN_SYNONYM_RES_TABLE_1.getColumns(vectorWithNoCol) ==
           expectedNoCol);
 
   // get 1 column
   vector<pair<string, AttrRef>> vectorWithOneCol = {
       {"calls", AttrRef::PROC_NAME_ENUM}};
-  set<string> expectedOneCol = {SYNONYM_VAL_1B, SYNONYM_VAL_2B};
+  unordered_set<string> expectedOneCol = {SYNONYM_VAL_1B, SYNONYM_VAL_2B};
   REQUIRE(MULTI_COLUMN_SYNONYM_RES_TABLE_1.getColumns(vectorWithOneCol) ==
           expectedOneCol);
 
@@ -51,7 +51,7 @@ TEST_CASE("IntermediateTable - getColumns - SynonymRes") {
       {"calls", AttrRef::PROC_NAME_ENUM},
       {"stmt", AttrRef::STMT_NUM_ENUM},
       {"constant", AttrRef::VALUE_ENUM}};
-  set<string> expectedMultiCols = {
+  unordered_set<string> expectedMultiCols = {
       SYNONYM_VAL_1B + " " + SYNONYM_VAL_1 + " " + SYNONYM_VAL_1,
       SYNONYM_VAL_1B + " " + SYNONYM_VAL_2 + " " + SYNONYM_VAL_2,
       SYNONYM_VAL_2B + " " + SYNONYM_VAL_3 + " " + SYNONYM_VAL_3,
@@ -61,7 +61,7 @@ TEST_CASE("IntermediateTable - getColumns - SynonymRes") {
           expectedMultiCols);
 
   // get non-existent column names
-  set<string> expectedWithNonExistent = {};
+  unordered_set<string> expectedWithNonExistent = {};
   REQUIRE(MULTI_COLUMN_SYNONYM_RES_TABLE_2.getColumns(vectorWithMultiCols) ==
           expectedWithNonExistent);
 

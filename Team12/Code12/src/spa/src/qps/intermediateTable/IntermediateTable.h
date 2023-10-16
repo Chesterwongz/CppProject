@@ -7,10 +7,11 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+
 #include "qps/intermediateTable/synonymRes/SynonymRes.h"
 
-using std::pair, std::unordered_map, std::string, std::vector, std::set,
-    std::unique_ptr;
+using std::pair, std::unordered_map, std::unordered_set, std::string,
+    std::vector, std::set, std::unique_ptr;
 
 typedef vector<SynonymRes> TableRowType;
 typedef vector<TableRowType> TableDataType;
@@ -62,13 +63,12 @@ class IntermediateTable {
    */
   vector<vector<string>> getDataAsStrings();
 
-
   /**
    * @param colNameVector vector of column names to retrieve
    * @return set of tuples string. elements in tuple delimited by space.
    *         e.g. { "a b c", "a b d", ... }
    */
-  set<string> getColumns(const vector<string> &colNameVector);
+  unordered_set<string> getColumns(const vector<string> &colNameVector);
 
   /**
    * same as getColumns(const vector<string> &colNameVector), but allows
@@ -76,7 +76,7 @@ class IntermediateTable {
    * @param colNameAndAttrRefVector vector of <column names, attrRef> pairs to
    * retrieve
    */
-  set<string> getColumns(
+  unordered_set<string> getColumns(
       const vector<pair<string, AttrRef>> &colNameAndAttrRefVector);
 
   /**
@@ -105,9 +105,9 @@ class IntermediateTable {
    * generic getter methods
    */
   size_t getRowCount();
-  bool isTableEmpty() const;
-  bool isTableWildcard() const;
-  bool isTableEmptyAndNotWildcard() const;
+  [[nodiscard]] bool isTableEmpty() const;
+  [[nodiscard]] bool isTableWildcard() const;
+  [[nodiscard]] bool isTableEmptyAndNotWildcard() const;
   TableDataType getTableData();
   void printTable();
 };
