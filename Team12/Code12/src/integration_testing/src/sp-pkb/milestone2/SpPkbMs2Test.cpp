@@ -6,10 +6,6 @@
 #include "pkb/facade/PKBReader.h"
 #include "sp/SourceProcessor.h"
 
-using std::set, std::string, std::unordered_map, std::unordered_set;
-
-using ProcToStrSetMap = unordered_map<string, unordered_set<string>>;
-
 TEST_CASE("SP-PKB integration MS2 - Non-nesting statements") {
   string input =
       "procedure simple {"
