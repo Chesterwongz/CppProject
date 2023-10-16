@@ -4,12 +4,10 @@
 
 #include "common/StmtTypes.h"
 #include "pkb/interfaces/writers/IDesignEntitiesWriter.h"
-#include "pkb/interfaces/writers/IStatementWriter.h"
 #include "pkb/storage/EntityStore.h"
 #include "pkb/storage/StmtStore.h"
 
-class DesignEntitiesWriter : public IDesignEntitiesWriter,
-                             public IStatementWriter {
+class DesignEntitiesWriter : public IDesignEntitiesWriter {
  private:
   EntityStore& entityStore;
   StmtStore& stmtStore;
