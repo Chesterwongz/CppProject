@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -23,5 +24,9 @@ class StmtStore {
       StmtType stmtType) const;
 
   [[nodiscard]] std::pair<std::function<bool(int)>, std::function<bool(int)>>
-  getStmtPairFilterPredicates(StmtType stmtType1, StmtType stmtType2) const;
+  getStmtStmtFilterPredicates(StmtType stmtType1, StmtType stmtType2) const;
+
+  [[nodiscard]] std::pair<std::function<bool(int)>,
+                          std::function<bool(std::string)>>
+  getStmtStrFilterPredicates(StmtType stmtType1) const;
 };
