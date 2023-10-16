@@ -19,7 +19,7 @@ class MockPKBWriter : public PKBWriter {
  private:
   unordered_set<string> variableStorage;
   unordered_set<string> constantStorage;
-  unordered_map<int, string> stmtToProcStorage;
+  unordered_set<string> procStorage;
   unordered_map<StmtType, unordered_set<int>> statementStorage;
   unordered_map<int, set<int>> followsStorage;
   unordered_map<int, set<int>> parentStorage;
@@ -69,16 +69,16 @@ class MockPKBWriter : public PKBWriter {
     usesProcStorage[varName].insert(procName);
   }
 
-  void addVariable(const string &varName) override {
+  void addVar(const string &varName) override {
     variableStorage.insert(varName);
   }
 
-  void addConstant(const string &constantValue) override {
-    constantStorage.insert(constantValue);
+  void addConst(const string &constValue) override {
+    constantStorage.insert(constValue);
   }
 
-  void addProcForStmt(const string &procName, int stmtNum) override {
-    stmtToProcStorage[stmtNum] = procName;
+  void addProc(const std::string &procName) override {
+    procStorage.insert(procName);
   }
 
   void addStmt(int stmtNum, StmtType statementType) override {
@@ -125,7 +125,7 @@ class MockPKBWriter : public PKBWriter {
 
   [[nodiscard]] bool isStmtToProcEqual(
       const unordered_map<int, string> &stmtToProcs) const {
-    return stmtToProcStorage == stmtToProcs;
+    return procStorage == stmtToProcs;
   }
 
   [[nodiscard]] bool isStmtTypeEquals(StmtType stmtType,

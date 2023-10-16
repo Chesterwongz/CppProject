@@ -11,9 +11,9 @@ TEST_CASE("PKBReader Tests") {
   PKBWriter writer(storage, store);
   PKBReader reader(storage, store);
 
-  writer.addVariable("x");
-  writer.addVariable("y");
-  writer.addVariable("z");
+  writer.addVar("x");
+  writer.addVar("y");
+  writer.addVar("z");
 
   writer.addStmt(1, StmtType::ASSIGN);
   writer.addStmt(2, StmtType::WHILE);
@@ -61,15 +61,15 @@ TEST_CASE("PKBReader Tests") {
   }
 
   SECTION("getAllConstants") {
-    writer.addConstant("1");
-    writer.addConstant("3");
-    writer.addConstant("10");
+    writer.addConst("1");
+    writer.addConst("3");
+    writer.addConst("10");
     REQUIRE(reader.getAllConstants() == std::set<std::string> {"1", "3", "10"});
   }
 
   SECTION("getAllProcedures") {
-    writer.addProcForStmt("proc1", 1);
-    writer.addProcForStmt("proc2", 5);
+    writer.addProc("proc1");
+    writer.addProc("proc2");
     REQUIRE(reader.getAllProcedures() ==
             std::set<std::string> {"proc1", "proc2"});
   }
