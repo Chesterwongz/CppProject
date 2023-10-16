@@ -26,7 +26,7 @@ void FollowsExtractor::visitWhile(const WhileNode& node) {
 }
 
 void FollowsExtractor::visitStmtList(const StmtListNode& node) {
-  nestingBlocksStack.push(common::INVALID_STMT_NUM); // new nesting block
+  nestingBlocksStack.push(common::INVALID_STMT_NUM);  // new nesting block
 }
 
 void FollowsExtractor::postVisitStmtList(const StmtListNode& node) {

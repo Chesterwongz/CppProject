@@ -46,10 +46,13 @@ bool HelperFunctions::compareVectorContents(vector<T> a, vector<T> b) {
 
 bool HelperFunctions::validateEntities(
     PKBReader& reader, const vector<string>& expectedVars,
-    const vector<string>& expectedConstants, const vector<string>& expectedProcedures,
-    const vector<string>& expectedReadStmts, const vector<string>& expectedPrintStmts,
+    const vector<string>& expectedConstants,
+    const vector<string>& expectedProcedures,
+    const vector<string>& expectedReadStmts,
+    const vector<string>& expectedPrintStmts,
     const vector<string>& expectedAssignStmts,
-    const vector<string>& expectedCallStmts, const vector<string>& expectedWhileStmts,
+    const vector<string>& expectedCallStmts,
+    const vector<string>& expectedWhileStmts,
     const vector<string>& expectedIfStmts) {
   bool areVariablesEqual = reader.getAllVariables() == expectedVars;
   bool areConstantsEqual = reader.getAllConstants() == expectedConstants;

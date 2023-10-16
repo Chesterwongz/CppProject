@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -19,7 +20,8 @@ class StmtStore {
 
   [[nodiscard]] bool isStmtType(int stmt, StmtType stmtType) const;
 
-  [[nodiscard]] std::unordered_set<int> getStmtsForType(StmtType stmtType) const;
+  [[nodiscard]] std::unordered_set<int> getStmtsForType(
+      StmtType stmtType) const;
 
   [[nodiscard]] std::unordered_set<int> getAllStmtsOf(StmtType stmtType) const;
 

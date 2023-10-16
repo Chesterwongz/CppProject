@@ -7,7 +7,6 @@
 #include <catch.hpp>
 
 #include "../../utils/HelperFunctions.h"
-#include "common/AliasTypes.h"
 #include "pkb/facade/PKB.h"
 #include "sp/SourceProcessor.h"
 
@@ -552,13 +551,15 @@ TEST_CASE("SP-PKB integration - assign pattern with all operators") {
   PKB pkb;
   sp.processContent(input, pkb.getWriter());
   PKBReader &reader = pkb.getReader();
-  vector<string> expectedVars = {"a", "b", "c", "d", "e", "f", "g", "x", "y", "z"};
+  vector<string> expectedVars = {"a", "b", "c", "d", "e",
+                                 "f", "g", "x", "y", "z"};
   vector<string> expectedConstants = {};
   vector<string> expectedProcedures = {"simple"};
   vector<string> expectedReadStmts = {"1", "2", "3", "4", "5", "6"};
   vector<string> expectedPrintStmts = {};
-  vector<string> expectedAssignStmts = {"7",  "8",  "9",  "10", "11", "12", "13",
-                                     "14", "15", "16", "17", "18", "19", "20"};
+  vector<string> expectedAssignStmts = {"7",  "8",  "9",  "10", "11",
+                                        "12", "13", "14", "15", "16",
+                                        "17", "18", "19", "20"};
   vector<string> expectedCallStmts = {};
   vector<string> expectedWhileStmts = {};
   vector<string> expectedIfStmts = {};
@@ -747,13 +748,15 @@ TEST_CASE(
   PKB pkb;
   sp.processContent(input, pkb.getWriter());
   PKBReader &reader = pkb.getReader();
-  vector<string> expectedVars = {"a", "b", "c", "d", "e", "f", "g", "x", "y", "z"};
+  vector<string> expectedVars = {"a", "b", "c", "d", "e",
+                                 "f", "g", "x", "y", "z"};
   vector<string> expectedConstants = {"2", "3"};
   vector<string> expectedProcedures = {"nestedWhile"};
   vector<string> expectedReadStmts = {"1", "2", "3", "4", "5", "6"};
-  vector<string> expectedPrintStmts = {"22", "23", "24", "25", "26", "27", "28"};
+  vector<string> expectedPrintStmts = {"22", "23", "24", "25",
+                                       "26", "27", "28"};
   vector<string> expectedAssignStmts = {"7",  "9",  "11", "12", "14",
-                                     "15", "18", "19", "20", "21"};
+                                        "15", "18", "19", "20", "21"};
   vector<string> expectedCallStmts = {};
   vector<string> expectedWhileStmts = {"8", "13", "17"};
   vector<string> expectedIfStmts = {"10", "16"};

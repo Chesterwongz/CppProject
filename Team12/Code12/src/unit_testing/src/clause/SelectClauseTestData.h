@@ -9,9 +9,12 @@ using std::set, std::string, std::vector;
 inline vector<string> MOCK_EMPTY_RESULT = {};
 
 inline vector<string> MOCK_SELECT_CLAUSE_DATA = {"a", "b", "c", "d", "e"};
-inline vector<string> MOCK_SELECT_CLAUSE_DATA_2 = {"a2", "b2", "c2", "d2", "e2"};
-inline vector<string> MOCK_SELECT_CLAUSE_DATA_3 = {"a3", "b3", "c3", "d3", "e3"};
-inline vector<string> MOCK_SELECT_CLAUSE_DATA_4 = {"a4", "b4", "c4", "d4", "e4"};
+inline vector<string> MOCK_SELECT_CLAUSE_DATA_2 = {"a2", "b2", "c2", "d2",
+                                                   "e2"};
+inline vector<string> MOCK_SELECT_CLAUSE_DATA_3 = {"a3", "b3", "c3", "d3",
+                                                   "e3"};
+inline vector<string> MOCK_SELECT_CLAUSE_DATA_4 = {"a4", "b4", "c4", "d4",
+                                                   "e4"};
 
 inline vector<string> MOCK_RESULTS_1_COL = {"a", "b", "c", "d", "e"};
 

@@ -1,7 +1,6 @@
 #pragma once
 
-#include <map>
-#include <set>
+#include <stack>
 #include <vector>
 
 #include "sp/ast/StmtListNode.h"
