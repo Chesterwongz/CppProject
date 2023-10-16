@@ -55,12 +55,11 @@ TEST_CASE("test_whileEvaluator_processArgs_wildcardFirstArg") {
   unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
 
   WhileEvaluator whileEvaluator = WhileEvaluator(
-      std::move(wildcardPtr), whileMockPKBReader,
-                     patternSynonym.getValue());
+      std::move(wildcardPtr), whileMockPKBReader, patternSynonym.getValue());
 
-   vector<pair<string, string>> pkbResult = whileEvaluator.evaluateArguments();
+  vector<pair<string, string>> pkbResult = whileEvaluator.evaluateArguments();
 
-   REQUIRE(pkbResult == mockWhilePatternStmtsSynonym);
+  REQUIRE(pkbResult == mockWhilePatternStmtsSynonym);
 }
 
 TEST_CASE("test_whileEvaluator_evaluate_synonymFirstArg") {
@@ -131,9 +130,8 @@ TEST_CASE("test_whileEvaluator_evaluate_wildcardFirstArg") {
 
   unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
 
-  WhileEvaluator whileEvaluator =
-      WhileEvaluator(std::move(wildcardPtr), whileMockPKBReader,
-                     patternSynonym.getValue());
+  WhileEvaluator whileEvaluator = WhileEvaluator(
+      std::move(wildcardPtr), whileMockPKBReader, patternSynonym.getValue());
 
   IntermediateTable actualTable = whileEvaluator.evaluate();
 

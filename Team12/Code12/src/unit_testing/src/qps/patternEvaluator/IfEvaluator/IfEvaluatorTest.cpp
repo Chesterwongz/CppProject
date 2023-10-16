@@ -20,9 +20,9 @@ TEST_CASE("test_ifEvaluator_processArgs_synonymFirstArg") {
       IfEvaluator(std::move(variableSynonymPtr), ifMockPKBReader,
                   patternSynonym.getValue());
 
-   vector<pair<string, string>> pkbResult = ifEvaluator.evaluateArguments();
+  vector<pair<string, string>> pkbResult = ifEvaluator.evaluateArguments();
 
-   REQUIRE(pkbResult == mockIfPatternStmtsSynonym);
+  REQUIRE(pkbResult == mockIfPatternStmtsSynonym);
 }
 
 TEST_CASE("test_ifEvaluator_processArgs_identFirstArg") {
@@ -39,9 +39,9 @@ TEST_CASE("test_ifEvaluator_processArgs_identFirstArg") {
       IfEvaluator(std::move(patternFirstArgPtr), ifMockPKBReader,
                   patternSynonym.getValue());
 
-   vector<pair<string, string>> pkbResult = ifEvaluator.evaluateArguments();
+  vector<pair<string, string>> pkbResult = ifEvaluator.evaluateArguments();
 
-   REQUIRE(pkbResult == mockIfPatternStmtsIdent);
+  REQUIRE(pkbResult == mockIfPatternStmtsIdent);
 }
 
 TEST_CASE("test_ifEvaluator_processArgs_wildcardFirstArg") {
@@ -57,9 +57,9 @@ TEST_CASE("test_ifEvaluator_processArgs_wildcardFirstArg") {
   IfEvaluator ifEvaluator = IfEvaluator(std::move(wildcardPtr), ifMockPKBReader,
                                         patternSynonym.getValue());
 
-   vector<pair<string, string>> pkbResult = ifEvaluator.evaluateArguments();
+  vector<pair<string, string>> pkbResult = ifEvaluator.evaluateArguments();
 
-   REQUIRE(pkbResult == mockIfPatternStmtsSynonym);
+  REQUIRE(pkbResult == mockIfPatternStmtsSynonym);
 }
 
 TEST_CASE("test_ifEvaluator_evaluate_synonymFirstArg") {
