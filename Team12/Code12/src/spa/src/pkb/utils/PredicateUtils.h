@@ -14,7 +14,7 @@ class PredicateUtils {
   }
 
   template <typename T>
-  static std::function<bool(T)> truePredicate() {
+  static std::function<bool(T)> returnTrue() {
     return [](const T& val) { return true; };
   }
 };

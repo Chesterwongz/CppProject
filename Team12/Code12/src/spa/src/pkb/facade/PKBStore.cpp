@@ -19,3 +19,5 @@ CallsStore& PKBStore::getCallsStore() { return callsStore; }
 CallsSStore& PKBStore::getCallsStmtStore() { return callsStmtStore; }
 
 StmtStore& PKBStore::getStmtStore() { return stmtStore; }
+
+EntityStore& PKBStore::getEntityStore() { return entityStore; }

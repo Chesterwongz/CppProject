@@ -5,8 +5,6 @@
 #include <regex>
 #include <string>
 
-using std::string;
-
 class StringUtils {
  public:
   static const char CHAR_ZERO;
@@ -15,6 +13,8 @@ class StringUtils {
   static bool isDigit(char ch);
   static bool isAlpha(char ch);
   static bool isAlphaNumeric(char ch);
+
+  static std::string intToStrMapper(const int& val);
 
  private:
   StringUtils() = default;

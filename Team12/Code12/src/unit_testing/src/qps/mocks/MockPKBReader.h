@@ -25,10 +25,10 @@ using std::vector, std::set, std::string, std::pair;
 
 class MockPKBReader : public PKBReader {
  public:
-  set<string> mockAllVariables;
-  set<string> mockAllConstants;
-  set<string> mockAllProcedures;
-  set<string> mockStatements;
+  vector<string> mockAllVariables;
+  vector<string> mockAllConstants;
+  vector<string> mockAllProcedures;
+  vector<string> mockStatements;
   vector<string> mockFollowing;
   vector<string> mockFollowed;
   vector<pair<string, string>> mockFollowsPairs;
@@ -68,13 +68,14 @@ class MockPKBReader : public PKBReader {
   explicit MockPKBReader(PKBStorage& storage, PKBStore& store)
       : PKBReader(storage, store) {}
 
-  set<string> getAllVariables() override { return mockAllVariables; }
+  std::vector<std::string> getAllVariables() override { return
+                                                       mockAllVariables; }
 
-  set<string> getAllConstants() override { return mockAllConstants; }
+  std::vector<std::string> getAllConstants() override { return mockAllConstants; }
 
-  set<string> getAllProcedures() override { return mockAllProcedures; }
+  std::vector<std::string> getAllProcedures() override { return mockAllProcedures; }
 
-  set<string> getStatement(StmtType statementType) override {
+  std::vector<std::string> getAllStmtsOf(StmtType statementType) override {
     return mockStatements;
   }
 

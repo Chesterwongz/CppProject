@@ -18,8 +18,16 @@ class StmtStore {
  public:
   void addStmt(int stmt, StmtType stmtType);
 
+  [[nodiscard]] std::unordered_set<int> getAllStmtsOf(StmtType stmtType) const;
+
   [[nodiscard]] bool hasStmtType(StmtType stmtType) const;
 
+  /**
+   * Throws error if stmtType does not exist.
+   * Must check if stmtType exists first with hasStmType.
+   * @param stmtType
+   * @return
+   */
   [[nodiscard]] std::function<bool(int)> getStmtFilterPredicate(
       StmtType stmtType) const;
 

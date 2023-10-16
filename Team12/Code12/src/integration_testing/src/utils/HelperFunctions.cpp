@@ -45,26 +45,26 @@ bool HelperFunctions::compareVectorContents(vector<T> a, vector<T> b) {
 }
 
 bool HelperFunctions::validateEntities(
-    PKBReader& reader, const set<string>& expectedVars,
-    const set<string>& expectedConstants, const set<string>& expectedProcedures,
-    const set<string>& expectedReadStmts, const set<string>& expectedPrintStmts,
-    const set<string>& expectedAssignStmts,
-    const set<string>& expectedCallStmts, const set<string>& expectedWhileStmts,
-    const set<string>& expectedIfStmts) {
+    PKBReader& reader, const vector<string>& expectedVars,
+    const vector<string>& expectedConstants, const vector<string>& expectedProcedures,
+    const vector<string>& expectedReadStmts, const vector<string>& expectedPrintStmts,
+    const vector<string>& expectedAssignStmts,
+    const vector<string>& expectedCallStmts, const vector<string>& expectedWhileStmts,
+    const vector<string>& expectedIfStmts) {
   bool areVariablesEqual = reader.getAllVariables() == expectedVars;
   bool areConstantsEqual = reader.getAllConstants() == expectedConstants;
   bool areProceduresEqual = reader.getAllProcedures() == expectedProcedures;
   bool areReadStmtsEqual =
-      reader.getStatement(StmtType::READ) == expectedReadStmts;
+      reader.getAllStmtsOf(StmtType::READ) == expectedReadStmts;
   bool arePrintStmtsEqual =
-      reader.getStatement(StmtType::PRINT) == expectedPrintStmts;
+      reader.getAllStmtsOf(StmtType::PRINT) == expectedPrintStmts;
   bool areAssignStmtsEqual =
-      reader.getStatement(StmtType::ASSIGN) == expectedAssignStmts;
+      reader.getAllStmtsOf(StmtType::ASSIGN) == expectedAssignStmts;
   bool areCallStmtsEqual =
-      reader.getStatement(StmtType::CALL) == expectedCallStmts;
+      reader.getAllStmtsOf(StmtType::CALL) == expectedCallStmts;
   bool areWhileStmtsEqual =
-      reader.getStatement(StmtType::WHILE) == expectedWhileStmts;
-  bool areIfStmtsEqual = reader.getStatement(StmtType::IF) == expectedIfStmts;
+      reader.getAllStmtsOf(StmtType::WHILE) == expectedWhileStmts;
+  bool areIfStmtsEqual = reader.getAllStmtsOf(StmtType::IF) == expectedIfStmts;
 
   return areVariablesEqual && areConstantsEqual && areProceduresEqual &&
          areReadStmtsEqual && arePrintStmtsEqual && areAssignStmtsEqual &&

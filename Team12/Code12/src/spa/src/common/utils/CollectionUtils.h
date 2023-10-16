@@ -1,10 +1,12 @@
 #pragma once
 
 #include <algorithm>
+#include <functional>
 #include <iterator>
 #include <string>
 #include <utility>
 #include <vector>
+#include <unordered_set>
 
 using std::vector;
 
@@ -69,6 +71,17 @@ class CollectionUtils {
                      return std::make_pair(std::to_string(intStrPair.first),
                                            intStrPair.second);
                    });
+    return res;
+  }
+
+  template <typename U, typename V>
+  static std::vector<V> unorderedSetUToVectorV(
+      const std::unordered_set<U>& setU, std::function<V(U)> mapper) {
+    std::vector<V> res;
+    res.reserve(setU.size());
+    for (const U& u : setU) {
+      res.push_back(mapper(u));
+    }
     return res;
   }
 };

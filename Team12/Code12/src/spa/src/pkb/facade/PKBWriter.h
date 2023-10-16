@@ -36,7 +36,7 @@ class PKBWriter : public DesignEntitiesWriter,
   PKBWriter(PKBStorage& storage, PKBStore& store)
       : storage(storage),
         store(store),
-        DesignEntitiesWriter(storage, store.getStmtStore()),
+        DesignEntitiesWriter(store.getEntityStore(), store.getStmtStore()),
         FollowsWriter(store.getFollowsStore()),
         ModifiesWriter(store.getModifiesStore(), store.getModifiesProcStore()),
         NextWriter(store.getNextStore()),

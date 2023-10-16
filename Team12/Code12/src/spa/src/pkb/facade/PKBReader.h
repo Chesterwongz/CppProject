@@ -30,7 +30,7 @@ class PKBReader : public DesignEntitiesReader,
                   public CallsReader {
  public:
   explicit PKBReader(PKBStorage& storage, PKBStore& store)
-      : DesignEntitiesReader(storage, storage),
+      : DesignEntitiesReader(store.getEntityStore(), store.getStmtStore()),
         FollowsReader(store.getFollowsStore(), store.getStmtStore()),
         ModifiesReader(storage, storage, storage),
         NextReader(store.getNextStore(), store.getStmtStore()),

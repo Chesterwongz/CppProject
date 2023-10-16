@@ -7,6 +7,7 @@ void DesignEntitiesWriter::addVar(const std::string& varName) {
 void DesignEntitiesWriter::addConst(const std::string& constValue) {
   entityStore.addConst(constValue);
 }
+
 void DesignEntitiesWriter::addProc(const std::string& procName) {
   entityStore.addProc(procName);
 }

@@ -74,14 +74,14 @@ TEST_CASE("PKBReader Tests") {
             std::set<std::string> {"proc1", "proc2"});
   }
 
-  SECTION("getStatement") {
-    REQUIRE(reader.getStatement(StmtType::ASSIGN) ==
+  SECTION("getAllStmtsOf") {
+    REQUIRE(reader.getAllStmtsOf(StmtType::ASSIGN) ==
             std::set<std::string> {"1", "3"});
-    REQUIRE(reader.getStatement(StmtType::WHILE) ==
+    REQUIRE(reader.getAllStmtsOf(StmtType::WHILE) ==
             std::set<std::string> {"2", "5"});
-    REQUIRE(reader.getStatement(StmtType::IF) == std::set<std::string> {"4"});
-    REQUIRE(reader.getStatement(StmtType::READ) == std::set<std::string> {"6"});
-    REQUIRE(reader.getStatement(StmtType::STMT) ==
+    REQUIRE(reader.getAllStmtsOf(StmtType::IF) == std::set<std::string> {"4"});
+    REQUIRE(reader.getAllStmtsOf(StmtType::READ) == std::set<std::string> {"6"});
+    REQUIRE(reader.getAllStmtsOf(StmtType::STMT) ==
             std::set<std::string> {"1", "2", "3", "4", "5", "6"});
   }
 

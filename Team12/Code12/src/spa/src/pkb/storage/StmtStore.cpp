@@ -2,17 +2,21 @@
 
 void StmtStore::addStmt(int stmt, StmtType stmtType) {
   stmtTypeToStmtMap[stmtType].insert(stmt);
+  stmtTypeToStmtMap[StmtType::STMT].insert(stmt);
 }
 
 bool StmtStore::hasStmtType(StmtType stmtType) const {
-  return stmtType == StmtType::STMT ? !stmtTypeToStmtMap.empty()
-                                    : stmtTypeToStmtMap.count(stmtType);
+  return stmtTypeToStmtMap.count(stmtType);
+}
+
+std::unordered_set<int> StmtStore::getAllStmtsOf(StmtType stmtType) const {
+  return stmtTypeToStmtMap.at(stmtType);
 }
 
 std::function<bool(int)> StmtStore::getStmtFilterPredicate(
     StmtType stmtType) const {
-  if (stmtType == StmtType::STMT) {
-    return PredicateUtils::truePredicate<int>();
+  if (stmtType == StmtType::STMT) {  // Optimization.
+    return PredicateUtils::returnTrue<int>();
   }
   const auto& stmtSet = stmtTypeToStmtMap.at(stmtType);
   return PredicateUtils::isInSet<int>(stmtSet);
@@ -28,5 +32,5 @@ StmtStore::getStmtStmtFilterPredicates(StmtType stmtType1,
 std::pair<std::function<bool(int)>, std::function<bool(std::string)>>
 StmtStore::getStmtStrFilterPredicates(StmtType stmtType1) const {
   return std::make_pair(getStmtFilterPredicate(stmtType1),
-                        PredicateUtils::truePredicate<std::string>());
+                        PredicateUtils::returnTrue<std::string>());
 }
