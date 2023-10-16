@@ -11,9 +11,9 @@ TEST_CASE("PKBReader Tests") {
   PKBWriter writer(storage, store);
   PKBReader reader(storage, store);
 
-  writer.addVariable("x");
-  writer.addVariable("y");
-  writer.addVariable("z");
+  writer.addVar("x");
+  writer.addVar("y");
+  writer.addVar("z");
 
   writer.addStmt(1, StmtType::ASSIGN);
   writer.addStmt(2, StmtType::WHILE);
@@ -56,51 +56,51 @@ TEST_CASE("PKBReader Tests") {
   writer.addAssignPattern("x", " a 2 + ", 4);
 
   SECTION("getAllVarUsedByStmt") {
-    REQUIRE(reader.getAllVariables() == std::set<std::string> {"x", "y", "z"});
+    REQUIRE(compareVectorContents(reader.getAllVariables(), {"x", "y", "z"}));
   }
 
   SECTION("getAllConstants") {
-    writer.addConstant("1");
-    writer.addConstant("3");
-    writer.addConstant("10");
-    REQUIRE(reader.getAllConstants() == std::set<std::string> {"1", "3", "10"});
+    writer.addConst("1");
+    writer.addConst("3");
+    writer.addConst("10");
+    REQUIRE(compareVectorContents(reader.getAllConstants(), {"1", "3", "10"}));
   }
 
   SECTION("getAllProcedures") {
-    writer.addProcForStmt("proc1", 1);
-    writer.addProcForStmt("proc2", 5);
-    REQUIRE(reader.getAllProcedures() ==
-            std::set<std::string> {"proc1", "proc2"});
+    writer.addProc("proc1");
+    writer.addProc("proc2");
+    REQUIRE(
+        compareVectorContents(reader.getAllProcedures(), {"proc1", "proc2"}));
   }
 
-  SECTION("getStatement") {
-    REQUIRE(reader.getStatement(StmtType::ASSIGN) ==
-            std::set<std::string> {"1", "3"});
-    REQUIRE(reader.getStatement(StmtType::WHILE) ==
-            std::set<std::string> {"2", "5"});
-    REQUIRE(reader.getStatement(StmtType::IF) == std::set<std::string> {"4"});
-    REQUIRE(reader.getStatement(StmtType::READ) == std::set<std::string> {"6"});
-    REQUIRE(reader.getStatement(StmtType::STMT) ==
-            std::set<std::string> {"1", "2", "3", "4", "5", "6"});
+  SECTION("getAllStmtsOf") {
+    REQUIRE(compareVectorContents(reader.getAllStmtsOf(StmtType::ASSIGN),
+                                  {"1", "3"}));
+    REQUIRE(compareVectorContents(reader.getAllStmtsOf(StmtType::WHILE),
+                                  {"2", "5"}));
+    REQUIRE(compareVectorContents(reader.getAllStmtsOf(StmtType::IF), {"4"}));
+    REQUIRE(compareVectorContents(reader.getAllStmtsOf(StmtType::READ), {"6"}));
+    REQUIRE(compareVectorContents(reader.getAllStmtsOf(StmtType::STMT),
+                                  {"1", "2", "3", "4", "5", "6"}));
   }
 
   SECTION("getFollowing") {
-    REQUIRE(reader.getFollowing(1, StmtType::STMT) ==
-            std::vector<std::string> {"2"});
-    REQUIRE(reader.getFollowing(3, StmtType::STMT) ==
-            std::vector<std::string> {"4"});
-    REQUIRE(reader.getFollowing(4, StmtType::STMT) ==
-            std::vector<std::string> {"5"});
+    REQUIRE(
+        compareVectorContents(reader.getFollowing(1, StmtType::STMT), {"2"}));
+    REQUIRE(
+        compareVectorContents(reader.getFollowing(3, StmtType::STMT), {"4"}));
+    REQUIRE(
+        compareVectorContents(reader.getFollowing(4, StmtType::STMT), {"5"}));
     REQUIRE(reader.getFollowing(5, StmtType::STMT).empty());
   }
 
   SECTION("getFollowed") {
-    REQUIRE(reader.getFollowed(2, StmtType::STMT) ==
-            std::vector<std::string> {"1"});
-    REQUIRE(reader.getFollowed(5, StmtType::STMT) ==
-            std::vector<std::string> {"4"});
-    REQUIRE(reader.getFollowed(4, StmtType::STMT) ==
-            std::vector<std::string> {"3"});
+    REQUIRE(
+        compareVectorContents(reader.getFollowed(2, StmtType::STMT), {"1"}));
+    REQUIRE(
+        compareVectorContents(reader.getFollowed(5, StmtType::STMT), {"4"}));
+    REQUIRE(
+        compareVectorContents(reader.getFollowed(4, StmtType::STMT), {"3"}));
     REQUIRE(reader.getFollowed(1, StmtType::STMT).empty());
   }
 
@@ -305,11 +305,11 @@ TEST_CASE("PKBReader Tests") {
   }
 
   SECTION("getVariablesModifiedBy") {
-    REQUIRE(compareVectorContents(
-        reader.getVariablesModifiedBy(1, StmtType::STMT), {{"1", "x"}}));
-    REQUIRE(compareVectorContents(
-        reader.getVariablesModifiedBy(2, StmtType::STMT), {{"2", "y"}}));
-    REQUIRE(reader.getVariablesModifiedBy(7, StmtType::STMT).empty());
+    REQUIRE(
+        compareVectorContents(reader.getVariablesModifiedBy(1), {{"1", "x"}}));
+    REQUIRE(
+        compareVectorContents(reader.getVariablesModifiedBy(2), {{"2", "y"}}));
+    REQUIRE(reader.getVariablesModifiedBy(7).empty());
   }
 
   SECTION("getStatementsUsing") {
@@ -330,19 +330,18 @@ TEST_CASE("PKBReader Tests") {
   }
 
   SECTION("getAllModifiedVariables") {
-    REQUIRE(compareVectorContents(
-        reader.getAllModifiedVariables(StmtType::STMT), {{"1", "x"},
-                                                         {"3", "x"},
-                                                         {"6", "x"},
-                                                         {"2", "y"},
-                                                         {"5", "y"},
-                                                         {"4", "z"}}));
-    REQUIRE(
-        compareVectorContents(reader.getAllModifiedVariables(StmtType::ASSIGN),
-                              {{"1", "x"}, {"3", "x"}}));
-    REQUIRE(compareVectorContents(reader.getAllModifiedVariables(StmtType::IF),
+    REQUIRE(compareVectorContents(reader.getModifiesPairs(StmtType::STMT),
+                                  {{"1", "x"},
+                                   {"3", "x"},
+                                   {"6", "x"},
+                                   {"2", "y"},
+                                   {"5", "y"},
+                                   {"4", "z"}}));
+    REQUIRE(compareVectorContents(reader.getModifiesPairs(StmtType::ASSIGN),
+                                  {{"1", "x"}, {"3", "x"}}));
+    REQUIRE(compareVectorContents(reader.getModifiesPairs(StmtType::IF),
                                   {{"4", "z"}}));
-    REQUIRE(reader.getAllModifiedVariables(StmtType::PRINT).empty());
+    REQUIRE(reader.getModifiesPairs(StmtType::PRINT).empty());
   }
 
   SECTION("getUsesPairs") {

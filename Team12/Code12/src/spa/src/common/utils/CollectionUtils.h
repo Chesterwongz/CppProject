@@ -1,10 +1,12 @@
 #pragma once
 
 #include <algorithm>
+#include <functional>
 #include <iterator>
 #include <string>
 #include <utility>
 #include <vector>
+#include <unordered_set>
 
 using std::vector;
 
@@ -38,15 +40,17 @@ class CollectionUtils {
 
   static vector<std::string> transformIntToStrVector(vector<int> toTransform) {
     std::vector<std::string> res;
+    res.reserve(toTransform.size());
     std::transform(toTransform.begin(), toTransform.end(),
                    std::back_inserter(res),
-                   [](int x) { return std::to_string(x); });
+                   [](const int& x) { return std::to_string(x); });
     return res;
   }
 
   static vector<std::pair<std::string, std::string>>
   transformIntIntToStrStrVector(vector<std::pair<int, int>> toTransform) {
     std::vector<std::pair<std::string, std::string>> res;
+    res.reserve(toTransform.size());
     std::transform(toTransform.begin(), toTransform.end(),
                    std::back_inserter(res),
                    [](const std::pair<int, int>& intPair) {
@@ -60,12 +64,24 @@ class CollectionUtils {
   transformIntStrToStrStrVector(
       vector<std::pair<int, std::string>> toTransform) {
     std::vector<std::pair<std::string, std::string>> res;
+    res.reserve(toTransform.size());
     std::transform(toTransform.begin(), toTransform.end(),
                    std::back_inserter(res),
                    [](const std::pair<int, std::string>& intStrPair) {
                      return std::make_pair(std::to_string(intStrPair.first),
                                            intStrPair.second);
                    });
+    return res;
+  }
+
+  template <typename U, typename V>
+  static std::vector<V> unorderedSetUToVectorV(
+      const std::unordered_set<U>& setU, std::function<V(U)> mapper) {
+    std::vector<V> res;
+    res.reserve(setU.size());
+    for (const U& u : setU) {
+      res.push_back(mapper(u));
+    }
     return res;
   }
 };

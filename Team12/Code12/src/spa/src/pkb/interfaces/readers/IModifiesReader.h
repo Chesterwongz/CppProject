@@ -22,6 +22,6 @@ class IModifiesReader {
   virtual std::vector<std::pair<std::string, std::string>> getModifiesPairs(
       StmtType stmtType) = 0;
 
-  virtual unordered_set<string> getModifiedVariablesForProc(
-      const string& procName) = 0;
+  virtual std::unordered_set<std::string> getModifiedVariablesForProc(
+      const std::string& procName) = 0;
 };

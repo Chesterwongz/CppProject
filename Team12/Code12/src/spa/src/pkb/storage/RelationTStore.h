@@ -30,11 +30,11 @@ class RelationTStore : public RelationStore<S, T> {
 
   virtual void precomputeRelationT(S from, T to) {
     addRelationT(from, to);
-    for (auto& s : this->directAncestorMap[from]) {
+    for (const auto& s : this->ancestorMap[from]) {
       addRelationT(s, to);
     }
-    for (auto& s : this->directSuccessorMap[to]) {
-      addRelationT(from, s);
+    for (const auto& t : this->successorMap[to]) {
+      addRelationT(from, t);
     }
   }
 
@@ -42,20 +42,34 @@ class RelationTStore : public RelationStore<S, T> {
     return successorMap.count(from) && successorMap.at(from).count(to);
   }
 
-  [[nodiscard]] std::vector<T> getSuccessorsOf(
+  [[nodiscard]] std::vector<T> getAllSuccessorsTOf(S from) const {
+    return RelationStore<S, T>::relationToVector(from, successorMap);
+  }
+
+  [[nodiscard]] std::vector<T> getSuccessorsTOf(
       S from, const std::function<bool(T)>& filter) const {
-    return RelationStore<S, T>::map(from, successorMap, filter);
+    return RelationStore<S, T>::relationToVectorFiltered(from, successorMap,
+                                                         filter);
   }
 
-  [[nodiscard]] std::vector<S> getAncestorsOf(
+  [[nodiscard]] std::vector<S> getAllAncestorsTOf(T to) const {
+    return RelationStore<S, T>::relationToVector(to, ancestorMap);
+  }
+
+  [[nodiscard]] std::vector<S> getAncestorsTOf(
       T to, const std::function<bool(S)>& filter) const {
-    return RelationStore<S, T>::map(to, ancestorMap, filter);
+    return RelationStore<S, T>::relationToVectorFiltered(to, ancestorMap,
+                                                         filter);
   }
 
-  [[nodiscard]] std::vector<std::pair<S, T>> getAllRelationsT(
+  [[nodiscard]] std::vector<std::pair<S, T>> getRelationsT(
       std::pair<const std::function<bool(S)>&, const std::function<bool(T)>&>
           filterStmtPair) const {
-    return RelationStore<S, T>::flatMap(successorMap, filterStmtPair.first,
-                                        filterStmtPair.second);
+    return RelationStore<S, T>::allRelationsToVectorFiltered(
+        successorMap, filterStmtPair.first, filterStmtPair.second);
+  }
+
+  [[nodiscard]] std::vector<std::pair<S, T>> getAllRelationsT() const {
+    return RelationStore<S, T>::allRelationsToVector(successorMap);
   }
 };

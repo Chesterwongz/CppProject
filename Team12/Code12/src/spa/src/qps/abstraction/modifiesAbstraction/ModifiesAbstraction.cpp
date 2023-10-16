@@ -2,7 +2,7 @@
 
 /**
  * Modifies abstraction:
-* firstArg: Synonym OR Integer (stmt) OR Identifier (Proc)
+ * firstArg: Synonym OR Integer (stmt) OR Identifier (Proc)
  * secondArg: Synonym OR Identifier OR Wildcard
  */
 
@@ -32,18 +32,17 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerSynonym() {
   int firstArgStmtNumber = stoi(this->firstArgValue);
   string secondArgVarSynonym = this->secondArgValue;
 
-  vector<pair<string, string>> result =
-      pkb.getVariablesModifiedBy(firstArgStmtNumber, StmtType::STMT);
+  vector<string> result = pkb.getVariablesModifiedBy(firstArgStmtNumber);
 
-  return IntermediateTableFactory::buildIntermediateTable(
-      WILDCARD_KEYWORD, secondArgVarSynonym, result);
+  return IntermediateTableFactory::buildSingleColTable(secondArgVarSynonym,
+                                                       result);
 }
 
 // Modifies (StmtNumber, VarIdentifier)
 IntermediateTable ModifiesAbstraction::evaluateIntegerIdent() {
-  string stmtNumber = this->firstArgValue;
+  int stmtNumber = std::stoi(this->firstArgValue);
 
-  if (pkb.isVariableModifiedBy(this->secondArgValue, stmtNumber)) {
+  if (pkb.isVariableModifiedBy(stmtNumber, this->secondArgValue)) {
     return IntermediateTableFactory::buildWildcardIntermediateTable();
   }
   return IntermediateTableFactory::buildEmptyIntermediateTable();
@@ -53,8 +52,7 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerIdent() {
 IntermediateTable ModifiesAbstraction::evaluateIntegerWildcard() {
   int firstArgStmtNumber = stoi(this->firstArgValue);
 
-  vector<pair<string, string>> result =
-      pkb.getVariablesModifiedBy(firstArgStmtNumber, StmtType::STMT);
+  vector<string> result = pkb.getVariablesModifiedBy(firstArgStmtNumber);
 
   if (result.empty()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
@@ -68,7 +66,7 @@ IntermediateTable ModifiesAbstraction::handleSynonymOrWildcardArgs() {
   string secondArgVarSynonym = this->secondArgValue;
 
   vector<pair<string, string>> statementsModifiedVar =
-      pkb.getAllModifiedVariables(firstArgStmtType);
+      pkb.getModifiesPairs(firstArgStmtType);
 
   //! If any of the args are "_", the column will be ignored.
   return IntermediateTableFactory::buildIntermediateTable(

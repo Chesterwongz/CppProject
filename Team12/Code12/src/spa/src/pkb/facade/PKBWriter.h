@@ -36,14 +36,14 @@ class PKBWriter : public DesignEntitiesWriter,
   PKBWriter(PKBStorage& storage, PKBStore& store)
       : storage(storage),
         store(store),
-        DesignEntitiesWriter(storage, store.getStmtStore()),
+        DesignEntitiesWriter(store.getEntityStore(), store.getStmtStore()),
         FollowsWriter(store.getFollowsStore()),
         ModifiesWriter(store.getModifiesStore(), store.getModifiesProcStore()),
         NextWriter(store.getNextStore()),
         ParentWriter(store.getParentStore()),
         PatternWriter(storage),
         UsesWriter(store.getUsesStore(), store.getUsesProcStore()),
-        CallsWriter(store.getCallsStore()) {}
+        CallsWriter(store.getCallsStore(), store.getCallsStmtStore()) {}
 
   void setIndirectCallsRelationship();
 

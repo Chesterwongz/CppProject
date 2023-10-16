@@ -10,6 +10,9 @@
 #include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
 #include "pkb/interfaces/storage/relation_storage/IModifiesStorage.h"
 #include "pkb/readers/relation_reader/stmt_proc_to_var/impl/ModifiesReaderImpl.h"
+#include "pkb/storage/ModifiesPStore.h"
+#include "pkb/storage/ModifiesStore.h"
+#include "pkb/storage/StmtStore.h"
 
 using std::unordered_set, std::string;
 
@@ -27,9 +30,8 @@ class ModifiesReader : public IModifiesReader {
         stmtStore(stmtStore) {}
 
  public:
-  std::vector<std::string> getVariablesModifiedBy(
-      int stmtNum) override;
-  
+  std::vector<std::string> getVariablesModifiedBy(int stmtNum) override;
+
   std::vector<std::string> getStatementsModifying(const std::string& varName,
                                                   StmtType stmtType) override;
 

@@ -31,7 +31,7 @@ class UsesReader : public IUsesReader {
   bool isVariableUsedBy(int stmt, const std::string& varName) override;
 
   std::vector<std::pair<std::string, std::string>> getUsesPairs(
-      StmtType stmtType) override;
+      StmtType stmtType1) override;
 
   std::unordered_set<std::string> getUsedVariablesForProc(
       const std::string& procName) override;

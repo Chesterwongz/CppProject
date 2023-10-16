@@ -1,24 +1,26 @@
 #include "DesignEntitiesReader.h"
 
-std::set<std::string> DesignEntitiesReader::getAllVariables() {
-  return entity_storage_.getAllVariables();
+std::vector<std::string> DesignEntitiesReader::getAllVariables() {
+  const auto& varSet = entityStore.getAllVars();
+  return {varSet.begin(), varSet.end()};
 }
 
-std::set<std::string> DesignEntitiesReader::getAllConstants() {
-  return entity_storage_.getAllConstants();
+std::vector<std::string> DesignEntitiesReader::getAllConstants() {
+  const auto& constSet = entityStore.getAllConsts();
+  return {constSet.begin(), constSet.end()};
 }
 
-std::set<std::string> DesignEntitiesReader::getAllProcedures() {
-  return entity_storage_.getAllProcedures();
+std::vector<std::string> DesignEntitiesReader::getAllProcedures() {
+  const auto& procSet = entityStore.getAllProcs();
+  return {procSet.begin(), procSet.end()};
 }
 
-std::set<std::string> DesignEntitiesReader::getStatement(
+std::vector<std::string> DesignEntitiesReader::getAllStmtsOf(
     StmtType statementType) {
-  std::set<std::string> result;
-
-  std::unordered_set<int> temp = stmtStore.getStmtsForType(statementType);
-  for (int stmt : temp) {
-    result.insert(std::to_string(stmt));
+  if (!stmtStore.hasStmtType(statementType)) {
+    return {};
   }
-  return result;
+  const auto& stmtSet = stmtStore.getAllStmtsOf(statementType);
+  return CollectionUtils::unorderedSetUToVectorV<int, std::string>(
+      stmtSet, StringUtils::intToStrMapper);
 }
