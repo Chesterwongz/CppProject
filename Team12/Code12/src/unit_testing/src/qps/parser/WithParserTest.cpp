@@ -9,8 +9,8 @@
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/patternClause/PatternClause.h"
-#include "qps/query/Query.h"
 #include "qps/parser/tokenizer/token/PQLToken.h"
+#include "qps/query/Query.h"
 
 TEST_CASE("Invalid with IDENT = INTEGER") {
   string ass1 = "newa";

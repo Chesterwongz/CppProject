@@ -9,8 +9,8 @@
 #include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
 #include "qps/parser/PQLParserContext.h"
-#include "qps/query/Query.h"
 #include "qps/parser/tokenizer/token/PQLToken.h"
+#include "qps/query/Query.h"
 
 TEST_CASE("Valid Uses(SYNONYM, SYNONYM)") {
   string d1 = "hello";

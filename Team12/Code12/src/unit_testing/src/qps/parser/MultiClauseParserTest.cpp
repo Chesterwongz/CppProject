@@ -9,8 +9,8 @@
 #include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/patternClause/PatternClause.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
-#include "qps/query/Query.h"
 #include "qps/parser/tokenizer/token/PQLToken.h"
+#include "qps/query/Query.h"
 
 TEST_CASE("Wiki Example - only such that clauses") {
   string syn1 = "a";

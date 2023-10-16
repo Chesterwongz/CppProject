@@ -7,8 +7,8 @@
 #include "pkb/facade/PKBReader.h"
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/declarativeParserState/DeclarativeParserState.h"
-#include "qps/query/Query.h"
 #include "qps/parser/tokenizer/token/PQLToken.h"
+#include "qps/query/Query.h"
 
 extern PKBStorage dummyQpsParserStorage;
 extern PKBReader dummyQpsParserPkbReader;

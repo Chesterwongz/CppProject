@@ -10,8 +10,8 @@
 #include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/patternClause/PatternClause.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
-#include "qps/query/Query.h"
 #include "qps/parser/tokenizer/token/PQLToken.h"
+#include "qps/query/Query.h"
 
 using std::unique_ptr, std::make_unique, std::move, std::vector;
 
