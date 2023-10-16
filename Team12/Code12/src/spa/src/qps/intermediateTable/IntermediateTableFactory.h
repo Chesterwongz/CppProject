@@ -15,7 +15,7 @@ class IntermediateTableFactory {
  private:
   /**
    * Helper function for building intermediate tables from vector data
-   * @tparam T            either unique_ptr<SynonymArg> or string
+   * @tparam T            either SynonymArg or string
    */
   template <typename T>
   static IntermediateTable tableBuilderHelper(const vector<string> &colNames,

@@ -63,7 +63,24 @@ TEST_CASE(
   REQUIRE(tableFromVectorsWithWildcard.getDataAsStrings().at(0).size() == 3);
 }
 
-TEST_CASE("IntermediateTableFactory - buildSingleColTable") {
+TEST_CASE(
+    "IntermediateTableFactory - buildIntermediateTable - "
+    "from_synonymRes_vs_from_string") {
+  IntermediateTable tableFromString =
+      IntermediateTableFactory::buildIntermediateTable(
+          MULTI_COL_NAME_VECTOR_WITH_WILDCARD, MULTI_COL_DATA_1);
+  IntermediateTable tableFromSynonymRes =
+      IntermediateTableFactory::buildIntermediateTable(
+          MULTI_COL_NAME_VECTOR_WITH_WILDCARD,
+          convertToSynonymResCol(MULTI_COL_DATA_1));
+
+  REQUIRE(tableFromString.getDataAsStrings() ==
+          tableFromSynonymRes.getDataAsStrings());
+  REQUIRE(tableFromString.getTableData() == tableFromSynonymRes.getTableData());
+  REQUIRE(tableFromString.getColNames() == tableFromSynonymRes.getColNames());
+}
+
+TEST_CASE("IntermediateTableFactory - buildSingleColTable - strings") {
   IntermediateTable table =
       IntermediateTableFactory::buildSingleColTable(COL_NAME_3, COL_3);
   REQUIRE(table.getDataAsStrings() == COL_3_2D);
@@ -77,6 +94,17 @@ TEST_CASE("IntermediateTableFactory - buildSingleColTable - wildcard") {
   IntermediateTable table =
       IntermediateTableFactory::buildSingleColTable(WILDCARD_KEYWORD, COL_3);
   REQUIRE(table.isTableWildcard());
+}
+
+TEST_CASE(
+    "IntermediateTableFactory - buildSingleColTable - strings_to_synonym") {
+  // to check that the synonyms produced are correct
+  IntermediateTable table =
+      IntermediateTableFactory::buildSingleColTable(COL_NAME_1, COL_1);
+  REQUIRE(table.getDataAsStrings() == COL_1_2D);
+  REQUIRE(table.getTableData() == convertToSynonymResCol(COL_1));
+  REQUIRE_FALSE(table.isTableWildcard());
+  REQUIRE_FALSE(table.isTableEmptyAndNotWildcard());
 }
 
 TEST_CASE(
