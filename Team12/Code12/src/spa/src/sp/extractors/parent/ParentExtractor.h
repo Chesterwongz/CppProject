@@ -11,9 +11,7 @@
 
 class ParentExtractor : public Extractor {
  private:
-  std::vector<int> parents;
-  void addParent(int parent, int child);
-  void addParentStar(int parent, int child);
+  std::stack<int> parents;
 
  public:
   explicit ParentExtractor(PKBWriter& pkbWriter);
