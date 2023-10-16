@@ -30,11 +30,11 @@ class RelationTStore : public RelationStore<S, T> {
 
   virtual void precomputeRelationT(S from, T to) {
     addRelationT(from, to);
-    for (auto& s : this->directAncestorMap[from]) {
+    for (const auto& s : this->directAncestorMap[from]) {
       addRelationT(s, to);
     }
-    for (auto& s : this->directSuccessorMap[to]) {
-      addRelationT(from, s);
+    for (const auto& t : this->directSuccessorMap[to]) {
+      addRelationT(from, t);
     }
   }
 
