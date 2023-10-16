@@ -228,7 +228,8 @@ TEST_CASE("Valid pattern not a and not if") {
   /**
    * assign a1, a2; while w1, w2;
    * Select a2 pattern not a1 ("x", _) and not a2 ("x", _"x"_)
-   * such that not Follows (a1, a2) and not Parent* (w2, a2) and not Parent* (w1, w2)
+   * such that not Follows (a1, a2) and not Parent* (w2, a2) and not Parent*
+   * (w1, w2)
    */
 
   string ass1 = "a1";

@@ -703,4 +703,3 @@ TEST_CASE("Valid not Follows(SYNONYM, SYNONYM)") {
   bool res = *query == expected;
   REQUIRE(res);
 }
-
