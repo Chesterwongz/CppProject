@@ -17,8 +17,8 @@ TEST_CASE("PatternStorage Tests") {
   SECTION("setAssignPattern and getAllStmtUsingVar") {
     std::vector<std::pair<std::string, std::string>> actual =
         patternStorage.getAllAssignStatements();
-    REQUIRE(StrStrPairSet{actual.begin(), actual.end()} ==
-            StrStrPairSet{
+    REQUIRE(StrStrPairSet {actual.begin(), actual.end()} ==
+            StrStrPairSet {
                 {"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}, {"5", "x"}});
   }
 
@@ -30,27 +30,27 @@ TEST_CASE("PatternStorage Tests") {
     std::vector<std::pair<std::string, std::string>> actual3 =
         patternStorage.getAllAssignStatementsWithVariable("z");
 
-    REQUIRE(StrStrPairSet{actual1.begin(), actual1.end()} ==
-            StrStrPairSet{{"1", "x"}, {"4", "x"}, {"5", "x"}});
-    REQUIRE(StrStrPairSet{actual2.begin(), actual2.end()} ==
-            StrStrPairSet{{"2", "y"}});
-    REQUIRE(StrStrPairSet{actual3.begin(), actual3.end()} ==
-            StrStrPairSet{{"3", "z"}});
+    REQUIRE(StrStrPairSet {actual1.begin(), actual1.end()} ==
+            StrStrPairSet {{"1", "x"}, {"4", "x"}, {"5", "x"}});
+    REQUIRE(StrStrPairSet {actual2.begin(), actual2.end()} ==
+            StrStrPairSet {{"2", "y"}});
+    REQUIRE(StrStrPairSet {actual3.begin(), actual3.end()} ==
+            StrStrPairSet {{"3", "z"}});
     REQUIRE(patternStorage.getAllAssignStatementsWithVariable("w").empty());
   }
 
   SECTION("getExactAssignPattern") {
     std::vector<std::pair<std::string, std::string>> actual1 =
         patternStorage.getExactAssignPattern("x", " a b c * + ");
-    REQUIRE(StrStrPairSet{actual1.begin(), actual1.end()} ==
-            StrStrPairSet{{"1", "x"}, {"5", "x"}});
+    REQUIRE(StrStrPairSet {actual1.begin(), actual1.end()} ==
+            StrStrPairSet {{"1", "x"}, {"5", "x"}});
 
     REQUIRE(patternStorage.getExactAssignPattern("x", "b").empty());
 
     std::vector<std::pair<std::string, std::string>> actual3 =
         patternStorage.getExactAssignPattern("y", " d e + f + ");
-    REQUIRE(StrStrPairSet{actual3.begin(), actual3.end()} ==
-            StrStrPairSet{{"2", "y"}});
+    REQUIRE(StrStrPairSet {actual3.begin(), actual3.end()} ==
+            StrStrPairSet {{"2", "y"}});
 
     std::vector<std::pair<std::string, std::string>> actual4 =
         patternStorage.getExactAssignPattern("z", " a b c * + ");
@@ -58,31 +58,31 @@ TEST_CASE("PatternStorage Tests") {
 
     std::vector<std::pair<std::string, std::string>> actual5 =
         patternStorage.getExactAssignPattern("_", " a b c * + ");
-    REQUIRE(StrStrPairSet{actual5.begin(), actual5.end()} ==
-            StrStrPairSet{{"1", "x"}, {"5", "x"}});
+    REQUIRE(StrStrPairSet {actual5.begin(), actual5.end()} ==
+            StrStrPairSet {{"1", "x"}, {"5", "x"}});
 
     std::vector<std::pair<std::string, std::string>> actual6 =
         patternStorage.getExactAssignPattern("_", "_");
-    REQUIRE(StrStrPairSet{actual6.begin(), actual6.end()} ==
-            StrStrPairSet{
+    REQUIRE(StrStrPairSet {actual6.begin(), actual6.end()} ==
+            StrStrPairSet {
                 {"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}, {"5", "x"}});
 
     std::vector<std::pair<std::string, std::string>> actual7 =
         patternStorage.getExactAssignPattern("x", "_");
-    REQUIRE(StrStrPairSet{actual7.begin(), actual7.end()} ==
-            StrStrPairSet{{"1", "x"}, {"4", "x"}, {"5", "x"}});
+    REQUIRE(StrStrPairSet {actual7.begin(), actual7.end()} ==
+            StrStrPairSet {{"1", "x"}, {"4", "x"}, {"5", "x"}});
   }
 
   SECTION("getPartialAssignPattern") {
     std::vector<std::pair<std::string, std::string>> actual1 =
         patternStorage.getPartialAssignPattern("x", " a b c * + ");
-    REQUIRE(StrStrPairSet{actual1.begin(), actual1.end()} ==
-            StrStrPairSet{{"1", "x"}, {"5", "x"}});
+    REQUIRE(StrStrPairSet {actual1.begin(), actual1.end()} ==
+            StrStrPairSet {{"1", "x"}, {"5", "x"}});
 
     std::vector<std::pair<std::string, std::string>> actual2 =
         patternStorage.getPartialAssignPattern("x", " 2 ");
-    REQUIRE(StrStrPairSet{actual2.begin(), actual2.end()} ==
-            StrStrPairSet{{"4", "x"}});
+    REQUIRE(StrStrPairSet {actual2.begin(), actual2.end()} ==
+            StrStrPairSet {{"4", "x"}});
 
     std::vector<std::pair<std::string, std::string>> actual3 =
         patternStorage.getPartialAssignPattern("x", " 3 ");
@@ -90,28 +90,28 @@ TEST_CASE("PatternStorage Tests") {
 
     std::vector<std::pair<std::string, std::string>> actual4 =
         patternStorage.getPartialAssignPattern("y", " f ");
-    REQUIRE(StrStrPairSet{actual4.begin(), actual4.end()} ==
-            StrStrPairSet{{"2", "y"}});
+    REQUIRE(StrStrPairSet {actual4.begin(), actual4.end()} ==
+            StrStrPairSet {{"2", "y"}});
 
     std::vector<std::pair<std::string, std::string>> actual5 =
         patternStorage.getPartialAssignPattern("_", " a ");
-    REQUIRE(StrStrPairSet{actual5.begin(), actual5.end()} ==
-            StrStrPairSet{{"1", "x"}, {"3", "z"}, {"4", "x"}, {"5", "x"}});
+    REQUIRE(StrStrPairSet {actual5.begin(), actual5.end()} ==
+            StrStrPairSet {{"1", "x"}, {"3", "z"}, {"4", "x"}, {"5", "x"}});
 
     std::vector<std::pair<std::string, std::string>> actual6 =
         patternStorage.getPartialAssignPattern("_", " a ");
-    REQUIRE(StrStrPairSet{actual6.begin(), actual6.end()} ==
-            StrStrPairSet{{"1", "x"}, {"3", "z"}, {"4", "x"}, {"5", "x"}});
+    REQUIRE(StrStrPairSet {actual6.begin(), actual6.end()} ==
+            StrStrPairSet {{"1", "x"}, {"3", "z"}, {"4", "x"}, {"5", "x"}});
 
     std::vector<std::pair<std::string, std::string>> actual7 =
         patternStorage.getPartialAssignPattern("x", "_");
-    REQUIRE(StrStrPairSet{actual7.begin(), actual7.end()} ==
-            StrStrPairSet{{"1", "x"}, {"4", "x"}, {"5", "x"}});
+    REQUIRE(StrStrPairSet {actual7.begin(), actual7.end()} ==
+            StrStrPairSet {{"1", "x"}, {"4", "x"}, {"5", "x"}});
 
     std::vector<std::pair<std::string, std::string>> actual8 =
         patternStorage.getPartialAssignPattern("_", "_");
-    REQUIRE(StrStrPairSet{actual8.begin(), actual8.end()} ==
-            StrStrPairSet{
+    REQUIRE(StrStrPairSet {actual8.begin(), actual8.end()} ==
+            StrStrPairSet {
                 {"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}, {"5", "x"}});
   }
 }
@@ -136,17 +136,17 @@ TEST_CASE("PatternStorage") {
     std::vector<std::pair<std::string, std::string>> resultVec4 =
         patternStorage.getWhilePattern("_");
 
-    REQUIRE(StrStrPairSet{resultVec1.begin(), resultVec1.end()} ==
-            StrStrPairSet{{"6", "x"}, {"8", "x"}, {"9", "x"}});
+    REQUIRE(StrStrPairSet {resultVec1.begin(), resultVec1.end()} ==
+            StrStrPairSet {{"6", "x"}, {"8", "x"}, {"9", "x"}});
 
-    REQUIRE(StrStrPairSet{resultVec2.begin(), resultVec2.end()} ==
-            StrStrPairSet{{"6", "y"}, {"7", "y"}});
+    REQUIRE(StrStrPairSet {resultVec2.begin(), resultVec2.end()} ==
+            StrStrPairSet {{"6", "y"}, {"7", "y"}});
 
-    REQUIRE(StrStrPairSet{resultVec3.begin(), resultVec3.end()} ==
-            StrStrPairSet{{"8", "z"}});
+    REQUIRE(StrStrPairSet {resultVec3.begin(), resultVec3.end()} ==
+            StrStrPairSet {{"8", "z"}});
 
-    REQUIRE(StrStrPairSet{resultVec4.begin(), resultVec4.end()} ==
-            StrStrPairSet{{"6", "x"},
+    REQUIRE(StrStrPairSet {resultVec4.begin(), resultVec4.end()} ==
+            StrStrPairSet {{"6", "x"},
                           {"6", "y"},
                           {"7", "y"},
                           {"8", "x"},
@@ -171,17 +171,17 @@ TEST_CASE("PatternStorage") {
     std::vector<std::pair<std::string, std::string>> resultVec4 =
         patternStorage.getIfPattern("_");
 
-    REQUIRE(StrStrPairSet{resultVec1.begin(), resultVec1.end()} ==
-            StrStrPairSet{{"6", "a"}, {"9", "a"}});
+    REQUIRE(StrStrPairSet {resultVec1.begin(), resultVec1.end()} ==
+            StrStrPairSet {{"6", "a"}, {"9", "a"}});
 
-    REQUIRE(StrStrPairSet{resultVec2.begin(), resultVec2.end()} ==
-            StrStrPairSet{{"7", "b"}, {"10", "b"}});
+    REQUIRE(StrStrPairSet {resultVec2.begin(), resultVec2.end()} ==
+            StrStrPairSet {{"7", "b"}, {"10", "b"}});
 
-    REQUIRE(StrStrPairSet{resultVec3.begin(), resultVec3.end()} ==
-            StrStrPairSet{{"8", "c"}});
+    REQUIRE(StrStrPairSet {resultVec3.begin(), resultVec3.end()} ==
+            StrStrPairSet {{"8", "c"}});
 
-    REQUIRE(StrStrPairSet{resultVec4.begin(), resultVec4.end()} ==
-            StrStrPairSet{{"6", "a"},
+    REQUIRE(StrStrPairSet {resultVec4.begin(), resultVec4.end()} ==
+            StrStrPairSet {{"6", "a"},
                           {"7", "b"},
                           {"8", "c"},
                           {"9", "a"},
