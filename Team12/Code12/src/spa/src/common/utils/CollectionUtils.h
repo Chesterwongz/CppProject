@@ -38,15 +38,17 @@ class CollectionUtils {
 
   static vector<std::string> transformIntToStrVector(vector<int> toTransform) {
     std::vector<std::string> res;
+    res.reserve(toTransform.size());
     std::transform(toTransform.begin(), toTransform.end(),
                    std::back_inserter(res),
-                   [](int x) { return std::to_string(x); });
+                   [](const int& x) { return std::to_string(x); });
     return res;
   }
 
   static vector<std::pair<std::string, std::string>>
   transformIntIntToStrStrVector(vector<std::pair<int, int>> toTransform) {
     std::vector<std::pair<std::string, std::string>> res;
+    res.reserve(toTransform.size());
     std::transform(toTransform.begin(), toTransform.end(),
                    std::back_inserter(res),
                    [](const std::pair<int, int>& intPair) {
@@ -60,6 +62,7 @@ class CollectionUtils {
   transformIntStrToStrStrVector(
       vector<std::pair<int, std::string>> toTransform) {
     std::vector<std::pair<std::string, std::string>> res;
+    res.reserve(toTransform.size());
     std::transform(toTransform.begin(), toTransform.end(),
                    std::back_inserter(res),
                    [](const std::pair<int, std::string>& intStrPair) {
