@@ -17,7 +17,7 @@ class AssignEvaluator : public PatternEvaluator {
                            unique_ptr<AbstractArgument> secondArg,
                            PKBReader& pkbReader, bool isPartialMatch,
                            string synonymValue)
-      : PatternEvaluator(std::move(firstArg), pkbReader, synonymValue),
+      : PatternEvaluator(std::move(firstArg), pkbReader, std::move(synonymValue)),
         secondArg(std::move(secondArg)),
         isPartialMatch(isPartialMatch) {}
   ~AssignEvaluator() override = default;

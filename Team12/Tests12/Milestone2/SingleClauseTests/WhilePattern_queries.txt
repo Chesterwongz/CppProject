@@ -38,3 +38,13 @@ while w; assign a;
 Select w pattern w(a, _)
 SemanticError
 1000
+====== 9 - while (_,randomSyn) syntax error ======
+while w; assign a;
+Select w pattern w(_, a)
+SyntaxError
+1000
+====== 10 - while (_,randomIdent) syntax error ======
+while w; assign a;
+Select w pattern w(_, "hello")
+SyntaxError
+1000

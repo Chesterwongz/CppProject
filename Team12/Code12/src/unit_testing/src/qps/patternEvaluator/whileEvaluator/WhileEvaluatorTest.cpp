@@ -20,12 +20,9 @@ TEST_CASE("test_whileEvaluator_processArgs_synonymFirstArg") {
       WhileEvaluator(std::move(variableSynonymPtr), whileMockPKBReader,
                      patternSynonym.getValue());
 
-  // TODO(houten) change type to vector<pair<string, string>>
-  // once merge saketh pr
+  vector<pair<string, string>> pkbResult = whileEvaluator.evaluateArguments();
 
-  // vector<string> pkbResult = whileEvaluator.evaluateArguments();
-
-  // REQUIRE(pkbResult == mockWhilePatternStmtsSynonym);
+  REQUIRE(pkbResult == mockWhilePatternStmtsSynonym);
 }
 
 TEST_CASE("test_whileEvaluator_processArgs_identFirstArg") {
@@ -42,12 +39,9 @@ TEST_CASE("test_whileEvaluator_processArgs_identFirstArg") {
       WhileEvaluator(std::move(patternFirstArgPtr), whileMockPKBReader,
                      patternSynonym.getValue());
 
-  // TODO(houten) change type to vector<pair<string, string>>
-  // once merge saketh pr
+  vector<pair<string, string>> pkbResult = whileEvaluator.evaluateArguments();
 
-  // vector<string> pkbResult = whileEvaluator.evaluateArguments();
-
-  // REQUIRE(pkbResult == mockWhilePatternStmtsIdent);
+  REQUIRE(pkbResult == mockWhilePatternStmtsIdent);
 }
 
 TEST_CASE("test_whileEvaluator_processArgs_wildcardFirstArg") {
@@ -63,12 +57,10 @@ TEST_CASE("test_whileEvaluator_processArgs_wildcardFirstArg") {
   WhileEvaluator whileEvaluator = WhileEvaluator(
       std::move(wildcardPtr), whileMockPKBReader,
                      patternSynonym.getValue());
-  // TODO(houten) change type to vector<pair<string, string>>
-  // once merge saketh pr
 
-  // vector<string> pkbResult = whileEvaluator.evaluateArguments();
+   vector<pair<string, string>> pkbResult = whileEvaluator.evaluateArguments();
 
-  // REQUIRE(pkbResult == mockWhilePatternStmtsSynonym);
+   REQUIRE(pkbResult == mockWhilePatternStmtsSynonym);
 }
 
 TEST_CASE("test_whileEvaluator_evaluate_synonymFirstArg") {

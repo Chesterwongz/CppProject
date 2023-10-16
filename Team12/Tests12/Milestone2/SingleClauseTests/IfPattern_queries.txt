@@ -1,40 +1,60 @@
-====== 1 - if (_,_) ======
+====== 1 - if (_,_,_) ======
 if if;
 Select if pattern if(_, _, _)
 2, 4, 8
 1000
-====== 2 - if (_,_) differnt if synonym ======
+====== 2 - if (_,_,_) differnt if synonym ======
 if if1, if2;
 Select if1 pattern if2(_, _, _)
 1, 2, 4, 8
 1000
-====== 3 - if (var,_) ======
+====== 3 - if (var,_,_) ======
 if if; variable v;
 Select if pattern if(v, _, _)
 2, 4, 8
 1000
-====== 4 - if (var,_) different if synonym ======
+====== 4 - if (var,_,_) different if synonym ======
 if if1, if2; variable d;
 Select if1 pattern if2(d, _, _)
 1, 2, 4, 8
 1000
-====== 5 - if (ident,_) ======
+====== 5 - if (ident,_,_) ======
 if if;
 Select if pattern if("oi", _, _);
 8
 1000
-====== 6 - if (ident,_) different if synonym ======
+====== 6 - if (ident,_,_) different if synonym ======
 if if1, if2;
 Select if1 pattern if2(hoho, _, _);
 1, 2, 4, 8
 1000
-====== 7 - if (ident,_) different if synonym none======
+====== 7 - if (ident,_,_) different if synonym none======
 if if1, if2;
 Select if1 pattern if2(hehe, _, _)
 none
 1000
-====== 8 - if (assignStmt,_) semantic error ======
+====== 8 - if (assignStmt,_,_) semantic error ======
 if if; assign a;
-Select if pattern if(a, _)
+Select if pattern if(a, _, _)
 SemanticError
+1000
+====== 9 - if (_,randomSyn,_) syntax error ======
+if if; assign a;
+Select if pattern if(_, a, _)
+SyntaxError
+1000
+====== 10 - if (_,randomIdent,_) syntax error ======
+if if;
+Select if pattern if(_, "oi", _)
+SyntaxError
+1000
+====== 11 - if (_,_,randomSyn) syntax error ======
+if if; stmt s;
+Select if pattern if(_, _, s)
+SyntaxError
+1000
+====== 11 - if (_,_,randomIdent) syntax error ======
+if if;
+Select if pattern if(_, _, "rip")
+SyntaxError
 1000

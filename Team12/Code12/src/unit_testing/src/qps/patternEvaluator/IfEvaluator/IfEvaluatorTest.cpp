@@ -20,11 +20,9 @@ TEST_CASE("test_ifEvaluator_processArgs_synonymFirstArg") {
       IfEvaluator(std::move(variableSynonymPtr), ifMockPKBReader,
                   patternSynonym.getValue());
 
-  // TODO(houten) change type to vector<pair<string, string>>
-  // once merge saketh pr
-  // vector<string> pkbResult = ifEvaluator.evaluateArguments();
+   vector<pair<string, string>> pkbResult = ifEvaluator.evaluateArguments();
 
-  // REQUIRE(pkbResult == mockIfPatternStmtsSynonym);
+   REQUIRE(pkbResult == mockIfPatternStmtsSynonym);
 }
 
 TEST_CASE("test_ifEvaluator_processArgs_identFirstArg") {
@@ -41,12 +39,9 @@ TEST_CASE("test_ifEvaluator_processArgs_identFirstArg") {
       IfEvaluator(std::move(patternFirstArgPtr), ifMockPKBReader,
                   patternSynonym.getValue());
 
-  // TODO(houten) change type to vector<pair<string, string>>
-  // once merge saketh pr
+   vector<pair<string, string>> pkbResult = ifEvaluator.evaluateArguments();
 
-  // vector<string> pkbResult = ifEvaluator.evaluateArguments();
-
-  // REQUIRE(pkbResult == mockIfPatternStmtsIdent);
+   REQUIRE(pkbResult == mockIfPatternStmtsIdent);
 }
 
 TEST_CASE("test_ifEvaluator_processArgs_wildcardFirstArg") {
@@ -62,12 +57,9 @@ TEST_CASE("test_ifEvaluator_processArgs_wildcardFirstArg") {
   IfEvaluator ifEvaluator = IfEvaluator(std::move(wildcardPtr), ifMockPKBReader,
                                         patternSynonym.getValue());
 
-  // TODO(houten) change type to vector<pair<string, string>>
-  // once merge saketh pr
+   vector<pair<string, string>> pkbResult = ifEvaluator.evaluateArguments();
 
-  // vector<string> pkbResult = ifEvaluator.evaluateArguments();
-
-  // REQUIRE(pkbResult == mockIfPatternStmtsSynonym);
+   REQUIRE(pkbResult == mockIfPatternStmtsSynonym);
 }
 
 TEST_CASE("test_ifEvaluator_evaluate_synonymFirstArg") {

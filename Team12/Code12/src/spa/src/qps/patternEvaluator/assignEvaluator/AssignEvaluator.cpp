@@ -9,7 +9,6 @@ vector<pair<string, string>> AssignEvaluator::evaluateArguments() {
   string secondArgValue = secondArg->getValue();
 
   bool isFirstArgSynonym = firstArg->isSynonym();
-  bool isSecondArgWildcard = secondArg->isWildcard();
 
   if (isFirstArgSynonym) {
     firstArgValue = WILDCARD_KEYWORD;

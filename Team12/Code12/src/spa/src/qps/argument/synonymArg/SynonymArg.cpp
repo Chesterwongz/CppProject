@@ -1,7 +1,7 @@
 #include "SynonymArg.h"
 
 #include <string>
-#include <iostream>
+
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
 string SynonymArg::getValue() { return synonymValue; }
