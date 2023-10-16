@@ -175,3 +175,61 @@ TEST_CASE("Invalid Pattern if (SYNONYM,_)") {
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
       QPSSyntaxError, Catch::Message(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT));
 }
+
+TEST_CASE("Valid Pattern not if (_,_,_)") {
+  string ifs = "ifs";
+  string var = "x";
+  vector<PQLToken> tokenList = {
+      PQLToken(PQL_NAME_TOKEN, IF_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, ifs),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, var),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, ifs),
+      PQLToken(PQL_NAME_TOKEN, PATTERN_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, NOT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, ifs),
+      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+  };
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+
+  REQUIRE(true);
+}
+
+TEST_CASE("Valid Pattern not if (_,_,_) - not as outer synonym") {
+  string ifs = "not";
+  string var = "x";
+  vector<PQLToken> tokenList = {
+      PQLToken(PQL_NAME_TOKEN, IF_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, ifs),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, var),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, ifs),
+      PQLToken(PQL_NAME_TOKEN, PATTERN_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, NOT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, ifs),
+      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+  };
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+
+  REQUIRE(true);
+}

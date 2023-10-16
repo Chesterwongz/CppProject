@@ -570,3 +570,53 @@ TEST_CASE("Valid Modifies(INTEGER, SYNONYM)") {
   bool res = *query == expected;
   REQUIRE(res);
 }
+
+TEST_CASE("Valid not Uses(SYNONYM, SYNONYM)") {
+  string d1 = "hello";
+  string d2 = "assign";
+  vector<PQLToken> tokenList = {
+      PQLToken(PQL_NAME_TOKEN, STMT_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, d2),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, NOT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
+      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_NAME_TOKEN, d2),
+      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+  };
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+
+  // expected query object
+  Query expected(dummyQpsParserPkbReader);
+  unique_ptr<Context> expectedContext = std::make_unique<Context>();
+  expectedContext->addSynonym(d1, STMT_ENTITY);
+  expectedContext->addSynonym(d2, VARIABLE_ENTITY);
+  expected.addContext(std::move(expectedContext));
+
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>(d1, STMT_ENTITY);
+  SynonymsToSelect synonymsToSelect = {};
+  synonymsToSelect.emplace_back(std::move(synonymArg));
+  expected.setSynonymToQuery(std::move(synonymsToSelect));
+
+  unique_ptr<SynonymArg> firstArg =
+      std::make_unique<SynonymArg>(d1, STMT_ENTITY);
+  unique_ptr<SynonymArg> secondArg =
+      std::make_unique<SynonymArg>(d2, VARIABLE_ENTITY);
+  unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
+      USES_ENUM, std::move(firstArg), std::move(secondArg));
+  expected.addClause(std::move(suchThatClause));
+
+  bool res = *query == expected;
+  REQUIRE(res);
+}

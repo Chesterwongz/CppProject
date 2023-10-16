@@ -4,6 +4,9 @@
 
 PredictiveMap WithParserState::predictiveMap = {
     {PQL_WITH_TOKEN,
+     {PQL_NOT_TOKEN, PQL_SYNONYM_TOKEN, PQL_LITERAL_REF_TOKEN,
+      PQL_INTEGER_TOKEN}},
+    {PQL_NOT_TOKEN,
      {PQL_SYNONYM_TOKEN, PQL_LITERAL_REF_TOKEN, PQL_INTEGER_TOKEN}},
     {PQL_SYNONYM_TOKEN, {PQL_EQUALS_TOKEN}},
     {PQL_INTEGER_TOKEN, {PQL_EQUALS_TOKEN}},
@@ -14,7 +17,7 @@ PredictiveMap WithParserState::predictiveMap = {
 
 WithParserState::WithParserState(PQLParserContext& parserContext,
                                  PQLTokenType prev)
-    : BaseParserState(parserContext, prev) {
+    : BaseParserState(parserContext, prev), isNegated(false) {
   prevClauseType = WITH_CLAUSE;
 }
 
@@ -33,6 +36,9 @@ void WithParserState::handleToken() {
     unique_ptr<SynonymArg> syn;
 
     switch (token.getType()) {
+      case PQL_NOT_TOKEN:
+        isNegated = true;
+        break;
       case PQL_SYNONYM_TOKEN:
         syn = std::make_unique<SynonymArg>(
             token.getValue(),

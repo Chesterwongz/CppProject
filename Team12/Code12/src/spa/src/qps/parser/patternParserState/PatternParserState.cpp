@@ -15,12 +15,13 @@ PatternParserState::PatternParserState(PQLParserContext& parserContext,
 }
 
 void PatternParserState::processNameToken(PQLToken& curr) {
-  if (prev == PQL_NULL_TOKEN) {
+  auto next = parserContext.peekNextToken();
+  if (next.has_value() && next->getType() == PQL_OPEN_BRACKET_TOKEN) {
+    processSynonymToken(curr);
+  } else {
     PQLTokenType toUpdate =
         PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
     curr.updateTokenType(toUpdate);
-  } else {
-    processSynonymToken(curr);
   }
 }
 

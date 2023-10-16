@@ -15,6 +15,7 @@ class WithParserState : public BaseParserState {
  private:
   static PredictiveMap predictiveMap;
   static const int expectedNumberOfArgs = 2;
+  bool isNegated = false;
   vector<unique_ptr<AbstractArgument>> arguments;
   vector<ArgumentType> argumentTypes;
   void checkSameTypeComparison();

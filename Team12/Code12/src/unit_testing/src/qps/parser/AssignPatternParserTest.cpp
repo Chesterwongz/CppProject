@@ -476,3 +476,58 @@ TEST_CASE("Invalid Pattern a (SYNONYM, - incomplete query") {
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
       QPSSyntaxError, Catch::Message(QPS_TOKENIZATION_ERR_INCOMPLETE_QUERY));
 }
+
+TEST_CASE("Valid Pattern not a (_, PARTIAL_MATCH)") {
+  string a1 = "newa";
+  string var1 = "var";
+  vector<PQLToken> tokenList = {
+      PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, a1),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, var1),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, a1),
+      PQLToken(PQL_NAME_TOKEN, PATTERN_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, NOT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, a1),
+      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+  };
+
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+
+  // expected query object
+  Query expected(dummyQpsParserPkbReader);
+  unique_ptr<Context> expectedContext = std::make_unique<Context>();
+  expectedContext->addSynonym(a1, ASSIGN_ENTITY);
+  expectedContext->addSynonym(var1, VARIABLE_ENTITY);
+  expected.addContext(std::move(expectedContext));
+
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
+  SynonymsToSelect synonymsToSelect = {};
+  synonymsToSelect.emplace_back(std::move(synonymArg));
+  expected.setSynonymToQuery(std::move(synonymsToSelect));
+
+  unique_ptr<SynonymArg> outerSynonym =
+      std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
+  unique_ptr<Wildcard> firstArg = std::make_unique<Wildcard>();
+  unique_ptr<PatternExp> secondArg = std::make_unique<PatternExp>("x");
+  PatternArgsStream patternArg;
+  patternArg.push_back(std::move(firstArg));
+  patternArg.push_back(std::move(secondArg));
+  unique_ptr<PatternClause> patternClause = std::make_unique<PatternClause>(
+      std::move(outerSynonym), std::move(patternArg), true);
+  expected.addClause(std::move(patternClause));
+
+  bool res = *query == expected;
+  REQUIRE(res);
+}
