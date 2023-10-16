@@ -2,17 +2,17 @@
 
 #include <string>
 
-#include "pkb/storage/ModifiesPStore.h"
-#include "pkb/storage/ModifiesStore.h"
 #include "pkb/interfaces/writers/IModifiesWriter.h"
+#include "pkb/storage/ModifiesPStore.h"
+#include "pkb/storage/ModifiesSStore.h"
 
 class ModifiesWriter : public IModifiesWriter {
  private:
-  ModifiesStore& modifiesStore;
+  ModifiesSStore& modifiesStore;
   ModifiesPStore& modifiesPStore;
 
  protected:
-  ModifiesWriter(ModifiesStore& modifiesStore, ModifiesPStore& modifiesPStore)
+  ModifiesWriter(ModifiesSStore& modifiesStore, ModifiesPStore& modifiesPStore)
       : modifiesStore(modifiesStore), modifiesPStore(modifiesPStore) {}
 
  public:

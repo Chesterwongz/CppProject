@@ -9,16 +9,16 @@
 #include "pkb/interfaces/readers/IUsesReader.h"
 #include "pkb/storage/StmtStore.h"
 #include "pkb/storage/UsesPStore.h"
-#include "pkb/storage/UsesStore.h"
+#include "pkb/storage/UsesSStore.h"
 
 class UsesReader : public IUsesReader {
  private:
-  UsesStore& usesStore;
+  UsesSStore& usesStore;
   UsesPStore& usesPStore;
   StmtStore& stmtStore;
 
  protected:
-  explicit UsesReader(UsesStore& usesStore, UsesPStore& usesPStore,
+  explicit UsesReader(UsesSStore& usesStore, UsesPStore& usesPStore,
                       StmtStore& stmtStore)
       : usesStore(usesStore), usesPStore(usesPStore), stmtStore(stmtStore) {}
 
