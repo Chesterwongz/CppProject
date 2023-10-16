@@ -16,4 +16,6 @@ UsesPStore& PKBStore::getUsesProcStore() { return usesProcStore; }
 
 CallsStore& PKBStore::getCallsStore() { return callsStore; }
 
+CallsSStore& PKBStore::getCallsStmtStore() { return callsStmtStore; }
+
 StmtStore& PKBStore::getStmtStore() { return stmtStore; }

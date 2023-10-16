@@ -1,5 +1,6 @@
 #pragma once
 
+#include "pkb/storage/CallsSStore.h"
 #include "pkb/storage/CallsStore.h"
 #include "pkb/storage/FollowsStore.h"
 #include "pkb/storage/ModifiesPStore.h"
@@ -23,6 +24,7 @@ class PKBStore {
   UsesPStore usesProcStore;
 
   CallsStore callsStore;
+  CallsSStore callsStmtStore;
 
   StmtStore stmtStore;
 
@@ -35,5 +37,6 @@ class PKBStore {
   [[nodiscard]] UsesStore& getUsesStore();
   [[nodiscard]] UsesPStore& getUsesProcStore();
   [[nodiscard]] CallsStore& getCallsStore();
+  [[nodiscard]] CallsSStore& getCallsStmtStore();
   [[nodiscard]] StmtStore& getStmtStore();
 };

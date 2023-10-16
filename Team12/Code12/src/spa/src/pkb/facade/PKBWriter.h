@@ -43,7 +43,7 @@ class PKBWriter : public DesignEntitiesWriter,
         ParentWriter(store.getParentStore()),
         PatternWriter(storage),
         UsesWriter(store.getUsesStore(), store.getUsesProcStore()),
-        CallsWriter(store.getCallsStore()) {}
+        CallsWriter(store.getCallsStore(), store.getCallsStmtStore()) {}
 
   void setIndirectCallsRelationship();
 
