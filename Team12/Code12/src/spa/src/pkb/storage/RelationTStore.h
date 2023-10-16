@@ -42,7 +42,7 @@ class RelationTStore : public RelationStore<S, T> {
     return successorMap.count(from) && successorMap.at(from).count(to);
   }
 
-  [[nodiscard]] std::vector<T> getSuccessorTOf(S from) const {
+  [[nodiscard]] std::vector<T> getAllSuccessorsTOf(S from) const {
     return RelationStore<S, T>::relationToVector(from, successorMap);
   }
 
