@@ -7,6 +7,7 @@
 #include "pkb/readers/relation_reader/proc_to_proc/CallsReader.h"
 #include "pkb/readers/relation_reader/stmt_proc_to_var/ModifiesReader.h"
 #include "pkb/readers/relation_reader/stmt_proc_to_var/UsesReader.h"
+#include "pkb/readers/relation_reader/stmt_to_stmt/AffectsReader.h"
 #include "pkb/readers/relation_reader/stmt_to_stmt/FollowsReader.h"
 #include "pkb/readers/relation_reader/stmt_to_stmt/NextReader.h"
 #include "pkb/readers/relation_reader/stmt_to_stmt/ParentReader.h"
