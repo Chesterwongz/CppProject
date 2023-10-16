@@ -9,7 +9,8 @@ bool StmtStore::hasStmtType(StmtType stmtType) const {
   return stmtTypeToStmtMap.count(stmtType);
 }
 
-std::unordered_set<int> StmtStore::getAllStmtsOf(StmtType stmtType) const {
+const std::unordered_set<int>& StmtStore::getAllStmtsOf(StmtType stmtType)
+    const {
   return stmtTypeToStmtMap.at(stmtType);
 }
 
