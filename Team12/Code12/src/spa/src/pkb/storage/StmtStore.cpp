@@ -13,13 +13,6 @@ bool StmtStore::isStmtType(int stmt, StmtType stmtType) const {
          stmtTypeToStmtMap.at(stmtType).end();
 }
 
-std::unordered_set<int> StmtStore::getStmtsForType(StmtType stmtType) const {
-  if (stmtTypeToStmtMap.find(stmtType) == stmtTypeToStmtMap.end()) {
-    return {};
-  }
-  return stmtTypeToStmtMap.at(stmtType);
-}
-
 bool StmtStore::hasStmtType(StmtType stmtType) const {
   return stmtTypeToStmtMap.count(stmtType);
 }

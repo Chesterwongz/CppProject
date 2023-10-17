@@ -11,19 +11,19 @@
 #include "pkb/interfaces/storage/relation_storage/IModifiesStorage.h"
 #include "pkb/readers/relation_reader/stmt_proc_to_var/impl/ModifiesReaderImpl.h"
 #include "pkb/storage/ModifiesPStore.h"
-#include "pkb/storage/ModifiesStore.h"
+#include "pkb/storage/ModifiesSStore.h"
 #include "pkb/storage/StmtStore.h"
 
 using std::unordered_set, std::string;
 
 class ModifiesReader : public IModifiesReader {
  private:
-  ModifiesStore& modifiesStore;
+  ModifiesSStore& modifiesStore;
   ModifiesPStore& modifiesPStore;
   StmtStore& stmtStore;
 
  protected:
-  explicit ModifiesReader(ModifiesStore& modifiesStore,
+  explicit ModifiesReader(ModifiesSStore& modifiesStore,
                           ModifiesPStore& modifiesPStore, StmtStore& stmtStore)
       : modifiesStore(modifiesStore),
         modifiesPStore(modifiesPStore),

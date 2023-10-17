@@ -6,7 +6,7 @@ StmtOrProcToVarReaderTemplate::getStmtsRelatedToVarByStmtType(
   std::vector<std::string> result;
 
   std::unordered_set<int> allMatchingStatements =
-      stmtStore.getStmtsForType(stmtType);
+      stmtStore.getAllStmtsOf(stmtType);
 
   for (int statement : allMatchingStatements) {
     std::set<std::string> variables = getVarsRelatedToStmt(statement);
@@ -53,7 +53,7 @@ StmtOrProcToVarReaderTemplate::getAllRelationsByStmtType(
 
     for (int stmt : statementNumbers) {
       std::unordered_set<int> sameStatementType =
-          stmtStore.getStmtsForType(statementType);
+          stmtStore.getAllStmtsOf(statementType);
       if (sameStatementType.find(stmt) != sameStatementType.end()) {
         result.emplace_back(std::to_string(stmt), v);
       }

@@ -1,31 +1,60 @@
 #include "PKBWriter.h"
 
 // ai-gen start(gpt-4, 2)
-void PKBWriter::processCallProcRelations(
-    const string& caller, const unordered_set<string>& callees,
-    unordered_set<string> (PKBStorage::*retrieveVars)(const string&),
-    void (PKBWriter::*setProcRelationship)(const string&, const string&)) {
-  unordered_set<string> allVars;
-  for (const auto& callee : callees) {
-    unordered_set<string> vars = (storage.*retrieveVars)(callee);
-    allVars.insert(vars.begin(), vars.end());
-  }
-  for (const auto& var : allVars) {
-    (this->*setProcRelationship)(var, caller);
-  }
-}
+//void PKBWriter::processCallProcRelations(
+//    const string& caller, const unordered_set<string>& callees,
+//    unordered_set<string> (UsesPStore::*retrieveVars)(const string&),
+//    void (PKBWriter::*setProcRelationship)(const string&, const string&)) {
+//  unordered_set<string> allVars;
+//  for (const auto& callee : callees) {
+//    unordered_set<string> vars = (storage.*retrieveVars)(callee);
+//    allVars.insert(vars.begin(), vars.end());
+//  }
+//  for (const auto& var : allVars) {
+//    (this->*setProcRelationship)(var, caller);
+//  }
+//}
 
 void PKBWriter::setUsesForCalls(const string& callerProc,
                                 const unordered_set<string>& calleeProcs) {
-  processCallProcRelations(callerProc, calleeProcs,
-                           &PKBStorage::getVarsUsedByProc, &PKBWriter::addUses);
+  unordered_set<string> allVars;
+  for (const auto& callee : calleeProcs) {
+    const UsesPStore& usesPStore = store.getUsesProcStore();
+    vector<string> vars = usesPStore.getAllDirectSuccessorsOf(callee);
+    allVars.insert(vars.begin(), vars.end());
+  }
+  for (const auto& var : allVars) {
+    addUses(var, callerProc);
+  }
 }
 
+// void PKBWriter::setUsesForCalls(const string& callerProc,
+//                                 const unordered_set<string>& calleeProcs) {
+//   const UsesPStore& usesPStore = store.getUsesProcStore();
+//
+//   processCallProcRelations(callerProc, calleeProcs,
+//                            &UsesPStore::getDirectSuccessorsOf,
+//                            &PKBWriter::addUses);
+// }
+
+//void PKBWriter::setModifiesForCalls(const string& callerProc,
+//                                    const unordered_set<string>& calleeProcs) {
+//  processCallProcRelations(callerProc, calleeProcs,
+//                           &PKBStorage::getVarsModifiedByProc,
+//                           &PKBWriter::addModifies);
+//}
+
 void PKBWriter::setModifiesForCalls(const string& callerProc,
-                                    const unordered_set<string>& calleeProcs) {
-  processCallProcRelations(callerProc, calleeProcs,
-                           &PKBStorage::getVarsModifiedByProc,
-                           &PKBWriter::addModifies);
+                                const unordered_set<string>& calleeProcs) {
+  unordered_set<string> allVars;
+  for (const auto& callee : calleeProcs) {
+    const ModifiesPStore& modifiesPStore = store.getModifiesProcStore();
+    vector<string> vars = modifiesPStore.getAllDirectSuccessorsOf(callee);
+    allVars.insert(vars.begin(), vars.end());
+  }
+  for (const auto& var : allVars) {
+    addUses(var, callerProc);
+  }
 }
 // ai-gen end
 

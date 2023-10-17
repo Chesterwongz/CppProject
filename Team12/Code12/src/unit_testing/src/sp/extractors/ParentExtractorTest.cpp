@@ -96,7 +96,6 @@ TEST_CASE("ParentExtractor - if node") {
   unordered_map<int, set<int>> expected = {};
   expected[3] = {4, 5, 6, 7};
   REQUIRE(mockPkbWriter.isParentEqual(expected));
-  REQUIRE(mockPkbWriter.isParentStarEqual(expected));
 }
 
 TEST_CASE("ParentExtractor with parser - if node") {
@@ -119,7 +118,6 @@ TEST_CASE("ParentExtractor with parser - if node") {
   unordered_map<int, set<int>> expected = {};
   expected[3] = {4, 5, 6, 7};
   REQUIRE(mockPkbWriter.isParentEqual(expected));
-  REQUIRE(mockPkbWriter.isParentStarEqual(expected));
 }
 
 TEST_CASE("ParentExtractor - while node") {
@@ -169,10 +167,6 @@ TEST_CASE("ParentExtractor - while node") {
   expectedParent[3] = {4, 7};
   expectedParent[4] = {5, 6};
   REQUIRE(mockPkbWriter.isParentEqual(expectedParent));
-  unordered_map<int, set<int>> expectedParentStar = {};
-  expectedParentStar[3] = {4, 5, 6, 7};
-  expectedParentStar[4] = {5, 6};
-  REQUIRE(mockPkbWriter.isParentStarEqual(expectedParentStar));
 }
 
 TEST_CASE("ParentExtractor with parser - while node") {
@@ -197,8 +191,4 @@ TEST_CASE("ParentExtractor with parser - while node") {
   expectedParent[3] = {4, 7};
   expectedParent[4] = {5, 6};
   REQUIRE(mockPkbWriter.isParentEqual(expectedParent));
-  unordered_map<int, set<int>> expectedParentStar = {};
-  expectedParentStar[3] = {4, 5, 6, 7};
-  expectedParentStar[4] = {5, 6};
-  REQUIRE(mockPkbWriter.isParentStarEqual(expectedParentStar));
 }

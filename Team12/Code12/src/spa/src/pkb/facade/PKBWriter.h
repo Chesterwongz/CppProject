@@ -56,10 +56,10 @@ class PKBWriter : public DesignEntitiesWriter,
                        const unordered_set<string>& calleeProc);
   void setModifiesForCalls(const string& callerProc,
                            const unordered_set<string>& calleeProc);
-  void processCallProcRelations(
-      const string& caller, const unordered_set<string>& callees,
-      unordered_set<string> (PKBStorage::*retrieveVars)(const string&),
-      void (PKBWriter::*setProcRelationship)(const string&, const string&));
+//  void processCallProcRelations(
+//      const string& caller, const unordered_set<string>& callees,
+//      unordered_set<string> (PKBStorage::*retrieveVars)(const string&),
+//      void (PKBWriter::*setProcRelationship)(const string&, const string&));
   void processCallStmtRelations(
       int stmtNum, const string& callee,
       const unordered_set<string>& indirectCallees,

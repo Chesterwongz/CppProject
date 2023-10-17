@@ -20,9 +20,6 @@ class StmtStore {
 
   [[nodiscard]] bool isStmtType(int stmt, StmtType stmtType) const;
 
-  [[nodiscard]] const std::unordered_set<int>& getStmtsForType(
-      StmtType stmtType) const;
-
   [[nodiscard]] const std::unordered_set<int>& getAllStmtsOf(
       StmtType stmtType) const;
 
