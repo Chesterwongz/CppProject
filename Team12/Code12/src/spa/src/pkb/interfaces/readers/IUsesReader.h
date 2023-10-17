@@ -17,7 +17,7 @@ class IUsesReader {
       const std::string& variableName, StmtType statementType) = 0;
 
   // return all p that satisfy Uses(p, v) where v is variableName
-  virtual std::vector<std::string> getProceduresUsing(
+  virtual std::vector<std::string> getProcUsing(
       const std::string& variableName) = 0;
 
   // return all pairs (s, v) that satisfy Uses(s, v) where s is statementNumber
@@ -26,7 +26,7 @@ class IUsesReader {
       int statementNumber, StmtType statementType) = 0;
 
   // return all variables used by specified procedure
-  virtual std::vector<std::string> getUsedVariablesForProc(
+  virtual std::vector<std::string> getVarsUsedByProc(
       const std::string& procName) = 0;
 
   // check if Used(s, v) is true where s is statementNumber and v is the
@@ -36,8 +36,8 @@ class IUsesReader {
 
   // check if Used(p, v) is true where p is procName and v is the
   // variable name
-  virtual bool isVariableUsedByProc(const std::string& variableName,
-                                    const std::string& procName) = 0;
+  virtual bool isVariableUsedByProc(const std::string& procName,
+                                    const std::string& variableName) = 0;
 
   // return all pairs (s, v) that satisfy Uses (s, v) where s is of a particular
   // type
@@ -46,5 +46,5 @@ class IUsesReader {
 
   // return all pairs (p, v) that satisfy Uses (p, v)
   virtual std::vector<std::pair<std::string, std::string>>
-  getAllUsedVariablesByProcs() = 0;
+  getUsesProcPairs() = 0;
 };

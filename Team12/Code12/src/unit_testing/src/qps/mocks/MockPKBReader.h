@@ -5,8 +5,8 @@
 #include <set>
 #include <string>
 #include <unordered_map>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "pkb/facade/PKBReader.h"
 
@@ -34,15 +34,15 @@ class MockPKBReader : public PKBReader {
   vector<string> mockStatementsModifying;
   vector<string> mockProceduresModifying;
   vector<pair<string, string>> mockVariablesModifiedBy;
-  vector<string> mockModifiedVariablesForProc;
+  vector<string> mockVarsModifiedByProc;
   vector<string> mockStatementsUsing;
-  vector<string> mockProceduresUsing;
+  vector<string> mockProcUsing;
   vector<pair<string, string>> mockVariablesUsedBy;
-  vector<string> mockUsedVariablesForProc;
+  vector<string> mockVarUsedByProc;
   vector<pair<string, string>> mockAllModifiedVariables;
-  vector<pair<string, string>> mockAllModifiedVariablesByProcs;
+  vector<pair<string, string>> mockModifiesProcPairs;
   vector<pair<string, string>> mockAllUsedVariables;
-  vector<pair<string, string>> mockAllUsedVariablesByProcs;
+  vector<pair<string, string>> mockUsesProcPairs;
   vector<pair<string, string>> mockExactAssignPattern;
   vector<pair<string, string>> mockPartialAssignPattern;
   bool mockIsFollowsStar{};
@@ -137,8 +137,7 @@ class MockPKBReader : public PKBReader {
     return mockStatementsModifying;
   }
 
-  vector<string> getProceduresModifying(
-      const string& variableName) override {
+  vector<string> getProcModifying(const std::string& varName) override {
     return mockProceduresModifying;
   }
 
@@ -148,9 +147,8 @@ class MockPKBReader : public PKBReader {
   }
 
   // return all variables modified by specified procedure
-  vector<string> getModifiedVariablesForProc(
-      const string& procName) override {
-    return mockModifiedVariablesForProc;
+  vector<string> getVarsModifiedByProc(const string& procName) override {
+    return mockVarsModifiedByProc;
   }
 
   vector<string> getStatementsUsing(const string& variableName,
@@ -158,9 +156,8 @@ class MockPKBReader : public PKBReader {
     return mockStatementsUsing;
   }
 
-  vector<string> getProceduresUsing(
-      const string& variableName) override {
-    return mockProceduresUsing;
+  vector<string> getProcUsing(const std::string& variableName) override {
+    return mockProcUsing;
   }
 
   vector<pair<string, string>> getVariablesUsedBy(
@@ -168,9 +165,8 @@ class MockPKBReader : public PKBReader {
     return mockVariablesUsedBy;
   }
 
-  vector<string> getUsedVariablesForProc(
-      const string& procName) override {
-    return mockUsedVariablesForProc;
+  vector<string> getVarsUsedByProc(const std::string& procName) override {
+    return mockVarUsedByProc;
   }
 
   vector<pair<string, string>> getAllModifiedVariables(
@@ -178,8 +174,8 @@ class MockPKBReader : public PKBReader {
     return mockAllModifiedVariables;
   }
 
-  vector<pair<string, string>> getAllModifiedVariablesByProcs() override {
-    return mockAllModifiedVariablesByProcs;
+  vector<pair<string, string>> getModifiesProcPairs() override {
+    return mockModifiesProcPairs;
   }
 
   vector<pair<string, string>> getAllUsedVariables(
@@ -187,9 +183,8 @@ class MockPKBReader : public PKBReader {
     return mockAllUsedVariables;
   }
 
-  vector<pair<string, string>> getAllUsedVariablesByProcs()
-      override {
-    return mockAllUsedVariablesByProcs;
+  vector<pair<string, string>> getUsesProcPairs() override {
+    return mockUsesProcPairs;
   }
 
   vector<pair<string, string>> getExactAssignPattern(
@@ -229,8 +224,8 @@ class MockPKBReader : public PKBReader {
     return mockIsVariableModifiedBy;
   }
 
-  bool isVariableModifiedByProc(const string& variableName,
-                                const string& procName) override {
+  bool isVariableModifiedByProc(const string& procName,
+                                const string& varName) override {
     return mockIsVariableModifiedByProc;
   }
 

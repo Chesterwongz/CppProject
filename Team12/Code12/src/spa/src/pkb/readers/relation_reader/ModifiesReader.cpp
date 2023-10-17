@@ -6,10 +6,10 @@ std::vector<std::string> ModifiesReader::getStatementsModifying(
                                                          statementType);
 }
 
-std::vector<std::string> ModifiesReader::getProceduresModifying(
-    const string& variableName) {
+std::vector<std::string> ModifiesReader::getProcModifying(
+    const std::string& varName) {
   std::unordered_set<std::string> modifyingProcedures =
-      modifies_reader_.getProcsRelatedToVar(variableName);
+      modifies_reader_.getProcsRelatedToVar(varName);
   std::vector<std::string> modifyingProceduresVector(
       modifyingProcedures.begin(), modifyingProcedures.end());
   return modifyingProceduresVector;
@@ -27,9 +27,9 @@ bool ModifiesReader::isVariableModifiedBy(const std::string& variableName,
   return modifies_reader_.isVarRelatedToStmt(variableName, statementNumber);
 }
 
-bool ModifiesReader::isVariableModifiedByProc(const string& variableName,
-                                              const string& procName) {
-  return modifies_reader_.isVarRelatedToProc(variableName, procName);
+bool ModifiesReader::isVariableModifiedByProc(const string& procName,
+                                              const string& varName) {
+  return modifies_reader_.isVarRelatedToProc(varName, procName);
 }
 
 std::vector<std::pair<std::string, std::string>>
@@ -37,7 +37,7 @@ ModifiesReader::getAllModifiedVariables(StmtType statementType) {
   return modifies_reader_.getAllRelationsByStmtType(statementType);
 }
 
-std::vector<std::string> ModifiesReader::getModifiedVariablesForProc(
+std::vector<std::string> ModifiesReader::getVarsModifiedByProc(
     const string& procName) {
   std::unordered_set<std::string> modifiedVariables =
       modifies_reader_.getVarsRelatedToProc(procName);
@@ -47,6 +47,6 @@ std::vector<std::string> ModifiesReader::getModifiedVariablesForProc(
 }
 
 std::vector<std::pair<std::string, std::string>>
-ModifiesReader::getAllModifiedVariablesByProcs() {
+ModifiesReader::getModifiesProcPairs() {
   return modifies_reader_.getAllProcRelations();
 }

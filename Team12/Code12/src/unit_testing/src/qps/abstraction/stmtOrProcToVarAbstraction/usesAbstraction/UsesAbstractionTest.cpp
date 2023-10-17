@@ -115,7 +115,7 @@ TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Wildcard)_empty") {
 
 TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockAllUsedVariablesByProcs = MOCK_USED_PAIRS;
+  mockReader.mockUsesProcPairs = MOCK_USED_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -154,7 +154,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Synonym)_empty") {
 
 TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Ident)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockProceduresUsing = MOCK_USING_PROCEDURES;
+  mockReader.mockProcUsing = MOCK_USING_PROCEDURES;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -191,7 +191,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Ident)_empty") {
 
 TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockAllUsedVariablesByProcs = MOCK_USED_PAIRS;
+  mockReader.mockUsesProcPairs = MOCK_USED_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -331,7 +331,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Wildcard)_empty") {
 
 TEST_CASE("UsesAbstraction - Uses(ProcName, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockUsedVariablesForProc = MOCK_USED_FOR_PROCS;
+  mockReader.mockVarUsedByProc = MOCK_USED_FOR_PROCS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -401,7 +401,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcName, Ident)_false") {
 
 TEST_CASE("UsesAbstraction - Uses(ProcName, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockUsedVariablesForProc = MOCK_USED_FOR_PROCS;
+  mockReader.mockVarUsedByProc = MOCK_USED_FOR_PROCS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =

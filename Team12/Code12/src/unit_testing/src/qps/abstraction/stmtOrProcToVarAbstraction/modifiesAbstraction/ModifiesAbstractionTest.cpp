@@ -192,7 +192,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcSynonym, Ident)_empty") {
 
 TEST_CASE("ModifiesAbstraction - Modifies(ProcSynonym, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockAllModifiedVariablesByProcs = MOCK_MODIFIED_PAIRS;
+  mockReader.mockModifiesProcPairs = MOCK_MODIFIED_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -331,7 +331,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Integer, Wildcard)_empty") {
 
 TEST_CASE("ModifiesAbstraction - Modifies(ProcName, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockModifiedVariablesForProc = MOCK_MODIFIED_FOR_PROCS;
+  mockReader.mockVarsModifiedByProc = MOCK_MODIFIED_FOR_PROCS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -404,7 +404,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcName, Ident)_not_modified") {
 
 TEST_CASE("ModifiesAbstraction - Modifies(ProcName, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockModifiedVariablesForProc = MOCK_MODIFIED_FOR_PROCS;
+  mockReader.mockVarsModifiedByProc = MOCK_MODIFIED_FOR_PROCS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
