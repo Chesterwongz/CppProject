@@ -304,10 +304,8 @@ TEST_CASE("PKBReader Tests") {
   }
 
   SECTION("getVariablesModifiedBy") {
-    REQUIRE(
-        compareVectorContents(reader.getVariablesModifiedBy(1), {{"1", "x"}}));
-    REQUIRE(
-        compareVectorContents(reader.getVariablesModifiedBy(2), {{"2", "y"}}));
+    REQUIRE(compareVectorContents(reader.getVariablesModifiedBy(1), {"x"}));
+    REQUIRE(compareVectorContents(reader.getVariablesModifiedBy(2), {"y"}));
     REQUIRE(reader.getVariablesModifiedBy(7).empty());
   }
 
@@ -329,29 +327,29 @@ TEST_CASE("PKBReader Tests") {
   }
 
   SECTION("getAllModifiedVariables") {
-    REQUIRE(compareVectorContents(reader.getModifiesPairs(StmtType::STMT),
+    REQUIRE(compareVectorContents(reader.getModifiesStmtPairs(StmtType::STMT),
                                   {{"1", "x"},
                                    {"3", "x"},
                                    {"6", "x"},
                                    {"2", "y"},
                                    {"5", "y"},
                                    {"4", "z"}}));
-    REQUIRE(compareVectorContents(reader.getModifiesPairs(StmtType::ASSIGN),
+    REQUIRE(compareVectorContents(reader.getModifiesStmtPairs(StmtType::ASSIGN),
                                   {{"1", "x"}, {"3", "x"}}));
-    REQUIRE(compareVectorContents(reader.getModifiesPairs(StmtType::IF),
+    REQUIRE(compareVectorContents(reader.getModifiesStmtPairs(StmtType::IF),
                                   {{"4", "z"}}));
-    REQUIRE(reader.getModifiesPairs(StmtType::PRINT).empty());
+    REQUIRE(reader.getModifiesStmtPairs(StmtType::PRINT).empty());
   }
 
-  SECTION("getUsesPairs") {
+  SECTION("getUsesStmtPairs") {
     REQUIRE(compareVectorContents(
-        reader.getUsesPairs(StmtType::STMT),
+        reader.getUsesStmtPairs(StmtType::STMT),
         {{"1", "x"}, {"2", "x"}, {"4", "x"}, {"1", "y"}, {"3", "z"}}));
-    REQUIRE(compareVectorContents(reader.getUsesPairs(StmtType::ASSIGN),
+    REQUIRE(compareVectorContents(reader.getUsesStmtPairs(StmtType::ASSIGN),
                                   {{"1", "x"}, {"1", "y"}, {"3", "z"}}));
-    REQUIRE(
-        compareVectorContents(reader.getUsesPairs(StmtType::IF), {{"4", "x"}}));
-    REQUIRE(reader.getUsesPairs(StmtType::PRINT).empty());
+    REQUIRE(compareVectorContents(reader.getUsesStmtPairs(StmtType::IF),
+                                  {{"4", "x"}}));
+    REQUIRE(reader.getUsesStmtPairs(StmtType::PRINT).empty());
   }
 
   SECTION("getExactAssignPattern") {

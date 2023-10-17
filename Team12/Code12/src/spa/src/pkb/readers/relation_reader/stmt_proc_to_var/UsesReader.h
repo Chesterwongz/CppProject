@@ -13,14 +13,14 @@
 
 class UsesReader : public IUsesReader {
  private:
-  UsesSStore& usesStore;
+  UsesSStore& usesSStore;
   UsesPStore& usesPStore;
   StmtStore& stmtStore;
 
  protected:
   explicit UsesReader(UsesSStore& usesStore, UsesPStore& usesPStore,
                       StmtStore& stmtStore)
-      : usesStore(usesStore), usesPStore(usesPStore), stmtStore(stmtStore) {}
+      : usesSStore(usesStore), usesPStore(usesPStore), stmtStore(stmtStore) {}
 
  public:
   std::vector<std::string> getVariablesUsedBy(int stmt) override;
@@ -30,9 +30,16 @@ class UsesReader : public IUsesReader {
 
   bool isVariableUsedBy(int stmt, const std::string& varName) override;
 
-  std::vector<std::pair<std::string, std::string>> getUsesPairs(
+  std::vector<std::pair<std::string, std::string>> getUsesStmtPairs(
       StmtType stmtType1) override;
 
-  std::unordered_set<std::string> getUsedVariablesForProc(
+  std::vector<std::string> getVarsUsedByProc(
       const std::string& procName) override;
+
+  std::vector<std::string> getProcUsing(const std::string& varName) override;
+
+  bool isVariableUsedByProc(const std::string& procName,
+                            const std::string& varName) override;
+
+  std::vector<std::pair<std::string, std::string>> getUsesProcPairs() override;
 };

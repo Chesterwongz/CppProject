@@ -1,5 +1,7 @@
 #include "HelperFunctions.h"
 
+#include <utility>
+
 void HelperFunctions::printEntities(const string& abstraction,
                                     const unordered_set<string>& set) {
   std::cout << abstraction << ": ";
@@ -116,29 +118,28 @@ bool HelperFunctions::validateParents(
 
 bool HelperFunctions::validateModifies(PKBReader& reader,
                                        StrStrPairVec& expectedModifiesPairs) {
-  StrStrPairVec actual = reader.getModifiesPairs(StmtType::STMT);
+  StrStrPairVec actual = reader.getModifiesStmtPairs(StmtType::STMT);
   return compareVectorContents(actual, expectedModifiesPairs);
 }
 
 bool HelperFunctions::validateUses(PKBReader& reader,
                                    StrStrPairVec& expectedUsesPairs) {
-  StrStrPairVec actual = reader.getUsesPairs(StmtType::STMT);
+  StrStrPairVec actual = reader.getUsesStmtPairs(StmtType::STMT);
   return compareVectorContents(actual, expectedUsesPairs);
 }
 
 bool HelperFunctions::isAssignResultMatch(StrStrPairVec actual,
                                           StrStrPairVec expected) {
-  return compareVectorContents(actual, expected);
+  return compareVectorContents(std::move(actual), std::move(expected));
 }
 
 bool HelperFunctions::validateModifiesProcVar(
     PKBReader& reader, const vector<string>& procs,
-    ProcToStrSetMap& expectedModifiesMap) {
+    StrToStrVecMap& expectedModifiesMap) {
   for (const string& proc : procs) {
-    unordered_set<string> expectedModifies = expectedModifiesMap[proc];
-    unordered_set<string> actualModifies =
-        reader.getModifiedVariablesForProc(proc);
-    if (actualModifies != expectedModifies) {
+    vector<string> expectedModifies = expectedModifiesMap[proc];
+    vector<string> actualModifies = reader.getVarsModifiedByProc(proc);
+    if (!compareVectorContents(actualModifies, expectedModifies)) {
       return false;
     }
   }
@@ -147,11 +148,11 @@ bool HelperFunctions::validateModifiesProcVar(
 
 bool HelperFunctions::validateUsesProcVar(PKBReader& reader,
                                           const vector<string>& procs,
-                                          ProcToStrSetMap& expectedUsesMap) {
+                                          StrToStrVecMap& expectedUsesMap) {
   for (const string& proc : procs) {
-    unordered_set<string> expectedUses = expectedUsesMap[proc];
-    unordered_set<string> actualUses = reader.getUsedVariablesForProc(proc);
-    if (actualUses != expectedUses) {
+    vector<string> expectedUses = expectedUsesMap[proc];
+    vector<string> actualUses = reader.getVarsUsedByProc(proc);
+    if (!compareVectorContents(actualUses, expectedUses)) {
       return false;
     }
   }
@@ -160,13 +161,11 @@ bool HelperFunctions::validateUsesProcVar(PKBReader& reader,
 
 bool HelperFunctions::validateCalls(PKBReader& reader,
                                     const vector<string>& procs,
-                                    ProcToStrSetMap& expectedCallsMap) {
+                                    StrToStrVecMap& expectedCallsMap) {
   for (const string& proc : procs) {
-    unordered_set<string> expectedCalls = expectedCallsMap[proc];
-    vector<string> expectedCallsVec = {expectedCalls.begin(),
-                                       expectedCalls.end()};
+    vector<string> expectedCalls = expectedCallsMap[proc];
     vector<string> actualCalls = reader.getCalleeProcs(proc);
-    if (!compareVectorContents(actualCalls, expectedCallsVec)) {
+    if (!compareVectorContents(actualCalls, expectedCalls)) {
       return false;
     }
   }
@@ -175,13 +174,11 @@ bool HelperFunctions::validateCalls(PKBReader& reader,
 
 bool HelperFunctions::validateCallsT(PKBReader& reader,
                                      const vector<string>& procs,
-                                     ProcToStrSetMap& expectedCallsTMap) {
+                                     StrToStrVecMap& expectedCallsTMap) {
   for (const string& proc : procs) {
-    unordered_set<string> expectedCallsT = expectedCallsTMap[proc];
-    vector<string> expectedCallsTVec = {expectedCallsT.begin(),
-                                        expectedCallsT.end()};
+    vector<string> expectedCallsT = expectedCallsTMap[proc];
     vector<string> actualCallsT = reader.getCalleeProcsStar(proc);
-    if (!compareVectorContents(actualCallsT, expectedCallsTVec)) {
+    if (!compareVectorContents(actualCallsT, expectedCallsT)) {
       return false;
     }
   }

@@ -5,14 +5,6 @@ void StmtStore::addStmt(int stmt, StmtType stmtType) {
   stmtTypeToStmtMap[StmtType::STMT].insert(stmt);
 }
 
-bool StmtStore::isStmtType(int stmt, StmtType stmtType) const {
-  if (stmtTypeToStmtMap.find(stmtType) == stmtTypeToStmtMap.end()) {
-    return false;
-  }
-  return stmtTypeToStmtMap.at(stmtType).find(stmt) !=
-         stmtTypeToStmtMap.at(stmtType).end();
-}
-
 bool StmtStore::hasStmtType(StmtType stmtType) const {
   return stmtTypeToStmtMap.count(stmtType);
 }
