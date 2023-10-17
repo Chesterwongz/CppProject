@@ -54,20 +54,32 @@ bool HelperFunctions::validateEntities(
     const vector<string>& expectedCallStmts,
     const vector<string>& expectedWhileStmts,
     const vector<string>& expectedIfStmts) {
-  bool areVariablesEqual = reader.getAllVariables() == expectedVars;
-  bool areConstantsEqual = reader.getAllConstants() == expectedConstants;
-  bool areProceduresEqual = reader.getAllProcedures() == expectedProcedures;
+  vector<string> actualVars = reader.getAllVariables();
+  vector<string> actualConstants = reader.getAllConstants();
+  vector<string> actualProcedures = reader.getAllProcedures();
+  vector<string> actualReadStmts = reader.getAllStmtsOf(StmtType::READ);
+  vector<string> actualPrintStmts = reader.getAllStmtsOf(StmtType::PRINT);
+  vector<string> actualAssignStmts = reader.getAllStmtsOf(StmtType::ASSIGN);
+  vector<string> actualCallStmts = reader.getAllStmtsOf(StmtType::CALL);
+  vector<string> actualWhileStmts = reader.getAllStmtsOf(StmtType::WHILE);
+  vector<string> actualIfStmts = reader.getAllStmtsOf(StmtType::IF);
+
+  bool areVariablesEqual = compareVectorContents(actualVars, expectedVars);
+  bool areConstantsEqual =
+      compareVectorContents(actualConstants, expectedConstants);
+  bool areProceduresEqual =
+      compareVectorContents(actualProcedures, expectedProcedures);
   bool areReadStmtsEqual =
-      reader.getAllStmtsOf(StmtType::READ) == expectedReadStmts;
+      compareVectorContents(actualReadStmts, expectedReadStmts);
   bool arePrintStmtsEqual =
-      reader.getAllStmtsOf(StmtType::PRINT) == expectedPrintStmts;
+      compareVectorContents(actualPrintStmts, expectedPrintStmts);
   bool areAssignStmtsEqual =
-      reader.getAllStmtsOf(StmtType::ASSIGN) == expectedAssignStmts;
+      compareVectorContents(actualAssignStmts, expectedAssignStmts);
   bool areCallStmtsEqual =
-      reader.getAllStmtsOf(StmtType::CALL) == expectedCallStmts;
+      compareVectorContents(actualCallStmts, expectedCallStmts);
   bool areWhileStmtsEqual =
-      reader.getAllStmtsOf(StmtType::WHILE) == expectedWhileStmts;
-  bool areIfStmtsEqual = reader.getAllStmtsOf(StmtType::IF) == expectedIfStmts;
+      compareVectorContents(actualWhileStmts, expectedWhileStmts);
+  bool areIfStmtsEqual = compareVectorContents(actualIfStmts, expectedIfStmts);
 
   return areVariablesEqual && areConstantsEqual && areProceduresEqual &&
          areReadStmtsEqual && arePrintStmtsEqual && areAssignStmtsEqual &&
@@ -104,7 +116,7 @@ bool HelperFunctions::validateParents(
 
 bool HelperFunctions::validateModifies(PKBReader& reader,
                                        StrStrPairVec& expectedModifiesPairs) {
-  StrStrPairVec actual = reader.getAllModifiedVariables(StmtType::STMT);
+  StrStrPairVec actual = reader.getModifiesPairs(StmtType::STMT);
   return compareVectorContents(actual, expectedModifiesPairs);
 }
 
