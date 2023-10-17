@@ -58,7 +58,7 @@ IntermediateTable ModifiesAbstraction::evaluateIdentIdent() {
   string firstArgProcName = this->firstArgValue;
   string secondArgVarName = this->secondArgValue;
   bool isProcModifyingVar =
-      pkb.isVariableModifiedByProc(firstArgProcName, secondArgVarName);
+      pkb.isVariableModifiedByProc(secondArgVarName, firstArgProcName);
 
   return isProcModifyingVar
              ? IntermediateTableFactory::buildWildcardIntermediateTable()

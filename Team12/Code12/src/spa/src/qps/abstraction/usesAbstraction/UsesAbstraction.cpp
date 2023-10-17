@@ -80,7 +80,7 @@ IntermediateTable UsesAbstraction::evaluateIdentIdent() {
   string firstArgProcName = this->firstArgValue;
   string secondArgVarName = this->secondArgValue;
   bool isProcUsingVar =
-      pkb.isVariableUsedByProc(firstArgProcName, secondArgVarName);
+      pkb.isVariableUsedByProc(secondArgVarName, firstArgProcName);
 
   return isProcUsingVar
              ? IntermediateTableFactory::buildWildcardIntermediateTable()
