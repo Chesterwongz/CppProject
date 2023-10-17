@@ -254,15 +254,15 @@ TEST_CASE("PKBReader Tests") {
 
   SECTION("getParentStar") {
     REQUIRE(reader.getParentStarOf(1, StmtType::STMT).empty());
-    REQUIRE(reader.getParentStarOf(2, StmtType::STMT) ==
-            std::vector<std::string> {"1"});
-    REQUIRE(reader.getParentStarOf(2, StmtType::ASSIGN) ==
-            std::vector<std::string> {"1"});
+    REQUIRE(compareVectorContents(reader.getParentStarOf(2, StmtType::STMT),
+                                  {"1"}));
+    REQUIRE(compareVectorContents(reader.getParentStarOf(2, StmtType::ASSIGN),
+                                  {"1"}));
     REQUIRE(reader.getParentStarOf(2, StmtType::READ).empty());
-    REQUIRE(reader.getParentStarOf(4, StmtType::STMT) ==
-            std::vector<std::string> {"1", "3"});
-    REQUIRE(reader.getParentStarOf(4, StmtType::ASSIGN) ==
-            std::vector<std::string> {"1", "3"});
+    REQUIRE(compareVectorContents(reader.getParentStarOf(4, StmtType::STMT),
+                                  {"1", "3"}));
+    REQUIRE(compareVectorContents(reader.getParentStarOf(4, StmtType::ASSIGN),
+                                  {"1", "3"}));
     REQUIRE(reader.getParentStarOf(5, StmtType::PRINT).empty());
   }
 
