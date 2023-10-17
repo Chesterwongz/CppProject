@@ -2,9 +2,7 @@
 
 // (1, v)
 std::vector<std::string> UsesReader::getVariablesUsedBy(int stmt) {
-  auto rawRes = usesSStore.getAllDirectSuccessorsOf(stmt);
-
-  return rawRes;
+  return usesSStore.getAllDirectSuccessorsOf(stmt);
 }
 
 // (s, "name")

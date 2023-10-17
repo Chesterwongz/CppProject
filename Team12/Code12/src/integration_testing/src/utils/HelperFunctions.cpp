@@ -104,7 +104,7 @@ bool HelperFunctions::validateParents(
 
 bool HelperFunctions::validateModifies(PKBReader& reader,
                                        StrStrPairVec& expectedModifiesPairs) {
-  StrStrPairVec actual = reader.getAllModifiedVariables(StmtType::STMT);
+  StrStrPairVec actual = reader.getModifiesStmtPairs(StmtType::STMT);
   return compareVectorContents(actual, expectedModifiesPairs);
 }
 
@@ -116,7 +116,7 @@ bool HelperFunctions::validateUses(PKBReader& reader,
 
 bool HelperFunctions::isAssignResultMatch(StrStrPairVec actual,
                                           StrStrPairVec expected) {
-  return compareVectorContents(actual, expected);
+  return compareVectorContents(std::move(actual), std::move(expected));
 }
 
 bool HelperFunctions::validateModifiesProcVar(
@@ -124,9 +124,10 @@ bool HelperFunctions::validateModifiesProcVar(
     ProcToStrSetMap& expectedModifiesMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedModifies = expectedModifiesMap[proc];
-    unordered_set<string> actualModifies =
-        reader.getModifiedVariablesForProc(proc);
-    if (actualModifies != expectedModifies) {
+    vector<string> expectedModifiesVector(expectedModifies.begin(),
+                                          expectedModifies.end());
+    vector<string> actualModifies = reader.getVarsModifiedByProc(proc);
+    if (!compareVectorContents(actualModifies, expectedModifiesVector)) {
       return false;
     }
   }
@@ -138,8 +139,9 @@ bool HelperFunctions::validateUsesProcVar(PKBReader& reader,
                                           ProcToStrSetMap& expectedUsesMap) {
   for (const string& proc : procs) {
     unordered_set<string> expectedUses = expectedUsesMap[proc];
-    unordered_set<string> actualUses = reader.getUsedVariablesForProc(proc);
-    if (actualUses != expectedUses) {
+    vector<string> expectedUsesVector(expectedUses.begin(), expectedUses.end());
+    vector<string> actualUses = reader.getVarsUsedByProc(proc);
+    if (!compareVectorContents(actualUses, expectedUsesVector)) {
       return false;
     }
   }
