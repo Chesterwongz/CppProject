@@ -26,7 +26,7 @@ void FollowsExtractor::visitWhile(const WhileNode& node) {
 }
 
 void FollowsExtractor::visitStmtList(const StmtListNode& node) {
-  nestingBlocksStack.emplace();  // add new nesting block
+  nestingBlocksStack.push(common::INVALID_STMT_NUM);  // new nesting block
 }
 
 void FollowsExtractor::postVisitStmtList(const StmtListNode& node) {
@@ -34,16 +34,11 @@ void FollowsExtractor::postVisitStmtList(const StmtListNode& node) {
 }
 
 void FollowsExtractor::processCurrStmt(const StmtNode& node) {
-  // ai-gen start(gpt-4, 2)
   int currLine = node.getLineNum();
-  // Update the Follows* relationships for prev lines in this block
-  for (const int& prevLine : nestingBlocksStack.top()) {
-    addFollows(prevLine, currLine);
+  int prevLine = nestingBlocksStack.top();
+  if (prevLine != common::INVALID_STMT_NUM) {
+    pkbWriter.addFollows(prevLine, currLine);
   }
-  nestingBlocksStack.top().push_back(currLine);
-  // ai-gen end
-}
-
-void FollowsExtractor::addFollows(int prevLine, int currLine) {
-  pkbWriter.addFollows(prevLine, currLine);
+  nestingBlocksStack.pop();
+  nestingBlocksStack.push(currLine);
 }

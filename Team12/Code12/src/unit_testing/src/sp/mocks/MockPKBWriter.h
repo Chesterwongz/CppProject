@@ -123,9 +123,9 @@ class MockPKBWriter : public PKBWriter {
     return constantStorage == constants;
   }
 
-  [[nodiscard]] bool isStmtToProcEqual(
-      const unordered_map<int, string> &stmtToProcs) const {
-    return procStorage == stmtToProcs;
+  [[nodiscard]] bool isProcsEqual(
+      const unordered_set<string> &procsSet) const {
+    return procStorage == procsSet;
   }
 
   [[nodiscard]] bool isStmtTypeEquals(StmtType stmtType,

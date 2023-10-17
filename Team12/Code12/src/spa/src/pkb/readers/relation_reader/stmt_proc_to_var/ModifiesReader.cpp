@@ -1,29 +1,38 @@
 #include "ModifiesReader.h"
 
+#include "common/utils/CollectionUtils.h"
+
+// (1, v)
+std::vector<std::string> ModifiesReader::getVariablesModifiedBy(int stmt) {
+  return {};
+}
+
+// (s, "name")
 std::vector<std::string> ModifiesReader::getStatementsModifying(
-    const std::string& variableName, StmtType statementType) {
-  return modifies_reader_.getStmtsRelatedToVarByStmtType(variableName,
-                                                         statementType);
+    const std::string& varName, StmtType stmtType) {
+  if (!stmtStore.hasStmtType(stmtType)) {
+    return {};
+  }
+  return {};
+}
+
+bool ModifiesReader::isVariableModifiedBy(int stmt,
+                                          const std::string& varName) {
+  return modifiesStore.hasDirectRelation(stmt, varName);
 }
 
 std::vector<std::pair<std::string, std::string>>
-ModifiesReader::getVariablesModifiedBy(int statementNumber,
-                                       StmtType statementType) {
-  return modifies_reader_.getVarsRelatedToStmtByStmtType(statementNumber,
-                                                         statementType);
+ModifiesReader::getModifiesPairs(StmtType stmtType) {
+  if (!stmtStore.hasStmtType(stmtType)) {
+    return {};
+  }
+
+  return {};
 }
 
-bool ModifiesReader::isVariableModifiedBy(const std::string& variableName,
-                                          const std::string& statementNumber) {
-  return modifies_reader_.isVarRelatedToStmt(variableName, statementNumber);
-}
+// ======================== ModifiesP ========================
 
-std::vector<std::pair<std::string, std::string>>
-ModifiesReader::getAllModifiedVariables(StmtType statementType) {
-  return modifies_reader_.getAllRelationsByStmtType(statementType);
-}
-
-unordered_set<string> ModifiesReader::getModifiedVariablesForProc(
-    const string& procName) {
-  return modifies_reader_.getVarsRelatedToProc(procName);
+std::unordered_set<std::string> ModifiesReader::getModifiedVariablesForProc(
+    const std::string& procName) {
+  return {};
 }

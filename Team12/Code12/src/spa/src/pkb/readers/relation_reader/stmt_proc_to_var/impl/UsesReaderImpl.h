@@ -17,7 +17,7 @@ class UsesReaderImpl : public StmtOrProcToVarReaderTemplate {
 
  public:
   explicit UsesReaderImpl(IUsesStorage& uses_storage,
-                          IStmtStorage& stmt_storage,
+                          StmtStore& stmt_storage,
                           IEntityStorage& entity_storage)
       : uses_storage_(uses_storage),
         StmtOrProcToVarReaderTemplate(stmt_storage, entity_storage) {}

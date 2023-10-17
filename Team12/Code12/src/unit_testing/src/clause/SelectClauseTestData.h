@@ -6,26 +6,29 @@
 
 using std::set, std::string, std::vector;
 
-inline vector<string> MOCK_EMPTY_RESULT = {};
+inline set<string> MOCK_EMPTY_RESULT = {};
 
 inline vector<string> MOCK_SELECT_CLAUSE_DATA = {"a", "b", "c", "d", "e"};
-inline vector<string> MOCK_SELECT_CLAUSE_DATA_2 = {"a2", "b2", "c2", "d2", "e2"};
-inline vector<string> MOCK_SELECT_CLAUSE_DATA_3 = {"a3", "b3", "c3", "d3", "e3"};
-inline vector<string> MOCK_SELECT_CLAUSE_DATA_4 = {"a4", "b4", "c4", "d4", "e4"};
+inline vector<string> MOCK_SELECT_CLAUSE_DATA_2 = {"a2", "b2", "c2", "d2",
+                                                   "e2"};
+inline vector<string> MOCK_SELECT_CLAUSE_DATA_3 = {"a3", "b3", "c3", "d3",
+                                                   "e3"};
+inline vector<string> MOCK_SELECT_CLAUSE_DATA_4 = {"a4", "b4", "c4", "d4",
+                                                   "e4"};
 
-inline vector<string> MOCK_RESULTS_1_COL = {"a", "b", "c", "d", "e"};
+inline set<string> MOCK_RESULTS_1_COL = {"a", "b", "c", "d", "e"};
 
-inline vector<string> MOCK_RESULTS_2_COL = {
+inline set<string> MOCK_RESULTS_2_COL = {
     "a a", "a b", "a c", "a d", "a e", "b a", "b b", "b c", "b d",
     "b e", "c a", "c b", "c c", "c d", "c e", "d a", "d b", "d c",
     "d d", "d e", "e a", "e b", "e c", "e d", "e e"};
 
-inline vector<string> MOCK_RESULTS_2_COL_2 = {
+inline set<string> MOCK_RESULTS_2_COL_2 = {
     "a a2", "a b2", "a c2", "a d2", "a e2", "b a2", "b b2", "b c2", "b d2",
     "b e2", "c a2", "c b2", "c c2", "c d2", "c e2", "d a2", "d b2", "d c2",
     "d d2", "d e2", "e a2", "e b2", "e c2", "e d2", "e e2"};
 
-inline vector<string> MOCK_ALL_COL = {
+inline set<string> MOCK_ALL_COL = {
     "a a2 a3 a4", "a a2 a3 b4", "a a2 a3 c4", "a a2 a3 d4", "a a2 a3 e4",
     "a a2 b3 a4", "a a2 b3 b4", "a a2 b3 c4", "a a2 b3 d4", "a a2 b3 e4",
     "a a2 c3 a4", "a a2 c3 b4", "a a2 c3 c4", "a a2 c3 d4", "a a2 c3 e4",

@@ -2,7 +2,7 @@
 
 /**
  * Modifies abstraction:
-* firstArg: Synonym OR Integer (stmt) OR Identifier (Proc)
+ * firstArg: Synonym OR Integer (stmt) OR Identifier (Proc)
  * secondArg: Synonym OR Identifier OR Wildcard
  */
 
@@ -16,8 +16,10 @@ IntermediateTable ModifiesAbstraction::evaluateSynonymIdent() {
   string firstArgStmtSynonym = this->firstArgValue;
   StmtType firstArgStmtType = getFirstArgStmtType();
   string secondArgIdent = this->secondArgValue;
+
   vector<string> statementsModifyingVar =
       pkb.getStatementsModifying(secondArgIdent, firstArgStmtType);
+
   return IntermediateTableFactory::buildSingleColTable(firstArgStmtSynonym,
                                                        statementsModifyingVar);
 }
@@ -32,18 +34,18 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerSynonym() {
   int firstArgStmtNumber = stoi(this->firstArgValue);
   string secondArgVarSynonym = this->secondArgValue;
 
-  vector<pair<string, string>> result =
-      pkb.getVariablesModifiedBy(firstArgStmtNumber, StmtType::STMT);
+  vector<string> result = pkb.getVariablesModifiedBy(firstArgStmtNumber);
 
-  return IntermediateTableFactory::buildIntermediateTable(
-      WILDCARD_KEYWORD, secondArgVarSynonym, result);
+  return IntermediateTableFactory::buildSingleColTable(secondArgVarSynonym,
+                                                       result);
 }
 
 // Modifies (StmtNumber, VarIdentifier)
 IntermediateTable ModifiesAbstraction::evaluateIntegerIdent() {
-  string stmtNumber = this->firstArgValue;
+  int firstArgStmtNumber = std::stoi(this->firstArgValue);
+  string secondArgIdent = this->secondArgValue;
 
-  if (pkb.isVariableModifiedBy(this->secondArgValue, stmtNumber)) {
+  if (pkb.isVariableUsedBy(firstArgStmtNumber, secondArgIdent)) {
     return IntermediateTableFactory::buildWildcardIntermediateTable();
   }
   return IntermediateTableFactory::buildEmptyIntermediateTable();
@@ -53,13 +55,10 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerIdent() {
 IntermediateTable ModifiesAbstraction::evaluateIntegerWildcard() {
   int firstArgStmtNumber = stoi(this->firstArgValue);
 
-  vector<pair<string, string>> result =
-      pkb.getVariablesModifiedBy(firstArgStmtNumber, StmtType::STMT);
+  vector<string> result = pkb.getVariablesModifiedBy(firstArgStmtNumber);
 
-  if (result.empty()) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
-  return IntermediateTableFactory::buildWildcardIntermediateTable();
+  return IntermediateTableFactory::buildSingleColTable(WILDCARD_KEYWORD,
+                                                       result);
 }
 
 IntermediateTable ModifiesAbstraction::handleSynonymOrWildcardArgs() {
@@ -68,7 +67,7 @@ IntermediateTable ModifiesAbstraction::handleSynonymOrWildcardArgs() {
   string secondArgVarSynonym = this->secondArgValue;
 
   vector<pair<string, string>> statementsModifiedVar =
-      pkb.getAllModifiedVariables(firstArgStmtType);
+      pkb.getModifiesPairs(firstArgStmtType);
 
   //! If any of the args are "_", the column will be ignored.
   return IntermediateTableFactory::buildIntermediateTable(

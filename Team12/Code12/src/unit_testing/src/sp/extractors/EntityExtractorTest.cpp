@@ -35,14 +35,9 @@ TEST_CASE("EntityExtractor - only reads") {
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
-
-  unordered_map<int, string> expectedStmtToProcMap = {
-      {1, "simple"},
-      {2, "simple"},
-  };
   REQUIRE(mockPKB.isConstantsEqual({}));
   REQUIRE(mockPKB.isVariablesEqual({"y"}));
-  REQUIRE(mockPKB.isStmtToProcEqual(expectedStmtToProcMap));
+  REQUIRE(mockPKB.isProcsEqual({"simple"}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {}));
@@ -60,14 +55,9 @@ TEST_CASE("EntityExtractor with parser - only reads") {
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
-
-  unordered_map<int, string> expectedStmtToProcMap = {
-      {1, "simple"},
-      {2, "simple"},
-  };
   REQUIRE(mockPKB.isConstantsEqual({}));
   REQUIRE(mockPKB.isVariablesEqual({"y"}));
-  REQUIRE(mockPKB.isStmtToProcEqual(expectedStmtToProcMap));
+  REQUIRE(mockPKB.isProcsEqual({"simple"}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {}));
@@ -95,15 +85,9 @@ TEST_CASE("EntityExtractor - non-nesting, 1 uses") {
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
-
-  unordered_map<int, string> expectedStmtToProcMap = {
-      {1, "simple"},
-      {2, "simple"},
-      {3, "simple"},
-  };
   REQUIRE(mockPKB.isConstantsEqual({"1"}));
   REQUIRE(mockPKB.isVariablesEqual({"x", "y"}));
-  REQUIRE(mockPKB.isStmtToProcEqual(expectedStmtToProcMap));
+  REQUIRE(mockPKB.isProcsEqual({"simple"}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {3}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {}));
@@ -123,15 +107,9 @@ TEST_CASE("EntityExtractor with parser - non-nesting, 1 uses") {
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
-
-  unordered_map<int, string> expectedStmtToProcMap = {
-      {1, "simple"},
-      {2, "simple"},
-      {3, "simple"},
-  };
   REQUIRE(mockPKB.isConstantsEqual({"1"}));
   REQUIRE(mockPKB.isVariablesEqual({"x", "y"}));
-  REQUIRE(mockPKB.isStmtToProcEqual(expectedStmtToProcMap));
+  REQUIRE(mockPKB.isProcsEqual({"simple"}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {3}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {}));
@@ -173,13 +151,9 @@ TEST_CASE("EntityExtractor - if node") {
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
-
-  unordered_map<int, string> expectedStmtToProcMap = {
-      {1, "simple"}, {2, "simple"}, {3, "simple"}, {4, "simple"}, {5, "simple"},
-  };
   REQUIRE(mockPKB.isConstantsEqual({"1"}));
   REQUIRE(mockPKB.isVariablesEqual({"x", "y", "z", "num1", "num2"}));
-  REQUIRE(mockPKB.isStmtToProcEqual(expectedStmtToProcMap));
+  REQUIRE(mockPKB.isProcsEqual({"simple"}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {5}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {3}));
@@ -203,13 +177,9 @@ TEST_CASE("EntityExtractor with parser - if node") {
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
-
-  unordered_map<int, string> expectedStmtToProcMap = {
-      {1, "simple"}, {2, "simple"}, {3, "simple"}, {4, "simple"}, {5, "simple"},
-  };
   REQUIRE(mockPKB.isConstantsEqual({"1"}));
   REQUIRE(mockPKB.isVariablesEqual({"x", "y", "z", "num1", "num2"}));
-  REQUIRE(mockPKB.isStmtToProcEqual(expectedStmtToProcMap));
+  REQUIRE(mockPKB.isProcsEqual({"simple"}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {5}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {3}));
@@ -262,14 +232,9 @@ TEST_CASE("EntityExtractor - if in while node") {
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::ENTITY);
-
-  unordered_map<int, string> expectedStmtToProcMap = {
-      {1, "simple"}, {2, "simple"}, {3, "simple"}, {4, "simple"},
-      {5, "simple"}, {6, "simple"}, {7, "simple"}, {8, "simple"},
-  };
   REQUIRE(mockPKB.isConstantsEqual({"1"}));
   REQUIRE(mockPKB.isVariablesEqual({"x", "y", "w", "z", "num1"}));
-  REQUIRE(mockPKB.isStmtToProcEqual(expectedStmtToProcMap));
+  REQUIRE(mockPKB.isProcsEqual({"simple"}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {5}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {4}));
@@ -294,14 +259,9 @@ TEST_CASE("EntityExtractor with parser - if in while node") {
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::ENTITY);
-
-  unordered_map<int, string> expectedStmtToProcMap = {
-      {1, "simple"}, {2, "simple"}, {3, "simple"}, {4, "simple"},
-      {5, "simple"}, {6, "simple"}, {7, "simple"}, {8, "simple"},
-  };
   REQUIRE(mockPKB.isConstantsEqual({"1"}));
   REQUIRE(mockPKB.isVariablesEqual({"x", "y", "w", "z", "num1"}));
-  REQUIRE(mockPKB.isStmtToProcEqual(expectedStmtToProcMap));
+  REQUIRE(mockPKB.isProcsEqual({"simple"}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::ASSIGN, {5}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::CALL, {}));
   REQUIRE(mockPKB.isStmtTypeEquals(StmtType::IF, {4}));
