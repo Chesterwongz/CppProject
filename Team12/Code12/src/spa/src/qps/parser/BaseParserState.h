@@ -11,6 +11,7 @@
 class BaseParserState : public IParserState {
  private:
   string checkValidAttrRef(const string& synonym, const string& attrRef);
+
  protected:
   static constexpr int FIRST_ARG = 0;
   static constexpr int SECOND_ARG = 1;
