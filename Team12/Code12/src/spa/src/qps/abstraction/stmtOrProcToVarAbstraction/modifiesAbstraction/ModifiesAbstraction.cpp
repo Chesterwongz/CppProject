@@ -11,10 +11,10 @@
 ModifiesAbstraction::ModifiesAbstraction(AbstractionParams abstractionParams)
     : StmtOrProcToVarAbstraction(abstractionParams,
                                  &PKBReader::getAllModifiedVariables,
-                                 &PKBReader::getAllModifiedVariablesByProcs,
+                                 &PKBReader::getModifiesProcPairs,
                                  &PKBReader::getStatementsModifying,
-                                 &PKBReader::getProceduresModifying,
+                                 &PKBReader::getProcModifying,
                                  &PKBReader::getVariablesModifiedBy,
-                                 &PKBReader::getModifiedVariablesForProc,
+                                 &PKBReader::getVarsModifiedByProc,
                                  &PKBReader::isVariableModifiedBy,
                                  &PKBReader::isVariableModifiedByProc) {}

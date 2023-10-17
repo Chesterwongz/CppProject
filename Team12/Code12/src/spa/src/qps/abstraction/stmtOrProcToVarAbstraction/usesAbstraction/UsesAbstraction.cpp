@@ -9,10 +9,10 @@
 UsesAbstraction::UsesAbstraction(AbstractionParams abstractionParams)
     : StmtOrProcToVarAbstraction(abstractionParams,
                                  &PKBReader::getAllUsedVariables,
-                                 &PKBReader::getAllUsedVariablesByProcs,
+                                 &PKBReader::getUsesProcPairs,
                                  &PKBReader::getStatementsUsing,
-                                 &PKBReader::getProceduresUsing,
+                                 &PKBReader::getProcUsing,
                                  &PKBReader::getVariablesUsedBy,
-                                 &PKBReader::getUsedVariablesForProc,
+                                 &PKBReader::getVarsUsedByProc,
                                  &PKBReader::isVariableUsedBy,
                                  &PKBReader::isVariableUsedByProc) {}
