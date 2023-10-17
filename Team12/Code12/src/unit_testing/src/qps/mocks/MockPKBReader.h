@@ -34,13 +34,13 @@ class MockPKBReader : public PKBReader {
   vector<string> mockStatementsModifying;
   vector<string> mockProceduresModifying;
   vector<pair<string, string>> mockVariablesModifiedBy;
-  vector<string> mockModifiedVariablesForProc;
+  vector<string> mockVarsModifiedByProc;
   vector<string> mockStatementsUsing;
   vector<string> mockProcUsing;
   vector<pair<string, string>> mockVariablesUsedBy;
   vector<string> mockVarUsedByProc;
   vector<pair<string, string>> mockAllModifiedVariables;
-  vector<pair<string, string>> mockAllModifiedVariablesByProcs;
+  vector<pair<string, string>> mockModifiesProcPairs;
   vector<pair<string, string>> mockAllUsedVariables;
   vector<pair<string, string>> mockUsesProcPairs;
   vector<pair<string, string>> mockExactAssignPattern;
@@ -137,7 +137,7 @@ class MockPKBReader : public PKBReader {
     return mockStatementsModifying;
   }
 
-  vector<string> getProceduresModifying(const string& variableName) override {
+  vector<string> getProcModifying(const std::string& varName) override {
     return mockProceduresModifying;
   }
 
@@ -147,8 +147,8 @@ class MockPKBReader : public PKBReader {
   }
 
   // return all variables modified by specified procedure
-  vector<string> getModifiedVariablesForProc(const string& procName) override {
-    return mockModifiedVariablesForProc;
+  vector<string> getVarsModifiedByProc(const string& procName) override {
+    return mockVarsModifiedByProc;
   }
 
   vector<string> getStatementsUsing(const string& variableName,
@@ -174,8 +174,8 @@ class MockPKBReader : public PKBReader {
     return mockAllModifiedVariables;
   }
 
-  vector<pair<string, string>> getAllModifiedVariablesByProcs() override {
-    return mockAllModifiedVariablesByProcs;
+  vector<pair<string, string>> getModifiesProcPairs() override {
+    return mockModifiesProcPairs;
   }
 
   vector<pair<string, string>> getAllUsedVariables(
@@ -224,8 +224,8 @@ class MockPKBReader : public PKBReader {
     return mockIsVariableModifiedBy;
   }
 
-  bool isVariableModifiedByProc(const string& variableName,
-                                const string& procName) override {
+  bool isVariableModifiedByProc(const string& procName,
+                                const string& variableName) override {
     return mockIsVariableModifiedByProc;
   }
 

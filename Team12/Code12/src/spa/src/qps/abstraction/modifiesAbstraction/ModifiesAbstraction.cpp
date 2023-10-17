@@ -23,7 +23,7 @@ IntermediateTable ModifiesAbstraction::evaluateSynonymIdent() {
   vector<string> result;
   // Modifies(procSynonym, *) and Modifies(stmtSynonym, *) has different APIs
   if (isFirstArgProcedure) {
-    result = pkb.getProceduresModifying(secondArgVarName);
+    result = pkb.getProcModifying(secondArgVarName);
   } else {
     StmtType firstArgStmtType = getFirstArgStmtType();
     result = pkb.getStatementsModifying(secondArgVarName, firstArgStmtType);
@@ -58,7 +58,7 @@ IntermediateTable ModifiesAbstraction::evaluateIdentIdent() {
   string firstArgProcName = this->firstArgValue;
   string secondArgVarName = this->secondArgValue;
   bool isProcModifyingVar =
-      pkb.isVariableModifiedByProc(secondArgVarName, firstArgProcName);
+      pkb.isVariableModifiedByProc(firstArgProcName, secondArgVarName);
 
   return isProcModifyingVar
              ? IntermediateTableFactory::buildWildcardIntermediateTable()
@@ -102,7 +102,7 @@ IntermediateTable ModifiesAbstraction::handleSynonymOrWildcardArgs() {
   // Modifies(procSynonym, *) and Modifies(stmtSynonym, *) has different APIs
   vector<pair<string, string>> result;
   if (isFirstArgProcedure) {
-    result = pkb.getAllModifiedVariablesByProcs();
+    result = pkb.getModifiesProcPairs();
   } else {
     StmtType firstArgStmtType = getFirstArgStmtType();
     result = pkb.getAllModifiedVariables(firstArgStmtType);
@@ -118,7 +118,7 @@ ModifiesAbstraction::handleProcNameWithVarSynonymOrWildcard() {
   string firstArgProcName = this->firstArgValue;
   string secondArgVarValue = this->secondArgValue;
   vector<string> modifiedVariables =
-      pkb.getModifiedVariablesForProc(firstArgProcName);
+      pkb.getVarsModifiedByProc(firstArgProcName);
   //! If second arg is "_", wildcard table is built instead.
   return IntermediateTableFactory::buildSingleColTable(secondArgVarValue,
                                                        modifiedVariables);

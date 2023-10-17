@@ -125,7 +125,7 @@ bool HelperFunctions::validateModifiesProcVar(
     unordered_set<string> expectedModifies = expectedModifiesMap[proc];
     vector<string> expectedModifiesVector(expectedModifies.begin(),
                                           expectedModifies.end());
-    vector<string> actualModifies = reader.getModifiedVariablesForProc(proc);
+    vector<string> actualModifies = reader.getVarsModifiedByProc(proc);
     if (!compareVectorContents(actualModifies, expectedModifiesVector)) {
       return false;
     }
