@@ -2,17 +2,17 @@
 
 #include <string>
 
-#include "pkb/storage/UsesStore.h"
-#include "pkb/storage/UsesPStore.h"
 #include "pkb/interfaces/writers/IUsesWriter.h"
+#include "pkb/storage/UsesPStore.h"
+#include "pkb/storage/UsesSStore.h"
 
 class UsesWriter : public IUsesWriter {
  private:
-  UsesStore& usesStore;
+  UsesSStore& usesStore;
   UsesPStore& usesPStore;
 
  protected:
-  UsesWriter(UsesStore& usesStore, UsesPStore& usesPStore)
+  UsesWriter(UsesSStore& usesStore, UsesPStore& usesPStore)
       : usesStore(usesStore), usesPStore(usesPStore) {}
 
  public:

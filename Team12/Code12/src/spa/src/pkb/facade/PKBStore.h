@@ -5,13 +5,13 @@
 #include "pkb/storage/EntityStore.h"
 #include "pkb/storage/FollowsStore.h"
 #include "pkb/storage/ModifiesPStore.h"
-#include "pkb/storage/ModifiesStore.h"
+#include "pkb/storage/ModifiesSStore.h"
 #include "pkb/storage/NextStore.h"
 #include "pkb/storage/ParentStore.h"
 #include "pkb/storage/RelationTStore.h"
 #include "pkb/storage/StmtStore.h"
 #include "pkb/storage/UsesPStore.h"
-#include "pkb/storage/UsesStore.h"
+#include "pkb/storage/UsesSStore.h"
 
 class PKBStore {
  private:
@@ -19,9 +19,9 @@ class PKBStore {
   ParentStore parentStore;
   NextStore nextStore;
 
-  ModifiesStore modifiesStore;
+  ModifiesSStore modifiesStore;
   ModifiesPStore modifiesProcStore;
-  UsesStore usesStore;
+  UsesSStore usesStore;
   UsesPStore usesProcStore;
 
   CallsStore callsStore;
@@ -34,9 +34,9 @@ class PKBStore {
   [[nodiscard]] FollowsStore& getFollowsStore();
   [[nodiscard]] ParentStore& getParentStore();
   [[nodiscard]] NextStore& getNextStore();
-  [[nodiscard]] ModifiesStore& getModifiesStore();
+  [[nodiscard]] ModifiesSStore& getModifiesStore();
   [[nodiscard]] ModifiesPStore& getModifiesProcStore();
-  [[nodiscard]] UsesStore& getUsesStore();
+  [[nodiscard]] UsesSStore& getUsesStore();
   [[nodiscard]] UsesPStore& getUsesProcStore();
   [[nodiscard]] CallsStore& getCallsStore();
   [[nodiscard]] CallsSStore& getCallsStmtStore();
