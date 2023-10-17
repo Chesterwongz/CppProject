@@ -56,10 +56,6 @@ class PKBWriter : public DesignEntitiesWriter,
                            const unordered_set<string>& calleeProcs);
   void addModifiesForCallProcs(const string& callerProc,
                                const unordered_set<string>& calleeProcs);
-  //  void processCallProcRelations(
-  //      const string& caller, const unordered_set<string>& callees,
-  //      unordered_set<string> (PKBStorage::*retrieveVars)(const string&),
-  //      void (PKBWriter::*setProcRelationship)(const string&, const string&));
   template <typename ProcStoreType>
   void addRelationsForCallProcs(
       const string& callerProc, const unordered_set<string>& calleeProcs,
@@ -67,15 +63,15 @@ class PKBWriter : public DesignEntitiesWriter,
       std::function<void(const string&, const string&)>& adder);
 
   template <typename ProcStoreType>
-  void addRelationsForCallStmts(int stmtNum, const ProcStoreType& procStore,
+  void addRelationsForCallStmts(int stmtNum,
+                                const unordered_set<string>& allCallees,
+                                const ProcStoreType& procStore,
                                 std::function<void(const string&, int)>& adder);
 
-//  void processCallStmtRelations(
-//      int stmtNum, const string& callee,
-//      const unordered_set<string>& indirectCallees,
-//      unordered_set<string> (PKBStorage::*retrieveVars)(const string&),
-//      void (PKBWriter::*setStmtRelationship)(const string&, int));
-
-  void addUsesForCallStmts(int stmtNum);
-  void addModifiesForCallStmts(int stmtNum);
+  void addUsesForCallStmts(int stmtNum,
+                           const unordered_set<string>& allCallees);
+  void addModifiesForCallStmts(int stmtNum,
+                               const unordered_set<string>& allCallees);
+  void setIndirectCallsProcRelationships();
+  void setIndirectCallsStmtRelationships();
 };

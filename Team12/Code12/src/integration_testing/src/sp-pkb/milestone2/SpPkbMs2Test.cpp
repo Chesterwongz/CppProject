@@ -1,5 +1,5 @@
-#include <catch.hpp>
 #include <string>
+#include <catch.hpp>
 
 #include "../../utils/HelperFunctions.h"
 #include "common/AliasTypes.h"

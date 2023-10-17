@@ -45,7 +45,7 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerIdent() {
   int firstArgStmtNumber = std::stoi(this->firstArgValue);
   string secondArgIdent = this->secondArgValue;
 
-  if (pkb.isVariableUsedBy(firstArgStmtNumber, secondArgIdent)) {
+  if (pkb.isVariableModifiedBy(firstArgStmtNumber, secondArgIdent)) {
     return IntermediateTableFactory::buildWildcardIntermediateTable();
   }
   return IntermediateTableFactory::buildEmptyIntermediateTable();
