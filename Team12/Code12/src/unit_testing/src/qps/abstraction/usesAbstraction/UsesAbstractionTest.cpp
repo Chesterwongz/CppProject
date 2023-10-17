@@ -128,7 +128,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Synonym)") {
   UsesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_USED_VECTORS);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_USED_VECTORS);
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
@@ -167,7 +167,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Ident)") {
   UsesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_USING_STATEMENTS_COL);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_USING_STATEMENTS_COL);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
@@ -204,7 +204,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Wildcard)") {
   UsesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_USED_VECTORS_COL_1);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_USED_VECTORS_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
@@ -343,7 +343,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcName, Synonym)") {
   UsesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_USED_VECTOR_FOR_PROCS);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_USED_VECTOR_FOR_PROCS);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
 }

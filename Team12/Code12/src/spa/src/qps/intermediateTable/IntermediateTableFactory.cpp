@@ -46,28 +46,6 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
                                                       std::move(data));
 }
 
-IntermediateTable IntermediateTableFactory::buildSingleColTable(
-    const string &colName, const vector<string> &data) {
-  // if data is empty, return empty table
-  // even if columns are wildcard
-  if (data.empty()) {
-    return IntermediateTable::makeEmptyTable();
-  }
-
-  if (colName == WILDCARD_KEYWORD) {
-    return IntermediateTable::makeWildcardTable();
-  }
-
-  vector<string> columnNames = {colName};
-  TableDataType dataColumn = {};
-  dataColumn.reserve(data.size());
-  for (const string &rowData : data) {
-    TableRowType row = {SynonymResFactory::buildDefaultSynonym(rowData)};
-    dataColumn.emplace_back(std::move(row));
-  }
-  return IntermediateTable(columnNames, std::move(dataColumn));
-}
-
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const string &firstColName, set<string> data) {
   vector<string> dataAsVector(data.begin(), data.end());

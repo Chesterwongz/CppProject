@@ -8,6 +8,7 @@
 
 #include "IntermediateTable.h"
 #include "qps/common/Keywords.h"
+#include "qps/intermediateTable/synonymRes/SynonymResFactory.h"
 
 using std::set;
 
@@ -89,11 +90,11 @@ class IntermediateTableFactory {
     }
 
     vector<string> columnNames = {colName};
-    vector<vector<string>> dataColumn = {};
+    TableDataType dataColumn = {};
     dataColumn.reserve(data.size());
-    for (const auto &rowIndex : data) {
-      vector<string> elementToAdd = {rowIndex};
-      dataColumn.push_back(elementToAdd);
+    for (const string &datum : data) {
+      TableRowType row = {SynonymResFactory::buildDefaultSynonym(datum)};
+      dataColumn.emplace_back(std::move(row));
     }
     return IntermediateTable(columnNames, dataColumn);
   }
