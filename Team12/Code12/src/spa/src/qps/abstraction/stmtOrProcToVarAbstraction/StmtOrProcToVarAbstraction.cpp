@@ -23,11 +23,11 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymIdent() {
   vector<string> possibleValuesOfSynonym;
   // Abstraction(procSynonym, *) and Abstraction(stmtSynonym, *) has diff APIs
   if (isFirstArgProcedure) {
-    possibleValuesOfSynonym = (pkb.*getProcsRelatedToVar)(secondArgVarName);
+    possibleValuesOfSynonym = getProcsRelatedToVar(secondArgVarName);
   } else {
     StmtType firstArgStmtType = getFirstArgStmtType();
     possibleValuesOfSynonym =
-        (pkb.*getStmtsRelatedToVar)(secondArgVarName, firstArgStmtType);
+        getStmtsRelatedToVar(secondArgVarName, firstArgStmtType);
   }
   return IntermediateTableFactory::buildSingleColTable(firstArgSynonym,
                                                        possibleValuesOfSynonym);
@@ -44,7 +44,7 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateIntegerSynonym() {
   string secondArgVarSynonym = this->secondArgValue;
 
   vector<pair<string, string>> possibleStmtVarPairs =
-      (pkb.*getVarsRelatedToStmt)(firstArgStmtNumber, StmtType::STMT);
+      getVarsRelatedToStmt(firstArgStmtNumber, StmtType::STMT);
 
   return IntermediateTableFactory::buildIntermediateTable(
       WILDCARD_KEYWORD, secondArgVarSynonym, possibleStmtVarPairs);
@@ -55,7 +55,7 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateIntegerIdent() {
   string firstArgStmtNumber = this->firstArgValue;
   string secondArgIdent = this->secondArgValue;
 
-  if ((pkb.*isVarRelatedToStmt)(secondArgIdent, firstArgStmtNumber)) {
+  if (isVarRelatedToStmt(secondArgIdent, firstArgStmtNumber)) {
     return IntermediateTableFactory::buildWildcardIntermediateTable();
   }
   return IntermediateTableFactory::buildEmptyIntermediateTable();
@@ -66,7 +66,7 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateIntegerWildcard() {
   int firstArgStmtNumber = stoi(this->firstArgValue);
 
   vector<pair<string, string>> possibleStmtVarPairs =
-      (pkb.*getVarsRelatedToStmt)(firstArgStmtNumber, StmtType::STMT);
+      getVarsRelatedToStmt(firstArgStmtNumber, StmtType::STMT);
 
   return IntermediateTableFactory::buildIntermediateTable(
       WILDCARD_KEYWORD, WILDCARD_KEYWORD, possibleStmtVarPairs);
@@ -82,7 +82,7 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateIdentIdent() {
   string firstArgProcName = this->firstArgValue;
   string secondArgVarName = this->secondArgValue;
   bool isProcRelatedToVar =
-      (pkb.*isVarRelatedToProc)(secondArgVarName, firstArgProcName);
+      isVarRelatedToProc(secondArgVarName, firstArgProcName);
 
   return isProcRelatedToVar
              ? IntermediateTableFactory::buildWildcardIntermediateTable()
@@ -103,10 +103,10 @@ IntermediateTable StmtOrProcToVarAbstraction::handleSynonymOrWildcardArgs() {
   // Abstraction(procSynonym, *) and Abstraction(stmtSynonym, *) has diff APIs
   vector<pair<string, string>> allStmtOrProcAndVarPairs;
   if (isFirstArgProcedure) {
-    allStmtOrProcAndVarPairs = (pkb.*getAllProcVarRelations)();
+    allStmtOrProcAndVarPairs = getAllProcVarRelations();
   } else {
     StmtType firstArgStmtType = getFirstArgStmtType();
-    allStmtOrProcAndVarPairs = (pkb.*getAllStmtVarRelations)(firstArgStmtType);
+    allStmtOrProcAndVarPairs = getAllStmtVarRelations(firstArgStmtType);
   }
 
   //! If any of the args are "_", the column will be ignored.
@@ -118,8 +118,7 @@ IntermediateTable
 StmtOrProcToVarAbstraction::handleProcNameWithVarSynonymOrWildcard() {
   string firstArgProcName = this->firstArgValue;
   string secondArgVarValue = this->secondArgValue;
-  vector<string> possibleVarValues =
-      (pkb.*getVarsRelatedToProc)(firstArgProcName);
+  vector<string> possibleVarValues = getVarsRelatedToProc(firstArgProcName);
   //! If second arg is "_", wildcard table is built instead.
   return IntermediateTableFactory::buildSingleColTable(secondArgVarValue,
                                                        possibleVarValues);

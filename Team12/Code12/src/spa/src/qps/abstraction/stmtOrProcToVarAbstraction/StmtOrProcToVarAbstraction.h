@@ -8,57 +8,61 @@
 #include "qps/abstraction/BaseAbstraction.h"
 #include "qps/intermediateTable/IntermediateTable.h"
 
-using GetAllStmtVarPairFuncType =
-    vector<pair<string, string>> (PKBReader::*)(StmtType);
-using GetAllProcVarPairFuncType =
-    vector<pair<string, string>> (PKBReader::*)();
-using GetStmtsRelatedToVarFuncType =
-    vector<string> (PKBReader::*)(const string&, StmtType);
-using GetProcsRelatedToVarFuncType =
-    vector<string> (PKBReader::*)(const string&);
-using GetVarsRelatedToStmtFuncType =
-    vector<pair<string, string>> (PKBReader::*)(int, StmtType);
-using GetVarsRelatedToProcFuncType =
-    vector<string> (PKBReader::*)(const string&);
-using IsVarRelatedToStmtFuncType = bool (PKBReader::*)(const string&,
-                                                       const string&);
-using IsVarRelatedToProcFunc = bool (PKBReader::*)(const string&,
-                                                   const string&);
-
 class StmtOrProcToVarAbstraction : public BaseAbstraction {
  private:
-  GetAllStmtVarPairFuncType getAllStmtVarRelations;
-  GetAllProcVarPairFuncType getAllProcVarRelations;
-  GetStmtsRelatedToVarFuncType getStmtsRelatedToVar;
-  GetProcsRelatedToVarFuncType getProcsRelatedToVar;
-  GetVarsRelatedToStmtFuncType getVarsRelatedToStmt;
-  GetVarsRelatedToProcFuncType getVarsRelatedToProc;
-  IsVarRelatedToStmtFuncType isVarRelatedToStmt;
-  IsVarRelatedToProcFunc isVarRelatedToProc;
-
   IntermediateTable handleSynonymOrWildcardArgs();
   IntermediateTable handleProcNameWithVarSynonymOrWildcard();
 
+  /**
+   * Abstraction(a, b): get all a, b pairs where a has specified stmtType
+   */
+  virtual vector<pair<string, string>> getAllStmtVarRelations(
+      StmtType stmtType) = 0;
+
+  /**
+   * Abstraction(a, b): get all a, b pairs where a has specified procName
+   */
+  virtual vector<pair<string, string>> getAllProcVarRelations() = 0;
+
+  /**
+   * Abstraction(a, b): get all stmt a where a has specified stmtType
+   * and b has specified varName
+   */
+  virtual vector<string> getStmtsRelatedToVar(const string& varName,
+                                              StmtType stmtType) = 0;
+
+  /**
+   * Abstraction(a, b): get all proc a where b has specified varName
+   */
+  virtual vector<string> getProcsRelatedToVar(const string& varName) = 0;
+
+  /**
+   * Abstraction(a, b): get all a, b pairs where a has specified stmtType
+   * and stmtNum
+   */
+  virtual vector<pair<string, string>> getVarsRelatedToStmt(
+      int stmtNum, StmtType stmtType) = 0;
+
+  /**
+   * Abstraction(a, b): get all a, b pairs where a has specified procName
+   */
+  virtual vector<string> getVarsRelatedToProc(const string& procName) = 0;
+
+  /**
+   * Abstraction(a, b): check if specified stmtNum and varName are related
+   */
+  virtual bool isVarRelatedToStmt(const string& varName,
+                                  const string& stmtNum) = 0;
+
+  /**
+   * Abstraction(a, b): check if specified procName and varName are related
+   */
+  virtual bool isVarRelatedToProc(const string& procName,
+                                  const string& varName) = 0;
+
  protected:
-  explicit StmtOrProcToVarAbstraction(
-      AbstractionParams abstractionParams,
-      GetAllStmtVarPairFuncType getAllStmtVarRelations,
-      GetAllProcVarPairFuncType getAllProcVarRelations,
-      GetStmtsRelatedToVarFuncType getStmtsRelatedToVar,
-      GetProcsRelatedToVarFuncType getProcsRelatedToVar,
-      GetVarsRelatedToStmtFuncType getVarsRelatedToStmt,
-      GetVarsRelatedToProcFuncType getVarsRelatedToProc,
-      IsVarRelatedToStmtFuncType isVarRelatedToStmt,
-      IsVarRelatedToProcFunc isVarRelatedToProc)
-      : BaseAbstraction(abstractionParams),
-        getAllStmtVarRelations(getAllStmtVarRelations),
-        getAllProcVarRelations(getAllProcVarRelations),
-        getStmtsRelatedToVar(getStmtsRelatedToVar),
-        getProcsRelatedToVar(getProcsRelatedToVar),
-        getVarsRelatedToStmt(getVarsRelatedToStmt),
-        getVarsRelatedToProc(getVarsRelatedToProc),
-        isVarRelatedToStmt(isVarRelatedToStmt),
-        isVarRelatedToProc(isVarRelatedToProc) {}
+  explicit StmtOrProcToVarAbstraction(AbstractionParams abstractionParams)
+      : BaseAbstraction(abstractionParams) {}
 
   IntermediateTable evaluateSynonymSynonym() override;
   IntermediateTable evaluateSynonymIdent() override;
