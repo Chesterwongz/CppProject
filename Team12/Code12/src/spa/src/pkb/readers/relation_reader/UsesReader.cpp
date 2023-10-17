@@ -26,8 +26,8 @@ bool UsesReader::isVariableUsedBy(const std::string& variableName,
   return uses_reader_.isVarRelatedToStmt(variableName, statementNumber);
 }
 
-bool UsesReader::isVariableUsedByProc(const std::string& variableName,
-                                      const std::string& procName) {
+bool UsesReader::isVariableUsedByProc(const std::string& procName,
+                                      const std::string& variableName) {
   return uses_reader_.isVarRelatedToProc(variableName, procName);
 }
 

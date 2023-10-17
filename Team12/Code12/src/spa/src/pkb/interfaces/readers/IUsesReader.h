@@ -36,8 +36,8 @@ class IUsesReader {
 
   // check if Used(p, v) is true where p is procName and v is the
   // variable name
-  virtual bool isVariableUsedByProc(const std::string& variableName,
-                                    const std::string& procName) = 0;
+  virtual bool isVariableUsedByProc(const std::string& procName,
+                                    const std::string& variableName) = 0;
 
   // return all pairs (s, v) that satisfy Uses (s, v) where s is of a particular
   // type

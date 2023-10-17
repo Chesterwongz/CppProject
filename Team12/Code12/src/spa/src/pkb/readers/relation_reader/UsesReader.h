@@ -36,8 +36,8 @@ class UsesReader : public IUsesReader {
   bool isVariableUsedBy(const std::string& variableName,
                         const std::string& statementNumber) override;
 
-  bool isVariableUsedByProc(const std::string& variableName,
-                            const std::string& procName) override;
+  bool isVariableUsedByProc(const std::string& procName,
+                            const std::string& variableName) override;
 
   std::vector<std::pair<std::string, std::string>> getAllUsedVariables(
       StmtType statementType) override;
