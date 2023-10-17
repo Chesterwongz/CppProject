@@ -5,85 +5,93 @@
 #include "pkb/facade/PKBWriter.h"
 #include "pkb/readers/relation_reader/stmt_to_stmt/AffectsReader.h"
 
-// TEST_CASE("AffectsReader Tests 1") {
-//   CallsStorage callsStorage;
-//   ModifiesStorage modifiesStorage;
-//   NextStorage nextStorage;
-//   StmtStorage stmtStorage;
-//   UsesStorage usesStorage;
-//
-//   stmtStorage.setStatement(1, StmtType::ASSIGN);
-//   stmtStorage.setStatement(2, StmtType::ASSIGN);
-//   stmtStorage.setStatement(3, StmtType::WHILE);
-//   stmtStorage.setStatement(4, StmtType::ASSIGN);
-//   stmtStorage.setStatement(5, StmtType::CALL);
-//   stmtStorage.setStatement(6, StmtType::ASSIGN);
-//   stmtStorage.setStatement(7, StmtType::IF);
-//   stmtStorage.setStatement(8, StmtType::ASSIGN);
-//   stmtStorage.setStatement(9, StmtType::ASSIGN);
-//   stmtStorage.setStatement(10, StmtType::ASSIGN);
-//   stmtStorage.setStatement(11, StmtType::ASSIGN);
-//   stmtStorage.setStatement(12, StmtType::ASSIGN);
-//
-//   modifiesStorage.addModifies("x", 1);
-//   modifiesStorage.addModifies("i", 2);
-//   modifiesStorage.addModifies("x", 4);
-//   modifiesStorage.addModifies("i", 6);
-//   modifiesStorage.addModifies("x", 8);
-//   modifiesStorage.addModifies("z", 9);
-//   modifiesStorage.addModifies("z", 10);
-//   modifiesStorage.addModifies("y", 11);
-//   modifiesStorage.addModifies("x", 12);
-//   modifiesStorage.addModifies("z", "Third");
-//   modifiesStorage.addModifies("v", "Third");
-//
-//   usesStorage.addUses("x", 4);
-//   usesStorage.addUses("y", 4);
-//   usesStorage.addUses("i", 6);
-//   usesStorage.addUses("x", 8);
-//   usesStorage.addUses("z", 10);
-//   usesStorage.addUses("x", 10);
-//   usesStorage.addUses("i", 10);
-//   usesStorage.addUses("z", 11);
-//   usesStorage.addUses("x", 12);
-//   usesStorage.addUses("y", 12);
-//   usesStorage.addUses("z", 12);
-//
-//   callsStorage.setCallsRelationship("Second", "Third", 5);
-//
-//   nextStorage.addNext(1, 2);
-//   nextStorage.addNext(2, 3);
-//   nextStorage.addNext(3, 4);
-//   nextStorage.addNext(3, 7);
-//   nextStorage.addNext(4, 5);
-//   nextStorage.addNext(5, 6);
-//   nextStorage.addNext(6, 3);
-//   nextStorage.addNext(6, 7);
-//   nextStorage.addNext(7, 8);
-//   nextStorage.addNext(7, 9);
-//   nextStorage.addNext(8, 10);
-//   nextStorage.addNext(9, 10);
-//   nextStorage.addNext(10, 11);
-//   nextStorage.addNext(11, 12);
-//
-//   SECTION("AffectsPairs") {
-//     AffectsReader affectsReader(callsStorage, modifiesStorage, nextStorage,
-//                                 stmtStorage, usesStorage);
-//     std::vector<std::pair<std::string, std::string>> result =
-//         affectsReader.getAffectsPairs();
-//     REQUIRE(result ==
-//             std::vector<std::pair<std::string, std::string>> {{"2", "6"},
-//                                                               {"4", "8"},
-//                                                               {"4", "10"},
-//                                                               {"6", "6"},
-//                                                               {"1", "4"},
-//                                                               {"1", "8"},
-//                                                               {"1", "10"},
-//                                                               {"1", "12"},
-//                                                               {"2", "10"},
-//                                                               {"9", "10"}});
-//   }
-// }
+TEST_CASE("AffectsReader Tests 1") {
+  CallsStorage callsStorage;
+  ModifiesStorage modifiesStorage;
+  NextStorage nextStorage;
+  StmtStorage stmtStorage;
+  UsesStorage usesStorage;
+
+  stmtStorage.setStatement(1, StmtType::ASSIGN);
+  stmtStorage.setStatement(2, StmtType::ASSIGN);
+  stmtStorage.setStatement(3, StmtType::WHILE);
+  stmtStorage.setStatement(4, StmtType::ASSIGN);
+  stmtStorage.setStatement(5, StmtType::CALL);
+  stmtStorage.setStatement(6, StmtType::ASSIGN);
+  stmtStorage.setStatement(7, StmtType::IF);
+  stmtStorage.setStatement(8, StmtType::ASSIGN);
+  stmtStorage.setStatement(9, StmtType::ASSIGN);
+  stmtStorage.setStatement(10, StmtType::ASSIGN);
+  stmtStorage.setStatement(11, StmtType::ASSIGN);
+  stmtStorage.setStatement(12, StmtType::ASSIGN);
+
+  modifiesStorage.addModifies("x", 1);
+  modifiesStorage.addModifies("i", 2);
+  modifiesStorage.addModifies("x", 4);
+  modifiesStorage.addModifies("i", 6);
+  modifiesStorage.addModifies("x", 8);
+  modifiesStorage.addModifies("z", 9);
+  modifiesStorage.addModifies("z", 10);
+  modifiesStorage.addModifies("y", 11);
+  modifiesStorage.addModifies("x", 12);
+  modifiesStorage.addModifies("z", "Third");
+  modifiesStorage.addModifies("v", "Third");
+
+  usesStorage.addUses("x", 4);
+  usesStorage.addUses("y", 4);
+  usesStorage.addUses("i", 6);
+  usesStorage.addUses("x", 8);
+  usesStorage.addUses("i", 10);
+  usesStorage.addUses("x", 10);
+  usesStorage.addUses("z", 10);
+  usesStorage.addUses("z", 11);
+  usesStorage.addUses("x", 12);
+  usesStorage.addUses("y", 12);
+  usesStorage.addUses("z", 12);
+
+  callsStorage.setCallsRelationship("Second", "Third", 5);
+
+  nextStorage.addNext(1, 2);
+  nextStorage.addNext(2, 3);
+  nextStorage.addNext(3, 4);
+  nextStorage.addNext(3, 7);
+  nextStorage.addNext(4, 5);
+  nextStorage.addNext(5, 6);
+  nextStorage.addNext(6, 3);
+  nextStorage.addNext(6, 7);
+  nextStorage.addNext(7, 8);
+  nextStorage.addNext(7, 9);
+  nextStorage.addNext(8, 10);
+  nextStorage.addNext(9, 10);
+  nextStorage.addNext(10, 11);
+  nextStorage.addNext(11, 12);
+
+  SECTION("AffectsPairs") {
+    AffectsReader affectsReader(callsStorage, modifiesStorage, nextStorage,
+                                stmtStorage, usesStorage);
+    std::vector<std::pair<std::string, std::string>> result =
+        affectsReader.getAffectsPairs();
+    REQUIRE(result ==
+            std::vector<std::pair<std::string, std::string>> {{"1", "4"},
+                                                              {"1", "8"},
+                                                              {"1", "10"},
+                                                              {"1", "12"},
+                                                              {"2", "6"},
+                                                              {"2", "10"},
+                                                              {"4", "4"},
+                                                              {"4", "8"},
+                                                              {"4", "10"},
+                                                              {"4", "12"},
+                                                              {"6", "6"},
+                                                              {"6", "10"},
+                                                              {"8", "10"},
+                                                              {"8", "12"},
+                                                              {"9", "10"},
+                                                              {"10", "11"},
+                                                              {"10", "12"},
+                                                              {"11", "12"}});
+  }
+}
 
  TEST_CASE("AffectsReader Tests 2 - Code 7") {
    CallsStorage callsStorage;
@@ -123,7 +131,7 @@
    }
  }
 
-TEST_CASE("AffectsReader Tests 3 - Code 8") {
+ TEST_CASE("AffectsReader Tests 3 - Code 8") {
   CallsStorage callsStorage;
   ModifiesStorage modifiesStorage;
   NextStorage nextStorage;
@@ -157,7 +165,7 @@ TEST_CASE("AffectsReader Tests 3 - Code 8") {
   }
 }
 
-TEST_CASE("AffectsReader Tests 4 - Code 9") {
+ TEST_CASE("AffectsReader Tests 4 - Code 9") {
   CallsStorage callsStorage;
   ModifiesStorage modifiesStorage;
   NextStorage nextStorage;
@@ -230,7 +238,7 @@ TEST_CASE("AffectsReader Tests 4 - Code 9") {
   }
 }
 
-TEST_CASE("AffectsReader Tests 5 - Code 11") {
+ TEST_CASE("AffectsReader Tests 5 - Code 11") {
   CallsStorage callsStorage;
   ModifiesStorage modifiesStorage;
   NextStorage nextStorage;
@@ -260,7 +268,7 @@ TEST_CASE("AffectsReader Tests 5 - Code 11") {
   }
 }
 
-TEST_CASE("AffectsReader Tests 6 - Code 10") {
+ TEST_CASE("AffectsReader Tests 6 - Code 10") {
   CallsStorage callsStorage;
   ModifiesStorage modifiesStorage;
   NextStorage nextStorage;

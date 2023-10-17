@@ -26,30 +26,37 @@ void AffectsReader::FindAffectsPairs(
     unordered_set<std::string>& done,
     std::vector<std::pair<std::string, std::string>>& result) {
 
-    /*std::cout << "original: " << originalStatement << std::endl;
-    std::cout << "current: " << currentStatement << std::endl;*/
-
     done.insert(std::to_string(currentStatement));
 
     for (auto& nextStatement : next_storage_.getNextStmts(currentStatement)) {
+        if (nextStatement == originalStatement &&
+            uses_storage_.getVarsUsedByStmt(nextStatement).count(variable) > 0) {
+            result.emplace_back(std::to_string(originalStatement), std::to_string(nextStatement));
+        }
+
         if (done.count(std::to_string(nextStatement)) > 0) {
             continue;
         }
 
+        // if it is an ASSIGN statement, and it uses the variable
         if (stmt_storage_.getStatementNumbersFromStatementType(StmtType::ASSIGN).count(nextStatement) > 0 &&
             uses_storage_.getVarsUsedByStmt(nextStatement).count(variable) > 0) {
             result.emplace_back(std::to_string(originalStatement), std::to_string(nextStatement));
         }
 
-        if (modifies_storage_.getVarsModifiedByStmt(nextStatement).count(variable) > 0) {
+        // if it is an ASSIGN statement, and it modifies the variable then Affects cannot hold
+        if (stmt_storage_.getStatementNumbersFromStatementType(StmtType::ASSIGN).count(nextStatement) > 0 &&
+            modifies_storage_.getVarsModifiedByStmt(nextStatement).count(variable) > 0) {
             continue;
         }
 
+        // if it is a READ statement, and it modifies the variable then Affects cannot hold
         if (stmt_storage_.getStatementNumbersFromStatementType(StmtType::READ).count(nextStatement) > 0 &&
             modifies_storage_.getVarsModifiedByStmt(nextStatement).count(variable) > 0) {
             continue;
         }
 
+        // if it is a CALL statement, and it modifies the variable then Affects cannot hold
         if (stmt_storage_.getStatementNumbersFromStatementType(StmtType::CALL).count(nextStatement) > 0 &&
             modifies_storage_.getVarsModifiedByProc(calls_storage_.getStmtCalleeMap().at(nextStatement)).count(variable) > 0) {
             continue;
