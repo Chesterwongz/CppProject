@@ -139,7 +139,7 @@ bool HelperFunctions::validateUsesProcVar(PKBReader& reader,
   for (const string& proc : procs) {
     unordered_set<string> expectedUses = expectedUsesMap[proc];
     vector<string> expectedUsesVector(expectedUses.begin(), expectedUses.end());
-    vector<string> actualUses = reader.getUsedVariablesForProc(proc);
+    vector<string> actualUses = reader.getVarsUsedByProc(proc);
     if (!compareVectorContents(actualUses, expectedUsesVector)) {
       return false;
     }

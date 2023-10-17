@@ -23,7 +23,7 @@ IntermediateTable UsesAbstraction::evaluateSynonymIdent() {
   vector<string> result;
   // Uses(procSynonym, *) and Uses(stmtSynonym, *) has different APIs
   if (isFirstArgProcedure) {
-    result = pkb.getProceduresUsing(secondArgVarName);
+    result = pkb.getProcUsing(secondArgVarName);
   } else {
     StmtType firstArgStmtType = getFirstArgStmtType();
     result = pkb.getStatementsUsing(secondArgVarName, firstArgStmtType);
@@ -101,7 +101,7 @@ IntermediateTable UsesAbstraction::handleSynonymOrWildcardArgs() {
   // Uses(procSynonym, *) and Uses(stmtSynonym, *) has different APIs
   vector<pair<string, string>> result;
   if (isFirstArgProcedure) {
-    result = pkb.getAllUsedVariablesByProcs();
+    result = pkb.getUsesProcPairs();
   } else {
     StmtType firstArgStmtType = getFirstArgStmtType();
     result = pkb.getAllUsedVariables(firstArgStmtType);
@@ -115,7 +115,7 @@ IntermediateTable UsesAbstraction::handleSynonymOrWildcardArgs() {
 IntermediateTable UsesAbstraction::handleProcNameWithVarSynonymOrWildcard() {
   string firstArgProcName = this->firstArgValue;
   string secondArgVarValue = this->secondArgValue;
-  vector<string> usedVariables = pkb.getUsedVariablesForProc(firstArgProcName);
+  vector<string> usedVariables = pkb.getVarsUsedByProc(firstArgProcName);
   //! If second arg is "_", wildcard table is built instead.
   return IntermediateTableFactory::buildSingleColTable(secondArgVarValue,
                                                        usedVariables);

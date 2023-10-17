@@ -24,13 +24,13 @@ class UsesReader : public IUsesReader {
   std::vector<std::string> getStatementsUsing(const std::string& variableName,
                                               StmtType statementType) override;
 
-  std::vector<std::string> getProceduresUsing(
+  std::vector<std::string> getProcUsing(
       const std::string& variableName) override;
 
   std::vector<std::pair<std::string, std::string>> getVariablesUsedBy(
       int statementNumber, StmtType statementType) override;
 
-  std::vector<std::string> getUsedVariablesForProc(
+  std::vector<std::string> getVarsUsedByProc(
       const std::string& procName) override;
 
   bool isVariableUsedBy(const std::string& variableName,
@@ -42,6 +42,5 @@ class UsesReader : public IUsesReader {
   std::vector<std::pair<std::string, std::string>> getAllUsedVariables(
       StmtType statementType) override;
 
-  std::vector<std::pair<std::string, std::string>> getAllUsedVariablesByProcs()
-      override;
+  std::vector<std::pair<std::string, std::string>> getUsesProcPairs() override;
 };
