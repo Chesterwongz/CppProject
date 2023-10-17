@@ -85,7 +85,7 @@
 //   }
 // }
 
- TEST_CASE("AffectsReader Tests 2") {
+ TEST_CASE("AffectsReader Tests 2 - Code 7") {
    CallsStorage callsStorage;
    ModifiesStorage modifiesStorage;
    NextStorage nextStorage;
@@ -123,40 +123,41 @@
    }
  }
 
- TEST_CASE("AffectsReader Tests 3") {
-   CallsStorage callsStorage;
-   ModifiesStorage modifiesStorage;
-   NextStorage nextStorage;
-   StmtStorage stmtStorage;
-   UsesStorage usesStorage;
+TEST_CASE("AffectsReader Tests 3 - Code 8") {
+  CallsStorage callsStorage;
+  ModifiesStorage modifiesStorage;
+  NextStorage nextStorage;
+  StmtStorage stmtStorage;
+  UsesStorage usesStorage;
 
-   stmtStorage.setStatement(1, StmtType::ASSIGN);
-   stmtStorage.setStatement(2, StmtType::CALL);
-   stmtStorage.setStatement(3, StmtType::ASSIGN);
+  stmtStorage.setStatement(1, StmtType::ASSIGN);
+  stmtStorage.setStatement(2, StmtType::CALL);
+  stmtStorage.setStatement(3, StmtType::ASSIGN);
 
-   modifiesStorage.addModifies("x", 1);
-   modifiesStorage.addModifies("v", 3);
-   //modifiesStorage.addModifies("x", "q");
+  modifiesStorage.addModifies("x", 1);
+  modifiesStorage.addModifies("v", 3);
+  // If Modifies("q", "x") does not hold, then Affects(1, 3) holds.
+  // modifiesStorage.addModifies("x", "q");
 
-   usesStorage.addUses("a", 1);
-   usesStorage.addUses("x", 3);
+  usesStorage.addUses("a", 1);
+  usesStorage.addUses("x", 3);
 
-   nextStorage.addNext(1, 2);
-   nextStorage.addNext(2, 3);
+  nextStorage.addNext(1, 2);
+  nextStorage.addNext(2, 3);
 
-   callsStorage.setCallsRelationship("p", "q", 2);
+  callsStorage.setCallsRelationship("p", "q", 2);
 
-   SECTION("AffectsPairs") {
-     AffectsReader affectsReader(callsStorage, modifiesStorage, nextStorage,
-                                 stmtStorage, usesStorage);
-     std::vector<std::pair<std::string, std::string>> result =
-         affectsReader.getAffectsPairs();
-     REQUIRE(result == std::vector<std::pair<std::string, std::string>> {
-                           {"1", "3"}});
-   }
- }
+  SECTION("AffectsPairs") {
+    AffectsReader affectsReader(callsStorage, modifiesStorage, nextStorage,
+                                stmtStorage, usesStorage);
+    std::vector<std::pair<std::string, std::string>> result =
+        affectsReader.getAffectsPairs();
+    REQUIRE(result ==
+            std::vector<std::pair<std::string, std::string>> {{"1", "3"}});
+  }
+}
 
-TEST_CASE("AffectsReader Tests 4") {
+TEST_CASE("AffectsReader Tests 4 - Code 9") {
   CallsStorage callsStorage;
   ModifiesStorage modifiesStorage;
   NextStorage nextStorage;
@@ -226,5 +227,79 @@ TEST_CASE("AffectsReader Tests 4") {
                                                               {"6", "10"},
                                                               {"7", "11"},
                                                               {"9", "11"}});
+  }
+}
+
+TEST_CASE("AffectsReader Tests 5 - Code 11") {
+  CallsStorage callsStorage;
+  ModifiesStorage modifiesStorage;
+  NextStorage nextStorage;
+  StmtStorage stmtStorage;
+  UsesStorage usesStorage;
+
+  stmtStorage.setStatement(1, StmtType::ASSIGN);
+  stmtStorage.setStatement(2, StmtType::READ);
+  stmtStorage.setStatement(3, StmtType::ASSIGN);
+
+  modifiesStorage.addModifies("x", 1);
+  modifiesStorage.addModifies("x", 2);
+  modifiesStorage.addModifies("v", 3);
+
+  usesStorage.addUses("a", 1);
+  usesStorage.addUses("x", 3);
+
+  nextStorage.addNext(1, 2);
+  nextStorage.addNext(2, 3);
+
+  SECTION("AffectsPairs") {
+    AffectsReader affectsReader(callsStorage, modifiesStorage, nextStorage,
+                                stmtStorage, usesStorage);
+    std::vector<std::pair<std::string, std::string>> result =
+        affectsReader.getAffectsPairs();
+    REQUIRE(result == std::vector<std::pair<std::string, std::string>> {});
+  }
+}
+
+TEST_CASE("AffectsReader Tests 6 - Code 10") {
+  CallsStorage callsStorage;
+  ModifiesStorage modifiesStorage;
+  NextStorage nextStorage;
+  StmtStorage stmtStorage;
+  UsesStorage usesStorage;
+
+  stmtStorage.setStatement(1, StmtType::ASSIGN);
+  stmtStorage.setStatement(2, StmtType::CALL);
+  stmtStorage.setStatement(3, StmtType::ASSIGN);
+  stmtStorage.setStatement(4, StmtType::IF);
+  stmtStorage.setStatement(5, StmtType::ASSIGN);
+  stmtStorage.setStatement(6, StmtType::ASSIGN);
+
+  modifiesStorage.addModifies("x", 1);
+  modifiesStorage.addModifies("a", 3);
+  modifiesStorage.addModifies("x", 5);
+  modifiesStorage.addModifies("a", 6);
+  modifiesStorage.addModifies("a", "beta");
+  modifiesStorage.addModifies("x", "beta");
+
+  usesStorage.addUses("x", 3);
+  usesStorage.addUses("a", 5);
+  usesStorage.addUses("b", 6);
+  usesStorage.addUses("a", "beta");
+  usesStorage.addUses("b", "beta");
+  usesStorage.addUses("i", "beta");
+
+  nextStorage.addNext(1, 2);
+  nextStorage.addNext(2, 3);
+  nextStorage.addNext(4, 5);
+  nextStorage.addNext(4, 6);
+
+  callsStorage.setCallsRelationship("alpha", "beta", 2);
+
+  SECTION("AffectsPairs") {
+    AffectsReader affectsReader(callsStorage, modifiesStorage, nextStorage,
+                                stmtStorage, usesStorage);
+    std::vector<std::pair<std::string, std::string>> result =
+        affectsReader.getAffectsPairs();
+    REQUIRE(result == std::vector<std::pair<std::string, std::string>> {});
   }
 }
