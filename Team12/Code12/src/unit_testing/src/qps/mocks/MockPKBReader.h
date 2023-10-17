@@ -225,7 +225,7 @@ class MockPKBReader : public PKBReader {
   }
 
   bool isVariableModifiedByProc(const string& procName,
-                                const string& variableName) override {
+                                const string& varName) override {
     return mockIsVariableModifiedByProc;
   }
 

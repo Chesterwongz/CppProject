@@ -27,7 +27,7 @@ class IModifiesReader {
 
   // return all variables modified by specified procedure
   virtual std::vector<std::string> getVarsModifiedByProc(
-      const string& procName) = 0;
+      const std::string& procName) = 0;
 
   // check if Modifies(s, v) is true where s is statementNumber and v is the
   // variable name
@@ -36,8 +36,8 @@ class IModifiesReader {
 
   // check if Modifies(p, v) is true where p is procName and v is the
   // variable name
-  virtual bool isVariableModifiedByProc(const string& procName,
-                                        const string& varName) = 0;
+  virtual bool isVariableModifiedByProc(const std::string& procName,
+                                        const std::string& varName) = 0;
 
   // return all pairs (s, v) that satisfy Modifies (s, v) where s is of a
   // particular type

@@ -39,8 +39,8 @@ class ModifiesReader : public IModifiesReader {
   bool isVariableModifiedBy(const std::string& variableName,
                             const std::string& statementNumber) override;
 
-  bool isVariableModifiedByProc(const string& procName,
-                                const string& varName) override;
+  bool isVariableModifiedByProc(const std::string& procName,
+                                const std::string& varName) override;
 
   std::vector<std::pair<std::string, std::string>> getAllModifiedVariables(
       StmtType statementType) override;
