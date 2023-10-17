@@ -17,6 +17,8 @@ class RelationStore {
   // An unordered set of the direct ancestors of S. I.e., S <- T
   std::unordered_map<T, std::unordered_set<S>> directAncestorMap;
 
+  RelationStore() = default;
+
   [[nodiscard]] std::vector<std::pair<S, T>> allRelationsToVectorFiltered(
       const std::unordered_map<S, std::unordered_set<T>>& successors,
       const std::function<bool(S)>& filterStmt1,
@@ -74,6 +76,8 @@ class RelationStore {
   }
 
  public:
+  virtual ~RelationStore() = default;
+
   virtual void addRelation(S from, T to) {
     directSuccessorMap[from].insert(to);
     directAncestorMap[to].insert(from);

@@ -6,11 +6,11 @@ ParentStore& PKBStore::getParentStore() { return parentStore; }
 
 NextStore& PKBStore::getNextStore() { return nextStore; }
 
-ModifiesStore& PKBStore::getModifiesStore() { return modifiesStore; }
+ModifiesSStore& PKBStore::getModifiesStore() { return modifiesStore; }
 
 ModifiesPStore& PKBStore::getModifiesProcStore() { return modifiesProcStore; }
 
-UsesStore& PKBStore::getUsesStore() { return usesStore; }
+UsesSStore& PKBStore::getUsesStore() { return usesStore; }
 
 UsesPStore& PKBStore::getUsesProcStore() { return usesProcStore; }
 

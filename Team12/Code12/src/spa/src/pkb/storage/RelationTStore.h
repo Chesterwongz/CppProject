@@ -12,14 +12,26 @@ template <typename S, typename T>
 class RelationTStore : public RelationStore<S, T> {
  protected:
   // An unordered set of the direct successors of S. I.e., S *-> T
-  std::unordered_map<S, std::unordered_set<T>> successorMap;
+  std::unordered_map<S, std::unordered_set<T>> transitiveSuccessorMap;
 
   // An unordered set of the direct ancestors of S. I.e., S <-* T
-  std::unordered_map<T, std::unordered_set<S>> ancestorMap;
+  std::unordered_map<T, std::unordered_set<S>> transitiveAncestorMap;
+
+  RelationTStore() = default;
 
   void addRelationT(S from, T to) {
-    successorMap[from].insert(to);
-    ancestorMap[to].insert(from);
+    transitiveSuccessorMap[from].insert(to);
+    transitiveAncestorMap[to].insert(from);
+  }
+
+  virtual void precomputeRelationT(S from, T to) {
+    addRelationT(from, to);
+    for (const auto& s : transitiveAncestorMap[from]) {
+      addRelationT(s, to);
+    }
+    for (const auto& t : transitiveSuccessorMap[to]) {
+      addRelationT(from, t);
+    }
   }
 
  public:
@@ -28,48 +40,39 @@ class RelationTStore : public RelationStore<S, T> {
     precomputeRelationT(from, to);
   }
 
-  virtual void precomputeRelationT(S from, T to) {
-    addRelationT(from, to);
-    for (const auto& s : this->ancestorMap[from]) {
-      addRelationT(s, to);
-    }
-    for (const auto& t : this->successorMap[to]) {
-      addRelationT(from, t);
-    }
-  }
-
   [[nodiscard]] bool hasRelationT(S from, T to) const {
-    return successorMap.count(from) && successorMap.at(from).count(to);
+    return transitiveSuccessorMap.count(from) &&
+           transitiveSuccessorMap.at(from).count(to);
   }
 
   [[nodiscard]] std::vector<T> getAllSuccessorsTOf(S from) const {
-    return RelationStore<S, T>::relationToVector(from, successorMap);
+    return RelationStore<S, T>::relationToVector(from, transitiveSuccessorMap);
   }
 
   [[nodiscard]] std::vector<T> getSuccessorsTOf(
       S from, const std::function<bool(T)>& filter) const {
-    return RelationStore<S, T>::relationToVectorFiltered(from, successorMap,
-                                                         filter);
+    return RelationStore<S, T>::relationToVectorFiltered(
+        from, transitiveSuccessorMap, filter);
   }
 
   [[nodiscard]] std::vector<S> getAllAncestorsTOf(T to) const {
-    return RelationStore<S, T>::relationToVector(to, ancestorMap);
+    return RelationStore<S, T>::relationToVector(to, transitiveAncestorMap);
   }
 
   [[nodiscard]] std::vector<S> getAncestorsTOf(
       T to, const std::function<bool(S)>& filter) const {
-    return RelationStore<S, T>::relationToVectorFiltered(to, ancestorMap,
-                                                         filter);
+    return RelationStore<S, T>::relationToVectorFiltered(
+        to, transitiveAncestorMap, filter);
   }
 
   [[nodiscard]] std::vector<std::pair<S, T>> getRelationsT(
       std::pair<const std::function<bool(S)>&, const std::function<bool(T)>&>
           filterStmtPair) const {
     return RelationStore<S, T>::allRelationsToVectorFiltered(
-        successorMap, filterStmtPair.first, filterStmtPair.second);
+        transitiveSuccessorMap, filterStmtPair.first, filterStmtPair.second);
   }
 
   [[nodiscard]] std::vector<std::pair<S, T>> getAllRelationsT() const {
-    return RelationStore<S, T>::allRelationsToVector(successorMap);
+    return RelationStore<S, T>::allRelationsToVector(transitiveSuccessorMap);
   }
 };

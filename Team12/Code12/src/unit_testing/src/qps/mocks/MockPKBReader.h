@@ -13,13 +13,13 @@
 #include "pkb/facade/PKBStore.h"
 #include "pkb/storage/CallsStore.h"
 #include "pkb/storage/ModifiesPStore.h"
-#include "pkb/storage/ModifiesStore.h"
+#include "pkb/storage/ModifiesSStore.h"
 #include "pkb/storage/NextStore.h"
 #include "pkb/storage/ParentStore.h"
 #include "pkb/storage/RelationTStore.h"
 #include "pkb/storage/StmtStore.h"
 #include "pkb/storage/UsesPStore.h"
-#include "pkb/storage/UsesStore.h"
+#include "pkb/storage/UsesSStore.h"
 
 using std::vector, std::set, std::string, std::pair;
 
