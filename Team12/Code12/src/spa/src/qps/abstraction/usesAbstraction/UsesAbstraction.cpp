@@ -67,7 +67,7 @@ IntermediateTable UsesAbstraction::handleSynonymOrWildcardArgs() {
   string secondArgVarSynonym = this->secondArgValue;
 
   vector<pair<string, string>> allStatementsUsingAllVar =
-      pkb.getUsesPairs(firstArgStmtType);
+      pkb.getUsesStmtPairs(firstArgStmtType);
 
   //! If any of the args are "_", the column will be ignored.
   return IntermediateTableFactory::buildIntermediateTable(

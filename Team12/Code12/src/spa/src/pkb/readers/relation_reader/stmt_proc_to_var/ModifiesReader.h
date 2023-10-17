@@ -5,11 +5,8 @@
 #include <utility>
 #include <vector>
 
+#include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/IModifiesReader.h"
-#include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
-#include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
-#include "pkb/interfaces/storage/relation_storage/IModifiesStorage.h"
-#include "pkb/readers/relation_reader/stmt_proc_to_var/impl/ModifiesReaderImpl.h"
 #include "pkb/storage/ModifiesPStore.h"
 #include "pkb/storage/ModifiesSStore.h"
 #include "pkb/storage/StmtStore.h"
@@ -18,14 +15,14 @@ using std::unordered_set, std::string;
 
 class ModifiesReader : public IModifiesReader {
  private:
-  ModifiesSStore& modifiesStore;
+  ModifiesSStore& modifiesSStore;
   ModifiesPStore& modifiesPStore;
   StmtStore& stmtStore;
 
  protected:
   explicit ModifiesReader(ModifiesSStore& modifiesStore,
                           ModifiesPStore& modifiesPStore, StmtStore& stmtStore)
-      : modifiesStore(modifiesStore),
+      : modifiesSStore(modifiesStore),
         modifiesPStore(modifiesPStore),
         stmtStore(stmtStore) {}
 
@@ -37,9 +34,18 @@ class ModifiesReader : public IModifiesReader {
 
   bool isVariableModifiedBy(int stmtNum, const std::string& varName) override;
 
-  std::vector<std::pair<std::string, std::string>> getModifiesPairs(
+  std::vector<std::pair<std::string, std::string>> getModifiesStmtPairs(
       StmtType stmtType) override;
 
-  unordered_set<string> getModifiedVariablesForProc(
-      const string& procName) override;
+  std::vector<std::string> getVarsModifiedByProc(
+      const std::string& procName) override;
+
+  std::vector<std::string> getProcModifying(
+      const std::string& varName) override;
+
+  bool isVariableModifiedByProc(const std::string& procName,
+                                const std::string& varName) override;
+
+  std::vector<std::pair<std::string, std::string>> getModifiesProcPairs()
+      override;
 };

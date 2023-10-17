@@ -110,7 +110,7 @@ bool HelperFunctions::validateModifies(PKBReader& reader,
 
 bool HelperFunctions::validateUses(PKBReader& reader,
                                    StrStrPairVec& expectedUsesPairs) {
-  StrStrPairVec actual = reader.getUsesPairs(StmtType::STMT);
+  StrStrPairVec actual = reader.getUsesStmtPairs(StmtType::STMT);
   return compareVectorContents(actual, expectedUsesPairs);
 }
 

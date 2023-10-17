@@ -19,9 +19,18 @@ class IModifiesReader {
   virtual bool isVariableModifiedBy(int stmtNum,
                                     const std::string& varName) = 0;
 
-  virtual std::vector<std::pair<std::string, std::string>> getModifiesPairs(
+  virtual std::vector<std::pair<std::string, std::string>> getModifiesStmtPairs(
       StmtType stmtType) = 0;
 
-  virtual std::unordered_set<std::string> getModifiedVariablesForProc(
+  virtual std::vector<std::string> getVarsModifiedByProc(
       const std::string& procName) = 0;
+
+  virtual std::vector<std::string> getProcModifying(
+      const std::string& varName) = 0;
+
+  virtual bool isVariableModifiedByProc(const std::string& procName,
+                                        const std::string& varName) = 0;
+
+  virtual std::vector<std::pair<std::string, std::string>>
+  getModifiesProcPairs() = 0;
 };

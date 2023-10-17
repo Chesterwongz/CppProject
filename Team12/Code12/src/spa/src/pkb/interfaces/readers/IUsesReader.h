@@ -26,9 +26,17 @@ class IUsesReader {
 
   // return all pairs (s, v) that satisfy Uses (s, v) where s is of a particular
   // type
-  virtual std::vector<std::pair<std::string, std::string>> getUsesPairs(
+  virtual std::vector<std::pair<std::string, std::string>> getUsesStmtPairs(
       StmtType statementType) = 0;
 
-  virtual std::unordered_set<std::string> getUsedVariablesForProc(
+  virtual std::vector<std::string> getVarsUsedByProc(
       const std::string& procName) = 0;
+
+  virtual std::vector<std::string> getProcUsing(const std::string& varName) = 0;
+
+  virtual bool isVariableUsedByProc(const std::string& procName,
+                                    const std::string& varName) = 0;
+
+  virtual std::vector<std::pair<std::string, std::string>>
+  getUsesProcPairs() = 0;
 };

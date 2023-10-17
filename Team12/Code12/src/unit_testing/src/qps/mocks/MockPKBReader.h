@@ -162,12 +162,13 @@ class MockPKBReader : public PKBReader {
     return mockVariablesUsedBy;
   }
 
-  vector<pair<string, string>> getModifiesPairs(
+  vector<pair<string, string>> getModifiesStmtPairs(
       StmtType statementType) override {
     return mockAllModifiedVariables;
   }
 
-  vector<pair<string, string>> getUsesPairs(StmtType statementType) override {
+  vector<pair<string, string>> getUsesStmtPairs(
+      StmtType statementType) override {
     return mockAllUsedVariables;
   }
 
