@@ -6,34 +6,6 @@
  * - secondArg: Synonym OR Integer OR Wildcard
  */
 
-IntermediateTable ParentsStarAbstraction::handleSynonymOrWildcardArgs() {
-  string firstArgStmtSynonym = this->firstArgValue;
-  StmtType firstStmtType = this->getFirstArgStmtType();
-  string secondArgStmtSynonym = this->secondArgValue;
-  StmtType secondArgStmtNumber = this->getSecondArgStmtType();
-
-  vector<pair<string, string>> parentChildPairs =
-      pkb.getParentChildStarPairs(firstStmtType, secondArgStmtNumber);
-
-  //! If any of the args are "_", the column will be ignored.
-  return IntermediateTableFactory::buildIntermediateTable(
-      firstArgStmtSynonym, secondArgStmtSynonym, parentChildPairs);
-}
-
-IntermediateTable ParentsStarAbstraction::handleBothArgsInteger() {
-  if (this->firstArgValue == this->secondArgValue) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
-
-  int firstArgStmtNumber = stoi(this->firstArgValue);
-  int secondArgStmtNumber = stoi(this->secondArgValue);
-
-  bool isValid = pkb.isParentStar(firstArgStmtNumber, secondArgStmtNumber);
-
-  return isValid ? IntermediateTableFactory::buildWildcardIntermediateTable()
-                 : IntermediateTableFactory::buildEmptyIntermediateTable();
-}
-
 IntermediateTable ParentsStarAbstraction::handleFirstArgInteger() {
   int firstArgStmtNumber = stoi(this->firstArgValue);
   StmtType secondArgStmtNumber = this->getSecondArgStmtType();

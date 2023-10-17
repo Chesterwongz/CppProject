@@ -10,8 +10,6 @@
 
 class ParentsStarAbstraction : public StmtToStmtAbstraction {
  private:
-  IntermediateTable handleSynonymOrWildcardArgs() override;
-  IntermediateTable handleBothArgsInteger() override;
   IntermediateTable handleFirstArgInteger() override;
   IntermediateTable handleSecondArgInteger() override;
 

@@ -33,12 +33,12 @@ class StmtToStmtAbstraction : public BaseAbstraction {
   /**
    * For handling cases where both args are non-integer
    */
-  virtual IntermediateTable handleSynonymOrWildcardArgs() = 0;
+  IntermediateTable handleSynonymOrWildcardArgs();
 
   /**
    * For handling cases where both args are stmtNumbers
    */
-  virtual IntermediateTable handleBothArgsInteger() = 0;
+  IntermediateTable handleBothArgsInteger();
 
   /**
    * For handling cases where only first arg is stmtNumber
