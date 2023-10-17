@@ -14,6 +14,11 @@ std::set<int> ModifiesStorage::getStmtsModifyingVar(
   return storage_.getStmtNumForVar(varName);
 }
 
+std::unordered_set<std::string> ModifiesStorage::getProcsModifyingVar(
+    const std::string& variableName) {
+  return storage_.getProcsForVar(variableName);
+}
+
 std::set<std::string> ModifiesStorage::getVarsModifiedByStmt(int stmtNum) {
   return storage_.getVarForStmt(stmtNum);
 }

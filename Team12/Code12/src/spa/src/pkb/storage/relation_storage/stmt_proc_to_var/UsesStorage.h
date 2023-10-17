@@ -25,11 +25,16 @@ class UsesStorage : public IUsesStorage {
   std::unordered_set<std::string> getVarsUsedByProc(
       const string& procName) override;
 
+  // Return all statements that use a specified variable in the program
   std::set<int> getStmtsUsingVar(const std::string& variableName) override;
+
+  // Return all statements that use a specified variable in the program
+  std::unordered_set<std::string> getProcsUsingVar(
+      const std::string& variableName) override;
 
   // Return all variables that are being used in the program by some statement
   std::set<std::string> getAllVarUsedByStmt();
 
-  // Return all statements that use a variable in the program
+  // Return all statements that use any variable in the program
   std::set<int> getAllStmtUsingVar();
 };

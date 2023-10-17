@@ -32,22 +32,33 @@ class StmtOrProcToVarReaderTemplate {
   std::vector<std::string> getStmtsRelatedToVarByStmtType(
       const std::string& varName, StmtType stmtType);
 
+  // return all p that satisfy Relation(p, v) where v is varName
+  virtual std::unordered_set<std::string> getProcsRelatedToVar(
+      const std::string& varName) = 0;
+
   // return all pairs (s, v) that satisfy Relation(s, v) where s is
   // stmtNum and also the correct stmtType mentioned
   std::vector<std::pair<std::string, std::string>>
   getVarsRelatedToStmtByStmtType(int stmtNum, StmtType stmtType);
+
+  virtual std::unordered_set<std::string> getVarsRelatedToProc(
+      const string& proc) = 0;
 
   // check if Relation(s, v) is true where s is stmtNumStr and v is the
   // variable name
   bool isVarRelatedToStmt(const std::string& varName,
                           const std::string& stmtNumStr);
 
+  // check if Relation(p, v) is true where p is procName and v is the
+  // variable name
+  bool isVarRelatedToProc(const std::string& varName,
+                          const std::string& procName);
+
   // return all pairs (s, v) that satisfy Relation (s, v) where s is of a
   // particular type
   std::vector<std::pair<std::string, std::string>> getAllRelationsByStmtType(
       StmtType statementType);
 
-  // Proc-related functions
-  virtual std::unordered_set<std::string> getVarsRelatedToProc(
-      const string& proc) = 0;
+  // return all pairs (p, v) that satisfy Relation (p, v)
+  std::vector<std::pair<std::string, std::string>> getAllProcRelations();
 };

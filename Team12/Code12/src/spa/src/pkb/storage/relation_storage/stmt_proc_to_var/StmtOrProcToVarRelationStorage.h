@@ -29,9 +29,15 @@ class StmtOrProcToVarRelationStorage {
   // Return all statement numbers related to a particular variable
   std::set<int> getStmtNumForVar(const std::string& varName);
 
+  // Return all procedure names related to a particular variable
+  std::unordered_set<std::string> getProcsForVar(const std::string& varName);
+
   // Return all variable names that are being related to a particular
   // statement
   std::set<std::string> getVarForStmt(int stmtNum);
+
+  // Return all variable names that are being related to a particular
+  // procedure
   std::unordered_set<std::string> getVarsForProc(const std::string& procName);
 
   // Return all variables that have StmtToVar relations in the program

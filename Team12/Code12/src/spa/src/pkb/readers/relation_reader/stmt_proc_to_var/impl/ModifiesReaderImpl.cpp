@@ -13,3 +13,7 @@ std::unordered_set<std::string> ModifiesReaderImpl::getVarsRelatedToProc(
     const string& proc) {
   return modifies_storage_.getVarsModifiedByProc(proc);
 }
+std::unordered_set<std::string> ModifiesReaderImpl::getProcsRelatedToVar(
+    const string& varName) {
+  return modifies_storage_.getProcsModifyingVar(varName);
+}

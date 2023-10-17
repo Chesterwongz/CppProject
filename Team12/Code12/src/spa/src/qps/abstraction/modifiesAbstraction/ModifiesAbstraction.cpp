@@ -1,5 +1,7 @@
 #include "ModifiesAbstraction.h"
 
+#include <unordered_set>
+
 /**
  * Modifies abstraction:
  * firstArg: Synonym OR Integer (stmt) OR Identifier (Proc)
@@ -13,15 +15,20 @@ IntermediateTable ModifiesAbstraction::evaluateSynonymSynonym() {
 
 // Modifies (StmtSynonym, VarIdentifier)
 IntermediateTable ModifiesAbstraction::evaluateSynonymIdent() {
-  string firstArgStmtSynonym = this->firstArgValue;
-  StmtType firstArgStmtType = getFirstArgStmtType();
-  string secondArgIdent = this->secondArgValue;
+  string firstArgSynonym = this->firstArgValue;
+  bool isFirstArgProcedure =
+      this->context.getTokenEntity(firstArgSynonym) == PROCEDURE_ENTITY;
+  string secondArgVarName = this->secondArgValue;
 
-  vector<string> statementsModifyingVar =
-      pkb.getStatementsModifying(secondArgIdent, firstArgStmtType);
-
-  return IntermediateTableFactory::buildSingleColTable(firstArgStmtSynonym,
-                                                       statementsModifyingVar);
+  vector<string> result;
+  // Modifies(procSynonym, *) and Modifies(stmtSynonym, *) has different APIs
+  if (isFirstArgProcedure) {
+    result = pkb.getProcModifying(secondArgVarName);
+  } else {
+    StmtType firstArgStmtType = getFirstArgStmtType();
+    result = pkb.getStatementsModifying(secondArgVarName, firstArgStmtType);
+  }
+  return IntermediateTableFactory::buildSingleColTable(firstArgSynonym, result);
 }
 
 // Modifies (StmtSynonym, _)
@@ -38,6 +45,28 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerSynonym() {
 
   return IntermediateTableFactory::buildSingleColTable(secondArgVarSynonym,
                                                        result);
+}
+
+// Modifies (ProcName, VarSynonym)
+IntermediateTable ModifiesAbstraction::evaluateIdentSynonym() {
+  return handleProcNameWithVarSynonymOrWildcard();
+}
+
+// Modifies (ProcName, VarName)
+IntermediateTable ModifiesAbstraction::evaluateIdentIdent() {
+  string firstArgProcName = this->firstArgValue;
+  string secondArgVarName = this->secondArgValue;
+  bool isProcModifyingVar =
+      pkb.isVariableModifiedByProc(firstArgProcName, secondArgVarName);
+
+  return isProcModifyingVar
+             ? IntermediateTableFactory::buildWildcardIntermediateTable()
+             : IntermediateTableFactory::buildEmptyIntermediateTable();
+}
+
+// Modifies (ProcName, _)
+IntermediateTable ModifiesAbstraction::evaluateIdentWildcard() {
+  return handleProcNameWithVarSynonymOrWildcard();
 }
 
 // Modifies (StmtNumber, VarIdentifier)
@@ -62,14 +91,32 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerWildcard() {
 }
 
 IntermediateTable ModifiesAbstraction::handleSynonymOrWildcardArgs() {
-  string firstArgStmtSynonym = this->firstArgValue;
-  StmtType firstArgStmtType = getFirstArgStmtType();
+  string firstArgSynonym = this->firstArgValue;
+  bool isFirstArgProcedure =
+      this->context.getTokenEntity(firstArgSynonym) == PROCEDURE_ENTITY;
   string secondArgVarSynonym = this->secondArgValue;
 
-  vector<pair<string, string>> statementsModifiedVar =
-      pkb.getModifiesStmtPairs(firstArgStmtType);
+  // Modifies(procSynonym, *) and Modifies(stmtSynonym, *) has different APIs
+  vector<pair<string, string>> result;
+  if (isFirstArgProcedure) {
+    result = pkb.getModifiesProcPairs();
+  } else {
+    StmtType firstArgStmtType = getFirstArgStmtType();
+    result = pkb.getModifiesStmtPairs(firstArgStmtType);
+  }
 
   //! If any of the args are "_", the column will be ignored.
   return IntermediateTableFactory::buildIntermediateTable(
-      firstArgStmtSynonym, secondArgVarSynonym, statementsModifiedVar);
+      firstArgSynonym, secondArgVarSynonym, result);
+}
+
+IntermediateTable
+ModifiesAbstraction::handleProcNameWithVarSynonymOrWildcard() {
+  string firstArgProcName = this->firstArgValue;
+  string secondArgVarValue = this->secondArgValue;
+  vector<string> modifiedVariables =
+      pkb.getVarsModifiedByProc(firstArgProcName);
+  //! If second arg is "_", wildcard table is built instead.
+  return IntermediateTableFactory::buildSingleColTable(secondArgVarValue,
+                                                       modifiedVariables);
 }
