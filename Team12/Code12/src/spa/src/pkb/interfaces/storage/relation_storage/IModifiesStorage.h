@@ -20,6 +20,10 @@ class IModifiesStorage {
   virtual std::unordered_set<std::string> getVarsModifiedByProc(
       const std::string& procName) = 0;
 
-  // Return all statements that modify the particular variable
+  // Return all statements that modifies the particular variable
   virtual std::set<int> getStmtsModifyingVar(const std::string& varName) = 0;
+
+  // Return all procedure names that modifies a particular variable
+  virtual std::unordered_set<std::string> getProcsModifyingVar(
+      const std::string& variableName) = 0;
 };

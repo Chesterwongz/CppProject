@@ -23,7 +23,12 @@ class ModifiesStorage : public virtual IModifiesStorage {
   std::unordered_set<std::string> getVarsModifiedByProc(
       const std::string& procName) override;
 
+  // Return all statements that modifies a specified variable in the program
   std::set<int> getStmtsModifyingVar(const std::string& varName) override;
+
+  // Return all statements that modifies a specified variable in the program
+  std::unordered_set<std::string> getProcsModifyingVar(
+      const std::string& variableName) override;
 
   // Return all variables that are being modified in the program by some
   // statement.

@@ -10,6 +10,7 @@
 class ModifiesAbstraction : public BaseAbstraction {
  private:
   IntermediateTable handleSynonymOrWildcardArgs();
+  IntermediateTable handleProcNameWithVarSynonymOrWildcard();
 
  public:
   explicit ModifiesAbstraction(AbstractionParams abstractionParams)
@@ -22,4 +23,8 @@ class ModifiesAbstraction : public BaseAbstraction {
   IntermediateTable evaluateIntegerSynonym() override;
   IntermediateTable evaluateIntegerIdent() override;
   IntermediateTable evaluateIntegerWildcard() override;
+
+  IntermediateTable evaluateIdentSynonym() override;
+  IntermediateTable evaluateIdentIdent() override;
+  IntermediateTable evaluateIdentWildcard() override;
 };

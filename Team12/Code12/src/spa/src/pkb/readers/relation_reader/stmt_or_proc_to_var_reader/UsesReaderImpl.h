@@ -22,6 +22,9 @@ class UsesReaderImpl : public StmtOrProcToVarReaderTemplate {
       : uses_storage_(uses_storage),
         StmtOrProcToVarReaderTemplate(stmt_storage, entity_storage) {}
 
+  std::unordered_set<std::string> getProcsRelatedToVar(
+      const std::string& varName) override;
+
   std::unordered_set<std::string> getVarsRelatedToProc(
       const string& proc) override;
 };

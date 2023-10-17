@@ -20,6 +20,14 @@ std::set<int> StmtOrProcToVarRelationStorage::getStmtNumForVar(
   return variableToStatements[variableName];
 }
 
+std::unordered_set<std::string> StmtOrProcToVarRelationStorage::getProcsForVar(
+    const std::string& variableName) {
+  if (varToProcs.find(variableName) == varToProcs.end()) {
+    return {};
+  }
+  return varToProcs[variableName];
+}
+
 std::set<std::string> StmtOrProcToVarRelationStorage::getVarForStmt(
     int statementNumber) {
   if (statementToVariables.find(statementNumber) ==

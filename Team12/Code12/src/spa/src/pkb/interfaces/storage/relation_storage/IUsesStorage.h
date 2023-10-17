@@ -23,4 +23,8 @@ class IUsesStorage {
 
   // Return all statement numbers that use a particular variable
   virtual std::set<int> getStmtsUsingVar(const std::string& variableName) = 0;
+
+  // Return all procedure names that use a particular variable
+  virtual std::unordered_set<std::string> getProcsUsingVar(
+      const std::string& variableName) = 0;
 };

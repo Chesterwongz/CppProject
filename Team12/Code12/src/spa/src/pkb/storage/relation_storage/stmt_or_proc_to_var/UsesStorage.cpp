@@ -9,8 +9,14 @@ void UsesStorage::addUses(const std::string& variableName,
                           const std::string& procName) {
   storage_.setRelatedVar(variableName, procName);
 }
+
 std::set<int> UsesStorage::getStmtsUsingVar(const std::string& variableName) {
   return storage_.getStmtNumForVar(variableName);
+}
+
+std::unordered_set<std::string> UsesStorage::getProcsUsingVar(
+    const std::string& variableName) {
+  return storage_.getProcsForVar(variableName);
 }
 
 std::set<std::string> UsesStorage::getVarsUsedByStmt(int statementNumber) {
