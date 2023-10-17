@@ -17,7 +17,7 @@ TEST_CASE("ParentStorage Tests") {
   storage.setParentStar(3, 5);
 
   SECTION("Setting and Getting Parent Relationship") {
-    REQUIRE(storage.getAllParents(1) == std::set<int>{});
+    REQUIRE(storage.getAllParents(1).empty());
     REQUIRE(storage.getAllParents(2) == std::set<int>{1});
     REQUIRE(storage.getAllParents(3) == std::set<int>{1});
     REQUIRE(storage.getAllParents(4) == std::set<int>{1, 3});
@@ -26,10 +26,10 @@ TEST_CASE("ParentStorage Tests") {
 
   SECTION("Test getAllChildren") {
     REQUIRE(storage.getAllChildren(1) == std::set<int>{2, 3, 4, 5});
-    REQUIRE(storage.getAllChildren(2) == std::set<int>{});
+    REQUIRE(storage.getAllChildren(2).empty());
     REQUIRE(storage.getAllChildren(3) == std::set<int>{4, 5});
-    REQUIRE(storage.getAllChildren(4) == std::set<int>{});
-    REQUIRE(storage.getAllChildren(5) == std::set<int>{});
+    REQUIRE(storage.getAllChildren(4).empty());
+    REQUIRE(storage.getAllChildren(5).empty());
   }
 
   SECTION("Test getImmediateParent") {
@@ -42,10 +42,10 @@ TEST_CASE("ParentStorage Tests") {
 
   SECTION("Test getImmediateChildren") {
     REQUIRE(storage.getImmediateChildren(1) == std::set<int>{2, 3});
-    REQUIRE(storage.getImmediateChildren(2) == std::set<int>{});
+    REQUIRE(storage.getImmediateChildren(2).empty());
     REQUIRE(storage.getImmediateChildren(3) == std::set<int>{4, 5});
-    REQUIRE(storage.getImmediateChildren(4) == std::set<int>{});
-    REQUIRE(storage.getImmediateChildren(5) == std::set<int>{});
+    REQUIRE(storage.getImmediateChildren(4).empty());
+    REQUIRE(storage.getImmediateChildren(5).empty());
   }
 
   SECTION("Getting All Parents and Children") {

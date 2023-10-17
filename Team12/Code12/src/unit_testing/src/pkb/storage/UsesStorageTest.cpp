@@ -23,7 +23,7 @@ TEST_CASE("UsesStorage Tests") {
     REQUIRE(storage.getVarsUsedByStmt(2) == std::set<std::string>{"x"});
     REQUIRE(storage.getVarsUsedByStmt(3) == std::set<std::string>{"z"});
     REQUIRE(storage.getVarsUsedByStmt(4) == std::set<std::string>{"x"});
-    REQUIRE(storage.getVarsUsedByStmt(6) == std::set<std::string>{});
+    REQUIRE(storage.getVarsUsedByStmt(6).empty());
   }
 
   SECTION("Test getAllVarUsedByStmt and getAllStmtUsingVar") {

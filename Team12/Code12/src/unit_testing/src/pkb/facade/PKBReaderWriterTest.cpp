@@ -148,14 +148,14 @@ TEST_CASE("PKBReader Tests") {
   }
 
   SECTION("getAllFollowed") {
-    REQUIRE(reader.getFollowedStar(2, StmtType::STMT) ==
-            std::vector<std::string> {{"1"}});
-    REQUIRE(reader.getFollowedStar(5, StmtType::STMT) ==
-            std::vector<std::string> {{"3"}, {"4"}});
-    REQUIRE(reader.getFollowedStar(5, StmtType::ASSIGN) ==
-            std::vector<std::string> {{"3"}});
-    REQUIRE(reader.getFollowedStar(4, StmtType::STMT) ==
-            std::vector<std::string> {"3"});
+    REQUIRE(compareVectorContents(reader.getFollowedStar(2, StmtType::STMT),
+                                  {{"1"}}));
+    REQUIRE(compareVectorContents(reader.getFollowedStar(5, StmtType::STMT),
+                                  {{"3"}, {"4"}}));
+    REQUIRE(compareVectorContents(reader.getFollowedStar(5, StmtType::ASSIGN),
+                                  {{"3"}}));
+    REQUIRE(compareVectorContents(reader.getFollowedStar(4, StmtType::STMT),
+                                  {"3"}));
     REQUIRE(reader.getFollowedStar(4, StmtType::PRINT).empty());
     REQUIRE(reader.getFollowedStar(1, StmtType::STMT).empty());
   }
