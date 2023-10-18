@@ -37,7 +37,6 @@ class IntermediateTable {
    */
   explicit IntermediateTable(bool isTableWildcard);
 
- public:
   /**
    * for initialising table from vector of vectors of SynonymRes
    * @param data data as vector of vectors
@@ -57,7 +56,7 @@ class IntermediateTable {
    * @return Empty table
    */
   static IntermediateTable makeEmptyTable();
-
+ public:
   /**
    * @return the entire table's data with each cell converted to string
    */
@@ -110,4 +109,7 @@ class IntermediateTable {
   [[nodiscard]] bool isTableEmptyAndNotWildcard() const;
   TableDataType getTableData();
   void printTable();
+
+  friend class IntermediateTableFactory;
+  friend class IntermediateTableUtils;
 };

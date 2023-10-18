@@ -5,15 +5,15 @@
 #include "common/utils/VectorUtils.h"
 #include "qps/exceptions/QPSIntermediateTableException.h"
 
-vector<string> getSharedColNames(IntermediateTable table1,
-                                 IntermediateTable table2) {
+vector<string> IntermediateTableUtils::getSharedColNames(
+    IntermediateTable table1, IntermediateTable table2) {
   vector<string> tableNames1 = table1.getColNames();
   vector<string> tableNames2 = table2.getColNames();
   return intersectVectors(tableNames1, tableNames2);
 }
 
-pair<vector<int>, vector<int>> getSharedColIndexes(IntermediateTable table1,
-                                                   IntermediateTable table2) {
+pair<vector<int>, vector<int>> IntermediateTableUtils::getSharedColIndexes(
+    IntermediateTable table1, IntermediateTable table2) {
   vector<string> sharedColNames = getSharedColNames(table1, table2);
   vector<int> table1Indexes = {};
   std::transform(sharedColNames.begin(), sharedColNames.end(),
@@ -32,8 +32,8 @@ pair<vector<int>, vector<int>> getSharedColIndexes(IntermediateTable table1,
   return {table1Indexes, table2Indexes};
 }
 
-IntermediateTable getCrossProduct(IntermediateTable table1,
-                                  IntermediateTable table2) {
+IntermediateTable IntermediateTableUtils::getCrossProduct(
+    IntermediateTable table1, IntermediateTable table2) {
   if (!getSharedColNames(table1, table2).empty()) {
     throw QPSIntermediateTableException(
         QPS_UNSUPPORTED_CROSS_PRODUCT_EXCEPTION);
@@ -49,7 +49,7 @@ IntermediateTable getCrossProduct(IntermediateTable table1,
   return IntermediateTable(resColumns, resData);
 }
 
-IntermediateTable getInnerJoin(
+IntermediateTable IntermediateTableUtils::getInnerJoin(
     const pair<vector<int>, vector<int>> &sharedColumnIndexes,
     IntermediateTable table1, IntermediateTable table2) {
   vector<string> resColNames =
@@ -91,8 +91,8 @@ IntermediateTable getInnerJoin(
   return IntermediateTable(resColNames, resData);
 }
 
-vector<string> concatColNames(const vector<string> &vector1,
-                              const vector<string> &vector2) {
+vector<string> IntermediateTableUtils::concatColNames(
+    const vector<string> &vector1, const vector<string> &vector2) {
   vector<string> newVector;
   newVector.reserve(vector1.size() + vector2.size());
   std::move(vector1.begin(), vector1.end(), std::back_inserter(newVector));
@@ -100,7 +100,8 @@ vector<string> concatColNames(const vector<string> &vector1,
   return newVector;
 }
 
-TableRowType concatRow(const TableRowType &row1, const TableRowType &row2) {
+TableRowType IntermediateTableUtils::concatRow(const TableRowType &row1,
+                                               const TableRowType &row2) {
   TableRowType rowCopy = {};
   rowCopy.reserve(row1.size() + row2.size());
   // cannot move since the same row may have to be copied

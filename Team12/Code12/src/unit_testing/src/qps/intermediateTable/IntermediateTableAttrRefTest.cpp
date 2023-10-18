@@ -75,13 +75,14 @@ TEST_CASE("IntermediateTable - isColExists - SynonymRes") {
 
 TEST_CASE(
     "IntermediateTable - getSharedColNames, getSharedColIndexes - SynonymRes") {
-  REQUIRE(getSharedColNames(DOUBLE_COLUMN_SYNONYM_RES_TABLE_2,
-                            MULTI_COLUMN_SYNONYM_RES_TABLE_2) ==
-          SYNONYM_RES_COL_NAME_2);
+  REQUIRE(IntermediateTableUtils::getSharedColNames(
+              DOUBLE_COLUMN_SYNONYM_RES_TABLE_2,
+              MULTI_COLUMN_SYNONYM_RES_TABLE_2) == SYNONYM_RES_COL_NAME_2);
   vector<int> sharedColIndex1 = {0, 1};
   vector<int> sharedColIndex2 = {0, 3};
-  REQUIRE(getSharedColIndexes(DOUBLE_COLUMN_SYNONYM_RES_TABLE_2,
-                              MULTI_COLUMN_SYNONYM_RES_TABLE_2) ==
+  REQUIRE(IntermediateTableUtils::getSharedColIndexes(
+              DOUBLE_COLUMN_SYNONYM_RES_TABLE_2,
+              MULTI_COLUMN_SYNONYM_RES_TABLE_2) ==
           pair(sharedColIndex1, sharedColIndex2));
 }
 

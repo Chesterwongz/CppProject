@@ -16,6 +16,8 @@ inline string SYNONYM_VAL_1 = "synonym value 1";
 inline string SYNONYM_VAL_2 = "synonym value 2";
 inline string SYNONYM_VAL_3 = "synonym value 3";
 inline string SYNONYM_VAL_4 = "synonym value 4";
+inline vector<vector<string>> MOCK_SYNONYM_RES_VALUES_VECTOR_2D = {
+    {SYNONYM_VAL_1}, {SYNONYM_VAL_2}, {SYNONYM_VAL_3}, {SYNONYM_VAL_4}};
 
 inline string SYNONYM_VAL_1B = "synonym value 1b";
 inline string SYNONYM_VAL_2B = "synonym value 2b";
@@ -55,6 +57,13 @@ inline SynonymRes MOCK_PRINT_SYN_3 =
     SynonymResFactory::buildPrintSynonym(SYNONYM_VAL_3, SYNONYM_VAL_2B);
 inline SynonymRes MOCK_PRINT_SYN_4 =
     SynonymResFactory::buildPrintSynonym(SYNONYM_VAL_4, SYNONYM_VAL_2B);
+inline vector<SynonymRes> MOCK_PRINT_SYNONYM_RES_VECTOR = {
+    MOCK_PRINT_SYN_1, MOCK_PRINT_SYN_2, MOCK_PRINT_SYN_3, MOCK_PRINT_SYN_4};
+inline vector<vector<SynonymRes>> MOCK_PRINT_SYNONYM_RES_VECTOR_2D = {
+    {MOCK_PRINT_SYN_1},
+    {MOCK_PRINT_SYN_2},
+    {MOCK_PRINT_SYN_3},
+    {MOCK_PRINT_SYN_4}};
 
 inline SynonymRes MOCK_PROC_SYN_1 =
     SynonymResFactory::buildProcSynonym(SYNONYM_VAL_1);

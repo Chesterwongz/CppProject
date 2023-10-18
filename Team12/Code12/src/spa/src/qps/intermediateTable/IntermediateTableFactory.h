@@ -48,6 +48,7 @@ class IntermediateTableFactory {
       }
       columnNamesWithoutWildcard.push_back(colName);
       for (int rowIndex = 0; rowIndex < data.size(); rowIndex++) {
+        // implicitly calls SynonymRes constructor if datum is string
         dataWithoutWildcardColumns.at(rowIndex).emplace_back(
             std::move(data.at(rowIndex).at(colIndex)));
       }
@@ -73,12 +74,12 @@ class IntermediateTableFactory {
   /**
    * Builds intermediate table without any WILDCARD columns
    * and only one column
-   * @tparam VectorOrSetOfStrings vector/unordered_set/set of strings
-   * @param  data                 take in vector/unordered_set/set of strings
+   * @tparam U    vector/unordered_set/set of strings/SynonymRes
+   * @param  data take in vector/unordered_set/set of strings/SynonymRes
    */
-  template <typename VectorOrSetOfStrings>
+  template <typename U>
   static IntermediateTable buildSingleColTable(
-      const string &colName, const VectorOrSetOfStrings &data) {
+      const string &colName, const U &data) {
     // if data is empty, return empty table
     // even if columns are wildcard
     if (data.empty()) {
@@ -92,8 +93,10 @@ class IntermediateTableFactory {
     vector<string> columnNames = {colName};
     TableDataType dataColumn = {};
     dataColumn.reserve(data.size());
-    for (const string &datum : data) {
-      TableRowType row = {SynonymResFactory::buildDefaultSynonym(datum)};
+    for (auto &datum : data) {
+      TableRowType row{};
+      // implicitly calls SynonymRes constructor if datum is string
+      row.emplace_back(std::move(datum));
       dataColumn.emplace_back(std::move(row));
     }
     return IntermediateTable(columnNames, dataColumn);

@@ -3,6 +3,7 @@
 #include "IntermediateTableTestUtils.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 #include "testData/StringTestData.h"
+#include "testData/SynonymResTestData.h"
 
 TEST_CASE(
     "IntermediateTableFactory - buildIntermediateTable - "
@@ -80,7 +81,7 @@ TEST_CASE(
   REQUIRE(tableFromString.getColNames() == tableFromSynonymRes.getColNames());
 }
 
-TEST_CASE("IntermediateTableFactory - buildSingleColTable - strings") {
+TEST_CASE("IntermediateTableFactory - buildSingleColTable - from_strings") {
   IntermediateTable table =
       IntermediateTableFactory::buildSingleColTable(COL_NAME_3, COL_3);
   REQUIRE(table.getDataAsStrings() == COL_3_2D);
@@ -88,23 +89,29 @@ TEST_CASE("IntermediateTableFactory - buildSingleColTable - strings") {
   REQUIRE(table.isTableEmptyAndNotWildcard() == false);
   REQUIRE(table.isTableWildcard() == false);
   REQUIRE(table.getDataAsStrings().at(0).size() == 1);
+
+  // to check that the synonyms produced from strings are correct
+  IntermediateTable table2 =
+      IntermediateTableFactory::buildSingleColTable(COL_NAME_1, COL_1);
+  REQUIRE(table2.getDataAsStrings() == COL_1_2D);
+  REQUIRE(table2.getTableData() == convertToSynonymResCol(COL_1));
+  REQUIRE_FALSE(table2.isTableWildcard());
+  REQUIRE_FALSE(table2.isTableEmptyAndNotWildcard());
+}
+
+TEST_CASE("IntermediateTableFactory - buildSingleColTable - from_synonymRes") {
+  IntermediateTable table = IntermediateTableFactory::buildSingleColTable(
+      COL_NAME_1, MOCK_PRINT_SYNONYM_RES_VECTOR);
+  REQUIRE(table.getDataAsStrings() == MOCK_SYNONYM_RES_VALUES_VECTOR_2D);
+  REQUIRE(table.getTableData() == MOCK_PRINT_SYNONYM_RES_VECTOR_2D);
+  REQUIRE_FALSE(table.isTableWildcard());
+  REQUIRE_FALSE(table.isTableEmptyAndNotWildcard());
 }
 
 TEST_CASE("IntermediateTableFactory - buildSingleColTable - wildcard") {
   IntermediateTable table =
       IntermediateTableFactory::buildSingleColTable(WILDCARD_KEYWORD, COL_3);
   REQUIRE(table.isTableWildcard());
-}
-
-TEST_CASE(
-    "IntermediateTableFactory - buildSingleColTable - strings_to_synonym") {
-  // to check that the synonyms produced are correct
-  IntermediateTable table =
-      IntermediateTableFactory::buildSingleColTable(COL_NAME_1, COL_1);
-  REQUIRE(table.getDataAsStrings() == COL_1_2D);
-  REQUIRE(table.getTableData() == convertToSynonymResCol(COL_1));
-  REQUIRE_FALSE(table.isTableWildcard());
-  REQUIRE_FALSE(table.isTableEmptyAndNotWildcard());
 }
 
 TEST_CASE(
