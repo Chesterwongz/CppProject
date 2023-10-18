@@ -34,5 +34,5 @@ void BaseParserState::processAttrRef(unique_ptr<SynonymArg> &synArg) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR + attrRef->getValue());
   }
   auto validRef = checkValidAttrRef(synArg->getValue(), attrRef->getValue());
-  synArg->setAttrRef(validRef);
+  synArg->setAttrRef(std::move(validRef));
 }
