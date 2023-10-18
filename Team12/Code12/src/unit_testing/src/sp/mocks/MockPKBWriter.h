@@ -103,10 +103,6 @@ class MockPKBWriter : public PKBWriter {
     callsStorage[caller].insert(callee);
   }
 
-  void setCFG(const string &procName, unique_ptr<CFG> cfg) override {
-    cfgStorage[procName] = std::move(cfg);
-  }
-
   void addNext(int from, int to) override {
     if (to != common::CFG_END_STMT_NUM) {
       nextStorage[from].insert(to);

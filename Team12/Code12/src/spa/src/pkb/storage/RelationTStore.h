@@ -45,9 +45,7 @@ class RelationTStore : public RelationStore<S, T> {
     }
     std::unordered_set<V> transitiveSet;
     for (const auto& s : directMap.at(key)) {
-      if (visited.count(s)) {
-        if (visited.at(s) == kVisited) continue;
-      }
+      if (visited[s] == kVisited) continue;
       visited[s]++;
       computeRelationT(s, directMap, transitiveMap, visited);
       if (transitiveMap.count(s)) {
