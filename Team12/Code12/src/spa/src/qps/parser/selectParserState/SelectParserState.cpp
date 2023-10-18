@@ -24,7 +24,6 @@ void SelectParserState::handleToken() {
 
   while (curr.has_value()) {
     PQLToken token = curr.value();
-    unique_ptr<SynonymArg> selectedSyn;
 
     switch (token.getType()) {
       case PQL_BOOLEAN_TOKEN:
@@ -32,13 +31,15 @@ void SelectParserState::handleToken() {
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
       case PQL_SYNONYM_TOKEN:
-        selectedSyn = std::make_unique<SynonymArg>(
+      {
+        unique_ptr<SynonymArg> selectedSyn = std::make_unique<SynonymArg>(
             token.getValue(),
             parserContext.getValidSynonymType(token.getValue()));
         processAttrRef(selectedSyn);
         parserContext.addSelectClause(std::move(selectedSyn));
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
+      }
       case PQL_LEFT_ANGLE_TOKEN:
         parserContext.transitionTo(std::make_unique<SelectTupleParsersState>(
             parserContext, token.getType()));
