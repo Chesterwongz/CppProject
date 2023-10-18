@@ -13,9 +13,8 @@ SuchThatClause::SuchThatClause(Abstraction relationship,
 
 IntermediateTable SuchThatClause::evaluate(PKBReader& pkb) {
   unique_ptr<AbstractionParams> abstractionParams =
-      std::make_unique<AbstractionParams>(pkb, this->relationship,
-                                          *(this->firstArg),
-                                          *(this->secondArg));
+      std::make_unique<AbstractionParams>(
+          pkb, this->relationship, *(this->firstArg), *(this->secondArg));
 
   std::unique_ptr<BaseAbstraction> executableAbstraction =
       AbstractionFactory::createAbstraction(*abstractionParams);

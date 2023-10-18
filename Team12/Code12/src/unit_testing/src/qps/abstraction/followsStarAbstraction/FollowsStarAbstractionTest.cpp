@@ -12,9 +12,8 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Synonym)_EMPTY") {
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
   unique_ptr<SynonymArg> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, FOLLOWS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, FOLLOWS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -30,9 +29,8 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Synonym)") {
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
   unique_ptr<SynonymArg> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, FOLLOWS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, FOLLOWS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -50,9 +48,8 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Integer)") {
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
   unique_ptr<Integer> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, FOLLOWS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, FOLLOWS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -68,9 +65,8 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Integer) not followed") {
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, FOLLOWS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, FOLLOWS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -83,11 +79,9 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Wildcard)") {
   mockReader.mockFollowsStarPairs = MOCK_FOLLOWS_STARS_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, FOLLOWS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, FOLLOWS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -104,9 +98,8 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Synonym)") {
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, FOLLOWS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, FOLLOWS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -121,9 +114,8 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Synonym)_no followed") {
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, FOLLOWS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, FOLLOWS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -135,11 +127,9 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Wildcard)") {
   mockReader.mockFollowsStar = MOCK_FOLLOWS_STARS_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, FOLLOWS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, FOLLOWS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -152,9 +142,8 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Wildcard)_no followed") {
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, FOLLOWS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, FOLLOWS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -168,9 +157,8 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Integer)_true") {
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_2);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, FOLLOWS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, FOLLOWS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -184,9 +172,8 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Integer)_false") {
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_2);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, FOLLOWS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, FOLLOWS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -196,13 +183,11 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Integer)_false") {
 TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockFollowsStarPairs = MOCK_FOLLOWS_STARS_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, FOLLOWS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, FOLLOWS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -215,13 +200,11 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Synonym)") {
 TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Integer)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockFollowedStar = MOCK_FOLLOWS_STARS_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, FOLLOWS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, FOLLOWS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -230,13 +213,11 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Integer)") {
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Integer) not followed") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, FOLLOWS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, FOLLOWS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -246,13 +227,10 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Integer) not followed") {
 TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockFollowsStarPairs = MOCK_FOLLOWS_STARS_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, FOLLOWS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, FOLLOWS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -262,13 +240,10 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Wildcard)") {
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Wildcard)_EMPTY") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, FOLLOWS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, FOLLOWS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();

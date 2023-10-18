@@ -1,8 +1,8 @@
 #include <catch.hpp>
 
 #include "WhileEvaluatorTestData.h"
-#include "qps/common/Keywords.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/common/Keywords.h"
 #include "qps/patternEvaluator/whileEvaluator/WhileEvaluator.h"
 
 using std::make_unique;

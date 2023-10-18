@@ -20,8 +20,7 @@ TEST_CASE("test_assignPatternClause_isEqual") {
       std::make_unique<SynonymArg>(patternSynonym, ASSIGN_ENTITY);
   unique_ptr<SynonymArg> firstArgPtr1 =
       std::make_unique<SynonymArg>(firstArg, VARIABLE_ENTITY);
-  unique_ptr<PatternExp> secondArgPtr1 =
-      make_unique<PatternExp>(secondArg);
+  unique_ptr<PatternExp> secondArgPtr1 = make_unique<PatternExp>(secondArg);
 
   AssignPatternClause patternClause1 = AssignPatternClause(
       std::move(patternSynonymPtr1), std::move(firstArgPtr1),
@@ -31,8 +30,7 @@ TEST_CASE("test_assignPatternClause_isEqual") {
       std::make_unique<SynonymArg>(patternSynonym, ASSIGN_ENTITY);
   unique_ptr<SynonymArg> firstArgPtr2 =
       std::make_unique<SynonymArg>(firstArg, VARIABLE_ENTITY);
-  unique_ptr<PatternExp> secondArgPtr2 =
-      make_unique<PatternExp>(secondArg);
+  unique_ptr<PatternExp> secondArgPtr2 = make_unique<PatternExp>(secondArg);
 
   AssignPatternClause patternClause2 = AssignPatternClause(
       std::move(patternSynonymPtr2), std::move(firstArgPtr2),
@@ -52,8 +50,7 @@ TEST_CASE("test_assignPatternClause_evaluate_synonymFirstArg") {
       std::make_unique<SynonymArg>(patternSynonym, ASSIGN_ENTITY);
   unique_ptr<SynonymArg> firstArgPtr =
       std::make_unique<SynonymArg>(firstArg, VARIABLE_ENTITY);
-  unique_ptr<PatternExp> secondArgPtr =
-      make_unique<PatternExp>(secondArg);
+  unique_ptr<PatternExp> secondArgPtr = make_unique<PatternExp>(secondArg);
 
   AssignPatternClause patternClause =
       AssignPatternClause(std::move(patternSynonymPtr), std::move(firstArgPtr),
@@ -72,8 +69,7 @@ TEST_CASE("test_assignPatternClause_evaluate_synonymFirstArg") {
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
-  IntermediateTable actualTable =
-      patternClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = patternClause.evaluate(mockPkbReader);
   vector<string> actualColNames = actualTable.getColNames();
   vector<vector<string>> actualTableData = actualTable.getData();
   vector<vector<string>> expectedData = {{"1", "a"}, {"2", "b"}, {"3", "c"}};
@@ -92,8 +88,7 @@ TEST_CASE("test_assignPatternClause_evaluate_identFirstArg") {
   unique_ptr<SynonymArg> patternSynonymPtr =
       std::make_unique<SynonymArg>(patternSynonym, ASSIGN_ENTITY);
   unique_ptr<Ident> firstArgPtr = std::make_unique<Ident>(firstArg);
-  unique_ptr<PatternExp> secondArgPtr =
-      make_unique<PatternExp>(secondArg);
+  unique_ptr<PatternExp> secondArgPtr = make_unique<PatternExp>(secondArg);
 
   AssignPatternClause patternClause =
       AssignPatternClause(std::move(patternSynonymPtr), std::move(firstArgPtr),
@@ -112,8 +107,7 @@ TEST_CASE("test_assignPatternClause_evaluate_identFirstArg") {
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
-  IntermediateTable actualTable =
-      patternClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = patternClause.evaluate(mockPkbReader);
   vector<string> actualColNames = actualTable.getColNames();
   vector<vector<string>> actualTableData = actualTable.getData();
   vector<vector<string>> expectedData = {{"3"}};

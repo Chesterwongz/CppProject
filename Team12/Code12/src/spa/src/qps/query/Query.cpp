@@ -31,8 +31,7 @@ set<string> Query::evaluate() {
   assert(selectClause);
 
   // evaluate SelectClause first
-  IntermediateTable currIntermediateTable =
-      selectClause->evaluate(pkb);
+  IntermediateTable currIntermediateTable = selectClause->evaluate(pkb);
   if (currIntermediateTable.isTableEmptyAndNotWildcard()) {
     return {};
   }

@@ -80,8 +80,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Wildcard)") {
   mockReader.mockAllModifiedVariables = MOCK_MODIFIED_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
@@ -97,8 +96,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Wildcard)_empty") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
@@ -133,9 +131,8 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcSynonym, Synonym)_empty") {
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, PROCEDURE_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, VARIABLE_ENTITY);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, MODIFIES_ENUM,
-                                      *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -151,9 +148,8 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcSynonym, Ident)") {
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, PROCEDURE_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, MODIFIES_ENUM,
-                                      *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -170,9 +166,8 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcSynonym, Ident)_empty") {
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, PROCEDURE_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, MODIFIES_ENUM,
-                                      *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -185,11 +180,9 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcSynonym, Wildcard)") {
   mockReader.mockModifiesProcPairs = MOCK_MODIFIED_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, PROCEDURE_ENTITY);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, MODIFIES_ENUM,
-                                      *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -203,11 +196,9 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcSynonym, Wildcard)_empty") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, PROCEDURE_ENTITY);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, MODIFIES_ENUM,
-                                      *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -285,8 +276,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Integer, Wildcard)") {
   mockReader.mockVariablesModifiedBy = MOCK_MODIFIED_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
@@ -300,8 +290,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Integer, Wildcard)_empty") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
@@ -318,9 +307,8 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcName, Synonym)") {
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, MODIFIES_ENUM,
-                                      *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -336,9 +324,8 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcName, Synonym)_empty") {
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, MODIFIES_ENUM,
-                                      *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -353,9 +340,8 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcName, Ident)") {
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_2);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, MODIFIES_ENUM,
-                                      *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -370,9 +356,8 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcName, Ident)_not_modified") {
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
   mockReader.mockIsVariableModifiedBy = false;
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, MODIFIES_ENUM,
-                                      *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -385,11 +370,9 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcName, Wildcard)") {
   mockReader.mockVarsModifiedByProc = MOCK_MODIFIED_FOR_PROCS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, MODIFIES_ENUM,
-                                      *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -401,11 +384,9 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcName, Wildcard)_empty") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, MODIFIES_ENUM,
-                                      *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -416,8 +397,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcName, Wildcard)_empty") {
 TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockAllModifiedVariables = MOCK_MODIFIED_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -430,8 +410,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Synonym)") {
 
 TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Synonym)_empty") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -445,8 +424,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Synonym)_empty") {
 TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Ident)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockStatementsModifying = MOCK_MODIFYING_STATEMENTS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -459,8 +437,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Ident)") {
 
 TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Ident)_empty") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -474,10 +451,8 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Ident)_empty") {
 TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockAllModifiedVariables = MOCK_MODIFIED_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
@@ -488,10 +463,8 @@ TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Wildcard)") {
 
 TEST_CASE("ModifiesAbstraction - Modifies(Wildcard, Wildcard)_EMPTY") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 

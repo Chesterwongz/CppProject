@@ -168,8 +168,10 @@ TEST_CASE("Valid pattern a and if") {
       std::make_unique<SynonymArg>(ass1, ASSIGN_ENTITY);
   unique_ptr<Ident> firstArg1 = std::make_unique<Ident>("x");
   unique_ptr<Wildcard> secondArg1 = std::make_unique<Wildcard>();
-  unique_ptr<AssignPatternClause> patternClause1 = std::make_unique<AssignPatternClause>(
-      std::move(outerSyn1), std::move(firstArg1), std::move(secondArg1), false);
+  unique_ptr<AssignPatternClause> patternClause1 =
+      std::make_unique<AssignPatternClause>(std::move(outerSyn1),
+                                            std::move(firstArg1),
+                                            std::move(secondArg1), false);
   expected.addClause(std::move(patternClause1));
 
   // pattern a2 ("x", _"x"_)
@@ -177,8 +179,10 @@ TEST_CASE("Valid pattern a and if") {
       std::make_unique<SynonymArg>(ass2, ASSIGN_ENTITY);
   unique_ptr<Ident> firstArg2 = std::make_unique<Ident>("x");
   unique_ptr<PatternExp> secondArg2 = std::make_unique<PatternExp>("x");
-  unique_ptr<AssignPatternClause> patternClause2 = std::make_unique<AssignPatternClause>(
-      std::move(outerSyn2), std::move(firstArg2), std::move(secondArg2), true);
+  unique_ptr<AssignPatternClause> patternClause2 =
+      std::make_unique<AssignPatternClause>(std::move(outerSyn2),
+                                            std::move(firstArg2),
+                                            std::move(secondArg2), true);
   expected.addClause(std::move(patternClause2));
 
   // Follows (a1, a2)
@@ -296,8 +300,10 @@ TEST_CASE("Valid pattern not a and not if") {
       std::make_unique<SynonymArg>(ass1, ASSIGN_ENTITY);
   unique_ptr<Ident> firstArg1 = std::make_unique<Ident>("x");
   unique_ptr<Wildcard> secondArg1 = std::make_unique<Wildcard>();
-  unique_ptr<AssignPatternClause> patternClause1 = std::make_unique<AssignPatternClause>(
-      std::move(outerSyn1), std::move(firstArg1), std::move(secondArg1), false);
+  unique_ptr<AssignPatternClause> patternClause1 =
+      std::make_unique<AssignPatternClause>(std::move(outerSyn1),
+                                            std::move(firstArg1),
+                                            std::move(secondArg1), false);
   expected.addClause(std::move(patternClause1));
 
   // pattern a2 ("x", _"x"_)
@@ -305,8 +311,10 @@ TEST_CASE("Valid pattern not a and not if") {
       std::make_unique<SynonymArg>(ass2, ASSIGN_ENTITY);
   unique_ptr<Ident> firstArg2 = std::make_unique<Ident>("x");
   unique_ptr<PatternExp> secondArg2 = std::make_unique<PatternExp>("x");
-  unique_ptr<AssignPatternClause> patternClause2 = std::make_unique<AssignPatternClause>(
-      std::move(outerSyn2), std::move(firstArg2), std::move(secondArg2), true);
+  unique_ptr<AssignPatternClause> patternClause2 =
+      std::make_unique<AssignPatternClause>(std::move(outerSyn2),
+                                            std::move(firstArg2),
+                                            std::move(secondArg2), true);
   expected.addClause(std::move(patternClause2));
 
   // Follows (a1, a2)

@@ -79,8 +79,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Wildcard)") {
   mockReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
   unique_ptr<SynonymArg> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
-  unique_ptr<Wildcard> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<Wildcard> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
@@ -129,8 +128,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Wildcard)") {
   mockReader.mockFollowing = MOCK_FOLLOWED;
   unique_ptr<Integer> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
-  unique_ptr<Wildcard> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<Wildcard> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
@@ -187,8 +185,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Integer)_false") {
 TEST_CASE("FollowsAbstraction - Follows(Wildcard, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -205,8 +202,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Synonym)") {
 TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockFollowed = MOCK_FOLLOWED;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -220,8 +216,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer)") {
 TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer) not followed") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockFollowed = MOCK_NO_FOLLOWED;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -235,10 +230,8 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer) not followed") {
 TEST_CASE("FollowsAbstraction - Follows(Wildcard, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
@@ -250,10 +243,8 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Wildcard)") {
 
 TEST_CASE("FollowsAbstraction - Follows(Wildcard, Wildcard)_EMPTY") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 

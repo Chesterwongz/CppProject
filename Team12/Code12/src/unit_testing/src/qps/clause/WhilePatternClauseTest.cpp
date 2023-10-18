@@ -58,8 +58,7 @@ TEST_CASE("test_whilePatternClause_evaluate_synonymFirstArg") {
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
-  IntermediateTable actualTable =
-      patternClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = patternClause.evaluate(mockPkbReader);
   vector<string> actualColNames = actualTable.getColNames();
   vector<vector<string>> actualTableData = actualTable.getData();
   vector<vector<string>> expectedData = {{"1", "a"}, {"3", "b"}, {"5", "c"}};
@@ -90,8 +89,7 @@ TEST_CASE("test_whilePatternClause_evaluate_identFirstArg") {
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
-  IntermediateTable actualTable =
-      patternClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = patternClause.evaluate(mockPkbReader);
   vector<string> actualColNames = actualTable.getColNames();
   vector<vector<string>> actualTableData = actualTable.getData();
   vector<vector<string>> expectedData = {{"3"}};

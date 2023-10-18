@@ -1,8 +1,8 @@
 #include <catch.hpp>
 
 #include "IfEvaluatorTestData.h"
-#include "qps/common/Keywords.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/common/Keywords.h"
 #include "qps/patternEvaluator/ifEvaluator/IfEvaluator.h"
 
 using std::make_unique;

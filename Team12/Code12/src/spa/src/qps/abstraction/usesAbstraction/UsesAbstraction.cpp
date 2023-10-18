@@ -16,10 +16,9 @@ IntermediateTable UsesAbstraction::evaluateSynonymSynonym() {
 // Uses (StatementOrProcSynonym, VarIdentifier)
 IntermediateTable UsesAbstraction::evaluateSynonymIdent() {
   string firstArgSynonym = this->firstArgValue;
-  auto& firstSynArg = dynamic_cast<SynonymArg &>(firstArg);
+  auto& firstSynArg = dynamic_cast<SynonymArg&>(firstArg);
 
-  bool isFirstArgProcedure =
-      firstSynArg.getEntityType() == PROCEDURE_ENTITY;
+  bool isFirstArgProcedure = firstSynArg.getEntityType() == PROCEDURE_ENTITY;
   string secondArgVarName = this->secondArgValue;
 
   vector<string> result;
@@ -96,10 +95,9 @@ IntermediateTable UsesAbstraction::evaluateIdentWildcard() {
 
 IntermediateTable UsesAbstraction::handleSynonymOrWildcardArgs() {
   string firstArgSynonym = this->firstArgValue;
-  auto& firstSynArg = dynamic_cast<SynonymArg &>(firstArg);
+  auto& firstSynArg = dynamic_cast<SynonymArg&>(firstArg);
 
-  bool isFirstArgProcedure =
-      firstSynArg.getEntityType() == PROCEDURE_ENTITY;
+  bool isFirstArgProcedure = firstSynArg.getEntityType() == PROCEDURE_ENTITY;
   string secondArgVarSynonym = this->secondArgValue;
 
   // Uses(procSynonym, *) and Uses(stmtSynonym, *) has different APIs

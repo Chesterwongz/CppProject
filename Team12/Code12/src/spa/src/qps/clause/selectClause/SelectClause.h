@@ -19,8 +19,8 @@ typedef vector<unique_ptr<SynonymArg>> SynonymsToSelect;
 class SelectClause : public Clause {
  private:
   SynonymsToSelect synonymsToSelect;
-  static IntermediateTable getAllPossibleValues(PKBReader &pkb,
-      unique_ptr<SynonymArg> &synonymArg);
+  static IntermediateTable getAllPossibleValues(
+      PKBReader &pkb, unique_ptr<SynonymArg> &synonymArg);
 
  public:
   explicit SelectClause(SynonymsToSelect synonymsToSelect);

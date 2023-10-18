@@ -80,8 +80,7 @@ TEST_CASE("NextStarAbstraction - Next*(Synonym, Wildcard)") {
   mockReader.mockGetNextTPairs = MOCK_NEXT_STAR_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
@@ -128,8 +127,7 @@ TEST_CASE("NextStarAbstraction - Next*(Integer, Wildcard)") {
   mockReader.mockGetNextTStmts = MOCK_NEXT_STAR_SECOND_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
@@ -186,8 +184,7 @@ TEST_CASE("NextStarAbstraction - Next*(Integer, Integer)_false") {
 TEST_CASE("NextStarAbstraction - Next*(Wildcard, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockGetNextTPairs = MOCK_NEXT_STAR_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -204,8 +201,7 @@ TEST_CASE("NextStarAbstraction - Next*(Wildcard, Synonym)") {
 TEST_CASE("NextStarAbstraction - Next*(Wildcard, Integer)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockGetPrevTStmts = MOCK_NEXT_STAR_FIRST_STMTS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -219,8 +215,7 @@ TEST_CASE("NextStarAbstraction - Next*(Wildcard, Integer)") {
 TEST_CASE("NextStarAbstraction - Next*(Wildcard, Integer)_no_next") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockGetPrevTStmts = MOCK_NO_NEXT_STAR_STMTS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -234,10 +229,8 @@ TEST_CASE("NextStarAbstraction - Next*(Wildcard, Integer)_no_next") {
 TEST_CASE("NextStarAbstraction - Next*(Wildcard, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockGetNextTPairs = MOCK_NEXT_STAR_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 
@@ -249,10 +242,8 @@ TEST_CASE("NextStarAbstraction - Next*(Wildcard, Wildcard)") {
 
 TEST_CASE("NextStarAbstraction - Next*(Wildcard, Wildcard)_EMPTY") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, NEXT_STAR_ENUM, *mockArgument1, *mockArgument2);
 

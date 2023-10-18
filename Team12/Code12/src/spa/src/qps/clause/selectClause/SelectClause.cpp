@@ -14,8 +14,7 @@ IntermediateTable SelectClause::evaluate(PKBReader &pkb) {
   IntermediateTable result =
       IntermediateTableFactory::buildWildcardIntermediateTable();
   for (auto &synonymArg : this->synonymsToSelect) {
-    IntermediateTable possibleValues =
-        getAllPossibleValues(pkb, synonymArg);
+    IntermediateTable possibleValues = getAllPossibleValues(pkb, synonymArg);
     result = result.join(possibleValues);
     if (result.isTableEmptyAndNotWildcard()) {
       return result;
@@ -24,8 +23,8 @@ IntermediateTable SelectClause::evaluate(PKBReader &pkb) {
   return result;
 }
 
-IntermediateTable SelectClause::getAllPossibleValues(PKBReader &pkb,
-    unique_ptr<SynonymArg> &synonymArg) {
+IntermediateTable SelectClause::getAllPossibleValues(
+    PKBReader &pkb, unique_ptr<SynonymArg> &synonymArg) {
   string synonymValue = synonymArg->getValue();
   Entity entity = synonymArg->getEntityType();
   set<string> results;

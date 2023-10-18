@@ -80,8 +80,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Wildcard)") {
   mockReader.mockParentChildPairs = MOCK_PARENT_CHILD_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, PARENTS_ENUM, *mockArgument1, *mockArgument2);
 
@@ -177,8 +176,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Wildcard)") {
   mockReader.mockImmediateChildrenOf = MOCK_PARENT_CHILD_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, PARENTS_ENUM, *mockArgument1, *mockArgument2);
 
@@ -192,8 +190,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Wildcard)_empty") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, PARENTS_ENUM, *mockArgument1, *mockArgument2);
 
@@ -206,8 +203,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Wildcard)_empty") {
 TEST_CASE("ParentsAbstraction - Parents(Wildcard, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockParentChildPairs = MOCK_PARENT_CHILD_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -224,8 +220,7 @@ TEST_CASE("ParentsAbstraction - Parents(Wildcard, Synonym)") {
 TEST_CASE("ParentsAbstraction - Parents(Wildcard, Integer)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockImmediateParentOf = MOCK_IMMEDIATE_PARENT_OF;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -256,10 +251,8 @@ TEST_CASE(
 TEST_CASE("ParentsAbstraction - Parents(Wildcard, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockParentChildPairs = MOCK_PARENT_CHILD_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, PARENTS_ENUM, *mockArgument1, *mockArgument2);
 
@@ -271,10 +264,8 @@ TEST_CASE("ParentsAbstraction - Parents(Wildcard, Wildcard)") {
 
 TEST_CASE("ParentsAbstraction - Parents(Wildcard, Wildcard)_EMPTY") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, PARENTS_ENUM, *mockArgument1, *mockArgument2);
 

@@ -12,9 +12,8 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Synonym)_EMPTY") {
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, PARENTS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, PARENTS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   ParentsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -30,9 +29,8 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Synonym)") {
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, PARENTS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, PARENTS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   ParentsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -82,11 +80,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Wildcard)") {
   mockReader.mockParentChildStarPairs = MOCK_PARENT_CHILD_STARS_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, PARENTS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, PARENTS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   ParentsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -102,9 +98,8 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Synonym)_EMPTY") {
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, PARENTS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, PARENTS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   ParentsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -120,9 +115,8 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Synonym)") {
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, PARENTS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, PARENTS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   ParentsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -182,11 +176,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Wildcard)") {
   mockReader.mockChildrenStar = MOCK_PARENT_CHILD_STARS_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, PARENTS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, PARENTS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   ParentsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -198,11 +190,9 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Wildcard)_empty") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, PARENTS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, PARENTS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   ParentsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -213,13 +203,11 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Wildcard)_empty") {
 TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockParentChildStarPairs = MOCK_PARENT_CHILD_STARS_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, PARENTS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, PARENTS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   ParentsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -232,8 +220,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Synonym)") {
 TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Integer)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockParentStarOf = MOCK_PARENT_CHILD_STARS_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -249,8 +236,7 @@ TEST_CASE(
     "ParentsStarAbstraction - Parents*(Wildcard, "
     "Integer)_no_immediate_parent") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -264,13 +250,10 @@ TEST_CASE(
 TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockParentChildStarPairs = MOCK_PARENT_CHILD_STARS_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, PARENTS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, PARENTS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   ParentsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -280,13 +263,10 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Wildcard)") {
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Wildcard)_EMPTY") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<Wildcard>();
-  unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParams(mockReader, PARENTS_STAR_ENUM,
-                                  *mockArgument1, *mockArgument2);
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, PARENTS_STAR_ENUM, *mockArgument1, *mockArgument2);
 
   ParentsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();

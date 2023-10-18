@@ -18,8 +18,7 @@ struct AbstractionParams {
   Abstraction abstraction;
   AbstractArgument &firstArg;
   AbstractArgument &secondArg;
-  explicit AbstractionParams(PKBReader &pkb,
-                             Abstraction abstraction,
+  explicit AbstractionParams(PKBReader &pkb, Abstraction abstraction,
                              AbstractArgument &firstArg,
                              AbstractArgument &secondArg)
       : pkb(pkb),
@@ -113,7 +112,7 @@ inline ArgumentPermutation getPermutation(AbstractArgument &firstArg,
 
 inline StmtType getArgStmtType(AbstractArgument &argument) {
   if (argument.isSynonym()) {
-    auto& synonymArg = dynamic_cast<SynonymArg&>(argument);
+    auto &synonymArg = dynamic_cast<SynonymArg &>(argument);
     auto firstStmtEntity = synonymArg.getEntityType();
     assert(firstStmtEntity != PROCEDURE_ENTITY);
     return StmtEntityToStatementType.at(firstStmtEntity);
