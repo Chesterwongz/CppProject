@@ -1,9 +1,10 @@
 #include "CallsStorage.h"
 
 void CallsStorage::setCallsRelationship(const string& caller,
-                                        const string& callee) {
+                                        const string& callee, int stmtNum) {
   callsMap[caller].insert(callee);
   calledByMap[callee].insert(caller);
+  stmtCalleeMap[stmtNum] = callee;
 }
 
 void CallsStorage::setCallsStarRelationship(const string& caller,
@@ -93,4 +94,8 @@ void CallsStorage::computeCallsStar() {
       setCallsStarRelationship(caller, callee);
     }
   }
+}
+
+const unordered_map<int, string>& CallsStorage::getStmtCalleeMap() {
+  return stmtCalleeMap;
 }

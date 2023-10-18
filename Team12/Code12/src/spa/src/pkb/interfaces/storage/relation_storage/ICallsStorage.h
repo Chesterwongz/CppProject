@@ -11,8 +11,8 @@ using std::string, std::unordered_set;
 class ICallsStorage {
  public:
   virtual ~ICallsStorage() = default;
-  virtual void setCallsRelationship(const string& caller,
-                                    const string& callee) = 0;
+  virtual void setCallsRelationship(const string& caller, const string& callee,
+                                    int stmtNum) = 0;
   virtual void setCallsStarRelationship(const string& caller,
                                         const string& callee) = 0;
   virtual unordered_set<string> getCalleeProcs(const string& caller) = 0;

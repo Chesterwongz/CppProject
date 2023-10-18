@@ -1,0 +1,24 @@
+procedure procedure {
+  read line1;
+  call PotatoLine2;
+  print line3;
+  while (line4 != line4) {
+    if ((line5 == if) && ( ! (if >= if))) then{
+      line6 = variable + 5;
+      if ((line7 < if2) && ( ! (if2 > if2))) then {
+        read line8;
+        print line9;
+        while ((line10 > while2)&&(!(while2<while2))) {
+          line11 = variable2 + 10;
+        }
+      } else {
+        read line12;
+      }
+    } else {
+      read line13;
+    }
+  }
+}
+procedure PotatoLine2 {
+  line14 = 14;
+};

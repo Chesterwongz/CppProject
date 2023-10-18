@@ -106,48 +106,43 @@ TEST_CASE("PKBReader Tests") {
 
   SECTION("getFollowsPairs") {
     REQUIRE(reader.getFollowsPairs(StmtType::STMT, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{
+            std::vector<std::pair<std::string, std::string>> {
                 {"1", "2"}, {"3", "4"}, {"4", "5"}});
     REQUIRE(reader.getFollowsPairs(StmtType::ASSIGN, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "2"},
+            std::vector<std::pair<std::string, std::string>> {{"1", "2"},
                                                              {"3", "4"}});
     REQUIRE(reader.getFollowsPairs(StmtType::STMT, StmtType::WHILE) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "2"},
+            std::vector<std::pair<std::string, std::string>> {{"1", "2"},
                                                              {"4", "5"}});
-    REQUIRE(reader.getFollowsPairs(StmtType::READ, StmtType::PRINT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+    REQUIRE(reader.getFollowsPairs(StmtType::READ, StmtType::PRINT).empty());
   }
 
   SECTION("getAllFollowing") {
     REQUIRE(reader.getFollowsStar(1, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "2"}});
+            std::vector<std::pair<std::string, std::string>> {{"1", "2"}});
     REQUIRE(reader.getFollowsStar(3, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"3", "4"},
+            std::vector<std::pair<std::string, std::string>> {{"3", "4"},
                                                              {"3", "5"}});
     REQUIRE(reader.getFollowsStar(3, StmtType::IF) ==
-            std::vector<std::pair<std::string, std::string>>{{"3", "4"}});
-    REQUIRE(reader.getFollowsStar(3, StmtType::READ) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::pair<std::string, std::string>> {{"3", "4"}});
+    REQUIRE(reader.getFollowsStar(3, StmtType::READ).empty());
     REQUIRE(reader.getFollowsStar(4, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"4", "5"}});
-    REQUIRE(reader.getFollowsStar(5, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::pair<std::string, std::string>> {{"4", "5"}});
+    REQUIRE(reader.getFollowsStar(5, StmtType::STMT).empty());
   }
 
   SECTION("getAllFollowed") {
     REQUIRE(reader.getFollowedStar(2, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "2"}});
+            std::vector<std::pair<std::string, std::string>> {{"1", "2"}});
     REQUIRE(reader.getFollowedStar(5, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"3", "5"},
+            std::vector<std::pair<std::string, std::string>> {{"3", "5"},
                                                              {"4", "5"}});
     REQUIRE(reader.getFollowedStar(5, StmtType::ASSIGN) ==
-            std::vector<std::pair<std::string, std::string>>{{"3", "5"}});
+            std::vector<std::pair<std::string, std::string>> {{"3", "5"}});
     REQUIRE(reader.getFollowedStar(4, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"3", "4"}});
-    REQUIRE(reader.getFollowedStar(4, StmtType::PRINT) ==
-            std::vector<std::pair<std::string, std::string>>{});
-    REQUIRE(reader.getFollowedStar(1, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::pair<std::string, std::string>> {{"3", "4"}});
+    REQUIRE(reader.getFollowedStar(4, StmtType::PRINT).empty());
+    REQUIRE(reader.getFollowedStar(1, StmtType::STMT).empty());
   }
 
   SECTION("isFollowsStar") {
@@ -157,31 +152,29 @@ TEST_CASE("PKBReader Tests") {
 
   SECTION("getFollowsStarPairs") {
     REQUIRE(reader.getFollowsStarPairs(StmtType::STMT, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{
+            std::vector<std::pair<std::string, std::string>> {
                 {"1", "2"}, {"3", "4"}, {"3", "5"}, {"4", "5"}});
     REQUIRE(reader.getFollowsStarPairs(StmtType::STMT, StmtType::WHILE) ==
-            std::vector<std::pair<std::string, std::string>>{
+            std::vector<std::pair<std::string, std::string>> {
                 {"1", "2"}, {"3", "5"}, {"4", "5"}});
     REQUIRE(reader.getFollowsStarPairs(StmtType::ASSIGN, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{
+            std::vector<std::pair<std::string, std::string>> {
                 {"1", "2"}, {"3", "4"}, {"3", "5"}});
-    REQUIRE(reader.getFollowsStarPairs(StmtType::PRINT, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+    REQUIRE(
+        reader.getFollowsStarPairs(StmtType::PRINT, StmtType::STMT).empty());
   }
 
   SECTION("getImmediateChildren") {
     REQUIRE(reader.getImmediateChildrenOf(1, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "2"},
+            std::vector<std::pair<std::string, std::string>> {{"1", "2"},
                                                              {"1", "3"}});
     REQUIRE(reader.getImmediateChildrenOf(3, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"3", "4"},
+            std::vector<std::pair<std::string, std::string>> {{"3", "4"},
                                                              {"3", "5"}});
     REQUIRE(reader.getImmediateChildrenOf(3, StmtType::IF) ==
-            std::vector<std::pair<std::string, std::string>>{{"3", "4"}});
-    REQUIRE(reader.getImmediateChildrenOf(3, StmtType::READ) ==
-            std::vector<std::pair<std::string, std::string>>{});
-    REQUIRE(reader.getImmediateChildrenOf(4, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::pair<std::string, std::string>> {{"3", "4"}});
+    REQUIRE(reader.getImmediateChildrenOf(3, StmtType::READ).empty());
+    REQUIRE(reader.getImmediateChildrenOf(4, StmtType::STMT).empty());
   }
 
   SECTION("getImmediateParent") {
@@ -192,9 +185,9 @@ TEST_CASE("PKBReader Tests") {
     REQUIRE(reader.getImmediateParentOf(3, StmtType::ASSIGN) ==
             std::pair<std::string, std::string>{"1", "3"});
     REQUIRE(reader.getImmediateParentOf(3, StmtType::READ) ==
-            std::pair<std::string, std::string>{});
+            std::pair<std::string, std::string>{"", ""});
     REQUIRE(reader.getImmediateParentOf(3, StmtType::CALL) ==
-            std::pair<std::string, std::string>{});
+            std::pair<std::string, std::string>{"", ""});
     REQUIRE(reader.getImmediateParentOf(4, StmtType::STMT) ==
             std::pair<std::string, std::string>{"3", "4"});
     REQUIRE(reader.getImmediateParentOf(5, StmtType::STMT) ==
@@ -209,47 +202,40 @@ TEST_CASE("PKBReader Tests") {
 
   SECTION("getParentChildPairs") {
     REQUIRE(reader.getParentChildPairs(StmtType::STMT, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{
+            std::vector<std::pair<std::string, std::string>> {
                 {"1", "2"}, {"1", "3"}, {"3", "4"}, {"3", "5"}});
-    REQUIRE(reader.getParentChildPairs(StmtType::READ, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+    REQUIRE(reader.getParentChildPairs(StmtType::READ, StmtType::STMT).empty());
   }
 
   SECTION("getChildrenStar") {
     REQUIRE(reader.getChildrenStarOf(1, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{
+            std::vector<std::pair<std::string, std::string>> {
                 {"1", "2"}, {"1", "3"}, {"1", "4"}, {"1", "5"}});
     REQUIRE(reader.getChildrenStarOf(1, StmtType::WHILE) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "2"},
+            std::vector<std::pair<std::string, std::string>> {{"1", "2"},
                                                              {"1", "5"}});
-    REQUIRE(reader.getChildrenStarOf(1, StmtType::READ) ==
-            std::vector<std::pair<std::string, std::string>>{});
-    REQUIRE(reader.getChildrenStarOf(2, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+    REQUIRE(reader.getChildrenStarOf(1, StmtType::READ).empty());
+    REQUIRE(reader.getChildrenStarOf(2, StmtType::STMT).empty());
     REQUIRE(reader.getChildrenStarOf(3, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"3", "4"},
+            std::vector<std::pair<std::string, std::string>> {{"3", "4"},
                                                              {"3", "5"}});
-    REQUIRE(reader.getChildrenStarOf(5, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+    REQUIRE(reader.getChildrenStarOf(5, StmtType::STMT).empty());
   }
 
   SECTION("getParentStar") {
-    REQUIRE(reader.getParentStarOf(1, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+    REQUIRE(reader.getParentStarOf(1, StmtType::STMT).empty());
     REQUIRE(reader.getParentStarOf(2, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "2"}});
+            std::vector<std::pair<std::string, std::string>> {{"1", "2"}});
     REQUIRE(reader.getParentStarOf(2, StmtType::ASSIGN) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "2"}});
-    REQUIRE(reader.getParentStarOf(2, StmtType::READ) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::pair<std::string, std::string>> {{"1", "2"}});
+    REQUIRE(reader.getParentStarOf(2, StmtType::READ).empty());
     REQUIRE(reader.getParentStarOf(4, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "4"},
+            std::vector<std::pair<std::string, std::string>> {{"1", "4"},
                                                              {"3", "4"}});
     REQUIRE(reader.getParentStarOf(4, StmtType::ASSIGN) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "4"},
+            std::vector<std::pair<std::string, std::string>> {{"1", "4"},
                                                              {"3", "4"}});
-    REQUIRE(reader.getParentStarOf(5, StmtType::PRINT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+    REQUIRE(reader.getParentStarOf(5, StmtType::PRINT).empty());
   }
 
   SECTION("isParentStar") {
@@ -260,23 +246,23 @@ TEST_CASE("PKBReader Tests") {
 
   SECTION("getParentChildStarPairs") {
     REQUIRE(reader.getParentChildStarPairs(StmtType::STMT, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "2"},
+            std::vector<std::pair<std::string, std::string>> {{"1", "2"},
                                                              {"1", "3"},
                                                              {"1", "4"},
                                                              {"1", "5"},
                                                              {"3", "4"},
                                                              {"3", "5"}});
-    REQUIRE(reader.getParentChildStarPairs(StmtType::READ, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+    REQUIRE(
+        reader.getParentChildStarPairs(StmtType::READ, StmtType::STMT).empty());
     REQUIRE(reader.getParentChildStarPairs(StmtType::ASSIGN, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "2"},
+            std::vector<std::pair<std::string, std::string>> {{"1", "2"},
                                                              {"1", "3"},
                                                              {"1", "4"},
                                                              {"1", "5"},
                                                              {"3", "4"},
                                                              {"3", "5"}});
     REQUIRE(reader.getParentChildStarPairs(StmtType::ASSIGN, StmtType::WHILE) ==
-            std::vector<std::pair<std::string, std::string>>{
+            std::vector<std::pair<std::string, std::string>> {
                 {"1", "2"}, {"1", "5"}, {"3", "5"}});
   }
 
@@ -287,19 +273,17 @@ TEST_CASE("PKBReader Tests") {
             std::vector<std::string>{"1", "3"});
     REQUIRE(reader.getStatementsModifying("x", StmtType::READ) ==
             std::vector<std::string>{"6"});
-    REQUIRE(reader.getStatementsModifying("x", StmtType::PRINT) ==
-            std::vector<std::string>{});
+    REQUIRE(reader.getStatementsModifying("x", StmtType::PRINT).empty());
     REQUIRE(reader.getStatementsModifying("y", StmtType::STMT) ==
             std::vector<std::string>{"2", "5"});
   }
 
   SECTION("getVariablesModifiedBy") {
     REQUIRE(reader.getVariablesModifiedBy(1, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "x"}});
+            std::vector<std::pair<std::string, std::string>> {{"1", "x"}});
     REQUIRE(reader.getVariablesModifiedBy(2, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"2", "y"}});
-    REQUIRE(reader.getVariablesModifiedBy(7, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::pair<std::string, std::string>> {{"2", "y"}});
+    REQUIRE(reader.getVariablesModifiedBy(7, StmtType::STMT).empty());
   }
 
   SECTION("getStatementsUsing") {
@@ -307,55 +291,50 @@ TEST_CASE("PKBReader Tests") {
             std::vector<std::string>{"1", "2", "4"});
     REQUIRE(reader.getStatementsUsing("x", StmtType::ASSIGN) ==
             std::vector<std::string>{"1"});
-    REQUIRE(reader.getStatementsUsing("x", StmtType::READ) ==
-            std::vector<std::string>{});
+    REQUIRE(reader.getStatementsUsing("x", StmtType::READ).empty());
     REQUIRE(reader.getStatementsUsing("y", StmtType::STMT) ==
             std::vector<std::string>{"1"});
-    REQUIRE(reader.getStatementsUsing("a", StmtType::STMT) ==
-            std::vector<std::string>{});
+    REQUIRE(reader.getStatementsUsing("a", StmtType::STMT).empty());
   }
 
   SECTION("getVariablesUsedBy") {
     REQUIRE(reader.getVariablesUsedBy(1, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "x"},
+            std::vector<std::pair<std::string, std::string>> {{"1", "x"},
                                                              {"1", "y"}});
     REQUIRE(reader.getVariablesUsedBy(1, StmtType::ASSIGN) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "x"},
+            std::vector<std::pair<std::string, std::string>> {{"1", "x"},
                                                              {"1", "y"}});
-    REQUIRE(reader.getVariablesUsedBy(1, StmtType::PRINT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+    REQUIRE(reader.getVariablesUsedBy(1, StmtType::PRINT).empty());
     REQUIRE(reader.getVariablesUsedBy(2, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"2", "x"}});
-    REQUIRE(reader.getVariablesUsedBy(7, StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::pair<std::string, std::string>> {{"2", "x"}});
+    REQUIRE(reader.getVariablesUsedBy(7, StmtType::STMT).empty());
   }
 
   SECTION("getAllModifiedVariables") {
     REQUIRE(reader.getAllModifiedVariables(StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "x"},
+            std::vector<std::pair<std::string, std::string>> {{"1", "x"},
                                                              {"3", "x"},
                                                              {"6", "x"},
                                                              {"2", "y"},
                                                              {"5", "y"},
                                                              {"4", "z"}});
     REQUIRE(reader.getAllModifiedVariables(StmtType::ASSIGN) ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "x"},
+            std::vector<std::pair<std::string, std::string>> {{"1", "x"},
                                                              {"3", "x"}});
     REQUIRE(reader.getAllModifiedVariables(StmtType::IF) ==
-            std::vector<std::pair<std::string, std::string>>{{"4", "z"}});
-    REQUIRE(reader.getAllModifiedVariables(StmtType::PRINT) ==
-            std::vector<std::pair<std::string, std::string>>{});
+            std::vector<std::pair<std::string, std::string>> {{"4", "z"}});
+    REQUIRE(reader.getAllModifiedVariables(StmtType::PRINT).empty());
   }
 
   SECTION("getAllUsedVariables") {
     REQUIRE(reader.getAllUsedVariables(StmtType::STMT) ==
-            std::vector<std::pair<std::string, std::string>>{
+            std::vector<std::pair<std::string, std::string>> {
                 {"1", "x"}, {"2", "x"}, {"4", "x"}, {"1", "y"}, {"3", "z"}});
     REQUIRE(reader.getAllUsedVariables(StmtType::ASSIGN) ==
-            std::vector<std::pair<std::string, std::string>>{
+            std::vector<std::pair<std::string, std::string>> {
                 {"1", "x"}, {"1", "y"}, {"3", "z"}});
     REQUIRE(reader.getAllUsedVariables(StmtType::IF) ==
-            std::vector<std::pair<std::string, std::string>>{{"4", "x"}});
+            std::vector<std::pair<std::string, std::string>> {{"4", "x"}});
     REQUIRE(reader.getAllUsedVariables(StmtType::PRINT).empty());
   }
 
@@ -374,19 +353,18 @@ TEST_CASE("PKBReader Tests") {
         reader.getExactAssignPattern("_", "_");
     std::vector<std::pair<std::string, std::string>> resultVector7 =
         reader.getExactAssignPattern("x", "_");
-    REQUIRE(resultVector1 ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "x"}});
+    REQUIRE(StrStrPairSet {resultVector1.begin(), resultVector1.end()} ==
+            StrStrPairSet {{"1", "x"}});
     REQUIRE(resultVector2.empty());
-    REQUIRE(resultVector3 ==
-            std::vector<std::pair<std::string, std::string>>{{"2", "y"}});
+    REQUIRE(StrStrPairSet {resultVector3.begin(), resultVector3.end()} ==
+            StrStrPairSet {{"2", "y"}});
     REQUIRE(resultVector4.empty());
-    REQUIRE(resultVector5 ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "x"}});
-    REQUIRE(resultVector6 ==
-            std::vector<std::pair<std::string, std::string>>{
-                {"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}});
-    REQUIRE(resultVector7 == std::vector<std::pair<std::string, std::string>>{
-                                 {"1", "x"}, {"4", "x"}});
+    REQUIRE(StrStrPairSet {resultVector5.begin(), resultVector5.end()} ==
+            StrStrPairSet {{"1", "x"}});
+    REQUIRE(StrStrPairSet {resultVector6.begin(), resultVector6.end()} ==
+            StrStrPairSet {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}});
+    REQUIRE(StrStrPairSet {resultVector7.begin(), resultVector7.end()} ==
+            StrStrPairSet {{"1", "x"}, {"4", "x"}});
   }
 
   SECTION("getPartialAssignPattern") {
@@ -405,20 +383,19 @@ TEST_CASE("PKBReader Tests") {
     std::vector<std::pair<std::string, std::string>> resultVector7 =
         reader.getPartialAssignPattern("_", "_");
 
-    REQUIRE(resultVector1 ==
-            std::vector<std::pair<std::string, std::string>>{{"1", "x"}});
-    REQUIRE(resultVector2 ==
-            std::vector<std::pair<std::string, std::string>>{{"4", "x"}});
+    REQUIRE(StrStrPairSet {resultVector1.begin(), resultVector1.end()} ==
+            StrStrPairSet {{"1", "x"}});
+    REQUIRE(StrStrPairSet {resultVector2.begin(), resultVector2.end()} ==
+            StrStrPairSet {{"4", "x"}});
     REQUIRE(resultVector3.empty());
-    REQUIRE(resultVector4 == std::vector<std::pair<std::string, std::string>>{
-                                 {"1", "x"}, {"3", "z"}, {"4", "x"}});
-    REQUIRE(resultVector5 == std::vector<std::pair<std::string, std::string>>{
-                                 {"1", "x"}, {"3", "z"}, {"4", "x"}});
-    REQUIRE(resultVector6 == std::vector<std::pair<std::string, std::string>>{
-                                 {"1", "x"}, {"4", "x"}});
-    REQUIRE(resultVector7 ==
-            std::vector<std::pair<std::string, std::string>>{
-                {"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}});
+    REQUIRE(StrStrPairSet {resultVector4.begin(), resultVector4.end()} ==
+            StrStrPairSet {{"1", "x"}, {"3", "z"}, {"4", "x"}});
+    REQUIRE(StrStrPairSet {resultVector5.begin(), resultVector5.end()} ==
+            StrStrPairSet {{"1", "x"}, {"3", "z"}, {"4", "x"}});
+    REQUIRE(StrStrPairSet {resultVector6.begin(), resultVector6.end()} ==
+            StrStrPairSet {{"1", "x"}, {"4", "x"}});
+    REQUIRE(StrStrPairSet {resultVector7.begin(), resultVector7.end()} ==
+            StrStrPairSet {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}});
   }
 
   SECTION("Test whilePattern") {
@@ -429,24 +406,31 @@ TEST_CASE("PKBReader Tests") {
     writer.setWhilePattern(8, "z");
     writer.setWhilePattern(9, "x");
 
-    REQUIRE(reader.getWhilePattern("x") ==
-            std::vector<std::pair<std::string, std::string>>{
-                {"6", "x"}, {"8", "x"}, {"9", "x"}});
+    std::vector<std::pair<std::string, std::string>> resultVec1 =
+        reader.getWhilePattern("x");
+    std::vector<std::pair<std::string, std::string>> resultVec2 =
+        reader.getWhilePattern("y");
+    std::vector<std::pair<std::string, std::string>> resultVec3 =
+        reader.getWhilePattern("z");
+    std::vector<std::pair<std::string, std::string>> resultVec4 =
+        reader.getWhilePattern("_");
 
-    REQUIRE(reader.getWhilePattern("y") ==
-            std::vector<std::pair<std::string, std::string>>{{"6", "y"},
-                                                             {"7", "y"}});
+    REQUIRE(StrStrPairSet {resultVec1.begin(), resultVec1.end()} ==
+            StrStrPairSet {{"6", "x"}, {"8", "x"}, {"9", "x"}});
 
-    REQUIRE(reader.getWhilePattern("z") ==
-            std::vector<std::pair<std::string, std::string>>{{"8", "z"}});
+    REQUIRE(StrStrPairSet {resultVec2.begin(), resultVec2.end()} ==
+            StrStrPairSet {{"6", "y"}, {"7", "y"}});
 
-    REQUIRE(reader.getWhilePattern("_") ==
-            std::vector<std::pair<std::string, std::string>>{{"6", "x"},
-                                                             {"6", "y"},
-                                                             {"7", "y"},
-                                                             {"8", "x"},
-                                                             {"8", "z"},
-                                                             {"9", "x"}});
+    REQUIRE(StrStrPairSet {resultVec3.begin(), resultVec3.end()} ==
+            StrStrPairSet {{"8", "z"}});
+
+    REQUIRE(StrStrPairSet {resultVec4.begin(), resultVec4.end()} ==
+            StrStrPairSet {{"6", "x"},
+                          {"6", "y"},
+                          {"7", "y"},
+                          {"8", "x"},
+                          {"8", "z"},
+                          {"9", "x"}});
   }
 
   SECTION("Test ifPattern") {
@@ -457,23 +441,30 @@ TEST_CASE("PKBReader Tests") {
     writer.setIfPattern(10, "b");
     writer.setIfPattern(11, "d");
 
-    REQUIRE(reader.getIfPattern("a") ==
-            std::vector<std::pair<std::string, std::string>>{{"6", "a"},
-                                                             {"9", "a"}});
+    std::vector<std::pair<std::string, std::string>> resultVec1 =
+        reader.getIfPattern("a");
+    std::vector<std::pair<std::string, std::string>> resultVec2 =
+        reader.getIfPattern("b");
+    std::vector<std::pair<std::string, std::string>> resultVec3 =
+        reader.getIfPattern("c");
+    std::vector<std::pair<std::string, std::string>> resultVec4 =
+        reader.getIfPattern("_");
 
-    REQUIRE(reader.getIfPattern("b") ==
-            std::vector<std::pair<std::string, std::string>>{{"7", "b"},
-                                                             {"10", "b"}});
+    REQUIRE(StrStrPairSet {resultVec1.begin(), resultVec1.end()} ==
+            StrStrPairSet {{"6", "a"}, {"9", "a"}});
 
-    REQUIRE(reader.getIfPattern("c") ==
-            std::vector<std::pair<std::string, std::string>>{{"8", "c"}});
+    REQUIRE(StrStrPairSet {resultVec2.begin(), resultVec2.end()} ==
+            StrStrPairSet {{"7", "b"}, {"10", "b"}});
 
-    REQUIRE(reader.getIfPattern("_") ==
-            std::vector<std::pair<std::string, std::string>>{{"6", "a"},
-                                                             {"7", "b"},
-                                                             {"8", "c"},
-                                                             {"9", "a"},
-                                                             {"10", "b"},
-                                                             {"11", "d"}});
+    REQUIRE(StrStrPairSet {resultVec3.begin(), resultVec3.end()} ==
+            StrStrPairSet {{"8", "c"}});
+
+    REQUIRE(StrStrPairSet {resultVec4.begin(), resultVec4.end()} ==
+            StrStrPairSet {{"6", "a"},
+                          {"7", "b"},
+                          {"8", "c"},
+                          {"9", "a"},
+                          {"10", "b"},
+                          {"11", "d"}});
   }
 }
