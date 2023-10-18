@@ -21,6 +21,6 @@ std::vector<std::string> DesignEntitiesReader::getAllStmtsOf(
     return {};
   }
   const auto& stmtSet = stmtStore.getAllStmtsOf(statementType);
-  return CollectionUtils::unorderedSetUToVectorV<int, std::string>(
-      stmtSet, StringUtils::intToStrMapper);
+  return CollectionUtils::transformSetUToVectorV<int, std::string>(
+      stmtSet, CollectionUtils::intToStrMapper);
 }

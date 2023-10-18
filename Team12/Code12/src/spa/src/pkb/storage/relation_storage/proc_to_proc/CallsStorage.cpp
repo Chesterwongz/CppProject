@@ -81,21 +81,6 @@ CallsStorage::getCallsStarMap() {
   return callsStarMap;
 }
 
-void CallsStorage::computeCallsStar() {
-  for (const auto& [caller, calleeSet] : callsMap) {
-    auto lambdaGetNextStmts = [this](const string& callerProc) {
-      return this->getCalleeProcs(callerProc);
-    };
-    unordered_set<string> transitiveCallees =
-        FunctionUtils<string, decltype(lambdaGetNextStmts), const string&>::
-            computeTransitiveRelationship(caller, lambdaGetNextStmts,
-                                          &callsStarMap);
-    for (const auto& callee : transitiveCallees) {
-      setCallsStarRelationship(caller, callee);
-    }
-  }
-}
-
 const unordered_map<int, string>& CallsStorage::getStmtCalleeMap() {
   return stmtCalleeMap;
 }

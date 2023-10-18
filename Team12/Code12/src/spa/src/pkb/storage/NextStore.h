@@ -2,4 +2,13 @@
 
 #include "RelationTStore.h"
 
-class NextStore : public RelationTStore<int, int> {};
+class NextStore : public RelationTStore<int, int> {
+ protected:
+  void precomputeRelationT(int from, int to) override;
+  void computeSuccessorsT(int from) override;
+  void computeAncestorsT(int to) override;
+  void computeAllRelationsT() override;
+
+ public:
+  void clearCache() override;
+};

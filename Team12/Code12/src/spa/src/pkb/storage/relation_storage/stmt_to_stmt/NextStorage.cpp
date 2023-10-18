@@ -35,25 +35,9 @@ IntSet NextStorage::getPrevStmts(int stmtNum) {
   return getStmts(prevStmts, stmtNum);
 }
 
-IntSet NextStorage::getNextTStmts(int stmtNum) {
-  auto lambdaGetNextStmts = [this](int s) { return this->getNextStmts(s); };
-  IntSet nextTStmts = FunctionUtils<int, decltype(lambdaGetNextStmts)>::
-      computeTransitiveRelationship(stmtNum, lambdaGetNextStmts);
-  for (int next : nextTStmts) {
-    addNextT(stmtNum, next);
-  }
-  return nextTStmts;
-}
+IntSet NextStorage::getNextTStmts(int stmtNum) { return {}; }
 
-IntSet NextStorage::getPrevTStmts(int stmtNum) {
-  auto lambdaGetPrevStmts = [this](int s) { return this->getPrevStmts(s); };
-  IntSet prevTStmts = FunctionUtils<int, decltype(lambdaGetPrevStmts)>::
-      computeTransitiveRelationship(stmtNum, lambdaGetPrevStmts);
-  for (int prev : prevTStmts) {
-    addNextT(prev, stmtNum);
-  }
-  return prevTStmts;
-}
+IntSet NextStorage::getPrevTStmts(int stmtNum) { return {}; }
 
 bool NextStorage::isNext(int firstStmtNum, int secondStmtNum) {
   if (nextStmts.find(firstStmtNum) == nextStmts.end()) {

@@ -10,7 +10,6 @@
 #include "common/AliasTypes.h"
 #include "common/cfg/CFG.h"
 #include "pkb/interfaces/storage/relation_storage/INextStorage.h"
-#include "pkb/utils/FunctionUtils.h"
 
 class NextStorage : public INextStorage {
  private:

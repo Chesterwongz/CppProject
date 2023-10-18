@@ -14,8 +14,6 @@ class StringUtils {
   static bool isAlpha(char ch);
   static bool isAlphaNumeric(char ch);
 
-  static std::string intToStrMapper(const int& val);
-
  private:
   StringUtils() = default;
 };

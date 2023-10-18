@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "pkb/interfaces/storage/relation_storage/ICallsStorage.h"
-#include "pkb/utils/FunctionUtils.h"
 
 using std::unordered_set, std::unordered_map, std::string, std::vector,
     std::pair, std::make_pair;
@@ -42,8 +41,6 @@ class CallsStorage : public ICallsStorage {
   unordered_set<string> getAllCalleeProcs() override;
 
   const unordered_map<string, unordered_set<string>>& getCallsStarMap();
-
-  void computeCallsStar();
 
   const unordered_map<int, string>& getStmtCalleeMap();
 
