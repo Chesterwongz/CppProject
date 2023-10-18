@@ -111,5 +111,4 @@ class IntermediateTable {
   void printTable();
 
   friend class IntermediateTableFactory;
-  friend class IntermediateTableUtils;
 };
