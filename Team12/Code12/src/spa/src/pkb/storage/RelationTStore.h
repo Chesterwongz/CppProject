@@ -38,16 +38,19 @@ class RelationTStore : public RelationStore<S, T> {
   void computeRelationT(
       K key, std::unordered_map<K, std::unordered_set<V>>& directMap,
       std::unordered_map<K, std::unordered_set<V>>& transitiveMap,
-      std::unordered_set<V>& visitedSet) {
+      std::unordered_map<V, int>& visited) {
+    constexpr int kVisited = 2;
     if (transitiveMap.count(key) || !directMap.count(key)) {
       return;  // nothing to compute.
     }
-    std::unordered_set<K> transitiveSet;
+    std::unordered_set<V> transitiveSet;
     for (const auto& s : directMap.at(key)) {
-      if (visitedSet.count(s)) continue;
-      visitedSet.insert(s);
-      computeRelationT(s, directMap, transitiveMap, visitedSet);
-      if (this->transitiveSuccessorMap.count(s)) {
+      if (visited.count(s)) {
+        if (visited.at(s) == kVisited) continue;
+      }
+      visited[s]++;
+      computeRelationT(s, directMap, transitiveMap, visited);
+      if (transitiveMap.count(s)) {
         const auto& sT = transitiveMap.at(s);
         transitiveSet.reserve(sT.size() + 1);
         transitiveSet.insert(sT.begin(), sT.end());
