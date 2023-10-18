@@ -19,7 +19,7 @@ class IfPatternClause : public Clause {
 
  public:
   explicit IfPatternClause(unique_ptr<AbstractArgument> synonym,
-                              unique_ptr<AbstractArgument> firstArg)
+                           unique_ptr<AbstractArgument> firstArg)
       : synonym(std::move(synonym)), firstArg(std::move(firstArg)) {}
 
   IntermediateTable evaluate(Context& context, PKBReader& pkb) override;

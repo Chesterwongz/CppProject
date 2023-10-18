@@ -1,16 +1,17 @@
+#include "IfPatternClause.h"
+
 #include <memory>
 
-#include "IfPatternClause.h"
 #include "qps/patternEvaluator/ifEvaluator/IfEvaluator.h"
 
 IntermediateTable IfPatternClause::evaluate(Context& context,
-                                               PKBReader& pkbReader) {
+                                            PKBReader& pkbReader) {
   string synonymValue = synonym->getValue();
 
   unique_ptr<PatternEvaluator> evaluatorPtr;
 
-  evaluatorPtr = std::make_unique<IfEvaluator>(std::move(firstArg),
-                                                  pkbReader, synonymValue);
+  evaluatorPtr = std::make_unique<IfEvaluator>(std::move(firstArg), pkbReader,
+                                               synonymValue);
 
   return evaluatorPtr->evaluate();
 }

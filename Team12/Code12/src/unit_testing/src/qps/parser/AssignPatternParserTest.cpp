@@ -7,8 +7,8 @@
 #include "qps/argument/patternExp/PatternExp.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
-#include "qps/parser/tokenizer/token/PQLToken.h"
 #include "qps/clause/patternClause/AssignPatternClause.h"
+#include "qps/parser/tokenizer/token/PQLToken.h"
 #include "qps/query/Query.h"
 
 TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_MATCH)") {
@@ -531,8 +531,10 @@ TEST_CASE("Valid Pattern not a (_, PARTIAL_MATCH)") {
       std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
   unique_ptr<Wildcard> firstArg = std::make_unique<Wildcard>();
   unique_ptr<PatternExp> secondArg = std::make_unique<PatternExp>("x");
-  unique_ptr<AssignPatternClause> patternClause = std::make_unique<AssignPatternClause>(
-      std::move(outerSynonym), std::move(firstArg), std::move(secondArg), true);
+  unique_ptr<AssignPatternClause> patternClause =
+      std::make_unique<AssignPatternClause>(std::move(outerSynonym),
+                                            std::move(firstArg),
+                                            std::move(secondArg), true);
   expected.addClause(std::move(patternClause));
 
   bool res = *query == expected;

@@ -19,16 +19,16 @@ TEST_CASE("test_ifPatternClause_isEqual") {
   unique_ptr<SynonymArg> firstArgPtr1 =
       std::make_unique<SynonymArg>(firstArg.getValue());
 
-  IfPatternClause patternClause1 = IfPatternClause(
-      std::move(patternSynonymPtr1), std::move(firstArgPtr1));
+  IfPatternClause patternClause1 =
+      IfPatternClause(std::move(patternSynonymPtr1), std::move(firstArgPtr1));
 
   unique_ptr<SynonymArg> patternSynonymPtr2 =
       std::make_unique<SynonymArg>(patternSynonym.getValue());
   unique_ptr<SynonymArg> firstArgPtr2 =
       std::make_unique<SynonymArg>(firstArg.getValue());
 
-  IfPatternClause patternClause2 = IfPatternClause(
-      std::move(patternSynonymPtr2), std::move(firstArgPtr2));
+  IfPatternClause patternClause2 =
+      IfPatternClause(std::move(patternSynonymPtr2), std::move(firstArgPtr2));
 
   REQUIRE(patternClause1.isEquals(patternClause2));
   REQUIRE(patternClause2.isEquals(patternClause1));

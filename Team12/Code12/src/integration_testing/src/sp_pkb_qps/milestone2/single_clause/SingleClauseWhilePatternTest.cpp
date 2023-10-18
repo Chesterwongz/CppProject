@@ -15,32 +15,32 @@ using std::string, std::unordered_map, std::map, std::unordered_set, std::set,
 
 string whileSource =
     "procedure p {"
-      "while (1 == 2) {"            // 1
-        "while (hoho == 4) {"       // 2
-          "x = 1;"                  // 3
-        "}"
-      "}"
-      "while (x == 5) {"            // 4
-        "if (huehue == 1) then {"   // 5
-          "while (hehe == x) {"     // 6
-            "z = 2;"                // 7
-          "}"
-        "}"
-        "else {"
-          "y = 3;"                  // 8
-        "}"
-       "}"
-      "while (oi == 11) {"          // 9
-        "oi = oi + 1;"              // 10
-       "}"
-      "while (9 == 11) {"           // 11
-        "while (oi == 2) {"         // 12
-          "oi = oi - 1;"            // 13
-          "while (2 == oi) {"       // 14
-            "oi = oi - 2;"          // 15
-          "}"
-        "}"
-      "}"
+    "while (1 == 2) {"     // 1
+    "while (hoho == 4) {"  // 2
+    "x = 1;"               // 3
+    "}"
+    "}"
+    "while (x == 5) {"         // 4
+    "if (huehue == 1) then {"  // 5
+    "while (hehe == x) {"      // 6
+    "z = 2;"                   // 7
+    "}"
+    "}"
+    "else {"
+    "y = 3;"  // 8
+    "}"
+    "}"
+    "while (oi == 11) {"  // 9
+    "oi = oi + 1;"        // 10
+    "}"
+    "while (9 == 11) {"  // 11
+    "while (oi == 2) {"  // 12
+    "oi = oi - 1;"       // 13
+    "while (2 == oi) {"  // 14
+    "oi = oi - 2;"       // 15
+    "}"
+    "}"
+    "}"
     "}";
 
 TEST_CASE(
