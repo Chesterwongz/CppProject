@@ -5,6 +5,9 @@
 #include "../AbstractionTestUtils.h"
 #include "UsesAbstractionTestData.h"
 #include "qps/abstraction/usesAbstraction/UsesAbstraction.h"
+#include "qps/argument/integer/Integer.h"
+#include "qps/argument/ident/Ident.h"
+#include "qps/argument/wildcard/Wildcard.h"
 
 TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
@@ -131,7 +134,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Synonym)_empty") {
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, VARIABLE_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParamsProc(mockReader, USES_ENUM, *mockArgument1,
+      createMockAbstractionParams(mockReader, USES_ENUM, *mockArgument1,
                                       *mockArgument2);
 
   UsesAbstraction abstraction(*abstractionParams);
@@ -149,7 +152,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Ident)") {
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParamsProc(mockReader, USES_ENUM, *mockArgument1,
+      createMockAbstractionParams(mockReader, USES_ENUM, *mockArgument1,
                                       *mockArgument2);
 
   UsesAbstraction abstraction(*abstractionParams);
@@ -167,7 +170,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Ident)_empty") {
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams =
-      createMockAbstractionParamsProc(mockReader, USES_ENUM, *mockArgument1,
+      createMockAbstractionParams(mockReader, USES_ENUM, *mockArgument1,
                                       *mockArgument2);
 
   UsesAbstraction abstraction(*abstractionParams);

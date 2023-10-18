@@ -5,6 +5,9 @@
 #include "../AbstractionTestUtils.h"
 #include "ModifiesAbstractionTestData.h"
 #include "qps/abstraction/modifiesAbstraction/ModifiesAbstraction.h"
+#include "qps/argument/integer/Integer.h"
+#include "qps/argument/ident/Ident.h"
+#include "qps/argument/wildcard/Wildcard.h"
 
 TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
@@ -108,7 +111,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Wildcard)_empty") {
 
 TEST_CASE("ModifiesAbstraction - Modifies(ProcSynonym, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockAllModifiedVariables = MOCK_MODIFIED_PAIRS;
+  mockReader.mockModifiesProcPairs = MOCK_MODIFIED_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, PROCEDURE_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =

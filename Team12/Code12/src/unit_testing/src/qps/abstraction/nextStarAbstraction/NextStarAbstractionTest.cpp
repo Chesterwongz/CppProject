@@ -5,6 +5,8 @@
 #include "../AbstractionTestUtils.h"
 #include "NextStarAbstractionTestData.h"
 #include "qps/abstraction/nextStarAbstraction/NextStarAbstraction.h"
+#include "qps/argument/integer/Integer.h"
+#include "qps/argument/wildcard/Wildcard.h"
 
 TEST_CASE("NextStarAbstraction - Next*(Synonym, Synonym)_EMPTY") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);

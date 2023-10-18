@@ -5,6 +5,8 @@
 #include "../AbstractionTestUtils.h"
 #include "ParentsStarAbstractionTestData.h"
 #include "qps/abstraction/parentsStarAbstraction/ParentsStarAbstraction.h"
+#include "qps/argument/integer/Integer.h"
+#include "qps/argument/wildcard/Wildcard.h"
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Synonym)_EMPTY") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
