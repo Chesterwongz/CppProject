@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Change to the directory containing the script
 script_dir="$(dirname "$0")"
 output_dir="$script_dir/output"
 mkdir -p "$output_dir"
 
+# Change to the directory containing the script, if not found, exit with err
 cd "$script_dir" || exit 1
 echo "Current directory: $(pwd)"
 echo "autotester: $1"
@@ -33,6 +33,6 @@ done
 find ./output -type f -iname '*_out.xml' | while read -r out_file; do
     if grep -q '<failed>' "$out_file"; then
         echo "Error: $out_file contains '<failed>'"
-        exit 1  # This will cause the script to exit with an error
+        exit 1  # exit with an error, fails CI/CD
     fi
 done
