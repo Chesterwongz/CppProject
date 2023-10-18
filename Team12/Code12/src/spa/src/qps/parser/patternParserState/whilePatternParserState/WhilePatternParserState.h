@@ -9,7 +9,7 @@
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
-#include "qps/clause/patternClause/PatternClause.h"
+#include "qps/clause/patternClause/WhilePatternClause.h"
 #include "qps/parser/BaseParserState.h"
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/clauseTransitionParserState/ClauseTransitionParserState.h"

@@ -8,15 +8,15 @@
 #include "../../mocks/MockContext.h"
 #include "../../mocks/MockPKBReader.h"
 #include "qps/argument/ident/Ident.h"
-#include "qps/argument/patternExp/PatternExp.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
-#include "qps/patternEvaluator/PatternEvaluatorFactory.h"
+#include "qps/argument/wildcard/Wildcard.h"
+#include "qps/argument/patternExp/PatternExp.h"
 
 using std::unique_ptr, std::make_pair;
 
-PKBStorage storage = PKBStorage();
+PKBStorage assignStorage = PKBStorage();
 
-MockPKBReader mockPKBReader = MockPKBReader(storage);
+MockPKBReader assignMockPKBReader = MockPKBReader(assignStorage);
 
 vector<pair<string, string>> mockExactAssignPatternStmts = {
     make_pair("1", "a"), make_pair("2", "b"), make_pair("3", "c")};
@@ -29,8 +29,8 @@ vector<pair<string, string>> mockAllModifiedVariables = {
     make_pair("4", "d"), make_pair("5", "e"),
 };
 
-MockContext mockContext = MockContext();
+MockContext assignMockContext = MockContext();
 
-bool isPartialMatchFalse = false;
+bool assignIsPartialMatchFalse = false;
 
-string synonymValue = "meow";
+string assignSynonymValue = "meow";

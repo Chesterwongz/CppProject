@@ -12,31 +12,24 @@
 #include "qps/intermediateTable/IntermediateTable.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 
-using std::string, std::vector, std::unique_ptr, std::set;
-
-typedef vector<unique_ptr<AbstractArgument>> PatternArgsStream;
+using std::string, std::vector, std::unique_ptr, std::set, std::pair;
 
 class PatternEvaluator {
  protected:
-  Context& context;
-  PatternArgsStream& patternArgsStream;
+  unique_ptr<AbstractArgument> firstArg;
   PKBReader& pkbReader;
-  bool isPartialMatch;
   string synonymValue;
 
  public:
-  explicit PatternEvaluator(Context& context,
-                            PatternArgsStream& patternArgsStream,
-                            PKBReader& pkbReader, bool isPartialMatch,
-                            string synonymValue)
-      : context(context),
-        patternArgsStream(patternArgsStream),
+  explicit PatternEvaluator(unique_ptr<AbstractArgument> firstArg,
+                            PKBReader& pkbReader, string synonymValue)
+      : firstArg(std::move(firstArg)),
         pkbReader(pkbReader),
-        isPartialMatch(isPartialMatch),
-        synonymValue(synonymValue) {}
+        synonymValue(std::move(synonymValue)) {}
+
   virtual IntermediateTable evaluate();
-  virtual vector<std::pair<string, string>> processArguments() = 0;
+  virtual vector<pair<string, string>> evaluateArguments() = 0;
   virtual IntermediateTable buildResultTable(
-      vector<std::pair<string, string>> pkbResult) = 0;
+      const vector<pair<string, string>>& pkbResult);
   virtual ~PatternEvaluator() = default;
 };

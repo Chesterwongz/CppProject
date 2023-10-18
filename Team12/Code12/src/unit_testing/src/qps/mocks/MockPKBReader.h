@@ -5,7 +5,6 @@
 #include <set>
 #include <string>
 #include <unordered_map>
-#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -33,19 +32,29 @@ class MockPKBReader : public PKBReader {
   vector<pair<string, string>> mockParentStarOf;
   vector<pair<string, string>> mockParentChildStarPairs;
   vector<string> mockStatementsModifying;
+  vector<string> mockProceduresModifying;
   vector<pair<string, string>> mockVariablesModifiedBy;
+  vector<string> mockVarsModifiedByProc;
   vector<string> mockStatementsUsing;
+  vector<string> mockProcUsing;
   vector<pair<string, string>> mockVariablesUsedBy;
+  vector<string> mockVarUsedByProc;
   vector<pair<string, string>> mockAllModifiedVariables;
+  vector<pair<string, string>> mockModifiesProcPairs;
   vector<pair<string, string>> mockAllUsedVariables;
+  vector<pair<string, string>> mockUsesProcPairs;
   vector<pair<string, string>> mockExactAssignPattern;
   vector<pair<string, string>> mockPartialAssignPattern;
+  vector<pair<string, string>> mockIfPattern;
+  vector<pair<string, string>> mockWhilePattern;
   bool mockIsFollowsStar{};
   bool mockIsParentStar{};
   bool mockIsFollows{};
   bool mockIsParent{};
   bool mockIsVariableModifiedBy{};
+  bool mockIsVariableModifiedByProc{};
   bool mockIsVariableUsedBy{};
+  bool mockIsVariableUsedByProc{};
   vector<pair<string, string>> mockGetNextPairs;
   bool mockIsNext{};
   vector<string> mockGetPrevStmts;
@@ -130,9 +139,18 @@ class MockPKBReader : public PKBReader {
     return mockStatementsModifying;
   }
 
+  vector<string> getProcModifying(const std::string& varName) override {
+    return mockProceduresModifying;
+  }
+
   vector<pair<string, string>> getVariablesModifiedBy(
       int statementNumber, StmtType statementType) override {
     return mockVariablesModifiedBy;
+  }
+
+  // return all variables modified by specified procedure
+  vector<string> getVarsModifiedByProc(const string& procName) override {
+    return mockVarsModifiedByProc;
   }
 
   vector<string> getStatementsUsing(const string& variableName,
@@ -140,9 +158,17 @@ class MockPKBReader : public PKBReader {
     return mockStatementsUsing;
   }
 
+  vector<string> getProcUsing(const std::string& variableName) override {
+    return mockProcUsing;
+  }
+
   vector<pair<string, string>> getVariablesUsedBy(
       int statementNumber, StmtType statementType) override {
     return mockVariablesUsedBy;
+  }
+
+  vector<string> getVarsUsedByProc(const std::string& procName) override {
+    return mockVarUsedByProc;
   }
 
   vector<pair<string, string>> getAllModifiedVariables(
@@ -150,9 +176,17 @@ class MockPKBReader : public PKBReader {
     return mockAllModifiedVariables;
   }
 
+  vector<pair<string, string>> getModifiesProcPairs() override {
+    return mockModifiesProcPairs;
+  }
+
   vector<pair<string, string>> getAllUsedVariables(
       StmtType statementType) override {
     return mockAllUsedVariables;
+  }
+
+  vector<pair<string, string>> getUsesProcPairs() override {
+    return mockUsesProcPairs;
   }
 
   vector<pair<string, string>> getExactAssignPattern(
@@ -163,6 +197,16 @@ class MockPKBReader : public PKBReader {
   vector<pair<string, string>> getPartialAssignPattern(
       const string& variableName, const string& rpn) override {
     return mockPartialAssignPattern;
+  }
+
+  vector<pair<string, string>> getIfPattern(
+      const string& variableName) override {
+    return mockIfPattern;
+  }
+
+  vector<pair<string, string>> getWhilePattern(
+      const string& variableName) override {
+    return mockWhilePattern;
   }
 
   void resetMockExactAssignPatternStmts() { this->mockExactAssignPattern = {}; }
@@ -192,9 +236,19 @@ class MockPKBReader : public PKBReader {
     return mockIsVariableModifiedBy;
   }
 
+  bool isVariableModifiedByProc(const string& procName,
+                                const string& varName) override {
+    return mockIsVariableModifiedByProc;
+  }
+
   bool isVariableUsedBy(const string& variableName,
                         const string& statementNumber) override {
     return mockIsVariableUsedBy;
+  }
+
+  bool isVariableUsedByProc(const string& variableName,
+                            const string& procName) override {
+    return mockIsVariableUsedByProc;
   }
 
   vector<pair<string, string>> getNextPairs(StmtType firstStmtType,

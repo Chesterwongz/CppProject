@@ -1,4 +1,3 @@
-#include <string>
 #include <catch.hpp>
 
 #include "../../utils/HelperFunctions.h"

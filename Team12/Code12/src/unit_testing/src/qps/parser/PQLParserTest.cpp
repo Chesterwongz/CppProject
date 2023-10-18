@@ -8,7 +8,7 @@
 #include "qps/argument/integer/Integer.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
-#include "qps/clause/patternClause/PatternClause.h"
+#include "qps/clause/patternClause/AssignPatternClause.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
 #include "qps/parser/tokenizer/token/PQLToken.h"
 #include "qps/query/Query.h"
@@ -189,8 +189,10 @@ TEST_CASE("valid such that before pattern") {
   vector<unique_ptr<AbstractArgument>> patternArg;
   patternArg.push_back(std::move(firstPatternArg));
   patternArg.push_back(std::move(secondPatternArg));
-  unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(
-      std::move(outerSynonym), std::move(patternArg), false);
+  unique_ptr<AssignPatternClause> patternClause =
+      make_unique<AssignPatternClause>(std::move(outerSynonym),
+                                       std::move(patternArg[0]),
+                                       std::move(patternArg[1]), false);
   expected.addClause(std::move(patternClause));
 
   bool res = *query == expected;
@@ -291,11 +293,13 @@ TEST_CASE("valid pattern before such that") {
       std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   unique_ptr<Ident> firstPatternArg = std::make_unique<Ident>("x");
   unique_ptr<Wildcard> secondPatternArg = std::make_unique<Wildcard>();
-  PatternArgsStream patternArg;
+  vector<unique_ptr<AbstractArgument>> patternArg;
   patternArg.push_back(std::move(firstPatternArg));
   patternArg.push_back(std::move(secondPatternArg));
-  unique_ptr<PatternClause> patternClause = make_unique<PatternClause>(
-      std::move(outerSynonym), std::move(patternArg), false);
+  unique_ptr<AssignPatternClause> patternClause =
+      make_unique<AssignPatternClause>(std::move(outerSynonym),
+                                       std::move(patternArg[0]),
+                                       std::move(patternArg[1]), false);
   expected.addClause(std::move(patternClause));
 
   unique_ptr<Context> expectedContext = make_unique<Context>();
