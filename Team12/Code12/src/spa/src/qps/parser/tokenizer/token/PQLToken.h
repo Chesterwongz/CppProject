@@ -22,7 +22,7 @@ class PQLToken {
   PQLTokenType getType();
   TokenValue getValue();
   void updateTokenType(PQLTokenType tokenType);
-  PQLToken(PQLTokenType type, const TokenValue &value);
+  PQLToken(PQLTokenType type, TokenValue value);
 };
 
 typedef vector<PQLToken> PQLTokenList;
