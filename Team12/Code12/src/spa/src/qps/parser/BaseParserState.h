@@ -4,6 +4,7 @@
 #include <optional>
 #include <string>
 #include <unordered_set>
+#include <utility>
 
 #include "PQLParserContext.h"
 #include "qps/clause/Clause.h"

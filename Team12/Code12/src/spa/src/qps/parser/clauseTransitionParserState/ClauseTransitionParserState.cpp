@@ -1,7 +1,7 @@
 #include "ClauseTransitionParserState.h"
 
 ClauseTransitionParserState::ClauseTransitionParserState(
-    PQLParserContext &parserContext)
+    PQLParserContext& parserContext)
     : parserContext(parserContext) {}
 
 void ClauseTransitionParserState::processNameToken(PQLToken &curr) {
@@ -12,7 +12,7 @@ void ClauseTransitionParserState::processNameToken(PQLToken &curr) {
 }
 
 void ClauseTransitionParserState::setClauseTransitionState(
-    PQLParserContext &pc) {
+    PQLParserContext& pc) {
   pc.transitionTo(std::make_unique<ClauseTransitionParserState>(pc));
 }
 
