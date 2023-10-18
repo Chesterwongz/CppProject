@@ -91,7 +91,8 @@ void AssignPatternParserState::handleToken() {
         processLastArgument();
         checkSafeExit();
         parserContext.addClause(std::make_unique<AssignPatternClause>(
-            std::move(synAssign), std::move(patternArg), isPartialMatch));
+            std::move(synAssign), std::move(patternArg[0]),
+            std::move(patternArg[1]), isPartialMatch));
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
       case PQL_WILDCARD_TOKEN:

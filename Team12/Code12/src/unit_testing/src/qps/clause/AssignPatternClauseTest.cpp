@@ -4,8 +4,8 @@
 #include "../../unit_testing/src/qps/mocks/MockPKBReader.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/patternExp/PatternExp.h"
-#include "qps/clause/patternClause/AssignPatternClause.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/clause/patternClause/AssignPatternClause.h"
 #include "qps/common/Keywords.h"
 
 using std::unique_ptr, std::make_unique;
@@ -22,12 +22,9 @@ TEST_CASE("test_assignPatternClause_isEqual") {
   unique_ptr<PatternExp> secondArgPtr1 =
       make_unique<PatternExp>(secondArg.getValue());
 
-  PatternArgsStream patternArgsStreamTest1;
-  patternArgsStreamTest1.push_back(std::move(firstArgPtr1));
-  patternArgsStreamTest1.push_back(std::move(secondArgPtr1));
-
   AssignPatternClause patternClause1 = AssignPatternClause(
-      std::move(patternSynonymPtr1), std::move(patternArgsStreamTest1), false);
+      std::move(patternSynonymPtr1), std::move(firstArgPtr1),
+      std::move(secondArgPtr1), false);
 
   unique_ptr<SynonymArg> patternSynonymPtr2 =
       std::make_unique<SynonymArg>(patternSynonym.getValue());
@@ -36,12 +33,9 @@ TEST_CASE("test_assignPatternClause_isEqual") {
   unique_ptr<PatternExp> secondArgPtr2 =
       make_unique<PatternExp>(secondArg.getValue());
 
-  PatternArgsStream patternArgsStreamTest2;
-  patternArgsStreamTest2.push_back(std::move(firstArgPtr2));
-  patternArgsStreamTest2.push_back(std::move(secondArgPtr2));
-
   AssignPatternClause patternClause2 = AssignPatternClause(
-      std::move(patternSynonymPtr2), std::move(patternArgsStreamTest2), false);
+      std::move(patternSynonymPtr2), std::move(firstArgPtr2),
+      std::move(secondArgPtr2), false);
 
   REQUIRE(patternClause1.isEquals(patternClause2));
   REQUIRE(patternClause2.isEquals(patternClause1));
@@ -60,12 +54,9 @@ TEST_CASE("test_assignPatternClause_evaluate_synonymFirstArg") {
   unique_ptr<PatternExp> secondArgPtr =
       make_unique<PatternExp>(secondArg.getValue());
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(firstArgPtr));
-  patternArgsStreamTest.push_back(std::move(secondArgPtr));
-
-  AssignPatternClause patternClause = AssignPatternClause(
-      std::move(patternSynonymPtr), std::move(patternArgsStreamTest), false);
+  AssignPatternClause patternClause =
+      AssignPatternClause(std::move(patternSynonymPtr), std::move(firstArgPtr),
+                          std::move(secondArgPtr), false);
 
   PKBStorage pkbStorage = PKBStorage();
   MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
@@ -74,8 +65,7 @@ TEST_CASE("test_assignPatternClause_evaluate_synonymFirstArg") {
   mockPkbReader.resetMockPartialAssignPatternStmts();
 
   vector<pair<string, string>> mockExactAssignPatternStmts = {
-      make_pair("1", "a"), make_pair("2", "b"), make_pair("3", "c")
-  };
+      make_pair("1", "a"), make_pair("2", "b"), make_pair("3", "c")};
   mockPkbReader.mockExactAssignPattern = mockExactAssignPatternStmts;
 
   MockContext mockContext = MockContext();
@@ -104,12 +94,9 @@ TEST_CASE("test_assignPatternClause_evaluate_identFirstArg") {
   unique_ptr<PatternExp> secondArgPtr =
       make_unique<PatternExp>(secondArg.getValue());
 
-  PatternArgsStream patternArgsStreamTest;
-  patternArgsStreamTest.push_back(std::move(firstArgPtr));
-  patternArgsStreamTest.push_back(std::move(secondArgPtr));
-
-  AssignPatternClause patternClause = AssignPatternClause(
-      std::move(patternSynonymPtr), std::move(patternArgsStreamTest), false);
+  AssignPatternClause patternClause =
+      AssignPatternClause(std::move(patternSynonymPtr), std::move(firstArgPtr),
+                          std::move(secondArgPtr), false);
 
   PKBStorage pkbStorage = PKBStorage();
   MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
@@ -118,8 +105,7 @@ TEST_CASE("test_assignPatternClause_evaluate_identFirstArg") {
   mockPkbReader.resetMockPartialAssignPatternStmts();
 
   vector<pair<string, string>> mockExactAssignPatternStmts = {
-      make_pair("3", "x")
-  };
+      make_pair("3", "x")};
   mockPkbReader.mockExactAssignPattern = mockExactAssignPatternStmts;
 
   MockContext mockContext = MockContext();

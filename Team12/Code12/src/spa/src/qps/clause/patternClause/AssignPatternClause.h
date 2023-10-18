@@ -15,15 +15,18 @@ using std::string, std::unique_ptr, std::vector;
 class AssignPatternClause : public Clause {
  private:
   unique_ptr<AbstractArgument> synonym;
-  PatternArgsStream patternArgsStream;
+  unique_ptr<AbstractArgument> firstArg;
+  unique_ptr<AbstractArgument> secondArg;
   bool isPartialMatch;
 
  public:
   explicit AssignPatternClause(unique_ptr<AbstractArgument> synonym,
-                         PatternArgsStream patternArgsStream,
-                         bool isPartialMatch)
+                               unique_ptr<AbstractArgument> firstArg,
+                               unique_ptr<AbstractArgument> secondArg,
+                               bool isPartialMatch)
       : synonym(std::move(synonym)),
-        patternArgsStream(std::move(patternArgsStream)),
+        firstArg(std::move(firstArg)),
+        secondArg(std::move(secondArg)),
         isPartialMatch(isPartialMatch) {}
 
   IntermediateTable evaluate(Context& context, PKBReader& pkb) override;

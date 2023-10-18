@@ -14,8 +14,6 @@
 
 using std::string, std::vector, std::unique_ptr, std::set, std::pair;
 
-typedef vector<unique_ptr<AbstractArgument>> PatternArgsStream;
-
 class PatternEvaluator {
  protected:
   unique_ptr<AbstractArgument> firstArg;
