@@ -22,7 +22,7 @@ find ./ -type f -iname '*_source.txt' | while read -r source_file; do
 
         # Run the command, might need ${BUILD_TYPE}
         ls /Team12/Code12/build/src/autotester
-        ../Code12/build/src/autotester/autotester.exe "$source_file" "$query_file" "$out_file"
+        $1 "$source_file" "$query_file" "$out_file"
     else
         echo "Warning: Query file for $source_file not found!"
     fi

@@ -48,8 +48,10 @@ jobs:
 
       - name: Run Auotester Testing
         shell: bash
-        working-directory: ./Team12/Code12/build
-        run: ./src/autotester/${BUILD_TYPE}/autotester.exe
+        working-directory: ./Team12/Tests12
+        run: |
+          chmod +x ./auto_autotester.sh 
+          ./auto_autotester.sh ../Code12/build/src/autotester/${BUILD_TYPE}/autotester.exe
 
       - name: Cleanup Directory
         if: always()
