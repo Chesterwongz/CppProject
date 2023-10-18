@@ -30,7 +30,7 @@ done
 
 # 2. Check if any of the out.xml files contain '<failed>'
 # Using find to recursively locate *_out.xml files
-find ./output -type f -iname '*_out.xml' | while read -r out_file; do
+find "$output_dir" -type f -iname '*_out.xml' | while read -r out_file; do
     if grep -q '<failed>' "$out_file"; then
         echo "Error: $out_file contains '<failed>'"
         exit 1  # exit with an error, fails CI/CD
