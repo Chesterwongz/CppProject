@@ -56,14 +56,16 @@ class MockPKBReader : public PKBReader {
   vector<pair<string, string>> mockUsesProcPairs;
   vector<pair<string, string>> mockExactAssignPattern;
   vector<pair<string, string>> mockPartialAssignPattern;
+  vector<pair<string, string>> mockIfPattern;
+  vector<pair<string, string>> mockWhilePattern;
   bool mockIsFollowsStar {};
   bool mockIsParentStar {};
   bool mockIsFollows {};
   bool mockIsParent {};
   bool mockIsVariableModifiedBy {};
-  bool mockIsVariableModifiedByProc{};
+  bool mockIsVariableModifiedByProc {};
   bool mockIsVariableUsedBy {};
-  bool mockIsVariableUsedByProc{};
+  bool mockIsVariableUsedByProc {};
   vector<pair<string, string>> mockGetNextPairs;
   bool mockIsNext {};
   vector<string> mockGetPrevStmts;
@@ -213,6 +215,16 @@ class MockPKBReader : public PKBReader {
   vector<pair<string, string>> getPartialAssignPattern(
       const string& variableName, const string& rpn) override {
     return mockPartialAssignPattern;
+  }
+
+  vector<pair<string, string>> getIfPattern(
+      const string& variableName) override {
+    return mockIfPattern;
+  }
+
+  vector<pair<string, string>> getWhilePattern(
+      const string& variableName) override {
+    return mockWhilePattern;
   }
 
   void resetMockExactAssignPatternStmts() { this->mockExactAssignPattern = {}; }
