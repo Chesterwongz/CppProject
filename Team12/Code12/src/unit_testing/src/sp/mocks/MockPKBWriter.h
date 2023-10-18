@@ -37,8 +37,8 @@ class MockPKBWriter : public PKBWriter {
   IntToIntSetMap nextStorage;
 
  public:
-  explicit MockPKBWriter(PKBStorage &storage, PKBStore store)
-      : PKBWriter(storage, store) {}
+  explicit MockPKBWriter(PKBStore store)
+      : PKBWriter(store) {}
   ~MockPKBWriter() override = default;
 
   void addFollows(int stmtNum, int followingStmt) override {

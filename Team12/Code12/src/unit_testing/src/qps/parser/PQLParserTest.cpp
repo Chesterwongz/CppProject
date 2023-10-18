@@ -19,9 +19,8 @@ TEST_CASE("Invalid parser state - declarative") {
   const string name = "akfsdjfhs";
   vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, name)};
 
-  PKBStorage storage{};
   PKBStore store{};
-  PKBReader pkbReader(storage, store);
+  PKBReader pkbReader(store);
 
   REQUIRE_THROWS_WITH(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),

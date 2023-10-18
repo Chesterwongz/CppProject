@@ -5,10 +5,9 @@
 #include "pkb/facade/PKBWriter.h"
 
 TEST_CASE("PKBReader Tests") {
-  PKBStorage storage;
   PKBStore store;
-  PKBWriter writer(storage, store);
-  PKBReader reader(storage, store);
+  PKBWriter writer(store);
+  PKBReader reader(store);
 
   writer.addVar("x");
   writer.addVar("y");

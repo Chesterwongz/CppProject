@@ -14,10 +14,9 @@
 
 using std::unique_ptr, std::make_pair;
 
-PKBStore assignSstore = PKBStore();
-PKBStorage assignStorage = PKBStorage();
+PKBStore assignStore = PKBStore();
 
-MockPKBReader assignMockPKBReader = MockPKBReader(assignStorage, assignSstore);
+MockPKBReader assignMockPKBReader = MockPKBReader(assignStore);
 
 vector<pair<string, string>> mockExactAssignPatternStmts = {
     make_pair("1", "a"), make_pair("2", "b"), make_pair("3", "c")

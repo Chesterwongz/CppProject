@@ -58,9 +58,8 @@ TEST_CASE("test_assignPatternClause_evaluate_synonymFirstArg") {
       AssignPatternClause(std::move(patternSynonymPtr), std::move(firstArgPtr),
                           std::move(secondArgPtr), false);
 
-  PKBStorage pkbStorage = PKBStorage();
   PKBStore pkbStore = PKBStore();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage, pkbStore);
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.resetMockExactAssignPatternStmts();
   mockPkbReader.resetMockPartialAssignPatternStmts();
@@ -99,9 +98,8 @@ TEST_CASE("test_assignPatternClause_evaluate_identFirstArg") {
       AssignPatternClause(std::move(patternSynonymPtr), std::move(firstArgPtr),
                           std::move(secondArgPtr), false);
 
-  PKBStorage pkbStorage = PKBStorage();
   PKBStore pkbStore = PKBStore();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage, pkbStore);
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.resetMockExactAssignPatternStmts();
   mockPkbReader.resetMockPartialAssignPatternStmts();

@@ -75,8 +75,8 @@ class MockPKBReader : public PKBReader {
   vector<string> mockGetPrevTStmts;
   vector<string> mockGetNextTStmts;
 
-  explicit MockPKBReader(PKBStorage& storage, PKBStore& store)
-      : PKBReader(storage, store) {}
+  explicit MockPKBReader(PKBStore& store)
+      : PKBReader(store) {}
 
   std::vector<std::string> getAllVariables() override {
     return mockAllVariables;
