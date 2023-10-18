@@ -24,6 +24,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Synonym)_EMPTY") {
 
 TEST_CASE("FollowsAbstraction - Follows(Synonym, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  mockReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
   unique_ptr<SynonymArg> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
   unique_ptr<SynonymArg> mockArgument2 =
