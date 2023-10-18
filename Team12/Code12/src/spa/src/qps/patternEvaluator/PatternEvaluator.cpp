@@ -8,7 +8,7 @@ IntermediateTable PatternEvaluator::evaluate() {
 }
 
 IntermediateTable PatternEvaluator::buildResultTable(
-    vector<pair<string, string>> pkbResult) {
+    const vector<pair<string, string>>& pkbResult) {
   bool isFirstArgSynonym = firstArg->isSynonym();
 
   string firstArgValue = firstArg->getValue();

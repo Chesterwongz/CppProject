@@ -27,11 +27,11 @@ class PatternEvaluator {
                             PKBReader& pkbReader, string synonymValue)
       : firstArg(std::move(firstArg)),
         pkbReader(pkbReader),
-        synonymValue(synonymValue) {}
+        synonymValue(std::move(synonymValue)) {}
 
   virtual IntermediateTable evaluate();
-  virtual vector<std::pair<string, string>> evaluateArguments() = 0;
+  virtual vector<pair<string, string>> evaluateArguments() = 0;
   virtual IntermediateTable buildResultTable(
-      vector<std::pair<string, string>> pkbResult);
+      const vector<pair<string, string>>& pkbResult);
   virtual ~PatternEvaluator() = default;
 };
