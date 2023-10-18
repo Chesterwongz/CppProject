@@ -8,7 +8,7 @@
 
 #include "RelationStore.h"
 
-template <typename S, typename T>
+template <typename S, typename T = S>
 class RelationTStore : public RelationStore<S, T> {
  protected:
   // An unordered set of the direct successors of S. I.e., S *-> T
@@ -34,15 +34,15 @@ class RelationTStore : public RelationStore<S, T> {
     }
   }
 
-  template <typename K, typename V>
+  template <typename K, typename V = K>
   void computeRelationT(
       K key, std::unordered_map<K, std::unordered_set<V>>& directMap,
       std::unordered_map<K, std::unordered_set<V>>& transitiveMap,
-      std::unordered_set<V>& visitedSet = {}) {
+      std::unordered_set<V>& visitedSet) {
     if (transitiveMap.count(key) || !directMap.count(key)) {
       return;  // nothing to compute.
     }
-    std::unordered_set<int> transitiveSet;
+    std::unordered_set<K> transitiveSet;
     for (const auto& s : directMap.at(key)) {
       if (visitedSet.count(s)) continue;
       visitedSet.insert(s);
@@ -51,8 +51,8 @@ class RelationTStore : public RelationStore<S, T> {
         const auto& sT = transitiveMap.at(s);
         transitiveSet.reserve(sT.size() + 1);
         transitiveSet.insert(sT.begin(), sT.end());
-        transitiveSet.insert(s);
       }
+      transitiveSet.insert(s);
     }
     if (!transitiveSet.empty()) {
       transitiveMap[key] = transitiveSet;

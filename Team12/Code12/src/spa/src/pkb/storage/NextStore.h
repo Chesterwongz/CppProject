@@ -2,7 +2,7 @@
 
 #include "RelationTStore.h"
 
-class NextStore : public RelationTStore<int, int> {
+class NextStore : public RelationTStore<int> {
  protected:
   void precomputeRelationT(int from, int to) override;
   void computeSuccessorsT(int from) override;
