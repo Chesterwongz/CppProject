@@ -20,7 +20,7 @@ void PQLParserContext::addToContext(string entity, const string& synonym) {
   this->context->addSynonym(synonym, std::move(entity));
 }
 
-void PQLParserContext::addSelectClause(unique_ptr<AbstractArgument> synonym) {
+void PQLParserContext::addSelectClause(unique_ptr<SynonymArg> synonym) {
   SynonymsToSelect synonymVector = {};
   synonymVector.emplace_back(std::move(synonym));
   this->query->setSynonymToQuery(std::move(synonymVector));
@@ -84,5 +84,4 @@ void PQLParserContext::handleTokens() {
   while (tokenStream->peek().has_value()) {
     currState->handleToken();
   }
-  query->addContext(std::move(context));
 }

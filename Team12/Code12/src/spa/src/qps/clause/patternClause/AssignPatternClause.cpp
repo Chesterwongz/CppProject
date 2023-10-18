@@ -2,8 +2,7 @@
 
 #include "qps/patternEvaluator/assignEvaluator/AssignEvaluator.h"
 
-IntermediateTable AssignPatternClause::evaluate(Context& context,
-                                                PKBReader& pkbReader) {
+IntermediateTable AssignPatternClause::evaluate(PKBReader& pkbReader) {
   string synonymValue = synonym->getValue();
 
   unique_ptr<PatternEvaluator> evaluatorPtr;

@@ -21,14 +21,12 @@ typedef vector<unique_ptr<Clause>> ClauseList;
 class Query {
  private:
   PKBReader& pkb;
-  unique_ptr<Context> context;
   vector<string> synonymsToQuery = {};
   unique_ptr<SelectClause> selectClause = {};
   ClauseList clauses = {};
 
  public:
   explicit Query(PKBReader& pkb);
-  void addContext(unique_ptr<Context> contextToAdd);
   void addClause(unique_ptr<Clause> clause);
   void setSynonymToQuery(SynonymsToSelect selectSynonyms);
 

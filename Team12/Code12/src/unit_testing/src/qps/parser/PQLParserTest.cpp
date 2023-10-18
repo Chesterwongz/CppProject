@@ -75,9 +75,6 @@ TEST_CASE("valid simple transitive follows") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = make_unique<Context>();
-  expectedContext->addSynonym("a", ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
@@ -117,9 +114,6 @@ TEST_CASE("valid simple uses") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = make_unique<Context>();
-  expectedContext->addSynonym("v", VARIABLE_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>("v", VARIABLE_ENTITY);
@@ -165,9 +159,6 @@ TEST_CASE("valid such that before pattern") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = make_unique<Context>();
-  expectedContext->addSynonym("a", "assign");
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
@@ -302,9 +293,6 @@ TEST_CASE("valid pattern before such that") {
                                        std::move(patternArg[1]), false);
   expected.addClause(std::move(patternClause));
 
-  unique_ptr<Context> expectedContext = make_unique<Context>();
-  expectedContext->addSynonym("a", "assign");
-  expected.addContext(std::move(expectedContext));
   unique_ptr<SynonymArg> firstSuchThatArg =
       std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   unique_ptr<Ident> secondSuchThatArg = std::make_unique<Ident>("x");

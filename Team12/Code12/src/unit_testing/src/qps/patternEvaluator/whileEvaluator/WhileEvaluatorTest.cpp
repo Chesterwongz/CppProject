@@ -2,6 +2,7 @@
 
 #include "WhileEvaluatorTestData.h"
 #include "qps/common/Keywords.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/patternEvaluator/whileEvaluator/WhileEvaluator.h"
 
 using std::make_unique;
@@ -10,11 +11,11 @@ TEST_CASE("test_whileEvaluator_processArgs_synonymFirstArg") {
   whileMockPKBReader.mockWhilePattern = mockWhilePatternStmtsSynonym;
 
   // while moo; variable test; select moo pattern moo (test, _);
-  SynonymArg patternSynonym = SynonymArg(whileSynonymValue);
-  SynonymArg variableSynonym = SynonymArg("test");
+  SynonymArg patternSynonym = SynonymArg(whileSynonymValue, WHILE_ENTITY);
+  SynonymArg variableSynonym = SynonymArg("test", VARIABLE_ENTITY);
 
   unique_ptr<SynonymArg> variableSynonymPtr =
-      make_unique<SynonymArg>(variableSynonym.getValue());
+      make_unique<SynonymArg>(variableSynonym.getValue(), VARIABLE_ENTITY);
 
   WhileEvaluator whileEvaluator =
       WhileEvaluator(std::move(variableSynonymPtr), whileMockPKBReader,
@@ -29,7 +30,7 @@ TEST_CASE("test_whileEvaluator_processArgs_identFirstArg") {
   whileMockPKBReader.mockWhilePattern = mockWhilePatternStmtsIdent;
 
   // if woof; variable test; select woof pattern woof ("a", _ , _ );
-  SynonymArg patternSynonym = SynonymArg(whileSynonymValue);
+  SynonymArg patternSynonym = SynonymArg(whileSynonymValue, WHILE_ENTITY);
   Ident patternFirstArg = Ident("a");
 
   unique_ptr<Ident> patternFirstArgPtr =
@@ -50,7 +51,7 @@ TEST_CASE("test_whileEvaluator_processArgs_wildcardFirstArg") {
   whileMockPKBReader.mockWhilePattern = mockWhilePatternStmtsSynonym;
 
   // if woof; select woof pattern woof (_, _ , _ );
-  SynonymArg patternSynonym = SynonymArg(whileSynonymValue);
+  SynonymArg patternSynonym = SynonymArg(whileSynonymValue, WHILE_ENTITY);
 
   unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
 
@@ -66,11 +67,11 @@ TEST_CASE("test_whileEvaluator_evaluate_synonymFirstArg") {
   whileMockPKBReader.mockWhilePattern = mockWhilePatternStmtsSynonym;
 
   // if woof; variable test; select woof pattern woof (test, _ , _ );
-  SynonymArg patternSynonym = SynonymArg(whileSynonymValue);
-  SynonymArg variableSynonym = SynonymArg("test");
+  SynonymArg patternSynonym = SynonymArg(whileSynonymValue, WHILE_ENTITY);
+  SynonymArg variableSynonym = SynonymArg("test", VARIABLE_ENTITY);
 
   unique_ptr<SynonymArg> variableSynonymPtr =
-      make_unique<SynonymArg>(variableSynonym.getValue());
+      make_unique<SynonymArg>(variableSynonym.getValue(), VARIABLE_ENTITY);
 
   WhileEvaluator whileEvaluator =
       WhileEvaluator(std::move(variableSynonymPtr), whileMockPKBReader,
@@ -97,7 +98,7 @@ TEST_CASE("test_whileEvaluator_evaluate_identFirstArg") {
   whileMockPKBReader.mockWhilePattern = mockWhilePatternStmtsIdent;
 
   // if woof; variable test; select woof pattern woof ("a", _ , _ );
-  SynonymArg patternSynonym = SynonymArg(whileSynonymValue);
+  SynonymArg patternSynonym = SynonymArg(whileSynonymValue, WHILE_ENTITY);
   Ident patternFirstArg = Ident("a");
 
   unique_ptr<Ident> patternFirstArgPtr =
@@ -126,7 +127,7 @@ TEST_CASE("test_whileEvaluator_evaluate_wildcardFirstArg") {
   whileMockPKBReader.mockWhilePattern = mockWhilePatternStmtsSynonym;
 
   // if woof; variable test; select woof pattern woof (test, _ , _ );
-  SynonymArg patternSynonym = SynonymArg(whileSynonymValue);
+  SynonymArg patternSynonym = SynonymArg(whileSynonymValue, WHILE_ENTITY);
 
   unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
 

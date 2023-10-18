@@ -7,24 +7,22 @@
 #include "common/exceptions/Exception.h"
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/clause/utils/ClauseConstants.h"
-#include "qps/context/Context.h"
 #include "qps/exceptions/QPSInvalidAbstractionException.h"
 
 using std::unique_ptr, std::unordered_map;
 
 struct AbstractionParams {
   PKBReader &pkb;
-  Context &context;
   Abstraction abstraction;
   AbstractArgument &firstArg;
   AbstractArgument &secondArg;
-  explicit AbstractionParams(PKBReader &pkb, Context &context,
+  explicit AbstractionParams(PKBReader &pkb,
                              Abstraction abstraction,
                              AbstractArgument &firstArg,
                              AbstractArgument &secondArg)
       : pkb(pkb),
-        context(context),
         abstraction((abstraction)),
         firstArg(firstArg),
         secondArg(secondArg) {}
@@ -113,9 +111,10 @@ inline ArgumentPermutation getPermutation(AbstractArgument &firstArg,
   }
 }
 
-inline StmtType getArgStmtType(AbstractArgument &argument, Context &context) {
+inline StmtType getArgStmtType(AbstractArgument &argument) {
   if (argument.isSynonym()) {
-    Entity firstStmtEntity = context.getTokenEntity(argument.getValue());
+    auto& synonymArg = dynamic_cast<SynonymArg&>(argument);
+    auto firstStmtEntity = synonymArg.getEntityType();
     assert(firstStmtEntity != PROCEDURE_ENTITY);
     return StmtEntityToStatementType.at(firstStmtEntity);
   } else if (argument.isWildcard()) {

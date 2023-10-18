@@ -9,12 +9,11 @@
 TEST_CASE("NextAbstraction - Next(Synonym, Synonym)_EMPTY") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
-  Context mockContext = Context();
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, NEXT_ENUM, *mockArgument1, *mockArgument2);
 
   NextAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -27,12 +26,11 @@ TEST_CASE("NextAbstraction - Next(Synonym, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockGetNextPairs = MOCK_NEXT_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
-  Context mockContext = Context();
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, NEXT_ENUM, *mockArgument1, *mockArgument2);
 
   NextAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -47,12 +45,11 @@ TEST_CASE("NextAbstraction - Next(Synonym, Integer)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockGetPrevStmts = MOCK_NEXT_FIRST_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-  Context mockContext = Context();
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, NEXT_ENUM, *mockArgument1, *mockArgument2);
 
   NextAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -66,12 +63,11 @@ TEST_CASE("NextAbstraction - Next(Synonym, Integer)_no_next") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockGetPrevStmts = MOCK_NO_NEXT_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-  Context mockContext = Context();
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, NEXT_ENUM, *mockArgument1, *mockArgument2);
 
   NextAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -83,12 +79,11 @@ TEST_CASE("NextAbstraction - Next(Synonym, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockGetNextPairs = MOCK_NEXT_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-  Context mockContext = Context();
+      std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, NEXT_ENUM, *mockArgument1, *mockArgument2);
 
   NextAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -102,12 +97,11 @@ TEST_CASE("NextAbstraction - Next(Integer, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockGetNextStmts = MOCK_NEXT_SECOND_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
-  Context mockContext = Context();
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, NEXT_ENUM, *mockArgument1, *mockArgument2);
 
   NextAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -118,12 +112,11 @@ TEST_CASE("NextAbstraction - Next(Integer, Synonym)_no_next") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockGetNextStmts = MOCK_NO_NEXT_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
-  Context mockContext = Context();
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, NEXT_ENUM, *mockArgument1, *mockArgument2);
 
   NextAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -134,12 +127,11 @@ TEST_CASE("NextAbstraction - Next(Integer, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockGetNextStmts = MOCK_NEXT_SECOND_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-  Context mockContext = Context();
+      std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, NEXT_ENUM, *mockArgument1, *mockArgument2);
 
   NextAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -150,12 +142,11 @@ TEST_CASE("NextAbstraction - Next(Integer, Wildcard)_no_next") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockGetNextStmts = MOCK_NO_NEXT_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
-  Context mockContext = Context();
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, NEXT_ENUM, *mockArgument1, *mockArgument2);
 
   NextAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -166,12 +157,11 @@ TEST_CASE("NextAbstraction - Next(Integer, Integer)_true") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockIsNext = true;
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
-  Context mockContext = Context();
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_2);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, NEXT_ENUM, *mockArgument1, *mockArgument2);
 
   NextAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -182,12 +172,11 @@ TEST_CASE("NextAbstraction - Next(Integer, Integer)_false") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockIsNext = false;
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
-  Context mockContext = Context();
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_2);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, NEXT_ENUM, *mockArgument1, *mockArgument2);
 
   NextAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -198,12 +187,11 @@ TEST_CASE("NextAbstraction - Next(Wildcard, Synonym)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockGetNextPairs = MOCK_NEXT_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
+      std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
-  Context mockContext = Context();
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, NEXT_ENUM, *mockArgument1, *mockArgument2);
 
   NextAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -217,12 +205,11 @@ TEST_CASE("NextAbstraction - Next(Wildcard, Integer)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockGetPrevStmts = MOCK_NEXT_FIRST_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
+      std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-  Context mockContext = Context();
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, NEXT_ENUM, *mockArgument1, *mockArgument2);
 
   NextAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -233,12 +220,11 @@ TEST_CASE("NextAbstraction - Next(Wildcard, Integer)_no_next") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockGetPrevStmts = MOCK_NO_NEXT_STMTS;
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
+      std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-  Context mockContext = Context();
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, NEXT_ENUM, *mockArgument1, *mockArgument2);
 
   NextAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -249,12 +235,11 @@ TEST_CASE("NextAbstraction - Next(Wildcard, Wildcard)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   mockReader.mockGetNextPairs = MOCK_NEXT_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
+      std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-  Context mockContext = Context();
+      std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, NEXT_ENUM, *mockArgument1, *mockArgument2);
 
   NextAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -265,12 +250,11 @@ TEST_CASE("NextAbstraction - Next(Wildcard, Wildcard)") {
 TEST_CASE("NextAbstraction - Next(Wildcard, Wildcard)_EMPTY") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
+      std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-  Context mockContext = Context();
+      std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, NEXT_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, NEXT_ENUM, *mockArgument1, *mockArgument2);
 
   NextAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();

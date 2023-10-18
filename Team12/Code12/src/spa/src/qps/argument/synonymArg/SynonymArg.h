@@ -16,10 +16,6 @@ class SynonymArg : public AbstractArgument {
   AttrRef attrRef;
 
  public:
-  // TODO(qps): Remove this constructor
-  explicit SynonymArg(string argumentValue)
-      : synonymValue(std::move(argumentValue)) {}
-
   explicit SynonymArg(string argumentValue, Entity entityType)
       : synonymValue(std::move(argumentValue)),
         entityType(std::move(entityType)) {}
@@ -29,9 +25,10 @@ class SynonymArg : public AbstractArgument {
         entityType(std::move(entityType)),
         attrRef(std::move(ref)) {}
 
-  string getValue() override;
+  const string& getValue() override;
+  const Entity& getEntityType();
   void setAttrRef(AttrRef ref);
-  AttrRef getAttrRef();
+  const AttrRef& getAttrRef();
   QPSStringUtils::ArgumentType getArgumentType() override;
   bool isSynonym() override;
   bool operator==(const AbstractArgument& other) const override;

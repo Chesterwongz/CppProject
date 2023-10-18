@@ -38,10 +38,6 @@ TEST_CASE("Valid Follows(SYNONYM, SYNONYM)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -88,10 +84,6 @@ TEST_CASE("Valid Follows(SYNONYM, _)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -138,10 +130,6 @@ TEST_CASE("Valid Follows(SYNONYM, INTEGER)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -187,10 +175,6 @@ TEST_CASE("Valid Follows(_, SYNONYM)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -235,10 +219,6 @@ TEST_CASE("Valid Follows(_, _)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -283,10 +263,6 @@ TEST_CASE("Valid Follows(_, INTEGER)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -331,10 +307,6 @@ TEST_CASE("Valid Follows(INTEGER, SYNONYM)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -380,10 +352,6 @@ TEST_CASE("Valid Follows(INTEGER, _)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -429,10 +397,6 @@ TEST_CASE("Valid Follows(INTEGER, INTEGER)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -471,9 +435,6 @@ TEST_CASE("Valid Follows(SYNONYM, _) - keyword as synonym") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(FOLLOWS_ABSTRACTION, STMT_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(FOLLOWS_ABSTRACTION, STMT_ENTITY);
@@ -516,10 +477,6 @@ TEST_CASE("Valid Parents(SYNONYM, SYNONYM)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym("a", ASSIGN_ENTITY);
-  expectedContext->addSynonym("w", STMT_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
@@ -704,10 +661,6 @@ TEST_CASE("Valid not Follows(SYNONYM, SYNONYM)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);

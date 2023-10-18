@@ -14,18 +14,17 @@
 
 using std::unique_ptr;
 
-typedef vector<unique_ptr<AbstractArgument>> SynonymsToSelect;
+typedef vector<unique_ptr<SynonymArg>> SynonymsToSelect;
 
 class SelectClause : public Clause {
  private:
   SynonymsToSelect synonymsToSelect;
-  IntermediateTable getAllPossibleValues(
-      Context &context, PKBReader &pkb,
-      unique_ptr<AbstractArgument> &synonymArg);
+  static IntermediateTable getAllPossibleValues(PKBReader &pkb,
+      unique_ptr<SynonymArg> &synonymArg);
 
  public:
   explicit SelectClause(SynonymsToSelect synonymsToSelect);
-  IntermediateTable evaluate(Context &context, PKBReader &pkb) override;
+  IntermediateTable evaluate(PKBReader &pkb) override;
   bool isEquals(const Clause &other) override;
 };
 

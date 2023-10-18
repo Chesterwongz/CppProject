@@ -4,11 +4,13 @@
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-string SynonymArg::getValue() { return synonymValue; }
+const string& SynonymArg::getValue() { return synonymValue; }
+
+const Entity& SynonymArg::getEntityType() { return entityType; }
 
 void SynonymArg::setAttrRef(AttrRef ref) { this->attrRef = std::move(ref); }
 
-AttrRef SynonymArg::getAttrRef() { return this->attrRef; }
+const AttrRef& SynonymArg::getAttrRef() { return this->attrRef; }
 
 QPSStringUtils::ArgumentType SynonymArg::getArgumentType() {
   return argumentType;

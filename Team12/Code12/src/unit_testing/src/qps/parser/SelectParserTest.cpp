@@ -41,13 +41,8 @@ TEST_CASE("Valid Select BOOLEAN - BOOLEAN as synonym") {
 
   // expected query obj
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(BOOLEAN_KEYWORD, ASSIGN_ENTITY);
-  expectedContext->addSynonym("b", ASSIGN_ENTITY);
-  expectedContext->addSynonym("c", ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
-  vector<unique_ptr<AbstractArgument>> synonymsToQuery = {};
+  vector<unique_ptr<SynonymArg>> synonymsToQuery = {};
   synonymsToQuery.push_back(
       std::make_unique<SynonymArg>(BOOLEAN_KEYWORD, ASSIGN_ENTITY));
   expected.setSynonymToQuery(std::move(synonymsToQuery));
@@ -97,8 +92,6 @@ TEST_CASE("Valid Select BOOLEAN - no declarations") {
 
   // expected query obj
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expected.addContext(std::move(expectedContext));
   unique_ptr<Integer> firstArg = std::make_unique<Integer>("1");
   unique_ptr<Integer> secondArg = std::make_unique<Integer>("2");
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
@@ -127,13 +120,8 @@ TEST_CASE("Valid Select a.stmt#") {
 
   // expected query obj
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym("a", ASSIGN_ENTITY);
-  expectedContext->addSynonym("b", ASSIGN_ENTITY);
-  expectedContext->addSynonym("c", ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
-  vector<unique_ptr<AbstractArgument>> synonymsToQuery = {};
+  vector<unique_ptr<SynonymArg>> synonymsToQuery = {};
   synonymsToQuery.push_back(
       std::make_unique<SynonymArg>("a", ASSIGN_ENTITY, ATTR_REF_STMT_NUMBER));
   expected.setSynonymToQuery(std::move(synonymsToQuery));

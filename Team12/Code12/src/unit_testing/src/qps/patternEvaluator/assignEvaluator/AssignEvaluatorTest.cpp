@@ -2,6 +2,7 @@
 
 #include "../../patternEvaluator/assignEvaluator/AssignEvaluatorTestData.h"
 #include "qps/common/Keywords.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/patternEvaluator/assignEvaluator/AssignEvaluator.h"
 
 using std::make_unique;
@@ -12,12 +13,12 @@ TEST_CASE("test_AssignEvaluator_processArgs_synonymFirstArg") {
   assignMockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmts;
 
   // assign meow; variable test; select meow pattern meow (test, "x");
-  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue);
-  SynonymArg variableSynonym = SynonymArg("test");
+  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue, ASSIGN_ENTITY);
+  SynonymArg variableSynonym = SynonymArg("test", VARIABLE_ENTITY);
   PatternExp patternExp = PatternExp("x");
 
   unique_ptr<SynonymArg> variableSynonymPtr =
-      make_unique<SynonymArg>(variableSynonym.getValue());
+      make_unique<SynonymArg>(variableSynonym.getValue(), VARIABLE_ENTITY);
   unique_ptr<PatternExp> patternExpPtr =
       make_unique<PatternExp>(patternExp.getValue());
 
@@ -38,7 +39,7 @@ TEST_CASE("test_AssignEvaluator_processArgs_identFirstArg") {
   assignMockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
 
   // assign meow; select meow pattern meow ("a", "x");
-  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue);
+  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue, ASSIGN_ENTITY);
   Ident patternFirstArg = Ident("a");
   PatternExp patternExp = PatternExp("x");
 
@@ -65,7 +66,7 @@ TEST_CASE("test_AssignEvaluator_processArgs_wildcardFirstArg") {
   assignMockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmts;
 
   // assign meow; select meow pattern meow (_, "x");
-  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue);
+  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue, ASSIGN_ENTITY);
   PatternExp patternExp = PatternExp("x");
 
   unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
@@ -88,12 +89,12 @@ TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
   assignMockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
 
   // assign meow; variable test; select meow pattern meow (test, "x");
-  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue);
-  SynonymArg variableSynonym = SynonymArg("test");
+  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue, ASSIGN_ENTITY);
+  SynonymArg variableSynonym = SynonymArg("test", VARIABLE_ENTITY);
   PatternExp patternExp = PatternExp("x");
 
   unique_ptr<SynonymArg> variableSynonymPtr =
-      make_unique<SynonymArg>(variableSynonym.getValue());
+      make_unique<SynonymArg>(variableSynonym.getValue(), VARIABLE_ENTITY);
   unique_ptr<PatternExp> patternExpPtr =
       make_unique<PatternExp>(patternExp.getValue());
 
@@ -126,7 +127,7 @@ TEST_CASE("test_AssignEvaluator_evaluate_identFirstArg") {
   assignMockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
 
   // assign meow; select meow pattern meow ("a", "x");
-  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue);
+  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue, ASSIGN_ENTITY);
   Ident patternFirstArg = Ident("a");
   PatternExp patternExp = PatternExp("x");
 
@@ -162,7 +163,7 @@ TEST_CASE("test_AssignEvaluator_evaluate_wildcardFirstArg") {
   assignMockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
 
   // assign meow; select meow pattern meow (_, "x");
-  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue);
+  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue, ASSIGN_ENTITY);
   PatternExp patternExp = PatternExp("x");
 
   unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();

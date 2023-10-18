@@ -8,10 +8,6 @@
 
 Query::Query(PKBReader &pkb) : pkb(pkb) {}
 
-void Query::addContext(unique_ptr<Context> contextToAdd) {
-  this->context = std::move(contextToAdd);
-}
-
 void Query::addClause(unique_ptr<Clause> clause) {
   this->clauses.push_back(std::move(clause));
 }
@@ -36,14 +32,14 @@ set<string> Query::evaluate() {
 
   // evaluate SelectClause first
   IntermediateTable currIntermediateTable =
-      selectClause->evaluate(*context, pkb);
+      selectClause->evaluate(pkb);
   if (currIntermediateTable.isTableEmptyAndNotWildcard()) {
     return {};
   }
 
   // iteratively join results of each clause
   for (unique_ptr<Clause> &clause : clauses) {
-    IntermediateTable clauseResult = clause->evaluate(*context, pkb);
+    IntermediateTable clauseResult = clause->evaluate(pkb);
     currIntermediateTable = currIntermediateTable.join(clauseResult);
     if (currIntermediateTable.isTableEmptyAndNotWildcard()) {
       // do not continue evaluating once we have an empty table
@@ -55,9 +51,6 @@ set<string> Query::evaluate() {
 }
 
 bool Query::operator==(const Query &other) {
-  bool res = this->context->getMap() == other.context->getMap();
-  if (!res) return res;
-
   if (selectClause && !this->selectClause->isEquals(*other.selectClause))
     return false;
 

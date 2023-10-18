@@ -16,8 +16,10 @@ IntermediateTable ModifiesAbstraction::evaluateSynonymSynonym() {
 // Modifies (StmtSynonym, VarIdentifier)
 IntermediateTable ModifiesAbstraction::evaluateSynonymIdent() {
   string firstArgSynonym = this->firstArgValue;
+  auto& firstSynArg = dynamic_cast<SynonymArg &>(firstArg);
+
   bool isFirstArgProcedure =
-      this->context.getTokenEntity(firstArgSynonym) == PROCEDURE_ENTITY;
+      firstSynArg.getEntityType() == PROCEDURE_ENTITY;
   string secondArgVarName = this->secondArgValue;
 
   vector<string> result;
@@ -95,8 +97,10 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerWildcard() {
 
 IntermediateTable ModifiesAbstraction::handleSynonymOrWildcardArgs() {
   string firstArgSynonym = this->firstArgValue;
+  auto& firstSynArg = dynamic_cast<SynonymArg &>(firstArg);
+
   bool isFirstArgProcedure =
-      this->context.getTokenEntity(firstArgSynonym) == PROCEDURE_ENTITY;
+      firstSynArg.getEntityType() == PROCEDURE_ENTITY;
   string secondArgVarSynonym = this->secondArgValue;
 
   // Modifies(procSynonym, *) and Modifies(stmtSynonym, *) has different APIs

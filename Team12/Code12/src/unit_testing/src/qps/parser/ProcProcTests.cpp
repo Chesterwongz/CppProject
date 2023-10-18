@@ -35,10 +35,6 @@ TEST_CASE("Valid Calls(SYNONYM, SYNONYM)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(p1, PROCEDURE_ENTITY);
-  expectedContext->addSynonym(p2, PROCEDURE_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(p1, PROCEDURE_ENTITY);
@@ -82,10 +78,6 @@ TEST_CASE("Valid Calls(SYNONYM, _)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(p1, PROCEDURE_ENTITY);
-  expectedContext->addSynonym(p2, PROCEDURE_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(p1, PROCEDURE_ENTITY);
@@ -131,10 +123,6 @@ TEST_CASE("Valid Calls(SYNONYM, LITERAL_REF)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(p1, PROCEDURE_ENTITY);
-  expectedContext->addSynonym(p2, ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(p1, PROCEDURE_ENTITY);
@@ -180,10 +168,6 @@ TEST_CASE("Valid Calls(_, SYNONYM)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, PROCEDURE_ENTITY);
-  expectedContext->addSynonym(d2, PROCEDURE_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, PROCEDURE_ENTITY);
@@ -228,10 +212,6 @@ TEST_CASE("Valid Calls(_, _)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, PROCEDURE_ENTITY);
-  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, PROCEDURE_ENTITY);
@@ -275,10 +255,6 @@ TEST_CASE("Valid Calls(_, LITERAL_REF)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, PROCEDURE_ENTITY);
@@ -322,10 +298,6 @@ TEST_CASE("Valid Calls(LITERAL_REF, SYNONYM)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, PROCEDURE_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -370,10 +342,6 @@ TEST_CASE("Valid Calls(LITERAL_REF, _)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -417,10 +385,6 @@ TEST_CASE("Valid Calls(LITERAL_REF, LITERAL_REF)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -464,10 +428,6 @@ TEST_CASE("Valid Calls*(LITERAL_REF, LITERAL_REF)") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(d1, STMT_ENTITY);
-  expectedContext->addSynonym(d2, ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -506,9 +466,6 @@ TEST_CASE("Valid Calls(SYNONYM, _) - keyword as synonym") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = std::make_unique<Context>();
-  expectedContext->addSynonym(CALLS_ABSTRACTION, PROCEDURE_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(CALLS_ABSTRACTION, PROCEDURE_ENTITY);

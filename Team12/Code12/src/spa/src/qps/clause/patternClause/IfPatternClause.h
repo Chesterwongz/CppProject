@@ -22,6 +22,6 @@ class IfPatternClause : public Clause {
                            unique_ptr<AbstractArgument> firstArg)
       : synonym(std::move(synonym)), firstArg(std::move(firstArg)) {}
 
-  IntermediateTable evaluate(Context& context, PKBReader& pkb) override;
+  IntermediateTable evaluate(PKBReader& pkb) override;
   bool isEquals(const Clause& other) override;
 };

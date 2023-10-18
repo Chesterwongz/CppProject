@@ -19,6 +19,7 @@ class BaseParserState : public IParserState {
   PQLTokenType prev;
   void processNameToken(PQLToken& curr) override;
   void processAttrRef(unique_ptr<SynonymArg>& synArg);
+  // TODO(Hwee): perhaps can add processEntRef, processStmtRef
 
   explicit BaseParserState(PQLParserContext& parserContext, PQLTokenType prev);
   ~BaseParserState() override = default;

@@ -4,8 +4,7 @@
 
 #include "qps/patternEvaluator/ifEvaluator/IfEvaluator.h"
 
-IntermediateTable IfPatternClause::evaluate(Context& context,
-                                            PKBReader& pkbReader) {
+IntermediateTable IfPatternClause::evaluate(PKBReader& pkbReader) {
   string synonymValue = synonym->getValue();
 
   unique_ptr<PatternEvaluator> evaluatorPtr;

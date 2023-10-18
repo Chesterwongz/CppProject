@@ -17,7 +17,7 @@ unique_ptr<AbstractArgument> ArgumentFactory::createArgument(string& argument) {
   }
 
   if (QPSStringUtils::isSynonym(argument)) {
-    return make_unique<SynonymArg>(argument);
+    return make_unique<SynonymArg>(argument, STMT_ENTITY);
   }
 
   if (QPSStringUtils::isInteger(argument)) {
@@ -29,7 +29,7 @@ unique_ptr<AbstractArgument> ArgumentFactory::createArgument(string& argument) {
 
 unique_ptr<SynonymArg> ArgumentFactory::createSynonymArgument(
     const string& argumentValue) {
-  return make_unique<SynonymArg>(argumentValue);
+  return make_unique<SynonymArg>(argumentValue, STMT_ENTITY);
 }
 
 unique_ptr<Ident> ArgumentFactory::createIdentArgument(

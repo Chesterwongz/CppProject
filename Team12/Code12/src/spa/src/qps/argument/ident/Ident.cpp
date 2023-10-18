@@ -2,7 +2,7 @@
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-string Ident::getValue() { return identValue; }
+const string& Ident::getValue() { return identValue; }
 
 QPSStringUtils::ArgumentType Ident::getArgumentType() { return argumentType; }
 

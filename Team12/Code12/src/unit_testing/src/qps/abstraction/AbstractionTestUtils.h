@@ -8,9 +8,9 @@
 #include "qps/abstraction/BaseAbstraction.h"
 
 unique_ptr<AbstractionParams> createMockAbstractionParams(
-    MockPKBReader &mockReader, Context &mockContext, Abstraction abstraction,
+    MockPKBReader &mockReader, Abstraction abstraction,
     AbstractArgument &firstArgument, AbstractArgument &secondArgument);
 
 unique_ptr<AbstractionParams> createMockAbstractionParamsProc(
-    MockPKBReader &mockReader, Context &mockContext, Abstraction abstraction,
+    MockPKBReader &mockReader, Abstraction abstraction,
     AbstractArgument &firstArgument, AbstractArgument &secondArgument);

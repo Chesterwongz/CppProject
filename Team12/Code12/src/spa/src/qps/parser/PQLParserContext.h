@@ -32,7 +32,7 @@ class PQLParserContext {
 
   //  Build clause - handling of Synonym Context
   void addToContext(string entity, const string& synonym);
-  void addSelectClause(unique_ptr<AbstractArgument> synonym);
+  void addSelectClause(unique_ptr<SynonymArg> synonym);
   void addSelectClause(SynonymsToSelect synonyms);
   string getValidSynonymType(const string& synonym);
   bool checkSynonymExists(const string& synonym);

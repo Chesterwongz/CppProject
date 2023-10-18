@@ -8,14 +8,14 @@
 SelectClause::SelectClause(SynonymsToSelect synonymsToSelect)
     : synonymsToSelect(std::move(synonymsToSelect)) {}
 
-IntermediateTable SelectClause::evaluate(Context &context, PKBReader &pkb) {
+IntermediateTable SelectClause::evaluate(PKBReader &pkb) {
   assert(!this->synonymsToSelect.empty());
 
   IntermediateTable result =
       IntermediateTableFactory::buildWildcardIntermediateTable();
   for (auto &synonymArg : this->synonymsToSelect) {
     IntermediateTable possibleValues =
-        getAllPossibleValues(context, pkb, synonymArg);
+        getAllPossibleValues(pkb, synonymArg);
     result = result.join(possibleValues);
     if (result.isTableEmptyAndNotWildcard()) {
       return result;
@@ -24,11 +24,10 @@ IntermediateTable SelectClause::evaluate(Context &context, PKBReader &pkb) {
   return result;
 }
 
-IntermediateTable SelectClause::getAllPossibleValues(
-    Context &context, PKBReader &pkb,
-    unique_ptr<AbstractArgument> &synonymArg) {
+IntermediateTable SelectClause::getAllPossibleValues(PKBReader &pkb,
+    unique_ptr<SynonymArg> &synonymArg) {
   string synonymValue = synonymArg->getValue();
-  Entity entity = context.getTokenEntity(synonymValue);
+  Entity entity = synonymArg->getEntityType();
   set<string> results;
 
   bool isStmtEntity =

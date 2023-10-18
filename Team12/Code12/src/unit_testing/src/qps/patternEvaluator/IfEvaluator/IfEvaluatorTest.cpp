@@ -2,6 +2,7 @@
 
 #include "IfEvaluatorTestData.h"
 #include "qps/common/Keywords.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/patternEvaluator/ifEvaluator/IfEvaluator.h"
 
 using std::make_unique;
@@ -10,11 +11,11 @@ TEST_CASE("test_ifEvaluator_processArgs_synonymFirstArg") {
   ifMockPKBReader.mockIfPattern = mockIfPatternStmtsSynonym;
 
   // if woof; variable test; select woof pattern woof (test, _ , _ );
-  SynonymArg patternSynonym = SynonymArg(ifSynonymValue);
-  SynonymArg variableSynonym = SynonymArg("test");
+  SynonymArg patternSynonym = SynonymArg(ifSynonymValue, IF_ENTITY);
+  SynonymArg variableSynonym = SynonymArg("test", VARIABLE_ENTITY);
 
   unique_ptr<SynonymArg> variableSynonymPtr =
-      make_unique<SynonymArg>(variableSynonym.getValue());
+      make_unique<SynonymArg>(variableSynonym.getValue(), VARIABLE_ENTITY);
 
   IfEvaluator ifEvaluator =
       IfEvaluator(std::move(variableSynonymPtr), ifMockPKBReader,
@@ -29,7 +30,7 @@ TEST_CASE("test_ifEvaluator_processArgs_identFirstArg") {
   ifMockPKBReader.mockIfPattern = mockIfPatternStmtsIdent;
 
   // if woof; variable test; select woof pattern woof ("a", _ , _ );
-  SynonymArg patternSynonym = SynonymArg(ifSynonymValue);
+  SynonymArg patternSynonym = SynonymArg(ifSynonymValue, IF_ENTITY);
   Ident patternFirstArg = Ident("a");
 
   unique_ptr<Ident> patternFirstArgPtr =
@@ -50,7 +51,7 @@ TEST_CASE("test_ifEvaluator_processArgs_wildcardFirstArg") {
   ifMockPKBReader.mockIfPattern = mockIfPatternStmtsSynonym;
 
   // if woof; select woof pattern woof (_, _ , _ );
-  SynonymArg patternSynonym = SynonymArg(ifSynonymValue);
+  SynonymArg patternSynonym = SynonymArg(ifSynonymValue, IF_ENTITY);
 
   unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
 
@@ -66,11 +67,11 @@ TEST_CASE("test_ifEvaluator_evaluate_synonymFirstArg") {
   ifMockPKBReader.mockIfPattern = mockIfPatternStmtsSynonym;
 
   // if woof; variable test; select woof pattern woof (test, _ , _ );
-  SynonymArg patternSynonym = SynonymArg(ifSynonymValue);
-  SynonymArg variableSynonym = SynonymArg("test");
+  SynonymArg patternSynonym = SynonymArg(ifSynonymValue, IF_ENTITY);
+  SynonymArg variableSynonym = SynonymArg("test", VARIABLE_ENTITY);
 
   unique_ptr<SynonymArg> variableSynonymPtr =
-      make_unique<SynonymArg>(variableSynonym.getValue());
+      make_unique<SynonymArg>(variableSynonym.getValue(), VARIABLE_ENTITY);
 
   IfEvaluator ifEvaluator =
       IfEvaluator(std::move(variableSynonymPtr), ifMockPKBReader,
@@ -97,7 +98,7 @@ TEST_CASE("test_ifEvaluator_evaluate_identFirstArg") {
   ifMockPKBReader.mockIfPattern = mockIfPatternStmtsIdent;
 
   // if woof; variable test; select woof pattern woof ("a", _ , _ );
-  SynonymArg patternSynonym = SynonymArg(ifSynonymValue);
+  SynonymArg patternSynonym = SynonymArg(ifSynonymValue, IF_ENTITY);
   Ident patternFirstArg = Ident("a");
 
   unique_ptr<Ident> patternFirstArgPtr =
@@ -126,7 +127,7 @@ TEST_CASE("test_ifEvaluator_evaluate_wildcardFirstArg") {
   ifMockPKBReader.mockIfPattern = mockIfPatternStmtsSynonym;
 
   // if woof; variable test; select woof pattern woof (test, _ , _ );
-  SynonymArg patternSynonym = SynonymArg(ifSynonymValue);
+  SynonymArg patternSynonym = SynonymArg(ifSynonymValue, IF_ENTITY);
 
   unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
 

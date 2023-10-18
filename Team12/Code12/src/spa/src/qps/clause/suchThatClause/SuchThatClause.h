@@ -16,17 +16,11 @@ class SuchThatClause : public Clause {
   Abstraction relationship;
   unique_ptr<AbstractArgument> firstArg;
   unique_ptr<AbstractArgument> secondArg;
-  bool isTransitive;
 
  public:
   explicit SuchThatClause(Abstraction relationship,
                           unique_ptr<AbstractArgument> firstArg,
                           unique_ptr<AbstractArgument> secondArg);
-  // todo: remove after integration
-  explicit SuchThatClause(Abstraction relationship,
-                          unique_ptr<AbstractArgument> firstArg,
-                          unique_ptr<AbstractArgument> secondArg,
-                          bool isTransitive);
-  IntermediateTable evaluate(Context& context, PKBReader& pkb) override;
+  IntermediateTable evaluate(PKBReader& pkb) override;
   bool isEquals(const Clause& other) override;
 };

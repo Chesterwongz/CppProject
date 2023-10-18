@@ -9,7 +9,7 @@ using std::string;
 
 class AbstractArgument {
  public:
-  virtual string getValue() = 0;
+  virtual const string& getValue() = 0;
   virtual QPSStringUtils::ArgumentType getArgumentType() = 0;
   virtual bool isIdent();
   virtual bool isInteger();
