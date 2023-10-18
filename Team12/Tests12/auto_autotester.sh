@@ -22,7 +22,7 @@ find ./ -type f -iname '*_source.txt' | while read -r source_file; do
         out_file="$output_dir/${base_name}_out.xml"
 
         # Run the command
-        $1 "$source_file" "$query_file" "$out_file"
+        $1 "$source_file" "$query_file" "$out_file" > /dev/null 2>&1
     else
         echo "Warning: Query file for $source_file not found!"
     fi
@@ -30,9 +30,21 @@ done
 
 # 2. Check if any of the out.xml files contain '<failed>'
 # Using find to recursively locate *_out.xml files
-find "$output_dir" -type f -iname '*_out.xml' | while read -r out_file; do
+total_files=0
+failed_files=0
+
+while read -r out_file; do
+  ((total_files++))
     if grep -q '<failed>' "$out_file"; then
         echo "Error: $out_file contains '<failed>'"
-        exit 1  # exit with an error, fails CI/CD
+        ((failed_files++))
     fi
-done
+done < <(find "$output_dir" -type f -iname '*_out.xml')
+
+if [[ $failed_files -eq 0 ]]; then
+    echo "Success: No files contain '<failed>'"
+    exit 0  # exit with success, passes CI/CD
+else
+    echo "Error: $failed_files / $total_files files failed"
+    exit 1  # exit with an error, fails CI/CD
+fi
