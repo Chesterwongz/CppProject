@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unordered_map>
+
 #include "RelationTStore.h"
 
 class NextStore : public RelationTStore<int> {
