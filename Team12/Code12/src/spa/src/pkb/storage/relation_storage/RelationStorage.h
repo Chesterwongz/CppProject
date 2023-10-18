@@ -11,5 +11,4 @@ class RelationStorage : public FollowsStorage,
                         public ParentStorage,
                         public UsesStorage,
                         public ModifiesStorage,
-                        public CallsStorage,
-                        public NextStorage {};
+                        public CallsStorage {};
