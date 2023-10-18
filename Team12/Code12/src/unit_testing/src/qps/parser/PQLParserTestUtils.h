@@ -16,4 +16,5 @@ extern PKBReader dummyQpsParserPkbReader;
 std::unique_ptr<Query> parseToQuery(std::vector<PQLToken> tokenList,
                                     PKBReader& pkbReader);
 
-std::unique_ptr<Query> parseStringToQuery(const string& query, PKBReader& pkbReader);
+std::unique_ptr<Query> parseStringToQuery(const string& query,
+                                          PKBReader& pkbReader);

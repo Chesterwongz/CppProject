@@ -20,7 +20,8 @@ std::unique_ptr<Query> parseToQuery(std::vector<PQLToken> tokenList,
   return std::move(query);
 }
 
-std::unique_ptr<Query> parseStringToQuery(const string& query, PKBReader& pkbReader) {
+std::unique_ptr<Query> parseStringToQuery(const string& query,
+                                          PKBReader& pkbReader) {
   unique_ptr<Query> queryObj = std::make_unique<Query>(pkbReader);
   unique_ptr<PQLTokenStream> tokenStream = PQLTokenizer::tokenize(query);
 
