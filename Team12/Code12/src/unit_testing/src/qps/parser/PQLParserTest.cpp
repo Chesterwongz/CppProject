@@ -285,7 +285,7 @@ TEST_CASE("valid pattern before such that") {
   unique_ptr<SynonymArg> outerSynonym = std::make_unique<SynonymArg>("a");
   unique_ptr<Ident> firstPatternArg = std::make_unique<Ident>("x");
   unique_ptr<Wildcard> secondPatternArg = std::make_unique<Wildcard>();
-  PatternArgsStream patternArg;
+  vector<unique_ptr<AbstractArgument>> patternArg;
   patternArg.push_back(std::move(firstPatternArg));
   patternArg.push_back(std::move(secondPatternArg));
   unique_ptr<AssignPatternClause> patternClause =
