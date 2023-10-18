@@ -4,7 +4,7 @@ ClauseTransitionParserState::ClauseTransitionParserState(
     PQLParserContext& parserContext)
     : parserContext(parserContext) {}
 
-void ClauseTransitionParserState::processNameToken(PQLToken &curr) {
+void ClauseTransitionParserState::processNameToken(PQLToken& curr) {
   // has to be a keyword
   PQLTokenType toUpdate =
       PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
@@ -16,7 +16,7 @@ void ClauseTransitionParserState::setClauseTransitionState(
   pc.transitionTo(std::make_unique<ClauseTransitionParserState>(pc));
 }
 
-void ClauseTransitionParserState::createAndClause(PQLParserContext &pc) {
+void ClauseTransitionParserState::createAndClause(PQLParserContext& pc) {
   switch (prevClauseType) {
     case SUCH_THAT_CLAUSE:
       this->parserContext.transitionTo(
