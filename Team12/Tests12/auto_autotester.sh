@@ -7,6 +7,7 @@ mkdir -p "$output_dir"
 
 cd "$script_dir" || exit 1
 echo "Current directory: $(pwd)"
+echo "autotester: $1"
 
 # 1. Run the command for each pair of source and query files
 # Using find to recursively locate *_source.txt files
@@ -20,8 +21,7 @@ find ./ -type f -iname '*_source.txt' | while read -r source_file; do
         # Construct the output XML filename in the output directory
         out_file="$output_dir/${base_name}_out.xml"
 
-        # Run the command, might need ${BUILD_TYPE}
-        ls /Team12/Code12/build/src/autotester
+        # Run the command
         $1 "$source_file" "$query_file" "$out_file"
     else
         echo "Warning: Query file for $source_file not found!"
