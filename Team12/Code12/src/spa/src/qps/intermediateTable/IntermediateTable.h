@@ -56,6 +56,7 @@ class IntermediateTable {
    * @return Empty table
    */
   static IntermediateTable makeEmptyTable();
+
  public:
   /**
    * @return the entire table's data with each cell converted to string
