@@ -14,17 +14,17 @@ TEST_CASE("StmtStorage Tests") {
 
   SECTION("setStatement and getStatementNumbersFromStatementType") {
     REQUIRE(storage.getStatementNumbersFromStatementType(StmtType::IF) ==
-            std::set<int>{1, 2});
+            std::set<int> {1, 2});
     REQUIRE(storage.getStatementNumbersFromStatementType(StmtType::WHILE) ==
-            std::set<int>{3});
+            std::set<int> {3});
     REQUIRE(storage.getStatementNumbersFromStatementType(StmtType::ASSIGN) ==
-            std::set<int>{4});
-    REQUIRE(storage.getStatementNumbersFromStatementType(StmtType::CALL) ==
-            std::set<int>{});
+            std::set<int> {4});
+    REQUIRE(
+        storage.getStatementNumbersFromStatementType(StmtType::CALL).empty());
   }
 
   SECTION("getAllStmtUsingVar") {
-    REQUIRE(storage.getAllStatements() == std::set<int>{1, 2, 3, 4, 5, 6});
+    REQUIRE(storage.getAllStatements() == std::set<int> {1, 2, 3, 4, 5, 6});
   }
 
   SECTION("getStatementTypeFromStatementNumber") {

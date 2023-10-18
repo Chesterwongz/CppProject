@@ -35,3 +35,28 @@ StmtOrProcToVarReaderTemplate::getAllRelationsByStmtType(
   std::vector<std::pair<std::string, std::string>> result;
   return result;
 }
+
+bool StmtOrProcToVarReaderTemplate::isVarRelatedToProc(
+    const std::string& varName, const std::string& procName) {
+  std::unordered_set<std::string> allVarRelated =
+      getVarsRelatedToProc(procName);
+  return allVarRelated.find(varName) != allVarRelated.end();
+}
+
+std::vector<std::pair<std::string, std::string>>
+StmtOrProcToVarReaderTemplate::getAllProcRelations() {
+  std::vector<std::pair<std::string, std::string>> result;
+
+  std::set<std::string> variables = entity_storage_.getAllVariables();
+
+  for (const std::string& v : variables) {
+    std::unordered_set<std::string> procNames = getProcsRelatedToVar(v);
+
+    for (const std::string& procName : procNames) {
+      result.emplace_back(procName, v);
+    }
+  }
+
+  return result;
+}
+

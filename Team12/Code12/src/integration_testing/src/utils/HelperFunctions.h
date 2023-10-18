@@ -51,15 +51,15 @@ class HelperFunctions {
 
   static bool validateModifiesProcVar(PKBReader& reader,
                                       const vector<string>& procs,
-                                      ProcToStrSetMap& expectedModifiesMap);
+                                      StrToStrVecMap& expectedModifiesMap);
 
   static bool validateUsesProcVar(PKBReader& reader,
                                   const vector<string>& procs,
-                                  ProcToStrSetMap& expectedUsesMap);
+                                  StrToStrVecMap& expectedUsesMap);
 
   static bool validateCalls(PKBReader& reader, const vector<string>& procs,
-                            ProcToStrSetMap& expectedCallsMap);
+                            StrToStrVecMap& expectedCallsMap);
 
   static bool validateCallsT(PKBReader& reader, const vector<string>& procs,
-                             ProcToStrSetMap& expectedCallsTMap);
+                             StrToStrVecMap& expectedCallsTMap);
 };
