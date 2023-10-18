@@ -1,0 +1,25 @@
+procedure p {
+  if (1 == 2) then {        
+    while (hoho == 4) {     
+      x = 1;                
+    }
+  }
+  else {
+    if (hoho == 1) then {   
+      while (hehe == x) {  
+        z = 2;             
+      }
+    }
+    else {
+      y = 3;               
+    }
+  }
+  if (oi == 11) then {      
+    oi = oi + 1;            
+  }
+  else {
+    while (oi == 2) {       
+      oi = oi - 1;         
+    }
+  }
+}

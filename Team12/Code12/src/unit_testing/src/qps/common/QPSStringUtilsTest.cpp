@@ -275,3 +275,11 @@ TEST_CASE("test_convertToRPN_withVariableNames_nestedParenthesis") {
 
   REQUIRE(actual == expected);
 }
+
+TEST_CASE("test_convertToRPN_weirdSpacing") {
+  string expression = "a + b -c * d /  e %f";
+  string expected = " a b + c d * e / f % - ";
+  string actual = QPSStringUtils::convertToRPN(expression);
+
+  REQUIRE(actual == expected);
+}
