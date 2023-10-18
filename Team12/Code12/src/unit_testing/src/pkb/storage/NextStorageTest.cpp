@@ -162,27 +162,29 @@ TEST_CASE("NextStore - multiple procs") {
   SECTION("getDirectSuccessors") {
     testIntSetEquality(
         nextStmts, [&](int from) { return storage.getDirectSuccessors(from); });
-    REQUIRE(storage.getDirectSuccessors(3).empty());
-    REQUIRE(storage.getDirectSuccessors(9).empty());
+    REQUIRE(!storage.hasDirectSuccessor(3));
+    REQUIRE(!storage.hasDirectSuccessor(9));
   }
 
   SECTION("getSuccessorsT") {
-    testIntSetEquality(expectedNextTStmts,
-                       [&](int from) { return storage.getSuccessorsT(from); });
-    REQUIRE(storage.getDirectSuccessors(3).empty());
-    REQUIRE(storage.getDirectSuccessors(9).empty());
+    testIntSetEquality(expectedNextTStmts, [&](int from) {
+      if (storage.hasSuccessorsT(from)) return storage.getSuccessorsT(from);
+    });
+    REQUIRE(!storage.hasDirectSuccessor(3));
+    REQUIRE(!storage.hasDirectSuccessor(9));
   }
 
   SECTION("getDirectAncestors") {
     testIntSetEquality(prevStmts,
                        [&](int to) { return storage.getDirectAncestors(to); });
-    REQUIRE(storage.getDirectAncestors(1).empty());
+    REQUIRE(!storage.hasDirectAncestor(1));
   }
 
   SECTION("getAncestorsT") {
-    testIntSetEquality(expectedPrevTStmts,
-                       [&](int to) { return storage.getAncestorsT(to); });
-    REQUIRE(storage.getAncestorsT(1).empty());
+    testIntSetEquality(expectedPrevTStmts, [&](int to) {
+      if (storage.hasAncestorsT(to)) return storage.getAncestorsT(to);
+    });
+    REQUIRE(!storage.hasAncestorsT(1));
   }
 
   SECTION("hasDirectRelation") {

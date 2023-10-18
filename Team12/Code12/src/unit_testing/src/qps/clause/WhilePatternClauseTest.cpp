@@ -48,7 +48,8 @@ TEST_CASE("test_whilePatternClause_evaluate_synonymFirstArg") {
       WhilePatternClause(std::move(patternSynonymPtr), std::move(firstArgPtr));
 
   PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage, pkbStore);
 
   vector<pair<string, string>> mockWhilePatternStmts = {
       {"1", "a"}, {"3", "b"}, {"5", "c"}};
@@ -81,7 +82,8 @@ TEST_CASE("test_whilePatternClause_evaluate_identFirstArg") {
       WhilePatternClause(std::move(patternSynonymPtr), std::move(firstArgPtr));
 
   PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore store = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage, store);
 
   vector<pair<string, string>> mockWhilePatternStmts = {{"3", "b"}};
   mockPkbReader.mockWhilePattern = mockWhilePatternStmts;
