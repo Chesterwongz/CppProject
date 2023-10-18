@@ -5,8 +5,8 @@
 #include "../AbstractionTestUtils.h"
 #include "ModifiesAbstractionTestData.h"
 #include "qps/abstraction/modifiesAbstraction/ModifiesAbstraction.h"
-#include "qps/argument/integer/Integer.h"
 #include "qps/argument/ident/Ident.h"
+#include "qps/argument/integer/Integer.h"
 #include "qps/argument/wildcard/Wildcard.h"
 
 TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Synonym)") {
