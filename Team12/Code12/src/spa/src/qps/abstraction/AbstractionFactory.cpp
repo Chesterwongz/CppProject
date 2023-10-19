@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "qps/abstraction/procToProcAbstraction/callsAbstraction/CallsAbstraction.h"
+#include "qps/abstraction/procToProcAbstraction/callsStarAbstraction/CallsStarAbstraction.h"
 #include "qps/abstraction/stmtOrProcToVarAbstraction/modifiesAbstraction/ModifiesAbstraction.h"
 #include "qps/abstraction/stmtOrProcToVarAbstraction/usesAbstraction/UsesAbstraction.h"
 #include "qps/abstraction/stmtToStmtAbstraction/followsAbstraction/FollowsAbstraction.h"
@@ -22,7 +23,7 @@ unique_ptr<BaseAbstraction> AbstractionFactory::createAbstraction(
     case CALLS_ENUM:
       return make_unique<CallsAbstraction>(abstractionParams);
     case CALLS_STAR_ENUM:
-      // TODO(YQ)
+      return make_unique<CallsStarAbstraction>(abstractionParams);
     case FOLLOWS_ENUM:
       return make_unique<FollowsAbstraction>(abstractionParams);
     case FOLLOWS_STAR_ENUM:
