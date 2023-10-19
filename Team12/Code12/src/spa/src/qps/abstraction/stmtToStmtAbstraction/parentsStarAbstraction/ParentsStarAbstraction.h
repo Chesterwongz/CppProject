@@ -11,11 +11,11 @@
 class ParentsStarAbstraction : public StmtToStmtAbstraction {
  private:
   vector<pair<string, string>> getAllPairs(StmtType firstStmtType,
-                                                   StmtType secondStmtType) override;
+                                           StmtType secondStmtType) override;
   vector<string> getFirstStmt(int secondStmtNumber,
-                                      StmtType firstStmtType) override;
+                              StmtType firstStmtType) override;
   vector<string> getSecondStmt(int firstStmtNumber,
-                                       StmtType secondStmtType) override;
+                               StmtType secondStmtType) override;
   bool isStmtRelatedToStmt(int stmtNum1, int stmtNum2) override;
 
  public:
