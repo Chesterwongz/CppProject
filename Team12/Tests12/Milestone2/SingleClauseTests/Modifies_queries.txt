@@ -131,12 +131,12 @@ none
 ====== 27 - Modifies (call, ident) select different c ======
 call c1, c2;
 Select c1 such that Modifies(c2, "x")
-6, 23, 24
+6, 22, 24
 1000
 ====== 28 - Modifies (callStmtNum, _) ======
 call c;
 Select c such that Modifies(6, _)
-6, 23, 24
+6, 22, 24
 1000
 ====== 29 - Modifies (callStmtNum, _) no results ======
 call c;
@@ -146,7 +146,7 @@ none
 ====== 30 - Modifies (callStmtNum, varSyn) select c ======
 call c; variable v;
 Select c such that Modifies(6, v)
-6, 23, 24
+6, 22, 24
 1000
 ====== 31 - Modifies (callStmtNum, varSyn) select c no results ======
 call c; variable v;
@@ -166,7 +166,7 @@ none
 ====== 34 - Modifies (callStmtNum, ident) ======
 call c;
 Select c such that Modifies(24, "special2")
-6, 23, 24
+6, 22, 24
 1000
 ====== 35 - Modifies (callStmtNum, ident) no results ======
 call c;
