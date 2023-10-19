@@ -55,7 +55,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload out.xml artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: autotester_output
           path: ./Team12/Tests12/output/*.xml
