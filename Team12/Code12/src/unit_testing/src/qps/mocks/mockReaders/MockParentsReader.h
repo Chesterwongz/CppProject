@@ -26,7 +26,7 @@ class MockParentsReader : public BaseMockReader {
   bool mockIsParentStar {};
   bool mockIsParent {};
 
-  explicit MockParentsReader() : BaseMockReader() {}
+  MockParentsReader() : BaseMockReader() {}
 
   std::vector<std::string> getImmediateChildrenOf(
       int statementNumber, StmtType statementType) override {

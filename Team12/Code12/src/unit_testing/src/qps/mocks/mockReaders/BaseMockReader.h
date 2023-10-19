@@ -9,8 +9,8 @@
 #include <utility>
 #include <vector>
 
-#include "pkb/facade/PKBReader.h"
 #include "../MockPKBReaderData.h"
+#include "pkb/facade/PKBReader.h"
 
 using std::vector, std::set, std::string, std::pair;
 
@@ -20,7 +20,7 @@ class BaseMockReader : public PKBReader {
   vector<string> mockAllConstants;
   vector<string> mockAllProcedures;
   vector<string> mockStatements;
-  BaseMockReader() : PKBReader(MOCK_STORE) {};
+  BaseMockReader() : PKBReader(MOCK_STORE) {}
 
   std::vector<std::string> getAllVariables() override {
     return mockAllVariables;

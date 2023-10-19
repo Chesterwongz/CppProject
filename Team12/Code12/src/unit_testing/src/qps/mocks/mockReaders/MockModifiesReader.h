@@ -26,7 +26,7 @@ class MockModifiesReader : public BaseMockReader {
   bool mockIsVariableModifiedBy {};
   bool mockIsVariableModifiedByProc {};
 
-  explicit MockModifiesReader() : BaseMockReader() {}
+  MockModifiesReader() : BaseMockReader() {}
 
   vector<string> getStatementsModifying(const string& variableName,
                                         StmtType statementType) override {

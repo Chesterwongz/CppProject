@@ -27,7 +27,7 @@ class MockNextReader : public BaseMockReader {
   vector<string> mockGetPrevTStmts;
   vector<string> mockGetNextTStmts;
 
-  explicit MockNextReader() : BaseMockReader() {}
+  MockNextReader() : BaseMockReader() {}
 
   vector<pair<string, string>> getNextPairs(StmtType firstStmtType,
                                             StmtType secondStmtType) override {

@@ -27,7 +27,7 @@ class MockUsesReader : public BaseMockReader {
   bool mockIsVariableUsedBy {};
   bool mockIsVariableUsedByProc {};
 
-  explicit MockUsesReader() : BaseMockReader() {}
+  MockUsesReader() : BaseMockReader() {}
 
   vector<string> getStatementsUsing(const string& variableName,
                                     StmtType statementType) override {

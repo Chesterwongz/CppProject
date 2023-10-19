@@ -25,7 +25,7 @@ class MockCallsReader : public BaseMockReader {
   bool mockHasCalls {};
   bool mockHasCallsT {};
 
-  explicit MockCallsReader() : BaseMockReader() {}
+  MockCallsReader() : BaseMockReader() {}
 
   std::vector<std::string> getCallerProcs(const std::string& proc2) override {
     return mockCallerProcs;

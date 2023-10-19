@@ -27,7 +27,7 @@ class MockFollowsReader : public BaseMockReader {
   bool mockIsFollowsStar {};
   bool mockIsFollows {};
 
-  explicit MockFollowsReader() : BaseMockReader() {}
+  MockFollowsReader() : BaseMockReader() {}
 
   std::vector<std::string> getFollowing(int statementNumber,
                                         StmtType statementType) override {

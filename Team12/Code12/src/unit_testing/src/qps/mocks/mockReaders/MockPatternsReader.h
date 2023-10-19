@@ -21,7 +21,7 @@ class MockPatternsReader : public MockModifiesReader {
   vector<pair<string, string>> mockIfPattern;
   vector<pair<string, string>> mockWhilePattern;
 
-  explicit MockPatternsReader() : MockModifiesReader() {}
+  MockPatternsReader() : MockModifiesReader() {}
 
   vector<pair<string, string>> getExactAssignPattern(
       const string& variableName, const string& rpn) override {
