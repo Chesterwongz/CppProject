@@ -1,98 +1,93 @@
 #include "AffectsReader.h"
 
-std::vector<std::pair<std::string, std::string>> AffectsReader::getAffectsPairs() {
-    std::vector<std::pair<std::string, std::string>> result;
+std::vector<std::pair<std::string, std::string>>
+AffectsReader::getAffectsPairs() {
+  std::vector<std::pair<std::string, std::string>> result;
 
-    const auto assignStatements = stmtStore.getAllStmtsOf(StmtType::ASSIGN);
+  const auto assignStmts = stmtStore.getAllStmtsOf(StmtType::ASSIGN);
 
-    for (const auto& assign : assignStatements) {
-        std::unordered_set<std::string> done;
-        std::string v = *modifiesSStore.getAllDirectSuccessorsOf(assign).begin();
+  for (const auto& assign : assignStmts) {
+    std::unordered_set<std::string> done;
+    std::string v = *modifiesSStore.getAllDirectSuccessorsOf(assign).begin();
 
-        FindAffectsPairs(assign, assign, v, done, result);
-    }
+    FindAffectsPairs(assign, assign, v, done, result);
+  }
 
-    /*for (const auto& pair : result) {
-        std::cout << "(" << pair.first << ", " << pair.second << ")" << std::endl;
-    }*/
-
-    return result;
+  return result;
 }
 
 void AffectsReader::FindAffectsPairs(
-    int originalStmt,
-    int currentStmt,
-    const std::string& variable,
+    int originalStmt, int currentStmt, const std::string& variable,
     std::unordered_set<std::string>& done,
     std::vector<std::pair<std::string, std::string>>& result) {
+  done.insert(std::to_string(currentStmt));
 
-    done.insert(std::to_string(currentStmt));
-
-    for (auto& nextStmt : nextStore.getAllDirectSuccessorsOf(currentStmt)) {
-        if (nextStmt == originalStmt &&
-            usesSStore.hasDirectRelation(nextStmt, variable)) {
-            result.emplace_back(std::to_string(originalStmt), std::to_string(nextStmt));
-        }
-
-        if (done.count(std::to_string(nextStmt)) > 0) {
-            continue;
-        }
-
-        // if it is an ASSIGN statement, and it uses the variable
-        if (stmtStore.getAllStmtsOf(StmtType::ASSIGN).count(nextStmt) > 0 &&
-            usesSStore.hasDirectRelation(nextStmt, variable)) {
-            result.emplace_back(std::to_string(originalStmt), std::to_string(nextStmt));
-        }
-
-        if (modifiesSStore.hasDirectRelation(nextStmt, variable)) {
-            continue;
-        }
-
-        FindAffectsPairs(originalStmt, nextStmt, variable, done, result);
+  for (auto& nextStmt : nextStore.getAllDirectSuccessorsOf(currentStmt)) {
+    if (nextStmt == originalStmt &&
+        usesSStore.hasDirectRelation(nextStmt, variable)) {
+      result.emplace_back(std::to_string(originalStmt),
+                          std::to_string(nextStmt));
     }
+
+    if (done.count(std::to_string(nextStmt)) > 0) {
+      continue;
+    }
+
+    if (stmtStore.getAllStmtsOf(StmtType::ASSIGN).count(nextStmt) > 0 &&
+        usesSStore.hasDirectRelation(nextStmt, variable)) {
+      result.emplace_back(std::to_string(originalStmt),
+                          std::to_string(nextStmt));
+    }
+
+    if (modifiesSStore.hasDirectRelation(nextStmt, variable)) {
+      continue;
+    }
+
+    FindAffectsPairs(originalStmt, nextStmt, variable, done, result);
+  }
 }
 
 bool AffectsReader::isAffects(int firstStmtNum, int secondStmtNum) {
-    std::vector<std::pair<std::string, std::string>> affectsPairs = getAffectsPairs();
-    std::string firstStmtStr = std::to_string(firstStmtNum);
-    std::string secondStmtStr = std::to_string(secondStmtNum);
+  std::vector<std::pair<std::string, std::string>> affectsPairs =
+      getAffectsPairs();
+  std::string firstStmtStr = std::to_string(firstStmtNum);
+  std::string secondStmtStr = std::to_string(secondStmtNum);
 
-    for (const auto& pair : affectsPairs) {
-        if (pair.first == firstStmtStr && pair.second == secondStmtStr) {
-            return true;
-        }
+  for (const auto& pair : affectsPairs) {
+    if (pair.first == firstStmtStr && pair.second == secondStmtStr) {
+      return true;
     }
+  }
 
-    return false;
+  return false;
 }
 
 std::vector<std::string> AffectsReader::getAffects(int firstStmtNum) {
-    std::vector<std::string> result;
+  std::vector<std::string> result;
 
-    const auto affectsPairs = getAffectsPairs();
-    std::string firstStmtStr = std::to_string(firstStmtNum);
+  const auto affectsPairs = getAffectsPairs();
+  std::string firstStmtStr = std::to_string(firstStmtNum);
 
-    for (const auto& pair : affectsPairs) {
-        if (pair.first == firstStmtStr) {
-            result.push_back(pair.second);
-        }
+  for (const auto& pair : affectsPairs) {
+    if (pair.first == firstStmtStr) {
+      result.push_back(pair.second);
     }
+  }
 
-    return result;
+  return result;
 }
 
 std::vector<std::string> AffectsReader::getAffectedBy(int secondStmtNum) {
-    std::vector<std::string> result;
+  std::vector<std::string> result;
 
-    const auto affectsPairs = getAffectsPairs();
-    std::string secondStmtStr = std::to_string(secondStmtNum);
+  const auto affectsPairs = getAffectsPairs();
+  std::string secondStmtStr = std::to_string(secondStmtNum);
 
-    for (const auto& pair : affectsPairs) {
-        if (pair.second == secondStmtStr) {
-            result.push_back(pair.first);
-        }
+  for (const auto& pair : affectsPairs) {
+    if (pair.second == secondStmtStr) {
+      result.push_back(pair.first);
     }
+  }
 
-    return result;
+  return result;
 }
-

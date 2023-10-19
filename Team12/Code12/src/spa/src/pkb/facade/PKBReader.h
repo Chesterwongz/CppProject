@@ -20,7 +20,8 @@
 #include "pkb/storage/UsesPStore.h"
 #include "pkb/storage/UsesSStore.h"
 
-class PKBReader : public DesignEntitiesReader,
+class PKBReader : public AffectsReader,
+                  public DesignEntitiesReader,
                   public FollowsReader,
                   public ModifiesReader,
                   public NextReader,
@@ -30,7 +31,9 @@ class PKBReader : public DesignEntitiesReader,
                   public CallsReader {
  public:
   explicit PKBReader(PKBStore& store)
-      : DesignEntitiesReader(store.getEntityStore(), store.getStmtStore()),
+      : AffectsReader(store.getModifiesStore(), store.getNextStore(),
+                      store.getStmtStore(), store.getUsesStore()),
+        DesignEntitiesReader(store.getEntityStore(), store.getStmtStore()),
         FollowsReader(store.getFollowsStore(), store.getStmtStore()),
         ModifiesReader(store.getModifiesStore(), store.getModifiesProcStore(),
                        store.getStmtStore()),
