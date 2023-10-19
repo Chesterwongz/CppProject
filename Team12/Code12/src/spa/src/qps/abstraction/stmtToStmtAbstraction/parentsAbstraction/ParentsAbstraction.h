@@ -10,12 +10,15 @@
 
 class ParentsAbstraction : public StmtToStmtAbstraction {
  private:
-  IntermediateTable handleFirstArgInteger() override;
-  IntermediateTable handleSecondArgInteger() override;
+  vector<pair<string, string>> getAllPairs(StmtType firstStmtType,
+                                           StmtType secondStmtType) override;
+  vector<string> getFirstStmt(int secondStmtNumber,
+                              StmtType firstStmtType) override;
+  vector<string> getSecondStmt(int firstStmtNumber,
+                               StmtType secondStmtType) override;
+  bool isStmtRelatedToStmt(int stmtNum1, int stmtNum2) override;
 
  public:
   explicit ParentsAbstraction(AbstractionParams abstractionParams)
-      : StmtToStmtAbstraction(abstractionParams,
-                              &PKBReader::getParentChildPairs,
-                              &PKBReader::isParent) {}
+      : StmtToStmtAbstraction(abstractionParams) {}
 };

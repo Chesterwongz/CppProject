@@ -6,26 +6,21 @@
  * - secondArg: Synonym OR Integer OR Wildcard
  */
 
-IntermediateTable FollowsAbstraction::handleFirstArgInteger() {
-  int firstStmtNumber = stoi(this->firstArgValue);
-  StmtType secondStmtType = this->getSecondArgStmtType();
-  string secondStmtSynonym = this->secondArgValue;
-
-  vector<string> followingStmt =
-      pkb.getFollowing(firstStmtNumber, secondStmtType);
-
-  return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
-                                                       followingStmt);
+vector<pair<string, string>> FollowsAbstraction::getAllPairs(
+    StmtType firstStmtType, StmtType secondStmtType) {
+  return pkb.getFollowsPairs(firstStmtType, secondStmtType);
 }
 
-IntermediateTable FollowsAbstraction::handleSecondArgInteger() {
-  StmtType firstStmtType = this->getFirstArgStmtType();
-  string firstStmtSynonym = this->firstArgValue;
-  int secondStmtNumber = stoi(this->secondArgValue);
+vector<string> FollowsAbstraction::getFirstStmt(int secondStmtNumber,
+                                                StmtType firstStmtType) {
+  return pkb.getFollowed(secondStmtNumber, firstStmtType);
+}
 
-  vector<string> followedStmt =
-      pkb.getFollowed(secondStmtNumber, firstStmtType);
+vector<string> FollowsAbstraction::getSecondStmt(int firstStmtNumber,
+                                                 StmtType secondStmtType) {
+  return pkb.getFollowing(firstStmtNumber, secondStmtType);
+}
 
-  return IntermediateTableFactory::buildSingleColTable(firstStmtSynonym,
-                                                       followedStmt);
+bool FollowsAbstraction::isStmtRelatedToStmt(int stmtNum1, int stmtNum2) {
+  return pkb.isFollows(stmtNum1, stmtNum2);
 }

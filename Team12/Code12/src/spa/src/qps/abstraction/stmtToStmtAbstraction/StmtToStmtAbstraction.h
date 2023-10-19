@@ -14,8 +14,27 @@ using IsRelationTrueFuncType = bool (PKBReader::*)(int firstStmtNum,
 
 class StmtToStmtAbstraction : public BaseAbstraction {
  private:
-  GetAllStmtStmtPairsFuncType getAllStmtStmtPairs;
-  IsRelationTrueFuncType isRelationTrue;
+  virtual bool isSelfReferencePossible();
+
+  /**
+   * For handling cases where both args are non-integer
+   */
+  IntermediateTable handleSynonymOrWildcardArgs();
+
+  /**
+   * For handling cases where both args are stmtNumbers
+   */
+  IntermediateTable handleBothArgsInteger();
+
+  /**
+   * For handling cases where only first arg is stmtNumber
+   */
+  IntermediateTable handleFirstArgInteger();
+
+  /**
+   * For handling cases where only second arg is stmtNumber
+   */
+  IntermediateTable handleSecondArgInteger();
 
   IntermediateTable evaluateSynonymSynonym() override;
   IntermediateTable evaluateSynonymInteger() override;
@@ -31,30 +50,30 @@ class StmtToStmtAbstraction : public BaseAbstraction {
 
  protected:
   /**
-   * For handling cases where both args are non-integer
+   * Abstraction(a, b): get all a, b pairs where a and b has specified stmtType
    */
-  IntermediateTable handleSynonymOrWildcardArgs();
+  virtual vector<pair<string, string>> getAllPairs(StmtType firstStmtType,
+                                                   StmtType secondStmtType) = 0;
 
   /**
-   * For handling cases where both args are stmtNumbers
+   * Abstraction(a, b): get all stmt a where a has specified stmtType
+   * and b has specified stmtNumber
    */
-  IntermediateTable handleBothArgsInteger();
+  virtual vector<string> getFirstStmt(int secondStmtNumber,
+                                      StmtType firstStmtType) = 0;
 
   /**
-   * For handling cases where only first arg is stmtNumber
+   * Abstraction(a, b): get all stmt b where b has specified stmtType
+   * and a has specified stmtNumber
    */
-  virtual IntermediateTable handleFirstArgInteger() = 0;
+  virtual vector<string> getSecondStmt(int firstStmtNumber,
+                                      StmtType secondStmtType) = 0;
 
   /**
-   * For handling cases where only second arg is stmtNumber
+   * Abstraction(a, b): check if specified stmtNum and stmtNum are related
    */
-  virtual IntermediateTable handleSecondArgInteger() = 0;
+  virtual bool isStmtRelatedToStmt(int stmtNum1, int stmtNum2) = 0;
 
-  explicit StmtToStmtAbstraction(
-      AbstractionParams &abstractionParams,
-      GetAllStmtStmtPairsFuncType getAllStmtStmtPairs,
-      IsRelationTrueFuncType isRelationTrue)
-      : BaseAbstraction(abstractionParams),
-        getAllStmtStmtPairs(getAllStmtStmtPairs),
-        isRelationTrue(isRelationTrue) {}
+  explicit StmtToStmtAbstraction(AbstractionParams& abstractionParams)
+      : BaseAbstraction(abstractionParams) {}
 };
