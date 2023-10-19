@@ -27,39 +27,31 @@ std::vector<std::string> DesignEntitiesReader::getAllStmtsOf(
 
 bool DesignEntitiesReader::isValidStmt(int statementNumber,
                                        StmtType statementType) {
-  std::vector<std::string> allStmt = getAllStmtsOf(statementType);
-
-  return std::find(allStmt.begin(), allStmt.end(),
-                   std::to_string(statementNumber)) != allStmt.end();
+  return stmtStore.hasStmt(statementNumber, statementType);
 }
 
 bool DesignEntitiesReader::isValidConstant(std::string constantVal) {
-  std::vector<std::string> allConstants = getAllConstants();
-
-  return std::find(allConstants.begin(), allConstants.end(), constantVal) !=
-         allConstants.end();
+  return entityStore.hasConst(constantVal);
 }
 
 bool DesignEntitiesReader::isValidProc(std::string procName) {
-  std::vector<std::string> allProcs = getAllProcedures();
-
-  return std::find(allProcs.begin(), allProcs.end(), procName) !=
-         allProcs.end();
+  return entityStore.hasProc(procName);
 }
 
 bool DesignEntitiesReader::isValidVariable(std::string varName) {
-  std::vector<std::string> allVariables = getAllVariables();
-
-  return std::find(allVariables.begin(), allVariables.end(), varName) !=
-         allVariables.end();
+  return entityStore.hasVariable(varName);
 }
 
 std::vector<std::string> DesignEntitiesReader::getStmtsThatCall(
     const std::string& procName) {
-  auto callStmtFilter = stmtStore.getStmtFilterPredicate(StmtType::CALL);
+  if (!callsSStore.hasDirectAncestor(procName)) {
+    return {};
+  }
 
-  return CollectionUtils::transformIntToStrVector(
-      callsSStore.getDirectAncestorsOf(procName, callStmtFilter));
+  std::unordered_set<int> result = callsSStore.getDirectAncestors(procName);
+
+  return CollectionUtils::transformSetUToVectorV<int, std::string>(
+      result, CollectionUtils::intToStrMapper);
 }
 
 std::vector<std::string> DesignEntitiesReader::getStmtsThatRead(
@@ -79,24 +71,29 @@ std::vector<std::string> DesignEntitiesReader::getStmtsThatPrint(
 }
 
 template <typename SStoreType>
-std::string DesignEntitiesReader::getEntityBy(int statementNumber,
-                                              StmtType stmtType,
-                                              SStoreType& sStore) {
+std::vector<std::string> DesignEntitiesReader::getEntityBy(int statementNumber,
+                                                           StmtType stmtType,
+                                                           SStoreType& sStore) {
+  std::vector<std::string> result;
   if (isValidStmt(statementNumber, stmtType) &&
       sStore.hasDirectSuccessor(statementNumber)) {
-    return *sStore.getDirectSuccessors(statementNumber).begin();
+    result = {sStore.getDirectSuccessors(statementNumber).begin(),
+              sStore.getDirectSuccessors(statementNumber).end()};
   }
-  return "";
+  return result;
 }
 
-std::string DesignEntitiesReader::getProcCalledBy(int statementNumber) {
+std::vector<std::string> DesignEntitiesReader::getProcCalledBy(
+    int statementNumber) {
   return getEntityBy(statementNumber, StmtType::CALL, callsSStore);
 }
 
-std::string DesignEntitiesReader::getVariableReadBy(int statementNumber) {
+std::vector<std::string> DesignEntitiesReader::getVariableReadBy(
+    int statementNumber) {
   return getEntityBy(statementNumber, StmtType::READ, modifiesSStore);
 }
 
-std::string DesignEntitiesReader::getVariablePrintedBy(int statementNumber) {
+std::vector<std::string> DesignEntitiesReader::getVariablePrintedBy(
+    int statementNumber) {
   return getEntityBy(statementNumber, StmtType::PRINT, usesSStore);
 }

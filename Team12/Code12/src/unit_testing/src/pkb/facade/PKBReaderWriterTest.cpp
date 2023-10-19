@@ -534,8 +534,8 @@ TEST_CASE("PKBReader Tests - Entity Reader APIs") {
   }
 
   SECTION("getProcCalledByStmt") {
-    REQUIRE(reader.getProcCalledBy(12) == "proc2");
-    REQUIRE(reader.getProcCalledBy(4) == "");
+    REQUIRE(reader.getProcCalledBy(12) == std::vector<std::string> {"proc2"});
+    REQUIRE(reader.getProcCalledBy(4) == std::vector<std::string> {});
   }
 
   SECTION("getStmtsThatRead") {
@@ -544,8 +544,8 @@ TEST_CASE("PKBReader Tests - Entity Reader APIs") {
   }
 
   SECTION("getVariableReadBy") {
-    REQUIRE(reader.getVariableReadBy(6) == "x");
-    REQUIRE(reader.getVariableReadBy(8) == "");
+    REQUIRE(reader.getVariableReadBy(6) == std::vector<std::string> {"x"});
+    REQUIRE(reader.getVariableReadBy(8) == std::vector<std::string> {});
   }
 
   SECTION("getStmtsThatPrint") {
@@ -554,7 +554,7 @@ TEST_CASE("PKBReader Tests - Entity Reader APIs") {
   }
 
   SECTION("getVariablePrintedBy") {
-    REQUIRE(reader.getVariablePrintedBy(7) == "x");
-    REQUIRE(reader.getVariablePrintedBy(8) == "");
+    REQUIRE(reader.getVariablePrintedBy(7) == std::vector<std::string> {"x"});
+    REQUIRE(reader.getVariablePrintedBy(8) == std::vector<std::string> {});
   }
 }

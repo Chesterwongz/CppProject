@@ -61,23 +61,23 @@ class DesignEntitiesReader : public IDesignEntitiesReader {
       const std::string& procName) override;
 
   // return name of procedure called at a particular statementNumber
-  std::string getProcCalledBy(int statementNumber) override;
+  std::vector<std::string> getProcCalledBy(int statementNumber) override;
 
   // return the statement numbers that read a particular variable
   std::vector<std::string> getStmtsThatRead(
       const std::string& varName) override;
 
   // return name of variable read at a particular statementNumber
-  std::string getVariableReadBy(int statementNumber) override;
+  std::vector<std::string> getVariableReadBy(int statementNumber) override;
 
   // return the statement numbers that print a particular variable
   std::vector<std::string> getStmtsThatPrint(
       const std::string& varName) override;
 
   // return name of variable printed at a particular statementNumber
-  std::string getVariablePrintedBy(int statementNumber) override;
+  std::vector<std::string> getVariablePrintedBy(int statementNumber) override;
 
   template <typename SStoreType>
-  std::string getEntityBy(int statementNumber, StmtType stmtType,
-                          SStoreType& sStore);
+  std::vector<std::string> getEntityBy(int statementNumber, StmtType stmtType,
+                                       SStoreType& sStore);
 };
