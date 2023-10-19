@@ -133,43 +133,43 @@ call c1, c2;
 Select c1 such that Modifies(c2, "x")
 6, 23, 24
 1000
-====== 28 - Modifies (callIdent, _) ======
+====== 28 - Modifies (callStmtNum, _) ======
 call c;
-Select c such that Modifies("6", _)
+Select c such that Modifies(6, _)
 6, 23, 24
 1000
-====== 29 - Modifies (callIdent, _) no results ======
+====== 29 - Modifies (callStmtNum, _) no results ======
 call c;
-Select c such that Modifies("24", "special5")
+Select c such that Modifies(24, "special5")
 none
 1000
-====== 30 - Modifies (callIdent, varSyn) select c ======
+====== 30 - Modifies (callStmtNum, varSyn) select c ======
 call c; variable v;
-Select c such that Modifies("6", v)
+Select c such that Modifies(6, v)
 6, 23, 24
 1000
-====== 31 - Modifies (callIdent, varSyn) select c no results ======
+====== 31 - Modifies (callStmtNum, varSyn) select c no results ======
 call c; variable v;
-Select c such that Modifies("22", v)
+Select c such that Modifies(22, v)
 none
 1000
-====== 32 - Modifies (callIdent, varSyn) select v ======
+====== 32 - Modifies (callStmtNum, varSyn) select v ======
 variable v;
-Select v such that Modifies("6", v)
+Select v such that Modifies(6, v)
 i, x, z, special2
 1000
-====== 33 - Modifies (callIdent, varSyn) select v no results ======
+====== 33 - Modifies (callStmtNum, varSyn) select v no results ======
 variable v;
-Select v such that Modifies("22", v)
+Select v such that Modifies(22, v)
 none
 1000
-====== 34 - Modifies (callIdent, ident) ======
+====== 34 - Modifies (callStmtNum, ident) ======
 call c;
-Select c such that Modifies("24", "special2")
+Select c such that Modifies(24, "special2")
 6, 23, 24
 1000
-====== 35 - Modifies (callIdent, ident) no results ======
+====== 35 - Modifies (callStmtNum, ident) no results ======
 call c;
-Select c such that Modifies("6", "sthRandom")
+Select c such that Modifies(6, "sthRandom")
 none
 1000
