@@ -30,8 +30,7 @@ void SelectParserState::handleToken() {
         // TODO(Yuqi): create new SelectBoolClause
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
-      case PQL_SYNONYM_TOKEN:
-      {
+      case PQL_SYNONYM_TOKEN: {
         unique_ptr<SynonymArg> selectedSyn = std::make_unique<SynonymArg>(
             token.getValue(),
             parserContext.getValidSynonymType(token.getValue()));
