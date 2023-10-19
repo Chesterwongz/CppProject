@@ -45,8 +45,8 @@ TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                       attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.mockIsValidStatement = true;
 
@@ -81,8 +81,8 @@ TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation_noResults") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.mockIsValidStatement = false;
 
@@ -111,10 +111,10 @@ TEST_CASE("test_withClause_evaluate_READ_STMTNUM_permutation") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
-  mockPkbReader.mockVariableReadBy = "yes";
+  mockPkbReader.mockVariableReadBy = {"yes"};
 
   // TODO (houten) remove context when merge kh pr
   MockContext mockContext = MockContext();
@@ -147,10 +147,10 @@ TEST_CASE("test_withClause_evaluate_read_STMTNUM_permutation_noResults") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
-  mockPkbReader.mockVariableReadBy = "";
+  mockPkbReader.mockVariableReadBy = {""};
 
   // TODO (houten) remove context when merge kh pr
   MockContext mockContext = MockContext();
@@ -176,8 +176,8 @@ TEST_CASE("test_withClause_evaluate_READ_VARNAME_permutation") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   vector<string> mockStatementsThatRead = {"1", "2", "3"};
   mockPkbReader.mockStatmentsThatRead = mockStatementsThatRead;
@@ -216,8 +216,8 @@ TEST_CASE("test_withClause_evaluate_READ_VARNAME_permutation_noResults") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   vector<string> mockStatementsThatRead = {};
   mockPkbReader.mockStatmentsThatRead = mockStatementsThatRead;
@@ -246,10 +246,10 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
-  string mockVarPrintedBy = "IWASPRINTED";
+  vector<string> mockVarPrintedBy = {"IWASPRINTED"};
   mockPkbReader.mockVariablePrintedBy = mockVarPrintedBy;
 
   // TODO (houten) remove context when merge kh pr
@@ -285,10 +285,10 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation_noResults") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
-  string mockVarPrintedBy = "";
+  vector<string> mockVarPrintedBy = {""};
   mockPkbReader.mockVariablePrintedBy = mockVarPrintedBy;
 
   // TODO (houten) remove context when merge kh pr
@@ -306,7 +306,7 @@ TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation") {
   // print p; select p with p.varName = printMe
   SynonymArg withSynonym = SynonymArg("p");
   Entity synonymEntity = PRINT_ENTITY;
-  AttrRef attrRef = STMTNUM_ATTRREF;
+  AttrRef attrRef = VARNAME_ATTRREF;
   string attrRefValue = "printMe";
 
   unique_ptr<SynonymArg> withSynonymPtr =
@@ -315,8 +315,8 @@ TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   vector<string> mockStmtsThatPrint = {"4", "5", "6"};
   mockPkbReader.mockStatementsThatPrint = mockStmtsThatPrint;
@@ -346,7 +346,7 @@ TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation_noResults") {
   // print p; select p with p.varName = printMe
   SynonymArg withSynonym = SynonymArg("p");
   Entity synonymEntity = PRINT_ENTITY;
-  AttrRef attrRef = STMTNUM_ATTRREF;
+  AttrRef attrRef = VARNAME_ATTRREF;
   string attrRefValue = "printMe";
 
   unique_ptr<SynonymArg> withSynonymPtr =
@@ -355,8 +355,8 @@ TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation_noResults") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   vector<string> mockStmtsThatPrint = {};
   mockPkbReader.mockStatementsThatPrint = mockStmtsThatPrint;
@@ -385,10 +385,10 @@ TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
-  string mockProcNameCalledByStmtNum = "iWasCalled";
+  vector<string> mockProcNameCalledByStmtNum = {"iWasCalled"};
   mockPkbReader.mockProcNameCalledByStmtNum = mockProcNameCalledByStmtNum;
 
   // TODO (houten) remove context when merge kh pr
@@ -423,10 +423,10 @@ TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation_noResults") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
-  string mockProcNameCalledByStmtNum = "";
+  vector<string> mockProcNameCalledByStmtNum = {""};
   mockPkbReader.mockProcNameCalledByStmtNum = mockProcNameCalledByStmtNum;
 
   // TODO (houten) remove context when merge kh pr
@@ -453,8 +453,8 @@ TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   vector<string> mockStmtsThatCall = {"7", "8", "9"};
   mockPkbReader.mockStatementsThatCall = mockStmtsThatCall;
@@ -493,8 +493,8 @@ TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation_noResults") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   vector<string> mockStmtsThatCall = {};
   mockPkbReader.mockStatementsThatCall = mockStmtsThatCall;
@@ -523,8 +523,8 @@ TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.mockIsValidStatement = true;
 
@@ -559,8 +559,8 @@ TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation_noResults") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.mockIsValidStatement = false;
 
@@ -588,8 +588,8 @@ TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.mockIsValidStatement = true;
 
@@ -624,8 +624,8 @@ TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation_noResults") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.mockIsValidStatement = false;
 
@@ -653,8 +653,8 @@ TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.mockIsValidStatement = true;
 
@@ -689,8 +689,8 @@ TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation_noResults") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.mockIsValidStatement = false;
 
@@ -718,8 +718,8 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.mockIsValidVariable = true;
 
@@ -754,8 +754,8 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation_noResults") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.mockIsValidVariable = false;
 
@@ -783,8 +783,8 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.mockIsValidConstant = true;
 
@@ -819,8 +819,8 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation_noResults") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.mockIsValidConstant = false;
 
@@ -848,8 +848,8 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.mockIsValidProcName = true;
 
@@ -884,8 +884,8 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation_noResults") {
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
                                      attrRef, attrRefValue);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.mockIsValidProcName = false;
 

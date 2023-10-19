@@ -78,11 +78,11 @@ class MockPKBReader : public PKBReader {
   bool mockIsValidVariable;
   bool mockIsValidConstant;
   bool mockIsValidProcName;
-  string mockVariableReadBy;
+  vector<string> mockVariableReadBy;
   vector<string> mockStatmentsThatRead;
-  string mockVariablePrintedBy;
+  vector<string> mockVariablePrintedBy;
   vector<string> mockStatementsThatPrint;
-  string mockProcNameCalledByStmtNum;
+  vector<string> mockProcNameCalledByStmtNum;
   vector<string> mockStatementsThatCall;
 
   explicit MockPKBReader(PKBStore& store)
@@ -315,53 +315,43 @@ class MockPKBReader : public PKBReader {
     return mockGetNextTStmts;
   }
 
-  // TODO (houten) override actual pkb method
-  bool isValidStatement(int stmtNum, StmtType stmtType) {
+  bool isValidStmt(int stmtNum, StmtType stmtType) override {
     return mockIsValidStatement;
   }
 
-  // TODO (houten) override actual pkb method
-  bool isValidVariable(string varName) {
+  bool isValidVariable(string varName) override {
     return mockIsValidVariable;
   }
 
-  // TODO (houten) override actual pkb method
-  bool isValidConstant(int constantValue) {
+  bool isValidConstant(string constantValue) override {
     return mockIsValidConstant;
   }
 
-  // TODO (houten) override actual pkb method
-  bool isValidProcName(string procName) { 
+  bool isValidProc(string procName) override { 
     return mockIsValidProcName; 
   }
 
-  // TODO (houten) override actual pkb method
-  string getVariableReadBy(int stmtNum) { 
+  vector<string> getVariableReadBy(int stmtNum) override { 
     return mockVariableReadBy; 
   }
 
-  // TODO (houten) override actual pkb method
-  vector<string> getStatementsThatRead(string varName) {
+  vector<string> getStmtsThatRead(const string& varName) override {
     return mockStatmentsThatRead;
   }
-  
-  // TODO (houten) override actual pkb method
-  string getVariablePrintedBy(int stmtNum) {
+
+  vector<string> getVariablePrintedBy(int stmtNum) override {
     return mockVariablePrintedBy;
   }
 
-  // TODO (houten) override actual pkb method
-  vector<string> getStatementsThatPrint(string varName) {
+  vector<string> getStmtsThatPrint(const string& varName) override {
     return mockStatementsThatPrint;
   }
 
-  // TODO (houten) override actual pkb method
-  string getProcCalledByStmt(int stmtNum) { 
+  vector<string> getProcCalledBy(int stmtNum) override { 
     return mockProcNameCalledByStmtNum; 
   }
 
-  // TODO (houten) override actual pkb method
-  vector<string> getStatementsThatCall(string procName) {
+  vector<string> getStmtsThatCall(const string& procName) override {
     return mockStatementsThatCall;
   }
 
