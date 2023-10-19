@@ -18,14 +18,12 @@ class SynonymRes {
    * - Procedure -> procName
    * - Variable  -> varName
    */
-  string defaultSynonymValue;
   unordered_map<AttrRefEnum, string> attributeMap = {};
-  explicit SynonymRes(string defaultSynonymValue,
-                      unordered_map<AttrRefEnum, string> attributeMap);
+  explicit SynonymRes(unordered_map<AttrRefEnum, string> attributeMap);
   friend class SynonymResFactory;
 
  public:
-  explicit SynonymRes(string defaultSynonymValue);
+  explicit SynonymRes(const string& defaultSynonymValue);
 
   [[nodiscard]] string toString() const;
 
