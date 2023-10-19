@@ -9,6 +9,7 @@
 #include "qps/clause/Clause.h"
 #include "qps/common/Keywords.h"
 #include "qps/intermediateTable/IntermediateTable.h"
+#include "WithClauseUtils.h"
 
 using std::unique_ptr, std::string, std::move, std::pair, std::make_pair,
     std::function;
@@ -21,6 +22,7 @@ class WithClause : public Clause {
   string synonymEntity;
   string& attrRef;
   string& attrRefValue;
+  Entity_AttrRef_Permutation permutation;
 
   IntermediateTable evaluateStmtNum(PKBReader& pkbReader);
   IntermediateTable evaluateConstantValue(PKBReader& pkbReader);
@@ -33,105 +35,68 @@ class WithClause : public Clause {
   IntermediateTable evaluatePrintVarName(PKBReader& pkbReader);
   IntermediateTable evaluatePrintStmtNum(PKBReader& pkbReader);
 
-  // stmt# attrRef
-  pair<string, string> stmt_stmtNum_pair =
-      make_pair(STMT_ENTITY, STMTNUM_ATTRREF);
-  pair<string, string> read_stmtNum_pair =
-      make_pair(READ_ENTITY, STMTNUM_ATTRREF);
-  pair<string, string> print_stmtNum_pair =
-      make_pair(PRINT_ENTITY, STMTNUM_ATTRREF);
-  pair<string, string> call_stmtNum_pair =
-      make_pair(CALL_ENTITY, STMTNUM_ATTRREF);
-  pair<string, string> while_stmtNum_pair =
-      make_pair(WHILE_ENTITY, STMTNUM_ATTRREF);
-  pair<string, string> if_stmtNum_pair = 
-    make_pair(IF_ENTITY, STMTNUM_ATTRREF);
-  pair<string, string> assign_stmtNum_pair =
-      make_pair(ASSIGN_ENTITY, STMTNUM_ATTRREF);
-
-  // varName attrRef
-  pair<string, string> var_varName_pair =
-      make_pair(VARIABLE_ENTITY, VARNAME_ATTRREF);
-  pair<string, string> read_varName_pair =
-      make_pair(READ_ENTITY, VARNAME_ATTRREF);
-  pair<string, string> print_varName_pair =
-      make_pair(PRINT_ENTITY, VARNAME_ATTRREF);
-
-  // procName attrRef
-  pair<string, string> proc_procName_pair =
-      make_pair(PROCEDURE_ENTITY, PROCNAME_ATTRREF);
-  pair<string, string> call_procName_pair =
-      make_pair(CALL_ENTITY, PROCNAME_ATTRREF);
-
-  // value attrRef
-  pair<string, string> constant_value_pair =
-      make_pair(CONSTANT_ENTITY, VALUE_ATTRREF);
-
-  unordered_map<pair<string, string>, WithEvaluatorFunc> withEvaluatorFuncMap {
-      {stmt_stmtNum_pair,
+  unordered_map<Entity_AttrRef_Permutation, WithEvaluatorFunc> withEvaluatorFuncMap {
+      {Entity_AttrRef_Permutation::STMT_STMTNUM,
        [this](PKBReader& pkbReader) {
          return evaluateStmtNum(pkbReader);
        }},
-      {read_stmtNum_pair,
+      {Entity_AttrRef_Permutation::READ_STMTNUM,
        [this](PKBReader& pkbReader) {
          return evaluateReadStmtNum(pkbReader);
        }},
-      {print_stmtNum_pair,
+      {Entity_AttrRef_Permutation::PRINT_STMTNUM,
        [this](PKBReader& pkbReader) {
          return evaluatePrintStmtNum(pkbReader);
        }},
-      {call_stmtNum_pair,
+      {Entity_AttrRef_Permutation::CALL_STMTNUM,
        [this](PKBReader& pkbReader) {
          return evaluateCallStmtNum(pkbReader);
        }},
-      {while_stmtNum_pair,
+      {Entity_AttrRef_Permutation::WHILE_STMTNUM,
        [this](PKBReader& pkbReader) {
          return evaluateStmtNum(pkbReader);
        }},
-      {if_stmtNum_pair,
+      {Entity_AttrRef_Permutation::IF_STMTNUM,
        [this](PKBReader& pkbReader) {
          return evaluateStmtNum(pkbReader);
        }},
-      {assign_stmtNum_pair,
+      {Entity_AttrRef_Permutation::ASSIGN_STMTNUM,
        [this](PKBReader& pkbReader) {
          return evaluateStmtNum(pkbReader);
        }},
-      {read_varName_pair,
+      {Entity_AttrRef_Permutation::READ_VARNAME,
        [this](PKBReader& pkbReader) {
          return evaluateReadVarName(pkbReader);
        }},
-      {var_varName_pair,
+      {Entity_AttrRef_Permutation::VAR_VARNAME,
        [this](PKBReader& pkbReader) {
          return evaluateVarName(pkbReader);
        }},
-      {read_varName_pair,
-       [this](PKBReader& pkbReader) {
-         return evaluateVarName(pkbReader);
-       }},
-      {print_varName_pair,
+      {Entity_AttrRef_Permutation::PRINT_VARNAME,
        [this](PKBReader& pkbReader) {
          return evaluatePrintVarName(pkbReader);
        }},
-      {proc_procName_pair,
+      {Entity_AttrRef_Permutation::PROCEDURE_PROCNAME,
        [this](PKBReader& pkbReader) {
          return evaluateProcName(pkbReader);
        }},
-      {call_procName_pair,
+      {Entity_AttrRef_Permutation::CALL_PROCNAME,
        [this](PKBReader& pkbReader) {
          return evaluateCallProcName(pkbReader);
        }},
-      {constant_value_pair, 
+      {Entity_AttrRef_Permutation::CONSTANT_VALUE, 
        [this](PKBReader& pkbReader) {
          return evaluateConstantValue(pkbReader);
        }}};
 
  public:
   explicit WithClause(unique_ptr<AbstractArgument> synonym,
-                      string synonymEntity, string& attrRef,
+                      Entity& synonymEntity, AttrRef& attrRef,
                       string& attrRefValue)
       : synonym(move(synonym)),
         synonymEntity(synonymEntity),
         attrRef(attrRef),
-        attrRefValue(attrRefValue) {}
+        attrRefValue(attrRefValue),
+        permutation(getPermutation(synonymEntity, attrRef)) {}
   IntermediateTable evaluate(Context& context, PKBReader& pkb) override;
 };
