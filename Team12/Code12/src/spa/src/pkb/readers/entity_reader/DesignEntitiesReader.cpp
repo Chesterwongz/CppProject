@@ -82,10 +82,11 @@ template <typename SStoreType>
 std::string DesignEntitiesReader::getEntityBy(int statementNumber,
                                               StmtType stmtType,
                                               SStoreType& sStore) {
-    if (isValidStmt(statementNumber, stmtType) && sStore.hasDirectSuccessor(statementNumber)) {
-        return *sStore.getDirectSuccessors(statementNumber).begin();
-   }
-    return "";
+  if (isValidStmt(statementNumber, stmtType) &&
+      sStore.hasDirectSuccessor(statementNumber)) {
+    return *sStore.getDirectSuccessors(statementNumber).begin();
+  }
+  return "";
 }
 
 std::string DesignEntitiesReader::getProcCalledBy(int statementNumber) {

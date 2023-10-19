@@ -396,54 +396,53 @@ TEST_CASE("PKBReader Tests") {
         resultVector7, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}}));
   }
 
-
   SECTION("Test whilePattern") {
-      writer.addWhilePattern(6, "x");
-      writer.addWhilePattern(6, "y");
-      writer.addWhilePattern(7, "y");
-      writer.addWhilePattern(8, "x");
-      writer.addWhilePattern(8, "z");
-      writer.addWhilePattern(9, "x");
+    writer.addWhilePattern(6, "x");
+    writer.addWhilePattern(6, "y");
+    writer.addWhilePattern(7, "y");
+    writer.addWhilePattern(8, "x");
+    writer.addWhilePattern(8, "z");
+    writer.addWhilePattern(9, "x");
 
-      StrStrPairVec resultVec1 = reader.getWhilePattern("x");
-      StrStrPairVec resultVec2 = reader.getWhilePattern("y");
-      StrStrPairVec resultVec3 = reader.getWhilePattern("z");
-      StrStrPairVec resultVec4 = reader.getWhilePattern("_");
+    StrStrPairVec resultVec1 = reader.getWhilePattern("x");
+    StrStrPairVec resultVec2 = reader.getWhilePattern("y");
+    StrStrPairVec resultVec3 = reader.getWhilePattern("z");
+    StrStrPairVec resultVec4 = reader.getWhilePattern("_");
 
-      REQUIRE(compareVectorContents(resultVec1,
-          { {"6", "x"}, {"8", "x"}, {"9", "x"} }));
-      REQUIRE(compareVectorContents(resultVec2, { {"6", "y"}, {"7", "y"} }));
-      REQUIRE(compareVectorContents(resultVec3, { {"8", "z"} }));
-      REQUIRE(compareVectorContents(resultVec4, { {"6", "x"},
-                                                 {"6", "y"},
-                                                 {"7", "y"},
-                                                 {"8", "x"},
-                                                 {"8", "z"},
-                                                 {"9", "x"} }));
+    REQUIRE(compareVectorContents(resultVec1,
+                                  {{"6", "x"}, {"8", "x"}, {"9", "x"}}));
+    REQUIRE(compareVectorContents(resultVec2, {{"6", "y"}, {"7", "y"}}));
+    REQUIRE(compareVectorContents(resultVec3, {{"8", "z"}}));
+    REQUIRE(compareVectorContents(resultVec4, {{"6", "x"},
+                                               {"6", "y"},
+                                               {"7", "y"},
+                                               {"8", "x"},
+                                               {"8", "z"},
+                                               {"9", "x"}}));
   }
 
   SECTION("Test ifPattern") {
-      writer.addIfPattern(6, "a");
-      writer.addIfPattern(7, "b");
-      writer.addIfPattern(8, "c");
-      writer.addIfPattern(9, "a");
-      writer.addIfPattern(10, "b");
-      writer.addIfPattern(11, "d");
+    writer.addIfPattern(6, "a");
+    writer.addIfPattern(7, "b");
+    writer.addIfPattern(8, "c");
+    writer.addIfPattern(9, "a");
+    writer.addIfPattern(10, "b");
+    writer.addIfPattern(11, "d");
 
-      StrStrPairVec resultVec1 = reader.getIfPattern("a");
-      StrStrPairVec resultVec2 = reader.getIfPattern("b");
-      StrStrPairVec resultVec3 = reader.getIfPattern("c");
-      StrStrPairVec resultVec4 = reader.getIfPattern("_");
+    StrStrPairVec resultVec1 = reader.getIfPattern("a");
+    StrStrPairVec resultVec2 = reader.getIfPattern("b");
+    StrStrPairVec resultVec3 = reader.getIfPattern("c");
+    StrStrPairVec resultVec4 = reader.getIfPattern("_");
 
-      REQUIRE(compareVectorContents(resultVec1, { {"6", "a"}, {"9", "a"} }));
-      REQUIRE(compareVectorContents(resultVec2, { {"7", "b"}, {"10", "b"} }));
-      REQUIRE(compareVectorContents(resultVec3, { {"8", "c"} }));
-      REQUIRE(compareVectorContents(resultVec4, { {"6", "a"},
-                                                 {"7", "b"},
-                                                 {"8", "c"},
-                                                 {"9", "a"},
-                                                 {"10", "b"},
-                                                 {"11", "d"} }));
+    REQUIRE(compareVectorContents(resultVec1, {{"6", "a"}, {"9", "a"}}));
+    REQUIRE(compareVectorContents(resultVec2, {{"7", "b"}, {"10", "b"}}));
+    REQUIRE(compareVectorContents(resultVec3, {{"8", "c"}}));
+    REQUIRE(compareVectorContents(resultVec4, {{"6", "a"},
+                                               {"7", "b"},
+                                               {"8", "c"},
+                                               {"9", "a"},
+                                               {"10", "b"},
+                                               {"11", "d"}}));
   }
 }
 
@@ -508,28 +507,29 @@ TEST_CASE("PKBReader Tests - Entity Reader APIs") {
   writer.addCalls("proc1", "proc2", 12);
 
   SECTION("isValidStmt") {
-      REQUIRE(reader.isValidStmt(1, StmtType::ASSIGN));
-      REQUIRE_FALSE(reader.isValidStmt(1, StmtType::CALL));
+    REQUIRE(reader.isValidStmt(1, StmtType::ASSIGN));
+    REQUIRE_FALSE(reader.isValidStmt(1, StmtType::CALL));
   }
 
   SECTION("isValidConstant") {
-      REQUIRE(reader.isValidConstant("1"));
-      REQUIRE_FALSE(reader.isValidConstant("3"));
+    REQUIRE(reader.isValidConstant("1"));
+    REQUIRE_FALSE(reader.isValidConstant("3"));
   }
 
   SECTION("isValidProc") {
-      REQUIRE(reader.isValidProc("proc1"));
-      REQUIRE(reader.isValidProc("proc2"));
-      REQUIRE_FALSE(reader.isValidProc("noProc"));
+    REQUIRE(reader.isValidProc("proc1"));
+    REQUIRE(reader.isValidProc("proc2"));
+    REQUIRE_FALSE(reader.isValidProc("noProc"));
   }
 
   SECTION("isValidVariable") {
-      REQUIRE(reader.isValidVariable("x"));
-      REQUIRE_FALSE(reader.isValidVariable("a"));
+    REQUIRE(reader.isValidVariable("x"));
+    REQUIRE_FALSE(reader.isValidVariable("a"));
   }
 
   SECTION("getStmtsThatCall") {
-    REQUIRE(reader.getStmtsThatCall("proc2") == std::vector<std::string> {"12"});
+    REQUIRE(reader.getStmtsThatCall("proc2") ==
+            std::vector<std::string> {"12"});
     REQUIRE(reader.getStmtsThatCall("proc1") == std::vector<std::string> {});
   }
 
@@ -540,7 +540,7 @@ TEST_CASE("PKBReader Tests - Entity Reader APIs") {
 
   SECTION("getStmtsThatRead") {
     REQUIRE(reader.getStmtsThatRead("x") == std::vector<std::string> {"6"});
-    REQUIRE(reader.getStmtsThatRead("wrong") == std::vector<std::string>{});
+    REQUIRE(reader.getStmtsThatRead("wrong") == std::vector<std::string> {});
   }
 
   SECTION("getVariableReadBy") {
@@ -549,12 +549,12 @@ TEST_CASE("PKBReader Tests - Entity Reader APIs") {
   }
 
   SECTION("getStmtsThatPrint") {
-      REQUIRE(reader.getStmtsThatPrint("x") == std::vector<std::string>{"7"});
-      REQUIRE(reader.getStmtsThatPrint("wrong") == std::vector<std::string>{});
+    REQUIRE(reader.getStmtsThatPrint("x") == std::vector<std::string> {"7"});
+    REQUIRE(reader.getStmtsThatPrint("wrong") == std::vector<std::string> {});
   }
 
   SECTION("getVariablePrintedBy") {
-      REQUIRE(reader.getVariablePrintedBy(7) == "x");
-      REQUIRE(reader.getVariablePrintedBy(8) == "");
+    REQUIRE(reader.getVariablePrintedBy(7) == "x");
+    REQUIRE(reader.getVariablePrintedBy(8) == "");
   }
 }
