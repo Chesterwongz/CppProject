@@ -26,7 +26,8 @@ IntermediateTable ModifiesAbstraction::evaluateSynonymIdent() {
     StmtType firstArgStmtType = getFirstArgStmtType();
     result = pkb.getStatementsModifying(secondArgVarName, firstArgStmtType);
   }
-  return IntermediateTableFactory::buildSingleColTable(this->firstArgValue, result);
+  return IntermediateTableFactory::buildSingleColTable(this->firstArgValue,
+                                                       result);
 }
 
 // Modifies (StmtSynonym, _)
