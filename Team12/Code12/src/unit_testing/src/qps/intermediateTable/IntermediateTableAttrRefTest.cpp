@@ -34,23 +34,23 @@ TEST_CASE("IntermediateTable - constructors + getTableData") {
 
 TEST_CASE("IntermediateTable - getColumns - SynonymRes") {
   // get 0 column
-  vector<pair<string, AttrRef>> vectorWithNoCol = {};
+  vector<pair<string, AttrRefEnum>> vectorWithNoCol = {};
   unordered_set<string> expectedNoCol = {};
   REQUIRE(MULTI_COLUMN_SYNONYM_RES_TABLE_1.getColumns(vectorWithNoCol) ==
           expectedNoCol);
 
   // get 1 column
-  vector<pair<string, AttrRef>> vectorWithOneCol = {
-      {"calls", AttrRef::PROC_NAME_ENUM}};
+  vector<pair<string, AttrRefEnum>> vectorWithOneCol = {
+      {"calls", AttrRefEnum::PROC_NAME_ENUM}};
   unordered_set<string> expectedOneCol = {SYNONYM_VAL_1B, SYNONYM_VAL_2B};
   REQUIRE(MULTI_COLUMN_SYNONYM_RES_TABLE_1.getColumns(vectorWithOneCol) ==
           expectedOneCol);
 
   // get >1 columns
-  vector<pair<string, AttrRef>> vectorWithMultiCols = {
-      {"calls", AttrRef::PROC_NAME_ENUM},
-      {"stmt", AttrRef::STMT_NUM_ENUM},
-      {"constant", AttrRef::VALUE_ENUM}};
+  vector<pair<string, AttrRefEnum>> vectorWithMultiCols = {
+      {"calls", AttrRefEnum::PROC_NAME_ENUM},
+      {"stmt", AttrRefEnum::STMT_NUM_ENUM},
+      {"constant", AttrRefEnum::VALUE_ENUM}};
   unordered_set<string> expectedMultiCols = {
       SYNONYM_VAL_1B + " " + SYNONYM_VAL_1 + " " + SYNONYM_VAL_1,
       SYNONYM_VAL_1B + " " + SYNONYM_VAL_2 + " " + SYNONYM_VAL_2,

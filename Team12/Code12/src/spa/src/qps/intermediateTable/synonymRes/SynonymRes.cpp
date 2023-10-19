@@ -6,14 +6,14 @@ SynonymRes::SynonymRes(string defaultSynonymValue)
     : defaultSynonymValue(std::move(defaultSynonymValue)) {}
 
 SynonymRes::SynonymRes(string defaultSynonymValue,
-                       unordered_map<AttrRef, string> attributeMap)
+                       unordered_map<AttrRefEnum, string> attributeMap)
     : defaultSynonymValue(std::move(defaultSynonymValue)),
       attributeMap(std::move(attributeMap)) {}
 
 string SynonymRes::toString() const { return this->defaultSynonymValue; }
 
-string SynonymRes::getAttribute(AttrRef attrRef) {
-  if (attrRef == AttrRef::DEFAULT) {
+string SynonymRes::getAttribute(AttrRefEnum attrRef) {
+  if (attrRef == AttrRefEnum::DEFAULT) {
     return this->defaultSynonymValue;
   }
   bool isAttributeSpecified =
@@ -26,11 +26,11 @@ string SynonymRes::getAttribute(AttrRef attrRef) {
 
 SynonymRes SynonymRes::clone() const {
   string synonymValueCopy = this->defaultSynonymValue;
-  unordered_map<AttrRef, string> attrRefCopy = this->attributeMap;
+  unordered_map<AttrRefEnum, string> attrRefCopy = this->attributeMap;
   return SynonymRes(synonymValueCopy, attrRefCopy);
 }
 
-bool SynonymRes::isAttrExists(AttrRef attrRef) const {
+bool SynonymRes::isAttrExists(AttrRefEnum attrRef) const {
   return this->attributeMap.find(attrRef) != this->attributeMap.end();
 }
 

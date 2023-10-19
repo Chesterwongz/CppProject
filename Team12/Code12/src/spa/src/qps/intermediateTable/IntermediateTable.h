@@ -77,7 +77,7 @@ class IntermediateTable {
    * retrieve
    */
   unordered_set<string> getColumns(
-      const vector<pair<string, AttrRef>> &colNameAndAttrRefVector);
+      const vector<pair<string, AttrRefEnum>> &colNameAndAttrRefVector);
 
   /**
    * Join a different intermediateTable into this

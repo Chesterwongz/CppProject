@@ -78,7 +78,7 @@ unordered_set<string> IntermediateTable::getColumns(
 }
 
 unordered_set<string> IntermediateTable::getColumns(
-    const vector<pair<string, AttrRef>> &colNameAndAttrRefVector) {
+    const vector<pair<string, AttrRefEnum>> &colNameAndAttrRefVector) {
   if (colNameAndAttrRefVector.empty()) {
     return {};
   }

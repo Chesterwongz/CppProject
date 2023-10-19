@@ -4,7 +4,7 @@
 
 using std::string;
 
-enum AttrRef {
+enum class AttrRefEnum {
   PROC_NAME_ENUM,
   STMT_NUM_ENUM,
   VALUE_ENUM,

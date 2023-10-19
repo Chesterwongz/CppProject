@@ -5,7 +5,7 @@
 #include <unordered_map>
 
 #include "SynonymRes.h"
-#include "qps/common/AttrRef.h"
+#include "qps/common/AttrRefEnum.h"
 
 using std::string, std::unordered_map, std::unique_ptr;
 

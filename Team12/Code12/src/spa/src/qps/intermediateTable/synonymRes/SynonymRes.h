@@ -4,7 +4,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "qps/common/AttrRef.h"
+#include "qps/common/AttrRefEnum.h"
 
 using std::string, std::unordered_map, std::unique_ptr;
 
@@ -19,9 +19,9 @@ class SynonymRes {
    * - Variable  -> varName
    */
   string defaultSynonymValue;
-  unordered_map<AttrRef, string> attributeMap = {};
+  unordered_map<AttrRefEnum, string> attributeMap = {};
   explicit SynonymRes(string defaultSynonymValue,
-                      unordered_map<AttrRef, string> attributeMap);
+                      unordered_map<AttrRefEnum, string> attributeMap);
   friend class SynonymResFactory;
 
  public:
@@ -29,11 +29,11 @@ class SynonymRes {
 
   [[nodiscard]] string toString() const;
 
-  string getAttribute(AttrRef attrRef);
+  string getAttribute(AttrRefEnum attrRef);
 
   [[nodiscard]] virtual SynonymRes clone() const;
 
-  [[nodiscard]] bool isAttrExists(AttrRef attrRef) const;
+  [[nodiscard]] bool isAttrExists(AttrRefEnum attrRef) const;
 
   bool operator==(const SynonymRes& other) const;
   bool operator!=(const SynonymRes& other) const;
