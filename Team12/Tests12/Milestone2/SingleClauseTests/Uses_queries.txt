@@ -1,0 +1,175 @@
+====== 1 - Uses (proc,_) ======
+procedure p;
+Select p such that Uses(p, _)
+UsesForProcsAndCalls1, UsesForProcsAndCalls2, UsesForProcsAndCalls5
+1000
+====== 2 - Uses (proc,_) select different proc ======
+procedure p1, p2;
+Select p1 such that Uses(p2, _)
+UsesForProcsAndCalls1, UsesForProcsAndCalls2, UsesForProcsAndCalls3, UsesForProcsAndCalls4, UsesForProcsAndCalls5
+1000
+====== 3 - Uses (proc, varSyn) select p ======
+procedure p; variable v;
+Select p such that Uses(p, v)
+UsesForProcsAndCalls1, UsesForProcsAndCalls2, UsesForProcsAndCalls5
+1000
+====== 4 - Uses (proc, varSyn) select v ======
+procedure p; variable v;
+Select v such that Uses(p, v)
+i, p, q, x, y, z, hello, hihi
+1000
+====== 5 - Uses (proc, varSyn) select different p ======
+procedure p1, p2; variable v;
+Select p1 such that Uses(p2, v)
+UsesForProcsAndCalls1, UsesForProcsAndCalls2, UsesForProcsAndCalls3, UsesForProcsAndCalls4, UsesForProcsAndCalls5
+1000
+====== 6 - Uses (proc, assignSyn) semantic error ======
+procedure p; assign a;
+Select p such that Uses(p, a)
+SemanticError
+1000
+====== 7 - Uses (proc, ident) ======
+procedure p;
+Select p such that Uses(p, "q")
+UsesForProcsAndCalls1, UsesForProcsAndCalls2, UsesForProcsAndCalls5
+1000
+====== 8 - Uses (proc, ident) no results ======
+procedure p;
+Select p such that Uses(p, "special1")
+none
+1000
+====== 9 - Uses (proc, ident) select different p ======
+procedure p1, p2;
+Select p1 such that Uses(p2, "hello")
+UsesForProcsAndCalls1, UsesForProcsAndCalls2, UsesForProcsAndCalls3, UsesForProcsAndCalls4, UsesForProcsAndCalls5
+1000
+====== 10 - Uses (proc, ident) select different p no results ======
+procedure p1, p2;
+Select p1 such that Uses(p2, "thisIsNotUses")
+none
+1000
+====== 11 - Uses (procIdent, _) ======
+procedure p;
+Select p such that Uses("UsesForProcsAndCalls1", _)
+UsesForProcsAndCalls1, UsesForProcsAndCalls2, UsesForProcsAndCalls3, UsesForProcsAndCalls4, UsesForProcsAndCalls5
+1000
+====== 12 - Uses (procIdent, _) no results ======
+procedure p;
+Select p such that Uses("UsesForProcsAndCalls4", _)
+none
+1000
+====== 13 - Uses (procIdent, _) no results, procIdent doesnt exist ======
+procedure p;
+Select p such that Uses("randomProc", _)
+none
+1000
+====== 14 - Uses (procIdent, varSyn) select p ======
+procedure p; variable v;
+Select p such that Uses("UsesForProcsAndCalls1", v)
+UsesForProcsAndCalls1, UsesForProcsAndCalls2, UsesForProcsAndCalls3, UsesForProcsAndCalls4, UsesForProcsAndCalls5
+1000
+====== 15 - Uses (procIdent, varSyn) select v ======
+variable v;
+Select v such that Uses("UsesForProcsAndCalls2", v)
+i, q, x, y, z, hihi
+1000
+====== 16 - Uses (procIdent, varSyn) select v version2 ======
+variable v;
+Select v such that Uses("UsesForProcsAndCalls5", v)
+i, p, q, x, y, z, hihi, hello
+1000
+====== 17 - Uses (procIdent, varSyn) select p no results ======
+procedure p; variable v;
+Select p such that Uses("UsesForProcsAndCalls3", v)
+none
+1000
+====== 18 - Uses (procIdent, varSyn) select v no results ======
+variable v;
+Select v such that Uses("UsesForProcsAndCalls4", v)
+none
+1000
+====== 19 - Uses (procIdent, ident) ======
+procedure p;
+Select p such that Uses("UsesForProcsAndCalls5", "x")
+UsesForProcsAndCalls1, UsesForProcsAndCalls2, UsesForProcsAndCalls3, UsesForProcsAndCalls4, UsesForProcsAndCalls5
+1000
+====== 20 - Uses (procIdent, ident) no results ======
+procedure p;
+Select p such that Uses("UsesForProcsAndCalls1", "special1")
+none
+1000
+====== 21 - Uses (call, _) ======
+call c;
+Select c such that Uses(c, _)
+6, 24
+1000
+====== 22 - Uses (call, _) select different c ======
+call c1, c2;
+Select c1 such that Uses(c2, _)
+6, 22, 24
+1000
+====== 23 - Uses (call, varSyn) select c ======
+call c; variable v;
+Select c such that Uses(c, v)
+6, 24
+1000
+====== 24 - Uses (call, varSyn) select v ======
+call c; variable v;
+Select v such that Uses(c, v)
+i, p, q, x, y, z, hihi, hello
+1000
+====== 25 - Uses (call, ident) ======
+call c;
+Select c such that Uses(c, "hihi")
+6, 24
+1000
+====== 26 - Uses (call, ident) no results ======
+call c;
+Select c such that Uses(c, "XD")
+none
+1000
+====== 27 - Uses (call, ident) select different c ======
+call c1, c2;
+Select c1 such that Uses(c2, "x")
+6, 22, 24
+1000
+====== 28 - Uses (callStmtNum, _) ======
+call c;
+Select c such that Uses(6, _)
+6, 22, 24
+1000
+====== 29 - Uses (callStmtNum, _) no results ======
+call c;
+Select c such that Uses(22, _)
+none
+1000
+====== 30 - Uses (callStmtNum, varSyn) select c ======
+call c; variable v;
+Select c such that Uses(6, v)
+6, 22, 24
+1000
+====== 31 - Uses (callStmtNum, varSyn) select c no results ======
+call c; variable v;
+Select c such that Uses(22, v)
+none
+1000
+====== 32 - Uses (callStmtNum, varSyn) select v ======
+variable v;
+Select v such that Uses(6, v)
+i, q, x, y, z, hihi
+1000
+====== 33 - Uses (callStmtNum, varSyn) select v no results ======
+variable v;
+Select v such that Uses(22, v)
+none
+1000
+====== 34 - Uses (callStmtNum, ident) ======
+call c;
+Select c such that Uses(24, "hello")
+6, 22, 24
+1000
+====== 35 - Uses (callStmtNum, ident) no results ======
+call c;
+Select c such that Uses(6, "sthRandom")
+none
+1000
