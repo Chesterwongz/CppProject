@@ -1,7 +1,5 @@
 #include <catch.hpp>
 
-#include "../qps/mocks/MockPKBReader.h"
-#include "../qps/mocks/MockPKBReaderData.h"
 #include "../mocks/MockPKBReader.h"
 #include "../mocks/MockPKBReaderData.h"
 #include "SelectClauseTestData.h"

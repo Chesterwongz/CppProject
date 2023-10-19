@@ -58,25 +58,24 @@ class MockPKBReader : public PKBReader {
   vector<pair<string, string>> mockPartialAssignPattern;
   vector<pair<string, string>> mockIfPattern;
   vector<pair<string, string>> mockWhilePattern;
-  bool mockIsFollowsStar {};
-  bool mockIsParentStar {};
-  bool mockIsFollows {};
-  bool mockIsParent {};
-  bool mockIsVariableModifiedBy {};
-  bool mockIsVariableModifiedByProc {};
-  bool mockIsVariableUsedBy {};
-  bool mockIsVariableUsedByProc {};
+  bool mockIsFollowsStar{};
+  bool mockIsParentStar{};
+  bool mockIsFollows{};
+  bool mockIsParent{};
+  bool mockIsVariableModifiedBy{};
+  bool mockIsVariableModifiedByProc{};
+  bool mockIsVariableUsedBy{};
+  bool mockIsVariableUsedByProc{};
   vector<pair<string, string>> mockGetNextPairs;
-  bool mockIsNext {};
+  bool mockIsNext{};
   vector<string> mockGetPrevStmts;
   vector<string> mockGetNextStmts;
   vector<pair<string, string>> mockGetNextTPairs;
-  bool mockIsNextT {};
+  bool mockIsNextT{};
   vector<string> mockGetPrevTStmts;
   vector<string> mockGetNextTStmts;
 
-  explicit MockPKBReader(PKBStore& store)
-      : PKBReader(store) {}
+  explicit MockPKBReader(PKBStore& store) : PKBReader(store) {}
 
   std::vector<std::string> getAllVariables() override {
     return mockAllVariables;

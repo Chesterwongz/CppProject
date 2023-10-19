@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "../intermediateTable/IntermediateTableTestData.h"
+#include "../intermediateTable/IntermediateTableTestUtils.h"
 #include "common/utils/StringUtils.h"
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "pkb/storage/NextStore.h"
 #include "pkb/interfaces/writers/INextWriter.h"
+#include "pkb/storage/NextStore.h"
 
 class NextWriter : INextWriter {
  private:

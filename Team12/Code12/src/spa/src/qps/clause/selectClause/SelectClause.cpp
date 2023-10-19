@@ -38,8 +38,7 @@ IntermediateTable SelectClause::getAllPossibleValues(
   } else {
     results = evaluatorFuncMap[entity](pkb);
   }
-  return IntermediateTableFactory::buildSingleColTable(synonymValue,
-                                                          results);
+  return IntermediateTableFactory::buildSingleColTable(synonymValue, results);
 }
 
 bool SelectClause::isEquals(const Clause &other) {

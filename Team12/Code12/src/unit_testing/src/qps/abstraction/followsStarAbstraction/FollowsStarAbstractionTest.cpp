@@ -45,7 +45,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Synonym)") {
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Integer)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
-  mockReader.mockFollowedStar = MOCK_FOLLOWS_STARS_PAIRS;
+  mockReader.mockFollowedStar = MOCK_FOLLOWS_STARS_1;
   unique_ptr<SynonymArg> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
   unique_ptr<Integer> mockArgument2 =
@@ -201,7 +201,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Synonym)") {
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Integer)") {
   MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
-  mockReader.mockFollowedStar = MOCK_FOLLOWS_STARS_PAIRS;
+  mockReader.mockFollowedStar = MOCK_FOLLOWS_STARS_1;
   unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
