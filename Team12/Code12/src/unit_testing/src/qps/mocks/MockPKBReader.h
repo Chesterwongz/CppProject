@@ -63,6 +63,16 @@ class MockPKBReader : public PKBReader {
   bool mockIsNextT{};
   vector<string> mockGetPrevTStmts;
   vector<string> mockGetNextTStmts;
+  bool mockIsValidStatement;
+  bool mockIsValidVariable;
+  bool mockIsValidConstant;
+  bool mockIsValidProcName;
+  string mockVariableReadBy;
+  vector<string> mockStatmentsThatRead;
+  string mockVariablePrintedBy;
+  vector<string> mockStatementsThatPrint;
+  string mockProcNameCalledByStmtNum;
+  vector<string> mockStatementsThatCall;
 
   explicit MockPKBReader(PKBStorage& storage) : PKBReader(storage) {}
 
@@ -288,4 +298,55 @@ class MockPKBReader : public PKBReader {
                                StmtType secondStmtType) override {
     return mockGetNextTStmts;
   }
+
+  // TODO (houten) override actual pkb method
+  bool isValidStatement(int stmtNum, StmtType stmtType) {
+    return mockIsValidStatement;
+  }
+
+  // TODO (houten) override actual pkb method
+  bool isValidVariable(string varName) {
+    return mockIsValidVariable;
+  }
+
+  // TODO (houten) override actual pkb method
+  bool isValidConstant(int constantValue) {
+    return mockIsValidConstant;
+  }
+
+  // TODO (houten) override actual pkb method
+  string getVariableReadBy(int stmtNum) { 
+    return mockVariableReadBy;
+  }
+
+  // TODO (houten) override actual pkb method
+  bool isValidProcName(string procName) { 
+    return mockIsValidProcName; 
+  }
+
+  // TODO (houten) override actual pkb method
+  vector<string> getStatementsThatRead(string varName) {
+    return mockStatmentsThatRead;
+  }
+  
+  // TODO (houten) override actual pkb method
+  string getVariablePrintedBy(int stmtNum) {
+    return mockVariablePrintedBy;
+  }
+
+  // TODO (houten) override actual pkb method
+  vector<string> getStatementsThatPrint(string varName) {
+    return mockStatementsThatPrint;
+  }
+
+  // TODO (houten) override actual pkb method
+  string getProcCalledByStmt(int stmtNum) { 
+    return mockProcNameCalledByStmtNum; 
+  }
+
+  // TODO (houten) override actual pkb method
+  vector<string> getStatementsThatCall(string procName) {
+    return mockStatementsThatCall;
+  }
+
 };

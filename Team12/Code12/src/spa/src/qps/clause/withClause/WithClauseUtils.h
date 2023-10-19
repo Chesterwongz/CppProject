@@ -33,7 +33,7 @@ enum Entity_AttrRef_Permutation {
 };
 
 // TODO (change ATTRREF to whatever kh write in keyword.h)
-unordered_map<Entity, unordered_map<AttrRef, Entity_AttrRef_Permutation>>
+inline unordered_map<Entity, unordered_map<AttrRef, Entity_AttrRef_Permutation>>
     EntityAttrRefPermutationMap = {
         {STMT_ENTITY,
          {{STMTNUM_ATTRREF, Entity_AttrRef_Permutation::STMT_STMTNUM}}},
@@ -61,6 +61,6 @@ unordered_map<Entity, unordered_map<AttrRef, Entity_AttrRef_Permutation>>
 
 };
 
-Entity_AttrRef_Permutation getPermutation(Entity entity, AttrRef attrRef) {
+inline Entity_AttrRef_Permutation getPermutation(Entity entity, AttrRef attrRef) {
   return EntityAttrRefPermutationMap.at(entity).at(attrRef);
 }
