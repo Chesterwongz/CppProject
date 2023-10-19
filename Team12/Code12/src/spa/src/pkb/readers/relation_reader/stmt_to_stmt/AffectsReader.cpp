@@ -44,24 +44,6 @@ void AffectsReader::FindAffectsPairs(
             result.emplace_back(std::to_string(originalStmt), std::to_string(nextStmt));
         }
 
-        //// if it is an ASSIGN statement, and it modifies the variable then Affects cannot hold
-        //if (stmtStore.getAllStmtsOf(StmtType::ASSIGN).count(nextStmt) > 0 &&
-        //    modifiesSStore.hasDirectRelation(nextStmt, variable)) {
-        //    continue;
-        //}
-
-        //// if it is a READ statement, and it modifies the variable then Affects cannot hold
-        //if (stmtStore.getAllStmtsOf(StmtType::READ).count(nextStmt) > 0 &&
-        //    modifiesSStore.hasDirectRelation(nextStmt, variable)) {
-        //    continue;
-        //}
-
-        //// if it is a CALL statement, and it modifies the variable then Affects cannot hold
-        //if (stmtStore.getAllStmtsOf(StmtType::CALL).count(nextStmt) > 0 &&
-        //    modifies_storage_.getVarsModifiedByProc(calls_storage_.getStmtCalleeMap().at(nextStmt)).count(variable) > 0) {
-        //    continue;
-        //}
-
         if (modifiesSStore.hasDirectRelation(nextStmt, variable)) {
             continue;
         }
