@@ -93,7 +93,7 @@ class RelationStore {
     return directSuccessorMap.at(from);
   }
 
-  [[nodiscard]] const std::unordered_set<T>& getDirectAncestors(T to) const {
+  [[nodiscard]] const std::unordered_set<S>& getDirectAncestors(T to) const {
     return directAncestorMap.at(to);
   }
 
