@@ -15,7 +15,8 @@ std::vector<std::string> CallsReader::getCalleeProcs(const std::string& proc1) {
 
 std::vector<std::string> CallsReader::getCalleeProcsStar(
     const std::string& proc1) {
-  return callsStore.getAllSuccessorsTOf(proc1);
+  const auto& rawRes = callsStore.getSuccessorsT(proc1);
+  return {rawRes.begin(), rawRes.end()};
 }
 
 std::vector<std::pair<std::string, std::string>> CallsReader::getCallPairs() {
@@ -24,7 +25,8 @@ std::vector<std::pair<std::string, std::string>> CallsReader::getCallPairs() {
 
 std::vector<std::pair<std::string, std::string>>
 CallsReader::getCallsStarPairs() {
-  return callsStore.getAllRelationsT();
+  return CollectionUtils::transformMapSetABToVectorAB(
+      callsStore.getRelationsT());
 }
 
 bool CallsReader::hasCalls(const std::string& proc1, const std::string& proc2) {

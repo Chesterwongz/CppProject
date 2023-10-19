@@ -75,27 +75,27 @@ TEST_CASE("NextStore - 1 proc") {
       {8, {1, 2, 3, 4, 5, 6, 7}},
   };
   addNextRelationships(storage, nextStmts);
-  storage.getRelationsT();
+    storage.getRelationsT();
 
-  SECTION("getDirectSuccessors") {
-    REQUIRE(testIntSetEquality(nextStmts, [&](int from) {
-      return storage.getDirectSuccessors(from);
-    }));
-    REQUIRE(!storage.hasDirectSuccessor(8));
-  }
+    SECTION("getDirectSuccessors") {
+      REQUIRE(testIntSetEquality(nextStmts, [&](int from) {
+        return storage.getDirectSuccessors(from);
+      }));
+      REQUIRE(!storage.hasDirectSuccessor(8));
+    }
 
-  SECTION("getSuccessorsT") {
-    REQUIRE(testIntSetEquality(expectedNextTStmts, [&](int from) {
-      return storage.getSuccessorsT(from);
-    }));
-    REQUIRE(!storage.hasSuccessorsT(8));
-  }
+    SECTION("getSuccessorsT") {
+      REQUIRE(testIntSetEquality(expectedNextTStmts, [&](int from) {
+        return storage.getSuccessorsT(from);
+      }));
+      REQUIRE(!storage.hasSuccessorsT(8));
+    }
 
-  SECTION("getDirectAncestors") {
-    REQUIRE(testIntSetEquality(
-        prevStmts, [&](int to) { return storage.getDirectAncestors(to); }));
-    REQUIRE(!storage.hasDirectAncestor(1));
-  }
+    SECTION("getDirectAncestors") {
+      REQUIRE(testIntSetEquality(
+          prevStmts, [&](int to) { return storage.getDirectAncestors(to); }));
+      REQUIRE(!storage.hasDirectAncestor(1));
+    }
 
   SECTION("getAncestorsT") {
     REQUIRE(testIntSetEquality(expectedPrevTStmts, [&](int to) {

@@ -2,7 +2,8 @@
 
 std::vector<std::string> FollowsReader::getFollowing(int stmt,
                                                      StmtType stmtType) {
-  if (!stmtStore.hasStmtType(stmtType)) {
+  if (!stmtStore.hasStmtType(stmtType) ||
+      !followsStore.hasDirectSuccessor(stmt)) {
     return {};
   }
 
@@ -16,15 +17,17 @@ std::vector<std::string> FollowsReader::getFollowing(int stmt,
 
 std::vector<std::string> FollowsReader::getFollowed(int stmt,
                                                     StmtType stmtType) {
-  if (!stmtStore.hasStmtType(stmtType)) {
+  if (!stmtStore.hasStmtType(stmtType) ||
+      !followsStore.hasDirectAncestor(stmt)) {
     return {};
   }
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
 
-  auto rawRes = followsStore.getDirectAncestorsOf(stmt, stmtFilter);
+  auto rawRes = followsStore.getDirectAncestors(stmt);
 
-  return CollectionUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformSetUToVectorV<int, std::string>(
+      rawRes, CollectionUtils::intToStrMapper, stmtFilter);
 }
 
 bool FollowsReader::isFollows(int stmt1, int stmt2) {
@@ -40,9 +43,10 @@ std::vector<std::pair<std::string, std::string>> FollowsReader::getFollowsPairs(
   auto stmtFilters =
       stmtStore.getStmtStmtFilterPredicates(stmtType1, stmtType2);
 
-  auto rawRes = followsStore.getDirectRelations(stmtFilters);
+  auto rawRes = followsStore.getDirectRelations();
 
-  return CollectionUtils::transformIntIntToStrStrVector(rawRes);
+  return CollectionUtils::transformMapSetABToVectorUV(
+      rawRes, CollectionUtils::getIntToStrMapperPair(), stmtFilters);
 }
 
 // ================================= FollowsT =================================

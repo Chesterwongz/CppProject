@@ -65,7 +65,7 @@ void PKBWriter::addModifiesForCallStmts(
 }
 
 void PKBWriter::setIndirectCallsProcRelationships() {
-  for (const auto& [caller, callees] : callsPStore.getCallsPMap()) {
+  for (const auto& [caller, callees] : callsPStore.getRelationsT()) {
     addUsesForCallsProc(caller, callees);
     addModifiesForCallProcs(caller, callees);
   }
@@ -73,10 +73,11 @@ void PKBWriter::setIndirectCallsProcRelationships() {
 
 void PKBWriter::setIndirectCallsStmtRelationships() {
   unordered_set<string> allCallees;
-  for (const auto& [s, directCallees] : callsSStore.getCallsSMap()) {
+  for (const auto& [s, directCallees] : callsSStore.getDirectRelations()) {
     allCallees.insert(directCallees.begin(), directCallees.end());
     for (const auto& callee : directCallees) {
-      vector<string> indirectCallees = callsPStore.getAllSuccessorsTOf(callee);
+      if (!callsPStore.hasSuccessorsT(callee)) continue;
+      const auto& indirectCallees = callsPStore.getSuccessorsT(callee);
       allCallees.insert(indirectCallees.begin(), indirectCallees.end());
     }
 
