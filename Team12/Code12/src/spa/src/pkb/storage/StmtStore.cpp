@@ -5,12 +5,17 @@ void StmtStore::addStmt(int stmt, StmtType stmtType) {
   stmtTypeToStmtMap[StmtType::STMT].insert(stmt);
 }
 
+bool StmtStore::hasStmt(int stmt, StmtType stmtType) const {
+  return stmtTypeToStmtMap.count(stmtType) &&
+      stmtTypeToStmtMap.at(stmtType).count(stmt);
+}
+
 bool StmtStore::hasStmtType(StmtType stmtType) const {
   return stmtTypeToStmtMap.count(stmtType);
 }
 
-const std::unordered_set<int>& StmtStore::getAllStmtsOf(StmtType stmtType)
-    const {
+const std::unordered_set<int>& StmtStore::getAllStmtsOf(
+    StmtType stmtType) const {
   return stmtTypeToStmtMap.at(stmtType);
 }
 

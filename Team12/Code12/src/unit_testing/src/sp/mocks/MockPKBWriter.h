@@ -37,8 +37,8 @@ class MockPKBWriter : public PKBWriter {
   IntToIntSetMap nextStorage;
 
  public:
-  explicit MockPKBWriter(PKBStorage &storage, PKBStore store)
-      : PKBWriter(storage, store) {}
+  explicit MockPKBWriter(PKBStore store)
+      : PKBWriter(store) {}
   ~MockPKBWriter() override = default;
 
   void addFollows(int stmtNum, int followingStmt) override {
@@ -101,10 +101,6 @@ class MockPKBWriter : public PKBWriter {
   void addCalls(const string &caller, const string &callee,
                 int stmtNum) override {
     callsStorage[caller].insert(callee);
-  }
-
-  void setCFG(const string &procName, unique_ptr<CFG> cfg) override {
-    cfgStorage[procName] = std::move(cfg);
   }
 
   void addNext(int from, int to) override {

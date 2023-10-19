@@ -12,6 +12,7 @@
 #include "pkb/storage/StmtStore.h"
 #include "pkb/storage/UsesPStore.h"
 #include "pkb/storage/UsesSStore.h"
+#include "pkb/storage/pattern_storage/PatternStorage.h"
 
 class PKBStore {
  private:
@@ -30,6 +31,8 @@ class PKBStore {
   StmtStore stmtStore;
   EntityStore entityStore;
 
+  PatternStorage patternStore;
+
  public:
   [[nodiscard]] FollowsStore& getFollowsStore();
   [[nodiscard]] ParentStore& getParentStore();
@@ -42,4 +45,5 @@ class PKBStore {
   [[nodiscard]] CallsSStore& getCallsStmtStore();
   [[nodiscard]] StmtStore& getStmtStore();
   [[nodiscard]] EntityStore& getEntityStore();
+  [[nodiscard]] PatternStorage& getPatternStore();
 };

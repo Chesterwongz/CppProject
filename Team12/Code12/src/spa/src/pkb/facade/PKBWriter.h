@@ -11,7 +11,6 @@
 
 #include "common/cfg/CFG.h"
 #include "common/utils/PairUtils.h"
-#include "pkb/facade/PKBStorage.h"
 #include "pkb/facade/PKBStore.h"
 #include "pkb/writers/entity_writer/DesignEntitiesWriter.h"
 #include "pkb/writers/pattern_writer/PatternWriter.h"
@@ -33,25 +32,30 @@ class PKBWriter : public DesignEntitiesWriter,
                   public UsesWriter,
                   public CallsWriter {
  public:
-  PKBWriter(PKBStorage& storage, PKBStore& store)
-      : storage(storage),
-        store(store),
+  explicit PKBWriter(PKBStore& store)
+      : usesPStore(store.getUsesProcStore()),
+        modifiesPStore(store.getModifiesProcStore()),
+        parentStore(store.getParentStore()),
+        callsPStore(store.getCallsStore()),
+        callsSStore(store.getCallsStmtStore()),
         DesignEntitiesWriter(store.getEntityStore(), store.getStmtStore()),
         FollowsWriter(store.getFollowsStore()),
         ModifiesWriter(store.getModifiesStore(), store.getModifiesProcStore()),
         NextWriter(store.getNextStore()),
         ParentWriter(store.getParentStore()),
-        PatternWriter(storage),
+        PatternWriter(store.getPatternStore()),
         UsesWriter(store.getUsesStore(), store.getUsesProcStore()),
         CallsWriter(store.getCallsStore(), store.getCallsStmtStore()) {}
 
   void setIndirectCallsRelationship();
 
-  virtual void setCFG(const std::string& procName, unique_ptr<CFG> cfg);
-
  private:
-  PKBStorage& storage;
-  PKBStore& store;
+  const UsesPStore& usesPStore;
+  const ModifiesPStore& modifiesPStore;
+  const ParentStore& parentStore;
+  const CallsStore& callsPStore;
+  const CallsSStore& callsSStore;
+
   void addUsesForCallsProc(const string& callerProc,
                            const unordered_set<string>& calleeProcs);
   void addModifiesForCallProcs(const string& callerProc,

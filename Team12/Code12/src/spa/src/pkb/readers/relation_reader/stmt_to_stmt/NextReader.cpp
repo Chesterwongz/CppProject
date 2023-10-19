@@ -2,28 +2,32 @@
 
 std::vector<std::string> NextReader::getPrevStmts(int stmt2,
                                                   StmtType stmtType1) {
-  if (!stmtStore.hasStmtType(stmtType1)) {
+  if (!stmtStore.hasStmtType(stmtType1) ||
+      !nextStore.hasDirectAncestor(stmt2)) {
     return {};
   }
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType1);
 
-  auto rawRes = nextStore.getDirectAncestorsOf(stmt2, stmtFilter);
+  const auto& rawRes = nextStore.getDirectAncestors(stmt2);
 
-  return CollectionUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformSetUToVectorV<int, std::string>(
+      rawRes, CollectionUtils::intToStrMapper, stmtFilter);
 }
 
 std::vector<std::string> NextReader::getNextStmts(int stmt1,
                                                   StmtType stmtType2) {
-  if (!stmtStore.hasStmtType(stmtType2)) {
+  if (!stmtStore.hasStmtType(stmtType2) ||
+      !nextStore.hasDirectSuccessor(stmt1)) {
     return {};
   }
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType2);
 
-  auto rawRes = nextStore.getDirectSuccessorsOf(stmt1, stmtFilter);
+  const auto& rawRes = nextStore.getDirectSuccessors(stmt1);
 
-  return CollectionUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformSetUToVectorV<int, std::string>(
+      rawRes, CollectionUtils::intToStrMapper, stmtFilter);
 }
 
 bool NextReader::isNext(int stmt1, int stmt2) {
@@ -39,37 +43,41 @@ std::vector<std::pair<std::string, std::string>> NextReader::getNextPairs(
   auto stmtFilters =
       stmtStore.getStmtStmtFilterPredicates(stmtType1, stmtType2);
 
-  auto rawRes = nextStore.getDirectRelations(stmtFilters);
+  const auto& rawRes = nextStore.getDirectRelations();
 
-  return CollectionUtils::transformIntIntToStrStrVector(rawRes);
+  return CollectionUtils::transformMapSetABToVectorUV<int, int, std::string,
+                                                      std::string>(
+      rawRes, CollectionUtils::getIntToStrMapperPair(), stmtFilters);
 }
 
 // =================================== NextT ===================================
 
 std::vector<std::string> NextReader::getPrevTStmts(int stmt2,
                                                    StmtType stmtType1) {
-  if (!stmtStore.hasStmtType(stmtType1)) {
+  if (!stmtStore.hasStmtType(stmtType1) || !nextStore.hasAncestorsT(stmt2)) {
     return {};
   }
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType1);
 
-  auto rawRes = nextStore.getAncestorsTOf(stmt2, stmtFilter);
+  const auto& allPrevT = nextStore.getAncestorsT(stmt2);
 
-  return CollectionUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformSetUToVectorV<int, std::string>(
+      allPrevT, CollectionUtils::intToStrMapper, stmtFilter);
 }
 
 std::vector<std::string> NextReader::getNextTStmts(int stmt1,
                                                    StmtType stmtType2) {
-  if (!stmtStore.hasStmtType(stmtType2)) {
+  if (!stmtStore.hasStmtType(stmtType2) || !nextStore.hasSuccessorsT(stmt1)) {
     return {};
   }
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType2);
 
-  auto rawRes = nextStore.getSuccessorsTOf(stmt1, stmtFilter);
+  const auto& allNextT = nextStore.getSuccessorsT(stmt1);
 
-  return CollectionUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformSetUToVectorV<int, std::string>(
+      allNextT, CollectionUtils::intToStrMapper, stmtFilter);
 }
 
 bool NextReader::isNextT(int stmt1, int stmt2) {
@@ -85,7 +93,9 @@ std::vector<std::pair<std::string, std::string>> NextReader::getNextTPairs(
   auto stmtFilters =
       stmtStore.getStmtStmtFilterPredicates(stmtType1, stmtType2);
 
-  auto rawRes = nextStore.getDirectRelations(stmtFilters);
+  const auto& rawRes = nextStore.getRelationsT();
 
-  return CollectionUtils::transformIntIntToStrStrVector(rawRes);
+  return CollectionUtils::transformMapSetABToVectorUV<int, int, std::string,
+                                                      std::string>(
+      rawRes, CollectionUtils::getIntToStrMapperPair(), stmtFilters);
 }

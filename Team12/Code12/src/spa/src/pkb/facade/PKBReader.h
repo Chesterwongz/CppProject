@@ -1,7 +1,6 @@
 #pragma once
 
 #include "PKBStore.h"
-#include "pkb/facade/PKBStorage.h"
 #include "pkb/readers/entity_reader/DesignEntitiesReader.h"
 #include "pkb/readers/pattern_reader/PatternReader.h"
 #include "pkb/readers/relation_reader/proc_to_proc/CallsReader.h"
@@ -29,16 +28,14 @@ class PKBReader : public DesignEntitiesReader,
                   public UsesReader,
                   public CallsReader {
  public:
-  explicit PKBReader(PKBStorage& storage, PKBStore& store)
-      : DesignEntitiesReader(store.getCallsStmtStore(), store.getEntityStore(),
-                             store.getModifiesStore(), store.getStmtStore(),
-                             store.getUsesStore()),
+  explicit PKBReader(PKBStore& store)
+      : DesignEntitiesReader(store.getEntityStore(), store.getStmtStore()),
         FollowsReader(store.getFollowsStore(), store.getStmtStore()),
         ModifiesReader(store.getModifiesStore(), store.getModifiesProcStore(),
                        store.getStmtStore()),
         NextReader(store.getNextStore(), store.getStmtStore()),
         ParentReader(store.getParentStore(), store.getStmtStore()),
-        PatternReader(storage),
+        PatternReader(store.getPatternStore()),
         UsesReader(store.getUsesStore(), store.getUsesProcStore(),
                    store.getStmtStore()),
         CallsReader(store.getCallsStore()) {}

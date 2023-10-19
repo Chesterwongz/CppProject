@@ -17,8 +17,6 @@ class RelationStore {
   // An unordered set of the direct ancestors of S. I.e., S <- T
   std::unordered_map<T, std::unordered_set<S>> directAncestorMap;
 
-  RelationStore() = default;
-
   [[nodiscard]] std::vector<std::pair<S, T>> allRelationsToVectorFiltered(
       const std::unordered_map<S, std::unordered_set<T>>& successors,
       const std::function<bool(S)>& filterStmt1,
@@ -83,6 +81,22 @@ class RelationStore {
     directAncestorMap[to].insert(from);
   }
 
+  [[nodiscard]] bool hasDirectSuccessor(S from) const {
+    return directSuccessorMap.count(from);
+  }
+
+  [[nodiscard]] bool hasDirectAncestor(T to) const {
+    return directAncestorMap.count(to);
+  }
+
+  [[nodiscard]] const std::unordered_set<T>& getDirectSuccessors(S from) const {
+    return directSuccessorMap.at(from);
+  }
+
+  [[nodiscard]] const std::unordered_set<T>& getDirectAncestors(T to) const {
+    return directAncestorMap.at(to);
+  }
+
   [[nodiscard]] bool hasDirectRelation(S from, T to) const {
     return directSuccessorMap.count(from) &&
            directSuccessorMap.at(from).count(to);
@@ -116,4 +130,11 @@ class RelationStore {
   [[nodiscard]] std::vector<std::pair<S, T>> getAllDirectRelations() const {
     return allRelationsToVector(directSuccessorMap);
   }
+
+  [[nodiscard]] std::unordered_map<S, std::unordered_set<T>>
+  getDirectRelations() const {
+    return directSuccessorMap;
+  }
+
+  virtual void clearCache() {}
 };

@@ -21,3 +21,5 @@ CallsSStore& PKBStore::getCallsStmtStore() { return callsStmtStore; }
 StmtStore& PKBStore::getStmtStore() { return stmtStore; }
 
 EntityStore& PKBStore::getEntityStore() { return entityStore; }
+
+PatternStorage& PKBStore::getPatternStore() { return patternStore; }

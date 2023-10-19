@@ -17,7 +17,6 @@ void PKBWriter::addRelationsForCallProcs(
 
 void PKBWriter::addUsesForCallsProc(const string& callerProc,
                                     const unordered_set<string>& calleeProcs) {
-  const UsesPStore& usesPStore = store.getUsesProcStore();
   std::function<void(const string&, const string&)> addUsesFunc =
       [this](const string& var, const string& proc) { addUses(var, proc); };
   addRelationsForCallProcs(callerProc, calleeProcs, usesPStore, addUsesFunc);
@@ -25,7 +24,6 @@ void PKBWriter::addUsesForCallsProc(const string& callerProc,
 
 void PKBWriter::addModifiesForCallProcs(
     const string& callerProc, const unordered_set<string>& calleeProcs) {
-  const ModifiesPStore& modifiesPStore = store.getModifiesProcStore();
   std::function<void(const string&, const string&)> addModifiesFunc =
       [this](const string& var, const string& proc) { addModifies(var, proc); };
   addRelationsForCallProcs(callerProc, calleeProcs, modifiesPStore,
@@ -37,7 +35,6 @@ void PKBWriter::addRelationsForCallStmts(
     int stmtNum, const unordered_set<string>& allCallees,
     const ProcStoreType& procStore,
     std::function<void(const string&, int)>& adder) {
-  const ParentStore& parentStore = store.getParentStore();
   unordered_set<string> allVars;
   for (const auto& proc : allCallees) {
     vector<string> vars = procStore.getAllDirectSuccessorsOf(proc);
@@ -54,7 +51,6 @@ void PKBWriter::addRelationsForCallStmts(
 
 void PKBWriter::addUsesForCallStmts(int stmtNum,
                                     const unordered_set<string>& allCallees) {
-  const UsesPStore& usesPStore = store.getUsesProcStore();
   std::function<void(const string&, int)> addUsesFunc =
       [this](const string& var, int stmtNum) { addUses(var, stmtNum); };
   addRelationsForCallStmts(stmtNum, allCallees, usesPStore, addUsesFunc);
@@ -62,7 +58,6 @@ void PKBWriter::addUsesForCallStmts(int stmtNum,
 
 void PKBWriter::addModifiesForCallStmts(
     int stmtNum, const unordered_set<string>& allCallees) {
-  const ModifiesPStore& modifiesPStore = store.getModifiesProcStore();
   std::function<void(const string&, int)> addModifiesFunc =
       [this](const string& var, int stmtNum) { addModifies(var, stmtNum); };
   addRelationsForCallStmts(stmtNum, allCallees, modifiesPStore,
@@ -70,7 +65,6 @@ void PKBWriter::addModifiesForCallStmts(
 }
 
 void PKBWriter::setIndirectCallsProcRelationships() {
-  const CallsStore& callsPStore = store.getCallsStore();
   for (const auto& [caller, callees] : callsPStore.getCallsPMap()) {
     addUsesForCallsProc(caller, callees);
     addModifiesForCallProcs(caller, callees);
@@ -78,8 +72,6 @@ void PKBWriter::setIndirectCallsProcRelationships() {
 }
 
 void PKBWriter::setIndirectCallsStmtRelationships() {
-  const CallsSStore& callsSStore = store.getCallsStmtStore();
-  const CallsStore& callsPStore = store.getCallsStore();
   unordered_set<string> allCallees;
   for (const auto& [s, directCallees] : callsSStore.getCallsSMap()) {
     allCallees.insert(directCallees.begin(), directCallees.end());
@@ -97,8 +89,4 @@ void PKBWriter::setIndirectCallsStmtRelationships() {
 void PKBWriter::setIndirectCallsRelationship() {
   setIndirectCallsProcRelationships();
   setIndirectCallsStmtRelationships();
-}
-
-void PKBWriter::setCFG(const std::string& procName, unique_ptr<CFG> cfg) {
-  storage.addCfg(procName, std::move(cfg));
 }
