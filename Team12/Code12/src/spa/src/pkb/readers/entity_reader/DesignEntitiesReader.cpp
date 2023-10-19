@@ -48,7 +48,7 @@ std::vector<std::string> DesignEntitiesReader::getStmtsThatCall(
     return {};
   }
 
-  std::unordered_set<int> result = callsSStore.getDirectAncestors(procName);
+  const std::unordered_set<int>& result = callsSStore.getDirectAncestors(procName);
 
   return CollectionUtils::transformSetUToVectorV<int, std::string>(
       result, CollectionUtils::intToStrMapper);
