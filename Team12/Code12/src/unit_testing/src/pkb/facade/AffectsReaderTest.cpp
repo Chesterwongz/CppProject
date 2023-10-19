@@ -1,5 +1,5 @@
-#include <catch.hpp>
 #include <unordered_set>
+#include <catch.hpp>
 
 #include "../../common/utils/HelperFunctions.h"
 #include "pkb/facade/PKBReader.h"
