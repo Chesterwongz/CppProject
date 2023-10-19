@@ -1,0 +1,310 @@
+====== 1 - with assign.stmt# ======
+assign a;
+Select a with a.stmt# = 5
+5
+1000
+====== 2 - with assign.stmt# - no results ======
+assign a;
+Select a with a.stmt# = 2
+none
+1000
+====== 3 - with assign.stmt# - select different assign ======
+assign a1, a2;
+Select a1 with a2.stmt# = 5
+3, 5, 6, 7, 8, 9, 10, 12, 14, 15, 17, 19 
+1000
+====== 4 - with assign.stmt# - select different assign, no results ======
+assign a1, a2;
+Select a1 with a2.stmt# = 11
+none
+1000
+====== 5 - with if.stmt# ======
+if i;
+Select i with i.stmt# = 1
+1
+1000
+====== 6 - with if.stmt# - no results ======
+if i;
+Select i with i.stmt# = 2
+none
+1000
+====== 7 - with if.stmt# - select different if ======
+if i1, i2;
+Select i1 with i2.stmt# = 13
+1, 13
+1000
+====== 8 - with if.stmt# - select different if, no results ======
+if i1, i2;
+Select i1 with i2.stmt# = 10
+none
+1000
+====== 9 - with while.stmt# ======
+while w;
+Select w with w.stmt# = 2
+2
+1000
+====== 10 - with while.stmt# - no results ======
+while w;
+Select w with w.stmt# = 1
+none
+1000
+====== 11 - with while.stmt# - select different while ======
+while w1, w2;
+Select w1 with w2.stmt# = 11
+2, 11
+1000
+====== 12 - with while.stmt# - select different while, no results ======
+while w1, w2;
+Select w1 with w2.stmt# = 12
+none
+1000
+====== 13 - with stmt.stmt# ======
+stmt s;
+Select s with s.stmt# = 15
+15
+1000
+====== 14 - with stmt.stmt# - no results ======
+stmt s;
+Select s with s.stmt# = 100
+none
+1000
+====== 15 - with stmt.stmt# - select different stmt ======
+stmt s1, s2;
+Select s1 with s2.stmt# = 1
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
+1000
+====== 16 - with stmt.stmt# - select different stmt, no results ======
+stmt s1, s2;
+Select s1 with s2.stmt# = 24
+none
+1000
+====== 17 - with constant.value ======
+constant const;
+Select const with const.value = 100
+100
+1000
+====== 18 - with constant.value - no results ======
+constant const;
+Select const with const.value = 5
+none
+1000
+====== 19 - with constant.value - select different const ======
+constant const1, const2;
+Select const1 with const2.value = 1
+1, 2, 3, 100, 200
+1000
+====== 20 - with constant.value - select different const, no results ======
+constant const1, const2;
+Select const1 with const2.value = 222
+none
+1000
+====== 21 - with procedure.procName ======
+procedure p;
+Select p with p.procName = withSource1
+withSource1
+1000
+====== 22 - with procedure.procName - no results ======
+procedure p;
+Select p with p.procName = withSource3
+none
+1000
+====== 23 - with procedure.procName - select different procedure ======
+procedure p1, p2;
+Select p1 with p2.procName = withSource2
+withSource1, withSource2
+1000
+====== 24 - with procedure.procName - select different procedure, no results ======
+procedure p1, p2;
+Select p1 with p2.procName = withSource3
+none
+1000
+====== 25 - with variable.varName ======
+variable v;
+Select v with v.varName = x
+x
+1000
+====== 26 - with variable.varName - no results ======
+variable v;
+Select v with v.varName = iDontExist
+none
+1000
+====== 27 - with variable.varName - select different var ======
+variable v1, v2;
+Select v1 with v2.varName = lalala
+i, p, q, x, y, z, lalala, lololol, wow, amazing, hihi, haha
+1000
+====== 28 - with variable.varName - select different var, no results ======
+variable v1, v2;
+Select v1 with v2.varName = lalalal
+none
+1000
+====== 29 - with call.stmt# ======
+call c;
+Select c with c.stmt# = 16
+16
+1000
+====== 30 - with call.stmt# - no results ======
+call c;
+Select c with c.stmt# = 17
+none
+1000
+====== 31 - with call.stmt# - select different call ======
+call c1, c2;
+Select c1 with c2.stmt# = 16
+16, 21
+1000
+====== 32 - with call.stmt# - select different call, no results ======
+call c1, c2;
+Select c1 with c2.stmt# = 1
+none
+1000
+====== 33 - with call.procName ======
+call c;
+Select c with c.procName = WithSource3
+21
+1000
+====== 34 - with call.procName - no results ======
+call c;
+Select c with c.procName = WithSource2
+none
+1000
+====== 35 - with call.procName - select different call ======
+call c1, c2;
+Select c1 with c2.procName = WithSource1
+16, 21
+1000
+====== 36 - with call.procName - select different call, no results ======
+call c1, c2;
+Select c1 with c2.procName = WithSource2
+none
+1000
+====== 37 - with read.stmtNum ======
+read r;
+Select r with r.stmtNum = 23
+23
+1000
+====== 38 - with read.stmtNum - no results ======
+read r;
+Select r with r.stmtNum = 22
+none
+1000
+====== 39 - with read.stmtNum - select different read ======
+read r1, r2;
+Select r1 with r2.stmtNum = 18
+18, 23
+1000
+====== 40 - with read.stmtNum - select different read, no results ======
+read r1, r2;
+Select r1 with r2.stmtNum = 19
+none
+1000
+====== 41 - with read.varName ======
+read r;
+Select r with r.varName = amazing
+23
+1000
+====== 42 - with read.varName - no results ======
+read r;
+Select r with r.varName = notAmazing
+none
+1000
+====== 43 - with read.varName - select different read ======
+read r;
+Select r with r.varName = q
+18, 23
+1000
+====== 44 - with read.varName - select different read, no results ======
+read r;
+Select r with r.varName = q1
+none
+1000
+====== 45 - with print.stmt# ======
+print pn;
+Select pn with pn.stmt# = 4
+4
+1000
+====== 46 - with print.stmt# - no results ======
+print pn;
+Select pn with pn.stmt# = 5
+none
+1000
+====== 47 - with print.stmt# - select different print ======
+print pn1, pn2;
+Select pn1 with pn2.stmt# = 22
+4, 20, 22
+1000
+====== 48 - with print.stmt# - select different print, no results ======
+print pn1, pn2;
+Select pn1 with pn2.stmt# = 23
+none
+1000
+====== 49 - with print.varName ======
+print pn;
+Select pn with pn.varName = wow
+22
+1000
+====== 50 - with print.varName - no results ======
+print pn;
+Select pn with pn.varName = notWow
+none
+1000
+====== 51 - with print.varName - select different print ======
+print pn1, pn2;
+Select pn1 with pn2.varName = p
+4, 20, 22
+1000
+====== 52 - with print.varName - select different print, no results ======
+print pn1, pn2;
+Select pn1 with pn2.varName = XD
+none
+1000
+====== 53 - with assign.varName - SemanticError ======
+assign a;
+Select a with a.varName = x
+SemanticError
+1000
+====== 54 - with if.procName - SemanticError ======
+if i;
+Select i with i.procName = WithSource1
+SemanticError
+1000
+====== 55 - with while.varName - SemanticError ======
+while w;
+Select w with w.varName = hihi
+SemanticError
+1000
+====== 56 - with call.value - SemanticError ======
+call c;
+Select c with c.value = 1
+SemanticError
+1000
+====== 57 - with print.procName - SemanticError ======
+print pn;
+Select pn with pn.procName = wow
+SemanticError
+1000
+====== 58 - with read.procName - SemanticError ======
+read r;
+Select r with r.procName = amazing
+SemanticError
+1000
+====== 59 - with stmt.varName - SemanticError ======
+stmt s;
+Select s with s.varName = z
+SemanticError
+1000
+====== 60 - with constant.stmt# - SemanticError ======
+constant const;
+Select const with const.stmt# = 3
+SemanticError
+1000
+====== 61 - with procedure.varName - SemanticError ======
+procedure p;
+Select p with p.varName = x
+SemanticError
+1000
+====== 60 - with variable.stmt# - SemanticError ======
+variable v;
+Select v with v.stmt# = 6
+SemanticError
+1000

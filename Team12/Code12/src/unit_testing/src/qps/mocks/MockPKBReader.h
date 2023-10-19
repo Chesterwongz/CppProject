@@ -315,13 +315,13 @@ class MockPKBReader : public PKBReader {
   }
 
   // TODO (houten) override actual pkb method
-  string getVariableReadBy(int stmtNum) { 
-    return mockVariableReadBy;
+  bool isValidProcName(string procName) { 
+    return mockIsValidProcName; 
   }
 
   // TODO (houten) override actual pkb method
-  bool isValidProcName(string procName) { 
-    return mockIsValidProcName; 
+  string getVariableReadBy(int stmtNum) { 
+    return mockVariableReadBy; 
   }
 
   // TODO (houten) override actual pkb method
