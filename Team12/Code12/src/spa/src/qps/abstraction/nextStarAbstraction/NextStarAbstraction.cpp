@@ -8,9 +8,6 @@
 
 // Next (StmtSynonym, StmtSynonym)
 IntermediateTable NextStarAbstraction::evaluateSynonymSynonym() {
-  if (this->firstArgValue == this->secondArgValue) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
   return handleSynonymOrWildcardArgs();
 }
 
@@ -70,10 +67,6 @@ IntermediateTable NextStarAbstraction::handleSynonymOrWildcardArgs() {
 }
 
 IntermediateTable NextStarAbstraction::handleBothArgsInteger() {
-  if (this->firstArgValue == this->secondArgValue) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
-
   int firstStmtNumber = stoi(this->firstArgValue);
   int secondStmtNumber = stoi(this->secondArgValue);
 

@@ -70,6 +70,6 @@ void UsesExtractor::postVisitRead(const ReadNode& node) {
 }
 
 void UsesExtractor::addUses(int lineNum, const std::string& var) {
-  pkbWriter.setUsesRelationship(var, lineNum);
-  pkbWriter.setUsesRelationship(var, procName);
+  pkbWriter.addUses(var, lineNum);
+  pkbWriter.addUses(var, procName);
 }

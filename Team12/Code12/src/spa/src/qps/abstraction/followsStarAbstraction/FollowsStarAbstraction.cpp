@@ -88,12 +88,12 @@ IntermediateTable FollowsStarAbstraction::handleFirstArgInteger() {
   StmtType secondStmtType = this->getSecondArgStmtType();
   string secondStmtSynonym = this->secondArgValue;
 
-  vector<pair<string, string>> followStarPairs =
+  vector<string> followsStars =
       pkb.getFollowsStar(firstStmtNumber, secondStmtType);
 
   // pass first col as wildcard so the table ignores integer column
-  return IntermediateTableFactory::buildIntermediateTable(
-      WILDCARD_KEYWORD, secondStmtSynonym, followStarPairs);
+  return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
+                                                       followsStars);
 }
 
 IntermediateTable FollowsStarAbstraction::handleSecondArgInteger() {
@@ -101,10 +101,10 @@ IntermediateTable FollowsStarAbstraction::handleSecondArgInteger() {
   string firstStmtSynonym = this->firstArgValue;
   int secondStmtNumber = stoi(this->secondArgValue);
 
-  vector<pair<string, string>> followedStarPairs =
+  vector<string> followedStars =
       pkb.getFollowedStar(secondStmtNumber, firstStmtType);
 
   // pass second col as wildcard so the table ignores integer column
-  return IntermediateTableFactory::buildIntermediateTable(
-      firstStmtSynonym, WILDCARD_KEYWORD, followedStarPairs);
+  return IntermediateTableFactory::buildSingleColTable(firstStmtSynonym,
+                                                       followedStars);
 }

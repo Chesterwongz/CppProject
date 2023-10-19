@@ -12,7 +12,10 @@
 
 using std::set, std::unique_ptr, std::string, std::vector, std::pair;
 
-inline vector<string> MOCK_USING_STATEMENTS({"using 1", "using 2", "using 3"});
+inline vector<string> MOCK_USING_STATEMENTS_1({"using 1", "using 2",
+                                               "using 3"});
+inline vector<string> MOCK_USING_STATEMENTS_2({"using 2", "using 4", "using 6",
+                                               "using 8"});
 
 inline vector<string> MOCK_USING_PROCEDURES({"using 1", "using 2", "using 3"});
 

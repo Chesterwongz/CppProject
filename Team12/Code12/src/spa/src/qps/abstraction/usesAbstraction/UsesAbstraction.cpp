@@ -1,7 +1,5 @@
 #include "UsesAbstraction.h"
 
-#include <unordered_set>
-
 /**
  * Uses abstraction:
  * firstArg: Synonym OR Integer (stmt) OR Identifier (Proc)
@@ -40,19 +38,18 @@ IntermediateTable UsesAbstraction::evaluateIntegerSynonym() {
   int firstArgStmtNumber = stoi(this->firstArgValue);
   string secondArgVarSynonym = this->secondArgValue;
 
-  vector<pair<string, string>> result =
-      pkb.getVariablesUsedBy(firstArgStmtNumber, StmtType::STMT);
+  vector<string> result = pkb.getVariablesUsedBy(firstArgStmtNumber);
 
-  return IntermediateTableFactory::buildIntermediateTable(
-      WILDCARD_KEYWORD, secondArgVarSynonym, result);
+  return IntermediateTableFactory::buildSingleColTable(secondArgVarSynonym,
+                                                       result);
 }
 
 // Uses (StatementNumber, VarIdentifier)
 IntermediateTable UsesAbstraction::evaluateIntegerIdent() {
-  string firstArgStmtNumber = this->firstArgValue;
+  int firstArgStmtNumber = stoi(this->firstArgValue);
   string secondArgIdent = this->secondArgValue;
 
-  if (pkb.isVariableUsedBy(secondArgIdent, firstArgStmtNumber)) {
+  if (pkb.isVariableUsedBy(firstArgStmtNumber, secondArgIdent)) {
     return IntermediateTableFactory::buildWildcardIntermediateTable();
   }
   return IntermediateTableFactory::buildEmptyIntermediateTable();
@@ -62,11 +59,10 @@ IntermediateTable UsesAbstraction::evaluateIntegerIdent() {
 IntermediateTable UsesAbstraction::evaluateIntegerWildcard() {
   int firstArgStmtNumber = stoi(this->firstArgValue);
 
-  vector<pair<string, string>> result =
-      pkb.getVariablesUsedBy(firstArgStmtNumber, StmtType::STMT);
+  vector<string> result = pkb.getVariablesUsedBy(firstArgStmtNumber);
 
-  return IntermediateTableFactory::buildIntermediateTable(
-      WILDCARD_KEYWORD, WILDCARD_KEYWORD, result);
+  return IntermediateTableFactory::buildSingleColTable(WILDCARD_KEYWORD,
+                                                       result);
 }
 
 // Uses (ProcName, VarSynonym)
@@ -101,7 +97,7 @@ IntermediateTable UsesAbstraction::handleSynonymOrWildcardArgs() {
     result = pkb.getUsesProcPairs();
   } else {
     StmtType firstArgStmtType = getFirstArgStmtType();
-    result = pkb.getAllUsedVariables(firstArgStmtType);
+    result = pkb.getUsesStmtPairs(firstArgStmtType);
   }
 
   //! If any of the args are "_", the column will be ignored.

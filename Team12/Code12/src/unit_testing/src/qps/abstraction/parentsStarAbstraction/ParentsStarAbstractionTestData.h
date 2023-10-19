@@ -27,6 +27,12 @@ inline vector<vector<string>> MOCK_PARENT_CHILD_STARS_VECTOR(
      {"pc stars 5", "pc stars 6"},
      {"pc stars 7", "pc stars 8"}});
 
+inline vector<string> MOCK_PARENT_STARS(
+    {"pc stars 1", "pc stars 3", "pc stars 5", "pc stars 7"});
+
+inline vector<string> MOCK_CHILD_STARS(
+    {"pc stars 2", "pc stars 4", "pc stars 6", "pc stars 8"});
+
 inline vector<vector<string>> MOCK_PARENT_CHILD_STARS_COL_1(
     {{"pc stars 1"}, {"pc stars 3"}, {"pc stars 5"}, {"pc stars 7"}});
 

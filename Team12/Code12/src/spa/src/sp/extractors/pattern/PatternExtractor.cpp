@@ -28,7 +28,7 @@ void PatternExtractor::getControlVars(std::unordered_set<std::string>& vars,
 void PatternExtractor::visitAssign(const AssignNode& node) {
   std::string varName = node.getChildValueAt(0);
   std::string postfixExpr = " " + nodeToPostfixString(node.getChildAt(1)) + " ";
-  pkbWriter.setAssignPattern(varName, postfixExpr, node.getLineNum());
+  pkbWriter.addAssignPattern(varName, postfixExpr, node.getLineNum());
 }
 
 void PatternExtractor::visitWhile(const WhileNode& node) {
@@ -45,9 +45,9 @@ void PatternExtractor::processContainerStmt(StmtType stmtType,
   getControlVars(controlVars, node.getChildAt(0));
   for (auto& var : controlVars) {
     if (stmtType == StmtType::WHILE) {
-      pkbWriter.setWhilePattern(node.getLineNum(), var);
+      pkbWriter.addWhilePattern(node.getLineNum(), var);
     } else {
-      pkbWriter.setIfPattern(node.getLineNum(), var);
+      pkbWriter.addIfPattern(node.getLineNum(), var);
     }
   }
 }

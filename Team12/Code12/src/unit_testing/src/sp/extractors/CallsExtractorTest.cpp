@@ -5,6 +5,7 @@
 #include <catch.hpp>
 
 #include "../ast/TNodeUtils.h"
+#include "../mocks/MockData.h"
 #include "ExtractorUtils.h"
 #include "sp/ast/ProcNode.h"
 #include "sp/ast/ProgramNode.h"
@@ -28,8 +29,7 @@ TEST_CASE("CallsExtractor - no calls") {
   procNode->addChild(std::move(stmtListNode));
   programNode->addChild(std::move(procNode));
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::CALLS);
 
   unordered_map<string, unordered_set<string>> expected = {};
@@ -43,8 +43,7 @@ TEST_CASE("CallsExtractor with parser - no calls") {
       "read num2;"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
   unordered_map<string, unordered_set<string>> expected = {};
@@ -61,8 +60,7 @@ TEST_CASE("CallsExtractor with parser - single calls") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
   unordered_map<string, unordered_set<string>> expected = {};
@@ -85,8 +83,7 @@ TEST_CASE("CallsExtractor with parser - multiple calls in one proc") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
   unordered_map<string, unordered_set<string>> expected = {};
@@ -109,8 +106,7 @@ TEST_CASE("CallsExtractor with parser - 2 chained calls") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
   unordered_map<string, unordered_set<string>> expected = {};
@@ -139,8 +135,7 @@ TEST_CASE("CallsExtractor with parser - 2 chained calls from 1 procedure") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
   unordered_map<string, unordered_set<string>> expected = {};
@@ -169,8 +164,7 @@ TEST_CASE("CallsExtractor with parser - 3 chained calls") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CALLS);
 
   unordered_map<string, unordered_set<string>> expected = {};

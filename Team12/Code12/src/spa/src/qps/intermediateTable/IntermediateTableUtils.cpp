@@ -2,13 +2,13 @@
 
 #include <stdexcept>
 
-#include "common/utils/VectorUtils.h"
+#include "common/utils/CollectionUtils.h"
 
 vector<string> getSharedColNames(IntermediateTable table1,
                                  IntermediateTable table2) {
   vector<string> tableNames1 = table1.getColNames();
   vector<string> tableNames2 = table2.getColNames();
-  return intersectVectors(tableNames1, tableNames2);
+  return CollectionUtils::intersectVectors(tableNames1, tableNames2);
 }
 
 pair<vector<int>, vector<int>> getSharedColIndexes(IntermediateTable table1,
@@ -37,12 +37,12 @@ IntermediateTable getCrossProduct(IntermediateTable table1,
     throw std::runtime_error(
         "Cross product not supported for tables with common columns");
   }
-  vector<string> resColumns =
-      concatVectors<string>(table1.getColNames(), table2.getColNames());
+  vector<string> resColumns = CollectionUtils::concatVectors<string>(
+      table1.getColNames(), table2.getColNames());
   vector<vector<string>> resData = {};
   for (auto &row1 : table1.getData()) {
     for (auto &row2 : table2.getData()) {
-      resData.push_back(concatVectors<string>(row1, row2));
+      resData.push_back(CollectionUtils::concatVectors<string>(row1, row2));
     }
   }
   return IntermediateTable(resColumns, resData);
@@ -51,8 +51,8 @@ IntermediateTable getCrossProduct(IntermediateTable table1,
 IntermediateTable getInnerJoin(
     const pair<vector<int>, vector<int>> &sharedColumnIndexes,
     IntermediateTable table1, IntermediateTable table2) {
-  vector<string> resColNames =
-      concatVectors(table1.getColNames(), table2.getColNames());
+  vector<string> resColNames = CollectionUtils::concatVectors(
+      table1.getColNames(), table2.getColNames());
   vector<vector<string>> resData = {};
   vector<int> table1SharedColIndexes = sharedColumnIndexes.first;
   vector<int> table2SharedColIndexes = sharedColumnIndexes.second;
@@ -72,7 +72,7 @@ IntermediateTable getInnerJoin(
       }
       if (isJoin) {
         vector<string> resRow;
-        resData.push_back(concatVectors(table1Row, table2Row));
+        resData.push_back(CollectionUtils::concatVectors(table1Row, table2Row));
       }
     }
   }

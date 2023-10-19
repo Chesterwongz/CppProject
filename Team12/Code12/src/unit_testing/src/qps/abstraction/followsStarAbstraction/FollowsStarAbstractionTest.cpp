@@ -9,7 +9,7 @@
 #include "qps/argument/wildcard/Wildcard.h"
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Synonym)_EMPTY") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
   unique_ptr<SynonymArg> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
   unique_ptr<SynonymArg> mockArgument2 =
@@ -25,7 +25,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Synonym)_EMPTY") {
 }
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Synonym)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
   mockReader.mockFollowsStarPairs = MOCK_FOLLOWS_STARS_PAIRS;
   unique_ptr<SynonymArg> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
@@ -44,7 +44,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Synonym)") {
 }
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Integer)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
   mockReader.mockFollowedStar = MOCK_FOLLOWS_STARS_PAIRS;
   unique_ptr<SynonymArg> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
@@ -62,7 +62,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Integer)") {
 }
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Integer) not followed") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -77,7 +77,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Integer) not followed") {
 }
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Wildcard)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
   mockReader.mockFollowsStarPairs = MOCK_FOLLOWS_STARS_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
@@ -94,8 +94,8 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Wildcard)") {
 }
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Synonym)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockFollowsStar = MOCK_FOLLOWS_STARS_PAIRS;
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  mockReader.mockFollowsStar = MOCK_FOLLOWS_STARS_2;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -111,7 +111,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Synonym)") {
 }
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Synonym)_no followed") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -125,8 +125,8 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Synonym)_no followed") {
 }
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Wildcard)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
-  mockReader.mockFollowsStar = MOCK_FOLLOWS_STARS_PAIRS;
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  mockReader.mockFollowsStar = MOCK_FOLLOWS_STARS_2;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
@@ -139,7 +139,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Wildcard)") {
 }
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Wildcard)_no followed") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -153,7 +153,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Wildcard)_no followed") {
 }
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Integer)_true") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
   mockReader.mockIsFollowsStar = true;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
@@ -168,7 +168,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Integer)_true") {
 }
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Integer)_false") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
   mockReader.mockIsFollowsStar = false;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
@@ -183,7 +183,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Integer)_false") {
 }
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Synonym)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
   mockReader.mockFollowsStarPairs = MOCK_FOLLOWS_STARS_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -200,7 +200,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Synonym)") {
 }
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Integer)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
   mockReader.mockFollowedStar = MOCK_FOLLOWS_STARS_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -214,7 +214,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Integer)") {
 }
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Integer) not followed") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
   unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
@@ -227,7 +227,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Integer) not followed") {
 }
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Wildcard)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
   mockReader.mockFollowsStarPairs = MOCK_FOLLOWS_STARS_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
@@ -241,7 +241,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Wildcard)") {
 }
 
 TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Wildcard)_EMPTY") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
   unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(

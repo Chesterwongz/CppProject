@@ -8,7 +8,7 @@
 #include "common/StmtTypes.h"
 #include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
 
-class StmtStorage : public virtual IStmtStorage {
+class StmtStorage : public IStmtStorage {
  private:
   std::unordered_map<StmtType, std::set<int>> statements;
 

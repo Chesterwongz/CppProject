@@ -40,11 +40,10 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerSynonym() {
   int firstArgStmtNumber = stoi(this->firstArgValue);
   string secondArgVarSynonym = this->secondArgValue;
 
-  vector<pair<string, string>> result =
-      pkb.getVariablesModifiedBy(firstArgStmtNumber, StmtType::STMT);
+  vector<string> result = pkb.getVariablesModifiedBy(firstArgStmtNumber);
 
-  return IntermediateTableFactory::buildIntermediateTable(
-      WILDCARD_KEYWORD, secondArgVarSynonym, result);
+  return IntermediateTableFactory::buildSingleColTable(secondArgVarSynonym,
+                                                       result);
 }
 
 // Modifies (ProcName, VarSynonym)
@@ -71,9 +70,10 @@ IntermediateTable ModifiesAbstraction::evaluateIdentWildcard() {
 
 // Modifies (StmtNumber, VarIdentifier)
 IntermediateTable ModifiesAbstraction::evaluateIntegerIdent() {
-  string stmtNumber = this->firstArgValue;
+  int firstArgStmtNumber = std::stoi(this->firstArgValue);
+  string secondArgIdent = this->secondArgValue;
 
-  if (pkb.isVariableModifiedBy(this->secondArgValue, stmtNumber)) {
+  if (pkb.isVariableModifiedBy(firstArgStmtNumber, secondArgIdent)) {
     return IntermediateTableFactory::buildWildcardIntermediateTable();
   }
   return IntermediateTableFactory::buildEmptyIntermediateTable();
@@ -83,13 +83,10 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerIdent() {
 IntermediateTable ModifiesAbstraction::evaluateIntegerWildcard() {
   int firstArgStmtNumber = stoi(this->firstArgValue);
 
-  vector<pair<string, string>> result =
-      pkb.getVariablesModifiedBy(firstArgStmtNumber, StmtType::STMT);
+  vector<string> result = pkb.getVariablesModifiedBy(firstArgStmtNumber);
 
-  if (result.empty()) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
-  return IntermediateTableFactory::buildWildcardIntermediateTable();
+  return IntermediateTableFactory::buildSingleColTable(WILDCARD_KEYWORD,
+                                                       result);
 }
 
 IntermediateTable ModifiesAbstraction::handleSynonymOrWildcardArgs() {
@@ -102,7 +99,7 @@ IntermediateTable ModifiesAbstraction::handleSynonymOrWildcardArgs() {
     result = pkb.getModifiesProcPairs();
   } else {
     StmtType firstArgStmtType = getFirstArgStmtType();
-    result = pkb.getAllModifiedVariables(firstArgStmtType);
+    result = pkb.getModifiesStmtPairs(firstArgStmtType);
   }
 
   //! If any of the args are "_", the column will be ignored.
