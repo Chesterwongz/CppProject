@@ -89,7 +89,26 @@ TEST_CASE("AffectsReader Tests 1") {
                                                           {"10", "11"},
                                                           {"10", "12"},
                                                           {"11", "12"}}));
-    REQUIRE(compareVectorContents(affectsReader.getAffects(1), std::vector<std::string>{"4", "8", "10", "12"}));
+    REQUIRE(
+        compareVectorContents(affectsReader.getAffects(1),
+                              std::vector<std::string> {"4", "8", "10", "12"}));
+    REQUIRE(
+        compareVectorContents(affectsReader.getAffects(4),
+                              std::vector<std::string> {"4", "8", "10", "12"}));
+    REQUIRE(compareVectorContents(affectsReader.getAffects(9),
+                                  std::vector<std::string> {"10"}));
+    REQUIRE(compareVectorContents(affectsReader.getAffects(12),
+                                  std::vector<std::string> {}));
+    REQUIRE(compareVectorContents(
+        affectsReader.getAffectedBy(12),
+        std::vector<std::string> {"1", "4", "8", "10", "11"}));
+    REQUIRE(compareVectorContents(affectsReader.getAffectedBy(6),
+                                  std::vector<std::string> {"2", "6"}));
+    REQUIRE(compareVectorContents(affectsReader.getAffectedBy(1),
+                                  std::vector<std::string> {}));
+    REQUIRE(affectsReader.isAffects(1, 4));
+    REQUIRE(affectsReader.isAffects(6, 10));
+    REQUIRE_FALSE(affectsReader.isAffects(6, 11));
   }
 }
 
@@ -128,6 +147,13 @@ TEST_CASE("AffectsReader Tests 2 - Code 7") {
     REQUIRE(compareVectorContents(
         result, std::vector<std::pair<std::string, std::string>> {{"1", "5"},
                                                                   {"3", "5"}}));
+    REQUIRE(compareVectorContents(affectsReader.getAffects(1),
+                                  std::vector<std::string> {"5"}));
+    REQUIRE(compareVectorContents(affectsReader.getAffectedBy(5),
+                                  std::vector<std::string> {"1", "3"}));
+    REQUIRE(affectsReader.isAffects(1, 5));
+    REQUIRE(affectsReader.isAffects(3, 5));
+    REQUIRE_FALSE(affectsReader.isAffects(2, 4));
   }
 }
 
@@ -159,6 +185,14 @@ TEST_CASE("AffectsReader Tests 3 - Code 8") {
         affectsReader.getAffectsPairs();
     REQUIRE(compareVectorContents(
         result, std::vector<std::pair<std::string, std::string>> {{"1", "3"}}));
+    REQUIRE(compareVectorContents(affectsReader.getAffects(1),
+                                  std::vector<std::string> {"3"}));
+    REQUIRE(compareVectorContents(affectsReader.getAffectedBy(3),
+                                  std::vector<std::string> {"1"}));
+    REQUIRE(compareVectorContents(affectsReader.getAffectedBy(4),
+                                  std::vector<std::string> {}));
+    REQUIRE(affectsReader.isAffects(1, 3));
+    REQUIRE_FALSE(affectsReader.isAffects(3, 4));
   }
 }
 
@@ -229,6 +263,13 @@ TEST_CASE("AffectsReader Tests 4 - Code 9") {
                                                           {"6", "10"},
                                                           {"7", "11"},
                                                           {"9", "11"}}));
+    REQUIRE(compareVectorContents(affectsReader.getAffects(6),
+                                  std::vector<std::string> {"9", "10"}));
+    REQUIRE(compareVectorContents(affectsReader.getAffectedBy(11),
+                                  std::vector<std::string> {"7", "9"}));
+    REQUIRE(affectsReader.isAffects(2, 3));
+    REQUIRE(affectsReader.isAffects(7, 11));
+    REQUIRE_FALSE(affectsReader.isAffects(6, 11));
   }
 }
 
@@ -272,6 +313,9 @@ TEST_CASE("AffectsReader Tests 5 - Code 10") {
         affectsReader.getAffectsPairs();
     REQUIRE(compareVectorContents(
         result, std::vector<std::pair<std::string, std::string>> {}));
+    REQUIRE(compareVectorContents(affectsReader.getAffects(6),
+                                  std::vector<std::string> {}));
+    REQUIRE_FALSE(affectsReader.isAffects(1, 2));
   }
 }
 
@@ -302,5 +346,8 @@ TEST_CASE("AffectsReader Tests 6 - Code 11") {
         affectsReader.getAffectsPairs();
     REQUIRE(compareVectorContents(
         result, std::vector<std::pair<std::string, std::string>> {}));
+    REQUIRE(compareVectorContents(affectsReader.getAffects(6),
+                                  std::vector<std::string> {}));
+    REQUIRE_FALSE(affectsReader.isAffects(2, 3));
   }
 }
