@@ -11,6 +11,14 @@ IntermediateTable WithClause::evaluate(Context& context, PKBReader& pkb) {
   return IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
+bool WithClause::isEquals(const Clause& other) { 
+  const auto* otherClause = dynamic_cast<const WithClause*>(&other);
+  if (!otherClause) return false;
+
+  return *synonym == *(otherClause->synonym) &&
+         attrRefValue == otherClause->attrRefValue;
+}
+
 IntermediateTable WithClause::evaluateStmtNum(PKBReader& pkbReader) {
   /*StmtType stmtType = StmtEntityToStatementType.at(synonymEntity);
   bool isValidStmt = pkbReader.isValidStatement(attrRefValue, stmtType);
@@ -77,7 +85,7 @@ IntermediateTable WithClause::evaluateCallProcName(PKBReader& pkbReader) {
   //   // c.procName = attrRefVal does not exist
   //   return IntermediateTableFactory::buildEmptyIntermediateTable();
   // }
-  //  TODO: integrate with synonymRes
+  // TODO: integrate with synonymRes
   // vector<SynonymRes> callsSynonymResColData;
 
   //// create call synonymRes objs
