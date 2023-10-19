@@ -20,7 +20,7 @@ i, p, x, y, z, hello, hihi
 1000
 ====== 5 - Uses (proc, varSyn) select different p ======
 procedure p1, p2; variable v;
-Select p1 such that Uses(p2, v)6
+Select p1 such that Uses(p2, v)
 UsesForProcsAndCalls1, UsesForProcsAndCalls2, UsesForProcsAndCalls3, UsesForProcsAndCalls4, UsesForProcsAndCalls5
 1000
 ====== 6 - Uses (proc, assignSyn) semantic error ======
@@ -31,7 +31,7 @@ SemanticError
 ====== 7 - Uses (proc, ident) ======
 procedure p;
 Select p such that Uses(p, "q")
-UsesForProcsAndCalls2
+UsesForProcsAndCalls1, UsesForProcsAndCalls2, UsesForProcsAndCalls5
 1000
 ====== 8 - Uses (proc, ident) no results ======
 procedure p;
@@ -131,12 +131,12 @@ none
 ====== 27 - Uses (call, ident) select different c ======
 call c1, c2;
 Select c1 such that Uses(c2, "x")
-6, 23, 24
+6, 22, 24
 1000
 ====== 28 - Uses (callIdent, _) ======
 call c;
 Select c such that Uses("6", _)
-6, 23, 24
+6, 22, 24
 1000
 ====== 29 - Uses (callIdent, _) no results ======
 call c;
@@ -146,7 +146,7 @@ none
 ====== 30 - Uses (callIdent, varSyn) select c ======
 call c; variable v;
 Select c such that Uses("6", v)
-6, 23, 24
+6, 22, 24
 1000
 ====== 31 - Uses (callIdent, varSyn) select c no results ======
 call c; variable v;
@@ -166,7 +166,7 @@ none
 ====== 34 - Uses (callIdent, ident) ======
 call c;
 Select c such that Uses("24", "hello")
-6, 23, 24
+6, 22, 24
 1000
 ====== 35 - Uses (callIdent, ident) no results ======
 call c;
