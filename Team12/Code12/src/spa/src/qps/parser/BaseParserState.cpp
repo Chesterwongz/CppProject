@@ -31,7 +31,7 @@ void BaseParserState::processAttrRef(unique_ptr<SynonymArg> &synArg) {
   parserContext.eatCurrToken();  // eat period
   auto attrRef = parserContext.eatCurrToken();
   if (!attrRef.has_value()) {
-    throw QPSSyntaxError(QPS_TOKENIZATION_ERR + attrRef->getValue());
+    throw QPSSyntaxError(QPS_TOKENIZATION_ERR);
   }
   auto validRef = checkValidAttrRef(synArg->getValue(), attrRef->getValue());
   synArg->setAttrRef(std::move(validRef));
