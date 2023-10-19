@@ -82,7 +82,7 @@ class WithClause : public Clause {
            }}};
 
  public:
-   // TODO(houten): change constructor based on kh pr
+  // TODO(houten): change constructor based on kh pr
   explicit WithClause(unique_ptr<AbstractArgument> synonym,
                       Entity& synonymEntity, AttrRef& attrRef,
                       string& attrRefValue)
