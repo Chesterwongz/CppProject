@@ -9,7 +9,6 @@ IntermediateTable WithClause::evaluate(Context& context, PKBReader& pkb) {
   IntermediateTable pkbResult = withEvaluatorFuncMap[permutation](pkb);
 
   return pkbResult;
-  // return IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
 bool WithClause::isEquals(const Clause& other) {
@@ -29,10 +28,8 @@ IntermediateTable WithClause::evaluateStmtNum(PKBReader& pkbReader) {
   }
 
   vector<string> result = {attrRefValue};
-  // TODO(houten): integrate with synonymres
-  // return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
-  //                                                     result);
-  return IntermediateTableFactory::buildEmptyIntermediateTable();
+  return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
+                                                       result);
 }
 
 IntermediateTable WithClause::evaluateConstantValue(PKBReader& pkbReader) {
@@ -43,10 +40,9 @@ IntermediateTable WithClause::evaluateConstantValue(PKBReader& pkbReader) {
   }
 
   vector<string> result = {attrRefValue};
-  // TODO(houten): integrate with synonymres
-  /* return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
-                                                       result);*/
-  return IntermediateTableFactory::buildEmptyIntermediateTable();
+
+  return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
+                                                       result);
 }
 
 IntermediateTable WithClause::evaluateProcName(PKBReader& pkbReader) {
@@ -58,10 +54,8 @@ IntermediateTable WithClause::evaluateProcName(PKBReader& pkbReader) {
 
   vector<string> result = {attrRefValue};
 
-  // TODO(houten): integrate with synonymres
-  // return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
-  //                                                     result);
-  return IntermediateTableFactory::buildEmptyIntermediateTable();
+  return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
+                                                       result);
 }
 
 IntermediateTable WithClause::evaluateVarName(PKBReader& pkbReader) {
@@ -72,10 +66,9 @@ IntermediateTable WithClause::evaluateVarName(PKBReader& pkbReader) {
   }
 
   vector<string> result = {attrRefValue};
-  // TODO(houten): integrate with synonymres
-  // return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
-  //                                                     result);
-  return IntermediateTableFactory::buildEmptyIntermediateTable();
+
+  return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
+                                                       result);
 }
 
 // for call.procname
@@ -87,20 +80,19 @@ IntermediateTable WithClause::evaluateCallProcName(PKBReader& pkbReader) {
     // c.procName = attrRefVal does not exist
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
-  // TODO(houten): integrate with synonymRes
-  // vector<SynonymRes> callsSynonymResColData;
 
-  //// create call synonymRes objs
-  // for (string stmtNum : stmtsThatCallProcName) {
-  //
-  //   SynonymRes callsSynonymRes =
-  //   SynonymResFactory::buildCallsSynonym(stmtNum, attrRefValue);
-  //   callsSynonymResColData.push_back(callsSynonymRes);
-  // }
+  vector<SynonymRes> callsSynonymResColData;
 
-  // return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
-  //                                                      callsSynonymResColData);
-  return IntermediateTableFactory::buildEmptyIntermediateTable();
+  // create call synonymRes objs
+  for (string stmtNum : stmtsThatCallProcName) {
+    SynonymRes callsSynonymRes =
+        SynonymResFactory::buildCallsSynonym(stmtNum, attrRefValue);
+
+    callsSynonymResColData.push_back(callsSynonymRes);
+  }
+
+  return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
+                                                       callsSynonymResColData);
 }
 
 // for call.stmtNum
@@ -112,20 +104,19 @@ IntermediateTable WithClause::evaluateCallStmtNum(PKBReader& pkbReader) {
     // c.stmtNum = attrRefVal does not exist
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
-  // TODO(houten): integrate with synonymRes
 
-  // vector<SynonymRes> callsSynonymResColData;
-  //
-  //// create call synonymRes objs
-  // for (int i = 0; i < procNameCalledByStmtNum.size(); i++) {
-  //   SynonymRes callsSynonymRes = SynonymResFactory::buildCallsSynonym(
-  //       attrRefValue, procNameCalledByStmtNum);
-  //   callsSynonymResColData.push_back(callsSynonymRes);
-  // }
-  //
-  // return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
-  //                                                     callsSynonymResColData);
-  return IntermediateTableFactory::buildEmptyIntermediateTable();
+  vector<SynonymRes> callsSynonymResColData;
+
+  // create call synonymRes objs
+  for (string procName : procNameCalledByStmtNum) {
+    SynonymRes callsSynonymRes =
+        SynonymResFactory::buildCallsSynonym(attrRefValue, procName);
+
+    callsSynonymResColData.push_back(callsSynonymRes);
+  }
+
+  return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
+                                                       callsSynonymResColData);
 }
 
 // for read.varName
@@ -137,20 +128,19 @@ IntermediateTable WithClause::evaluateReadVarName(PKBReader& pkbReader) {
     // r.varName = attrRefVal does not exist
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
-  // TODO(houten): integrate with synonymRes
 
-  // vector<SynonymRes> readSynonymResColData;
-  //
-  //// create read synonymRes objs
-  // for (string stmtNum : stmtsThatReadVarName) {
-  //   SynonymRes readSynonymRes =
-  //       SynonymResFactory::buildReadSynonym(stmtNum, attrRefValue);
-  //   readSynonymResColData.push_back(readSynonymRes);
-  // }
+  vector<SynonymRes> readSynonymResColData;
 
-  // return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
-  //                                                     readSynonymResColData);
-  return IntermediateTableFactory::buildEmptyIntermediateTable();
+  // create read synonymRes objs
+  for (string stmtNum : stmtsThatReadVarName) {
+    SynonymRes readSynonymRes =
+        SynonymResFactory::buildReadSynonym(stmtNum, attrRefValue);
+
+    readSynonymResColData.push_back(readSynonymRes);
+  }
+
+  return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
+                                                       readSynonymResColData);
 }
 
 // for read.stmt#
@@ -162,19 +152,19 @@ IntermediateTable WithClause::evaluateReadStmtNum(PKBReader& pkbReader) {
     // r.stmt# = attrRefVal does not exist
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
-  // TODO(houten): integrate with synonymRes
-  // vector<SynonymRes> readSynonymResColData;
 
-  //// create read synonymRes objs
-  // for (int i = 0; i < varReadByStmtNum.size(); i++) {
-  //   SynonymRes readSynonymRes =
-  //       SynonymResFactory::buildReadSynonym(attrRefValue, varReadByStmtNum);
-  //   readSynonymResColData.push_back(readSynonymRes);
-  // }
+  vector<SynonymRes> readSynonymResColData;
 
-  // return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
-  //                                                     readSynonymResColData);
-  return IntermediateTableFactory::buildEmptyIntermediateTable();
+  // create read synonymRes objs
+  for (string varName : varReadByStmtNum) {
+    SynonymRes readSynonymRes =
+        SynonymResFactory::buildReadSynonym(attrRefValue, varName);
+
+    readSynonymResColData.push_back(readSynonymRes);
+  }
+
+  return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
+                                                       readSynonymResColData);
 }
 
 // for print.varName
@@ -186,19 +176,19 @@ IntermediateTable WithClause::evaluatePrintVarName(PKBReader& pkbReader) {
     // print.varName = attrRefVal does not exist
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
-  // TODO(houten): integrate with synonymRes
-  // vector<SynonymRes> printSynonymResColData;
 
-  //// create read synonymRes objs
-  // for (string stmtNum : stmtsThatReadVarName) {
-  //   SynonymRes printSynonymRes =
-  //       SynonymResFactory::buildPrintSynonym(stmtNum, attrRefValue);
-  //   printSynonymResColData.push_back(printSynonymRes);
-  // }
+  vector<SynonymRes> printSynonymResColData;
 
-  // return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
-  //                                                     printSynonymResColData);
-  return IntermediateTableFactory::buildEmptyIntermediateTable();
+  // create read synonymRes objs
+  for (string stmtNum : stmtsThatPrintVarName) {
+    SynonymRes printSynonymRes =
+        SynonymResFactory::buildPrintSynonym(stmtNum, attrRefValue);
+
+    printSynonymResColData.push_back(printSynonymRes);
+  }
+
+  return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
+                                                       printSynonymResColData);
 }
 
 // for print.stmt#
@@ -207,22 +197,20 @@ IntermediateTable WithClause::evaluatePrintStmtNum(PKBReader& pkbReader) {
       pkbReader.getVariablePrintedBy(std::stoi(attrRefValue));
 
   if (varPrintedByStmtNum.size() == 0) {
-    // r.stmt# = attrRefVal does not exist
+    // print.stmt# = attrRefVal does not exist
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
 
-  // TODO(houten): integrate with synonymRes
+  vector<SynonymRes> printSynonymResColData;
 
-  // vector<SynonymRes> printSynonymResColData;
+  // create read synonymRes objs
+  for (string varName : varPrintedByStmtNum) {
+    SynonymRes printSynonymRes =
+        SynonymResFactory::buildPrintSynonym(attrRefValue, varName);
 
-  //// create read synonymRes objs
-  // for (int i = 0; i < varPrintedByStmtNum.size(); i++) {
-  //   SynonymRes printSynonymRes = SynonymResFactory::buildPrintSynonym(
-  //       attrRefValue, varPrintedByStmtNum);
-  //   printSynonymResColData.push_back(printSynonymRes);
-  // }
-  //
-  // return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
-  //                                                      printSynonymResColData);
-  return IntermediateTableFactory::buildEmptyIntermediateTable();
+    printSynonymResColData.push_back(printSynonymRes);
+  }
+
+  return IntermediateTableFactory::buildSingleColTable(synonym->getValue(),
+                                                       printSynonymResColData);
 }

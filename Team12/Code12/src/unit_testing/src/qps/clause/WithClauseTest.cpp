@@ -6,7 +6,8 @@
 #include "qps/clause/withClause/WithClause.h"
 #include "qps/clause/withClause/WithClauseUtils.h"
 #include "qps/common/Keywords.h"
-// TODO(houten): include synonymRes
+#include "qps/intermediateTable/IntermediateTableFactory.h"
+#include "qps/intermediateTable/synonymRes/SynonymResFactory.h"
 
 using std::unique_ptr, std::make_unique, std::string;
 
@@ -57,15 +58,14 @@ TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
-  /*vector<string> actualColNames = actualTable.getColNames();
-  TableDataType actualTableData = actualTable.getData();
-  TableDataType expectedData =
-  {{SynonymResFactory::buildStmtSynonym(attrRefValue)}};
+  vector<string> actualColNames = actualTable.getColNames();
+  TableDataType actualTableData = actualTable.getTableData();
+  TableDataType expectedData = {
+      {SynonymResFactory::buildStmtSynonym(attrRefValue)}};
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonym.getValue());
-  REQUIRE(actualTableData == expectedData);*/
+  REQUIRE(actualTableData == expectedData);
 }
 
 TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation_noResults") {
@@ -93,7 +93,6 @@ TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation_noResults") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -113,7 +112,8 @@ TEST_CASE("test_withClause_evaluate_READ_STMTNUM_permutation") {
   PKBStore pkbStore = PKBStore();
   MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
-  mockPkbReader.mockVariableReadBy = {"yes"};
+  vector<string> mockVarReadBy = {"yes"};
+  mockPkbReader.mockVariableReadBy = mockVarReadBy;
 
   // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
@@ -122,16 +122,14 @@ TEST_CASE("test_withClause_evaluate_READ_STMTNUM_permutation") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
-  /*vector<string> actualColNames = actualTable.getColNames();
-  TableDataType actualTableData = actualTable.getData();
-  TableDataType expectedData =
-  {{SynonymResFactory::buildReadSynonym(attrRefValue,
-  mockPkbReader.variableReadBy)}};
+  vector<string> actualColNames = actualTable.getColNames();
+  TableDataType actualTableData = actualTable.getTableData();
+  TableDataType expectedData = {
+      {SynonymResFactory::buildReadSynonym(attrRefValue, mockVarReadBy[0])}};
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonym.getValue());
-  REQUIRE(actualTableData == expectedData);*/
+  REQUIRE(actualTableData == expectedData);
 }
 
 TEST_CASE("test_withClause_evaluate_read_STMTNUM_permutation_noResults") {
@@ -150,7 +148,7 @@ TEST_CASE("test_withClause_evaluate_read_STMTNUM_permutation_noResults") {
   PKBStore pkbStore = PKBStore();
   MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
-  mockPkbReader.mockVariableReadBy = {""};
+  mockPkbReader.mockVariableReadBy = {};
 
   // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
@@ -159,7 +157,6 @@ TEST_CASE("test_withClause_evaluate_read_STMTNUM_permutation_noResults") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -189,18 +186,18 @@ TEST_CASE("test_withClause_evaluate_READ_VARNAME_permutation") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
-  /*vector<string> actualColNames = actualTable.getColNames();
-  TableDataType actualTableData = actualTable.getData();
+  vector<string> actualColNames = actualTable.getColNames();
+  TableDataType actualTableData = actualTable.getTableData();
   TableDataType expectedData;
+
   for (int i = 0; i < mockStatementsThatRead.size(); i++) {
-    expectedData.push_back(SynonymResFactory::buildReadSynonym(mockStatementsThatRead[i],
-      attrRefValue));
+    expectedData.push_back({SynonymResFactory::buildReadSynonym(
+        mockStatementsThatRead[i], attrRefValue)});
   }
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonym.getValue());
-  REQUIRE(actualTableData == expectedData);*/
+  REQUIRE(actualTableData == expectedData);
 }
 
 TEST_CASE("test_withClause_evaluate_READ_VARNAME_permutation_noResults") {
@@ -229,7 +226,6 @@ TEST_CASE("test_withClause_evaluate_READ_VARNAME_permutation_noResults") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -259,16 +255,19 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
-  /*vector<string> actualColNames = actualTable.getColNames();
-  TableDataType actualTableData = actualTable.getData();
-  TableDataType expectedData =
-  {{SynonymResFactory::buildPrintSynonym(attrRefValue,
-  mockVarPrintedBy)}};
+  vector<string> actualColNames = actualTable.getColNames();
+  TableDataType actualTableData = actualTable.getTableData();
+
+  TableDataType expectedData;
+
+  for (int i = 0; i < mockVarPrintedBy.size(); i++) {
+    expectedData.push_back({SynonymResFactory::buildPrintSynonym(
+        attrRefValue, mockVarPrintedBy[i])});
+  }
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonym.getValue());
-  REQUIRE(actualTableData == expectedData);*/
+  REQUIRE(actualTableData == expectedData);
 }
 
 TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation_noResults") {
@@ -287,7 +286,7 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation_noResults") {
   PKBStore pkbStore = PKBStore();
   MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
-  vector<string> mockVarPrintedBy = {""};
+  vector<string> mockVarPrintedBy = {};
   mockPkbReader.mockVariablePrintedBy = mockVarPrintedBy;
 
   // TODO(houten): remove context when merge kh pr
@@ -297,7 +296,6 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation_noResults") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -327,18 +325,17 @@ TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
-  /*vector<string> actualColNames = actualTable.getColNames();
-  TableDataType actualTableData = actualTable.getData();
+  vector<string> actualColNames = actualTable.getColNames();
+  TableDataType actualTableData = actualTable.getTableData();
   TableDataType expectedData;
   for (int i = 0; i < mockStmtsThatPrint.size(); i++) {
-    expectedData.push_back(SynonymResFactory::buildPrintSynonym(mockStmtsThatPrint[i],
-      attrRefValue));
+    expectedData.push_back({SynonymResFactory::buildPrintSynonym(
+        mockStmtsThatPrint[i], attrRefValue)});
   }
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonym.getValue());
-  REQUIRE(actualTableData == expectedData);*/
+  REQUIRE(actualTableData == expectedData);
 }
 
 TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation_noResults") {
@@ -367,7 +364,6 @@ TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation_noResults") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -397,16 +393,19 @@ TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
-  /*vector<string> actualColNames = actualTable.getColNames();
-  TableDataType actualTableData = actualTable.getData();
-  TableDataType expectedData =
-  {{SynonymResFactory::buildCallSynonym(attrRefValue,
-  mockProcNameCalledByStmtNum)}};
+  vector<string> actualColNames = actualTable.getColNames();
+  TableDataType actualTableData = actualTable.getTableData();
+
+  TableDataType expectedData;
+
+  for (int i = 0; i < mockProcNameCalledByStmtNum.size(); i++) {
+    expectedData.push_back({SynonymResFactory::buildCallsSynonym(
+        attrRefValue, mockProcNameCalledByStmtNum[i])});
+  }
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonym.getValue());
-  REQUIRE(actualTableData == expectedData);*/
+  REQUIRE(actualTableData == expectedData);
 }
 
 TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation_noResults") {
@@ -425,7 +424,7 @@ TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation_noResults") {
   PKBStore pkbStore = PKBStore();
   MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
-  vector<string> mockProcNameCalledByStmtNum = {""};
+  vector<string> mockProcNameCalledByStmtNum = {};
   mockPkbReader.mockProcNameCalledByStmtNum = mockProcNameCalledByStmtNum;
 
   // TODO(houten): remove context when merge kh pr
@@ -435,7 +434,6 @@ TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation_noResults") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -465,18 +463,19 @@ TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
-  /*vector<string> actualColNames = actualTable.getColNames();
-  TableDataType actualTableData = actualTable.getData();
+  vector<string> actualColNames = actualTable.getColNames();
+  TableDataType actualTableData = actualTable.getTableData();
+
   TableDataType expectedData;
+
   for (int i = 0; i < mockStmtsThatCall.size(); i++) {
-    expectedData.push_back(SynonymResFactory::buildCallSynonym(mockStmtsThatCall[i],
-      attrRefValue));
+    expectedData.push_back({SynonymResFactory::buildCallsSynonym(
+        mockStmtsThatCall[i], attrRefValue)});
   }
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonym.getValue());
-  REQUIRE(actualTableData == expectedData);*/
+  REQUIRE(actualTableData == expectedData);
 }
 
 TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation_noResults") {
@@ -505,7 +504,6 @@ TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation_noResults") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -534,15 +532,16 @@ TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
-  /*vector<string> actualColNames = actualTable.getColNames();
-  TableDataType actualTableData = actualTable.getData();
-  TableDataType expectedData =
-  {{SynonymResFactory::buildDefaultSynonym(attrRefValue)}};
+  vector<string> actualColNames = actualTable.getColNames();
+
+  TableDataType actualTableData = actualTable.getTableData();
+
+  TableDataType expectedData = {
+      {SynonymResFactory::buildStmtSynonym(attrRefValue)}};
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonym.getValue());
-  REQUIRE(actualTableData == expectedData);*/
+  REQUIRE(actualTableData == expectedData);
 }
 
 TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation_noResults") {
@@ -570,7 +569,6 @@ TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation_noResults") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -599,15 +597,14 @@ TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
-  /*vector<string> actualColNames = actualTable.getColNames();
-  TableDataType actualTableData = actualTable.getData();
-  TableDataType expectedData =
-  {{SynonymResFactory::buildDefaultSynonym(attrRefValue)}};
+  vector<string> actualColNames = actualTable.getColNames();
+  TableDataType actualTableData = actualTable.getTableData();
+  TableDataType expectedData = {
+      {SynonymResFactory::buildStmtSynonym(attrRefValue)}};
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonym.getValue());
-  REQUIRE(actualTableData == expectedData);*/
+  REQUIRE(actualTableData == expectedData);
 }
 
 TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation_noResults") {
@@ -635,7 +632,6 @@ TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation_noResults") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -664,15 +660,15 @@ TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
-  /*vector<string> actualColNames = actualTable.getColNames();
-  TableDataType actualTableData = actualTable.getData();
-  TableDataType expectedData =
-  {{SynonymResFactory::buildDefaultSynonym(attrRefValue)}};
+  vector<string> actualColNames = actualTable.getColNames();
+  TableDataType actualTableData = actualTable.getTableData();
+
+  TableDataType expectedData = {
+      {SynonymResFactory::buildStmtSynonym(attrRefValue)}};
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonym.getValue());
-  REQUIRE(actualTableData == expectedData);*/
+  REQUIRE(actualTableData == expectedData);
 }
 
 TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation_noResults") {
@@ -700,7 +696,6 @@ TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation_noResults") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -729,15 +724,15 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
-  /*vector<string> actualColNames = actualTable.getColNames();
-  TableDataType actualTableData = actualTable.getData();
-  TableDataType expectedData =
-  {{SynonymResFactory::buildVariableSynonym(attrRefValue)}};
+  vector<string> actualColNames = actualTable.getColNames();
+  TableDataType actualTableData = actualTable.getTableData();
+
+  TableDataType expectedData = {
+      {SynonymResFactory::buildVarSynonym(attrRefValue)}};
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonym.getValue());
-  REQUIRE(actualTableData == expectedData);*/
+  REQUIRE(actualTableData == expectedData);
 }
 
 TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation_noResults") {
@@ -765,7 +760,6 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation_noResults") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -794,15 +788,15 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
-  /*vector<string> actualColNames = actualTable.getColNames();
-  TableDataType actualTableData = actualTable.getData();
-  TableDataType expectedData =
-  {{SynonymResFactory::buildConstantSynonym(attrRefValue)}};
+  vector<string> actualColNames = actualTable.getColNames();
+  TableDataType actualTableData = actualTable.getTableData();
+
+  TableDataType expectedData = {
+      {SynonymResFactory::buildConstantSynonym(attrRefValue)}};
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonym.getValue());
-  REQUIRE(actualTableData == expectedData);*/
+  REQUIRE(actualTableData == expectedData);
 }
 
 TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation_noResults") {
@@ -830,7 +824,6 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation_noResults") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -859,15 +852,15 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
-  /*vector<string> actualColNames = actualTable.getColNames();
-  TableDataType actualTableData = actualTable.getData();
-  TableDataType expectedData =
-  {{SynonymResFactory::buildProcSynonym(attrRefValue)}};
+  vector<string> actualColNames = actualTable.getColNames();
+  TableDataType actualTableData = actualTable.getTableData();
+
+  TableDataType expectedData = {
+      {SynonymResFactory::buildProcSynonym(attrRefValue)}};
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonym.getValue());
-  REQUIRE(actualTableData == expectedData);*/
+  REQUIRE(actualTableData == expectedData);
 }
 
 TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation_noResults") {
@@ -895,6 +888,5 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation_noResults") {
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
