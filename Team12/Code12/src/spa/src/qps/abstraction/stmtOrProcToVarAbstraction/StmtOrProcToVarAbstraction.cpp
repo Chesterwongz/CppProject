@@ -16,8 +16,7 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymSynonym() {
 // Abstraction (StatementOrProcSynonym, VarIdentifier)
 IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymIdent() {
   string firstArgSynonym = this->firstArgValue;
-  bool isFirstArgProcedure =
-      this->context.getTokenEntity(firstArgSynonym) == PROCEDURE_ENTITY;
+  bool isFirstArgProcedure = this->firstArg.isProcSynonym();
   string secondArgVarName = this->secondArgValue;
 
   vector<string> possibleValuesOfSynonym;
@@ -94,8 +93,7 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateIdentWildcard() {
 
 IntermediateTable StmtOrProcToVarAbstraction::handleSynonymOrWildcardArgs() {
   string firstArgSynonym = this->firstArgValue;
-  bool isFirstArgProcedure =
-      this->context.getTokenEntity(firstArgSynonym) == PROCEDURE_ENTITY;
+  bool isFirstArgProcedure = this->firstArg.isProcSynonym();
   string secondArgVarSynonym = this->secondArgValue;
 
   // Abstraction(procSynonym, *) and Abstraction(stmtSynonym, *) has diff APIs
