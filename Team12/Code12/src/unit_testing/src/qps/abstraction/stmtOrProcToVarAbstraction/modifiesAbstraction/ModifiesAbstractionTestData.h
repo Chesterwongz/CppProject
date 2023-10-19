@@ -13,6 +13,9 @@
 
 using std::set, std::unique_ptr, std::string, std::vector, std::pair;
 
+inline vector<string> MOCK_MODIFYING_VARIABLES({"modifying 2", "modifying 4",
+                                                "modifying 6", "modifying 8"});
+
 inline vector<string> MOCK_MODIFYING_STATEMENTS({"modifying 1", "modifying 2",
                                                  "modifying 3"});
 

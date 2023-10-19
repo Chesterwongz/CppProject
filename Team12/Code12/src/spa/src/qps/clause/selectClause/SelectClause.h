@@ -29,7 +29,7 @@ class SelectClause : public Clause {
   bool isEquals(const Clause &other) override;
 };
 
-typedef std::function<set<string>(PKBReader &pkb)> evaluatorFunc;
+typedef std::function<vector<string>(PKBReader &pkb)> evaluatorFunc;
 static inline unordered_map<Entity, evaluatorFunc> evaluatorFuncMap = {
     {PROCEDURE_ENTITY, [](PKBReader &pkb) { return pkb.getAllProcedures(); }},
     {VARIABLE_ENTITY, [](PKBReader &pkb) { return pkb.getAllVariables(); }},

@@ -1,6 +1,6 @@
 #include "StringUtils.h"
 
-using std::string;
+#include "CollectionUtils.h"
 
 const char StringUtils::CHAR_ZERO = '0';
 

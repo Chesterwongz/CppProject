@@ -50,8 +50,8 @@ void IfPatternParserState::handleToken() {
         break;
       case PQL_CLOSE_BRACKET_TOKEN:
         checkSafeExit();
-        parserContext.addClause(std::make_unique<PatternClause>(
-            std::move(synIf), std::move(patternArg)));
+        parserContext.addClause(std::make_unique<IfPatternClause>(
+            std::move(synIf), std::move(patternArg[0])));
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
       case PQL_WILDCARD_TOKEN:

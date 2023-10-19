@@ -5,39 +5,50 @@
 #include <set>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "pkb/facade/PKBReader.h"
+#include "pkb/facade/PKBStore.h"
+#include "pkb/storage/CallsStore.h"
+#include "pkb/storage/ModifiesPStore.h"
+#include "pkb/storage/ModifiesSStore.h"
+#include "pkb/storage/NextStore.h"
+#include "pkb/storage/ParentStore.h"
+#include "pkb/storage/RelationTStore.h"
+#include "pkb/storage/StmtStore.h"
+#include "pkb/storage/UsesPStore.h"
+#include "pkb/storage/UsesSStore.h"
 
 using std::vector, std::set, std::string, std::pair;
 
 class MockPKBReader : public PKBReader {
  public:
-  set<string> mockAllVariables;
-  set<string> mockAllConstants;
-  set<string> mockAllProcedures;
-  set<string> mockStatements;
-  string mockFollowing;
-  string mockFollowed;
+  vector<string> mockAllVariables;
+  vector<string> mockAllConstants;
+  vector<string> mockAllProcedures;
+  vector<string> mockStatements;
+  vector<string> mockFollowing;
+  vector<string> mockFollowed;
   vector<pair<string, string>> mockFollowsPairs;
-  vector<pair<string, string>> mockFollowsStar;
-  vector<pair<string, string>> mockFollowedStar;
+  vector<string> mockFollowsStar;
+  vector<string> mockFollowedStar;
   vector<pair<string, string>> mockFollowedPairs;
   vector<pair<string, string>> mockFollowsStarPairs;
-  vector<pair<string, string>> mockImmediateChildrenOf;
-  pair<string, string> mockImmediateParentOf;
+  vector<string> mockImmediateChildrenOf;
+  vector<string> mockImmediateParentOf;
   vector<pair<string, string>> mockParentChildPairs;
-  vector<pair<string, string>> mockChildrenStar;
-  vector<pair<string, string>> mockParentStarOf;
+  vector<string> mockChildrenStar;
+  vector<string> mockParentStarOf;
   vector<pair<string, string>> mockParentChildStarPairs;
   vector<string> mockStatementsModifying;
   vector<string> mockProceduresModifying;
-  vector<pair<string, string>> mockVariablesModifiedBy;
+  vector<string> mockVariablesModifiedBy;
   vector<string> mockVarsModifiedByProc;
   vector<string> mockStatementsUsing;
   vector<string> mockProcUsing;
-  vector<pair<string, string>> mockVariablesUsedBy;
+  vector<string> mockVariablesUsedBy;
   vector<string> mockVarUsedByProc;
   vector<pair<string, string>> mockAllModifiedVariables;
   vector<pair<string, string>> mockModifiesProcPairs;
@@ -45,40 +56,51 @@ class MockPKBReader : public PKBReader {
   vector<pair<string, string>> mockUsesProcPairs;
   vector<pair<string, string>> mockExactAssignPattern;
   vector<pair<string, string>> mockPartialAssignPattern;
-  bool mockIsFollowsStar{};
-  bool mockIsParentStar{};
-  bool mockIsFollows{};
-  bool mockIsParent{};
-  bool mockIsVariableModifiedBy{};
-  bool mockIsVariableModifiedByProc{};
-  bool mockIsVariableUsedBy{};
-  bool mockIsVariableUsedByProc{};
+  vector<pair<string, string>> mockIfPattern;
+  vector<pair<string, string>> mockWhilePattern;
+  bool mockIsFollowsStar {};
+  bool mockIsParentStar {};
+  bool mockIsFollows {};
+  bool mockIsParent {};
+  bool mockIsVariableModifiedBy {};
+  bool mockIsVariableModifiedByProc {};
+  bool mockIsVariableUsedBy {};
+  bool mockIsVariableUsedByProc {};
   vector<pair<string, string>> mockGetNextPairs;
-  bool mockIsNext{};
+  bool mockIsNext {};
   vector<string> mockGetPrevStmts;
   vector<string> mockGetNextStmts;
   vector<pair<string, string>> mockGetNextTPairs;
-  bool mockIsNextT{};
+  bool mockIsNextT {};
   vector<string> mockGetPrevTStmts;
   vector<string> mockGetNextTStmts;
 
-  explicit MockPKBReader(PKBStorage& storage) : PKBReader(storage) {}
+  explicit MockPKBReader(PKBStore& store)
+      : PKBReader(store) {}
 
-  set<string> getAllVariables() override { return mockAllVariables; }
+  std::vector<std::string> getAllVariables() override {
+    return mockAllVariables;
+  }
 
-  set<string> getAllConstants() override { return mockAllConstants; }
+  std::vector<std::string> getAllConstants() override {
+    return mockAllConstants;
+  }
 
-  set<string> getAllProcedures() override { return mockAllProcedures; }
+  std::vector<std::string> getAllProcedures() override {
+    return mockAllProcedures;
+  }
 
-  set<string> getStatement(StmtType statementType) override {
+  std::vector<std::string> getAllStmtsOf(StmtType statementType) override {
     return mockStatements;
   }
 
-  string getFollowing(int statementNumber, StmtType statementType) override {
+  std::vector<std::string> getFollowing(int statementNumber,
+                                        StmtType statementType) override {
     return mockFollowing;
   }
 
-  string getFollowed(int statementNumber, StmtType statementType) override {
+  std::vector<std::string> getFollowed(int statementNumber,
+                                       StmtType statementType) override {
     return mockFollowed;
   }
 
@@ -87,13 +109,13 @@ class MockPKBReader : public PKBReader {
     return mockFollowsPairs;
   }
 
-  vector<pair<string, string>> getFollowsStar(int statementNumber,
-                                              StmtType statementType) override {
+  std::vector<std::string> getFollowsStar(int statementNumber,
+                                          StmtType statementType) override {
     return mockFollowsStar;
   }
 
-  vector<pair<string, string>> getFollowedStar(
-      int statementNumber, StmtType statementType) override {
+  std::vector<std::string> getFollowedStar(int statementNumber,
+                                           StmtType statementType) override {
     return mockFollowedStar;
   }
 
@@ -102,13 +124,13 @@ class MockPKBReader : public PKBReader {
     return mockFollowsStarPairs;
   }
 
-  vector<pair<string, string>> getImmediateChildrenOf(
+  std::vector<std::string> getImmediateChildrenOf(
       int statementNumber, StmtType statementType) override {
     return mockImmediateChildrenOf;
   }
 
-  pair<string, string> getImmediateParentOf(int statementNumber,
-                                            StmtType statementType) override {
+  std::vector<std::string> getImmediateParentOf(
+      int statementNumber, StmtType statementType) override {
     return mockImmediateParentOf;
   }
 
@@ -117,13 +139,13 @@ class MockPKBReader : public PKBReader {
     return mockParentChildPairs;
   }
 
-  vector<pair<string, string>> getChildrenStarOf(
-      int statementNumber, StmtType statementType) override {
+  std::vector<std::string> getChildrenStarOf(int statementNumber,
+                                             StmtType statementType) override {
     return mockChildrenStar;
   }
 
-  vector<pair<string, string>> getParentStarOf(
-      int statementNumber, StmtType statementType) override {
+  std::vector<std::string> getParentStarOf(int statementNumber,
+                                           StmtType statementType) override {
     return mockParentStarOf;
   }
 
@@ -141,8 +163,7 @@ class MockPKBReader : public PKBReader {
     return mockProceduresModifying;
   }
 
-  vector<pair<string, string>> getVariablesModifiedBy(
-      int statementNumber, StmtType statementType) override {
+  vector<string> getVariablesModifiedBy(int statementNumber) override {
     return mockVariablesModifiedBy;
   }
 
@@ -160,8 +181,7 @@ class MockPKBReader : public PKBReader {
     return mockProcUsing;
   }
 
-  vector<pair<string, string>> getVariablesUsedBy(
-      int statementNumber, StmtType statementType) override {
+  std::vector<std::string> getVariablesUsedBy(int statementNumber) override {
     return mockVariablesUsedBy;
   }
 
@@ -169,7 +189,7 @@ class MockPKBReader : public PKBReader {
     return mockVarUsedByProc;
   }
 
-  vector<pair<string, string>> getAllModifiedVariables(
+  vector<pair<string, string>> getModifiesStmtPairs(
       StmtType statementType) override {
     return mockAllModifiedVariables;
   }
@@ -178,7 +198,7 @@ class MockPKBReader : public PKBReader {
     return mockModifiesProcPairs;
   }
 
-  vector<pair<string, string>> getAllUsedVariables(
+  vector<pair<string, string>> getUsesStmtPairs(
       StmtType statementType) override {
     return mockAllUsedVariables;
   }
@@ -195,6 +215,16 @@ class MockPKBReader : public PKBReader {
   vector<pair<string, string>> getPartialAssignPattern(
       const string& variableName, const string& rpn) override {
     return mockPartialAssignPattern;
+  }
+
+  vector<pair<string, string>> getIfPattern(
+      const string& variableName) override {
+    return mockIfPattern;
+  }
+
+  vector<pair<string, string>> getWhilePattern(
+      const string& variableName) override {
+    return mockWhilePattern;
   }
 
   void resetMockExactAssignPatternStmts() { this->mockExactAssignPattern = {}; }
@@ -219,8 +249,7 @@ class MockPKBReader : public PKBReader {
     return mockIsParentStar;
   }
 
-  bool isVariableModifiedBy(const string& variableName,
-                            const string& statementNumber) override {
+  bool isVariableModifiedBy(int stmtNum, const string& variableName) override {
     return mockIsVariableModifiedBy;
   }
 
@@ -229,8 +258,7 @@ class MockPKBReader : public PKBReader {
     return mockIsVariableModifiedByProc;
   }
 
-  bool isVariableUsedBy(const string& variableName,
-                        const string& statementNumber) override {
+  bool isVariableUsedBy(int stmt, const string& varName) override {
     return mockIsVariableUsedBy;
   }
 
