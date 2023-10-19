@@ -1,4 +1,3 @@
-#include <string>
 #include <catch.hpp>
 
 #include "../../utils/HelperFunctions.h"
@@ -21,10 +20,10 @@ TEST_CASE("SP-PKB integration MS2 - Non-nesting statements") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"simple"};
-  ProcToStrSetMap expectedModifiesMap = {{"simple", {"num1", "x"}}};
-  ProcToStrSetMap expectedUsesMap = {{"simple", {"num1", "num2"}}};
-  ProcToStrSetMap expectedCallsMap = {{"simple", {}}};
-  ProcToStrSetMap expectedCallsStarMap = {{"simple", {}}};
+  StrToStrVecMap expectedModifiesMap = {{"simple", {"num1", "x"}}};
+  StrToStrVecMap expectedUsesMap = {{"simple", {"num1", "num2"}}};
+  StrToStrVecMap expectedCallsMap = {{"simple", {}}};
+  StrToStrVecMap expectedCallsStarMap = {{"simple", {}}};
   StrStrPairVec expectedModifiesPairs = {{"1", "num1"}, {"3", "x"}};
   StrStrPairVec expectedUsesPairs = {{"2", "num2"}, {"3", "num1"}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
@@ -56,12 +55,12 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"A", "B", "C"};
-  ProcToStrSetMap expectedModifiesMap = {
+  StrToStrVecMap expectedModifiesMap = {
       {"A", {"x", "y"}}, {"B", {"x", "y"}}, {"C", {"y"}}};
-  ProcToStrSetMap expectedUsesMap = {
+  StrToStrVecMap expectedUsesMap = {
       {"A", {"a", "b"}}, {"B", {"a", "b"}}, {"C", {"b"}}};
-  ProcToStrSetMap expectedCallsMap = {{"A", {"B"}}, {"B", {"C"}}, {"C", {}}};
-  ProcToStrSetMap expectedCallsStarMap = {
+  StrToStrVecMap expectedCallsMap = {{"A", {"B"}}, {"B", {"C"}}, {"C", {}}};
+  StrToStrVecMap expectedCallsStarMap = {
       {"A", {"B", "C"}}, {"B", {"C"}}, {"C", {}}};
   StrStrPairVec expectedModifiesPairs = {
       {"2", "x"}, {"4", "y"}, {"3", "y"}, {"1", "x"}, {"1", "y"}};
@@ -98,11 +97,11 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with while") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"X", "Y", "Z"};
-  ProcToStrSetMap expectedModifiesMap = {{"X", {"a"}}, {"Y", {"a"}}};
-  ProcToStrSetMap expectedUsesMap = {
+  StrToStrVecMap expectedModifiesMap = {{"X", {"a"}}, {"Y", {"a"}}};
+  StrToStrVecMap expectedUsesMap = {
       {"X", {"a", "b", "c"}}, {"Y", {"a", "b", "c"}}, {"Z", {"c"}}};
-  ProcToStrSetMap expectedCallsMap = {{"X", {"Y"}}, {"Y", {"Z"}}, {"Z", {}}};
-  ProcToStrSetMap expectedCallsStarMap = {
+  StrToStrVecMap expectedCallsMap = {{"X", {"Y"}}, {"Y", {"Z"}}, {"Z", {}}};
+  StrToStrVecMap expectedCallsStarMap = {
       {"X", {"Y", "Z"}}, {"Y", {"Z"}}, {"Z", {}}};
   StrStrPairVec expectedModifiesPairs = {
       {"3", "a"}, {"6", "a"}, {"1", "a"}, {"2", "a"}, {"4", "a"}};
@@ -137,10 +136,10 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with if") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"A", "B"};
-  ProcToStrSetMap expectedModifiesMap = {{"A", {"y", "z"}}, {"B", {"z"}}};
-  ProcToStrSetMap expectedUsesMap = {{"A", {"x"}}, {"B", {"x"}}};
-  ProcToStrSetMap expectedCallsMap = {{"A", {"B"}}, {"B", {}}};
-  ProcToStrSetMap expectedCallsStarMap = {{"A", {"B"}}, {"B", {}}};
+  StrToStrVecMap expectedModifiesMap = {{"A", {"y", "z"}}, {"B", {"z"}}};
+  StrToStrVecMap expectedUsesMap = {{"A", {"x"}}, {"B", {"x"}}};
+  StrToStrVecMap expectedCallsMap = {{"A", {"B"}}, {"B", {}}};
+  StrToStrVecMap expectedCallsStarMap = {{"A", {"B"}}, {"B", {}}};
   StrStrPairVec expectedModifiesPairs = {
       {"4", "z"}, {"3", "y"}, {"2", "z"}, {"1", "y"}, {"1", "z"}};
   StrStrPairVec expectedUsesPairs = {{"4", "x"}, {"2", "x"}, {"1", "x"}};
@@ -175,13 +174,13 @@ TEST_CASE("SP-PKB integration MS2 - multiple transitive calls") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"P", "Q", "R", "S"};
-  ProcToStrSetMap expectedModifiesMap = {
+  StrToStrVecMap expectedModifiesMap = {
       {"P", {"z"}}, {"Q", {"z"}}, {"R", {"z"}}, {"S", {"z"}}};
-  ProcToStrSetMap expectedUsesMap = {
+  StrToStrVecMap expectedUsesMap = {
       {"P", {"z", "y"}}, {"Q", {"z", "y"}}, {"R", {"z"}}, {"S", {"z"}}};
-  ProcToStrSetMap expectedCallsMap = {
+  StrToStrVecMap expectedCallsMap = {
       {"P", {"Q"}}, {"Q", {"R"}}, {"R", {"S"}}, {"S", {}}};
-  ProcToStrSetMap expectedCallsStarMap = {
+  StrToStrVecMap expectedCallsStarMap = {
       {"P", {"Q", "R", "S"}}, {"Q", {"R", "S"}}, {"R", {"S"}}, {"S", {}}};
   StrStrPairVec expectedModifiesPairs = {
       {"2", "z"}, {"5", "z"}, {"3", "z"}, {"1", "z"}, {"4", "z"}};
@@ -215,13 +214,13 @@ TEST_CASE("SP-PKB integration MS2 - multiple calls without transitivity") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"Alpha", "Beta", "Gamma"};
-  ProcToStrSetMap expectedModifiesMap = {
+  StrToStrVecMap expectedModifiesMap = {
       {"Alpha", {"b", "g"}}, {"Beta", {"b"}}, {"Gamma", {"g"}}};
-  ProcToStrSetMap expectedUsesMap = {
+  StrToStrVecMap expectedUsesMap = {
       {"Alpha", {"y", "z"}}, {"Beta", {"y"}}, {"Gamma", {"z"}}};
-  ProcToStrSetMap expectedCallsMap = {
+  StrToStrVecMap expectedCallsMap = {
       {"Alpha", {"Beta", "Gamma"}}, {"Beta", {}}, {"Gamma", {}}};
-  ProcToStrSetMap expectedCallsStarMap = {
+  StrToStrVecMap expectedCallsStarMap = {
       {"Alpha", {"Beta", "Gamma"}}, {"Beta", {}}, {"Gamma", {}}};
   StrStrPairVec expectedModifiesPairs = {
       {"3", "b"}, {"4", "g"}, {"1", "b"}, {"2", "g"}};
@@ -258,12 +257,12 @@ TEST_CASE("SP-PKB integration MS2 - two chained calls and containers") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"Main", "Helper"};
-  ProcToStrSetMap expectedModifiesMap = {{"Main", {"a", "b"}},
-                                         {"Helper", {"a"}}};
-  ProcToStrSetMap expectedUsesMap = {{"Main", {"a", "b"}},
-                                     {"Helper", {"a", "b"}}};
-  ProcToStrSetMap expectedCallsMap = {{"Main", {"Helper"}}, {"Helper", {}}};
-  ProcToStrSetMap expectedCallsStarMap = {{"Main", {"Helper"}}, {"Helper", {}}};
+  StrToStrVecMap expectedModifiesMap = {{"Main", {"a", "b"}},
+                                        {"Helper", {"a"}}};
+  StrToStrVecMap expectedUsesMap = {{"Main", {"a", "b"}},
+                                    {"Helper", {"a", "b"}}};
+  StrToStrVecMap expectedCallsMap = {{"Main", {"Helper"}}, {"Helper", {}}};
+  StrToStrVecMap expectedCallsStarMap = {{"Main", {"Helper"}}, {"Helper", {}}};
   StrStrPairVec expectedModifiesPairs = {{"1", "a"}, {"3", "b"}, {"2", "b"},
                                          {"7", "a"}, {"6", "a"}, {"8", "a"},
                                          {"4", "a"}, {"2", "a"}};
@@ -301,17 +300,17 @@ TEST_CASE("SP-PKB integration MS2 - three chained calls and containers") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"Start", "Operate", "Increment"};
-  ProcToStrSetMap expectedModifiesMap = {
+  StrToStrVecMap expectedModifiesMap = {
       {"Start", {"i", "k"}}, {"Operate", {"i"}}, {"Increment", {"i"}}};
-  ProcToStrSetMap expectedUsesMap = {
+  StrToStrVecMap expectedUsesMap = {
       {"Start", {"p", "q", "x", "y", "i", "j", "k", "a", "b", "c", "d"}},
       {"Operate", {"p", "q", "x", "y", "i", "j", "k"}},
       {"Increment", {"i", "j", "k"}}};
-  ProcToStrSetMap expectedCallsMap = {
+  StrToStrVecMap expectedCallsMap = {
       {"Start", {"Operate"}}, {"Operate", {"Increment"}}, {"Increment", {}}};
-  ProcToStrSetMap expectedCallsStarMap = {{"Start", {"Operate", "Increment"}},
-                                          {"Operate", {"Increment"}},
-                                          {"Increment", {}}};
+  StrToStrVecMap expectedCallsStarMap = {{"Start", {"Operate", "Increment"}},
+                                         {"Operate", {"Increment"}},
+                                         {"Increment", {}}};
   StrStrPairVec expectedModifiesPairs = {{"1", "k"}, {"2", "i"}, {"3", "i"},
                                          {"4", "i"}, {"5", "i"}, {"6", "i"}};
   StrStrPairVec expectedUsesPairs = {
@@ -377,7 +376,7 @@ TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
 
   vector<string> procs = {"Alpha",   "Beta", "Gamma", "Delta",
                           "Epsilon", "Zeta", "Eta"};
-  ProcToStrSetMap expectedModifiesMap = {
+  StrToStrVecMap expectedModifiesMap = {
       {"Alpha", {"w", "m", "n", "o", "q", "r", "s", "t", "p"}},
       {"Beta", {"n", "o", "q", "r", "s", "t", "p"}},
       {"Gamma", {"o", "q", "r", "s", "t"}},
@@ -385,7 +384,7 @@ TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
       {"Epsilon", {"q", "r", "s", "t"}},
       {"Zeta", {"s", "t"}},
       {"Eta", {"s", "t"}}};
-  ProcToStrSetMap expectedUsesMap = {
+  StrToStrVecMap expectedUsesMap = {
       {"Alpha", {"w", "o", "q", "r", "s", "m", "n"}},
       {"Beta", {"m", "n", "o", "q", "r", "s"}},
       {"Gamma", {"n", "o", "q", "r", "s"}},
@@ -393,11 +392,11 @@ TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
       {"Epsilon", {"o", "q", "r", "s"}},
       {"Zeta", {"r", "s"}},
       {"Eta", {"r", "s"}}};
-  ProcToStrSetMap expectedCallsMap = {
+  StrToStrVecMap expectedCallsMap = {
       {"Alpha", {"Beta"}}, {"Beta", {"Gamma", "Delta"}}, {"Gamma", {"Epsilon"}},
       {"Delta", {}},       {"Epsilon", {"Zeta"}},        {"Zeta", {"Eta"}},
       {"Eta", {}}};
-  ProcToStrSetMap expectedCallsStarMap = {
+  StrToStrVecMap expectedCallsStarMap = {
       {"Alpha", {"Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta"}},
       {"Beta", {"Gamma", "Delta", "Epsilon", "Zeta", "Eta"}},
       {"Gamma", {"Epsilon", "Zeta", "Eta"}},
@@ -470,25 +469,24 @@ TEST_CASE(
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"Init", "Process", "Clean", "Finish", "Update"};
-  ProcToStrSetMap expectedModifiesMap = {{"Init", {"u", "h", "v", "j"}},
-                                         {"Process", {"u", "v", "j"}},
-                                         {"Clean", {"u"}},
-                                         {"Finish", {"v", "j"}},
-                                         {"Update", {"v"}}};
-  ProcToStrSetMap expectedUsesMap = {
+  StrToStrVecMap expectedModifiesMap = {{"Init", {"u", "h", "v", "j"}},
+                                        {"Process", {"u", "v", "j"}},
+                                        {"Clean", {"u"}},
+                                        {"Finish", {"v", "j"}},
+                                        {"Update", {"v"}}};
+  StrToStrVecMap expectedUsesMap = {
       {"Init",
        {"a", "b", "c", "d", "e", "f", "h", "p", "q", "r", "u", "v", "j"}},
       {"Process", {"a", "b", "c", "d", "f", "p", "q", "r", "u", "v", "j"}},
       {"Clean", {}},
       {"Finish", {"j"}},
       {"Update", {"v"}}};
-  ProcToStrSetMap expectedCallsMap = {
-      {"Init", {"Process"}},
-      {"Process", {"Finish", "Clean", "Update"}},
-      {"Clean", {}},
-      {"Finish", {}},
-      {"Update", {}}};
-  ProcToStrSetMap expectedCallsStarMap = {
+  StrToStrVecMap expectedCallsMap = {{"Init", {"Process"}},
+                                     {"Process", {"Finish", "Clean", "Update"}},
+                                     {"Clean", {}},
+                                     {"Finish", {}},
+                                     {"Update", {}}};
+  StrToStrVecMap expectedCallsStarMap = {
       {"Init", {"Process", "Finish", "Clean", "Update"}},
       {"Process", {"Finish", "Clean", "Update"}},
       {"Clean", {}},

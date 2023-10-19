@@ -1,5 +1,4 @@
 #pragma once
-
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -8,6 +7,7 @@
 
 #include "common/Constants.h"
 #include "common/utils/CollectionUtils.h"
+#include "common/utils/StringUtils.h"
 #include "pkb/interfaces/readers/INextReader.h"
 #include "pkb/storage/NextStore.h"
 #include "pkb/storage/StmtStore.h"

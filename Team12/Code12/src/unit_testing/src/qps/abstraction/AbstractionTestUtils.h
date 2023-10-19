@@ -10,3 +10,7 @@
 unique_ptr<AbstractionParams> createMockAbstractionParams(
     MockPKBReader &mockReader, Context &mockContext, Abstraction abstraction,
     AbstractArgument &firstArgument, AbstractArgument &secondArgument);
+
+unique_ptr<AbstractionParams> createMockAbstractionParamsProc(
+    MockPKBReader &mockReader, Context &mockContext, Abstraction abstraction,
+    AbstractArgument &firstArgument, AbstractArgument &secondArgument);

@@ -24,15 +24,15 @@ class HelperFunctions {
   static bool compareVectorContents(vector<T> a, vector<T> b);
 
   static bool validateEntities(PKBReader& reader,
-                               const set<string>& expectedVars,
-                               const set<string>& expectedConstants,
-                               const set<string>& expectedProcedures,
-                               const set<string>& expectedReadStmts,
-                               const set<string>& expectedPrintStmts,
-                               const set<string>& expectedAssignStmts,
-                               const set<string>& expectedCallStmts,
-                               const set<string>& expectedWhileStmts,
-                               const set<string>& expectedIfStmts);
+                               const vector<string>& expectedVars,
+                               const vector<string>& expectedConstants,
+                               const vector<string>& expectedProcedures,
+                               const vector<string>& expectedReadStmts,
+                               const vector<string>& expectedPrintStmts,
+                               const vector<string>& expectedAssignStmts,
+                               const vector<string>& expectedCallStmts,
+                               const vector<string>& expectedWhileStmts,
+                               const vector<string>& expectedIfStmts);
 
   static bool validateFollows(PKBReader& reader,
                               StrStrPairVec& expectedFollowsPairs,
@@ -51,15 +51,15 @@ class HelperFunctions {
 
   static bool validateModifiesProcVar(PKBReader& reader,
                                       const vector<string>& procs,
-                                      ProcToStrSetMap& expectedModifiesMap);
+                                      StrToStrVecMap& expectedModifiesMap);
 
   static bool validateUsesProcVar(PKBReader& reader,
                                   const vector<string>& procs,
-                                  ProcToStrSetMap& expectedUsesMap);
+                                  StrToStrVecMap& expectedUsesMap);
 
   static bool validateCalls(PKBReader& reader, const vector<string>& procs,
-                            ProcToStrSetMap& expectedCallsMap);
+                            StrToStrVecMap& expectedCallsMap);
 
   static bool validateCallsT(PKBReader& reader, const vector<string>& procs,
-                             ProcToStrSetMap& expectedCallsTMap);
+                             StrToStrVecMap& expectedCallsTMap);
 };

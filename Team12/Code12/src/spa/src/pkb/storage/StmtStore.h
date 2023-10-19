@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -17,11 +18,26 @@ class StmtStore {
  public:
   void addStmt(int stmt, StmtType stmtType);
 
+  [[nodiscard]] const std::unordered_set<int>& getAllStmtsOf(
+      StmtType stmtType) const;
+
+  [[nodiscard]] bool hasStmt(int stmt, StmtType stmtType) const;
+
   [[nodiscard]] bool hasStmtType(StmtType stmtType) const;
 
+  /**
+   * Throws error if stmtType does not exist.
+   * Must check if stmtType exists first with hasStmType.
+   * @param stmtType
+   * @return
+   */
   [[nodiscard]] std::function<bool(int)> getStmtFilterPredicate(
       StmtType stmtType) const;
 
   [[nodiscard]] std::pair<std::function<bool(int)>, std::function<bool(int)>>
-  getStmtPairFilterPredicates(StmtType stmtType1, StmtType stmtType2) const;
+  getStmtStmtFilterPredicates(StmtType stmtType1, StmtType stmtType2) const;
+
+  [[nodiscard]] std::pair<std::function<bool(int)>,
+                          std::function<bool(std::string)>>
+  getStmtStrFilterPredicates(StmtType stmtType1) const;
 };

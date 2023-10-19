@@ -8,7 +8,7 @@
 #include "qps/argument/patternExp/PatternExp.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
-#include "qps/clause/patternClause/PatternClause.h"
+#include "qps/clause/patternClause/WhilePatternClause.h"
 #include "qps/query/Query.h"
 #include "qps/token/PQLToken.h"
 

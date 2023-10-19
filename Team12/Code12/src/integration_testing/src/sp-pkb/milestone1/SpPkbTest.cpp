@@ -7,7 +7,6 @@
 #include <catch.hpp>
 
 #include "../../utils/HelperFunctions.h"
-#include "common/AliasTypes.h"
 #include "pkb/facade/PKB.h"
 #include "sp/SourceProcessor.h"
 
@@ -27,15 +26,15 @@ TEST_CASE("SP-PKB integration - Non-nesting statements") {
   sp.processContent(input, pkb.getWriter());
   PKBReader &reader = pkb.getReader();
   // check
-  set<string> expectedVars = {"num1", "num2", "x"};
-  set<string> expectedConstants = {"1"};
-  set<string> expectedProcedures = {"simple"};
-  set<string> expectedReadStmts = {"1"};
-  set<string> expectedPrintStmts = {"2"};
-  set<string> expectedAssignStmts = {"3"};
-  set<string> expectedCallStmts = {};
-  set<string> expectedWhileStmts = {};
-  set<string> expectedIfStmts = {};
+  vector<string> expectedVars = {"num1", "num2", "x"};
+  vector<string> expectedConstants = {"1"};
+  vector<string> expectedProcedures = {"simple"};
+  vector<string> expectedReadStmts = {"1"};
+  vector<string> expectedPrintStmts = {"2"};
+  vector<string> expectedAssignStmts = {"3"};
+  vector<string> expectedCallStmts = {};
+  vector<string> expectedWhileStmts = {};
+  vector<string> expectedIfStmts = {};
   StrStrPairVec expectedFollowsPairs = {{"1", "2"}, {"2", "3"}};
   StrStrPairVec expectedFollowsStarPairs = {{"1", "2"}, {"1", "3"}, {"2", "3"}};
   StrStrPairVec expectedParentChildPairs = {};
@@ -92,15 +91,15 @@ TEST_CASE("SP-PKB integration - if statement") {
   sp.processContent(input, pkb.getWriter());
   PKBReader &reader = pkb.getReader();
   // check
-  set<string> expectedVars = {"y", "x", "num1", "num2", "z"};
-  set<string> expectedConstants = {"1"};
-  set<string> expectedProcedures = {"simple"};
-  set<string> expectedReadStmts = {"1"};
-  set<string> expectedPrintStmts = {"2", "4"};
-  set<string> expectedAssignStmts = {"5"};
-  set<string> expectedCallStmts = {};
-  set<string> expectedWhileStmts = {};
-  set<string> expectedIfStmts = {"3"};
+  vector<string> expectedVars = {"y", "x", "num1", "num2", "z"};
+  vector<string> expectedConstants = {"1"};
+  vector<string> expectedProcedures = {"simple"};
+  vector<string> expectedReadStmts = {"1"};
+  vector<string> expectedPrintStmts = {"2", "4"};
+  vector<string> expectedAssignStmts = {"5"};
+  vector<string> expectedCallStmts = {};
+  vector<string> expectedWhileStmts = {};
+  vector<string> expectedIfStmts = {"3"};
   StrStrPairVec expectedFollowsPairs = {{"1", "2"}, {"2", "3"}};
   StrStrPairVec expectedFollowsStarPairs = {{"1", "2"}, {"1", "3"}, {"2", "3"}};
   StrStrPairVec expectedParentChildPairs = {{"3", "4"}, {"3", "5"}};
@@ -159,15 +158,15 @@ TEST_CASE("SP-PKB integration - if in while statements") {
   sp.processContent(input, pkb.getWriter());
   PKBReader &reader = pkb.getReader();
   // check
-  set<string> expectedVars = {"x", "y", "w", "z", "num1"};
-  set<string> expectedConstants = {"1"};
-  set<string> expectedProcedures = {"simple"};
-  set<string> expectedReadStmts = {"1", "2", "8"};
-  set<string> expectedPrintStmts = {"6", "7"};
-  set<string> expectedAssignStmts = {"5"};
-  set<string> expectedCallStmts = {};
-  set<string> expectedWhileStmts = {"3"};
-  set<string> expectedIfStmts = {"4"};
+  vector<string> expectedVars = {"x", "y", "w", "z", "num1"};
+  vector<string> expectedConstants = {"1"};
+  vector<string> expectedProcedures = {"simple"};
+  vector<string> expectedReadStmts = {"1", "2", "8"};
+  vector<string> expectedPrintStmts = {"6", "7"};
+  vector<string> expectedAssignStmts = {"5"};
+  vector<string> expectedCallStmts = {};
+  vector<string> expectedWhileStmts = {"3"};
+  vector<string> expectedIfStmts = {"4"};
   StrStrPairVec expectedFollowsPairs = {
       {"1", "2"}, {"2", "3"}, {"3", "8"}, {"4", "7"}};
   StrStrPairVec expectedFollowsStarPairs = {{"1", "2"}, {"1", "3"}, {"2", "3"},
@@ -235,15 +234,15 @@ TEST_CASE("SP-PKB integration - 3 if statements") {
   sp.processContent(input, pkb.getWriter());
   PKBReader &reader = pkb.getReader();
   // check
-  set<string> expectedVars = {"v", "w", "x", "y", "z"};
-  set<string> expectedConstants = {"0", "1"};
-  set<string> expectedProcedures = {"multipleIf"};
-  set<string> expectedReadStmts = {"1", "2", "4", "6", "8"};
-  set<string> expectedPrintStmts = {"9", "10", "11"};
-  set<string> expectedAssignStmts = {};
-  set<string> expectedCallStmts = {};
-  set<string> expectedWhileStmts = {};
-  set<string> expectedIfStmts = {"3", "5", "7"};
+  vector<string> expectedVars = {"v", "w", "x", "y", "z"};
+  vector<string> expectedConstants = {"0", "1"};
+  vector<string> expectedProcedures = {"multipleIf"};
+  vector<string> expectedReadStmts = {"1", "2", "4", "6", "8"};
+  vector<string> expectedPrintStmts = {"9", "10", "11"};
+  vector<string> expectedAssignStmts = {};
+  vector<string> expectedCallStmts = {};
+  vector<string> expectedWhileStmts = {};
+  vector<string> expectedIfStmts = {"3", "5", "7"};
   StrStrPairVec expectedFollowsPairs = {
       {"1", "2"}, {"2", "3"}, {"4", "5"}, {"6", "7"}};
   StrStrPairVec expectedFollowsStarPairs = {
@@ -298,15 +297,15 @@ TEST_CASE("SP-PKB integration - 3 while statements") {
   sp.processContent(input, pkb.getWriter());
   PKBReader &reader = pkb.getReader();
   // check
-  set<string> expectedVars = {"v", "w", "x", "y", "z"};
-  set<string> expectedConstants = {"0", "1"};
-  set<string> expectedProcedures = {"multipleWhiles"};
-  set<string> expectedReadStmts = {"1", "2", "4", "6", "8"};
-  set<string> expectedPrintStmts = {};
-  set<string> expectedAssignStmts = {};
-  set<string> expectedCallStmts = {};
-  set<string> expectedWhileStmts = {"3", "5", "7"};
-  set<string> expectedIfStmts = {};
+  vector<string> expectedVars = {"v", "w", "x", "y", "z"};
+  vector<string> expectedConstants = {"0", "1"};
+  vector<string> expectedProcedures = {"multipleWhiles"};
+  vector<string> expectedReadStmts = {"1", "2", "4", "6", "8"};
+  vector<string> expectedPrintStmts = {};
+  vector<string> expectedAssignStmts = {};
+  vector<string> expectedCallStmts = {};
+  vector<string> expectedWhileStmts = {"3", "5", "7"};
+  vector<string> expectedIfStmts = {};
   StrStrPairVec expectedFollowsPairs = {
       {"1", "2"}, {"2", "3"}, {"4", "5"}, {"6", "7"}};
   StrStrPairVec expectedFollowsStarPairs = {
@@ -354,15 +353,15 @@ TEST_CASE("SP-PKB integration - sequential if pattern") {
   PKB pkb;
   sp.processContent(input, pkb.getWriter());
   PKBReader &reader = pkb.getReader();
-  set<string> expectedVars = {"i", "j", "k", "l"};
-  set<string> expectedConstants = {"0"};
-  set<string> expectedProcedures = {"multipleIf"};
-  set<string> expectedReadStmts = {"1", "3", "4", "5", "7"};
-  set<string> expectedPrintStmts = {"8"};
-  set<string> expectedAssignStmts = {};
-  set<string> expectedCallStmts = {};
-  set<string> expectedWhileStmts = {};
-  set<string> expectedIfStmts = {"2", "6"};
+  vector<string> expectedVars = {"i", "j", "k", "l"};
+  vector<string> expectedConstants = {"0"};
+  vector<string> expectedProcedures = {"multipleIf"};
+  vector<string> expectedReadStmts = {"1", "3", "4", "5", "7"};
+  vector<string> expectedPrintStmts = {"8"};
+  vector<string> expectedAssignStmts = {};
+  vector<string> expectedCallStmts = {};
+  vector<string> expectedWhileStmts = {};
+  vector<string> expectedIfStmts = {"2", "6"};
   StrStrPairVec expectedFollowsPairs = {{"1", "2"}, {"2", "5"}, {"5", "6"}};
   StrStrPairVec expectedFollowsStarPairs = {{"1", "2"}, {"1", "5"}, {"1", "6"},
                                             {"2", "5"}, {"2", "6"}, {"5", "6"}};
@@ -406,15 +405,15 @@ TEST_CASE("SP-PKB integration - sequential while statements") {
   PKB pkb;
   sp.processContent(input, pkb.getWriter());
   PKBReader &reader = pkb.getReader();
-  set<string> expectedVars = {"i", "j", "k", "l"};
-  set<string> expectedConstants = {"0"};
-  set<string> expectedProcedures = {"multipleWhile"};
-  set<string> expectedReadStmts = {"1", "3", "4", "6"};
-  set<string> expectedPrintStmts = {};
-  set<string> expectedAssignStmts = {};
-  set<string> expectedCallStmts = {};
-  set<string> expectedWhileStmts = {"2", "5"};
-  set<string> expectedIfStmts = {};
+  vector<string> expectedVars = {"i", "j", "k", "l"};
+  vector<string> expectedConstants = {"0"};
+  vector<string> expectedProcedures = {"multipleWhile"};
+  vector<string> expectedReadStmts = {"1", "3", "4", "6"};
+  vector<string> expectedPrintStmts = {};
+  vector<string> expectedAssignStmts = {};
+  vector<string> expectedCallStmts = {};
+  vector<string> expectedWhileStmts = {"2", "5"};
+  vector<string> expectedIfStmts = {};
   StrStrPairVec expectedFollowsPairs = {{"1", "2"}, {"2", "4"}, {"4", "5"}};
   StrStrPairVec expectedFollowsStarPairs = {{"1", "2"}, {"1", "4"}, {"1", "5"},
                                             {"2", "4"}, {"2", "5"}, {"4", "5"}};
@@ -452,15 +451,15 @@ TEST_CASE(
   PKB pkb;
   sp.processContent(input, pkb.getWriter());
   PKBReader &reader = pkb.getReader();
-  set<string> expectedVars = {"p", "q", "r", "x", "y"};
-  set<string> expectedConstants = {"2", "3"};
-  set<string> expectedProcedures = {"complexConditions"};
-  set<string> expectedReadStmts = {"1", "2", "4"};
-  set<string> expectedPrintStmts = {};
-  set<string> expectedAssignStmts = {};
-  set<string> expectedCallStmts = {};
-  set<string> expectedWhileStmts = {"3"};
-  set<string> expectedIfStmts = {};
+  vector<string> expectedVars = {"p", "q", "r", "x", "y"};
+  vector<string> expectedConstants = {"2", "3"};
+  vector<string> expectedProcedures = {"complexConditions"};
+  vector<string> expectedReadStmts = {"1", "2", "4"};
+  vector<string> expectedPrintStmts = {};
+  vector<string> expectedAssignStmts = {};
+  vector<string> expectedCallStmts = {};
+  vector<string> expectedWhileStmts = {"3"};
+  vector<string> expectedIfStmts = {};
   StrStrPairVec expectedFollowsPairs = {{"1", "2"}, {"2", "3"}};
   StrStrPairVec expectedFollowsStarPairs = {{"1", "2"}, {"1", "3"}, {"2", "3"}};
   StrStrPairVec expectedParentChildPairs = {{"3", "4"}};
@@ -497,15 +496,15 @@ TEST_CASE("SP-PKB integration - multiple control variables in if statements") {
   PKB pkb;
   sp.processContent(input, pkb.getWriter());
   PKBReader &reader = pkb.getReader();
-  set<string> expectedVars = {"p", "q", "r", "x", "y"};
-  set<string> expectedConstants = {"2", "3"};
-  set<string> expectedProcedures = {"complexConditions"};
-  set<string> expectedReadStmts = {"1", "2", "4"};
-  set<string> expectedPrintStmts = {"5"};
-  set<string> expectedAssignStmts = {};
-  set<string> expectedCallStmts = {};
-  set<string> expectedWhileStmts = {};
-  set<string> expectedIfStmts = {"3"};
+  vector<string> expectedVars = {"p", "q", "r", "x", "y"};
+  vector<string> expectedConstants = {"2", "3"};
+  vector<string> expectedProcedures = {"complexConditions"};
+  vector<string> expectedReadStmts = {"1", "2", "4"};
+  vector<string> expectedPrintStmts = {"5"};
+  vector<string> expectedAssignStmts = {};
+  vector<string> expectedCallStmts = {};
+  vector<string> expectedWhileStmts = {};
+  vector<string> expectedIfStmts = {"3"};
   StrStrPairVec expectedFollowsPairs = {{"1", "2"}, {"2", "3"}};
   StrStrPairVec expectedFollowsStarPairs = {{"1", "2"}, {"1", "3"}, {"2", "3"}};
   StrStrPairVec expectedParentChildPairs = {{"3", "4"}, {"3", "5"}};
@@ -552,16 +551,18 @@ TEST_CASE("SP-PKB integration - assign pattern with all operators") {
   PKB pkb;
   sp.processContent(input, pkb.getWriter());
   PKBReader &reader = pkb.getReader();
-  set<string> expectedVars = {"a", "b", "c", "d", "e", "f", "g", "x", "y", "z"};
-  set<string> expectedConstants = {};
-  set<string> expectedProcedures = {"simple"};
-  set<string> expectedReadStmts = {"1", "2", "3", "4", "5", "6"};
-  set<string> expectedPrintStmts = {};
-  set<string> expectedAssignStmts = {"7",  "8",  "9",  "10", "11", "12", "13",
-                                     "14", "15", "16", "17", "18", "19", "20"};
-  set<string> expectedCallStmts = {};
-  set<string> expectedWhileStmts = {};
-  set<string> expectedIfStmts = {};
+  vector<string> expectedVars = {"a", "b", "c", "d", "e",
+                                 "f", "g", "x", "y", "z"};
+  vector<string> expectedConstants = {};
+  vector<string> expectedProcedures = {"simple"};
+  vector<string> expectedReadStmts = {"1", "2", "3", "4", "5", "6"};
+  vector<string> expectedPrintStmts = {};
+  vector<string> expectedAssignStmts = {"7",  "8",  "9",  "10", "11",
+                                        "12", "13", "14", "15", "16",
+                                        "17", "18", "19", "20"};
+  vector<string> expectedCallStmts = {};
+  vector<string> expectedWhileStmts = {};
+  vector<string> expectedIfStmts = {};
   StrStrPairVec expectedFollowsPairs = {
       {"1", "2"},   {"2", "3"},   {"3", "4"},   {"4", "5"},   {"5", "6"},
       {"6", "7"},   {"7", "8"},   {"8", "9"},   {"9", "10"},  {"10", "11"},
@@ -747,16 +748,18 @@ TEST_CASE(
   PKB pkb;
   sp.processContent(input, pkb.getWriter());
   PKBReader &reader = pkb.getReader();
-  set<string> expectedVars = {"a", "b", "c", "d", "e", "f", "g", "x", "y", "z"};
-  set<string> expectedConstants = {"2", "3"};
-  set<string> expectedProcedures = {"nestedWhile"};
-  set<string> expectedReadStmts = {"1", "2", "3", "4", "5", "6"};
-  set<string> expectedPrintStmts = {"22", "23", "24", "25", "26", "27", "28"};
-  set<string> expectedAssignStmts = {"7",  "9",  "11", "12", "14",
-                                     "15", "18", "19", "20", "21"};
-  set<string> expectedCallStmts = {};
-  set<string> expectedWhileStmts = {"8", "13", "17"};
-  set<string> expectedIfStmts = {"10", "16"};
+  vector<string> expectedVars = {"a", "b", "c", "d", "e",
+                                 "f", "g", "x", "y", "z"};
+  vector<string> expectedConstants = {"2", "3"};
+  vector<string> expectedProcedures = {"nestedWhile"};
+  vector<string> expectedReadStmts = {"1", "2", "3", "4", "5", "6"};
+  vector<string> expectedPrintStmts = {"22", "23", "24", "25",
+                                       "26", "27", "28"};
+  vector<string> expectedAssignStmts = {"7",  "9",  "11", "12", "14",
+                                        "15", "18", "19", "20", "21"};
+  vector<string> expectedCallStmts = {};
+  vector<string> expectedWhileStmts = {"8", "13", "17"};
+  vector<string> expectedIfStmts = {"10", "16"};
   StrStrPairVec expectedFollowsPairs = {
       {"1", "2"},   {"2", "3"},   {"3", "4"},   {"4", "5"},   {"5", "6"},
       {"6", "7"},   {"7", "8"},   {"8", "16"},  {"16", "21"}, {"9", "10"},

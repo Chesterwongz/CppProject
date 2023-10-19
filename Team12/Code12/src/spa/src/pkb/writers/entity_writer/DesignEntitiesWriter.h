@@ -3,24 +3,22 @@
 #include <string>
 
 #include "common/StmtTypes.h"
-#include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
 #include "pkb/interfaces/writers/IDesignEntitiesWriter.h"
-#include "pkb/interfaces/writers/IStatementWriter.h"
+#include "pkb/storage/EntityStore.h"
 #include "pkb/storage/StmtStore.h"
 
-class DesignEntitiesWriter : public IDesignEntitiesWriter,
-                             public IStatementWriter {
+class DesignEntitiesWriter : public IDesignEntitiesWriter {
  private:
-  IEntityStorage& entityStorage;
+  EntityStore& entityStore;
   StmtStore& stmtStore;
 
  protected:
-  DesignEntitiesWriter(IEntityStorage& entityStorage, StmtStore& stmtStore)
-      : entityStorage(entityStorage), stmtStore(stmtStore) {}
+  DesignEntitiesWriter(EntityStore& entityStore, StmtStore& stmtStore)
+      : entityStore(entityStore), stmtStore(stmtStore) {}
 
  public:
-  void addVariable(const std::string& varName) override;
-  void addConstant(const std::string& constantValue) override;
-  void addProcForStmt(const std::string& procName, int stmtNum) override;
+  void addVar(const std::string& varName) override;
+  void addConst(const std::string& constValue) override;
+  void addProc(const std::string& procName) override;
   void addStmt(int stmtNum, StmtType stmtType) override;
 };

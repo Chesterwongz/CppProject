@@ -3,6 +3,7 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -16,6 +17,8 @@ inline vector<string> MOCK_USING_STATEMENTS_1({"using 1", "using 2",
                                                "using 3"});
 inline vector<string> MOCK_USING_STATEMENTS_2({"using 2", "using 4", "using 6",
                                                "using 8"});
+
+inline vector<string> MOCK_USING_PROCEDURES({"using 1", "using 2", "using 3"});
 
 inline vector<vector<string>> MOCK_USING_STATEMENTS_COL({{"using 1"},
                                                          {"using 2"},
@@ -36,3 +39,9 @@ inline vector<vector<string>> MOCK_USED_VECTORS_COL_1(
 
 inline vector<vector<string>> MOCK_USED_VECTORS_COL_2(
     {{"using 2"}, {"using 4"}, {"using 6"}, {"using 8"}});
+
+inline vector<string> MOCK_USED_FOR_PROCS({"used 1", "used 2", "used 3"});
+
+inline vector<vector<string>> MOCK_USED_VECTOR_FOR_PROCS({{"used 1"},
+                                                          {"used 2"},
+                                                          {"used 3"}});

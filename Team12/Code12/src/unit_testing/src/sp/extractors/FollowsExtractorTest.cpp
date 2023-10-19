@@ -30,11 +30,11 @@ TEST_CASE("FollowsExtractor Simple Statement list") {
   procNode->addChild(std::move(stmtListNode));
   programNode->addChild(std::move(procNode));
   // extract
-  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::FOLLOWS);
 
   unordered_map<int, set<int>> expected = {};
-  expected[1] = {2, 3};
+  expected[1] = {2};
   expected[2] = {3};
   REQUIRE(mockPKB.isFollowsEqual(expected));
 }
@@ -47,11 +47,11 @@ TEST_CASE("FollowsExtractor Simple Statement list with parser") {
       "read num3;"
       "}";
   // extract
-  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::FOLLOWS);
 
   unordered_map<int, set<int>> expected = {};
-  expected[1] = {2, 3};
+  expected[1] = {2};
   expected[2] = {3};
   REQUIRE(mockPKB.isFollowsEqual(expected));
 }
@@ -69,11 +69,11 @@ TEST_CASE("FollowsExtractor with parser - if node") {
       "}";
 
   // extract
-  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::FOLLOWS);
 
   unordered_map<int, set<int>> expected = {};
-  expected[1] = {2, 3};
+  expected[1] = {2};
   expected[2] = {3};
   REQUIRE(mockPKB.isFollowsEqual(expected));
 }
@@ -92,11 +92,11 @@ TEST_CASE("FollowsExtractor with parser - if in while node") {
       "read num1;"
       "}";
   // extract
-  MockPKBWriter mockPKB(MOCK_WRITER_STORAGE, MOCK_WRITER_STORE);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::FOLLOWS);
   unordered_map<int, set<int>> expected = {};
-  expected[1] = {2, 3, 8};
-  expected[2] = {3, 8};
+  expected[1] = {2};
+  expected[2] = {3};
   expected[3] = {8};
   expected[4] = {7};
   REQUIRE(mockPKB.isFollowsEqual(expected));

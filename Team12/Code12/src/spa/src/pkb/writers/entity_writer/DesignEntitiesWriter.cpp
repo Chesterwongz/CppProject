@@ -1,15 +1,15 @@
 #include "DesignEntitiesWriter.h"
 
-void DesignEntitiesWriter::addVariable(const std::string& varName) {
-  entityStorage.setVariable(varName);
+void DesignEntitiesWriter::addVar(const std::string& varName) {
+  entityStore.addVar(varName);
 }
 
-void DesignEntitiesWriter::addConstant(const std::string& constantValue) {
-  entityStorage.setConstant(constantValue);
+void DesignEntitiesWriter::addConst(const std::string& constValue) {
+  entityStore.addConst(constValue);
 }
-void DesignEntitiesWriter::addProcForStmt(const std::string& procName,
-                                          int stmtNum) {
-  entityStorage.setProcForStmt(procName, stmtNum);
+
+void DesignEntitiesWriter::addProc(const std::string& procName) {
+  entityStore.addProc(procName);
 }
 
 void DesignEntitiesWriter::addStmt(int stmtNum, StmtType stmtType) {

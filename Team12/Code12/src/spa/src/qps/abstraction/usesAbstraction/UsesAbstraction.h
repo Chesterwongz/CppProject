@@ -3,6 +3,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <unordered_set>
 
 #include "pkb/facade/PKB.h"
 #include "qps/abstraction/BaseAbstraction.h"
@@ -10,6 +11,7 @@
 class UsesAbstraction : public BaseAbstraction {
  private:
   IntermediateTable handleSynonymOrWildcardArgs();
+  IntermediateTable handleProcNameWithVarSynonymOrWildcard();
 
  public:
   explicit UsesAbstraction(AbstractionParams abstractionParams)
@@ -22,4 +24,8 @@ class UsesAbstraction : public BaseAbstraction {
   IntermediateTable evaluateIntegerSynonym() override;
   IntermediateTable evaluateIntegerIdent() override;
   IntermediateTable evaluateIntegerWildcard() override;
+
+  IntermediateTable evaluateIdentSynonym() override;
+  IntermediateTable evaluateIdentIdent() override;
+  IntermediateTable evaluateIdentWildcard() override;
 };

@@ -13,8 +13,6 @@
 
 using std::set, std::unique_ptr, std::string, std::vector, std::pair;
 
-inline PKBStorage MOCK_STORAGE{};
-
 inline PKBStore MOCK_STORE{};
 
 inline string MOCK_SYNONYM_VALUE_1 = "x";

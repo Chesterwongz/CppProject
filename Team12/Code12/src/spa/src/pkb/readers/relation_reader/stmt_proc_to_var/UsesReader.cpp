@@ -2,11 +2,7 @@
 
 // (1, v)
 std::vector<std::string> UsesReader::getVariablesUsedBy(int stmt) {
-  auto varFilter = PredicateUtils::truePredicate<std::string>();
-
-  auto rawRes = usesStore.getDirectSuccessor(stmt, varFilter);
-
-  return rawRes;
+  return usesSStore.getAllDirectSuccessorsOf(stmt);
 }
 
 // (s, "name")
@@ -18,32 +14,45 @@ std::vector<std::string> UsesReader::getStatementsUsing(
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
 
-  auto rawRes = usesStore.getDirectAncestor(varName, stmtFilter);
+  auto rawRes = usesSStore.getDirectAncestorsOf(varName, stmtFilter);
 
   return CollectionUtils::transformIntToStrVector(rawRes);
 }
 
 bool UsesReader::isVariableUsedBy(int stmt, const std::string& varName) {
-  return usesStore.hasDirectRelation(stmt, varName);
+  return usesSStore.hasDirectRelation(stmt, varName);
 }
 
-std::vector<std::pair<std::string, std::string>> UsesReader::getUsesPairs(
-    StmtType stmtType) {
-  if (!stmtStore.hasStmtType(stmtType)) {
+std::vector<std::pair<std::string, std::string>> UsesReader::getUsesStmtPairs(
+    StmtType stmtType1) {
+  if (!stmtStore.hasStmtType(stmtType1)) {
     return {};
   }
 
-  auto filters = std::make_pair(stmtStore.getStmtFilterPredicate(stmtType),
-                                PredicateUtils::truePredicate<std::string>());
+  auto filters = stmtStore.getStmtStrFilterPredicates(stmtType1);
 
-  auto rawRes = usesStore.getAllRelations(filters);
+  auto rawRes = usesSStore.getDirectRelations(filters);
 
   return CollectionUtils::transformIntStrToStrStrVector(rawRes);
 }
 
 // =================================== UsesP ===================================
 
-std::unordered_set<std::string> UsesReader::getUsedVariablesForProc(
+std::vector<std::string> UsesReader::getVarsUsedByProc(
     const std::string& procName) {
-  return {};
+  return usesPStore.getAllDirectSuccessorsOf(procName);
+}
+
+std::vector<std::string> UsesReader::getProcUsing(const std::string& varName) {
+  return usesPStore.getAllDirectAncestorsOf(varName);
+}
+
+bool UsesReader::isVariableUsedByProc(const std::string& procName,
+                                      const std::string& varName) {
+  return usesPStore.hasDirectRelation(procName, varName);
+}
+
+std::vector<std::pair<std::string, std::string>>
+UsesReader::getUsesProcPairs() {
+  return usesPStore.getAllDirectRelations();
 }

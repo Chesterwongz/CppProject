@@ -8,7 +8,7 @@ std::vector<std::string> ParentReader::getImmediateChildrenOf(
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
 
-  auto rawRes = parentStore.getDirectSuccessor(stmt, stmtFilter);
+  auto rawRes = parentStore.getDirectSuccessorsOf(stmt, stmtFilter);
 
   return CollectionUtils::transformIntToStrVector(rawRes);
 }
@@ -21,7 +21,7 @@ std::vector<std::string> ParentReader::getImmediateParentOf(int stmt,
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
 
-  auto rawRes = parentStore.getDirectAncestor(stmt, stmtFilter);
+  auto rawRes = parentStore.getDirectAncestorsOf(stmt, stmtFilter);
 
   return CollectionUtils::transformIntToStrVector(rawRes);
 }
@@ -37,9 +37,9 @@ ParentReader::getParentChildPairs(StmtType stmtType1, StmtType stmtType2) {
   }
 
   auto stmtFilters =
-      stmtStore.getStmtPairFilterPredicates(stmtType1, stmtType2);
+      stmtStore.getStmtStmtFilterPredicates(stmtType1, stmtType2);
 
-  auto rawRes = parentStore.getAllRelations(stmtFilters);
+  auto rawRes = parentStore.getDirectRelations(stmtFilters);
 
   return CollectionUtils::transformIntIntToStrStrVector(rawRes);
 }
@@ -54,7 +54,7 @@ std::vector<std::string> ParentReader::getChildrenStarOf(int stmt,
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
 
-  auto rawRes = parentStore.getSuccessorsOf(stmt, stmtFilter);
+  auto rawRes = parentStore.getSuccessorsTOf(stmt, stmtFilter);
 
   return CollectionUtils::transformIntToStrVector(rawRes);
 }
@@ -67,7 +67,7 @@ std::vector<std::string> ParentReader::getParentStarOf(int stmt,
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
 
-  auto rawRes = parentStore.getAncestorsOf(stmt, stmtFilter);
+  auto rawRes = parentStore.getAncestorsTOf(stmt, stmtFilter);
 
   return CollectionUtils::transformIntToStrVector(rawRes);
 }
@@ -83,9 +83,9 @@ ParentReader::getParentChildStarPairs(StmtType stmtType1, StmtType stmtType2) {
   }
 
   auto stmtFilters =
-      stmtStore.getStmtPairFilterPredicates(stmtType1, stmtType2);
+      stmtStore.getStmtStmtFilterPredicates(stmtType1, stmtType2);
 
-  auto rawRes = parentStore.getAllRelationsT(stmtFilters);
+  auto rawRes = parentStore.getRelationsT(stmtFilters);
 
   return CollectionUtils::transformIntIntToStrStrVector(rawRes);
 }

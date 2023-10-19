@@ -1,0 +1,50 @@
+====== 1 - while (_,_) ======
+while while;
+Select while pattern while(_, _)
+2, 4, 6, 9, 12
+1000
+====== 2 - while (_,_) different while synonyms ======
+while w1, w2;
+Select w1 pattern w2(_, _)
+1, 2, 4, 6, 9, 11, 12
+1000
+====== 3 - while (var,_) ======
+while w; variable v;
+Select w pattern w(v, _)
+2, 4, 6, 9, 12
+1000
+====== 4 - while (var,_) different while synonyms ======
+while w1, w2; variable d;
+Select w1 pattern w2(d, _)
+1, 2, 4, 6, 9, 11, 12
+1000
+====== 5 - while (ident,_) ======
+while w;
+Select w pattern w("oi", _)
+9, 12
+1000
+====== 6 - while (ident,_) different while synonyms ======
+while w1, w2;
+Select w1 pattern w2("hoho", _)
+1, 2, 4, 6, 9, 11, 12
+1000
+====== 7 - while (ident,_) different while synonyms none ======
+while w1, w2;
+Select w1 pattern w2("huehue", _)
+none
+1000
+====== 8 - while (assignStmt,_) semantic error ======
+while w; assign a;
+Select w pattern w(a, _)
+SemanticError
+1000
+====== 9 - while (_,randomSyn) syntax error ======
+while w; assign a;
+Select w pattern w(_, a)
+SyntaxError
+1000
+====== 10 - while (_,randomIdent) syntax error ======
+while w; assign a;
+Select w pattern w(_, "hello")
+SyntaxError
+1000
