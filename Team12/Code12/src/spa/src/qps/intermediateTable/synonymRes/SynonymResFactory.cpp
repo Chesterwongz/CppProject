@@ -1,15 +1,13 @@
 #include "SynonymResFactory.h"
 
-#include <utility>
-
 SynonymRes SynonymResFactory::buildDefaultSynonym(const string& value) {
   return SynonymRes(value);
 }
 
 SynonymRes SynonymResFactory::buildCallsSynonym(const string& stmtNumber,
-                                                string procName) {
+                                                const string& procName) {
   SynonymRes synonymRes = SynonymResFactory::buildStmtSynonym(stmtNumber);
-  synonymRes.attributeMap[AttrRefEnum::PROC_NAME_ENUM] = std::move(procName);
+  synonymRes.attributeMap[AttrRefEnum::PROC_NAME_ENUM] = procName;
   return synonymRes;
 }
 
@@ -20,9 +18,9 @@ SynonymRes SynonymResFactory::buildConstantSynonym(const string& value) {
 }
 
 SynonymRes SynonymResFactory::buildPrintSynonym(const string& stmtNumber,
-                                                string varName) {
+                                                const string& varName) {
   SynonymRes synonymRes = SynonymResFactory::buildStmtSynonym(stmtNumber);
-  synonymRes.attributeMap[AttrRefEnum::VAR_NAME_ENUM] = std::move(varName);
+  synonymRes.attributeMap[AttrRefEnum::VAR_NAME_ENUM] = varName;
   return synonymRes;
 }
 
@@ -33,9 +31,9 @@ SynonymRes SynonymResFactory::buildProcSynonym(const string& procName) {
 }
 
 SynonymRes SynonymResFactory::buildReadSynonym(const string& stmtNumber,
-                                               string varName) {
+                                               const string& varName) {
   SynonymRes synonymRes = SynonymResFactory::buildStmtSynonym(stmtNumber);
-  synonymRes.attributeMap[AttrRefEnum::VAR_NAME_ENUM] = std::move(varName);
+  synonymRes.attributeMap[AttrRefEnum::VAR_NAME_ENUM] = varName;
   return synonymRes;
 }
 
