@@ -75,7 +75,6 @@ IntermediateTable getInnerJoin(
       }
       if (isJoin) {
         vector<string> resRow;
-        resData.push_back(CollectionUtils::concatVectors(table1Row, table2Row));
         resData.emplace_back(std::move(concatRow(table1Row, table2Row)));
       }
     }
