@@ -2,11 +2,13 @@
 
 #include <string>
 
+#include "common/StmtTypes.h"
+
 class IDesignEntitiesWriter {
  public:
   virtual ~IDesignEntitiesWriter() = default;
-  virtual void setVariable(const std::string& variableName) = 0;
-  virtual void setConstant(const std::string& constantValue) = 0;
-  virtual void setProcForStmt(const std::string& procedureName,
-                              int startStatement) = 0;
+  virtual void addVar(const std::string& varName) = 0;
+  virtual void addConst(const std::string& constValue) = 0;
+  virtual void addProc(const std::string& procName) = 0;
+  virtual void addStmt(int stmtNum, StmtType stmtType) = 0;
 };

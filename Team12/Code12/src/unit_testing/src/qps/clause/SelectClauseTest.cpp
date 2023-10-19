@@ -7,7 +7,7 @@
 #include "qps/common/Keywords.h"
 
 TEST_CASE("SelectClause - evaluate - no data") {
-  MockPKBReader mockPKB = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockPKB = MockPKBReader(MOCK_STORE);
   Context mockContext = Context();
   mockContext.addSynonym(MOCK_SYNONYM_VALUE_1, ASSIGN_ENTITY);
   mockContext.addSynonym(MOCK_SYNONYM_VALUE_2, ASSIGN_ENTITY);
@@ -31,7 +31,7 @@ TEST_CASE("SelectClause - evaluate - no data") {
 }
 
 TEST_CASE("SelectClause - evaluate - missing col") {
-  MockPKBReader mockPKB = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockPKB = MockPKBReader(MOCK_STORE);
   mockPKB.mockStatements = MOCK_SELECT_CLAUSE_DATA;
   Context mockContext = Context();
   mockContext.addSynonym(MOCK_SYNONYM_VALUE_1, ASSIGN_ENTITY);
@@ -56,7 +56,7 @@ TEST_CASE("SelectClause - evaluate - missing col") {
 }
 
 TEST_CASE("SelectClause - evaluate - assign entity") {
-  MockPKBReader mockPKB = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockPKB = MockPKBReader(MOCK_STORE);
   mockPKB.mockStatements = MOCK_SELECT_CLAUSE_DATA;
   Context mockContext = Context();
   mockContext.addSynonym(MOCK_SYNONYM_VALUE_1, ASSIGN_ENTITY);
@@ -81,7 +81,7 @@ TEST_CASE("SelectClause - evaluate - assign entity") {
 }
 
 TEST_CASE("SelectClause - evaluate - constant entity") {
-  MockPKBReader mockPKB = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockPKB = MockPKBReader(MOCK_STORE);
   mockPKB.mockAllConstants = MOCK_SELECT_CLAUSE_DATA;
   Context mockContext = Context();
   mockContext.addSynonym(MOCK_SYNONYM_VALUE_1, CONSTANT_ENTITY);
@@ -106,7 +106,7 @@ TEST_CASE("SelectClause - evaluate - constant entity") {
 }
 
 TEST_CASE("SelectClause - evaluate - procedure entity") {
-  MockPKBReader mockPKB = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockPKB = MockPKBReader(MOCK_STORE);
   mockPKB.mockAllProcedures = MOCK_SELECT_CLAUSE_DATA;
   Context mockContext = Context();
   mockContext.addSynonym(MOCK_SYNONYM_VALUE_1, PROCEDURE_ENTITY);
@@ -131,7 +131,7 @@ TEST_CASE("SelectClause - evaluate - procedure entity") {
 }
 
 TEST_CASE("SelectClause - evaluate - stmt entity") {
-  MockPKBReader mockPKB = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockPKB = MockPKBReader(MOCK_STORE);
   mockPKB.mockStatements = MOCK_SELECT_CLAUSE_DATA;
   Context mockContext = Context();
   mockContext.addSynonym(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
@@ -156,7 +156,7 @@ TEST_CASE("SelectClause - evaluate - stmt entity") {
 }
 
 TEST_CASE("SelectClause - evaluate - variable entity") {
-  MockPKBReader mockPKB = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockPKB = MockPKBReader(MOCK_STORE);
   mockPKB.mockAllVariables = MOCK_SELECT_CLAUSE_DATA;
   Context mockContext = Context();
   mockContext.addSynonym(MOCK_SYNONYM_VALUE_1, VARIABLE_ENTITY);
@@ -181,7 +181,7 @@ TEST_CASE("SelectClause - evaluate - variable entity") {
 }
 
 TEST_CASE("SelectClause - evaluate - multi entity") {
-  MockPKBReader mockPKB = MockPKBReader(MOCK_STORAGE);
+  MockPKBReader mockPKB = MockPKBReader(MOCK_STORE);
   mockPKB.mockAllProcedures = MOCK_SELECT_CLAUSE_DATA;
   mockPKB.mockAllVariables = MOCK_SELECT_CLAUSE_DATA_2;
   mockPKB.mockAllConstants = MOCK_SELECT_CLAUSE_DATA_3;

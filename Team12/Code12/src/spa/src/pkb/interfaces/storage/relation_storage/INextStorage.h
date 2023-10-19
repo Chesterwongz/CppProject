@@ -8,13 +8,13 @@
 class INextStorage {
  public:
   virtual ~INextStorage() = default;
-  virtual void addNext(int from, int to) = 0;
-  virtual IntSet getNextStmts(int stmtNum) = 0;
-  virtual IntSet getPrevStmts(int stmtNum) = 0;
-  virtual IntSet getNextTStmts(int stmtNum) = 0;
-  virtual IntSet getPrevTStmts(int stmtNum) = 0;
-  virtual bool isNext(int firstStmtNum, int secondStmtNum) = 0;
-  virtual bool isNextT(int firstStmtNum, int secondStmtNum) = 0;
-  virtual std::vector<std::pair<int, int>> getNextPairs() = 0;
+  virtual void addRelation(int from, int to) = 0;
+  virtual IntSet getDirectSuccessors(int stmtNum) = 0;
+  virtual IntSet getDirectAncestors(int stmtNum) = 0;
+  virtual IntSet getSuccessorsT(int stmtNum) = 0;
+  virtual IntSet getAncestorsT(int stmtNum) = 0;
+  virtual bool hasDirectRelation(int firstStmtNum, int secondStmtNum) = 0;
+  virtual bool hasRelationT(int firstStmtNum, int secondStmtNum) = 0;
+  virtual std::vector<std::pair<int, int>> getAllDirectRelations() = 0;
   virtual void clearCache() = 0;
 };

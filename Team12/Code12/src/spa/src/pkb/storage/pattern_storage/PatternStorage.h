@@ -12,7 +12,7 @@
 #include "pkb/interfaces/storage/pattern_storage/IPatternStorage.h"
 #include "qps/common/Keywords.h"
 
-class PatternStorage : public virtual IPatternStorage {
+class PatternStorage : public IPatternStorage {
  public:
   // Setter for assignment expressions in the program
   void setAssignPattern(const std::string& variableName, const std::string& rpn,

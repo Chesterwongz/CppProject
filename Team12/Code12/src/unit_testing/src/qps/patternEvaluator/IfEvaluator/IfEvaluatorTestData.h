@@ -12,9 +12,9 @@
 
 using std::unique_ptr, std::make_pair;
 
-PKBStorage ifStorage = PKBStorage();
+PKBStore ifStore = PKBStore();
 
-MockPKBReader ifMockPKBReader = MockPKBReader(ifStorage);
+MockPKBReader ifMockPKBReader = MockPKBReader(ifStore);
 
 // for (test, _ , _)
 vector<pair<string, string>> mockIfPatternStmtsSynonym = {

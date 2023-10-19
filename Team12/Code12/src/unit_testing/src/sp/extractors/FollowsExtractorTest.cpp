@@ -5,6 +5,7 @@
 #include <catch.hpp>
 
 #include "../ast/TNodeUtils.h"
+#include "../mocks/MockData.h"
 #include "ExtractorUtils.h"
 #include "sp/ast/ProcNode.h"
 #include "sp/ast/ProgramNode.h"
@@ -29,12 +30,11 @@ TEST_CASE("FollowsExtractor Simple Statement list") {
   procNode->addChild(std::move(stmtListNode));
   programNode->addChild(std::move(procNode));
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(*programNode, mockPKB, AbstractionType::FOLLOWS);
 
   unordered_map<int, set<int>> expected = {};
-  expected[1] = {2, 3};
+  expected[1] = {2};
   expected[2] = {3};
   REQUIRE(mockPKB.isFollowsEqual(expected));
 }
@@ -47,12 +47,11 @@ TEST_CASE("FollowsExtractor Simple Statement list with parser") {
       "read num3;"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::FOLLOWS);
 
   unordered_map<int, set<int>> expected = {};
-  expected[1] = {2, 3};
+  expected[1] = {2};
   expected[2] = {3};
   REQUIRE(mockPKB.isFollowsEqual(expected));
 }
@@ -70,12 +69,11 @@ TEST_CASE("FollowsExtractor with parser - if node") {
       "}";
 
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::FOLLOWS);
 
   unordered_map<int, set<int>> expected = {};
-  expected[1] = {2, 3};
+  expected[1] = {2};
   expected[2] = {3};
   REQUIRE(mockPKB.isFollowsEqual(expected));
 }
@@ -94,12 +92,11 @@ TEST_CASE("FollowsExtractor with parser - if in while node") {
       "read num1;"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::FOLLOWS);
   unordered_map<int, set<int>> expected = {};
-  expected[1] = {2, 3, 8};
-  expected[2] = {3, 8};
+  expected[1] = {2};
+  expected[2] = {3};
   expected[3] = {8};
   expected[4] = {7};
   REQUIRE(mockPKB.isFollowsEqual(expected));

@@ -8,7 +8,7 @@
 #include "qps/clause/patternClause/AssignPatternClause.h"
 #include "qps/common/Keywords.h"
 
-using std::unique_ptr, std::make_unique;
+using std::unique_ptr, std::make_unique, std::make_pair;
 
 TEST_CASE("test_assignPatternClause_isEqual") {
   SynonymArg patternSynonym = SynonymArg("a");
@@ -58,8 +58,8 @@ TEST_CASE("test_assignPatternClause_evaluate_synonymFirstArg") {
       AssignPatternClause(std::move(patternSynonymPtr), std::move(firstArgPtr),
                           std::move(secondArgPtr), false);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.resetMockExactAssignPatternStmts();
   mockPkbReader.resetMockPartialAssignPatternStmts();
@@ -98,8 +98,8 @@ TEST_CASE("test_assignPatternClause_evaluate_identFirstArg") {
       AssignPatternClause(std::move(patternSynonymPtr), std::move(firstArgPtr),
                           std::move(secondArgPtr), false);
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore pkbStore = PKBStore();
+  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.resetMockExactAssignPatternStmts();
   mockPkbReader.resetMockPartialAssignPatternStmts();

@@ -47,8 +47,9 @@ TEST_CASE("test_ifPatternClause_evaluate_synonymFirstArg") {
   IfPatternClause patternClause =
       IfPatternClause(std::move(patternSynonymPtr), std::move(firstArgPtr));
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore store = PKBStore();
+
+  MockPKBReader mockPkbReader = MockPKBReader(store);
 
   vector<pair<string, string>> mockIfPatternStmts = {
       {"1", "a"}, {"3", "b"}, {"5", "c"}};
@@ -80,8 +81,9 @@ TEST_CASE("test_ifPatternClause_evaluate_identFirstArg") {
   IfPatternClause patternClause =
       IfPatternClause(std::move(patternSynonymPtr), std::move(firstArgPtr));
 
-  PKBStorage pkbStorage = PKBStorage();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStorage);
+  PKBStore store = PKBStore();
+
+  MockPKBReader mockPkbReader = MockPKBReader(store);
 
   vector<pair<string, string>> mockIfPatternStmts = {{"3", "b"}};
   mockPkbReader.mockIfPattern = mockIfPatternStmts;

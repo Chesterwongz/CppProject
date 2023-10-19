@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-#include "common/utils/VectorUtils.h"
+#include "common/utils/CollectionUtils.h"
 #include "IntermediateTableFactory.h"
 #include "qps/exceptions/QPSIntermediateTableException.h"
 
@@ -10,7 +10,7 @@ vector<string> getSharedColNames(IntermediateTable table1,
                                  IntermediateTable table2) {
   vector<string> tableNames1 = table1.getColNames();
   vector<string> tableNames2 = table2.getColNames();
-  return intersectVectors(tableNames1, tableNames2);
+  return CollectionUtils::intersectVectors(tableNames1, tableNames2);
 }
 
 pair<vector<int>, vector<int>> getSharedColIndexes(IntermediateTable table1,
@@ -74,6 +74,8 @@ IntermediateTable getInnerJoin(
         }
       }
       if (isJoin) {
+        vector<string> resRow;
+        resData.push_back(CollectionUtils::concatVectors(table1Row, table2Row));
         resData.emplace_back(std::move(concatRow(table1Row, table2Row)));
       }
     }

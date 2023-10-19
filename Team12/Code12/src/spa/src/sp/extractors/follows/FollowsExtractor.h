@@ -18,10 +18,10 @@
 
 class FollowsExtractor : public Extractor {
  private:
-  // each vector element is a nesting block, e.g. proc, if, while {}
-  std::stack<std::vector<int>> nestingBlocksStack;
+  // each element is the previous line in
+  // a nesting block, e.g. proc, if, while {}
+  std::stack<int> nestingBlocksStack;
   void processCurrStmt(const StmtNode& node);
-  void addFollows(int prevLine, int currLine);
 
  public:
   explicit FollowsExtractor(PKBWriter& pkbWriter);

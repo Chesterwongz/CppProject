@@ -18,3 +18,4 @@ using IntSet = std::unordered_set<int>;
 using StrStrPairSet = unordered_set<pair<string, string>, PairUtils::PairHash>;
 using StrStrPairVec = vector<pair<string, string>>;
 using ProcToStrSetMap = unordered_map<string, unordered_set<string>>;
+using StrToStrVecMap = unordered_map<string, vector<string>>;

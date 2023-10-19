@@ -1,7 +1,7 @@
 #include <vector>
 #include <catch.hpp>
 
-#include "common/utils/VectorUtils.h"
+#include "common/utils/CollectionUtils.h"
 
 using std::string, std::vector;
 
@@ -15,6 +15,8 @@ vector<string> VECTOR_1_INTERSECT_2 = {};
 vector<string> VECTOR_1_INTERSECT_3 = {"0", "1"};
 
 TEST_CASE("Vector utils intersect") {
-  REQUIRE(intersectVectors(testVector1, testVector2) == VECTOR_1_INTERSECT_2);
-  REQUIRE(intersectVectors(testVector1, testVector3) == VECTOR_1_INTERSECT_3);
+  REQUIRE(CollectionUtils::intersectVectors(testVector1, testVector2) ==
+          VECTOR_1_INTERSECT_2);
+  REQUIRE(CollectionUtils::intersectVectors(testVector1, testVector3) ==
+          VECTOR_1_INTERSECT_3);
 }

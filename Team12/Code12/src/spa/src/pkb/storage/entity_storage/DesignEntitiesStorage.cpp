@@ -31,10 +31,3 @@ std::set<std::string> DesignEntitiesStorage::getAllConstants() {
 std::set<std::string> DesignEntitiesStorage::getAllProcedures() {
   return procedureData;
 }
-
-std::string DesignEntitiesStorage::getProcFromStmt(int stmtNum) {
-  if (stmtToProcMap.find(stmtNum) != stmtToProcMap.end()) {
-    return stmtToProcMap[stmtNum];
-  }
-  return common::INVALID_PROC_NAME;
-}
