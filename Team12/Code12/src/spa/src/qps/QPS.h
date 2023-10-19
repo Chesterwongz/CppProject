@@ -13,7 +13,7 @@
 #include "qps/parser/declarativeParserState/DeclarativeParserState.h"
 #include "qps/parser/tokenizer/token/PQLToken.h"
 
-using std::string, std::vector, std::unique_ptr;
+using std::string, std::vector, std::unique_ptr, std::unordered_set;
 
 class QPS {
  private:
@@ -22,5 +22,5 @@ class QPS {
 
  public:
   explicit QPS(PKBReader& pkb);
-  std::set<string> processQueryString(const string& query);
+  unordered_set<string> processQueryString(const string& query);
 };

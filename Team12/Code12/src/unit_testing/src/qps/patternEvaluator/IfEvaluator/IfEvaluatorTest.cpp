@@ -80,7 +80,7 @@ TEST_CASE("test_ifEvaluator_evaluate_synonymFirstArg") {
   IntermediateTable actualTable = ifEvaluator.evaluate();
 
   vector<string> actualColNames = actualTable.getColNames();
-  vector<vector<string>> actualTableData = actualTable.getData();
+  vector<vector<string>> actualTableData = actualTable.getDataAsStrings();
 
   REQUIRE(actualColNames.size() == 2);
   REQUIRE(actualColNames[0] == patternSynonym.getValue());
@@ -111,7 +111,7 @@ TEST_CASE("test_ifEvaluator_evaluate_identFirstArg") {
   IntermediateTable actualTable = ifEvaluator.evaluate();
 
   vector<string> actualColNames = actualTable.getColNames();
-  vector<vector<string>> actualTableData = actualTable.getData();
+  vector<vector<string>> actualTableData = actualTable.getDataAsStrings();
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == patternSynonym.getValue());
@@ -137,7 +137,7 @@ TEST_CASE("test_ifEvaluator_evaluate_wildcardFirstArg") {
   IntermediateTable actualTable = ifEvaluator.evaluate();
 
   vector<string> actualColNames = actualTable.getColNames();
-  vector<vector<string>> actualTableData = actualTable.getData();
+  vector<vector<string>> actualTableData = actualTable.getDataAsStrings();
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == patternSynonym.getValue());

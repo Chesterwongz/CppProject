@@ -1,5 +1,6 @@
 #include "IntermediateTable.h"
 
+#include <cassert>
 #include <iostream>
 #include <stdexcept>
 
@@ -9,28 +10,12 @@
 IntermediateTable::IntermediateTable(bool isTableWildcard)
     : isWildcard(isTableWildcard), isEmpty(true) {}
 
-IntermediateTable::IntermediateTable(const string &firstColName,
-                                     const string &secondColName,
-                                     const vector<pair<string, string>> &data) {
-  IntermediateTable::createNewCol(firstColName);
-  IntermediateTable::createNewCol(secondColName);
-  for (auto &dataPair : data) {
-    vector<string> row = {};
-    row.push_back(dataPair.first);
-    row.push_back(dataPair.second);
-    this->tableData.push_back(row);
-  }
-  this->isEmpty = false;
-}
-
 IntermediateTable::IntermediateTable(const vector<string> &colNames,
-                                     const vector<vector<string>> &data) {
-  for (auto &colName : colNames) {
+                                     TableDataType data) {
+  for (const string &colName : colNames) {
     IntermediateTable::createNewCol(colName);
   }
-  for (auto &dataRow : data) {
-    this->tableData.push_back(dataRow);
-  }
+  this->tableData = std::move(data);
   this->isEmpty = false;
 }
 
@@ -46,15 +31,28 @@ IntermediateTable IntermediateTable::makeEmptyTable() {
 }
 
 int IntermediateTable::createNewCol(const string &newColName) {
-  this->isEmpty = false;
   this->colNameToIndexMap[newColName] = this->currentColCount;
-  this->colNames.push_back(newColName);
+  this->colNames.emplace_back(newColName);
   return this->currentColCount++;
 }
 
-vector<vector<string>> IntermediateTable::getData() { return this->tableData; }
+vector<vector<string>> IntermediateTable::getDataAsStrings() {
+  vector<vector<string>> res;
+  for (const TableRowType &synonymDataRow : this->tableData) {
+    vector<string> row = {};
+    row.reserve(synonymDataRow.size());
+    for (const SynonymRes &synonymRes : synonymDataRow) {
+      row.emplace_back(synonymRes.toString());
+    }
+    res.emplace_back(row);
+  }
+  return res;
+}
 
-set<string> IntermediateTable::getColumns(const vector<string> &colNameVector) {
+TableDataType IntermediateTable::getTableData() { return this->tableData; }
+
+unordered_set<string> IntermediateTable::getColumns(
+    const vector<string> &colNameVector) {
   if (colNameVector.empty()) {
     return {};
   }
@@ -66,13 +64,40 @@ set<string> IntermediateTable::getColumns(const vector<string> &colNameVector) {
     }
   }
 
-  set<string> res = {};
+  unordered_set<string> res = {};
   for (int rowIndex = 0; rowIndex < this->getRowCount(); rowIndex++) {
-    string row = "";
+    string row;
     for (const string &colName : colNameVector) {
       int colIndex = this->colNameToIndexMap.at(colName);
-      row +=
-          (row.empty() ? "" : " ") + this->tableData.at(rowIndex).at(colIndex);
+      row += (row.empty() ? "" : " ") +
+             this->tableData.at(rowIndex).at(colIndex).toString();
+    }
+    res.insert(row);
+  }
+  return res;
+}
+
+unordered_set<string> IntermediateTable::getColumns(
+    const vector<pair<string, AttrRefEnum>> &colNameAndAttrRefVector) {
+  if (colNameAndAttrRefVector.empty()) {
+    return {};
+  }
+
+  for (auto [colName, attrRef] : colNameAndAttrRefVector) {
+    // return empty if any column requested does not exist
+    if (!this->isColExists(colName)) {
+      return {};
+    }
+  }
+
+  unordered_set<string> res = {};
+  for (int rowIndex = 0; rowIndex < this->getRowCount(); rowIndex++) {
+    string row;
+    for (auto &[colName, attrRef] : colNameAndAttrRefVector) {
+      int colIndex = this->colNameToIndexMap.at(colName);
+      assert(this->tableData.at(rowIndex).at(colIndex).isAttrExists(attrRef));
+      row += (row.empty() ? "" : " ") +
+             this->tableData.at(rowIndex).at(colIndex).getAttribute(attrRef);
     }
     res.insert(row);
   }
@@ -92,7 +117,7 @@ bool IntermediateTable::isColExists(const std::string &colName) {
   return this->colNameToIndexMap.find(colName) != this->colNameToIndexMap.end();
 }
 
-int IntermediateTable::getRowCount() { return this->tableData.size(); }
+size_t IntermediateTable::getRowCount() { return this->tableData.size(); }
 
 bool IntermediateTable::isTableWildcard() const { return this->isWildcard; }
 
@@ -146,7 +171,7 @@ void IntermediateTable::printTable() {
   }
   std::cout << colNamesToPrint << std::endl;
 
-  for (auto &row : this->getData()) {
+  for (auto &row : this->getDataAsStrings()) {
     string rowDataToPrint;
     for (auto &col : row) {
       rowDataToPrint += col + " | ";

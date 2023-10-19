@@ -20,7 +20,7 @@ void Query::setSynonymToQuery(SynonymsToSelect selectSynonyms) {
       std::make_unique<SelectClause>(std::move(selectSynonyms));
 }
 
-set<string> Query::evaluate() {
+unordered_set<string> Query::evaluate() {
   // todo 1: query optimisation
   // if at least 1 of selected synonyms exist in table or if table is wildcard,
   // join and return else if cols not exist and not empty, return all select

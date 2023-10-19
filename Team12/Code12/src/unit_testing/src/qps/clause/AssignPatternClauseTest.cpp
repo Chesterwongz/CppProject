@@ -67,7 +67,7 @@ TEST_CASE("test_assignPatternClause_evaluate_synonymFirstArg") {
 
   IntermediateTable actualTable = patternClause.evaluate(mockPkbReader);
   vector<string> actualColNames = actualTable.getColNames();
-  vector<vector<string>> actualTableData = actualTable.getData();
+  vector<vector<string>> actualTableData = actualTable.getDataAsStrings();
   vector<vector<string>> expectedData = {{"1", "a"}, {"2", "b"}, {"3", "c"}};
 
   REQUIRE(actualColNames.size() == 2);
@@ -102,7 +102,7 @@ TEST_CASE("test_assignPatternClause_evaluate_identFirstArg") {
 
   IntermediateTable actualTable = patternClause.evaluate(mockPkbReader);
   vector<string> actualColNames = actualTable.getColNames();
-  vector<vector<string>> actualTableData = actualTable.getData();
+  vector<vector<string>> actualTableData = actualTable.getDataAsStrings();
   vector<vector<string>> expectedData = {{"3"}};
 
   REQUIRE(actualColNames.size() == 1);

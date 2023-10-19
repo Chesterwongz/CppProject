@@ -39,7 +39,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1"};
+  unordered_set<string> expected = {"1"};
   REQUIRE(result == expected);
 }
 
@@ -56,7 +56,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {};
+  unordered_set<string> expected = {};
   REQUIRE(result == expected);
 }
 
@@ -72,7 +72,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"2"};
+  unordered_set<string> expected = {"2"};
   REQUIRE(result == expected);
 }
 
@@ -89,7 +89,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {};
+  unordered_set<string> expected = {};
   REQUIRE(result == expected);
 }
 
@@ -106,7 +106,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"line8"};
+  unordered_set<string> expected = {"line8"};
   REQUIRE(result == expected);
 }
 
@@ -123,7 +123,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"8"};
+  unordered_set<string> expected = {"8"};
   REQUIRE(result == expected);
 }
 
@@ -140,7 +140,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"5"};
+  unordered_set<string> expected = {"5"};
   REQUIRE(result == expected);
 }
 
@@ -156,7 +156,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"2"};
+  unordered_set<string> expected = {"2"};
   REQUIRE(result == expected);
 }
 
@@ -173,7 +173,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {};
+  unordered_set<string> expected = {};
   REQUIRE(result == expected);
 }
 
@@ -191,7 +191,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "2", "4", "5", "7", "8"};
+  unordered_set<string> expected = {"1", "2", "4", "5", "7", "8"};
   REQUIRE(result == expected);
 }
 
@@ -209,7 +209,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {};
+  unordered_set<string> expected = {};
   REQUIRE(result == expected);
 }
 
@@ -225,7 +225,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1"};
+  unordered_set<string> expected = {"1"};
   REQUIRE(result == expected);
 }
 
@@ -241,7 +241,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"4"};
+  unordered_set<string> expected = {"4"};
   REQUIRE(result == expected);
 }
 
@@ -258,7 +258,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {};
+  unordered_set<string> expected = {};
   REQUIRE(result == expected);
 }
 
@@ -275,7 +275,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {};
+  unordered_set<string> expected = {};
   REQUIRE(result == expected);
 }
 
@@ -293,7 +293,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "2", "4", "5", "7", "8"};
+  unordered_set<string> expected = {"1", "2", "4", "5", "7", "8"};
   REQUIRE(result == expected);
 }
 
@@ -311,7 +311,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {};
+  unordered_set<string> expected = {};
   REQUIRE(result == expected);
 }
 
@@ -327,7 +327,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"line4"};
+  unordered_set<string> expected = {"line4"};
   REQUIRE(result == expected);
 }
 
@@ -343,7 +343,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"4"};
+  unordered_set<string> expected = {"4"};
   REQUIRE(result == expected);
 }
 
@@ -359,7 +359,7 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"line7"};
+  unordered_set<string> expected = {"line7"};
   REQUIRE(result == expected);
 }
 
@@ -375,6 +375,6 @@ TEST_CASE(
   sp.processContent(ms2AssignSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"7"};
+  unordered_set<string> expected = {"7"};
   REQUIRE(result == expected);
 }

@@ -38,7 +38,7 @@ TEST_CASE(
   sp.processContent(followsStarSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "2", "3", "4", "5", "6", "7", "8"};
+  unordered_set<string> expected = {"1", "2", "3", "4", "5", "6", "7", "8"};
   REQUIRE(result == expected);
 }
 
@@ -52,7 +52,7 @@ TEST_CASE(
   sp.processContent(followsStarSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "2", "3", "4"};
+  unordered_set<string> expected = {"1", "2", "3", "4"};
   REQUIRE(result == expected);
 }
 
@@ -66,7 +66,7 @@ TEST_CASE(
   sp.processContent(followsStarSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"2", "5", "6", "8"};
+  unordered_set<string> expected = {"2", "5", "6", "8"};
   REQUIRE(result == expected);
 }
 
@@ -80,7 +80,7 @@ TEST_CASE(
   sp.processContent(followsStarSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {};
+  unordered_set<string> expected = {};
   REQUIRE(result == expected);
 }
 
@@ -94,7 +94,7 @@ TEST_CASE(
   sp.processContent(followsStarSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "2", "3", "4"};
+  unordered_set<string> expected = {"1", "2", "3", "4"};
   REQUIRE(result == expected);
 }
 
@@ -108,7 +108,7 @@ TEST_CASE(
   sp.processContent(followsStarSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"2", "8"};
+  unordered_set<string> expected = {"2", "8"};
   REQUIRE(result == expected);
 }
 
@@ -122,7 +122,7 @@ TEST_CASE(
   sp.processContent(followsStarSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"4"};
+  unordered_set<string> expected = {"4"};
   REQUIRE(result == expected);
 }
 
@@ -136,7 +136,7 @@ TEST_CASE(
   sp.processContent(followsStarSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"FollowsT"};
+  unordered_set<string> expected = {"FollowsT"};
   REQUIRE(result == expected);
 }
 
@@ -150,7 +150,7 @@ TEST_CASE(
   sp.processContent(followsStarSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "2", "3", "4", "5", "6", "7", "8"};
+  unordered_set<string> expected = {"1", "2", "3", "4", "5", "6", "7", "8"};
   REQUIRE(result == expected);
 }
 
@@ -164,7 +164,7 @@ TEST_CASE(
   sp.processContent(followsStarSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {};
+  unordered_set<string> expected = {};
   REQUIRE(result == expected);
 }
 
@@ -178,7 +178,7 @@ TEST_CASE(
   sp.processContent(followsStarSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {};
+  unordered_set<string> expected = {};
   REQUIRE(result == expected);
 }
 
@@ -192,7 +192,7 @@ TEST_CASE(
   sp.processContent(followsStarSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {};
+  unordered_set<string> expected = {};
   REQUIRE(result == expected);
 }
 
@@ -206,7 +206,7 @@ TEST_CASE(
   sp.processContent(followsStarSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"4"};
+  unordered_set<string> expected = {"4"};
   REQUIRE(result == expected);
 }
 
@@ -220,6 +220,6 @@ TEST_CASE(
   sp.processContent(followsStarSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"5", "8"};
+  unordered_set<string> expected = {"5", "8"};
   REQUIRE(result == expected);
 }
