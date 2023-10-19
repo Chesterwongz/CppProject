@@ -30,13 +30,12 @@ void WhilePatternParserState::processSynonymToken(PQLToken &curr) {
   }
 }
 
-bool WhilePatternParserState::checkSafeExit() {
+void WhilePatternParserState::checkSafeExit() {
   assert(synWhile);
   if (patternArg.size() != expectedNumberOfArgs ||
       nonFirstArgWildcardCount != expectedNonFirstArgWildcardCount) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
-  return true;
 }
 
 void WhilePatternParserState::handleToken() {

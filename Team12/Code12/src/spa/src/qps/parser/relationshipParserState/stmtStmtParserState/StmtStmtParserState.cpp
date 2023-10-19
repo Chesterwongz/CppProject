@@ -28,7 +28,7 @@ StmtStmtParserState::StmtStmtParserState(PQLParserContext &parserContext,
     : RelationshipParserState(parserContext, false, std::move(abstraction),
                               prev, isNegated) {}
 
-string StmtStmtParserState::checkIsStmtSynonym(const std::string &synonym) {
+string StmtStmtParserState::getIfStmtSynonym(const std::string &synonym) {
   auto synType = parserContext.getValidSynonymType(synonym);
   if (!PQLParserUtils::isStmtSynonym(synType)) {
     throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_STMT_SYN);
@@ -54,7 +54,7 @@ void StmtStmtParserState::handleToken() {
         return;
       case PQL_SYNONYM_TOKEN:
         arguments.push_back(std::make_unique<SynonymArg>(
-            token.getValue(), checkIsStmtSynonym(token.getValue())));
+            token.getValue(), getIfStmtSynonym(token.getValue())));
         break;
       case PQL_INTEGER_TOKEN:
         arguments.push_back(std::make_unique<Integer>(token.getValue()));

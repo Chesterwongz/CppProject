@@ -32,7 +32,7 @@ class AssignPatternParserState : public BaseParserState {
   void processSynonymToken(PQLToken& curr);
   void processLiteralRefToken(PQLToken& curr);
   void processLastArgument();
-  bool checkSafeExit();
+  void checkSafeExit();
   static void checkIsValidExpr(const string& ref);
 
  public:

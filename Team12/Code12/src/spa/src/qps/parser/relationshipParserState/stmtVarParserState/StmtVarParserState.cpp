@@ -24,7 +24,7 @@ StmtVarParserState::StmtVarParserState(PQLParserContext& parserContext,
     : RelationshipParserState(parserContext, false, std::move(abstraction),
                               prev, isNegated) {}
 
-string StmtVarParserState::checkIsValidSynonym(const std::string& synonym,
+string StmtVarParserState::getIfValidSynonym(const std::string& synonym,
                                                size_t argumentNumber) {
   auto synType = parserContext.getValidSynonymType(synonym);
   if (argumentNumber == SECOND_ARG && synType != VARIABLE_ENTITY) {
@@ -58,7 +58,7 @@ void StmtVarParserState::handleToken() {
       case PQL_SYNONYM_TOKEN:
         arguments.push_back(std::make_unique<SynonymArg>(
             token.getValue(),
-            checkIsValidSynonym(token.getValue(), arguments.size())));
+            getIfValidSynonym(token.getValue(), arguments.size())));
         break;
       case PQL_WILDCARD_TOKEN:
         checkIsValidWildcard();

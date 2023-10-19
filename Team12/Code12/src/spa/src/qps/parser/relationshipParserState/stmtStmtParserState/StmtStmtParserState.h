@@ -14,7 +14,7 @@ class StmtStmtParserState : public RelationshipParserState {
  private:
   static unordered_map<string, Abstraction> stmtStmtKeywordToAbstraction;
   static PredictiveMap predictiveMap;
-  string checkIsStmtSynonym(const string& synonym);
+  string getIfStmtSynonym(const string& synonym);
 
  public:
   explicit StmtStmtParserState(PQLParserContext& parserContext,

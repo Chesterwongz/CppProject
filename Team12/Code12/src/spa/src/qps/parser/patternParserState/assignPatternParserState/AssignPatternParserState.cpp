@@ -56,12 +56,11 @@ void AssignPatternParserState::processLastArgument() {
   }
 }
 
-bool AssignPatternParserState::checkSafeExit() {
+void AssignPatternParserState::checkSafeExit() {
   assert(synAssign);
   if (patternArg.size() != expectedNumberOfArgs) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
-  return true;
 }
 
 void AssignPatternParserState::processLiteralRefToken(PQLToken& curr) {

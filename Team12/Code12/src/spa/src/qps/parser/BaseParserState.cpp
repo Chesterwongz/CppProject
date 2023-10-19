@@ -11,7 +11,7 @@ void BaseParserState::processNameToken(PQLToken &curr) {
   curr.updateTokenType(PQL_SYNONYM_TOKEN);
 }
 
-string BaseParserState::checkValidAttrRef(const std::string &synonym,
+string BaseParserState::getValidAttrRef(const std::string &synonym,
                                           const std::string &attrRef) {
   auto entityType = parserContext.getValidSynonymType(synonym);
 
@@ -33,6 +33,6 @@ void BaseParserState::processAttrRef(unique_ptr<SynonymArg> &synArg) {
   if (!attrRef.has_value()) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR);
   }
-  auto validRef = checkValidAttrRef(synArg->getValue(), attrRef->getValue());
+  auto validRef = getValidAttrRef(synArg->getValue(), attrRef->getValue());
   synArg->setAttrRef(std::move(validRef));
 }

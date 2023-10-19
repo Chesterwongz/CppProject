@@ -25,7 +25,7 @@ class WhilePatternParserState : public BaseParserState {
   vector<unique_ptr<AbstractArgument>> patternArg;
   int nonFirstArgWildcardCount = 0;
   void processSynonymToken(PQLToken& curr);
-  bool checkSafeExit();
+  void checkSafeExit();
 
  public:
   explicit WhilePatternParserState(PQLParserContext& parserContext,
