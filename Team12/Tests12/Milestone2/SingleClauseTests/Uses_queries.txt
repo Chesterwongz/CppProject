@@ -16,7 +16,7 @@ UsesForProcsAndCalls1, UsesForProcsAndCalls2, UsesForProcsAndCalls5
 ====== 4 - Uses (proc, varSyn) select v ======
 procedure p; variable v;
 Select v such that Uses(p, v)
-i, p, x, y, z, hello, hihi
+i, p, q, x, y, z, hello, hihi
 1000
 ====== 5 - Uses (proc, varSyn) select different p ======
 procedure p1, p2; variable v;
@@ -133,43 +133,43 @@ call c1, c2;
 Select c1 such that Uses(c2, "x")
 6, 22, 24
 1000
-====== 28 - Uses (callIdent, _) ======
+====== 28 - Uses (callStmtNum, _) ======
 call c;
-Select c such that Uses("6", _)
+Select c such that Uses(6, _)
 6, 22, 24
 1000
-====== 29 - Uses (callIdent, _) no results ======
+====== 29 - Uses (callStmtNum, _) no results ======
 call c;
-Select c such that Uses("22", _)
+Select c such that Uses(22, _)
 none
 1000
-====== 30 - Uses (callIdent, varSyn) select c ======
+====== 30 - Uses (callStmtNum, varSyn) select c ======
 call c; variable v;
-Select c such that Uses("6", v)
+Select c such that Uses(6, v)
 6, 22, 24
 1000
-====== 31 - Uses (callIdent, varSyn) select c no results ======
+====== 31 - Uses (callStmtNum, varSyn) select c no results ======
 call c; variable v;
-Select c such that Uses("22", v)
+Select c such that Uses(22, v)
 none
 1000
-====== 32 - Uses (callIdent, varSyn) select v ======
+====== 32 - Uses (callStmtNum, varSyn) select v ======
 variable v;
-Select v such that Uses("6", v)
+Select v such that Uses(6, v)
 i, q, x, y, z, hihi
 1000
-====== 33 - Uses (callIdent, varSyn) select v no results ======
+====== 33 - Uses (callStmtNum, varSyn) select v no results ======
 variable v;
-Select v such that Uses("22", v)
+Select v such that Uses(22, v)
 none
 1000
-====== 34 - Uses (callIdent, ident) ======
+====== 34 - Uses (callStmtNum, ident) ======
 call c;
-Select c such that Uses("24", "hello")
+Select c such that Uses(24, "hello")
 6, 22, 24
 1000
-====== 35 - Uses (callIdent, ident) no results ======
+====== 35 - Uses (callStmtNum, ident) no results ======
 call c;
-Select c such that Uses("6", "sthRandom")
+Select c such that Uses(6, "sthRandom")
 none
 1000
