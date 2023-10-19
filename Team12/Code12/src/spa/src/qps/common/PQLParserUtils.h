@@ -20,6 +20,7 @@ class PQLParserUtils {
   static unordered_map<char, PQLTokenType> delimiterToTokenType;
   static unordered_set<string> stmtEntities;
   static unordered_map<string, unordered_set<string>> entityToAttrRef;
+
  public:
   static unordered_map<AttrRef, ArgumentType> attrRefToType;
   PQLParserUtils() = default;

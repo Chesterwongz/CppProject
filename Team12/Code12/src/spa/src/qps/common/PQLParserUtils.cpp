@@ -54,9 +54,9 @@ unordered_map<char, PQLTokenType> PQLParserUtils::delimiterToTokenType = {
     {pqlDelim::kPeriodChar, PQL_PERIOD_TOKEN},
     {pqlDelim::kEqualChar, PQL_EQUALS_TOKEN}};
 
-unordered_set<string> PQLParserUtils::stmtEntities = {STMT_ENTITY,   READ_ENTITY, PRINT_ENTITY,
-                                                      ASSIGN_ENTITY, CALL_ENTITY, WHILE_ENTITY,
-                                                      IF_ENTITY};
+unordered_set<string> PQLParserUtils::stmtEntities = {
+    STMT_ENTITY, READ_ENTITY,  PRINT_ENTITY, ASSIGN_ENTITY,
+    CALL_ENTITY, WHILE_ENTITY, IF_ENTITY};
 
 unordered_map<string, unordered_set<string>> PQLParserUtils::entityToAttrRef = {
     {ASSIGN_ENTITY, {ATTR_REF_STMT_NUMBER}},
@@ -77,7 +77,7 @@ unordered_map<AttrRef, ArgumentType> PQLParserUtils::attrRefToType = {
     {ATTR_REF_VALUE, ArgumentType::INTEGER_TYPE},
 };
 
-PQLTokenType PQLParserUtils::isDelimiterToken(const char& c) {
+PQLTokenType PQLParserUtils::isDelimiterToken(const char &c) {
   return delimiterToTokenType.find(c)->second;
 }
 
@@ -85,8 +85,8 @@ bool PQLParserUtils::isDelimiter(const char &ch) {
   return delimiterToTokenType.find(ch) != delimiterToTokenType.end();
 }
 
-bool PQLParserUtils::isStmtSynonym(const std::string& entity) {
-    return stmtEntities.find(entity) != stmtEntities.end();
+bool PQLParserUtils::isStmtSynonym(const std::string &entity) {
+  return stmtEntities.find(entity) != stmtEntities.end();
 }
 
 PQLTokenType PQLParserUtils::getTokenTypeFromKeyword(const string &data) {

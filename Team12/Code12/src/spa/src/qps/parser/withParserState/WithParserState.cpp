@@ -44,7 +44,8 @@ void WithParserState::handleToken() {
             token.getValue(),
             parserContext.getValidSynonymType(token.getValue()));
         processAttrRef(syn);
-        argumentTypes.emplace_back(PQLParserUtils::attrRefToType.at(syn->getAttrRef()));
+        argumentTypes.emplace_back(
+            PQLParserUtils::attrRefToType.at(syn->getAttrRef()));
         arguments.emplace_back(std::move(syn));
         break;
       case PQL_LITERAL_REF_TOKEN:
