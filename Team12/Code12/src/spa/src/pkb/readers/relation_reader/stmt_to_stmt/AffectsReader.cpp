@@ -3,11 +3,11 @@
 std::vector<std::pair<std::string, std::string>> AffectsReader::getAffectsPairs() {
     std::vector<std::pair<std::string, std::string>> result;
 
-    const auto assignStatements = stmt_storage_.getStatementNumbersFromStatementType(StmtType::ASSIGN);
+    const auto assignStatements = stmtStore.getAllStmtsOf(StmtType::ASSIGN);
 
     for (const auto& assign : assignStatements) {
-        unordered_set<std::string> done;
-        std::string v = *modifies_storage_.getVarsModifiedByStmt(assign).begin();
+        std::unordered_set<std::string> done;
+        std::string v = *modifiesSStore.getAllDirectSuccessorsOf(assign).begin();
 
         FindAffectsPairs(assign, assign, v, done, result);
     }
@@ -20,49 +20,53 @@ std::vector<std::pair<std::string, std::string>> AffectsReader::getAffectsPairs(
 }
 
 void AffectsReader::FindAffectsPairs(
-    int originalStatement,
-    int currentStatement,
+    int originalStmt,
+    int currentStmt,
     const std::string& variable,
-    unordered_set<std::string>& done,
+    std::unordered_set<std::string>& done,
     std::vector<std::pair<std::string, std::string>>& result) {
 
-    done.insert(std::to_string(currentStatement));
+    done.insert(std::to_string(currentStmt));
 
-    for (auto& nextStatement : next_storage_.getNextStmts(currentStatement)) {
-        if (nextStatement == originalStatement &&
-            uses_storage_.getVarsUsedByStmt(nextStatement).count(variable) > 0) {
-            result.emplace_back(std::to_string(originalStatement), std::to_string(nextStatement));
+    for (auto& nextStmt : nextStore.getAllDirectSuccessorsOf(currentStmt)) {
+        if (nextStmt == originalStmt &&
+            usesSStore.hasDirectRelation(nextStmt, variable)) {
+            result.emplace_back(std::to_string(originalStmt), std::to_string(nextStmt));
         }
 
-        if (done.count(std::to_string(nextStatement)) > 0) {
+        if (done.count(std::to_string(nextStmt)) > 0) {
             continue;
         }
 
         // if it is an ASSIGN statement, and it uses the variable
-        if (stmt_storage_.getStatementNumbersFromStatementType(StmtType::ASSIGN).count(nextStatement) > 0 &&
-            uses_storage_.getVarsUsedByStmt(nextStatement).count(variable) > 0) {
-            result.emplace_back(std::to_string(originalStatement), std::to_string(nextStatement));
+        if (stmtStore.getAllStmtsOf(StmtType::ASSIGN).count(nextStmt) > 0 &&
+            usesSStore.hasDirectRelation(nextStmt, variable)) {
+            result.emplace_back(std::to_string(originalStmt), std::to_string(nextStmt));
         }
 
-        // if it is an ASSIGN statement, and it modifies the variable then Affects cannot hold
-        if (stmt_storage_.getStatementNumbersFromStatementType(StmtType::ASSIGN).count(nextStatement) > 0 &&
-            modifies_storage_.getVarsModifiedByStmt(nextStatement).count(variable) > 0) {
+        //// if it is an ASSIGN statement, and it modifies the variable then Affects cannot hold
+        //if (stmtStore.getAllStmtsOf(StmtType::ASSIGN).count(nextStmt) > 0 &&
+        //    modifiesSStore.hasDirectRelation(nextStmt, variable)) {
+        //    continue;
+        //}
+
+        //// if it is a READ statement, and it modifies the variable then Affects cannot hold
+        //if (stmtStore.getAllStmtsOf(StmtType::READ).count(nextStmt) > 0 &&
+        //    modifiesSStore.hasDirectRelation(nextStmt, variable)) {
+        //    continue;
+        //}
+
+        //// if it is a CALL statement, and it modifies the variable then Affects cannot hold
+        //if (stmtStore.getAllStmtsOf(StmtType::CALL).count(nextStmt) > 0 &&
+        //    modifies_storage_.getVarsModifiedByProc(calls_storage_.getStmtCalleeMap().at(nextStmt)).count(variable) > 0) {
+        //    continue;
+        //}
+
+        if (modifiesSStore.hasDirectRelation(nextStmt, variable)) {
             continue;
         }
 
-        // if it is a READ statement, and it modifies the variable then Affects cannot hold
-        if (stmt_storage_.getStatementNumbersFromStatementType(StmtType::READ).count(nextStatement) > 0 &&
-            modifies_storage_.getVarsModifiedByStmt(nextStatement).count(variable) > 0) {
-            continue;
-        }
-
-        // if it is a CALL statement, and it modifies the variable then Affects cannot hold
-        if (stmt_storage_.getStatementNumbersFromStatementType(StmtType::CALL).count(nextStatement) > 0 &&
-            modifies_storage_.getVarsModifiedByProc(calls_storage_.getStmtCalleeMap().at(nextStatement)).count(variable) > 0) {
-            continue;
-        }
-
-        FindAffectsPairs(originalStatement, nextStatement, variable, done, result);
+        FindAffectsPairs(originalStmt, nextStmt, variable, done, result);
     }
 }
 
