@@ -54,6 +54,8 @@ TEST_CASE("PKBReader Tests") {
   writer.addAssignPattern("z", " a b * c * d + ", 3);
   writer.addAssignPattern("x", " a 2 + ", 4);
 
+  writer.addCalls("proc1", "proc2", 2);
+
   SECTION("getAllVarUsedByStmt") {
     REQUIRE(compareVectorContents(reader.getAllVariables(), {"x", "y", "z"}));
   }
@@ -395,52 +397,166 @@ TEST_CASE("PKBReader Tests") {
         resultVector7, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}}));
   }
 
+
   SECTION("Test whilePattern") {
-    writer.addWhilePattern(6, "x");
-    writer.addWhilePattern(6, "y");
-    writer.addWhilePattern(7, "y");
-    writer.addWhilePattern(8, "x");
-    writer.addWhilePattern(8, "z");
-    writer.addWhilePattern(9, "x");
+      writer.addWhilePattern(6, "x");
+      writer.addWhilePattern(6, "y");
+      writer.addWhilePattern(7, "y");
+      writer.addWhilePattern(8, "x");
+      writer.addWhilePattern(8, "z");
+      writer.addWhilePattern(9, "x");
 
-    StrStrPairVec resultVec1 = reader.getWhilePattern("x");
-    StrStrPairVec resultVec2 = reader.getWhilePattern("y");
-    StrStrPairVec resultVec3 = reader.getWhilePattern("z");
-    StrStrPairVec resultVec4 = reader.getWhilePattern("_");
+      StrStrPairVec resultVec1 = reader.getWhilePattern("x");
+      StrStrPairVec resultVec2 = reader.getWhilePattern("y");
+      StrStrPairVec resultVec3 = reader.getWhilePattern("z");
+      StrStrPairVec resultVec4 = reader.getWhilePattern("_");
 
-    REQUIRE(compareVectorContents(resultVec1,
-                                  {{"6", "x"}, {"8", "x"}, {"9", "x"}}));
-    REQUIRE(compareVectorContents(resultVec2, {{"6", "y"}, {"7", "y"}}));
-    REQUIRE(compareVectorContents(resultVec3, {{"8", "z"}}));
-    REQUIRE(compareVectorContents(resultVec4, {{"6", "x"},
-                                               {"6", "y"},
-                                               {"7", "y"},
-                                               {"8", "x"},
-                                               {"8", "z"},
-                                               {"9", "x"}}));
+      REQUIRE(compareVectorContents(resultVec1,
+          { {"6", "x"}, {"8", "x"}, {"9", "x"} }));
+      REQUIRE(compareVectorContents(resultVec2, { {"6", "y"}, {"7", "y"} }));
+      REQUIRE(compareVectorContents(resultVec3, { {"8", "z"} }));
+      REQUIRE(compareVectorContents(resultVec4, { {"6", "x"},
+                                                 {"6", "y"},
+                                                 {"7", "y"},
+                                                 {"8", "x"},
+                                                 {"8", "z"},
+                                                 {"9", "x"} }));
   }
 
   SECTION("Test ifPattern") {
-    writer.addIfPattern(6, "a");
-    writer.addIfPattern(7, "b");
-    writer.addIfPattern(8, "c");
-    writer.addIfPattern(9, "a");
-    writer.addIfPattern(10, "b");
-    writer.addIfPattern(11, "d");
+      writer.addIfPattern(6, "a");
+      writer.addIfPattern(7, "b");
+      writer.addIfPattern(8, "c");
+      writer.addIfPattern(9, "a");
+      writer.addIfPattern(10, "b");
+      writer.addIfPattern(11, "d");
 
-    StrStrPairVec resultVec1 = reader.getIfPattern("a");
-    StrStrPairVec resultVec2 = reader.getIfPattern("b");
-    StrStrPairVec resultVec3 = reader.getIfPattern("c");
-    StrStrPairVec resultVec4 = reader.getIfPattern("_");
+      StrStrPairVec resultVec1 = reader.getIfPattern("a");
+      StrStrPairVec resultVec2 = reader.getIfPattern("b");
+      StrStrPairVec resultVec3 = reader.getIfPattern("c");
+      StrStrPairVec resultVec4 = reader.getIfPattern("_");
 
-    REQUIRE(compareVectorContents(resultVec1, {{"6", "a"}, {"9", "a"}}));
-    REQUIRE(compareVectorContents(resultVec2, {{"7", "b"}, {"10", "b"}}));
-    REQUIRE(compareVectorContents(resultVec3, {{"8", "c"}}));
-    REQUIRE(compareVectorContents(resultVec4, {{"6", "a"},
-                                               {"7", "b"},
-                                               {"8", "c"},
-                                               {"9", "a"},
-                                               {"10", "b"},
-                                               {"11", "d"}}));
+      REQUIRE(compareVectorContents(resultVec1, { {"6", "a"}, {"9", "a"} }));
+      REQUIRE(compareVectorContents(resultVec2, { {"7", "b"}, {"10", "b"} }));
+      REQUIRE(compareVectorContents(resultVec3, { {"8", "c"} }));
+      REQUIRE(compareVectorContents(resultVec4, { {"6", "a"},
+                                                 {"7", "b"},
+                                                 {"8", "c"},
+                                                 {"9", "a"},
+                                                 {"10", "b"},
+                                                 {"11", "d"} }));
+  }
+}
+
+TEST_CASE("PKBReader Tests - Entity Reader APIs") {
+  PKBStorage storage;
+  PKBStore store;
+  PKBWriter writer(storage, store);
+  PKBReader reader(storage, store);
+
+  writer.addVar("x");
+  writer.addVar("y");
+  writer.addVar("z");
+
+  writer.addConst("1");
+  writer.addConst("2");
+
+  writer.addProc("proc1");
+  writer.addProc("proc2");
+
+  writer.addStmt(1, StmtType::ASSIGN);
+  writer.addStmt(2, StmtType::WHILE);
+  writer.addStmt(3, StmtType::ASSIGN);
+  writer.addStmt(4, StmtType::IF);
+  writer.addStmt(5, StmtType::WHILE);
+  writer.addStmt(6, StmtType::READ);
+  writer.addStmt(7, StmtType::PRINT);
+  writer.addStmt(12, StmtType::CALL);
+
+  writer.addFollows(1, 2);
+  writer.addFollows(3, 4);
+  writer.addFollows(4, 5);
+
+  writer.addParent(1, 2);
+  writer.addParent(1, 3);
+  writer.addParent(3, 4);
+  writer.addParent(3, 5);
+  writer.setParentStarRelationship(1, 2);
+  writer.setParentStarRelationship(1, 3);
+  writer.setParentStarRelationship(1, 4);
+  writer.setParentStarRelationship(1, 5);
+  writer.setParentStarRelationship(3, 4);
+  writer.setParentStarRelationship(3, 5);
+
+  writer.addModifies("x", 1);
+  writer.addModifies("y", 2);
+  writer.addModifies("x", 3);
+  writer.addModifies("z", 4);
+  writer.addModifies("y", 5);
+  writer.addModifies("x", 6);
+
+  writer.addUses("x", 1);
+  writer.addUses("y", 1);
+  writer.addUses("x", 2);
+  writer.addUses("z", 3);
+  writer.addUses("x", 4);
+  writer.addUses("x", 7);
+
+  writer.addAssignPattern("x", " a b c * + ", 1);
+  writer.addAssignPattern("y", " d e + f + ", 2);
+  writer.addAssignPattern("z", " a b * c * d + ", 3);
+  writer.addAssignPattern("x", " a 2 + ", 4);
+
+  writer.addCalls("proc1", "proc2", 12);
+
+  SECTION("isValidStmt") {
+      REQUIRE(reader.isValidStmt(1, StmtType::ASSIGN));
+      REQUIRE_FALSE(reader.isValidStmt(1, StmtType::CALL));
+  }
+
+  SECTION("isValidConstant") {
+      REQUIRE(reader.isValidConstant("1"));
+      REQUIRE_FALSE(reader.isValidConstant("3"));
+  }
+
+  SECTION("isValidProc") {
+      REQUIRE(reader.isValidProc("proc1"));
+      REQUIRE(reader.isValidProc("proc2"));
+      REQUIRE_FALSE(reader.isValidProc("noProc"));
+  }
+
+  SECTION("isValidVariable") {
+      REQUIRE(reader.isValidVariable("x"));
+      REQUIRE_FALSE(reader.isValidVariable("a"));
+  }
+
+  SECTION("getStmtsThatCall") {
+    REQUIRE(reader.getStmtsThatCall("proc2") == std::vector<std::string> {"12"});
+    REQUIRE(reader.getStmtsThatCall("proc1") == std::vector<std::string> {});
+  }
+
+  SECTION("getProcCalledByStmt") {
+    REQUIRE(reader.getProcCalledBy(12) == "proc2");
+    REQUIRE(reader.getProcCalledBy(4) == "");
+  }
+
+  SECTION("getStmtsThatRead") {
+    REQUIRE(reader.getStmtsThatRead("x") == std::vector<std::string> {"6"});
+    REQUIRE(reader.getStmtsThatRead("wrong") == std::vector<std::string>{});
+  }
+
+  SECTION("getVariableReadBy") {
+    REQUIRE(reader.getVariableReadBy(6) == "x");
+    REQUIRE(reader.getVariableReadBy(8) == "");
+  }
+
+  SECTION("getStmtsThatPrint") {
+      REQUIRE(reader.getStmtsThatPrint("x") == std::vector<std::string>{"7"});
+      REQUIRE(reader.getStmtsThatPrint("wrong") == std::vector<std::string>{});
+  }
+
+  SECTION("getVariablePrintedBy") {
+      REQUIRE(reader.getVariablePrintedBy(7) == "x");
+      REQUIRE(reader.getVariablePrintedBy(8) == "");
   }
 }
