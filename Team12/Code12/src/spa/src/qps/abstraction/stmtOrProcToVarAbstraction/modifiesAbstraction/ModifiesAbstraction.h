@@ -20,13 +20,11 @@ class ModifiesAbstraction : public StmtOrProcToVarAbstraction {
 
   vector<string> getProcsRelatedToVar(const string& varName) override;
 
-  vector<pair<string, string>> getVarsRelatedToStmt(int stmtNum,
-                                                    StmtType stmtType) override;
+  vector<string> getVarsRelatedToStmt(int stmtNum) override;
 
   vector<string> getVarsRelatedToProc(const string& procName) override;
 
-  bool isVarRelatedToStmt(const string& varName,
-                          const string& stmtNum) override;
+  bool isVarRelatedToStmt(int stmtNum, const string& varName) override;
 
   bool isVarRelatedToProc(const string& procName,
                           const string& varName) override;

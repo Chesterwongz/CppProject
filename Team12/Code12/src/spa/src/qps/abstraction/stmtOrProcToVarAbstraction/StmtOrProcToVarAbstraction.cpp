@@ -43,19 +43,18 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateIntegerSynonym() {
   int firstArgStmtNumber = stoi(this->firstArgValue);
   string secondArgVarSynonym = this->secondArgValue;
 
-  vector<pair<string, string>> possibleStmtVarPairs =
-      getVarsRelatedToStmt(firstArgStmtNumber, StmtType::STMT);
+  vector<string> possibleVars = getVarsRelatedToStmt(firstArgStmtNumber);
 
-  return IntermediateTableFactory::buildIntermediateTable(
-      WILDCARD_KEYWORD, secondArgVarSynonym, possibleStmtVarPairs);
+  return IntermediateTableFactory::buildSingleColTable(secondArgVarSynonym,
+                                                       possibleVars);
 }
 
 // Abstraction (StatementNumber, VarIdentifier)
 IntermediateTable StmtOrProcToVarAbstraction::evaluateIntegerIdent() {
-  string firstArgStmtNumber = this->firstArgValue;
+  int firstArgStmtNumber = std::stoi(this->firstArgValue);
   string secondArgIdent = this->secondArgValue;
 
-  if (isVarRelatedToStmt(secondArgIdent, firstArgStmtNumber)) {
+  if (isVarRelatedToStmt(firstArgStmtNumber, secondArgIdent)) {
     return IntermediateTableFactory::buildWildcardIntermediateTable();
   }
   return IntermediateTableFactory::buildEmptyIntermediateTable();
@@ -65,11 +64,10 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateIntegerIdent() {
 IntermediateTable StmtOrProcToVarAbstraction::evaluateIntegerWildcard() {
   int firstArgStmtNumber = stoi(this->firstArgValue);
 
-  vector<pair<string, string>> possibleStmtVarPairs =
-      getVarsRelatedToStmt(firstArgStmtNumber, StmtType::STMT);
+  vector<string> possibleVars = getVarsRelatedToStmt(firstArgStmtNumber);
 
-  return IntermediateTableFactory::buildIntermediateTable(
-      WILDCARD_KEYWORD, WILDCARD_KEYWORD, possibleStmtVarPairs);
+  return IntermediateTableFactory::buildSingleColTable(WILDCARD_KEYWORD,
+                                                       possibleVars);
 }
 
 // Abstraction (ProcName, VarSynonym)
@@ -82,7 +80,7 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateIdentIdent() {
   string firstArgProcName = this->firstArgValue;
   string secondArgVarName = this->secondArgValue;
   bool isProcRelatedToVar =
-      isVarRelatedToProc(secondArgVarName, firstArgProcName);
+      isVarRelatedToProc(firstArgProcName, secondArgVarName);
 
   return isProcRelatedToVar
              ? IntermediateTableFactory::buildWildcardIntermediateTable()

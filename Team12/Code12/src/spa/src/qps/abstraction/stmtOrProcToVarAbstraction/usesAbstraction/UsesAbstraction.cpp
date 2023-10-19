@@ -8,7 +8,7 @@
 
 vector<pair<string, string>> UsesAbstraction::getAllStmtVarRelations(
     StmtType stmtType) {
-  return pkb.getAllUsedVariables(stmtType);
+  return pkb.getUsesStmtPairs(stmtType);
 }
 
 vector<pair<string, string>> UsesAbstraction::getAllProcVarRelations() {
@@ -24,18 +24,16 @@ vector<string> UsesAbstraction::getProcsRelatedToVar(const string& varName) {
   return pkb.getProcUsing(varName);
 }
 
-vector<pair<string, string>> UsesAbstraction::getVarsRelatedToStmt(
-    int stmtNum, StmtType stmtType) {
-  return pkb.getVariablesUsedBy(stmtNum, stmtType);
+vector<string> UsesAbstraction::getVarsRelatedToStmt(int stmtNum) {
+  return pkb.getVariablesUsedBy(stmtNum);
 }
 
 vector<string> UsesAbstraction::getVarsRelatedToProc(const string& procName) {
   return pkb.getVarsUsedByProc(procName);
 }
 
-bool UsesAbstraction::isVarRelatedToStmt(const string& varName,
-                                         const string& stmtNum) {
-  return pkb.isVariableUsedBy(varName, stmtNum);
+bool UsesAbstraction::isVarRelatedToStmt(int stmtNum, const string& varName) {
+  return pkb.isVariableUsedBy(stmtNum, varName);
 }
 
 bool UsesAbstraction::isVarRelatedToProc(const string& procName,

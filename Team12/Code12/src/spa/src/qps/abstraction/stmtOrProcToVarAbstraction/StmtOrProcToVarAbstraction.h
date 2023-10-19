@@ -37,22 +37,20 @@ class StmtOrProcToVarAbstraction : public BaseAbstraction {
   virtual vector<string> getProcsRelatedToVar(const string& varName) = 0;
 
   /**
-   * Abstraction(a, b): get all a, b pairs where a has specified stmtType
-   * and stmtNum
+   * Abstraction(a, b): get all b where a has specified stmtNum
    */
-  virtual vector<pair<string, string>> getVarsRelatedToStmt(
-      int stmtNum, StmtType stmtType) = 0;
+  virtual vector<string> getVarsRelatedToStmt(int stmtNum) = 0;
 
   /**
-   * Abstraction(a, b): get all a, b pairs where a has specified procName
+   * Abstraction(a, b): get all b where a has specified procName
    */
   virtual vector<string> getVarsRelatedToProc(const string& procName) = 0;
 
   /**
    * Abstraction(a, b): check if specified stmtNum and varName are related
    */
-  virtual bool isVarRelatedToStmt(const string& varName,
-                                  const string& stmtNum) = 0;
+  virtual bool isVarRelatedToStmt(int stmtNum,
+                                  const string& varName) = 0;
 
   /**
    * Abstraction(a, b): check if specified procName and varName are related
