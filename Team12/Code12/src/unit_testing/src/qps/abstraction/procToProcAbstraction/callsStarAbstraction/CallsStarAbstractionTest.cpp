@@ -8,11 +8,9 @@
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/wildcard/Wildcard.h"
 
-using namespace MOCK_CALLS_STAR_DATA;
-
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, ProcSynonym)") {
   MockCallsReader mockReader = MockCallsReader();
-  mockReader.mockCallsStarPairs = MOCK_CALL_STAR_PAIRS;
+  mockReader.mockCallsStarPairs = MOCK_CALLS_STAR_DATA::MOCK_CALL_STAR_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, PROCEDURE_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -23,7 +21,8 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, ProcSynonym)") {
   CallsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getDataAsStrings() == MOCK_CALL_STAR_PAIRS_VECTORS);
+  REQUIRE(resultTable.getDataAsStrings() ==
+          MOCK_CALLS_STAR_DATA::MOCK_CALL_STAR_PAIRS_VECTORS);
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
@@ -47,7 +46,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, ProcSynonym)_empty") {
 
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, ProcName)") {
   MockCallsReader mockReader = MockCallsReader();
-  mockReader.mockCallerProcsStar = MOCK_CALLER_STAR_PROCS;
+  mockReader.mockCallerProcsStar = MOCK_CALLS_STAR_DATA::MOCK_CALLER_STAR_PROCS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, PROCEDURE_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -58,7 +57,8 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, ProcName)") {
   CallsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getDataAsStrings() == MOCK_CALLER_STAR_PROCS_COL);
+  REQUIRE(resultTable.getDataAsStrings() ==
+          MOCK_CALLS_STAR_DATA::MOCK_CALLER_STAR_PROCS_COL);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
@@ -80,7 +80,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, ProcName)_empty") {
 
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, Wildcard)") {
   MockCallsReader mockReader = MockCallsReader();
-  mockReader.mockCallsStarPairs = MOCK_CALL_STAR_PAIRS;
+  mockReader.mockCallsStarPairs = MOCK_CALLS_STAR_DATA::MOCK_CALL_STAR_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, PROCEDURE_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
@@ -90,7 +90,8 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, Wildcard)") {
   CallsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getDataAsStrings() == MOCK_CALLED_STAR_VECTORS_COL_1);
+  REQUIRE(resultTable.getDataAsStrings() ==
+          MOCK_CALLS_STAR_DATA::MOCK_CALLED_STAR_VECTORS_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
@@ -111,7 +112,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, Wildcard)_empty") {
 
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, ProcSynonym)") {
   MockCallsReader mockReader = MockCallsReader();
-  mockReader.mockCalleeProcsStar = MOCK_CALLEE_STAR_PROCS;
+  mockReader.mockCalleeProcsStar = MOCK_CALLS_STAR_DATA::MOCK_CALLEE_STAR_PROCS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -122,7 +123,8 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, ProcSynonym)") {
   CallsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getDataAsStrings() == MOCK_CALLEE_STAR_PROCS_COL);
+  REQUIRE(resultTable.getDataAsStrings() ==
+          MOCK_CALLS_STAR_DATA::MOCK_CALLEE_STAR_PROCS_COL);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
 }
@@ -177,7 +179,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, ProcName)_false") {
 
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, Wildcard)") {
   MockCallsReader mockReader = MockCallsReader();
-  mockReader.mockCalleeProcsStar = MOCK_CALLEE_STAR_PROCS;
+  mockReader.mockCalleeProcsStar = MOCK_CALLS_STAR_DATA::MOCK_CALLEE_STAR_PROCS;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
@@ -206,7 +208,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, Wildcard)_empty") {
 
 TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, ProcSynonym)") {
   MockCallsReader mockReader = MockCallsReader();
-  mockReader.mockCallsStarPairs = MOCK_CALL_STAR_PAIRS;
+  mockReader.mockCallsStarPairs = MOCK_CALLS_STAR_DATA::MOCK_CALL_STAR_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, PROCEDURE_ENTITY);
@@ -216,7 +218,8 @@ TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, ProcSynonym)") {
   CallsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getDataAsStrings() == MOCK_CALLED_STAR_VECTORS_COL_2);
+  REQUIRE(resultTable.getDataAsStrings() ==
+          MOCK_CALLS_STAR_DATA::MOCK_CALLED_STAR_VECTORS_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
 }
@@ -237,7 +240,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, ProcSynonym)_empty") {
 
 TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, ProcName)") {
   MockCallsReader mockReader = MockCallsReader();
-  mockReader.mockCallerProcsStar = MOCK_CALLER_STAR_PROCS;
+  mockReader.mockCallerProcsStar = MOCK_CALLS_STAR_DATA::MOCK_CALLER_STAR_PROCS;
   unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
@@ -266,7 +269,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, ProcName)_false") {
 
 TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, Wildcard)") {
   MockCallsReader mockReader = MockCallsReader();
-  mockReader.mockCallsStarPairs = MOCK_CALL_STAR_PAIRS;
+  mockReader.mockCallsStarPairs = MOCK_CALLS_STAR_DATA::MOCK_CALL_STAR_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
