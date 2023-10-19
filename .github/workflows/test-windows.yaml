@@ -53,6 +53,12 @@ jobs:
           chmod +x ./auto_autotester.sh 
           ./auto_autotester.sh ../Code12/build/src/autotester/${BUILD_TYPE}/autotester.exe
 
+      - name: Upload out.xml artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: output-artifacts
+          path: ./Team12/Tests12/output/*.xml
+
       - name: Cleanup Directory
         if: always()
         shell: bash
