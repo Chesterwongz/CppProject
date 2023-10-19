@@ -1,6 +1,5 @@
 #include <map>
 #include <set>
-#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -36,7 +35,7 @@ TEST_CASE("SP-PKB-QPS integration - 1") {
   sp.processContent(basicSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "7", "11", "12"};
+  unordered_set<string> expected = {"1", "7", "11", "12"};
   REQUIRE(result == expected);
 }
 
@@ -50,7 +49,7 @@ TEST_CASE("SP-PKB-QPS integration - 2") {
   sp.processContent(basicSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "7", "11", "12"};
+  unordered_set<string> expected = {"1", "7", "11", "12"};
   REQUIRE(result == expected);
 }
 
@@ -64,7 +63,7 @@ TEST_CASE("SP-PKB-QPS integration - 3") {
   sp.processContent(basicSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"2", "8"};
+  unordered_set<string> expected = {"2", "8"};
   REQUIRE(result == expected);
 }
 
@@ -78,7 +77,7 @@ TEST_CASE("SP-PKB-QPS integration - 4") {
   sp.processContent(basicSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"2", "8"};
+  unordered_set<string> expected = {"2", "8"};
   REQUIRE(result == expected);
 }
 
@@ -92,7 +91,7 @@ TEST_CASE("SP-PKB-QPS integration - 5") {
   sp.processContent(basicSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"3", "9"};
+  unordered_set<string> expected = {"3", "9"};
   REQUIRE(result == expected);
 }
 
@@ -106,7 +105,7 @@ TEST_CASE("SP-PKB-QPS integration - 6") {
   sp.processContent(basicSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"3", "9"};
+  unordered_set<string> expected = {"3", "9"};
   REQUIRE(result == expected);
 }
 
@@ -120,7 +119,7 @@ TEST_CASE("SP-PKB-QPS integration - 7") {
   sp.processContent(basicSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"4", "6"};
+  unordered_set<string> expected = {"4", "6"};
   REQUIRE(result == expected);
 }
 
@@ -134,7 +133,7 @@ TEST_CASE("SP-PKB-QPS integration - 8") {
   sp.processContent(basicSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"4", "6"};
+  unordered_set<string> expected = {"4", "6"};
   REQUIRE(result == expected);
 }
 
@@ -148,7 +147,7 @@ TEST_CASE("SP-PKB-QPS integration - 9") {
   sp.processContent(basicSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"5", "10"};
+  unordered_set<string> expected = {"5", "10"};
   REQUIRE(result == expected);
 }
 
@@ -162,7 +161,7 @@ TEST_CASE("SP-PKB-QPS integration - 10") {
   sp.processContent(basicSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"5", "10"};
+  unordered_set<string> expected = {"5", "10"};
   REQUIRE(result == expected);
 }
 
@@ -177,9 +176,9 @@ TEST_CASE("SP-PKB-QPS integration - 11") {
   sp.processContent(basicSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"read",   "read2",   "read3",    "read4",    "print",
-                          "print2", "while",   "while2",   "if",       "if2",
-                          "assign", "assign2", "variable", "variable2"};
+  unordered_set<string> expected = {
+      "read",   "read2", "read3", "read4",  "print",   "print2",   "while",
+      "while2", "if",    "if2",   "assign", "assign2", "variable", "variable2"};
   REQUIRE(result == expected);
 }
 
@@ -194,9 +193,9 @@ TEST_CASE("SP-PKB-QPS integration - 12") {
   sp.processContent(basicSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"read",   "read2",   "read3",    "read4",    "print",
-                          "print2", "while",   "while2",   "if",       "if2",
-                          "assign", "assign2", "variable", "variable2"};
+  unordered_set<string> expected = {
+      "read",   "read2", "read3", "read4",  "print",   "print2",   "while",
+      "while2", "if",    "if2",   "assign", "assign2", "variable", "variable2"};
   REQUIRE(result == expected);
 }
 
@@ -211,8 +210,8 @@ TEST_CASE("SP-PKB-QPS integration - 13") {
   sp.processContent(basicSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "2", "3", "4",  "5",  "6",
-                          "7", "8", "9", "10", "11", "12"};
+  unordered_set<string> expected = {"1", "2", "3", "4",  "5",  "6",
+                                    "7", "8", "9", "10", "11", "12"};
   REQUIRE(result == expected);
 }
 
@@ -227,8 +226,8 @@ TEST_CASE("SP-PKB-QPS integration - 14") {
   sp.processContent(basicSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "2", "3", "4",  "5",  "6",
-                          "7", "8", "9", "10", "11", "12"};
+  unordered_set<string> expected = {"1", "2", "3", "4",  "5",  "6",
+                                    "7", "8", "9", "10", "11", "12"};
   REQUIRE(result == expected);
 }
 
@@ -243,7 +242,7 @@ TEST_CASE("SP-PKB-QPS integration - 15") {
   sp.processContent(basicSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"5", "10"};
+  unordered_set<string> expected = {"5", "10"};
   REQUIRE(result == expected);
 }
 
@@ -259,7 +258,7 @@ TEST_CASE("SP-PKB-QPS integration - 16") {
   QPS qps(pkb.getReader());
 
   auto result = qps.processQueryString(query);
-  set<string> expected = {"5", "10"};
+  unordered_set<string> expected = {"5", "10"};
   REQUIRE(result == expected);
 }
 
@@ -274,6 +273,6 @@ TEST_CASE("SP-PKB-QPS integration - 17") {
   sp.processContent(basicSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"procedure"};
+  unordered_set<string> expected = {"procedure"};
   REQUIRE(result == expected);
 }

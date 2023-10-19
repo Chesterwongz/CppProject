@@ -39,7 +39,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Synonym)") {
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_FOLLOWS_STARS_VECTOR);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_FOLLOWS_STARS_VECTOR);
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
@@ -60,7 +60,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Integer)") {
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_FOLLOWED_STAR_COL_1);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_FOLLOWED_STAR_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
@@ -97,7 +97,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Synonym, Wildcard)") {
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_FOLLOWED_STAR_COL_1);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_FOLLOWED_STAR_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
@@ -116,7 +116,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Integer, Synonym)") {
 
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
-  REQUIRE(resultTable.getData() == MOCK_FOLLOWS_STARS_COL_2);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_FOLLOWS_STARS_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
 }
@@ -219,7 +219,7 @@ TEST_CASE("FollowsStarAbstraction - Follows*(Wildcard, Synonym)") {
   FollowsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_FOLLOWS_STARS_COL_2);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_FOLLOWS_STARS_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
 }
