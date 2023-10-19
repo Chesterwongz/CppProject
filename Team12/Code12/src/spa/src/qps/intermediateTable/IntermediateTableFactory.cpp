@@ -1,8 +1,5 @@
 #include "IntermediateTableFactory.h"
 
-#include "qps/common/Keywords.h"
-#include "qps/intermediateTable/synonymRes/SynonymResFactory.h"
-
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const string &firstColName, const string &secondColName,
     const vector<pair<std::string, std::string>> &data) {
