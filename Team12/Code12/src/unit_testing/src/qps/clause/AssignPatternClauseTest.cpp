@@ -1,7 +1,7 @@
 #include <catch.hpp>
 
 #include "../../unit_testing/src/qps/mocks/MockContext.h"
-#include "../../unit_testing/src/qps/mocks/MockPKBReader.h"
+#include "../../unit_testing/src/qps/mocks/mockReaders/MockPatternsReader.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/patternExp/PatternExp.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
@@ -59,7 +59,7 @@ TEST_CASE("test_assignPatternClause_evaluate_synonymFirstArg") {
                           std::move(secondArgPtr), false);
 
   PKBStore pkbStore = PKBStore();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
+  MockPatternsReader mockPkbReader = MockPatternsReader();
 
   mockPkbReader.resetMockExactAssignPatternStmts();
   mockPkbReader.resetMockPartialAssignPatternStmts();
@@ -99,7 +99,7 @@ TEST_CASE("test_assignPatternClause_evaluate_identFirstArg") {
                           std::move(secondArgPtr), false);
 
   PKBStore pkbStore = PKBStore();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
+  MockPatternsReader mockPkbReader = MockPatternsReader();
 
   mockPkbReader.resetMockExactAssignPatternStmts();
   mockPkbReader.resetMockPartialAssignPatternStmts();

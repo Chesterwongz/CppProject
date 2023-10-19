@@ -1,7 +1,7 @@
 #include <catch.hpp>
 
 #include "../../unit_testing/src/qps/mocks/MockContext.h"
-#include "../../unit_testing/src/qps/mocks/MockPKBReader.h"
+#include "../mocks/mockReaders/MockPatternsReader.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/patternExp/PatternExp.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
@@ -47,8 +47,7 @@ TEST_CASE("test_whilePatternClause_evaluate_synonymFirstArg") {
   WhilePatternClause patternClause =
       WhilePatternClause(std::move(patternSynonymPtr), std::move(firstArgPtr));
 
-  PKBStore pkbStore = PKBStore();
-  MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
+  MockPatternsReader mockPkbReader = MockPatternsReader();
 
   vector<pair<string, string>> mockWhilePatternStmts = {
       {"1", "a"}, {"3", "b"}, {"5", "c"}};
@@ -80,8 +79,7 @@ TEST_CASE("test_whilePatternClause_evaluate_identFirstArg") {
   WhilePatternClause patternClause =
       WhilePatternClause(std::move(patternSynonymPtr), std::move(firstArgPtr));
 
-  PKBStore store = PKBStore();
-  MockPKBReader mockPkbReader = MockPKBReader(store);
+  MockPatternsReader mockPkbReader = MockPatternsReader();
 
   vector<pair<string, string>> mockWhilePatternStmts = {{"3", "b"}};
   mockPkbReader.mockWhilePattern = mockWhilePatternStmts;

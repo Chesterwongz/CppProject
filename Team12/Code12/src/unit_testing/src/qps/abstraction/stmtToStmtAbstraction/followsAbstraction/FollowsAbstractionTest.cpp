@@ -1,13 +1,13 @@
 #include <catch.hpp>
 
 #include "../../../intermediateTable/IntermediateTableTestUtils.h"
-#include "../../../mocks/MockPKBReader.h"
+#include "../../../mocks/mockReaders/MockFollowsReader.h"
 #include "../../AbstractionTestUtils.h"
 #include "FollowsAbstractionTestData.h"
 #include "qps/abstraction/stmtToStmtAbstraction/followsAbstraction/FollowsAbstraction.h"
 
 TEST_CASE("FollowsAbstraction - Follows(Synonym, Synonym)_EMPTY") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  MockFollowsReader mockReader = MockFollowsReader();
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
@@ -24,7 +24,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Synonym)_EMPTY") {
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Synonym, Synonym)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
@@ -44,7 +44,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Synonym)") {
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Synonym, Integer)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowed = MOCK_FOLLOWED;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
@@ -63,7 +63,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Integer)") {
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Synonym, Integer) not followed") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowed = MOCK_NO_FOLLOWED;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
@@ -80,7 +80,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Integer) not followed") {
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Synonym, Wildcard)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
@@ -99,7 +99,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Wildcard)") {
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowing = MOCK_FOLLOWED;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
@@ -117,7 +117,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)") {
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)_no followed") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowing = MOCK_NO_FOLLOWED;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
@@ -133,7 +133,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)_no followed") {
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Integer, Wildcard)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowing = MOCK_FOLLOWED;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
@@ -149,7 +149,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Wildcard)") {
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Integer, Wildcard)_no followed") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowing = MOCK_NO_FOLLOWED;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
@@ -165,7 +165,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Wildcard)_no followed") {
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Integer, Integer)_true") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockIsFollows = true;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
@@ -181,7 +181,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Integer)_true") {
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Integer, Integer)_false") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockIsFollows = false;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
@@ -197,7 +197,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Integer)_false") {
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Wildcard, Synonym)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
@@ -216,7 +216,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Synonym)") {
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowed = MOCK_FOLLOWED;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
@@ -232,7 +232,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer)") {
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer) not followed") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowed = MOCK_NO_FOLLOWED;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
@@ -248,7 +248,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer) not followed") {
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Wildcard, Wildcard)") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
@@ -265,7 +265,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Wildcard)") {
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Wildcard, Wildcard)_EMPTY") {
-  MockPKBReader mockReader = MockPKBReader(MOCK_STORE);
+  MockFollowsReader mockReader = MockFollowsReader();
   unique_ptr<AbstractArgument> mockArgument1 =
       ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
   unique_ptr<AbstractArgument> mockArgument2 =

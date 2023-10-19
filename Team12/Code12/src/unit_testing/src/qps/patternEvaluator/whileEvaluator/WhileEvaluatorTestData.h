@@ -5,16 +5,14 @@
 #include <vector>
 
 #include "../../mocks/MockContext.h"
-#include "../../mocks/MockPKBReader.h"
+#include "../../mocks/mockReaders/MockPatternsReader.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
 
 using std::unique_ptr, std::make_pair;
 
-PKBStore whileStore = PKBStore();
-
-MockPKBReader whileMockPKBReader = MockPKBReader(whileStore);
+MockPatternsReader whileMockPKBReader = MockPatternsReader();
 
 // for (test, _ , _)
 vector<pair<string, string>> mockWhilePatternStmtsSynonym = {

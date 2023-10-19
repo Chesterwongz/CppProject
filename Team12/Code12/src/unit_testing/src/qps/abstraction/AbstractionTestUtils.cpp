@@ -5,7 +5,7 @@
 #include "qps/common/Keywords.h"
 
 unique_ptr<AbstractionParams> createMockAbstractionParams(
-    MockPKBReader& mockReader, Context& mockContext, Abstraction abstraction,
+    PKBReader& mockReader, Context& mockContext, Abstraction abstraction,
     AbstractArgument& firstArgument, AbstractArgument& secondArgument) {
   if (firstArgument.isSynonym()) {
     mockContext.addSynonym(firstArgument.getValue(), STMT_ENTITY);
@@ -20,7 +20,7 @@ unique_ptr<AbstractionParams> createMockAbstractionParams(
 }
 
 unique_ptr<AbstractionParams> createMockAbstractionParamsProc(
-    MockPKBReader& mockReader, Context& mockContext, Abstraction abstraction,
+    PKBReader& mockReader, Context& mockContext, Abstraction abstraction,
     AbstractArgument& firstArgument, AbstractArgument& secondArgument) {
   if (firstArgument.isSynonym()) {
     mockContext.addSynonym(firstArgument.getValue(), PROCEDURE_ENTITY);
