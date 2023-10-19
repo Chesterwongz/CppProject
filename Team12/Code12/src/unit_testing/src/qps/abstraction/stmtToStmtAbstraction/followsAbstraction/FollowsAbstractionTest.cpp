@@ -5,16 +5,17 @@
 #include "../../AbstractionTestUtils.h"
 #include "FollowsAbstractionTestData.h"
 #include "qps/abstraction/stmtToStmtAbstraction/followsAbstraction/FollowsAbstraction.h"
+#include "qps/argument/integer/Integer.h"
+#include "qps/argument/wildcard/Wildcard.h"
 
 TEST_CASE("FollowsAbstraction - Follows(Synonym, Synonym)_EMPTY") {
   MockFollowsReader mockReader = MockFollowsReader();
-  unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
-  Context mockContext = Context();
+  unique_ptr<SynonymArg> mockArgument1 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
+  unique_ptr<SynonymArg> mockArgument2 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -26,13 +27,12 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Synonym)_EMPTY") {
 TEST_CASE("FollowsAbstraction - Follows(Synonym, Synonym)") {
   MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
-  Context mockContext = Context();
+  unique_ptr<SynonymArg> mockArgument1 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
+  unique_ptr<SynonymArg> mockArgument2 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -46,13 +46,12 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Synonym)") {
 TEST_CASE("FollowsAbstraction - Follows(Synonym, Integer)") {
   MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowed = MOCK_FOLLOWED;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-  Context mockContext = Context();
+  unique_ptr<SynonymArg> mockArgument1 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
+  unique_ptr<Integer> mockArgument2 =
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -65,13 +64,12 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Integer)") {
 TEST_CASE("FollowsAbstraction - Follows(Synonym, Integer) not followed") {
   MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowed = MOCK_NO_FOLLOWED;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-  Context mockContext = Context();
+  unique_ptr<SynonymArg> mockArgument1 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
+  unique_ptr<Integer> mockArgument2 =
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -82,13 +80,11 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Integer) not followed") {
 TEST_CASE("FollowsAbstraction - Follows(Synonym, Wildcard)") {
   MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-  Context mockContext = Context();
+  unique_ptr<SynonymArg> mockArgument1 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
+  unique_ptr<Wildcard> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -101,13 +97,12 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Wildcard)") {
 TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)") {
   MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowing = MOCK_FOLLOWED;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
-  Context mockContext = Context();
+  unique_ptr<Integer> mockArgument1 =
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
+  unique_ptr<SynonymArg> mockArgument2 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -119,13 +114,12 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)") {
 TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)_no followed") {
   MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowing = MOCK_NO_FOLLOWED;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
-  Context mockContext = Context();
+  unique_ptr<Integer> mockArgument1 =
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
+  unique_ptr<SynonymArg> mockArgument2 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -135,13 +129,11 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)_no followed") {
 TEST_CASE("FollowsAbstraction - Follows(Integer, Wildcard)") {
   MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowing = MOCK_FOLLOWED;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-  Context mockContext = Context();
+  unique_ptr<Integer> mockArgument1 =
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
+  unique_ptr<Wildcard> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -151,13 +143,12 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Wildcard)") {
 TEST_CASE("FollowsAbstraction - Follows(Integer, Wildcard)_no followed") {
   MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowing = MOCK_NO_FOLLOWED;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
-  Context mockContext = Context();
+  unique_ptr<Integer> mockArgument1 =
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
+  unique_ptr<SynonymArg> mockArgument2 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -167,13 +158,12 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Wildcard)_no followed") {
 TEST_CASE("FollowsAbstraction - Follows(Integer, Integer)_true") {
   MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockIsFollows = true;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
+  unique_ptr<Integer> mockArgument1 =
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
-  Context mockContext = Context();
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_2);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -184,12 +174,11 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Integer)_false") {
   MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockIsFollows = false;
   unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_2);
-  Context mockContext = Context();
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_2);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -199,13 +188,11 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Integer)_false") {
 TEST_CASE("FollowsAbstraction - Follows(Wildcard, Synonym)") {
   MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_SYNONYM_VALUE_2);
-  Context mockContext = Context();
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -218,13 +205,11 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Synonym)") {
 TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer)") {
   MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowed = MOCK_FOLLOWED;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-  Context mockContext = Context();
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -234,13 +219,11 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer)") {
 TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer) not followed") {
   MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowed = MOCK_NO_FOLLOWED;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_INTEGER_VALUE_1);
-  Context mockContext = Context();
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -250,13 +233,10 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer) not followed") {
 TEST_CASE("FollowsAbstraction - Follows(Wildcard, Wildcard)") {
   MockFollowsReader mockReader = MockFollowsReader();
   mockReader.mockFollowsPairs = MOCK_FOLLOWS_PAIRS;
-  unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-  Context mockContext = Context();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
@@ -266,13 +246,10 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Wildcard)") {
 
 TEST_CASE("FollowsAbstraction - Follows(Wildcard, Wildcard)_EMPTY") {
   MockFollowsReader mockReader = MockFollowsReader();
-  unique_ptr<AbstractArgument> mockArgument1 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-  unique_ptr<AbstractArgument> mockArgument2 =
-      ArgumentFactory::createArgument(MOCK_WILDCARD_VALUE);
-  Context mockContext = Context();
+  unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
-      mockReader, mockContext, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
+      mockReader, FOLLOWS_ENUM, *mockArgument1, *mockArgument2);
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();

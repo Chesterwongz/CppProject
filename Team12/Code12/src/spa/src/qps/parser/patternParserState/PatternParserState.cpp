@@ -2,20 +2,26 @@
 
 PredictiveMap PatternParserState::predictiveMap = {
     {PQL_PATTERN_TOKEN,
+     {PQL_NOT_TOKEN, PQL_ASSIGN_PATTERN_TOKEN, PQL_IF_PATTERN_TOKEN,
+      PQL_WHILE_PATTERN_TOKEN}},
+    {PQL_NOT_TOKEN,
      {PQL_ASSIGN_PATTERN_TOKEN, PQL_IF_PATTERN_TOKEN,
       PQL_WHILE_PATTERN_TOKEN}}};
 
 PatternParserState::PatternParserState(PQLParserContext& parserContext,
                                        PQLTokenType prev)
-    : BaseParserState(parserContext, prev) {}
+    : BaseParserState(parserContext, prev) {
+  prevClauseType = ClauseType::PATTERN_CLAUSE;
+}
 
 void PatternParserState::processNameToken(PQLToken& curr) {
-  if (prev == PQL_NULL_TOKEN) {
+  auto next = parserContext.peekNextToken();
+  if (next.has_value() && next->getType() == PQL_OPEN_BRACKET_TOKEN) {
+    processSynonymToken(curr);
+  } else {
     PQLTokenType toUpdate =
         PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
     curr.updateTokenType(toUpdate);
-  } else {
-    processSynonymToken(curr);
   }
 }
 
@@ -40,20 +46,26 @@ void PatternParserState::handleToken() {
     PQLToken token = curr.value();
 
     switch (token.getType()) {
+      case PQL_NOT_TOKEN:
+        isNegated = true;
+        break;
       case PQL_ASSIGN_PATTERN_TOKEN:
         parserContext.transitionTo(std::make_unique<AssignPatternParserState>(
             parserContext, token.getType(),
-            std::make_unique<SynonymArg>(token.getValue())));
+            std::make_unique<SynonymArg>(token.getValue(), ASSIGN_ENTITY),
+            isNegated));
         return;
       case PQL_IF_PATTERN_TOKEN:
         parserContext.transitionTo(std::make_unique<IfPatternParserState>(
             parserContext, token.getType(),
-            std::make_unique<SynonymArg>(token.getValue())));
+            std::make_unique<SynonymArg>(token.getValue(), IF_ENTITY),
+            isNegated));
         return;
       case PQL_WHILE_PATTERN_TOKEN:
         parserContext.transitionTo(std::make_unique<WhilePatternParserState>(
             parserContext, token.getType(),
-            std::make_unique<SynonymArg>(token.getValue())));
+            std::make_unique<SynonymArg>(token.getValue(), WHILE_ENTITY),
+            isNegated));
         return;
       default:
         break;

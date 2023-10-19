@@ -1,6 +1,6 @@
+#include <string>
 #include <catch.hpp>
 
-#include "../../unit_testing/src/qps/mocks/MockContext.h"
 #include "../mocks/mockReaders/MockPatternsReader.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/patternExp/PatternExp.h"
@@ -11,21 +11,21 @@
 using std::unique_ptr, std::make_unique;
 
 TEST_CASE("test_whilePatternClause_isEqual") {
-  SynonymArg patternSynonym = SynonymArg("a");
-  SynonymArg firstArg = SynonymArg("test");
+  string patternSynonym = "a";
+  string firstArg = "test";
 
   unique_ptr<SynonymArg> patternSynonymPtr1 =
-      std::make_unique<SynonymArg>(patternSynonym.getValue());
+      std::make_unique<SynonymArg>(patternSynonym, WHILE_ENTITY);
   unique_ptr<SynonymArg> firstArgPtr1 =
-      std::make_unique<SynonymArg>(firstArg.getValue());
+      std::make_unique<SynonymArg>(firstArg, VARIABLE_ENTITY);
 
   WhilePatternClause patternClause1 = WhilePatternClause(
       std::move(patternSynonymPtr1), std::move(firstArgPtr1));
 
   unique_ptr<SynonymArg> patternSynonymPtr2 =
-      std::make_unique<SynonymArg>(patternSynonym.getValue());
+      std::make_unique<SynonymArg>(patternSynonym, WHILE_ENTITY);
   unique_ptr<SynonymArg> firstArgPtr2 =
-      std::make_unique<SynonymArg>(firstArg.getValue());
+      std::make_unique<SynonymArg>(firstArg, VARIABLE_ENTITY);
 
   WhilePatternClause patternClause2 = WhilePatternClause(
       std::move(patternSynonymPtr2), std::move(firstArgPtr2));
@@ -36,13 +36,13 @@ TEST_CASE("test_whilePatternClause_isEqual") {
 
 TEST_CASE("test_whilePatternClause_evaluate_synonymFirstArg") {
   // while w; variable test; select w pattern (test, _)
-  SynonymArg patternSynonym = SynonymArg("a");
-  SynonymArg firstArg = SynonymArg("test");
+  string patternSynonym = "a";
+  string firstArg = "test";
 
   unique_ptr<SynonymArg> patternSynonymPtr =
-      std::make_unique<SynonymArg>(patternSynonym.getValue());
+      std::make_unique<SynonymArg>(patternSynonym, IF_ENTITY);
   unique_ptr<SynonymArg> firstArgPtr =
-      std::make_unique<SynonymArg>(firstArg.getValue());
+      std::make_unique<SynonymArg>(firstArg, VARIABLE_ENTITY);
 
   WhilePatternClause patternClause =
       WhilePatternClause(std::move(patternSynonymPtr), std::move(firstArgPtr));
@@ -53,28 +53,24 @@ TEST_CASE("test_whilePatternClause_evaluate_synonymFirstArg") {
       {"1", "a"}, {"3", "b"}, {"5", "c"}};
   mockPkbReader.mockWhilePattern = mockWhilePatternStmts;
 
-  MockContext mockContext = MockContext();
-  mockContext.mockTokenEntity = ASSIGN_ENTITY;
-
-  IntermediateTable actualTable =
-      patternClause.evaluate(mockContext, mockPkbReader);
+  IntermediateTable actualTable = patternClause.evaluate(mockPkbReader);
   vector<string> actualColNames = actualTable.getColNames();
   vector<vector<string>> actualTableData = actualTable.getDataAsStrings();
   vector<vector<string>> expectedData = {{"1", "a"}, {"3", "b"}, {"5", "c"}};
 
   REQUIRE(actualColNames.size() == 2);
-  REQUIRE(actualColNames[1] == firstArg.getValue());
+  REQUIRE(actualColNames[1] == firstArg);
   REQUIRE(actualTableData == expectedData);
 }
 
 TEST_CASE("test_whilePatternClause_evaluate_identFirstArg") {
   // while w; select w pattern ("b", _)
-  SynonymArg patternSynonym = SynonymArg("a");
-  Ident firstArg = Ident("b");
+  string patternSynonym = "a";
+  string firstArg = "b";
 
   unique_ptr<SynonymArg> patternSynonymPtr =
-      std::make_unique<SynonymArg>(patternSynonym.getValue());
-  unique_ptr<Ident> firstArgPtr = std::make_unique<Ident>(firstArg.getValue());
+      std::make_unique<SynonymArg>(patternSynonym, WHILE_ENTITY);
+  unique_ptr<Ident> firstArgPtr = std::make_unique<Ident>(firstArg);
 
   WhilePatternClause patternClause =
       WhilePatternClause(std::move(patternSynonymPtr), std::move(firstArgPtr));
@@ -84,16 +80,12 @@ TEST_CASE("test_whilePatternClause_evaluate_identFirstArg") {
   vector<pair<string, string>> mockWhilePatternStmts = {{"3", "b"}};
   mockPkbReader.mockWhilePattern = mockWhilePatternStmts;
 
-  MockContext mockContext = MockContext();
-  mockContext.mockTokenEntity = ASSIGN_ENTITY;
-
-  IntermediateTable actualTable =
-      patternClause.evaluate(mockContext, mockPkbReader);
+  IntermediateTable actualTable = patternClause.evaluate(mockPkbReader);
   vector<string> actualColNames = actualTable.getColNames();
   vector<vector<string>> actualTableData = actualTable.getDataAsStrings();
   vector<vector<string>> expectedData = {{"3"}};
 
   REQUIRE(actualColNames.size() == 1);
-  REQUIRE(actualColNames[0] == patternSynonym.getValue());
+  REQUIRE(actualColNames[0] == patternSynonym);
   REQUIRE(actualTableData == expectedData);
 }

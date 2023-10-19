@@ -18,7 +18,6 @@
 class BaseAbstraction {
  protected:
   PKBReader& pkb;
-  Context context;
   Abstraction abstraction;
   AbstractArgument& firstArg;
   AbstractArgument& secondArg;

@@ -24,6 +24,7 @@ class AssignPatternParserState : public BaseParserState {
   static constexpr size_t expectedNumberOfArgs = 2;
 
   bool isPartialMatch;
+  bool isNegated;
   int secondArgWildcardCount = 0;
   unique_ptr<SynonymArg> synAssign;
   static PredictiveMap predictiveMap;
@@ -31,13 +32,14 @@ class AssignPatternParserState : public BaseParserState {
   void processSynonymToken(PQLToken& curr);
   void processLiteralRefToken(PQLToken& curr);
   void processLastArgument();
-  bool checkSafeExit();
+  void checkSafeExit();
   static void checkIsValidExpr(const string& ref);
 
  public:
   explicit AssignPatternParserState(PQLParserContext& parserContext,
                                     PQLTokenType prev,
-                                    unique_ptr<SynonymArg> synAssign);
+                                    unique_ptr<SynonymArg> synAssign,
+                                    bool isNegated);
   void handleToken() override;
   ~AssignPatternParserState() override = default;
 };

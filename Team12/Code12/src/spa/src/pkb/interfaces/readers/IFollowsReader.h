@@ -33,13 +33,13 @@ class IFollowsReader {
 
   // return all pairs (s1, s2) that satisfy Follows*(s1, s2) where s2 is of same
   // type as stmtType and s1 is stmt
-  virtual std::vector<std::string> getFollowsStar(
-      int stmt, StmtType stmtType) = 0;
+  virtual std::vector<std::string> getFollowsStar(int stmt,
+                                                  StmtType stmtType) = 0;
 
   // return all pairs (s1, s2) that satisfy Follows*(s1, s2) where s1 is of same
   // type as stmtType and s2 is stmt
-  virtual std::vector<std::string> getFollowedStar(
-      int stmt, StmtType stmtType) = 0;
+  virtual std::vector<std::string> getFollowedStar(int stmt,
+                                                   StmtType stmtType) = 0;
 
   // return true if Follows*(stmt1, stmt2) holds and
   // false otherwise

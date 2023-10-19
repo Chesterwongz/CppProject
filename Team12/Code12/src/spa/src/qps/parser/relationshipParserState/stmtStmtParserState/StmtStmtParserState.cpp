@@ -23,15 +23,17 @@ PredictiveMap StmtStmtParserState::predictiveMap = {
      {PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_INTEGER_TOKEN}}};
 
 StmtStmtParserState::StmtStmtParserState(PQLParserContext &parserContext,
-                                         string abstraction, PQLTokenType prev)
+                                         string abstraction, PQLTokenType prev,
+                                         bool isNegated)
     : RelationshipParserState(parserContext, false, std::move(abstraction),
-                              prev) {}
+                              prev, isNegated) {}
 
-void StmtStmtParserState::checkIsStmtSynonym(const std::string &synonym) {
+string StmtStmtParserState::getIfStmtSynonym(const std::string &synonym) {
   auto synType = parserContext.getValidSynonymType(synonym);
-  if (stmtEntities.find(synType) == stmtEntities.end()) {
+  if (!PQLParserUtils::isStmtSynonym(synType)) {
     throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_STMT_SYN);
   }
+  return synType;
 }
 
 void StmtStmtParserState::handleToken() {
@@ -51,8 +53,8 @@ void StmtStmtParserState::handleToken() {
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
       case PQL_SYNONYM_TOKEN:
-        checkIsStmtSynonym(token.getValue());
-        arguments.push_back(std::make_unique<SynonymArg>(token.getValue()));
+        arguments.push_back(std::make_unique<SynonymArg>(
+            token.getValue(), getIfStmtSynonym(token.getValue())));
         break;
       case PQL_INTEGER_TOKEN:
         arguments.push_back(std::make_unique<Integer>(token.getValue()));

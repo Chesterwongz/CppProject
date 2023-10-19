@@ -19,17 +19,18 @@ class IfPatternParserState : public BaseParserState {
  private:
   static constexpr int expectedNumberOfArgs = 1;
   static constexpr int expectedNonFirstArgWildcardCount = 2;
+  bool isNegated;
   unique_ptr<SynonymArg> synIf;
   static PredictiveMap predictiveMap;
   vector<unique_ptr<AbstractArgument>> patternArg;
   int nonFirstArgWildcardCount = 0;
   void processSynonymToken(PQLToken& curr);
-  bool checkSafeExit();
+  void checkSafeExit();
 
  public:
   explicit IfPatternParserState(PQLParserContext& parserContext,
-                                PQLTokenType prev,
-                                unique_ptr<SynonymArg> synIf);
+                                PQLTokenType prev, unique_ptr<SynonymArg> synIf,
+                                bool isNegated);
   void handleToken() override;
   ~IfPatternParserState() override = default;
 };

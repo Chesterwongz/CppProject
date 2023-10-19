@@ -11,22 +11,10 @@ SuchThatClause::SuchThatClause(Abstraction relationship,
       firstArg(std::move(firstArg)),
       secondArg(std::move(secondArg)) {}
 
-// todo: remove after integration
-SuchThatClause::SuchThatClause(Abstraction relationship,
-                               unique_ptr<AbstractArgument> firstArg,
-                               unique_ptr<AbstractArgument> secondArg,
-                               bool isTransitive)
-    : relationship(relationship),
-      firstArg(std::move(firstArg)),
-      secondArg(std::move(secondArg)) {
-  throw std::runtime_error("invalid constructor used");
-}
-
-IntermediateTable SuchThatClause::evaluate(Context& context, PKBReader& pkb) {
+IntermediateTable SuchThatClause::evaluate(PKBReader& pkb) {
   unique_ptr<AbstractionParams> abstractionParams =
-      std::make_unique<AbstractionParams>(pkb, context, this->relationship,
-                                          *(this->firstArg),
-                                          *(this->secondArg));
+      std::make_unique<AbstractionParams>(
+          pkb, this->relationship, *(this->firstArg), *(this->secondArg));
 
   std::unique_ptr<BaseAbstraction> executableAbstraction =
       AbstractionFactory::createAbstraction(*abstractionParams);

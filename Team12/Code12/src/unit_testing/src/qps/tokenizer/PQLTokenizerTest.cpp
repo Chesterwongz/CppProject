@@ -1,8 +1,7 @@
 #include <catch.hpp>
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
-#include "qps/tokenizer/PQLTokenType.h"
-#include "qps/tokenizer/PQLTokenizer.h"
+#include "qps/parser/tokenizer/PQLTokenizer.h"
 
 TEST_CASE("Tokenizer - valid Select<a,b,c>") {
   string query = "stmt a, b, c;\n   Select <a,c,b>";

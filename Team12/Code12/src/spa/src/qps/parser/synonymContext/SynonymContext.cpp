@@ -1,10 +1,10 @@
-#include "Context.h"
+#include "SynonymContext.h"
 
 #include <utility>
 
 #include "qps/exceptions/QPSSemanticError.h"
 
-Entity Context::getTokenEntity(const Synonym &synonym) {
+Entity SynonymContext::getTokenEntity(const Synonym &synonym) {
   auto entity = tokenNameToTokenMap.find(synonym);
 
   if (entity == tokenNameToTokenMap.end()) {
@@ -14,13 +14,16 @@ Entity Context::getTokenEntity(const Synonym &synonym) {
   return entity->second;
 }
 
-void Context::addSynonym(const Synonym &tokenSynonym, Entity tokenEntity) {
+bool SynonymContext::checkIfSynonymExists(const Synonym &tokenName) {
+  auto entity = tokenNameToTokenMap.find(tokenName);
+
+  return entity != tokenNameToTokenMap.end();
+}
+
+void SynonymContext::addSynonym(const Synonym &tokenSynonym,
+                                Entity tokenEntity) {
   if (tokenNameToTokenMap.find(tokenSynonym) != tokenNameToTokenMap.end()) {
     throw QPSSemanticError(QPS_SEMANTIC_ERR_REPEATED_SYNONYM);
   }
   this->tokenNameToTokenMap[tokenSynonym] = std::move(tokenEntity);
-}
-
-unordered_map<Synonym, Entity> &Context::getMap() {
-  return tokenNameToTokenMap;
 }
