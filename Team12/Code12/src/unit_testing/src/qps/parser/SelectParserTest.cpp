@@ -165,3 +165,22 @@ TEST_CASE("Invalid Select a.procName - incompatible attrRef") {
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
       QPSSemanticError, Catch::Message(QPS_SEMANTIC_ERR_INVALID_ATTR_REF));
 }
+
+TEST_CASE("Invalid Select a.asjdfjd - not an attrRef") {
+  string notAttrRef = "myAss";
+  vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+                                PQLToken(PQL_NAME_TOKEN, "a"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "b"),
+                                PQLToken(PQL_COMMA_TOKEN, ","),
+                                PQLToken(PQL_NAME_TOKEN, "c"),
+                                PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, "a"),
+                                PQLToken(PQL_PERIOD_TOKEN, "."),
+                                PQLToken(PQL_NAME_TOKEN, notAttrRef)};
+
+  REQUIRE_THROWS_MATCHES(
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      QPSSyntaxError, Catch::Message("AttrRef is invalid: myAss"));
+}
