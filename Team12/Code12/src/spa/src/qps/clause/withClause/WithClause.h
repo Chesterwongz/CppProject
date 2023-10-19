@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <utility>
 
 #include "WithClauseUtils.h"
 #include "qps/argument/AbstractArgument.h"
@@ -36,7 +37,7 @@ class WithClause : public Clause {
   IntermediateTable evaluatePrintStmtNum(PKBReader& pkbReader);
 
   unordered_map<Entity_AttrRef_Permutation, WithEvaluatorFunc>
-      withEvaluatorFuncMap{
+      withEvaluatorFuncMap {
           {Entity_AttrRef_Permutation::STMT_STMTNUM,
            [this](PKBReader& pkbReader) { return evaluateStmtNum(pkbReader); }},
           {Entity_AttrRef_Permutation::READ_STMTNUM,

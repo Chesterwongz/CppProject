@@ -1,12 +1,12 @@
 #include <catch.hpp>
 
-#include "qps/clause/withClause/WithClause.h"
-#include "qps/clause/withClause/WithClauseUtils.h"
 #include "../../unit_testing/src/qps/mocks/MockContext.h"
 #include "../../unit_testing/src/qps/mocks/MockPKBReader.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/clause/withClause/WithClause.h"
+#include "qps/clause/withClause/WithClauseUtils.h"
 #include "qps/common/Keywords.h"
-// TODO (houten) include synonymRes
+// TODO(houten): include synonymRes
 
 using std::unique_ptr, std::make_unique, std::string;
 
@@ -43,29 +43,29 @@ TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation") {
       std::make_unique<SynonymArg>(withSynonym.getValue());
 
   WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                      attrRef, attrRefValue);
+                                     attrRef, attrRefValue);
 
   PKBStore pkbStore = PKBStore();
   MockPKBReader mockPkbReader = MockPKBReader(pkbStore);
 
   mockPkbReader.mockIsValidStatement = true;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
-  
-  // TODO (houten) integrate with synonymRes
+
+  // TODO(houten): integrate with synonymRes
   /*vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getData();
-  TableDataType expectedData = {{SynonymResFactory::buildStmtSynonym(attrRefValue)}};
+  TableDataType expectedData =
+  {{SynonymResFactory::buildStmtSynonym(attrRefValue)}};
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonym.getValue());
   REQUIRE(actualTableData == expectedData);*/
-
 }
 
 TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation_noResults") {
@@ -86,16 +86,15 @@ TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation_noResults") {
 
   mockPkbReader.mockIsValidStatement = false;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
-
 }
 
 TEST_CASE("test_withClause_evaluate_READ_STMTNUM_permutation") {
@@ -116,18 +115,19 @@ TEST_CASE("test_withClause_evaluate_READ_STMTNUM_permutation") {
 
   mockPkbReader.mockVariableReadBy = {"yes"};
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   /*vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getData();
   TableDataType expectedData =
-  {{SynonymResFactory::buildReadSynonym(attrRefValue, mockPkbReader.variableReadBy)}};
+  {{SynonymResFactory::buildReadSynonym(attrRefValue,
+  mockPkbReader.variableReadBy)}};
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonym.getValue());
@@ -152,14 +152,14 @@ TEST_CASE("test_withClause_evaluate_read_STMTNUM_permutation_noResults") {
 
   mockPkbReader.mockVariableReadBy = {""};
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -182,14 +182,14 @@ TEST_CASE("test_withClause_evaluate_READ_VARNAME_permutation") {
   vector<string> mockStatementsThatRead = {"1", "2", "3"};
   mockPkbReader.mockStatmentsThatRead = mockStatementsThatRead;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   /*vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getData();
   TableDataType expectedData;
@@ -222,14 +222,14 @@ TEST_CASE("test_withClause_evaluate_READ_VARNAME_permutation_noResults") {
   vector<string> mockStatementsThatRead = {};
   mockPkbReader.mockStatmentsThatRead = mockStatementsThatRead;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -252,14 +252,14 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation") {
   vector<string> mockVarPrintedBy = {"IWASPRINTED"};
   mockPkbReader.mockVariablePrintedBy = mockVarPrintedBy;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   /*vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getData();
   TableDataType expectedData =
@@ -270,7 +270,6 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation") {
   REQUIRE(actualColNames[0] == withSynonym.getValue());
   REQUIRE(actualTableData == expectedData);*/
 }
-
 
 TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation_noResults") {
   // print p; select p with p.stmmt# = 97
@@ -291,14 +290,14 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation_noResults") {
   vector<string> mockVarPrintedBy = {""};
   mockPkbReader.mockVariablePrintedBy = mockVarPrintedBy;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -321,14 +320,14 @@ TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation") {
   vector<string> mockStmtsThatPrint = {"4", "5", "6"};
   mockPkbReader.mockStatementsThatPrint = mockStmtsThatPrint;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   /*vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getData();
   TableDataType expectedData;
@@ -361,14 +360,14 @@ TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation_noResults") {
   vector<string> mockStmtsThatPrint = {};
   mockPkbReader.mockStatementsThatPrint = mockStmtsThatPrint;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -391,14 +390,14 @@ TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation") {
   vector<string> mockProcNameCalledByStmtNum = {"iWasCalled"};
   mockPkbReader.mockProcNameCalledByStmtNum = mockProcNameCalledByStmtNum;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   /*vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getData();
   TableDataType expectedData =
@@ -429,14 +428,14 @@ TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation_noResults") {
   vector<string> mockProcNameCalledByStmtNum = {""};
   mockPkbReader.mockProcNameCalledByStmtNum = mockProcNameCalledByStmtNum;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -459,14 +458,14 @@ TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation") {
   vector<string> mockStmtsThatCall = {"7", "8", "9"};
   mockPkbReader.mockStatementsThatCall = mockStmtsThatCall;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   /*vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getData();
   TableDataType expectedData;
@@ -499,14 +498,14 @@ TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation_noResults") {
   vector<string> mockStmtsThatCall = {};
   mockPkbReader.mockStatementsThatCall = mockStmtsThatCall;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -528,14 +527,14 @@ TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation") {
 
   mockPkbReader.mockIsValidStatement = true;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   /*vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getData();
   TableDataType expectedData =
@@ -564,14 +563,14 @@ TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation_noResults") {
 
   mockPkbReader.mockIsValidStatement = false;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -593,14 +592,14 @@ TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation") {
 
   mockPkbReader.mockIsValidStatement = true;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   /*vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getData();
   TableDataType expectedData =
@@ -629,14 +628,14 @@ TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation_noResults") {
 
   mockPkbReader.mockIsValidStatement = false;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -658,14 +657,14 @@ TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation") {
 
   mockPkbReader.mockIsValidStatement = true;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   /*vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getData();
   TableDataType expectedData =
@@ -694,14 +693,14 @@ TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation_noResults") {
 
   mockPkbReader.mockIsValidStatement = false;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -723,14 +722,14 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation") {
 
   mockPkbReader.mockIsValidVariable = true;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   /*vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getData();
   TableDataType expectedData =
@@ -759,14 +758,14 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation_noResults") {
 
   mockPkbReader.mockIsValidVariable = false;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -788,14 +787,14 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation") {
 
   mockPkbReader.mockIsValidConstant = true;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   /*vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getData();
   TableDataType expectedData =
@@ -824,14 +823,14 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation_noResults") {
 
   mockPkbReader.mockIsValidConstant = false;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }
 
@@ -853,14 +852,14 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation") {
 
   mockPkbReader.mockIsValidProcName = true;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   /*vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getData();
   TableDataType expectedData =
@@ -889,13 +888,13 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation_noResults") {
 
   mockPkbReader.mockIsValidProcName = false;
 
-  // TODO (houten) remove context when merge kh pr
+  // TODO(houten): remove context when merge kh pr
   MockContext mockContext = MockContext();
   mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable =
       withClause.evaluate(mockContext, mockPkbReader);
 
-  // TODO (houten) integrate with synonymRes
+  // TODO(houten): integrate with synonymRes
   REQUIRE(actualTable.isTableEmpty());
 }

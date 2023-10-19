@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <unordered_map>
 
 #include "qps/common/Keywords.h"
@@ -29,10 +30,9 @@ enum Entity_AttrRef_Permutation {
   CONSTANT_VALUE,
 
   PROCEDURE_PROCNAME
-
 };
 
-// TODO (change ATTRREF to whatever kh write in keyword.h)
+// TODO(houten): change ATTRREF to whatever kh write in keyword.h
 inline unordered_map<Entity, unordered_map<AttrRef, Entity_AttrRef_Permutation>>
     EntityAttrRefPermutationMap = {
         {STMT_ENTITY,
@@ -58,9 +58,9 @@ inline unordered_map<Entity, unordered_map<AttrRef, Entity_AttrRef_Permutation>>
          {{VALUE_ATTRREF, Entity_AttrRef_Permutation::CONSTANT_VALUE}}},
         {PROCEDURE_ENTITY,
          {{PROCNAME_ATTRREF, Entity_AttrRef_Permutation::PROCEDURE_PROCNAME}}}
-
 };
 
-inline Entity_AttrRef_Permutation getPermutation(Entity entity, AttrRef attrRef) {
+inline Entity_AttrRef_Permutation getPermutation(Entity entity,
+                                                 AttrRef attrRef) {
   return EntityAttrRefPermutationMap.at(entity).at(attrRef);
 }

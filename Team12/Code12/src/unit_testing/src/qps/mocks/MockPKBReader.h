@@ -74,10 +74,10 @@ class MockPKBReader : public PKBReader {
   bool mockIsNextT {};
   vector<string> mockGetPrevTStmts;
   vector<string> mockGetNextTStmts;
-  bool mockIsValidStatement;
-  bool mockIsValidVariable;
-  bool mockIsValidConstant;
-  bool mockIsValidProcName;
+  bool mockIsValidStatement {};
+  bool mockIsValidVariable {};
+  bool mockIsValidConstant {};
+  bool mockIsValidProcName {};
   vector<string> mockVariableReadBy;
   vector<string> mockStatmentsThatRead;
   vector<string> mockVariablePrintedBy;
@@ -85,8 +85,7 @@ class MockPKBReader : public PKBReader {
   vector<string> mockProcNameCalledByStmtNum;
   vector<string> mockStatementsThatCall;
 
-  explicit MockPKBReader(PKBStore& store)
-      : PKBReader(store) {}
+  explicit MockPKBReader(PKBStore& store) : PKBReader(store) {}
 
   std::vector<std::string> getAllVariables() override {
     return mockAllVariables;
@@ -319,20 +318,16 @@ class MockPKBReader : public PKBReader {
     return mockIsValidStatement;
   }
 
-  bool isValidVariable(string varName) override {
-    return mockIsValidVariable;
-  }
+  bool isValidVariable(string varName) override { return mockIsValidVariable; }
 
   bool isValidConstant(string constantValue) override {
     return mockIsValidConstant;
   }
 
-  bool isValidProc(string procName) override { 
-    return mockIsValidProcName; 
-  }
+  bool isValidProc(string procName) override { return mockIsValidProcName; }
 
-  vector<string> getVariableReadBy(int stmtNum) override { 
-    return mockVariableReadBy; 
+  vector<string> getVariableReadBy(int stmtNum) override {
+    return mockVariableReadBy;
   }
 
   vector<string> getStmtsThatRead(const string& varName) override {
@@ -347,12 +342,11 @@ class MockPKBReader : public PKBReader {
     return mockStatementsThatPrint;
   }
 
-  vector<string> getProcCalledBy(int stmtNum) override { 
-    return mockProcNameCalledByStmtNum; 
+  vector<string> getProcCalledBy(int stmtNum) override {
+    return mockProcNameCalledByStmtNum;
   }
 
   vector<string> getStmtsThatCall(const string& procName) override {
     return mockStatementsThatCall;
   }
-
 };
