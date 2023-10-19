@@ -30,7 +30,7 @@ StmtStmtParserState::StmtStmtParserState(PQLParserContext &parserContext,
 
 string StmtStmtParserState::checkIsStmtSynonym(const std::string &synonym) {
   auto synType = parserContext.getValidSynonymType(synonym);
-  if (stmtEntities.find(synType) == stmtEntities.end()) {
+  if (!PQLParserUtils::isStmtSynonym(synType)) {
     throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_STMT_SYN);
   }
   return synType;

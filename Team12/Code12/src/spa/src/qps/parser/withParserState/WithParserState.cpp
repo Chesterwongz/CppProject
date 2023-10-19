@@ -44,15 +44,15 @@ void WithParserState::handleToken() {
             token.getValue(),
             parserContext.getValidSynonymType(token.getValue()));
         processAttrRef(syn);
-        argumentTypes.emplace_back(attrRefToType.at(syn->getAttrRef()));
+        argumentTypes.emplace_back(PQLParserUtils::attrRefToType.at(syn->getAttrRef()));
         arguments.emplace_back(std::move(syn));
         break;
       case PQL_LITERAL_REF_TOKEN:
-        argumentTypes.emplace_back(NAME_TYPE);
+        argumentTypes.emplace_back(ArgumentType::NAME_TYPE);
         arguments.emplace_back(std::make_unique<Ident>(token.getValue()));
         break;
       case PQL_INTEGER_TOKEN:
-        argumentTypes.emplace_back(INTEGER_TYPE);
+        argumentTypes.emplace_back(ArgumentType::INTEGER_TYPE);
         arguments.emplace_back(std::make_unique<Integer>(token.getValue()));
         break;
       default:

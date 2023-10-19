@@ -67,10 +67,4 @@ enum PQLTokenType {
   PQL_NOT_TOKEN
 };
 
-enum ArgumentType { NAME_TYPE, INTEGER_TYPE };
-
-extern unordered_map<string, PQLTokenType> keywordToTokenType;
-extern unordered_map<char, PQLTokenType> delimiterToTokenType;
-extern unordered_set<string> stmtEntities;
-extern unordered_map<string, unordered_set<string>> entityToAttrRef;
-extern unordered_map<AttrRef, ArgumentType> attrRefToType;
+enum class ArgumentType { NAME_TYPE, INTEGER_TYPE };
