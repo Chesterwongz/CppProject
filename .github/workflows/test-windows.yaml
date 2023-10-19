@@ -54,11 +54,14 @@ jobs:
           ./auto_autotester.sh ../Code12/build/src/autotester/${BUILD_TYPE}/autotester.exe
         continue-on-error: true
 
+      - name: Tar files
+        run: tar -cvf autotester_output.tar ./Team12/Tests12/output
+
       - name: Upload out.xml artifacts
         uses: actions/upload-artifact@v2
         with:
           name: output-artifacts
-          path: ./Team12/Tests12/output/*.xml
+          path: autotester_output.tar
 
       - name: Cleanup Directory
         if: always()
