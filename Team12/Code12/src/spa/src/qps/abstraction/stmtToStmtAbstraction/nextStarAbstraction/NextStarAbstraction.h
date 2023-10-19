@@ -13,6 +13,9 @@ class NextStarAbstraction : public StmtToStmtAbstraction {
   IntermediateTable handleFirstArgInteger() override;
   IntermediateTable handleSecondArgInteger() override;
 
+  IntermediateTable evaluateSynonymSynonym() override;
+  IntermediateTable evaluateIntegerInteger() override;
+
  public:
   explicit NextStarAbstraction(AbstractionParams &abstractionParams)
       : StmtToStmtAbstraction(abstractionParams,

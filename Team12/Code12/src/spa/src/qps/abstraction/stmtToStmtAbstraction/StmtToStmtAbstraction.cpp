@@ -1,4 +1,4 @@
-#include "StmtToStmtAbstraction.h"
+  #include "StmtToStmtAbstraction.h"
 
 /**
  * StmtToStmtAbstraction abstraction:
@@ -31,6 +31,9 @@ IntermediateTable StmtToStmtAbstraction ::evaluateIntegerSynonym() {
 
 // Abstraction (StmtNumber, StmtNumber)
 IntermediateTable StmtToStmtAbstraction ::evaluateIntegerInteger() {
+  if (this->firstArgValue == this->secondArgValue) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
   return handleBothArgsInteger();
 }
 

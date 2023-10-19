@@ -29,3 +29,11 @@ IntermediateTable NextStarAbstraction::handleSecondArgInteger() {
   return IntermediateTableFactory::buildSingleColTable(firstStmtSynonym,
                                                        nextStarFirstStmt);
 }
+IntermediateTable NextStarAbstraction::evaluateSynonymSynonym() {
+  return handleSynonymOrWildcardArgs();
+}
+
+IntermediateTable NextStarAbstraction::evaluateIntegerInteger() {
+  return handleBothArgsInteger();
+}
+// todo(yq): handle same synonym queries
