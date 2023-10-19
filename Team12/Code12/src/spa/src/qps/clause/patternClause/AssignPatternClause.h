@@ -29,6 +29,6 @@ class AssignPatternClause : public Clause {
         secondArg(std::move(secondArg)),
         isPartialMatch(isPartialMatch) {}
 
-  IntermediateTable evaluate(Context& context, PKBReader& pkb) override;
+  IntermediateTable evaluate(PKBReader& pkb) override;
   bool isEquals(const Clause& other) override;
 };

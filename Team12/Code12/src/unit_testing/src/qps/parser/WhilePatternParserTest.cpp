@@ -9,8 +9,8 @@
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/patternClause/WhilePatternClause.h"
+#include "qps/parser/tokenizer/token/PQLToken.h"
 #include "qps/query/Query.h"
-#include "qps/token/PQLToken.h"
 
 TEST_CASE("Valid Pattern while (LITERAL_REF,_)") {
   string whiles = "whiles";
@@ -141,4 +141,27 @@ TEST_CASE("Invalid Pattern while (LITERAL_REF,SYNONYM)") {
       QPSSyntaxError,
       Catch::Message("Error occurred during tokenization, invalid token: " +
                      var2));
+}
+
+TEST_CASE("Valid Pattern not while (LITERAL_REF,_)") {
+  string whiles = "whiles";
+  vector<PQLToken> tokenList = {
+      PQLToken(PQL_NAME_TOKEN, WHILE_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, whiles),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, whiles),
+      PQLToken(PQL_NAME_TOKEN, PATTERN_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, NOT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, whiles),
+      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+      PQLToken(PQL_LITERAL_REF_TOKEN, "x"),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_WILDCARD_TOKEN, WILDCARD_KEYWORD),
+      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+  };
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+
+  REQUIRE(true);
 }

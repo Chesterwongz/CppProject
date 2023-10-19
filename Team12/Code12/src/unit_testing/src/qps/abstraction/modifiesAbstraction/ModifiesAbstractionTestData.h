@@ -7,7 +7,6 @@
 #include <utility>
 #include <vector>
 
-#include "../../testUtils/argumentFactory/ArgumentFactory.h"
 #include "common/utils/StringUtils.h"
 #include "qps/argument/AbstractArgument.h"
 

@@ -18,8 +18,8 @@ IntermediateTable PatternEvaluator::buildResultTable(
     const string& varColName = firstArgValue;
 
     IntermediateTable linesSatisfyingPatternAndVarsModified =
-        IntermediateTableFactory::buildIntermediateTable(
-            synonymValue, varColName, pkbResult);
+        IntermediateTableFactory::buildIntermediateTable(synonymValue,
+                                                         varColName, pkbResult);
 
     return linesSatisfyingPatternAndVarsModified;
   }

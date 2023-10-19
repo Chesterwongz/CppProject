@@ -2,8 +2,8 @@
 
 #include <stdexcept>
 
-#include "common/utils/CollectionUtils.h"
 #include "IntermediateTableFactory.h"
+#include "common/utils/CollectionUtils.h"
 #include "qps/exceptions/QPSIntermediateTableException.h"
 
 vector<string> getSharedColNames(IntermediateTable table1,

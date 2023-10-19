@@ -42,7 +42,7 @@ vector<vector<SynonymRes>> convertToSynonymResCol(
   vector<vector<SynonymRes>> res{};
   res.reserve(stringData.size());
   for (const auto& datumRow : stringData) {
-    vector<SynonymRes> row {};
+    vector<SynonymRes> row{};
     for (const auto& datum : datumRow) {
       row.emplace_back(SynonymResFactory::buildDefaultSynonym(datum));
     }

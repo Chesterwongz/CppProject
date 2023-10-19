@@ -8,7 +8,6 @@
 
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"
-#include "qps/context/Context.h"
 #include "qps/intermediateTable/IntermediateTable.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 

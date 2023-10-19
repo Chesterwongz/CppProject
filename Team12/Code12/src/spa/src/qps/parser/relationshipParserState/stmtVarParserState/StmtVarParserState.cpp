@@ -19,16 +19,18 @@ PredictiveMap StmtVarParserState::predictiveMap = {
     {PQL_INTEGER_TOKEN, {PQL_COMMA_TOKEN}}};
 
 StmtVarParserState::StmtVarParserState(PQLParserContext& parserContext,
-                                       string abstraction, PQLTokenType prev)
+                                       string abstraction, PQLTokenType prev,
+                                       bool isNegated)
     : RelationshipParserState(parserContext, false, std::move(abstraction),
-                              prev) {}
+                              prev, isNegated) {}
 
-void StmtVarParserState::checkIsValidSynonym(const std::string& synonym,
+string StmtVarParserState::getIfValidSynonym(const std::string& synonym,
                                              size_t argumentNumber) {
   auto synType = parserContext.getValidSynonymType(synonym);
   if (argumentNumber == SECOND_ARG && synType != VARIABLE_ENTITY) {
     throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_VAR_SYN);
   }
+  return synType;
 }
 
 void StmtVarParserState::checkIsValidWildcard() {
@@ -54,8 +56,9 @@ void StmtVarParserState::handleToken() {
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
       case PQL_SYNONYM_TOKEN:
-        checkIsValidSynonym(token.getValue(), arguments.size());
-        arguments.push_back(std::make_unique<SynonymArg>(token.getValue()));
+        arguments.push_back(std::make_unique<SynonymArg>(
+            token.getValue(),
+            getIfValidSynonym(token.getValue(), arguments.size())));
         break;
       case PQL_WILDCARD_TOKEN:
         checkIsValidWildcard();

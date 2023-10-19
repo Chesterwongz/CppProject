@@ -8,7 +8,7 @@ PatternExp::PatternExp(string argumentValue) {
   patternExpValue = QPSStringUtils::convertToRPN(argumentValue);
 }
 
-string PatternExp::getValue() { return patternExpValue; }
+const string& PatternExp::getValue() { return patternExpValue; }
 
 QPSStringUtils::ArgumentType PatternExp::getArgumentType() {
   return argumentType;

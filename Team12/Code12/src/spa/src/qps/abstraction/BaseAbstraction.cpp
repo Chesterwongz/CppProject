@@ -2,7 +2,6 @@
 
 BaseAbstraction::BaseAbstraction(AbstractionParams &params)
     : pkb(params.pkb),
-      context(params.context),
       abstraction(params.abstraction),
       firstArg(params.firstArg),
       secondArg(params.secondArg),
@@ -11,11 +10,11 @@ BaseAbstraction::BaseAbstraction(AbstractionParams &params)
       argumentPermutation(getPermutation(params.firstArg, params.secondArg)) {}
 
 StmtType BaseAbstraction::getFirstArgStmtType() {
-  return getArgStmtType(this->firstArg, this->context);
+  return getArgStmtType(this->firstArg);
 }
 
 StmtType BaseAbstraction::getSecondArgStmtType() {
-  return getArgStmtType(this->secondArg, this->context);
+  return getArgStmtType(this->secondArg);
 }
 
 IntermediateTable BaseAbstraction::evaluate() {
