@@ -1,7 +1,6 @@
 #include <string>
 #include <catch.hpp>
 
-#include "../../unit_testing/src/qps/mocks/MockContext.h"
 #include "../../unit_testing/src/qps/mocks/MockPKBReader.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/patternExp/PatternExp.h"
@@ -66,9 +65,6 @@ TEST_CASE("test_assignPatternClause_evaluate_synonymFirstArg") {
       make_pair("1", "a"), make_pair("2", "b"), make_pair("3", "c")};
   mockPkbReader.mockExactAssignPattern = mockExactAssignPatternStmts;
 
-  MockContext mockContext = MockContext();
-  mockContext.mockTokenEntity = ASSIGN_ENTITY;
-
   IntermediateTable actualTable = patternClause.evaluate(mockPkbReader);
   vector<string> actualColNames = actualTable.getColNames();
   vector<vector<string>> actualTableData = actualTable.getData();
@@ -103,9 +99,6 @@ TEST_CASE("test_assignPatternClause_evaluate_identFirstArg") {
   vector<pair<string, string>> mockExactAssignPatternStmts = {
       make_pair("3", "x")};
   mockPkbReader.mockExactAssignPattern = mockExactAssignPatternStmts;
-
-  MockContext mockContext = MockContext();
-  mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable = patternClause.evaluate(mockPkbReader);
   vector<string> actualColNames = actualTable.getColNames();

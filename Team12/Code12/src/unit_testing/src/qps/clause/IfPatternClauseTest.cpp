@@ -1,7 +1,6 @@
 #include <string>
 #include <catch.hpp>
 
-#include "../../unit_testing/src/qps/mocks/MockContext.h"
 #include "../../unit_testing/src/qps/mocks/MockPKBReader.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/patternExp/PatternExp.h"
@@ -55,9 +54,6 @@ TEST_CASE("test_ifPatternClause_evaluate_synonymFirstArg") {
       {"1", "a"}, {"3", "b"}, {"5", "c"}};
   mockPkbReader.mockIfPattern = mockIfPatternStmts;
 
-  MockContext mockContext = MockContext();
-  mockContext.mockTokenEntity = ASSIGN_ENTITY;
-
   IntermediateTable actualTable = patternClause.evaluate(mockPkbReader);
   vector<string> actualColNames = actualTable.getColNames();
   vector<vector<string>> actualTableData = actualTable.getData();
@@ -85,9 +81,6 @@ TEST_CASE("test_ifPatternClause_evaluate_identFirstArg") {
 
   vector<pair<string, string>> mockIfPatternStmts = {{"3", "b"}};
   mockPkbReader.mockIfPattern = mockIfPatternStmts;
-
-  MockContext mockContext = MockContext();
-  mockContext.mockTokenEntity = ASSIGN_ENTITY;
 
   IntermediateTable actualTable = patternClause.evaluate(mockPkbReader);
   vector<string> actualColNames = actualTable.getColNames();

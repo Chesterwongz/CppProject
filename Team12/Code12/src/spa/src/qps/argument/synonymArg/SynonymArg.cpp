@@ -18,6 +18,8 @@ QPSStringUtils::ArgumentType SynonymArg::getArgumentType() {
 
 bool SynonymArg::isSynonym() { return true; }
 
+bool SynonymArg::isProcSynonym() { return entityType == PROCEDURE_ENTITY; }
+
 bool SynonymArg::operator==(const AbstractArgument& other) const {
   const auto* otherSynonym = dynamic_cast<const SynonymArg*>(&other);
   if (!otherSynonym) return false;

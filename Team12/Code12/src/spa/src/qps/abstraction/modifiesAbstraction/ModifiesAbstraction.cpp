@@ -15,10 +15,7 @@ IntermediateTable ModifiesAbstraction::evaluateSynonymSynonym() {
 
 // Modifies (StmtSynonym, VarIdentifier)
 IntermediateTable ModifiesAbstraction::evaluateSynonymIdent() {
-  string firstArgSynonym = this->firstArgValue;
-  auto& firstSynArg = dynamic_cast<SynonymArg&>(firstArg);
-
-  bool isFirstArgProcedure = firstSynArg.getEntityType() == PROCEDURE_ENTITY;
+  bool isFirstArgProcedure = firstArg.isProcSynonym();
   string secondArgVarName = this->secondArgValue;
 
   vector<string> result;
@@ -29,7 +26,7 @@ IntermediateTable ModifiesAbstraction::evaluateSynonymIdent() {
     StmtType firstArgStmtType = getFirstArgStmtType();
     result = pkb.getStatementsModifying(secondArgVarName, firstArgStmtType);
   }
-  return IntermediateTableFactory::buildSingleColTable(firstArgSynonym, result);
+  return IntermediateTableFactory::buildSingleColTable(this->firstArgValue, result);
 }
 
 // Modifies (StmtSynonym, _)
@@ -95,10 +92,7 @@ IntermediateTable ModifiesAbstraction::evaluateIntegerWildcard() {
 }
 
 IntermediateTable ModifiesAbstraction::handleSynonymOrWildcardArgs() {
-  string firstArgSynonym = this->firstArgValue;
-  auto& firstSynArg = dynamic_cast<SynonymArg&>(firstArg);
-
-  bool isFirstArgProcedure = firstSynArg.getEntityType() == PROCEDURE_ENTITY;
+  bool isFirstArgProcedure = firstArg.isProcSynonym();
   string secondArgVarSynonym = this->secondArgValue;
 
   // Modifies(procSynonym, *) and Modifies(stmtSynonym, *) has different APIs
@@ -112,7 +106,7 @@ IntermediateTable ModifiesAbstraction::handleSynonymOrWildcardArgs() {
 
   //! If any of the args are "_", the column will be ignored.
   return IntermediateTableFactory::buildIntermediateTable(
-      firstArgSynonym, secondArgVarSynonym, result);
+      this->firstArgValue, secondArgVarSynonym, result);
 }
 
 IntermediateTable

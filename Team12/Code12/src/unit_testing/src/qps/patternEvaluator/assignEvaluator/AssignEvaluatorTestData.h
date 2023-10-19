@@ -5,7 +5,6 @@
 #include <utility>
 #include <vector>
 
-#include "../../mocks/MockContext.h"
 #include "../../mocks/MockPKBReader.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/patternExp/PatternExp.h"
@@ -28,8 +27,6 @@ vector<pair<string, string>> mockAllModifiedVariables = {
     make_pair("1", "a"), make_pair("2", "b"), make_pair("3", "c"),
     make_pair("4", "d"), make_pair("5", "e"),
 };
-
-MockContext assignMockContext = MockContext();
 
 bool assignIsPartialMatchFalse = false;
 

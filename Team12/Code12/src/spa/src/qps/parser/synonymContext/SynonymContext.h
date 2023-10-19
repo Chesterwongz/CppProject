@@ -7,7 +7,7 @@
 
 using std::string, std::unordered_map;
 
-class Context {
+class SynonymContext {
  private:
   unordered_map<Synonym, Entity> tokenNameToTokenMap = {};
 
@@ -15,5 +15,4 @@ class Context {
   virtual void addSynonym(const Synonym& tokenSynonym, Entity tokenEntity);
   virtual Entity getTokenEntity(const Synonym& tokenName);
   virtual bool checkIfSynonymExists(const Synonym& tokenName);
-  virtual unordered_map<Synonym, Entity>& getMap();  // for testing
 };

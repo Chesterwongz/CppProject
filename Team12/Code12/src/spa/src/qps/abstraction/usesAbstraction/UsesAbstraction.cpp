@@ -15,10 +15,7 @@ IntermediateTable UsesAbstraction::evaluateSynonymSynonym() {
 
 // Uses (StatementOrProcSynonym, VarIdentifier)
 IntermediateTable UsesAbstraction::evaluateSynonymIdent() {
-  string firstArgSynonym = this->firstArgValue;
-  auto& firstSynArg = dynamic_cast<SynonymArg&>(firstArg);
-
-  bool isFirstArgProcedure = firstSynArg.getEntityType() == PROCEDURE_ENTITY;
+  bool isFirstArgProcedure = firstArg.isProcSynonym();
   string secondArgVarName = this->secondArgValue;
 
   vector<string> result;
@@ -29,7 +26,7 @@ IntermediateTable UsesAbstraction::evaluateSynonymIdent() {
     StmtType firstArgStmtType = getFirstArgStmtType();
     result = pkb.getStatementsUsing(secondArgVarName, firstArgStmtType);
   }
-  return IntermediateTableFactory::buildSingleColTable(firstArgSynonym, result);
+  return IntermediateTableFactory::buildSingleColTable(this->firstArgValue, result);
 }
 
 // Uses (StatementOrProcSynonym, _)
@@ -94,10 +91,7 @@ IntermediateTable UsesAbstraction::evaluateIdentWildcard() {
 }
 
 IntermediateTable UsesAbstraction::handleSynonymOrWildcardArgs() {
-  string firstArgSynonym = this->firstArgValue;
-  auto& firstSynArg = dynamic_cast<SynonymArg&>(firstArg);
-
-  bool isFirstArgProcedure = firstSynArg.getEntityType() == PROCEDURE_ENTITY;
+  bool isFirstArgProcedure = firstArg.isProcSynonym();
   string secondArgVarSynonym = this->secondArgValue;
 
   // Uses(procSynonym, *) and Uses(stmtSynonym, *) has different APIs
@@ -111,7 +105,7 @@ IntermediateTable UsesAbstraction::handleSynonymOrWildcardArgs() {
 
   //! If any of the args are "_", the column will be ignored.
   return IntermediateTableFactory::buildIntermediateTable(
-      firstArgSynonym, secondArgVarSynonym, result);
+      this->firstArgValue, secondArgVarSynonym, result);
 }
 
 IntermediateTable UsesAbstraction::handleProcNameWithVarSynonymOrWildcard() {

@@ -11,7 +11,7 @@ PQLParserContext::PQLParserContext(unique_ptr<PQLTokenStream> tokenStream,
     : tokenStream(std::move(tokenStream)),
       query(query),
       currState(),
-      context(std::make_unique<Context>()) {}
+      context(std::make_unique<SynonymContext>()) {}
 
 void PQLParserContext::addToContext(string entity, const string& synonym) {
   if (!QPSStringUtils::isSynonym(synonym)) {

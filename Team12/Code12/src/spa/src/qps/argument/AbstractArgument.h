@@ -14,6 +14,7 @@ class AbstractArgument {
   virtual bool isIdent();
   virtual bool isInteger();
   virtual bool isSynonym();
+  virtual bool isProcSynonym();
   virtual bool isWildcard();
   virtual bool isPatternExp();
   virtual ~AbstractArgument() = default;
