@@ -7,7 +7,7 @@
 #include "common/Constants.h"
 #include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
 
-class DesignEntitiesStorage : public virtual IEntityStorage {
+class DesignEntitiesStorage : public IEntityStorage {
  public:
   // Setter for variables
   void setVariable(const std::string& variableName) override;
@@ -26,8 +26,6 @@ class DesignEntitiesStorage : public virtual IEntityStorage {
 
   // Return the names of all procedures in the program
   std::set<std::string> getAllProcedures() override;
-
-  std::string getProcFromStmt(int stmtNum) override;
 
  private:
   std::set<std::string> variableData;

@@ -1,14 +1,23 @@
 #pragma once
 
-#include "pkb/facade/PKBStorage.h"
+#include "PKBStore.h"
 #include "pkb/readers/entity_reader/DesignEntitiesReader.h"
 #include "pkb/readers/pattern_reader/PatternReader.h"
-#include "pkb/readers/relation_reader/CallsReader.h"
-#include "pkb/readers/relation_reader/FollowsReader.h"
-#include "pkb/readers/relation_reader/ModifiesReader.h"
-#include "pkb/readers/relation_reader/NextReader.h"
-#include "pkb/readers/relation_reader/ParentReader.h"
-#include "pkb/readers/relation_reader/UsesReader.h"
+#include "pkb/readers/relation_reader/proc_to_proc/CallsReader.h"
+#include "pkb/readers/relation_reader/stmt_proc_to_var/ModifiesReader.h"
+#include "pkb/readers/relation_reader/stmt_proc_to_var/UsesReader.h"
+#include "pkb/readers/relation_reader/stmt_to_stmt/FollowsReader.h"
+#include "pkb/readers/relation_reader/stmt_to_stmt/NextReader.h"
+#include "pkb/readers/relation_reader/stmt_to_stmt/ParentReader.h"
+#include "pkb/storage/CallsStore.h"
+#include "pkb/storage/ModifiesPStore.h"
+#include "pkb/storage/ModifiesSStore.h"
+#include "pkb/storage/NextStore.h"
+#include "pkb/storage/ParentStore.h"
+#include "pkb/storage/RelationTStore.h"
+#include "pkb/storage/StmtStore.h"
+#include "pkb/storage/UsesPStore.h"
+#include "pkb/storage/UsesSStore.h"
 
 class PKBReader : public DesignEntitiesReader,
                   public FollowsReader,
@@ -19,13 +28,17 @@ class PKBReader : public DesignEntitiesReader,
                   public UsesReader,
                   public CallsReader {
  public:
-  explicit PKBReader(PKBStorage& storage)
-      : DesignEntitiesReader(storage, storage),
-        FollowsReader(storage, storage),
-        ModifiesReader(storage, storage, storage),
-        NextReader(storage, storage, storage),
-        ParentReader(storage, storage),
-        PatternReader(storage),
-        UsesReader(storage, storage, storage),
-        CallsReader(storage) {}
+  explicit PKBReader(PKBStore& store)
+      : DesignEntitiesReader(store.getCallsStmtStore(), store.getEntityStore(),
+                             store.getModifiesStore(), store.getStmtStore(),
+                             store.getUsesStore()),
+        FollowsReader(store.getFollowsStore(), store.getStmtStore()),
+        ModifiesReader(store.getModifiesStore(), store.getModifiesProcStore(),
+                       store.getStmtStore()),
+        NextReader(store.getNextStore(), store.getStmtStore()),
+        ParentReader(store.getParentStore(), store.getStmtStore()),
+        PatternReader(store.getPatternStore()),
+        UsesReader(store.getUsesStore(), store.getUsesProcStore(),
+                   store.getStmtStore()),
+        CallsReader(store.getCallsStore()) {}
 };

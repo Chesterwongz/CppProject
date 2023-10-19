@@ -25,10 +25,4 @@ class IEntityStorage {
 
   // Return the names of all procedures in the program
   virtual std::set<std::string> getAllProcedures() = 0;
-
-  /**
-   * @param stmtNum Statement number to query.
-   * @return Procedure name that the statement belongs to.
-   */
-  virtual std::string getProcFromStmt(int stmtNum) = 0;
 };

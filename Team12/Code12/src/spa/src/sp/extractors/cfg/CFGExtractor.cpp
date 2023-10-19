@@ -26,9 +26,6 @@ void CFGExtractor::addEdgesToLine(int toLine) {
 void CFGExtractor::postVisitProcedure(const ProcNode& node) {
   addEdgesToLine(common::CFG_END_STMT_NUM);
   stmtListStates.pop_back();
-
-  string procName = node.getValue();
-  pkbWriter.setCFG(procName, std::move(cfg));
 }
 
 void CFGExtractor::processStmt(const StmtNode& node) {

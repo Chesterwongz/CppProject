@@ -58,6 +58,6 @@ void ModifiesExtractor::postVisitWhile(const WhileNode& node) { postVisit(); }
 void ModifiesExtractor::postVisitRead(const ReadNode& node) { postVisit(); }
 
 void ModifiesExtractor::addModifies(int lineNum, const std::string& var) {
-  pkbWriter.setModifiesRelationship(var, lineNum);
-  pkbWriter.setModifiesRelationship(var, procName);
+  pkbWriter.addModifies(var, lineNum);
+  pkbWriter.addModifies(var, procName);
 }

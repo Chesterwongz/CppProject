@@ -1,59 +1,83 @@
 #pragma once
 
-#include <set>
 #include <string>
+#include <unordered_set>
+#include <vector>
 
+#include "common/utils/CollectionUtils.h"
+#include "common/utils/StringUtils.h"
 #include "pkb/interfaces/readers/IDesignEntitiesReader.h"
-#include "pkb/interfaces/storage/entity_storage/IEntityStorage.h"
-#include "pkb/interfaces/storage/entity_storage/IStmtStorage.h"
+#include "pkb/storage/CallsSStore.h"
+#include "pkb/storage/EntityStore.h"
+#include "pkb/storage/ModifiesSStore.h"
+#include "pkb/storage/StmtStore.h"
+#include "pkb/storage/UsesSStore.h"
 
 class DesignEntitiesReader : public IDesignEntitiesReader {
  private:
-  IEntityStorage& entity_storage_;
-  IStmtStorage& stmt_storage_;
+  CallsSStore& callsSStore;
+  EntityStore& entityStore;
+  ModifiesSStore& modifiesSStore;
+  StmtStore& stmtStore;
+  UsesSStore& usesSStore;
 
  protected:
-  DesignEntitiesReader(IEntityStorage& entity_storage,
-                       IStmtStorage& stmt_storage)
-      : entity_storage_(entity_storage), stmt_storage_(stmt_storage) {}
+  DesignEntitiesReader(CallsSStore& callsSStore, EntityStore& entityStore,
+                       ModifiesSStore& modifiesSStore, StmtStore& stmtStore,
+                       UsesSStore& usesSStore)
+      : callsSStore(callsSStore),
+        entityStore(entityStore),
+        modifiesSStore(modifiesSStore),
+        stmtStore(stmtStore),
+        usesSStore(usesSStore) {}
 
  public:
   // return the names of all variables in the program
-  std::set<std::string> getAllVariables() override;
-
-  // return {varName} if exists, {} otherwise
-  // bool isValidVariable(string varName) override;
+  std::vector<std::string> getAllVariables() override;
 
   // return the values of all constants in the program
-  std::set<std::string> getAllConstants() override;
-
-  // return true if exists, false otherwise
-  // bool isValidConstant(int constantVal) override;
+  std::vector<std::string> getAllConstants() override;
 
   // return the names of all procedures in the program
-  std::set<std::string> getAllProcedures() override;
-
-  // return true if it exists, false otherwise
-  // bool isValidProcName(string procName) override;
+  std::vector<std::string> getAllProcedures() override;
 
   // return the statement numbers of specified statement type
-  std::set<std::string> getStatement(StmtType statementType) override;
+  std::vector<std::string> getAllStmtsOf(StmtType statementType) override;
 
-  // return true if it exists, false otherwise
-  // bool isValidStatement(string stmtNum, StmtType statementType) override;
+  // return true if statementNumber is a statement of statementType
+  bool isValidStmt(int statementNumber, StmtType statementType) override;
 
-  // std::string getProcCalledByStmt(int stmtNum) override;
+  // return true if a constant of that value exists
+  bool isValidConstant(std::string constantVal) override;
 
-  // returns all the stmtnums that call procname
-  // std::vector<string> getStmtsThatCall(string procName) override;
+  // return true if a procedure of procName exists
+  bool isValidProc(std::string procName) override;
 
-  // vector<std::string> getStmtsThatRead(string varName) override;
+  // return true if variable of that varName exists
+  bool isValidVariable(std::string varName) override;
 
-  // vector<std::string> getStmtsThatPrint(string varName) override;
+  // return the statement numbers that call a particular procedure
+  std::vector<std::string> getStmtsThatCall(
+      const std::string& procName) override;
 
-  // string getVariableReadBy(int stmtNum) override;
+  // return name of procedure called at a particular statementNumber
+  std::vector<std::string> getProcCalledBy(int statementNumber) override;
 
-  // string getVariablePrintedBy(int stmtNum) override;
+  // return the statement numbers that read a particular variable
+  std::vector<std::string> getStmtsThatRead(
+      const std::string& varName) override;
 
-  std::string getProcFromStmt(int stmtNum) override;
+  // return name of variable read at a particular statementNumber
+  std::vector<std::string> getVariableReadBy(int statementNumber) override;
+
+  // return the statement numbers that print a particular variable
+  std::vector<std::string> getStmtsThatPrint(
+      const std::string& varName) override;
+
+  // return name of variable printed at a particular statementNumber
+  std::vector<std::string> getVariablePrintedBy(int statementNumber) override;
+
+  template <typename SStoreType>
+  std::vector<std::string> getEntityBy(int statementNumber, StmtType stmtType,
+                                       SStoreType& sStore);
 };
