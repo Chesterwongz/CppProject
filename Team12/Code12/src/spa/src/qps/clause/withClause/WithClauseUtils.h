@@ -11,7 +11,7 @@ enum Entity_AttrRef_Permutation {
 
   READ_STMTNUM,
   READ_VARNAME,
-  
+
   PRINT_STMTNUM,
   PRINT_VARNAME,
 
@@ -19,75 +19,45 @@ enum Entity_AttrRef_Permutation {
   CALL_PROCNAME,
 
   WHILE_STMTNUM,
-  
+
   IF_STMTNUM,
 
   ASSIGN_STMTNUM,
 
   VAR_VARNAME,
-  
+
   CONSTANT_VALUE,
 
-  PROCEDURE_PROCNAME 
-  
+  PROCEDURE_PROCNAME
+
 };
 
 // TODO (change ATTRREF to whatever kh write in keyword.h)
 unordered_map<Entity, unordered_map<AttrRef, Entity_AttrRef_Permutation>>
     EntityAttrRefPermutationMap = {
         {STMT_ENTITY,
-          {
-            {STMTNUM_ATTRREF, Entity_AttrRef_Permutation::STMT_STMTNUM}
-          }
-        },
+         {{STMTNUM_ATTRREF, Entity_AttrRef_Permutation::STMT_STMTNUM}}},
         {READ_ENTITY,
-          {
-            {STMTNUM_ATTRREF, Entity_AttrRef_Permutation::READ_STMTNUM},
-            {VARNAME_ATTRREF, Entity_AttrRef_Permutation::READ_VARNAME}
-          }
-        },
+         {{STMTNUM_ATTRREF, Entity_AttrRef_Permutation::READ_STMTNUM},
+          {VARNAME_ATTRREF, Entity_AttrRef_Permutation::READ_VARNAME}}},
         {PRINT_ENTITY,
-          {
-            {STMTNUM_ATTRREF, Entity_AttrRef_Permutation::PRINT_STMTNUM},
-            {VARNAME_ATTRREF, Entity_AttrRef_Permutation::PRINT_VARNAME}
-          }
-        },
-        {CALL_ENTITY, 
-          {
-            {STMTNUM_ATTRREF, Entity_AttrRef_Permutation::CALL_STMTNUM},
-            {PROCNAME_ATTRREF, Entity_AttrRef_Permutation::CALL_PROCNAME}
-          }
-        },
+         {{STMTNUM_ATTRREF, Entity_AttrRef_Permutation::PRINT_STMTNUM},
+          {VARNAME_ATTRREF, Entity_AttrRef_Permutation::PRINT_VARNAME}}},
+        {CALL_ENTITY,
+         {{STMTNUM_ATTRREF, Entity_AttrRef_Permutation::CALL_STMTNUM},
+          {PROCNAME_ATTRREF, Entity_AttrRef_Permutation::CALL_PROCNAME}}},
         {WHILE_ENTITY,
-          {
-            {STMTNUM_ATTRREF, Entity_AttrRef_Permutation::WHILE_STMTNUM}
-          }
-        },
+         {{STMTNUM_ATTRREF, Entity_AttrRef_Permutation::WHILE_STMTNUM}}},
         {IF_ENTITY,
-          {
-            {STMTNUM_ATTRREF, Entity_AttrRef_Permutation::IF_STMTNUM}
-          }
-        },
+         {{STMTNUM_ATTRREF, Entity_AttrRef_Permutation::IF_STMTNUM}}},
         {ASSIGN_ENTITY,
-          {
-            {STMTNUM_ATTRREF, Entity_AttrRef_Permutation::ASSIGN_STMTNUM}
-          }
-        },
+         {{STMTNUM_ATTRREF, Entity_AttrRef_Permutation::ASSIGN_STMTNUM}}},
         {VARIABLE_ENTITY,
-          {
-            {VARNAME_ATTRREF, Entity_AttrRef_Permutation::VAR_VARNAME}
-          }
-        },
+         {{VARNAME_ATTRREF, Entity_AttrRef_Permutation::VAR_VARNAME}}},
         {CONSTANT_ENTITY,
-          {
-            {VALUE_ATTRREF, Entity_AttrRef_Permutation::CONSTANT_VALUE}
-          }
-        },
+         {{VALUE_ATTRREF, Entity_AttrRef_Permutation::CONSTANT_VALUE}}},
         {PROCEDURE_ENTITY,
-          {
-            {PROCNAME_ATTRREF, Entity_AttrRef_Permutation::PROCEDURE_PROCNAME}
-          }
-        }
+         {{PROCNAME_ATTRREF, Entity_AttrRef_Permutation::PROCEDURE_PROCNAME}}}
 
 };
 

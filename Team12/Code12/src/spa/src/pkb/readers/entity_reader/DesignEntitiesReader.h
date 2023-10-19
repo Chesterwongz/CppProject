@@ -56,5 +56,4 @@ class DesignEntitiesReader : public IDesignEntitiesReader {
   // string getVariablePrintedBy(int stmtNum) override;
 
   std::string getProcFromStmt(int stmtNum) override;
-
 };

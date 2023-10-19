@@ -48,6 +48,6 @@ class IDesignEntitiesReader {
   // virtual vector<std::string> getStmtsThatPrint(string varName);
 
   // virtual string getVariablePrintedBy(int stmtNum);
-  
+
   virtual std::string getProcFromStmt(int stmtNum) = 0;
 };
