@@ -11,13 +11,13 @@
 class ClauseTransitionParserState : public IParserState {
  private:
   static PredictiveMap predictiveMap;
-  void processNameToken(PQLToken& curr) override;
   PQLParserContext& parserContext;
+  void processNameToken(PQLToken& curr) override;
+  void createAndClause();
 
  public:
-  void handleToken() override;
   static void setClauseTransitionState(PQLParserContext& pc);
-  void createAndClause(PQLParserContext& pc);
+  void handleToken() override;
   explicit ClauseTransitionParserState(PQLParserContext& parserContext);
   ~ClauseTransitionParserState() override = default;
 };

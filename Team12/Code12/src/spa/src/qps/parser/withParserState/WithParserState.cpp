@@ -18,7 +18,7 @@ PredictiveMap WithParserState::predictiveMap = {
 WithParserState::WithParserState(PQLParserContext& parserContext,
                                  PQLTokenType prev)
     : BaseParserState(parserContext, prev), isNegated(false) {
-  prevClauseType = WITH_CLAUSE;
+  prevClauseType = ClauseType::WITH_CLAUSE;
 }
 
 void WithParserState::checkSameTypeComparison() {

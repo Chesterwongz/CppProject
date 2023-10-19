@@ -11,7 +11,7 @@ PredictiveMap PatternParserState::predictiveMap = {
 PatternParserState::PatternParserState(PQLParserContext& parserContext,
                                        PQLTokenType prev)
     : BaseParserState(parserContext, prev) {
-  prevClauseType = PATTERN_CLAUSE;
+  prevClauseType = ClauseType::PATTERN_CLAUSE;
 }
 
 void PatternParserState::processNameToken(PQLToken& curr) {

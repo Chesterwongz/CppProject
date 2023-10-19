@@ -6,11 +6,11 @@
 
 class PQLParserContext;
 
-enum ClauseType { NULL_CLAUSE, SUCH_THAT_CLAUSE, PATTERN_CLAUSE, WITH_CLAUSE };
+enum class ClauseType { NULL_CLAUSE, SUCH_THAT_CLAUSE, PATTERN_CLAUSE, WITH_CLAUSE };
 
 class IParserState {
  protected:
-  inline static ClauseType prevClauseType = NULL_CLAUSE;
+  inline static ClauseType prevClauseType = ClauseType::NULL_CLAUSE;
   virtual void processNameToken(PQLToken& curr) = 0;
 
  public:
