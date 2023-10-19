@@ -57,6 +57,10 @@ std::vector<std::string> DesignEntitiesReader::getStmtsThatCall(
 
 std::vector<std::string> DesignEntitiesReader::getStmtsThatRead(
     const std::string& varName) {
+  if (!stmtStore.hasStmtType(StmtType::READ)) {
+    return {};
+  }
+
   auto readStmtFilter = stmtStore.getStmtFilterPredicate(StmtType::READ);
 
   return CollectionUtils::transformIntToStrVector(
@@ -65,6 +69,10 @@ std::vector<std::string> DesignEntitiesReader::getStmtsThatRead(
 
 std::vector<std::string> DesignEntitiesReader::getStmtsThatPrint(
     const std::string& varName) {
+  if (!stmtStore.hasStmtType(StmtType::PRINT)) {
+    return {};
+  }
+
   auto printStmtFilter = stmtStore.getStmtFilterPredicate(StmtType::PRINT);
 
   return CollectionUtils::transformIntToStrVector(
