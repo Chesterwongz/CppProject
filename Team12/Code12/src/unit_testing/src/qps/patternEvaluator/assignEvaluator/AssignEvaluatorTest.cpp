@@ -105,7 +105,7 @@ TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
   IntermediateTable actualTable = assignEvaluator.evaluate();
 
   vector<string> actualColNames = actualTable.getColNames();
-  vector<vector<string>> actualTableData = actualTable.getData();
+  vector<vector<string>> actualTableData = actualTable.getDataAsStrings();
 
   REQUIRE(actualColNames.size() == 2);
   REQUIRE(actualColNames[0] == selectedSynonym.getValue());
@@ -143,7 +143,7 @@ TEST_CASE("test_AssignEvaluator_evaluate_identFirstArg") {
   IntermediateTable actualTable = assignEvaluator.evaluate();
 
   vector<string> actualColNames = actualTable.getColNames();
-  vector<vector<string>> actualTableData = actualTable.getData();
+  vector<vector<string>> actualTableData = actualTable.getDataAsStrings();
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == selectedSynonym.getValue());
@@ -176,7 +176,7 @@ TEST_CASE("test_AssignEvaluator_evaluate_wildcardFirstArg") {
   IntermediateTable actualTable = assignEvaluator.evaluate();
 
   vector<string> actualColNames = actualTable.getColNames();
-  vector<vector<string>> actualTableData = actualTable.getData();
+  vector<vector<string>> actualTableData = actualTable.getDataAsStrings();
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == selectedSynonym.getValue());

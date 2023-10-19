@@ -20,7 +20,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Synonym)") {
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTORS);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_MODIFIED_VECTORS);
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
@@ -57,8 +57,8 @@ TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Ident)") {
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData().size() == 3);
-  REQUIRE(resultTable.getData() == MOCK_MODIFYING_COL);
+  REQUIRE(resultTable.getDataAsStrings().size() == 3);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_MODIFYING_COL);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
@@ -93,7 +93,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Wildcard)") {
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTORS_COL_1);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_MODIFIED_VECTORS_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
@@ -128,7 +128,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcSynonym, Synonym)") {
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTORS);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_MODIFIED_VECTORS);
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
@@ -167,8 +167,8 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcSynonym, Ident)") {
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData().size() == 3);
-  REQUIRE(resultTable.getData() == MOCK_MODIFYING_COL);
+  REQUIRE(resultTable.getDataAsStrings().size() == 3);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_MODIFYING_COL);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
@@ -205,7 +205,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcSynonym, Wildcard)") {
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTORS_COL_1);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_MODIFIED_VECTORS_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
@@ -241,7 +241,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Integer, Synonym)") {
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTORS_COL_2);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_MODIFIED_VECTORS_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
 }
@@ -344,7 +344,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcName, Synonym)") {
   ModifiesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_MODIFIED_VECTOR_FOR_PROCS);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_MODIFIED_VECTOR_FOR_PROCS);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
 }

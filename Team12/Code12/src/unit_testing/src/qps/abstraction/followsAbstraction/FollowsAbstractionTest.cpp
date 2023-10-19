@@ -37,7 +37,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Synonym)") {
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_FOLLOWS_VECTORS);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_FOLLOWS_VECTORS);
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
@@ -57,9 +57,9 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Integer)") {
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData().size() == 1);
-  REQUIRE(resultTable.getData().at(0).size() == 1);
-  REQUIRE(resultTable.getData().at(0).at(0) == MOCK_FOLLOWED[0]);
+  REQUIRE(resultTable.getDataAsStrings().size() == 1);
+  REQUIRE(resultTable.getDataAsStrings().at(0).size() == 1);
+  REQUIRE(resultTable.getDataAsStrings().at(0).at(0) == MOCK_FOLLOWED[0]);
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Synonym, Integer) not followed") {
@@ -93,7 +93,7 @@ TEST_CASE("FollowsAbstraction - Follows(Synonym, Wildcard)") {
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_FOLLOWS_COL_1);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_FOLLOWS_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
@@ -111,9 +111,9 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)") {
 
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
-  REQUIRE(resultTable.getData().size() == 1);
-  REQUIRE(resultTable.getData().at(0).size() == 1);
-  REQUIRE(resultTable.getData().at(0).at(0) == MOCK_FOLLOWED[0]);
+  REQUIRE(resultTable.getDataAsStrings().size() == 1);
+  REQUIRE(resultTable.getDataAsStrings().at(0).size() == 1);
+  REQUIRE(resultTable.getDataAsStrings().at(0).at(0) == MOCK_FOLLOWED[0]);
 }
 
 TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)_no followed") {
@@ -210,7 +210,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Synonym)") {
   FollowsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_FOLLOWS_COL_2);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_FOLLOWS_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
 }
