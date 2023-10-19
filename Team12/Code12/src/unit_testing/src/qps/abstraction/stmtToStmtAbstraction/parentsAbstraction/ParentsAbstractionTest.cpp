@@ -37,7 +37,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)") {
   ParentsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_VECTORS);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_PARENT_CHILD_VECTORS);
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
@@ -57,9 +57,10 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Integer)") {
   ParentsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData().size() == 1);
-  REQUIRE(resultTable.getData().at(0).size() == 1);
-  REQUIRE(resultTable.getData().at(0).at(0) == MOCK_IMMEDIATE_PARENT_OF[0]);
+  REQUIRE(resultTable.getDataAsStrings().size() == 1);
+  REQUIRE(resultTable.getDataAsStrings().at(0).size() == 1);
+  REQUIRE(resultTable.getDataAsStrings().at(0).at(0) ==
+          MOCK_IMMEDIATE_PARENT_OF[0]);
 }
 
 TEST_CASE(
@@ -93,7 +94,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Wildcard)") {
   ParentsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_COL_1);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_PARENT_CHILD_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
@@ -129,7 +130,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Synonym)") {
   ParentsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_COL_2);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_PARENT_CHILD_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
 }
@@ -229,7 +230,7 @@ TEST_CASE("ParentsAbstraction - Parents(Wildcard, Synonym)") {
   ParentsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getData() == MOCK_PARENT_CHILD_COL_2);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_PARENT_CHILD_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
 }

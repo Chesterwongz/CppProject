@@ -1,6 +1,5 @@
 #include <map>
 #include <set>
-#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -39,7 +38,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  unordered_set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
 
@@ -55,7 +54,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  unordered_set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
 
@@ -71,7 +70,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  unordered_set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
 
@@ -87,7 +86,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  unordered_set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
 
@@ -103,7 +102,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  unordered_set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
 
@@ -119,7 +118,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  unordered_set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
 
@@ -135,7 +134,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  unordered_set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
 
@@ -151,7 +150,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  unordered_set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
 
@@ -167,7 +166,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  unordered_set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
 
@@ -183,7 +182,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  unordered_set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
 
@@ -199,7 +198,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  unordered_set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
 
@@ -215,7 +214,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  unordered_set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
 
@@ -231,7 +230,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  unordered_set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
 
@@ -247,7 +246,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  unordered_set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
 
@@ -263,7 +262,7 @@ TEST_CASE(
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  unordered_set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
 
@@ -279,6 +278,6 @@ TEST_CASE(
   sp.processContent(sourceInvalidSyntax, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"SyntaxError"};
+  unordered_set<string> expected = {"SyntaxError"};
   REQUIRE(result == expected);
 }
