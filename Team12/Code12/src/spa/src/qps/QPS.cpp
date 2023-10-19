@@ -2,7 +2,7 @@
 
 QPS::QPS(PKBReader& pkb) : pkb(pkb) {}
 
-std::set<string> QPS::processQueryString(const string& query) {
+unordered_set<string> QPS::processQueryString(const string& query) {
   unique_ptr<Query> queryObj = std::make_unique<Query>(pkb);
   try {
     unique_ptr<PQLTokenStream> tokenStream = PQLTokenizer::tokenize(query);

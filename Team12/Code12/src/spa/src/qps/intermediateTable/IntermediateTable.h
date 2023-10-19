@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -7,11 +8,18 @@
 #include <utility>
 #include <vector>
 
-using std::pair, std::unordered_map, std::string, std::vector, std::set;
+#include "qps/intermediateTable/synonymRes/SynonymRes.h"
+
+using std::pair, std::unordered_map, std::unordered_set, std::string,
+    std::vector, std::set, std::unique_ptr;
+
+typedef vector<SynonymRes> TableRowType;
+typedef vector<TableRowType> TableDataType;
+
 class IntermediateTable {
  private:
   unordered_map<string, int> colNameToIndexMap = {};
-  vector<vector<string>> tableData;
+  TableDataType tableData;
   vector<string> colNames = {};
   int currentColCount = 0;
   bool isWildcard = false;
@@ -29,22 +37,12 @@ class IntermediateTable {
    */
   explicit IntermediateTable(bool isTableWildcard);
 
- public:
   /**
-   * for initialising table from vector of pairs.
-   * only can initialise 2 columns.
-   * @param data data as vector of pairs
-   */
-  explicit IntermediateTable(const string &firstColName,
-                             const string &secondColName,
-                             const vector<pair<string, string>> &data);
-
-  /**
-   * for initialising table from vector of vectors
+   * for initialising table from vector of vectors of SynonymRes
    * @param data data as vector of vectors
    */
   explicit IntermediateTable(const vector<string> &colNames,
-                             const vector<vector<string>> &data);
+                             TableDataType data);
 
   /**
    * Wildcard table * ANY = ANY
@@ -59,17 +57,27 @@ class IntermediateTable {
    */
   static IntermediateTable makeEmptyTable();
 
+ public:
   /**
-   * @return the entire table's data
+   * @return the entire table's data with each cell converted to string
    */
-  vector<vector<string>> getData();
+  vector<vector<string>> getDataAsStrings();
 
   /**
    * @param colNameVector vector of column names to retrieve
    * @return set of tuples string. elements in tuple delimited by space.
    *         e.g. { "a b c", "a b d", ... }
    */
-  set<string> getColumns(const vector<string> &colNameVector);
+  unordered_set<string> getColumns(const vector<string> &colNameVector);
+
+  /**
+   * same as getColumns(const vector<string> &colNameVector), but allows
+   * you to specify the specific attribute ref you want
+   * @param colNameAndAttrRefVector vector of <column names, attrRef> pairs to
+   * retrieve
+   */
+  unordered_set<string> getColumns(
+      const vector<pair<string, AttrRefEnum>> &colNameAndAttrRefVector);
 
   /**
    * Join a different intermediateTable into this
@@ -96,9 +104,12 @@ class IntermediateTable {
   /**
    * generic getter methods
    */
-  int getRowCount();
-  bool isTableEmpty() const;
-  bool isTableWildcard() const;
-  bool isTableEmptyAndNotWildcard() const;
+  size_t getRowCount();
+  [[nodiscard]] bool isTableEmpty() const;
+  [[nodiscard]] bool isTableWildcard() const;
+  [[nodiscard]] bool isTableEmptyAndNotWildcard() const;
+  TableDataType getTableData();
   void printTable();
+
+  friend class IntermediateTableFactory;
 };
