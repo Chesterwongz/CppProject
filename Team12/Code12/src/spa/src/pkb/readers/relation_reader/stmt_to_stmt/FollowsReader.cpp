@@ -8,9 +8,10 @@ std::vector<std::string> FollowsReader::getFollowing(int stmt,
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
 
-  auto rawRes = followsStore.getDirectSuccessorsOf(stmt, stmtFilter);
+  const auto& rawRes = followsStore.getDirectSuccessors(stmt);
 
-  return CollectionUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformSetUToVectorV<int, std::string>(
+      rawRes, CollectionUtils::intToStrMapper, stmtFilter);
 }
 
 std::vector<std::string> FollowsReader::getFollowed(int stmt,

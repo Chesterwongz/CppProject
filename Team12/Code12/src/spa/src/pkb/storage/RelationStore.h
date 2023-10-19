@@ -8,20 +8,20 @@
 #include <utility>
 #include <vector>
 
-template <typename S, typename T>
+template <typename A, typename B>
 class RelationStore {
  protected:
   // An unordered set of the direct successors of S. I.e., S -> T
-  std::unordered_map<S, std::unordered_set<T>> directSuccessorMap;
+  std::unordered_map<A, std::unordered_set<B>> directSuccessorMap;
 
   // An unordered set of the direct ancestors of S. I.e., S <- T
-  std::unordered_map<T, std::unordered_set<S>> directAncestorMap;
+  std::unordered_map<B, std::unordered_set<A>> directAncestorMap;
 
-  [[nodiscard]] std::vector<std::pair<S, T>> allRelationsToVectorFiltered(
-      const std::unordered_map<S, std::unordered_set<T>>& successors,
-      const std::function<bool(S)>& filterStmt1,
-      const std::function<bool(T)>& filterStmt2) const {
-    std::vector<std::pair<S, T>> res;
+  [[nodiscard]] std::vector<std::pair<A, B>> allRelationsToVectorFiltered(
+      const std::unordered_map<A, std::unordered_set<B>>& successors,
+      const std::function<bool(A)>& filterStmt1,
+      const std::function<bool(B)>& filterStmt2) const {
+    std::vector<std::pair<A, B>> res;
     for (const auto& [s, setT] : successors) {
       if (!filterStmt1(s)) continue;
       for (const auto& t : setT) {
@@ -32,9 +32,9 @@ class RelationStore {
     return res;
   }
 
-  [[nodiscard]] std::vector<std::pair<S, T>> allRelationsToVector(
-      const std::unordered_map<S, std::unordered_set<T>>& successors) const {
-    std::vector<std::pair<S, T>> res;
+  [[nodiscard]] std::vector<std::pair<A, B>> allRelationsToVector(
+      const std::unordered_map<A, std::unordered_set<B>>& successors) const {
+    std::vector<std::pair<A, B>> res;
     for (const auto& [s, setT] : successors) {
       for (const auto& t : setT) {
         res.emplace_back(s, t);
@@ -76,62 +76,62 @@ class RelationStore {
  public:
   virtual ~RelationStore() = default;
 
-  virtual void addRelation(S from, T to) {
+  virtual void addRelation(A from, B to) {
     directSuccessorMap[from].insert(to);
     directAncestorMap[to].insert(from);
   }
 
-  [[nodiscard]] bool hasDirectSuccessor(S from) const {
+  [[nodiscard]] bool hasDirectSuccessor(A from) const {
     return directSuccessorMap.count(from);
   }
 
-  [[nodiscard]] bool hasDirectAncestor(T to) const {
+  [[nodiscard]] bool hasDirectAncestor(B to) const {
     return directAncestorMap.count(to);
   }
 
-  [[nodiscard]] const std::unordered_set<T>& getDirectSuccessors(S from) const {
+  [[nodiscard]] const std::unordered_set<B>& getDirectSuccessors(A from) const {
     return directSuccessorMap.at(from);
   }
 
-  [[nodiscard]] const std::unordered_set<S>& getDirectAncestors(T to) const {
+  [[nodiscard]] const std::unordered_set<A>& getDirectAncestors(B to) const {
     return directAncestorMap.at(to);
   }
 
-  [[nodiscard]] bool hasDirectRelation(S from, T to) const {
+  [[nodiscard]] bool hasDirectRelation(A from, B to) const {
     return directSuccessorMap.count(from) &&
            directSuccessorMap.at(from).count(to);
   }
 
-  [[nodiscard]] std::vector<T> getAllDirectSuccessorsOf(S from) const {
-    return relationToVector<S, T>(from, directSuccessorMap);
+  [[nodiscard]] std::vector<B> getAllDirectSuccessorsOf(A from) const {
+    return relationToVector<A, B>(from, directSuccessorMap);
   }
 
-  [[nodiscard]] std::vector<T> getDirectSuccessorsOf(
-      S from, const std::function<bool(T)>& filter) const {
-    return relationToVectorFiltered<S, T>(from, directSuccessorMap, filter);
+  [[nodiscard]] std::vector<B> getDirectSuccessorsOf(
+      A from, const std::function<bool(B)>& filter) const {
+    return relationToVectorFiltered<A, B>(from, directSuccessorMap, filter);
   }
 
-  [[nodiscard]] std::vector<T> getAllDirectAncestorsOf(T to) const {
-    return relationToVector<S, T>(to, directAncestorMap);
+  [[nodiscard]] std::vector<B> getAllDirectAncestorsOf(B to) const {
+    return relationToVector<A, B>(to, directAncestorMap);
   }
 
-  [[nodiscard]] std::vector<S> getDirectAncestorsOf(
-      T to, const std::function<bool(S)>& filter) const {
-    return relationToVectorFiltered<T, S>(to, directAncestorMap, filter);
+  [[nodiscard]] std::vector<A> getDirectAncestorsOf(
+      B to, const std::function<bool(A)>& filter) const {
+    return relationToVectorFiltered<B, A>(to, directAncestorMap, filter);
   }
 
-  [[nodiscard]] std::vector<std::pair<S, T>> getDirectRelations(
-      std::pair<const std::function<bool(S)>&, const std::function<bool(T)>&>
+  [[nodiscard]] std::vector<std::pair<A, B>> getDirectRelations(
+      std::pair<const std::function<bool(A)>&, const std::function<bool(B)>&>
           filterStmtPair) const {
     return allRelationsToVectorFiltered(
         directSuccessorMap, filterStmtPair.first, filterStmtPair.second);
   }
 
-  [[nodiscard]] std::vector<std::pair<S, T>> getAllDirectRelations() const {
+  [[nodiscard]] std::vector<std::pair<A, B>> getAllDirectRelations() const {
     return allRelationsToVector(directSuccessorMap);
   }
 
-  [[nodiscard]] std::unordered_map<S, std::unordered_set<T>>
+  [[nodiscard]] std::unordered_map<A, std::unordered_set<B>>
   getDirectRelations() const {
     return directSuccessorMap;
   }
