@@ -14,12 +14,8 @@ class IDesignEntitiesReader {
   // return the names of all variables in the program
   virtual std::vector<std::string> getAllVariables() = 0;
 
-  // virtual bool isValidVariable(string varName);
-
   // return the values of all constants in the program
   virtual std::vector<std::string> getAllConstants() = 0;
-
-  // virtual bool isValidConstant(int constantVal);
 
   // return the names of all procedures in the program
   virtual std::vector<std::string> getAllProcedures() = 0;
