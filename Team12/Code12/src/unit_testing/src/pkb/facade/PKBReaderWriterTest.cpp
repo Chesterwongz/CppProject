@@ -448,10 +448,9 @@ TEST_CASE("PKBReader Tests") {
 }
 
 TEST_CASE("PKBReader Tests - Entity Reader APIs") {
-  PKBStorage storage;
   PKBStore store;
-  PKBWriter writer(storage, store);
-  PKBReader reader(storage, store);
+  PKBWriter writer(store);
+  PKBReader reader(store);
 
   writer.addVar("x");
   writer.addVar("y");

@@ -44,29 +44,40 @@ class DesignEntitiesReader : public IDesignEntitiesReader {
   // return the statement numbers of specified statement type
   std::vector<std::string> getAllStmtsOf(StmtType statementType) override;
 
+  // return true if statementNumber is a statement of statementType
   bool isValidStmt(int statementNumber, StmtType statementType) override;
 
+  // return true if a constant of that value exists
   bool isValidConstant(std::string constantVal) override;
 
+  // return true if a procedure of procName exists
   bool isValidProc(std::string procName) override;
 
+  // return true if variable of that varName exists
   bool isValidVariable(std::string varName) override;
 
+  // return the statement numbers that call a particular procedure
   std::vector<std::string> getStmtsThatCall(
       const std::string& procName) override;
 
+  // return name of procedure called at a particular statementNumber
   std::string getProcCalledBy(int statementNumber) override;
 
+  // return the statement numbers that read a particular variable
   std::vector<std::string> getStmtsThatRead(
       const std::string& varName) override;
 
+  // return name of variable read at a particular statementNumber
   std::string getVariableReadBy(int statementNumber) override;
 
+  // return the statement numbers that print a particular variable
   std::vector<std::string> getStmtsThatPrint(
       const std::string& varName) override;
 
+  // return name of variable printed at a particular statementNumber
   std::string getVariablePrintedBy(int statementNumber) override;
 
-  template<typename SStoreType>
-  std::string getEntityBy(int statementNumber, StmtType stmtType, SStoreType& sStore);
+  template <typename SStoreType>
+  std::string getEntityBy(int statementNumber, StmtType stmtType,
+                          SStoreType& sStore);
 };
