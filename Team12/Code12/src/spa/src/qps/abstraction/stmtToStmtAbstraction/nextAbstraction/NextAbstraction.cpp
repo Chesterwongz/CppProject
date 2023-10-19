@@ -6,26 +6,21 @@
  * - secondArg: Synonym OR Integer OR Wildcard
  */
 
-IntermediateTable NextAbstraction::handleFirstArgInteger() {
-  int firstStmtNumber = stoi(this->firstArgValue);
-  StmtType secondStmtType = this->getSecondArgStmtType();
-  string secondStmtSynonym = this->secondArgValue;
-
-  vector<string> nextSecondStmt =
-      pkb.getNextStmts(firstStmtNumber, secondStmtType);
-
-  return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
-                                                       nextSecondStmt);
+vector<pair<string, string>> NextAbstraction::getAllPairs(
+    StmtType firstStmtType, StmtType secondStmtType) {
+  return pkb.getNextPairs(firstStmtType, secondStmtType);
 }
 
-IntermediateTable NextAbstraction::handleSecondArgInteger() {
-  StmtType firstStmtType = this->getFirstArgStmtType();
-  string firstStmtSynonym = this->firstArgValue;
-  int secondStmtNumber = stoi(this->secondArgValue);
+vector<string> NextAbstraction::getFirstStmt(int secondStmtNumber,
+                                             StmtType firstStmtType) {
+  return pkb.getPrevStmts(secondStmtNumber, firstStmtType);
+}
 
-  vector<string> nextFirstStmt =
-      pkb.getPrevStmts(secondStmtNumber, firstStmtType);
+vector<string> NextAbstraction::getSecondStmt(int firstStmtNumber,
+                                              StmtType secondStmtType) {
+  return pkb.getNextStmts(firstStmtNumber, secondStmtType);
+}
 
-  return IntermediateTableFactory::buildSingleColTable(firstStmtSynonym,
-                                                       nextFirstStmt);
+bool NextAbstraction::isStmtRelatedToStmt(int stmtNum1, int stmtNum2) {
+  return pkb.isNext(stmtNum1, stmtNum2);
 }

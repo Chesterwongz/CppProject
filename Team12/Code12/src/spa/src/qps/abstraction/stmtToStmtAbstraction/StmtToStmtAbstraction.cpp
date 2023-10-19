@@ -1,4 +1,4 @@
-  #include "StmtToStmtAbstraction.h"
+#include "StmtToStmtAbstraction.h"
 
 /**
  * StmtToStmtAbstraction abstraction:
@@ -6,9 +6,13 @@
  * - secondArg: Synonym OR Integer OR Wildcard
  */
 
+// Self-reference (i.e. Abstraction (a, a) where a == a) not possible be default
+bool StmtToStmtAbstraction::isSelfReferencePossible() { return false; }
+
 // Abstraction (StmtSynonym, StmtSynonym)
 IntermediateTable StmtToStmtAbstraction ::evaluateSynonymSynonym() {
-  if (this->firstArgValue == this->secondArgValue) {
+  if (!isSelfReferencePossible() &&
+      this->firstArgValue == this->secondArgValue) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
   return handleSynonymOrWildcardArgs();
@@ -31,7 +35,8 @@ IntermediateTable StmtToStmtAbstraction ::evaluateIntegerSynonym() {
 
 // Abstraction (StmtNumber, StmtNumber)
 IntermediateTable StmtToStmtAbstraction ::evaluateIntegerInteger() {
-  if (this->firstArgValue == this->secondArgValue) {
+  if (!isSelfReferencePossible() &&
+      this->firstArgValue == this->secondArgValue) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
   return handleBothArgsInteger();
@@ -65,7 +70,7 @@ IntermediateTable StmtToStmtAbstraction::handleSynonymOrWildcardArgs() {
   StmtType secondStmtType = this->getSecondArgStmtType();
 
   vector<pair<string, string>> stmtStmtPairs =
-      (pkb.*getAllStmtStmtPairs)(firstStmtType, secondStmtType);
+      getAllPairs(firstStmtType, secondStmtType);
 
   //! If any of the args are "_", the column will be ignored.
   return IntermediateTableFactory::buildIntermediateTable(
@@ -83,8 +88,32 @@ IntermediateTable StmtToStmtAbstraction::handleBothArgsInteger() {
   int firstArgStmtNumber = stoi(firstArgStmtNumberString);
   int secondArgStmtNumber = stoi(secondArgStmtNumberString);
 
-  bool isValid = (pkb.*isRelationTrue)(firstArgStmtNumber, secondArgStmtNumber);
+  bool isValid = isStmtRelatedToStmt(firstArgStmtNumber, secondArgStmtNumber);
 
   return isValid ? IntermediateTableFactory::buildWildcardIntermediateTable()
                  : IntermediateTableFactory::buildEmptyIntermediateTable();
+}
+
+IntermediateTable StmtToStmtAbstraction::handleFirstArgInteger() {
+  int firstArgStmtNumber = stoi(this->firstArgValue);
+  StmtType secondArgStmtType = this->getSecondArgStmtType();
+  string secondStmtSynonym = this->secondArgValue;
+
+  vector<string> results =
+      getSecondStmt(firstArgStmtNumber, secondArgStmtType);
+
+  return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
+                                                       results);
+}
+
+IntermediateTable StmtToStmtAbstraction::handleSecondArgInteger() {
+  string firstArgStmtSynonym = this->firstArgValue;
+  StmtType firstArgStmtType = this->getFirstArgStmtType();
+  int secondArgStmtNumber = stoi(this->secondArgValue);
+
+  vector<string> results =
+      getFirstStmt(secondArgStmtNumber, firstArgStmtType);
+
+  return IntermediateTableFactory::buildSingleColTable(firstArgStmtSynonym,
+                                                       results);
 }
