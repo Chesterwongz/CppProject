@@ -5,35 +5,25 @@
  * - firstArg: Synonym OR Integer OR Wildcard
  * - secondArg: Synonym OR Integer OR Wildcard
  */
+bool NextStarAbstraction::isSelfReferencePossible() { return true; }
 
-IntermediateTable NextStarAbstraction::handleFirstArgInteger() {
-  int firstStmtNumber = stoi(this->firstArgValue);
-  StmtType secondStmtType = this->getSecondArgStmtType();
-  string secondStmtSynonym = this->secondArgValue;
-
-  vector<string> nextStarSecondStmt =
-      pkb.getNextTStmts(firstStmtNumber, secondStmtType);
-
-  return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
-                                                       nextStarSecondStmt);
+vector<pair<string, string>> NextStarAbstraction::getAllPairs(
+    StmtType firstStmtType, StmtType secondStmtType) {
+  return pkb.getNextTPairs(firstStmtType, secondStmtType);
 }
 
-IntermediateTable NextStarAbstraction::handleSecondArgInteger() {
-  StmtType firstStmtType = this->getFirstArgStmtType();
-  string firstStmtSynonym = this->firstArgValue;
-  int secondStmtNumber = stoi(this->secondArgValue);
-
-  vector<string> nextStarFirstStmt =
-      pkb.getPrevTStmts(secondStmtNumber, firstStmtType);
-
-  return IntermediateTableFactory::buildSingleColTable(firstStmtSynonym,
-                                                       nextStarFirstStmt);
-}
-IntermediateTable NextStarAbstraction::evaluateSynonymSynonym() {
-  return handleSynonymOrWildcardArgs();
+vector<string> NextStarAbstraction::getFirstStmt(int secondStmtNumber,
+                                                 StmtType firstStmtType) {
+  return pkb.getPrevTStmts(secondStmtNumber, firstStmtType);
 }
 
-IntermediateTable NextStarAbstraction::evaluateIntegerInteger() {
-  return handleBothArgsInteger();
+vector<string> NextStarAbstraction::getSecondStmt(int firstStmtNumber,
+                                                  StmtType secondStmtType) {
+  return pkb.getNextTStmts(firstStmtNumber, secondStmtType);
 }
+
+bool NextStarAbstraction::isStmtRelatedToStmt(int stmtNum1, int stmtNum2) {
+  return pkb.isNextT(stmtNum1, stmtNum2);
+}
+
 // todo(yq): handle same synonym queries

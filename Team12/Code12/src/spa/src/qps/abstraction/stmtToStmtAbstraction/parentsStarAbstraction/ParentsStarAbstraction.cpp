@@ -5,27 +5,21 @@
  * - firstArg: Synonym OR Integer OR Wildcard
  * - secondArg: Synonym OR Integer OR Wildcard
  */
-
-IntermediateTable ParentsStarAbstraction::handleFirstArgInteger() {
-  int firstArgStmtNumber = stoi(this->firstArgValue);
-  StmtType secondArgStmtType = this->getSecondArgStmtType();
-  string secondStmtSynonym = this->secondArgValue;
-
-  vector<string> results =
-      pkb.getChildrenStarOf(firstArgStmtNumber, secondArgStmtType);
-
-  return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
-                                                       results);
+vector<pair<string, string>> ParentsStarAbstraction::getAllPairs(
+    StmtType firstStmtType, StmtType secondStmtType) {
+  return pkb.getParentChildStarPairs(firstStmtType, secondStmtType);
 }
 
-IntermediateTable ParentsStarAbstraction::handleSecondArgInteger() {
-  string firstArgStmtSynonym = this->firstArgValue;
-  StmtType firstArgStmtType = this->getFirstArgStmtType();
-  int secondArgStmtNumber = stoi(this->secondArgValue);
+vector<string> ParentsStarAbstraction::getFirstStmt(int secondStmtNumber,
+                                                    StmtType firstStmtType) {
+  return pkb.getParentStarOf(secondStmtNumber, firstStmtType);
+}
 
-  vector<string> results =
-      pkb.getParentStarOf(secondArgStmtNumber, firstArgStmtType);
+vector<string> ParentsStarAbstraction::getSecondStmt(int firstStmtNumber,
+                                                     StmtType secondStmtType) {
+  return pkb.getChildrenStarOf(firstStmtNumber, secondStmtType);
+}
 
-  return IntermediateTableFactory::buildSingleColTable(firstArgStmtSynonym,
-                                                       results);
+bool ParentsStarAbstraction::isStmtRelatedToStmt(int stmtNum1, int stmtNum2) {
+  return pkb.isParentStar(stmtNum1, stmtNum2);
 }
