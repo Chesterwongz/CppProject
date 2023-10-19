@@ -1,0 +1,38 @@
+procedure UsesForProcsAndCalls1 {            
+  while (i!=0) {      
+    x = x - 1;       
+    if (hello==1) then {  
+      z = x + 1; }    
+    else {
+      y = z + x; 
+      call UsesForProcsAndCalls2; } 
+    z = z + x + i;  
+    read q; }
+  special1 = 100;
+  print p; }        
+    
+procedure UsesForProcsAndCalls2 {
+  if (x<0) then {         
+    while (100>hihi) {         
+      x = z * 3 + 2 * y;  
+      print q;            
+      i = i - 1; }        
+    x = x + 1;            
+    z = x + z; }          
+  else {
+    z = 1; }
+  special2 = 200;
+  z = z + x + i; }  
+    
+procedure UsesForProcsAndCalls3 {
+  read thisIsNotUses; 
+}
+
+procedure UsesForProcsAndCalls4 {
+  call UsesForProcsAndCalls3;        
+}
+
+procedure UsesForProcsAndCalls5 {
+  special5 = 500;
+  call UsesForProcsAndCalls1;
+}

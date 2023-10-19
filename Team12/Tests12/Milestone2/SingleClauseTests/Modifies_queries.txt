@@ -18,158 +18,158 @@ procedure p; variable v;
 Select v such that Modifies(p, v)
 i, q, x, y, z, special1, special2, special5
 1000
-====== 4 - Modifies (proc, varSyn) select different p ======
+====== 5 - Modifies (proc, varSyn) select different p ======
 procedure p1, p2; variable v;
 Select p1 such that Modifies(p2, v)
 ModifiesForProcsAndCalls1, ModifiesForProcsAndCalls2, ModifiesForProcsAndCalls3, ModifiesForProcsAndCalls4, ModifiesForProcsAndCalls5
 1000
-====== 5 - Modifies (proc, assignSyn) semantic error ======
+====== 6 - Modifies (proc, assignSyn) semantic error ======
 procedure p; assign a;
 Select p such that Modifies(p, a)
 SemanticError
 1000
-====== 6 - Modifies (proc, ident) ======
+====== 7 - Modifies (proc, ident) ======
 procedure p;
 Select p such that Modifies(p, "special1")
 ModifiesForProcsAndCalls1, ModifiesForProcsAndCalls5
 1000
-====== 7 - Modifies (proc, ident) no results ======
+====== 8 - Modifies (proc, ident) no results ======
 procedure p;
 Select p such that Modifies(p, "thisIsNotModifies")
 none
 1000
-====== 8 - Modifies (proc, ident) select different p ======
+====== 9 - Modifies (proc, ident) select different p ======
 procedure p1, p2;
 Select p1 such that Modifies(p2, "special2")
 ModifiesForProcsAndCalls1, ModifiesForProcsAndCalls2, ModifiesForProcsAndCalls3, ModifiesForProcsAndCalls4, ModifiesForProcsAndCalls5
 1000
-====== 9 - Modifies (proc, ident) select different p no results ======
+====== 10 - Modifies (proc, ident) select different p no results ======
 procedure p1, p2;
 Select p1 such that Modifies(p2, "thisIsNotModifies")
 none
 1000
-====== 10 - Modifies (procIdent, _) ======
+====== 11 - Modifies (procIdent, _) ======
 procedure p;
 Select p such that Modifies("ModifiesForProcsAndCalls1", _)
 ModifiesForProcsAndCalls1, ModifiesForProcsAndCalls2, ModifiesForProcsAndCalls3, ModifiesForProcsAndCalls4, ModifiesForProcsAndCalls5
 1000
-====== 11 - Modifies (procIdent, _) no results ======
+====== 12 - Modifies (procIdent, _) no results ======
 procedure p;
 Select p such that Modifies("ModifiesForProcsAndCalls4", _)
 none
 1000
-====== 12 - Modifies (procIdent, _) no results, procIdent doesnt exist ======
+====== 13 - Modifies (procIdent, _) no results, procIdent doesnt exist ======
 procedure p;
 Select p such that Modifies("randomProc", _)
 none
 1000
-====== 13 - Modifies (procIdent, varSyn) select p ======
+====== 14 - Modifies (procIdent, varSyn) select p ======
 procedure p; variable v;
 Select p such that Modifies("ModifiesForProcsAndCalls1", v)
 ModifiesForProcsAndCalls1, ModifiesForProcsAndCalls2, ModifiesForProcsAndCalls3, ModifiesForProcsAndCalls4, ModifiesForProcsAndCalls5
 1000
-====== 14 - Modifies (procIdent, varSyn) select v ======
+====== 15 - Modifies (procIdent, varSyn) select v ======
 variable v;
 Select v such that Modifies("ModifiesForProcsAndCalls2", v)
 i, x, z, special2
 1000
-====== 15 - Modifies (procIdent, varSyn) select v version2 ======
+====== 16 - Modifies (procIdent, varSyn) select v version2 ======
 variable v;
 Select v such that Modifies("ModifiesForProcsAndCalls5", v)
 i, q, x, y, z, special1, special2, special5
 1000
-====== 16 - Modifies (procIdent, varSyn) select p no results ======
+====== 17 - Modifies (procIdent, varSyn) select p no results ======
 procedure p; variable v;
 Select p such that Modifies("ModifiesForProcsAndCalls3", v)
 none
 1000
-====== 17 - Modifies (procIdent, varSyn) select v no results ======
+====== 18 - Modifies (procIdent, varSyn) select v no results ======
 variable v;
 Select v such that Modifies("ModifiesForProcsAndCalls4", v)
 none
 1000
-====== 18 - Modifies (procIdent, ident) ======
+====== 19 - Modifies (procIdent, ident) ======
 procedure p;
 Select p such that Modifies("ModifiesForProcsAndCalls5", "x")
 ModifiesForProcsAndCalls1, ModifiesForProcsAndCalls2, ModifiesForProcsAndCalls3, ModifiesForProcsAndCalls4, ModifiesForProcsAndCalls5
 1000
-====== 18 - Modifies (procIdent, ident) no results ======
+====== 20 - Modifies (procIdent, ident) no results ======
 procedure p;
 Select p such that Modifies("ModifiesForProcsAndCalls5", "hello")
 none
 1000
-====== 19 - Modifies (call, _) ======
+====== 21 - Modifies (call, _) ======
 call c;
 Select c such that Modifies(c, _)
 6, 24
 1000
-====== 20 - Modifies (call, _) select different c ======
+====== 22 - Modifies (call, _) select different c ======
 call c1, c2;
 Select c1 such that Modifies(c2, _)
 6, 22, 24
 1000
-====== 21 - Modifies (call, varSyn) select c ======
+====== 23 - Modifies (call, varSyn) select c ======
 call c; variable v;
 Select c such that Modifies(c, v)
 6, 24
 1000
-====== 21 - Modifies (call, varSyn) select v ======
+====== 24 - Modifies (call, varSyn) select v ======
 call c; variable v;
 Select v such that Modifies(c, v)
 i, q, x, y, z, special1, special2
 1000
-====== 22 - Modifies (call, ident) ======
+====== 25 - Modifies (call, ident) ======
 call c;
 Select c such that Modifies(c, "special2")
 6, 24
 1000
-====== 23 - Modifies (call, ident) no results ======
+====== 26 - Modifies (call, ident) no results ======
 call c;
 Select c such that Modifies(c, "special5")
 none
 1000
-====== 24 - Modifies (call, ident) select different c ======
+====== 27 - Modifies (call, ident) select different c ======
 call c1, c2;
 Select c1 such that Modifies(c2, "x")
-6, 23, 24
+6, 22, 24
 1000
-====== 25 - Modifies (callIdent, _) ======
+====== 28 - Modifies (callStmtNum, _) ======
 call c;
-Select c such that Modifies("6", _)
-6, 23, 24
+Select c such that Modifies(6, _)
+6, 22, 24
 1000
-====== 26 - Modifies (callIdent, _) no results ======
+====== 29 - Modifies (callStmtNum, _) no results ======
 call c;
-Select c such that Modifies("24", "special5")
+Select c such that Modifies(24, "special5")
 none
 1000
-====== 27 - Modifies (callIdent, varSyn) select c ======
+====== 30 - Modifies (callStmtNum, varSyn) select c ======
 call c; variable v;
-Select c such that Modifies("6", v)
-6, 23, 24
+Select c such that Modifies(6, v)
+6, 22, 24
 1000
-====== 28 - Modifies (callIdent, varSyn) select c no results ======
+====== 31 - Modifies (callStmtNum, varSyn) select c no results ======
 call c; variable v;
-Select c such that Modifies("22", v)
+Select c such that Modifies(22, v)
 none
 1000
-====== 29 - Modifies (callIdent, varSyn) select v ======
+====== 32 - Modifies (callStmtNum, varSyn) select v ======
 variable v;
-Select v such that Modifies("6", v)
+Select v such that Modifies(6, v)
 i, x, z, special2
 1000
-====== 30 - Modifies (callIdent, varSyn) select v no results ======
+====== 33 - Modifies (callStmtNum, varSyn) select v no results ======
 variable v;
-Select v such that Modifies("22", v)
+Select v such that Modifies(22, v)
 none
 1000
-====== 31 - Modifies (callIdent, ident) ======
+====== 34 - Modifies (callStmtNum, ident) ======
 call c;
-Select c such that Modifies("24", "special2")
-6, 23, 24
+Select c such that Modifies(24, "special2")
+6, 22, 24
 1000
-====== 32 - Modifies (callIdent, ident) no results ======
+====== 35 - Modifies (callStmtNum, ident) no results ======
 call c;
-Select c such that Modifies("6", "sthRandom")
+Select c such that Modifies(6, "sthRandom")
 none
 1000
