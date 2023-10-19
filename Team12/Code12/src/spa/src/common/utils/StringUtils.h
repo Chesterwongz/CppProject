@@ -5,8 +5,6 @@
 #include <regex>
 #include <string>
 
-using std::string;
-
 class StringUtils {
  public:
   static const char CHAR_ZERO;

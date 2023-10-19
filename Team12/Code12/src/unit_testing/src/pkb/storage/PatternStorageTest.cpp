@@ -14,7 +14,7 @@ TEST_CASE("PatternStorage Tests") {
   patternStorage.setAssignPattern("x", " a 2 + ", 4);          // "a+2"
   patternStorage.setAssignPattern("x", " a b c * + ", 5);      // "a+b*c"
 
-  SECTION("setAssignPattern and getAllStmtUsingVar") {
+  SECTION("addAssignPattern and getAllStmtUsingVar") {
     std::vector<std::pair<std::string, std::string>> actual =
         patternStorage.getAllAssignStatements();
     REQUIRE(StrStrPairSet {actual.begin(), actual.end()} ==
@@ -119,7 +119,7 @@ TEST_CASE("PatternStorage Tests") {
 TEST_CASE("PatternStorage") {
   PatternStorage patternStorage;
 
-  SECTION("setWhilePattern") {
+  SECTION("addWhilePattern") {
     patternStorage.setWhilePattern(6, "x");
     patternStorage.setWhilePattern(6, "y");
     patternStorage.setWhilePattern(7, "y");
@@ -154,7 +154,7 @@ TEST_CASE("PatternStorage") {
                           {"9", "x"}});
   }
 
-  SECTION("setIfPattern") {
+  SECTION("addIfPattern") {
     patternStorage.setIfPattern(6, "a");
     patternStorage.setIfPattern(7, "b");
     patternStorage.setIfPattern(8, "c");

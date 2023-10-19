@@ -3,6 +3,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <unordered_set>
 
 #include "pkb/facade/PKB.h"
 #include "qps/abstraction/BaseAbstraction.h"

@@ -30,5 +30,5 @@ inline vector<vector<string>> MOCK_FOLLOWS_COL_1(
 inline vector<vector<string>> MOCK_FOLLOWS_COL_2(
     {{"follows 2"}, {"follows 4"}, {"follows 6"}, {"follows 8"}});
 
-inline string MOCK_FOLLOWED = "99";
-inline string MOCK_NO_FOLLOWED = INVALID_STATEMENT_NUMBER;
+inline vector<string> MOCK_FOLLOWED = {"99"};
+inline vector<string> MOCK_NO_FOLLOWED = {};

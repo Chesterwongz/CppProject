@@ -19,7 +19,7 @@ class MockPKBWriter : public PKBWriter {
  private:
   unordered_set<string> variableStorage;
   unordered_set<string> constantStorage;
-  unordered_map<int, string> stmtToProcStorage;
+  unordered_set<string> procStorage;
   unordered_map<StmtType, unordered_set<int>> statementStorage;
   unordered_map<int, set<int>> followsStorage;
   unordered_map<int, set<int>> parentStorage;
@@ -37,14 +37,15 @@ class MockPKBWriter : public PKBWriter {
   IntToIntSetMap nextStorage;
 
  public:
-  explicit MockPKBWriter(PKBStorage &storage) : PKBWriter(storage) {}
+  explicit MockPKBWriter(PKBStore store)
+      : PKBWriter(store) {}
   ~MockPKBWriter() override = default;
 
-  void setFollowsRelationship(int stmtNum, int followingStmt) override {
+  void addFollows(int stmtNum, int followingStmt) override {
     followsStorage[stmtNum].insert(followingStmt);
   }
 
-  void setParentRelationship(int stmtNum, int childStmt) override {
+  void addParent(int stmtNum, int childStmt) override {
     parentStorage[stmtNum].insert(childStmt);
   }
 
@@ -52,61 +53,54 @@ class MockPKBWriter : public PKBWriter {
     parentStarStorage[stmtNum].insert(childStmt);
   }
 
-  void setModifiesRelationship(const string &varName, int stmtNum) override {
+  void addModifies(const string &varName, int stmtNum) override {
     modifiesStorage[varName].insert(stmtNum);
   }
 
-  void setModifiesRelationship(const string &varName,
-                               const string &procName) override {
+  void addModifies(const string &varName, const string &procName) override {
     modifiesProcStorage[varName].insert(procName);
   }
 
-  void setUsesRelationship(const string &varName, int stmtNum) override {
+  void addUses(const string &varName, int stmtNum) override {
     usesStorage[varName].insert(stmtNum);
   }
 
-  void setUsesRelationship(const string &varName,
-                           const string &procName) override {
+  void addUses(const string &varName, const string &procName) override {
     usesProcStorage[varName].insert(procName);
   }
 
-  void setVariable(const string &varName) override {
+  void addVar(const string &varName) override {
     variableStorage.insert(varName);
   }
 
-  void setConstant(const string &constantValue) override {
-    constantStorage.insert(constantValue);
+  void addConst(const string &constValue) override {
+    constantStorage.insert(constValue);
   }
 
-  void setProcForStmt(const string &procName, int stmtNum) override {
-    stmtToProcStorage[stmtNum] = procName;
+  void addProc(const std::string &procName) override {
+    procStorage.insert(procName);
   }
 
-  void setStatement(int stmtNum, StmtType statementType) override {
+  void addStmt(int stmtNum, StmtType statementType) override {
     statementStorage[statementType].insert(stmtNum);
   }
 
-  void setAssignPattern(const string &varName, const string &expr,
+  void addAssignPattern(const string &varName, const string &expr,
                         int lineNum) override {
     assignPatternStorage[lineNum] = std::make_pair(varName, expr);
   }
 
-  void setWhilePattern(int lineNum, const string &varName) override {
+  void addWhilePattern(int lineNum, const string &varName) override {
     whilePatternStorage[lineNum].insert(varName);
   }
 
-  void setIfPattern(int lineNum, const string &varName) override {
+  void addIfPattern(int lineNum, const string &varName) override {
     ifPatternStorage[lineNum].insert(varName);
   }
 
-  void setCallsRelationship(const string &caller,
-                            const string &callee,
-                            int stmtNum) override {
+  void addCalls(const string &caller, const string &callee,
+                int stmtNum) override {
     callsStorage[caller].insert(callee);
-  }
-
-  void setCFG(const string &procName, unique_ptr<CFG> cfg) override {
-    cfgStorage[procName] = std::move(cfg);
   }
 
   void addNext(int from, int to) override {
@@ -125,9 +119,9 @@ class MockPKBWriter : public PKBWriter {
     return constantStorage == constants;
   }
 
-  [[nodiscard]] bool isStmtToProcEqual(
-      const unordered_map<int, string> &stmtToProcs) const {
-    return stmtToProcStorage == stmtToProcs;
+  [[nodiscard]] bool isProcsEqual(
+      const unordered_set<string> &procsSet) const {
+    return procStorage == procsSet;
   }
 
   [[nodiscard]] bool isStmtTypeEquals(StmtType stmtType,

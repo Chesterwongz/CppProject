@@ -5,10 +5,10 @@
 #include <catch.hpp>
 
 #include "../mocks/MockCFG.h"
+#include "../mocks/MockData.h"
 #include "ExtractorUtils.h"
 #include "common/AliasTypes.h"
 #include "common/Constants.h"
-#include "sp/ast/ProgramNode.h"
 
 using std::unique_ptr, std::make_unique, std::vector, std::string,
     std::unordered_map, std::unordered_set;
@@ -19,14 +19,9 @@ TEST_CASE("CFGExtractor - 1 procedure with 1 read") {
       "read num1;"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfg = {{1, {common::CFG_END_STMT_NUM}}};
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("simple", make_unique<MockCFG>(expectedCfg));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   REQUIRE(mockPKB.isNextEqual({}));
 }
 
@@ -38,15 +33,9 @@ TEST_CASE("CFGExtractor - 1 procedure with different non-nesting statements") {
       "x = 1;"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfg = {
-      {1, {2}}, {2, {3}}, {3, {common::CFG_END_STMT_NUM}}};
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("simple", make_unique<MockCFG>(expectedCfg));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
@@ -62,18 +51,9 @@ TEST_CASE("CFGExtractor - 1 procedure with a while loop") {
       "   print n;"  // 5
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfg = {{1, {2}},
-                                {2, {3, 5}},
-                                {3, {4}},
-                                {4, {2}},
-                                {5, {common::CFG_END_STMT_NUM}}};
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("simpleLoop", make_unique<MockCFG>(expectedCfg));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 5}}, {3, {4}}, {4, {2}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
@@ -90,18 +70,9 @@ TEST_CASE("CFGExtractor - 1 procedure with an if statement") {
       "   print m;"  // 5
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfg = {{1, {2}},
-                                {2, {3, 4}},
-                                {3, {5}},
-                                {4, {5}},
-                                {5, {common::CFG_END_STMT_NUM}}};
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("simpleIf", make_unique<MockCFG>(expectedCfg));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 4}}, {3, {5}}, {4, {5}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
@@ -122,17 +93,9 @@ TEST_CASE("CFGExtractor - 1 procedure with multiple statements in if") {
       "   print l;"  // 9
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfg = {
-      {1, {2}}, {2, {3, 6}}, {3, {4}},
-      {4, {5}}, {5, {9}},    {6, {7}},
-      {7, {8}}, {8, {9}},    {9, {common::CFG_END_STMT_NUM}}};
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("multiStmts", make_unique<MockCFG>(expectedCfg));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 6}}, {3, {4}}, {4, {5}},
                                  {5, {9}}, {6, {7}},    {7, {8}}, {8, {9}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
@@ -154,24 +117,9 @@ TEST_CASE("CFGExtractor - 1 procedure with nested if statements") {
       "   } else { v = z; }"                // 11
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfg = {{1, {2}},
-                                {2, {3}},
-                                {3, {4, 11}},
-                                {4, {5}},
-                                {5, {6, 10}},
-                                {6, {7}},
-                                {7, {8, 9}},
-                                {8, {common::CFG_END_STMT_NUM}},
-                                {9, {common::CFG_END_STMT_NUM}},
-                                {10, {common::CFG_END_STMT_NUM}},
-                                {11, {common::CFG_END_STMT_NUM}}};
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("multipleIf", make_unique<MockCFG>(expectedCfg));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {{1, {2}},     {2, {3}}, {3, {4, 11}}, {4, {5}},
                                  {5, {6, 10}}, {6, {7}}, {7, {8, 9}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
@@ -192,16 +140,9 @@ TEST_CASE("CFGExtractor - 1 procedure with nested while statements") {
       "   print v;"  // 8
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfg = {
-      {1, {2}}, {2, {3, 8}}, {3, {4}}, {4, {5, 7}},
-      {5, {6}}, {6, {4}},    {7, {2}}, {8, {common::CFG_END_STMT_NUM}}};
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("nestedWhile", make_unique<MockCFG>(expectedCfg));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 8}}, {3, {4}}, {4, {5, 7}},
                                  {5, {6}}, {6, {4}},    {7, {2}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
@@ -221,16 +162,9 @@ TEST_CASE("CFGExtractor - 1 procedure with if in while statement") {
       "   print v;"  // 8
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfg = {
-      {1, {2}}, {2, {3, 8}}, {3, {4}}, {4, {5, 7}},
-      {5, {6}}, {6, {2}},    {7, {2}}, {8, {common::CFG_END_STMT_NUM}}};
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("ifInWhile", make_unique<MockCFG>(expectedCfg));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 8}}, {3, {4}}, {4, {5, 7}},
                                  {5, {6}}, {6, {2}},    {7, {2}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
@@ -249,20 +183,9 @@ TEST_CASE("CFGExtractor - 1 procedure with while in if statement") {
       "   } else { a = 342; }"  // 7
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfg = {{1, {2}},
-                                {2, {3, 7}},
-                                {3, {4}},
-                                {4, {5, common::CFG_END_STMT_NUM}},
-                                {5, {6}},
-                                {6, {4}},
-                                {7, {common::CFG_END_STMT_NUM}}};
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("whileInIf", make_unique<MockCFG>(expectedCfg));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 7}}, {3, {4}},
                                  {4, {5}}, {5, {6}},    {6, {4}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
@@ -284,24 +207,9 @@ TEST_CASE("CFGExtractor - multiple procedures") {
       "   }"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfgFirst = {{1, {2}},
-                                     {2, {3, 4}},
-                                     {3, {common::CFG_END_STMT_NUM}},
-                                     {4, {common::CFG_END_STMT_NUM}}};
-  IntToIntSetMap expectedCfgSecond = {
-      {5, {6}},
-      {6, {7, common::CFG_END_STMT_NUM}},
-      {7, {8}},
-      {8, {6}},
-  };
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("first", make_unique<MockCFG>(expectedCfgFirst));
-  expected.emplace("second", make_unique<MockCFG>(expectedCfgSecond));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 4}}, {5, {6}},
                                  {6, {7}}, {7, {8}},    {8, {6}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
@@ -325,23 +233,9 @@ TEST_CASE("CFGExtractor - multiple nesting with while-if-while") {
       "  }"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfg = {
-      {1, {2, common::CFG_END_STMT_NUM}},
-      {2, {3, 6}},
-      {3, {4, 5}},
-      {4, {3}},
-      {5, {8}},
-      {6, {7, 8}},
-      {7, {6}},
-      {8, {1}},
-  };
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("multipleNesting", make_unique<MockCFG>(expectedCfg));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 6}}, {3, {4, 5}}, {4, {3}},
                                  {5, {8}}, {6, {7, 8}}, {7, {6}},    {8, {1}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
@@ -368,24 +262,9 @@ TEST_CASE("CFGExtractor - multiple nesting with while-if-if") {
       "  }"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfg = {
-      {1, {2, common::CFG_END_STMT_NUM}},
-      {2, {3, 6}},
-      {3, {4, 5}},
-      {4, {9}},
-      {5, {9}},
-      {6, {7, 8}},
-      {7, {9}},
-      {8, {9}},
-      {9, {1}},
-  };
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("nestedIfInWhile", make_unique<MockCFG>(expectedCfg));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {
       {1, {2}},    {2, {3, 6}}, {3, {4, 5}}, {4, {9}}, {5, {9}},
       {6, {7, 8}}, {7, {9}},    {8, {9}},    {9, {1}},
@@ -413,22 +292,9 @@ TEST_CASE("CFGExtractor - multiple nesting with if-if-while") {
       "  }"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfg = {{1, {2, 9}},
-                                {2, {3, 6}},
-                                {3, {4, 5}},
-                                {4, {3}},
-                                {5, {8}},
-                                {6, {7, 8}},
-                                {7, {6}},
-                                {8, {common::CFG_END_STMT_NUM}},
-                                {9, {common::CFG_END_STMT_NUM}}};
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("nestedWhileInIf", make_unique<MockCFG>(expectedCfg));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {{1, {2, 9}}, {2, {3, 6}}, {3, {4, 5}},
                                  {4, {3}},    {5, {8}},    {6, {7, 8}},
                                  {7, {6}}};
@@ -451,20 +317,9 @@ TEST_CASE("CFGExtractor - multiple nesting with while-while-if") {
       "  print x;"  // 7
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfg = {{1, {2, 7}},
-                                {2, {3, 6}},
-                                {3, {4, 5}},
-                                {4, {2}},
-                                {5, {2}},
-                                {6, {1}},
-                                {7, {common::CFG_END_STMT_NUM}}};
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("nestedIfInDoubleWhile", make_unique<MockCFG>(expectedCfg));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {{1, {2, 7}}, {2, {3, 6}}, {3, {4, 5}},
                                  {4, {2}},    {5, {2}},    {6, {1}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
@@ -489,21 +344,9 @@ TEST_CASE("CFGExtractor - multiple nesting with if-if-if") {
       "  }"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfg = {{1, {2, 8}},
-                                {2, {3, 6}},
-                                {3, {4, 5}},
-                                {4, {7}},
-                                {5, {7}},
-                                {6, {7}},
-                                {7, {common::CFG_END_STMT_NUM}},
-                                {8, {common::CFG_END_STMT_NUM}}};
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("tripleNestedIf", make_unique<MockCFG>(expectedCfg));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {{1, {2, 8}}, {2, {3, 6}}, {3, {4, 5}},
                                  {4, {7}},    {5, {7}},    {6, {7}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
@@ -524,20 +367,9 @@ TEST_CASE("CFGExtractor - multiple nesting with while-while-while") {
       "  print x;"  // 7
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfg = {{1, {2, 7}},
-                                {2, {3, 6}},
-                                {3, {4, 5}},
-                                {4, {3}},
-                                {5, {2}},
-                                {6, {1}},
-                                {7, {common::CFG_END_STMT_NUM}}};
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("tripleNestedWhile", make_unique<MockCFG>(expectedCfg));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {{1, {2, 7}}, {2, {3, 6}}, {3, {4, 5}},
                                  {4, {3}},    {5, {2}},    {6, {1}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
@@ -559,20 +391,9 @@ TEST_CASE("CFGExtractor - multiple nesting with if-while-while") {
       "  }"
       "}";
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfg = {{1, {2, 7}},
-                                {2, {3, 6}},
-                                {3, {4, 5}},
-                                {4, {3}},
-                                {5, {2}},
-                                {6, {common::CFG_END_STMT_NUM}},
-                                {7, {common::CFG_END_STMT_NUM}}};
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("doubleNestedWhileInIf", make_unique<MockCFG>(expectedCfg));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {
       {1, {2, 7}}, {2, {3, 6}}, {3, {4, 5}}, {4, {3}}, {5, {2}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
@@ -596,19 +417,9 @@ TEST_CASE("CFGExtractor - wiki code 6") {
       "    x= x * y + z; }"         // 12
       "procedure Third {read x;}";  // 13
   // extract
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfgSecond = {
-      {1, {2}},  {2, {3}},   {3, {4, 7}}, {4, {5}},
-      {5, {6}},  {6, {3}},   {7, {8, 9}}, {8, {10}},
-      {9, {10}}, {10, {11}}, {11, {12}},  {12, {common::CFG_END_STMT_NUM}}};
-  IntToIntSetMap expectedCfgThird = {{13, {common::CFG_END_STMT_NUM}}};
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("Second", make_unique<MockCFG>(expectedCfgSecond));
-  expected.emplace("Third", make_unique<MockCFG>(expectedCfgThird));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {{1, {2}},  {2, {3}},   {3, {4, 7}}, {4, {5}},
                                  {5, {6}},  {6, {3}},   {7, {8, 9}}, {8, {10}},
                                  {9, {10}}, {10, {11}}, {11, {12}}};
@@ -633,18 +444,9 @@ TEST_CASE("CFGExtractor - integration test") {
       "procedure Potato {"
       "  assign = line9;"  // 9
       "}";
-  PKBStorage storage{};
-  MockPKBWriter mockPKB(storage);
+  MockPKBWriter mockPKB(MOCK_WRITER_STORE);
   extractAbstraction(input, mockPKB, AbstractionType::CFG);
 
-  IntToIntSetMap expectedCfgNext = {
-      {1, {2}}, {2, {3, 6}}, {3, {4, 5}}, {4, {3}},
-      {5, {8}}, {6, {7}},    {7, {8}},    {8, {common::CFG_END_STMT_NUM}}};
-  IntToIntSetMap expectedCfgPotato = {{9, {common::CFG_END_STMT_NUM}}};
-  unordered_map<string, unique_ptr<CFG>> expected;
-  expected.emplace("Next", make_unique<MockCFG>(expectedCfgNext));
-  expected.emplace("Potato", make_unique<MockCFG>(expectedCfgPotato));
-  REQUIRE(mockPKB.isCFGEqual(expected));
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 6}}, {3, {4, 5}}, {4, {3}},
                                  {5, {8}}, {6, {7}},    {7, {8}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));

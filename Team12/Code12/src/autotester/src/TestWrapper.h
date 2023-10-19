@@ -1,5 +1,4 @@
-#ifndef TESTWRAPPER_H
-#define TESTWRAPPER_H
+#pragma once
 
 #include <algorithm>
 #include <iostream>
@@ -33,5 +32,3 @@ class TestWrapper : public AbstractWrapper {
   // method for evaluating a query
   virtual void evaluate(std::string query, std::list<std::string>& results);
 };
-
-#endif

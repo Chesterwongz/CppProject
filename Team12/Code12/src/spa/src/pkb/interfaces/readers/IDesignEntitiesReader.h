@@ -1,6 +1,6 @@
 #pragma once
 
-#include <set>
+#include <vector>
 #include <string>
 
 #include "common/StmtTypes.h"
@@ -10,16 +10,14 @@ class IDesignEntitiesReader {
   virtual ~IDesignEntitiesReader() = default;
 
   // return the names of all variables in the program
-  virtual std::set<std::string> getAllVariables() = 0;
+  virtual std::vector<std::string> getAllVariables() = 0;
 
   // return the values of all constants in the program
-  virtual std::set<std::string> getAllConstants() = 0;
+  virtual std::vector<std::string> getAllConstants() = 0;
 
   // return the names of all procedures in the program
-  virtual std::set<std::string> getAllProcedures() = 0;
+  virtual std::vector<std::string> getAllProcedures() = 0;
 
   // return all the stmts of given type in the program
-  virtual std::set<std::string> getStatement(StmtType statementType) = 0;
-
-  virtual std::string getProcFromStmt(int stmtNum) = 0;
+  virtual std::vector<std::string> getAllStmtsOf(StmtType statementType) = 0;
 };

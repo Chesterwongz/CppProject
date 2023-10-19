@@ -29,18 +29,18 @@ IntermediateTable SelectClause::getAllPossibleValues(
     unique_ptr<AbstractArgument> &synonymArg) {
   string synonymValue = synonymArg->getValue();
   Entity entity = context.getTokenEntity(synonymValue);
-  set<string> results;
+  vector<string> results;
 
   bool isStmtEntity =
       STATEMENT_ENTITIES.find(entity) != STATEMENT_ENTITIES.end();
 
   if (isStmtEntity) {
     StmtType stmtType = StmtEntityToStatementType.at(entity);
-    results = pkb.getStatement(stmtType);
+    results = pkb.getAllStmtsOf(stmtType);
   } else {
     results = evaluatorFuncMap[entity](pkb);
   }
-  return IntermediateTableFactory::buildIntermediateTable(synonymValue,
+  return IntermediateTableFactory::buildSingleColTable(synonymValue,
                                                           results);
 }
 

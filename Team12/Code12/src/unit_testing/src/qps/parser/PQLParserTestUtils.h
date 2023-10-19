@@ -10,7 +10,6 @@
 #include "qps/query/Query.h"
 #include "qps/token/PQLToken.h"
 
-extern PKBStorage dummyQpsParserStorage;
 extern PKBReader dummyQpsParserPkbReader;
 
 std::unique_ptr<Query> parseToQuery(std::vector<PQLToken> tokenList,
