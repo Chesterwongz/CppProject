@@ -21,14 +21,41 @@ class DesignEntitiesReader : public IDesignEntitiesReader {
   // return the names of all variables in the program
   std::set<std::string> getAllVariables() override;
 
+  // return {varName} if exists, {} otherwise
+  vector<string> getVariableName(string varName, StmtType stmtType) override;
+
+  // return {varName} if exists, {} otherwise
+  bool isValidVariable(string varName) override;
+
   // return the values of all constants in the program
   std::set<std::string> getAllConstants() override;
+
+  // return true if exists, false otherwise
+  bool isValidConstant(string constantVal) override;
 
   // return the names of all procedures in the program
   std::set<std::string> getAllProcedures() override;
 
+  // return true if it exists, false otherwise
+  bool isValidProcName(string procName) override;
+
   // return the statement numbers of specified statement type
   std::set<std::string> getStatement(StmtType statementType) override;
 
-  std::string getProcFromStmt(int stmtNum) override;
+  // return true if it exists, false otherwise
+  bool isValidStatement(string stmtNum, StmtType statementType) override;
+
+  std::string getProcCalledByStmt(int stmtNum) override;
+
+  // returns all the stmtnums that call procname
+  std::vector<string> getStmtsThatCall(string procName) override;
+
+  vector<std::string> getStmtsThatRead(string varName) override;
+
+  vector<std::string> getStmtsThatPrint(string varName) override;
+
+  string getVariableReadBy(int stmtNum) override;
+
+  string getVariablePrintedBy(int stmtNum) override;
+
 };

@@ -8,6 +8,7 @@ using std::string, std::vector, std::unordered_set;
 
 typedef string Synonym;
 typedef string Entity;
+typedef string AttrRef;
 
 inline const Entity ASSIGN_ENTITY = "assign";
 inline const Entity CALL_ENTITY = "call";
@@ -19,6 +20,11 @@ inline const Entity READ_ENTITY = "read";
 inline const Entity STMT_ENTITY = "stmt";
 inline const Entity VARIABLE_ENTITY = "variable";
 inline const Entity WHILE_ENTITY = "while";
+
+inline const AttrRef PROCNAME_ATTRREF = "procName";
+inline const AttrRef VARNAME_ATTRREF = "varName";
+inline const AttrRef VALUE_ATTRREF = "value";
+inline const AttrRef STMTNUM_ATTRREF = "stmt#";
 
 inline const string SELECT_KEYWORD = "Select";
 inline const string SUCH_KEYWORD = "such";
