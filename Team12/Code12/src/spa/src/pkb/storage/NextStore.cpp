@@ -20,7 +20,7 @@ void NextStore::computeAllRelationsT() {
   }
   // Optimization
   std::sort(graphVector.begin(), graphVector.end(),
-            std::greater<>()); // Sort in descending order
+            std::greater<>());  // Sort in descending order
   for (const auto& v : graphVector) {
     computeSuccessorsT(v);
   }
