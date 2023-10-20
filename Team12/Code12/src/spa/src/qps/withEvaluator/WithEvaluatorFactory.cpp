@@ -3,7 +3,7 @@
 #include "qps/withEvaluator/NoSynWithEvaluator.h"
 #include "SingleSynWithEvaluator.h"
 
-unique_ptr<IWithEvaluator> WithEvaluatorFactory::createWithEvaluator(
+unique_ptr<WithEvaluator> WithEvaluatorFactory::createWithEvaluator(
     unique_ptr<AbstractArgument> firstArg,
     unique_ptr<AbstractArgument> secondArg) {
   

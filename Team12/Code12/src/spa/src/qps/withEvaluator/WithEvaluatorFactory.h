@@ -2,13 +2,13 @@
 
 #include <memory>
 
-#include "IWithEvaluator.h"
+#include "WithEvaluator.h"
 
 using std::unique_ptr;
 
 class WithEvaluatorFactory {
  public:
-  static unique_ptr<IWithEvaluator> createWithEvaluator(
+  static unique_ptr<WithEvaluator> createWithEvaluator(
       unique_ptr<AbstractArgument> firstArg,
       unique_ptr<AbstractArgument> secondArg);
 };

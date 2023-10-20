@@ -2,9 +2,9 @@
 
 #include <memory>
 
-#include "IWithEvaluator.h"
+#include "WithEvaluator.h"
 
-class NoSynWithEvaluator : public IWithEvaluator {
+class NoSynWithEvaluator : public WithEvaluator {
  protected:
   unique_ptr<AbstractArgument> firstArg;
   unique_ptr<AbstractArgument> secondArg;
