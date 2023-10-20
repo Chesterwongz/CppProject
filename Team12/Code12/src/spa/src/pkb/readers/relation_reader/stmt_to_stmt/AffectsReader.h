@@ -30,12 +30,14 @@ class AffectsReader : public IAffectsReader {
         stmtStore(stmtStore),
         usesSStore(usesSStore) {}
 
-  std::vector<std::pair<std::string, std::string>> getAffectsPairs();
+  std::vector<std::pair<std::string, std::string>> getAffectsPairs() override;
 
-  bool isAffects(int firstStmtNum, int secondStmtNum);
+  bool isAffects(int firstStmtNum, int secondStmtNum) override;
 
-  std::vector<std::string> getAffects(int firstStmtNum);
-  std::vector<std::string> getAffectedBy(int secondStmtNum);
+  std::vector<std::string> getAffects(int firstStmtNum,
+                                      StmtType stmtType) override;
+  std::vector<std::string> getAffectedBy(int secondStmtNum,
+                                         StmtType stmtType) override;
 
   void findAffectsPairs(
       int originalStmt, int currentStmt, const std::string& variable,
