@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "common/StmtTypes.h"
@@ -58,4 +59,19 @@ class IDesignEntitiesReader {
   // return name of variable printed at a particular statementNumber
   virtual std::vector<std::string> getVariablePrintedBy(
       int statementNumber) = 0;
+
+  // return all pairs of call statement numbers and the procedures called at
+  // those statements
+  virtual std::vector<std::pair<std::string, std::string>>
+  getAllStmtProcCallsPairs() = 0;
+
+  // return all pairs of read statement numbers and the variables read at those
+  // statements
+  virtual std::vector<std::pair<std::string, std::string>>
+  getAllStmtVarReadPairs() = 0;
+
+  // return all pairs of print statement numbers and the variables printed at
+  // those statements
+  virtual std::vector<std::pair<std::string, std::string>>
+  getAllStmtVarPrintPairs() = 0;
 };
