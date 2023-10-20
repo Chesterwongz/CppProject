@@ -1,7 +1,7 @@
 #include <string>
 #include <catch.hpp>
 
-#include "../../unit_testing/src/qps/mocks/MockPKBReader.h"
+#include "../../unit_testing/src/qps/mocks/mockReaders/MockPatternsReader.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/patternExp/PatternExp.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
@@ -49,7 +49,7 @@ TEST_CASE("test_ifPatternClause_evaluate_synonymFirstArg") {
 
   PKBStore store = PKBStore();
 
-  MockPKBReader mockPkbReader = MockPKBReader(store);
+  MockPatternsReader mockPkbReader = MockPatternsReader();
 
   vector<pair<string, string>> mockIfPatternStmts = {
       {"1", "a"}, {"3", "b"}, {"5", "c"}};
@@ -79,7 +79,7 @@ TEST_CASE("test_ifPatternClause_evaluate_identFirstArg") {
 
   PKBStore store = PKBStore();
 
-  MockPKBReader mockPkbReader = MockPKBReader(store);
+  MockPatternsReader mockPkbReader = MockPatternsReader();
 
   vector<pair<string, string>> mockIfPatternStmts = {{"3", "b"}};
   mockPkbReader.mockIfPattern = mockIfPatternStmts;
