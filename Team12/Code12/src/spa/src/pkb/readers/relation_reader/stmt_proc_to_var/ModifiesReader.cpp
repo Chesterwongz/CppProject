@@ -12,14 +12,16 @@ std::vector<std::string> ModifiesReader::getVariablesModifiedBy(int stmt) {
 // (s, "name")
 std::vector<std::string> ModifiesReader::getStatementsModifying(
     const std::string& varName, StmtType stmtType) {
-  if (!stmtStore.hasStmtType(stmtType)) {
+  if (!stmtStore.hasStmtType(stmtType) ||
+      !modifiesSStore.hasDirectAncestor(varName)) {
     return {};
   }
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
 
-  auto rawRes = modifiesSStore.getDirectAncestorsOf(varName, stmtFilter);
+  const auto& rawRes = modifiesSStore.getDirectAncestors(varName);
 
-  return CollectionUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformSetUToVectorV<int, std::string>(
+      rawRes, CollectionUtils::intToStrMapper, stmtFilter);
 }
 
 bool ModifiesReader::isVariableModifiedBy(int stmt,
@@ -33,11 +35,13 @@ ModifiesReader::getModifiesStmtPairs(StmtType stmtType) {
     return {};
   }
 
-  auto filters = stmtStore.getStmtStrFilterPredicates(stmtType);
+  auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
 
-  auto rawRes = modifiesSStore.getDirectRelations(filters);
+  const auto& rawRes = modifiesSStore.getDirectRelations();
 
-  return CollectionUtils::transformIntStrToStrStrVector(rawRes);
+  return CollectionUtils::transformMapSetABToVectorUB<int, std::string,
+                                                      std::string>(
+      rawRes, CollectionUtils::intToStrMapper, stmtFilter);
 }
 
 // ================================= ModifiesP =================================
@@ -53,7 +57,11 @@ std::vector<std::string> ModifiesReader::getVarsModifiedByProc(
 
 std::vector<std::string> ModifiesReader::getProcModifying(
     const string& varName) {
-  return modifiesPStore.getAllDirectAncestorsOf(varName);
+  if (!modifiesPStore.hasDirectAncestor(varName)) {
+    return {};
+  }
+  const auto& rawRes = modifiesPStore.getDirectAncestors(varName);
+  return {rawRes.begin(), rawRes.end()};
 }
 bool ModifiesReader::isVariableModifiedByProc(const string& procName,
                                               const string& varName) {
@@ -61,5 +69,7 @@ bool ModifiesReader::isVariableModifiedByProc(const string& procName,
 }
 std::vector<std::pair<std::string, std::string>>
 ModifiesReader::getModifiesProcPairs() {
-  return modifiesPStore.getAllDirectRelations();
+  const auto& rawRes = modifiesPStore.getDirectRelations();
+  return CollectionUtils::transformMapSetABToVectorAB<std::string, std::string>(
+      rawRes);
 }

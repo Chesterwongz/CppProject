@@ -90,7 +90,29 @@ class CollectionUtils {
     return res;
   }
 
-  template <typename A, typename B, typename U = A, typename V = B>
+  static std::vector<std::string> transformIntSetToStrVector(
+      const std::unordered_set<int>& intSet) {
+    std::vector<std::string> res;
+    res.reserve(intSet.size());
+    for (const int& val : intSet) {
+      res.push_back(intToStrMapper(val));
+    }
+    return res;
+  }
+
+  static std::vector<std::string> transformIntSetToStrVector(
+      const std::unordered_set<int>& intSet,
+      const std::function<bool(int)>& filter) {
+    std::vector<std::string> res;
+    res.reserve(intSet.size());
+    for (const int& val : intSet) {
+      if (!filter(val)) continue;
+      res.push_back(intToStrMapper(val));
+    }
+    return res;
+  }
+
+  template <typename A, typename B, typename U, typename V>
   static std::vector<std::pair<U, V>> transformMapSetABToVectorUV(
       const std::unordered_map<A, std::unordered_set<B>>& mapSetAB,
       const std::pair<std::function<U(A)>, std::function<V(B)>>& mapperPair,
@@ -110,18 +132,18 @@ class CollectionUtils {
   template <typename A, typename B, typename U = A, typename V = B>
   static std::vector<std::pair<U, V>> transformMapSetABToVectorUV(
       const std::unordered_map<A, std::unordered_set<B>>& mapSetAB,
-      std::function<U(A)> mapper1, std::function<V(B)> mapper2) {
+      const std::pair<std::function<U(A)>, std::function<V(B)>>& mapperPair) {
     std::vector<std::pair<U, V>> res;
     for (const auto& [a, setB] : mapSetAB) {
       res.reserve(setB.size());
       for (const auto& b : setB) {
-        res.emplace_back(mapper1(a), mapper2(b));
+        res.emplace_back(mapperPair.first(a), mapperPair.second(b));
       }
     }
     return res;
   }
 
-  template <typename A, typename B, typename U = A>
+  template <typename A, typename B, typename U>
   static std::vector<std::pair<U, B>> transformMapSetABToVectorUB(
       const std::unordered_map<A, std::unordered_set<B>>& mapSetAB,
       std::function<U(A)> mapper1, std::function<bool(A)> filter1) {

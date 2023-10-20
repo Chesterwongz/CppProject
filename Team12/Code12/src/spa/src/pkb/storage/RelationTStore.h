@@ -102,29 +102,6 @@ class RelationTStore : public RelationStore<T, T> {
     return transitiveAncestorMap.at(to);
   }
 
-  [[nodiscard]] std::vector<T> getSuccessorsTOf(
-      T from, const std::function<bool(T)>& filter) const {
-    return RelationStore<T, T>::relationToVectorFiltered(
-        from, transitiveSuccessorMap, filter);
-  }
-
-  [[nodiscard]] std::vector<T> getAllAncestorsTOf(T to) const {
-    return RelationStore<T, T>::relationToVector(to, transitiveAncestorMap);
-  }
-
-  [[nodiscard]] std::vector<T> getAncestorsTOf(
-      T to, const std::function<bool(T)>& filter) const {
-    return RelationStore<T, T>::relationToVectorFiltered(
-        to, transitiveAncestorMap, filter);
-  }
-
-  [[nodiscard]] std::vector<std::pair<T, T>> getRelationsT(
-      std::pair<const std::function<bool(T)>&, const std::function<bool(T)>&>
-          filterStmtPair) const {
-    return RelationStore<T, T>::allRelationsToVectorFiltered(
-        transitiveSuccessorMap, filterStmtPair.first, filterStmtPair.second);
-  }
-
   [[nodiscard]] const std::unordered_map<T, std::unordered_set<T>>&
   getRelationsT() {
     computeAllRelationsT();

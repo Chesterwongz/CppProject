@@ -57,26 +57,31 @@ std::vector<std::string> DesignEntitiesReader::getStmtsThatCall(
 
 std::vector<std::string> DesignEntitiesReader::getStmtsThatRead(
     const std::string& varName) {
-  if (!stmtStore.hasStmtType(StmtType::READ)) {
+  if (!stmtStore.hasStmtType(StmtType::READ) ||
+      !modifiesSStore.hasDirectAncestor(varName)) {
     return {};
   }
+  auto stmtFilter = stmtStore.getStmtFilterPredicate(StmtType::READ);
 
-  auto readStmtFilter = stmtStore.getStmtFilterPredicate(StmtType::READ);
+  const auto& rawRes = modifiesSStore.getDirectAncestors(varName);
 
-  return CollectionUtils::transformIntToStrVector(
-      modifiesSStore.getDirectAncestorsOf(varName, readStmtFilter));
+  return CollectionUtils::transformSetUToVectorV<int, std::string>(
+      rawRes, CollectionUtils::intToStrMapper, stmtFilter);
 }
 
 std::vector<std::string> DesignEntitiesReader::getStmtsThatPrint(
     const std::string& varName) {
-  if (!stmtStore.hasStmtType(StmtType::PRINT)) {
+  if (!stmtStore.hasStmtType(StmtType::PRINT) ||
+      !usesSStore.hasDirectAncestor(varName)) {
     return {};
   }
 
   auto printStmtFilter = stmtStore.getStmtFilterPredicate(StmtType::PRINT);
 
-  return CollectionUtils::transformIntToStrVector(
-      usesSStore.getDirectAncestorsOf(varName, printStmtFilter));
+  const auto& rawRes = usesSStore.getDirectAncestors(varName);
+
+  return CollectionUtils::transformSetUToVectorV<int, std::string>(
+      rawRes, CollectionUtils::intToStrMapper, printStmtFilter);
 }
 
 template <typename SStoreType>
@@ -86,8 +91,8 @@ std::vector<std::string> DesignEntitiesReader::getEntityBy(int statementNumber,
   std::vector<std::string> result;
   if (isValidStmt(statementNumber, stmtType) &&
       sStore.hasDirectSuccessor(statementNumber)) {
-    result = {sStore.getDirectSuccessors(statementNumber).begin(),
-              sStore.getDirectSuccessors(statementNumber).end()};
+    const auto& rawRes = sStore.getDirectSuccessors(statementNumber);
+    result = {rawRes.begin(), rawRes.end()};
   }
   return result;
 }

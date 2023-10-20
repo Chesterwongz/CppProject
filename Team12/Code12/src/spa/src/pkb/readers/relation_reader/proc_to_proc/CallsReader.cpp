@@ -1,12 +1,17 @@
 #include "CallsReader.h"
 
 std::vector<std::string> CallsReader::getCallerProcs(const std::string& proc2) {
-  return callsStore.getAllDirectAncestorsOf(proc2);
+  if (!callsStore.hasDirectAncestor(proc2)) {
+    return {};
+  }
+  const auto& rawRes = callsStore.getDirectAncestors(proc2);
+  return {rawRes.begin(), rawRes.end()};
 }
 
 std::vector<std::string> CallsReader::getCallerProcsStar(
     const std::string& proc2) {
-  return callsStore.getAllAncestorsTOf(proc2);
+  const auto& rawRes = callsStore.getAncestorsT(proc2);
+  return {rawRes.begin(), rawRes.end()};
 }
 
 std::vector<std::string> CallsReader::getCalleeProcs(const std::string& proc1) {
@@ -24,7 +29,9 @@ std::vector<std::string> CallsReader::getCalleeProcsStar(
 }
 
 std::vector<std::pair<std::string, std::string>> CallsReader::getCallPairs() {
-  return callsStore.getAllDirectRelations();
+  const auto& rawRes = callsStore.getDirectRelations();
+  return CollectionUtils::transformMapSetABToVectorAB<std::string, std::string>(
+      rawRes);
 }
 
 std::vector<std::pair<std::string, std::string>>

@@ -3,6 +3,7 @@
 #include <catch.hpp>
 
 #include "common/AliasTypes.h"
+#include "common/utils/CollectionUtils.h"
 #include "common/utils/PairUtils.h"
 #include "pkb/storage/NextStore.h"
 
@@ -75,27 +76,27 @@ TEST_CASE("NextStore - 1 proc") {
       {8, {1, 2, 3, 4, 5, 6, 7}},
   };
   addNextRelationships(storage, nextStmts);
-    storage.getRelationsT();
+  storage.getRelationsT();
 
-    SECTION("getDirectSuccessors") {
-      REQUIRE(testIntSetEquality(nextStmts, [&](int from) {
-        return storage.getDirectSuccessors(from);
-      }));
-      REQUIRE(!storage.hasDirectSuccessor(8));
-    }
+  SECTION("getDirectSuccessors") {
+    REQUIRE(testIntSetEquality(nextStmts, [&](int from) {
+      return storage.getDirectSuccessors(from);
+    }));
+    REQUIRE(!storage.hasDirectSuccessor(8));
+  }
 
-    SECTION("getSuccessorsT") {
-      REQUIRE(testIntSetEquality(expectedNextTStmts, [&](int from) {
-        return storage.getSuccessorsT(from);
-      }));
-      REQUIRE(!storage.hasSuccessorsT(8));
-    }
+  SECTION("getSuccessorsT") {
+    REQUIRE(testIntSetEquality(expectedNextTStmts, [&](int from) {
+      return storage.getSuccessorsT(from);
+    }));
+    REQUIRE(!storage.hasSuccessorsT(8));
+  }
 
-    SECTION("getDirectAncestors") {
-      REQUIRE(testIntSetEquality(
-          prevStmts, [&](int to) { return storage.getDirectAncestors(to); }));
-      REQUIRE(!storage.hasDirectAncestor(1));
-    }
+  SECTION("getDirectAncestors") {
+    REQUIRE(testIntSetEquality(
+        prevStmts, [&](int to) { return storage.getDirectAncestors(to); }));
+    REQUIRE(!storage.hasDirectAncestor(1));
+  }
 
   SECTION("getAncestorsT") {
     REQUIRE(testIntSetEquality(expectedPrevTStmts, [&](int to) {
@@ -122,10 +123,12 @@ TEST_CASE("NextStore - 1 proc") {
     REQUIRE(!storage.hasRelationT(8, 8));
   }
 
-  SECTION("getAllDirectRelations") {
+  SECTION("getDirectRelations") {
     std::unordered_set<pair<int, int>, PairUtils::PairHash> expected =
         getExpectedNextPairs(nextStmts);
-    vector<pair<int, int>> actual = storage.getAllDirectRelations();
+    vector<pair<int, int>> actual =
+        CollectionUtils::transformMapSetABToVectorAB<int, int>(
+            storage.getDirectRelations());
     std::unordered_set<pair<int, int>, PairUtils::PairHash> actualSet(
         actual.begin(), actual.end());
     REQUIRE(actualSet == expected);
@@ -208,7 +211,9 @@ TEST_CASE("NextStore - multiple procs") {
   SECTION("getAllDirectRelations") {
     std::unordered_set<pair<int, int>, PairUtils::PairHash> expected =
         getExpectedNextPairs(nextStmts);
-    vector<pair<int, int>> actual = storage.getAllDirectRelations();
+    vector<pair<int, int>> actual =
+        CollectionUtils::transformMapSetABToVectorAB<int, int>(
+            storage.getDirectRelations());
     std::unordered_set<pair<int, int>, PairUtils::PairHash> actualSet(
         actual.begin(), actual.end());
     REQUIRE(actualSet == expected);

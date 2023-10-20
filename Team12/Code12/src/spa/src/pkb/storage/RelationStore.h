@@ -85,12 +85,12 @@ class RelationStore {
     return directSuccessorMap.count(from);
   }
 
-  [[nodiscard]] bool hasDirectAncestor(B to) const {
-    return directAncestorMap.count(to);
-  }
-
   [[nodiscard]] const std::unordered_set<B>& getDirectSuccessors(A from) const {
     return directSuccessorMap.at(from);
+  }
+
+  [[nodiscard]] bool hasDirectAncestor(B to) const {
+    return directAncestorMap.count(to);
   }
 
   [[nodiscard]] const std::unordered_set<A>& getDirectAncestors(B to) const {
@@ -102,32 +102,7 @@ class RelationStore {
            directSuccessorMap.at(from).count(to);
   }
 
-  [[nodiscard]] std::vector<B> getDirectSuccessorsOf(
-      A from, const std::function<bool(B)>& filter) const {
-    return relationToVectorFiltered<A, B>(from, directSuccessorMap, filter);
-  }
-
-  [[nodiscard]] std::vector<B> getAllDirectAncestorsOf(B to) const {
-    return relationToVector<A, B>(to, directAncestorMap);
-  }
-
-  [[nodiscard]] std::vector<A> getDirectAncestorsOf(
-      B to, const std::function<bool(A)>& filter) const {
-    return relationToVectorFiltered<B, A>(to, directAncestorMap, filter);
-  }
-
-  [[nodiscard]] std::vector<std::pair<A, B>> getDirectRelations(
-      std::pair<const std::function<bool(A)>&, const std::function<bool(B)>&>
-          filterStmtPair) const {
-    return allRelationsToVectorFiltered(
-        directSuccessorMap, filterStmtPair.first, filterStmtPair.second);
-  }
-
-  [[nodiscard]] std::vector<std::pair<A, B>> getAllDirectRelations() const {
-    return allRelationsToVector(directSuccessorMap);
-  }
-
-  [[nodiscard]] std::unordered_map<A, std::unordered_set<B>>
+  [[nodiscard]] const std::unordered_map<A, std::unordered_set<B>>&
   getDirectRelations() const {
     return directSuccessorMap;
   }

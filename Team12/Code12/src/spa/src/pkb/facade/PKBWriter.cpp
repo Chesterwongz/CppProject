@@ -47,7 +47,8 @@ void PKBWriter::addRelationsForCallStmts(
 
   for (const auto& var : allVars) {
     adder(var, stmtNum);
-    for (int p : parentStore.getAllAncestorsTOf(stmtNum)) {
+    if (parentStore.hasAncestorsT(stmtNum)) continue;
+    for (const int& p : parentStore.getAncestorsT(stmtNum)) {
       adder(var, p);
     }
   }

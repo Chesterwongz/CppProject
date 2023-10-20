@@ -53,15 +53,15 @@ std::vector<std::pair<std::string, std::string>> FollowsReader::getFollowsPairs(
 
 std::vector<std::string> FollowsReader::getFollowsStar(int stmt,
                                                        StmtType stmtType) {
-  if (!stmtStore.hasStmtType(stmtType)) {
+  if (!stmtStore.hasStmtType(stmtType) || !followsStore.hasSuccessorsT(stmt)) {
     return {};
   }
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
 
-  auto rawRes = followsStore.getSuccessorsTOf(stmt, stmtFilter);
+  const auto& rawRes = followsStore.getSuccessorsT(stmt);
 
-  return CollectionUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformIntSetToStrVector(rawRes, stmtFilter);
 }
 
 std::vector<std::string> FollowsReader::getFollowedStar(int stmt,
@@ -72,9 +72,9 @@ std::vector<std::string> FollowsReader::getFollowedStar(int stmt,
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
 
-  auto rawRes = followsStore.getAncestorsTOf(stmt, stmtFilter);
+  const auto& rawRes = followsStore.getAncestorsT(stmt);
 
-  return CollectionUtils::transformIntToStrVector(rawRes);
+  return CollectionUtils::transformIntSetToStrVector(rawRes, stmtFilter);
 }
 
 bool FollowsReader::isFollowsStar(int stmt1, int stmt2) {
@@ -90,7 +90,9 @@ FollowsReader::getFollowsStarPairs(StmtType stmtType1, StmtType stmtType2) {
   auto stmtFilters =
       stmtStore.getStmtStmtFilterPredicates(stmtType1, stmtType2);
 
-  auto rawRes = followsStore.getRelationsT(stmtFilters);
+  const auto& rawRes = followsStore.getRelationsT();
 
-  return CollectionUtils::transformIntIntToStrStrVector(rawRes);
+  return CollectionUtils::transformMapSetABToVectorUV<int, int, std::string,
+                                                      std::string>(
+      rawRes, CollectionUtils::getIntToStrMapperPair(), stmtFilters);
 }
