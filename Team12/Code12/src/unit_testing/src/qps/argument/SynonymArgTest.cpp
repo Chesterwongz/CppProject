@@ -6,7 +6,7 @@ string synonymString = "test1234";
 string expectedSynonymValue = "test1234";
 string synonymArgType = "synonym";
 
-SynonymArg synonym = SynonymArg(synonymString);
+SynonymArg synonym = SynonymArg(synonymString, STMT_ENTITY);
 
 TEST_CASE("test_synonym_getValue") {
   string actual = synonym.getValue();
@@ -45,13 +45,13 @@ TEST_CASE("test_synonym_isWildcard_false") {
 }
 
 TEST_CASE("test_synonym_operator==_true") {
-  SynonymArg similarSynonym = SynonymArg(synonymString);
+  SynonymArg similarSynonym = SynonymArg(synonymString, STMT_ENTITY);
 
   REQUIRE(synonym == similarSynonym);
 }
 
 TEST_CASE("test_synonym_operator==_false") {
-  SynonymArg diffSynonym = SynonymArg("randomsynonym");
+  SynonymArg diffSynonym = SynonymArg("randomsynonym", STMT_ENTITY);
 
   REQUIRE(!(synonym == diffSynonym));
 }

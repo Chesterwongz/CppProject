@@ -25,11 +25,16 @@ inline const AttrRef PROCNAME_ATTRREF = "procName";
 inline const AttrRef VARNAME_ATTRREF = "varName";
 inline const AttrRef VALUE_ATTRREF = "value";
 inline const AttrRef STMTNUM_ATTRREF = "stmt#";
+inline const string BOOLEAN_KEYWORD = "BOOLEAN";
+
+inline const string NOT_KEYWORD = "not";
 
 inline const string SELECT_KEYWORD = "Select";
 inline const string SUCH_KEYWORD = "such";
 inline const string THAT_KEYWORD = "that";
 inline const string PATTERN_KEYWORD = "pattern";
+
+inline const string AND_KEYWORD = "and";
 
 inline const string FOLLOWS_ABSTRACTION = "Follows";
 inline const string FOLLOWS_STAR_ABSTRACTION = "Follows*";
@@ -42,6 +47,13 @@ inline const string AFFECTS_ABSTRACTION = "Affects";
 inline const string USES_ABSTRACTION = "Uses";
 inline const string CALLS_ABSTRACTION = "Calls";
 inline const string CALLS_STAR_ABSTRACTION = "Calls*";
+
+inline const string WITH_KEYWORD = "with";
+
+inline const string ATTR_REF_PROC_NAME = "procName";
+inline const string ATTR_REF_VAR_NAME = "varName";
+inline const string ATTR_REF_VALUE = "value";
+inline const string ATTR_REF_STMT_NUMBER = "stmt#";
 
 inline const string WILDCARD_KEYWORD = "_";
 inline const string INVALID_STATEMENT_NUMBER = "-1";

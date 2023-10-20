@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <utility>
 
 #include "qps/parser/BaseParserState.h"
 #include "qps/parser/PQLParserContext.h"
@@ -12,6 +13,7 @@ class SelectParserState : public BaseParserState {
   static PredictiveMap predictiveMap;
 
  public:
+  void processNameToken(PQLToken& curr) override;
   explicit SelectParserState(PQLParserContext& parserContext,
                              PQLTokenType prev);
   void handleToken() override;

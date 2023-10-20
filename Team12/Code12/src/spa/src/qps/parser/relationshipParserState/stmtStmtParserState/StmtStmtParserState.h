@@ -14,11 +14,12 @@ class StmtStmtParserState : public RelationshipParserState {
  private:
   static unordered_map<string, Abstraction> stmtStmtKeywordToAbstraction;
   static PredictiveMap predictiveMap;
-  void checkIsStmtSynonym(const string& synonym);
+  string getIfStmtSynonym(const string& synonym);
 
  public:
   explicit StmtStmtParserState(PQLParserContext& parserContext,
-                               string abstraction, PQLTokenType prev);
+                               string abstraction, PQLTokenType prev,
+                               bool isNegated);
   void handleToken() override;
   ~StmtStmtParserState() override = default;
 };

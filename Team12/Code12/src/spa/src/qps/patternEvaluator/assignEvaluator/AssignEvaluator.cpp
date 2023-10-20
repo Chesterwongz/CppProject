@@ -1,6 +1,7 @@
+#include "AssignEvaluator.h"
+
 #include <memory>
 
-#include "AssignEvaluator.h"
 #include "common/utils/StringUtils.h"
 #include "qps/common/Keywords.h"
 

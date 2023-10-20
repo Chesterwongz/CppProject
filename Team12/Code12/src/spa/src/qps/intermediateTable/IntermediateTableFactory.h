@@ -78,8 +78,8 @@ class IntermediateTableFactory {
    * @param  data take in vector/unordered_set/set of strings/SynonymRes
    */
   template <typename U>
-  static IntermediateTable buildSingleColTable(
-      const string &colName, const U &data) {
+  static IntermediateTable buildSingleColTable(const string &colName,
+                                               const U &data) {
     // if data is empty, return empty table
     // even if columns are wildcard
     if (data.empty()) {

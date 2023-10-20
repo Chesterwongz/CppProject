@@ -37,8 +37,7 @@ class MockPKBWriter : public PKBWriter {
   IntToIntSetMap nextStorage;
 
  public:
-  explicit MockPKBWriter(PKBStore store)
-      : PKBWriter(store) {}
+  explicit MockPKBWriter(PKBStore store) : PKBWriter(store) {}
   ~MockPKBWriter() override = default;
 
   void addFollows(int stmtNum, int followingStmt) override {
@@ -119,8 +118,7 @@ class MockPKBWriter : public PKBWriter {
     return constantStorage == constants;
   }
 
-  [[nodiscard]] bool isProcsEqual(
-      const unordered_set<string> &procsSet) const {
+  [[nodiscard]] bool isProcsEqual(const unordered_set<string> &procsSet) const {
     return procStorage == procsSet;
   }
 

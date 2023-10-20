@@ -7,17 +7,19 @@
 
 RelationshipParserState::RelationshipParserState(
     PQLParserContext &parserContext, bool isInBracket, string abstraction,
-    PQLTokenType prev)
+    PQLTokenType prev, bool isNegated)
     : isInBracket(isInBracket),
       abstraction(std::move(abstraction)),
+      isNegated(isNegated),
       BaseParserState(parserContext, prev) {}
 
 void RelationshipParserState::processNameToken(PQLToken &curr) {
   if (this->isInBracket) {
-    if (QPSStringUtils::isSynonym(curr.getValue())) {
+    if (parserContext.checkSynonymExists(curr.getValue())) {
       curr.updateTokenType(PQL_SYNONYM_TOKEN);
     } else {
-      curr.updateTokenType(PQL_NULL_TOKEN);
+      throw QPSSemanticError(QPS_SEMANTIC_ERR_UNDECLARED_SYNONYM +
+                             curr.getValue());
     }
     return;
   }

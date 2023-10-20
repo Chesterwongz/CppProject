@@ -7,7 +7,7 @@ void StmtStore::addStmt(int stmt, StmtType stmtType) {
 
 bool StmtStore::hasStmt(int stmt, StmtType stmtType) const {
   return stmtTypeToStmtMap.count(stmtType) &&
-      stmtTypeToStmtMap.at(stmtType).count(stmt);
+         stmtTypeToStmtMap.at(stmtType).count(stmt);
 }
 
 bool StmtStore::hasStmtType(StmtType stmtType) const {

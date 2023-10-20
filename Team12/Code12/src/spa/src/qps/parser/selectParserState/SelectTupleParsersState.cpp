@@ -1,6 +1,6 @@
-#include <utility>
-
 #include "SelectTupleParsersState.h"
+
+#include <utility>
 
 PredictiveMap SelectTupleParsersState::predictiveMap = {
     {PQL_LEFT_ANGLE_TOKEN, {PQL_SYNONYM_TOKEN}},
@@ -19,12 +19,12 @@ void SelectTupleParsersState::handleToken() {
 
     switch (token.getType()) {
       case PQL_SYNONYM_TOKEN:
-        parserContext.getValidSynonymType(token.getValue());
-        synonymsToSelect.push_back(
-            std::make_unique<SynonymArg>(token.getValue()));
+        // will throw exception if not valid
+        synonymsToSelect.push_back(std::make_unique<SynonymArg>(
+            token.getValue(),
+            parserContext.getValidSynonymType(token.getValue())));
         break;
       case PQL_RIGHT_ANGLE_TOKEN:
-        // TODO(Hwee):
         parserContext.addSelectClause(std::move(synonymsToSelect));
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
