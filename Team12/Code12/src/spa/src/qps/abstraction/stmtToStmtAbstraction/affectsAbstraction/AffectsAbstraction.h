@@ -9,6 +9,14 @@
 
 class AffectsAbstraction : public StmtToStmtAbstraction {
  private:
+  static bool isInvalidStmtType(StmtType stmtType);
+
+  bool isFirstStmtTypeInvalid() override;
+
+  bool isSecondStmtTypeInvalid() override;
+
+  bool isSelfReferencePossible() override;
+
   vector<pair<string, string>> getAllPairs(StmtType firstStmtType,
                                            StmtType secondStmtType) override;
   vector<string> getFirstStmt(int secondStmtNumber,
@@ -16,10 +24,6 @@ class AffectsAbstraction : public StmtToStmtAbstraction {
   vector<string> getSecondStmt(int firstStmtNumber,
                                StmtType secondStmtType) override;
   bool isStmtRelatedToStmt(int stmtNum1, int stmtNum2) override;
-
-  bool isSelfReferencePossible() override;
-
-  bool isInvalidStmtType(StmtType stmtType);
 
  public:
   explicit AffectsAbstraction(AbstractionParams &abstractionParams)

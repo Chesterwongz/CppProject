@@ -6,6 +6,18 @@
  * - secondArg: Synonym OR Integer OR Wildcard
  */
 
+bool AffectsAbstraction::isInvalidStmtType(StmtType stmtType) {
+  return stmtType != StmtType::STMT && stmtType != StmtType::ASSIGN;
+}
+
+bool AffectsAbstraction::isFirstStmtTypeInvalid() {
+  return isInvalidStmtType(this->getFirstArgStmtType());
+}
+
+bool AffectsAbstraction::isSecondStmtTypeInvalid() {
+  return isInvalidStmtType(this->getSecondArgStmtType());
+}
+
 bool AffectsAbstraction::isSelfReferencePossible() { return true; }
 
 vector<pair<string, string>> AffectsAbstraction::getAllPairs(
@@ -34,8 +46,4 @@ vector<string> AffectsAbstraction::getSecondStmt(int firstStmtNumber,
 
 bool AffectsAbstraction::isStmtRelatedToStmt(int stmtNum1, int stmtNum2) {
   return pkb.isAffects(stmtNum1, stmtNum2);
-}
-
-bool AffectsAbstraction::isInvalidStmtType(StmtType stmtType) {
-  return stmtType != StmtType::STMT && stmtType != StmtType::ASSIGN;
 }
