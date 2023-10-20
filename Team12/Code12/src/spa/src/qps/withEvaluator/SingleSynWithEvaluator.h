@@ -36,7 +36,7 @@ class SingleSynWithEvaluator : public IWithEvaluator {
   IntermediateTable evaluatePrintStmtNum(PKBReader& pkbReader);
 
   unordered_map<Entity_AttrRef_Permutation, WithEvaluatorFunc>
-      withEvaluatorFuncMap {
+      withEvaluatorFuncMapSingleSyn {
           {Entity_AttrRef_Permutation::STMT_STMTNUM,
            [this](PKBReader& pkbReader) { return evaluateStmtNum(pkbReader); }},
           {Entity_AttrRef_Permutation::READ_STMTNUM,

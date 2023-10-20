@@ -788,3 +788,149 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation_noResults") {
 
   REQUIRE(actualTable.isTableEmpty());
 }
+
+TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation_swapArgs") {
+  // procedure proc; select proc with "theBestProc" = proc.procName
+  string withSynonymArgVal = "proc";
+  Entity synonymEntity = PROCEDURE_ENTITY;
+  AttrRef attrRef = ATTR_REF_PROC_NAME;
+  string attrRefValue = "theBestProc";
+
+  unique_ptr<SynonymArg> withSynonymPtr =
+      std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
+
+  unique_ptr<Ident> valueArgPtr = std::make_unique<Ident>(attrRefValue);
+
+  // swapped the args - synonymPtr is now second
+  WithClause withClause =
+      WithClause(std::move(valueArgPtr), std::move(withSynonymPtr));
+
+  MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
+
+  mockPkbReader.mockIsValidProcName = true;
+
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
+
+  vector<string> actualColNames = actualTable.getColNames();
+  TableDataType actualTableData = actualTable.getTableData();
+
+  TableDataType expectedData = {
+      {SynonymResFactory::buildProcSynonym(attrRefValue)}};
+
+  REQUIRE(actualColNames.size() == 1);
+  REQUIRE(actualColNames[0] == withSynonymArgVal);
+  REQUIRE(actualTableData == expectedData);
+}
+
+TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation_swapArgs_noResults") {
+  // procedure proc; select proc with "theBestProc" = proc.procName
+  string withSynonymArgVal = "proc";
+  Entity synonymEntity = PROCEDURE_ENTITY;
+  AttrRef attrRef = ATTR_REF_PROC_NAME;
+  string attrRefValue = "theBestProc";
+
+  unique_ptr<SynonymArg> withSynonymPtr =
+      std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
+
+  unique_ptr<Ident> valueArgPtr = std::make_unique<Ident>(attrRefValue);
+
+  // swapped the args - synonymPtr is now second
+  WithClause withClause =
+      WithClause(std::move(valueArgPtr), std::move(withSynonymPtr));
+
+  MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
+
+  mockPkbReader.mockIsValidProcName = false;
+
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
+
+  REQUIRE(actualTable.isTableEmpty());
+}
+
+TEST_CASE("test_withClause_evaluate_ident = ident_wildcardTable") {
+  // with hello = hello
+  string attrRefValue = "hello";
+
+  unique_ptr<Ident> valueArgPtr1 = std::make_unique<Ident>(attrRefValue);
+  unique_ptr<Ident> valueArgPtr2 = std::make_unique<Ident>(attrRefValue);
+
+  WithClause withClause =
+      WithClause(std::move(valueArgPtr1), std::move(valueArgPtr2));
+
+  MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
+
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
+
+  REQUIRE(actualTable.isTableWildcard());
+}
+
+TEST_CASE("test_withClause_evaluate_ident = ident_emptyTable") {
+  // with hello = goodbye
+  string attrRefValue1 = "hello";
+  string attrRefValue2 = "goodbye";
+
+  unique_ptr<Ident> valueArgPtr1 = std::make_unique<Ident>(attrRefValue1);
+  unique_ptr<Ident> valueArgPtr2 = std::make_unique<Ident>(attrRefValue2);
+
+  WithClause withClause =
+      WithClause(std::move(valueArgPtr1), std::move(valueArgPtr2));
+
+  MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
+
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
+
+  REQUIRE(actualTable.isTableEmpty());
+}
+
+TEST_CASE("test_withClause_evaluate_int = int_wildcardTable") {
+  // with 2 = 2
+  string attrRefValue = "2";
+
+  unique_ptr<Integer> valueArgPtr1 = std::make_unique<Integer>(attrRefValue);
+  unique_ptr<Integer> valueArgPtr2 = std::make_unique<Integer>(attrRefValue);
+
+  WithClause withClause =
+      WithClause(std::move(valueArgPtr1), std::move(valueArgPtr2));
+
+  MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
+
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
+
+  REQUIRE(actualTable.isTableWildcard());
+}
+
+TEST_CASE("test_withClause_evaluate_int = int_emptyTable") {
+  // with 2 = 3
+  string attrRefValue1 = "2";
+  string attrRefValue2 = "3";
+
+  unique_ptr<Integer> valueArgPtr1 = std::make_unique<Integer>(attrRefValue1);
+  unique_ptr<Integer> valueArgPtr2 = std::make_unique<Integer>(attrRefValue2);
+
+  WithClause withClause =
+      WithClause(std::move(valueArgPtr1), std::move(valueArgPtr2));
+
+  MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
+
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
+
+  REQUIRE(actualTable.isTableEmpty());
+}
+
+TEST_CASE("test_withClause_evaluate_int = ident_emptyTable") {
+  // with 2 = 3
+  string attrRefValue1 = "2";
+  string attrRefValue2 = "bruv";
+
+  unique_ptr<Integer> valueArgPtr1 = std::make_unique<Integer>(attrRefValue1);
+  unique_ptr<Ident> valueArgPtr2 = std::make_unique<Ident>(attrRefValue2);
+
+  WithClause withClause =
+      WithClause(std::move(valueArgPtr1), std::move(valueArgPtr2));
+
+  MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
+
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
+
+  REQUIRE(actualTable.isTableEmpty());
+}

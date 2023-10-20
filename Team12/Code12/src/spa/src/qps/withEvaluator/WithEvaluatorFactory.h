@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "IWithEvaluator.h"
-#include "SingleSynWithEvaluator.h"
 
 using std::unique_ptr;
 

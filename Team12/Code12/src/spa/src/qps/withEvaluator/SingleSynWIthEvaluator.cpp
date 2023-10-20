@@ -9,7 +9,7 @@ IntermediateTable SingleSynWithEvaluator::evaluate(PKBReader& pkbReader) {
   Entity_AttrRef_Permutation permutation =
       getPermutation(synonymArg->getEntityType(), synonymArg->getAttrRef());
 
-  IntermediateTable pkbResult = withEvaluatorFuncMap[permutation](pkbReader);
+  IntermediateTable pkbResult = withEvaluatorFuncMapSingleSyn[permutation](pkbReader);
 
   return pkbResult;
 }
