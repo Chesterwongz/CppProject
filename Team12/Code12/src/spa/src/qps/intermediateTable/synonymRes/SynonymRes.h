@@ -5,6 +5,7 @@
 #include <unordered_map>
 
 #include "qps/common/AttrRefEnum.h"
+#include "qps/common/Keywords.h"
 
 using std::string, std::unordered_map, std::unique_ptr;
 
@@ -19,6 +20,12 @@ class SynonymRes {
    * - Variable  -> varName
    */
   unordered_map<AttrRefEnum, string> attributeMap = {};
+  const unordered_map<AttrRef, AttrRefEnum> attrRefToEnumMap = {
+      {ATTR_REF_PROC_NAME, AttrRefEnum::PROC_NAME_ENUM },
+      {ATTR_REF_VAR_NAME, AttrRefEnum::VAR_NAME_ENUM },
+      {ATTR_REF_VALUE, AttrRefEnum::VALUE_ENUM },
+      {ATTR_REF_STMT_NUMBER, AttrRefEnum::STMT_NUM_ENUM },
+  };
   explicit SynonymRes(unordered_map<AttrRefEnum, string> attributeMap);
   friend class SynonymResFactory;
 
@@ -27,7 +34,8 @@ class SynonymRes {
 
   [[nodiscard]] string toString() const;
 
-  string getAttribute(AttrRefEnum attrRef);
+  [[nodiscard]] string getAttribute(AttrRefEnum attrRef) const;
+  [[nodiscard]] string getAttribute(const AttrRef& attrRef) const;
 
   [[nodiscard]] virtual SynonymRes clone() const;
 

@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "qps/common/Keywords.h"
 #include "qps/intermediateTable/synonymRes/SynonymRes.h"
 
 using std::pair, std::unordered_map, std::unordered_set, std::string,
@@ -61,14 +62,15 @@ class IntermediateTable {
   /**
    * @return the entire table's data with each cell converted to string
    */
-  vector<vector<string>> getDataAsStrings();
+  [[nodiscard]] vector<vector<string>> getDataAsStrings() const;
 
   /**
    * @param colNameVector vector of column names to retrieve
    * @return set of tuples string. elements in tuple delimited by space.
    *         e.g. { "a b c", "a b d", ... }
    */
-  unordered_set<string> getColumns(const vector<string> &colNameVector);
+  [[nodiscard]] unordered_set<string> getColumns(
+      const vector<string> &colNameVector) const;
 
   /**
    * same as getColumns(const vector<string> &colNameVector), but allows
@@ -76,40 +78,52 @@ class IntermediateTable {
    * @param colNameAndAttrRefVector vector of <column names, attrRef> pairs to
    * retrieve
    */
-  unordered_set<string> getColumns(
-      const vector<pair<string, AttrRefEnum>> &colNameAndAttrRefVector);
+  [[nodiscard]] unordered_set<string> getColumns(
+      const vector<pair<string, AttrRefEnum>> &colNameAndAttrRefVector) const;
 
   /**
    * Join a different intermediateTable into this
    * @param intermediateTable separate table to be joined into
    *                          this table
    */
-  IntermediateTable join(const IntermediateTable &intermediateTable);
+  IntermediateTable join(const IntermediateTable &otherTable);
+
+  /**
+   * Join on specific column.
+   * Cannot join if there are shared cols on top of the specified join col,
+   * e.g. <a, b>, <a, b>, join on column a -> will have duplicate col b in res
+   * @param otherTable
+   * @param joinColThis  this table's colName and AttrRef pair
+   * @param joinColOther other table's colName and AttrRef pair
+   */
+  IntermediateTable join(const IntermediateTable &otherTable,
+                         const pair<string, AttrRef>& joinColThis,
+                         const pair<string, AttrRef>& joinColOther);
 
   /**
    * @return vector of all column names
    */
-  vector<string> getColNames();
+  [[nodiscard]] vector<string> getColNames() const;
 
   /**
    * @return index of specified column
    */
-  int getColIndex(const string &colName);
+  [[nodiscard]] int getColIndex(const string &colName) const;
 
   /**
    * checks if specified column name exists
    */
-  bool isColExists(const string &colName);
+  [[nodiscard]] bool isColExists(const string &colName) const;
 
   /**
    * generic getter methods
    */
-  size_t getRowCount();
+  [[nodiscard]] size_t getRowCount() const;
   [[nodiscard]] bool isTableEmpty() const;
   [[nodiscard]] bool isTableWildcard() const;
   [[nodiscard]] bool isTableEmptyAndNotWildcard() const;
-  TableDataType getTableData();
-  void printTable();
+  [[nodiscard]] TableDataType getTableData() const;
+  void printTable() const;
 
   friend class IntermediateTableFactory;
 };

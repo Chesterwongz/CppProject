@@ -21,6 +21,7 @@ inline vector<vector<string>> MOCK_SYNONYM_RES_VALUES_VECTOR_2D = {
 
 inline string SYNONYM_VAL_1B = "synonym value 1b";
 inline string SYNONYM_VAL_2B = "synonym value 2b";
+inline string SYNONYM_VAL_3B = "synonym value 3b";
 
 inline SynonymRes MOCK_DEFAULT_SYN_1 =
     SynonymResFactory::buildDefaultSynonym(SYNONYM_VAL_1);
@@ -57,6 +58,8 @@ inline SynonymRes MOCK_PRINT_SYN_3 =
     SynonymResFactory::buildPrintSynonym(SYNONYM_VAL_3, SYNONYM_VAL_2B);
 inline SynonymRes MOCK_PRINT_SYN_4 =
     SynonymResFactory::buildPrintSynonym(SYNONYM_VAL_4, SYNONYM_VAL_2B);
+inline SynonymRes MOCK_PRINT_SYN_5 =
+    SynonymResFactory::buildPrintSynonym(SYNONYM_VAL_4, SYNONYM_VAL_3B);
 inline vector<SynonymRes> MOCK_PRINT_SYNONYM_RES_VECTOR = {
     MOCK_PRINT_SYN_1, MOCK_PRINT_SYN_2, MOCK_PRINT_SYN_3, MOCK_PRINT_SYN_4};
 inline vector<vector<SynonymRes>> MOCK_PRINT_SYNONYM_RES_VECTOR_2D = {
@@ -106,6 +109,12 @@ inline vector<vector<SynonymRes>> DOUBLE_COL_SYNONYM_RES_DATA_2 = {
     {MOCK_CONSTANT_SYN_2, MOCK_PRINT_SYN_2},
     {MOCK_CONSTANT_SYN_3, MOCK_PRINT_SYN_3},
     {MOCK_CONSTANT_SYN_4, MOCK_PRINT_SYN_4},
+};
+
+inline vector<string> SYNONYM_RES_COL_NAME_3 = {"constant", "print"};
+inline vector<vector<SynonymRes>> DOUBLE_COL_SYNONYM_RES_DATA_3 = {
+    {MOCK_CONSTANT_SYN_1, MOCK_PRINT_SYN_5},
+    {MOCK_CONSTANT_SYN_2, MOCK_PRINT_SYN_2},
 };
 
 inline vector<string> SYNONYM_RES_MULTI_COL_NAME_1 = {
