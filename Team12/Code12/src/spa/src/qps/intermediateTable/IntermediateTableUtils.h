@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iterator>
 #include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
