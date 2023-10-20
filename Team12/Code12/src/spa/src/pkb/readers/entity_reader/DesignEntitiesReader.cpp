@@ -114,8 +114,8 @@ std::vector<std::string> DesignEntitiesReader::getVariablePrintedBy(
 
 std::vector<std::pair<std::string, std::string>>
 DesignEntitiesReader::getAllStmtProcCallsPairs() {
-  return CollectionUtils::transformIntStrToStrStrVector(
-      callsSStore.getAllDirectRelations());
+  const auto& rawRes = callsSStore.getDirectRelations();
+  return CollectionUtils::intStrMapSetToStrPairVector(rawRes);
 }
 
 std::vector<std::pair<std::string, std::string>>
