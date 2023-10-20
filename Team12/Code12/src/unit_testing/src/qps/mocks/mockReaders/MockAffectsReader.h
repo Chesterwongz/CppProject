@@ -27,8 +27,7 @@ class MockAffectsReader : public BaseMockReader {
     return mockAffectedBy;
   }
 
-  vector<pair<string, string>> getAffectsPairs(
-      StmtType statementType1, StmtType statementType2) override {
+  vector<pair<string, string>> getAffectsPairs() override {
     return mockAffectsPairs;
   }
 

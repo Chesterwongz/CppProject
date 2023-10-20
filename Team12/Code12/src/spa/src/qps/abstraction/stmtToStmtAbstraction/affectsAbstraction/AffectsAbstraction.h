@@ -19,6 +19,8 @@ class AffectsAbstraction : public StmtToStmtAbstraction {
 
   bool isSelfReferencePossible() override;
 
+  bool isInvalidStmtType(StmtType stmtType);
+
  public:
   explicit AffectsAbstraction(AbstractionParams &abstractionParams)
       : StmtToStmtAbstraction(abstractionParams) {}
