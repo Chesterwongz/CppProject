@@ -127,7 +127,7 @@ TEST_CASE("NextStore - 1 proc") {
     std::unordered_set<pair<int, int>, PairUtils::PairHash> expected =
         getExpectedNextPairs(nextStmts);
     vector<pair<int, int>> actual =
-        CollectionUtils::transformMapSetABToVectorAB<int, int>(
+        CollectionUtils::mapSetToPairVector<int, int>(
             storage.getDirectRelations());
     std::unordered_set<pair<int, int>, PairUtils::PairHash> actualSet(
         actual.begin(), actual.end());
@@ -212,7 +212,7 @@ TEST_CASE("NextStore - multiple procs") {
     std::unordered_set<pair<int, int>, PairUtils::PairHash> expected =
         getExpectedNextPairs(nextStmts);
     vector<pair<int, int>> actual =
-        CollectionUtils::transformMapSetABToVectorAB<int, int>(
+        CollectionUtils::mapSetToPairVector<int, int>(
             storage.getDirectRelations());
     std::unordered_set<pair<int, int>, PairUtils::PairHash> actualSet(
         actual.begin(), actual.end());

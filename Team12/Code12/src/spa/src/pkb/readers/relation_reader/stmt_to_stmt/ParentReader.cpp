@@ -44,9 +44,7 @@ ParentReader::getParentChildPairs(StmtType stmtType1, StmtType stmtType2) {
 
   const auto& rawRes = parentStore.getDirectRelations();
 
-  return CollectionUtils::transformMapSetABToVectorUV<int, int, std::string,
-                                                      std::string>(
-      rawRes, CollectionUtils::getIntToStrMapperPair(), stmtFilters);
+  return CollectionUtils::intIntMapSetToStrPairVector(rawRes, stmtFilters);
 }
 
 // ================================== ParentT ==================================
@@ -61,7 +59,7 @@ std::vector<std::string> ParentReader::getChildrenStarOf(int stmt,
 
   const auto& rawRes = parentStore.getSuccessorsT(stmt);
 
-  return CollectionUtils::transformIntSetToStrVector(rawRes, stmtFilter);
+  return CollectionUtils::intSetToStrVector(rawRes, stmtFilter);
 }
 
 std::vector<std::string> ParentReader::getParentStarOf(int stmt,
@@ -74,7 +72,7 @@ std::vector<std::string> ParentReader::getParentStarOf(int stmt,
 
   const auto& rawRes = parentStore.getAncestorsT(stmt);
 
-  return CollectionUtils::transformIntSetToStrVector(rawRes, stmtFilter);
+  return CollectionUtils::intSetToStrVector(rawRes, stmtFilter);
 }
 
 bool ParentReader::isParentStar(int stmt1, int stmt2) {
@@ -92,7 +90,5 @@ ParentReader::getParentChildStarPairs(StmtType stmtType1, StmtType stmtType2) {
 
   const auto& rawRes = parentStore.getRelationsT();
 
-  return CollectionUtils::transformMapSetABToVectorUV<int, int, std::string,
-                                                      std::string>(
-      rawRes, CollectionUtils::getIntToStrMapperPair(), stmtFilters);
+  return CollectionUtils::intIntMapSetToStrPairVector(rawRes, stmtFilters);
 }

@@ -45,9 +45,7 @@ std::vector<std::pair<std::string, std::string>> NextReader::getNextPairs(
 
   const auto& rawRes = nextStore.getDirectRelations();
 
-  return CollectionUtils::transformMapSetABToVectorUV<int, int, std::string,
-                                                      std::string>(
-      rawRes, CollectionUtils::getIntToStrMapperPair(), stmtFilters);
+  return CollectionUtils::intIntMapSetToStrPairVector(rawRes, stmtFilters);
 }
 
 // =================================== NextT ===================================
@@ -95,7 +93,5 @@ std::vector<std::pair<std::string, std::string>> NextReader::getNextTPairs(
 
   const auto& rawRes = nextStore.getRelationsT();
 
-  return CollectionUtils::transformMapSetABToVectorUV<int, int, std::string,
-                                                      std::string>(
-      rawRes, CollectionUtils::getIntToStrMapperPair(), stmtFilters);
+  return CollectionUtils::intIntMapSetToStrPairVector(rawRes, stmtFilters);
 }

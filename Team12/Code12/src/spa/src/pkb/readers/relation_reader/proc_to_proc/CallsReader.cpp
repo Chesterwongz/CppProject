@@ -36,14 +36,12 @@ std::vector<std::string> CallsReader::getCalleeProcsStar(
 
 std::vector<std::pair<std::string, std::string>> CallsReader::getCallPairs() {
   const auto& rawRes = callsStore.getDirectRelations();
-  return CollectionUtils::transformMapSetABToVectorAB<std::string, std::string>(
-      rawRes);
+  return CollectionUtils::mapSetToPairVector<std::string, std::string>(rawRes);
 }
 
 std::vector<std::pair<std::string, std::string>>
 CallsReader::getCallsStarPairs() {
-  return CollectionUtils::transformMapSetABToVectorAB(
-      callsStore.getRelationsT());
+  return CollectionUtils::mapSetToPairVector(callsStore.getRelationsT());
 }
 
 bool CallsReader::hasCalls(const std::string& proc1, const std::string& proc2) {
