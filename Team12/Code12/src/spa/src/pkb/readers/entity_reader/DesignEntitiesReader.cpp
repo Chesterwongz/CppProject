@@ -106,3 +106,31 @@ std::vector<std::string> DesignEntitiesReader::getVariablePrintedBy(
     int statementNumber) {
   return getEntityBy(statementNumber, StmtType::PRINT, usesSStore);
 }
+
+std::vector<std::pair<std::string, std::string>>
+DesignEntitiesReader::getAllStmtProcCallsPairs() {
+  return CollectionUtils::transformIntStrToStrStrVector(
+      callsSStore.getAllDirectRelations());
+}
+
+std::vector<std::pair<std::string, std::string>>
+DesignEntitiesReader::getAllStmtVarReadPairs() {
+  std::vector<std::pair<std::string, std::string>> result;
+  std::vector<std::string> allReadStmts = getAllStmtsOf(StmtType::READ);
+  for (const std::string& stmt : allReadStmts) {
+    std::string variableRead = getVariableReadBy(stoi(stmt)).front();
+    result.emplace_back(stmt, variableRead);
+  }
+  return result;
+}
+
+std::vector<std::pair<std::string, std::string>>
+DesignEntitiesReader::getAllStmtVarPrintPairs() {
+  std::vector<std::pair<std::string, std::string>> result;
+  std::vector<std::string> allPrintStmts = getAllStmtsOf(StmtType::PRINT);
+  for (const std::string& stmt : allPrintStmts) {
+    std::string variablePrinted = getVariablePrintedBy(stoi(stmt)).front();
+    result.emplace_back(stmt, variablePrinted);
+  }
+  return result;
+}
