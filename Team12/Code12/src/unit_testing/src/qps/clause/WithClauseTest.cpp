@@ -3,6 +3,8 @@
 #include "../../unit_testing/src/qps/mocks/MockPKBReader.h"
 #include "../../unit_testing/src/qps/mocks/mockReaders/MockDesignEntitiesReader.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/argument/integer/Integer.h"
+#include "qps/argument/ident/Ident.h"
 #include "qps/clause/withClause/WithClause.h"
 #include "qps/clause/withClause/WithClauseUtils.h"
 #include "qps/common/Keywords.h"
@@ -20,14 +22,16 @@ TEST_CASE("test_withClause_isEqual") {
   unique_ptr<SynonymArg> withSynonymPtr1 =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause1 = WithClause(std::move(withSynonymPtr1), synonymEntity,
-                                      attrRef, attrRefValue);
+  unique_ptr<Integer> integerPtr1 = std::make_unique<Integer>(attrRefValue);
+
+  WithClause withClause1 = WithClause(std::move(withSynonymPtr1), std::move(integerPtr1));
 
   unique_ptr<SynonymArg> withSynonymPtr2 =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause2 = WithClause(std::move(withSynonymPtr2), synonymEntity,
-                                      attrRef, attrRefValue);
+  unique_ptr<Integer> integerPtr2 = std::make_unique<Integer>(attrRefValue);
+
+  WithClause withClause2 = WithClause(std::move(withSynonymPtr2), std::move(integerPtr2));
 
   REQUIRE(withClause1.isEquals(withClause2));
   REQUIRE(withClause2.isEquals(withClause1));
@@ -43,10 +47,10 @@ TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Integer> valueArgPtr = std::make_unique<Integer>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   mockPkbReader.mockIsValidStatement = true;
@@ -73,10 +77,10 @@ TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation_noResults") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Integer> valueArgPtr = std::make_unique<Integer>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   mockPkbReader.mockIsValidStatement = false;
@@ -96,10 +100,11 @@ TEST_CASE("test_withClause_evaluate_READ_STMTNUM_permutation") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Integer> valueArgPtr = std::make_unique<Integer>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   vector<string> mockVarReadBy = {"yes"};
@@ -127,10 +132,11 @@ TEST_CASE("test_withClause_evaluate_read_STMTNUM_permutation_noResults") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Integer> valueArgPtr = std::make_unique<Integer>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   mockPkbReader.mockVariableReadBy = {};
@@ -149,11 +155,12 @@ TEST_CASE("test_withClause_evaluate_READ_VARNAME_permutation") {
 
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
+  
+  unique_ptr<Ident> valueArgPtr = std::make_unique<Ident>(attrRefValue);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
 
-  PKBStore pkbStore = PKBStore();
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   vector<string> mockStatementsThatRead = {"1", "2", "3"};
@@ -185,10 +192,11 @@ TEST_CASE("test_withClause_evaluate_READ_VARNAME_permutation_noResults") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Ident> valueArgPtr = std::make_unique<Ident>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   vector<string> mockStatementsThatRead = {};
@@ -209,10 +217,11 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Integer> valueArgPtr = std::make_unique<Integer>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   vector<string> mockVarPrintedBy = {"IWASPRINTED"};
@@ -245,10 +254,11 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation_noResults") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Integer> valueArgPtr = std::make_unique<Integer>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   vector<string> mockVarPrintedBy = {};
@@ -269,10 +279,11 @@ TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Ident> valueArgPtr = std::make_unique<Ident>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   vector<string> mockStmtsThatPrint = {"4", "5", "6"};
@@ -303,10 +314,11 @@ TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation_noResults") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Ident> valueArgPtr = std::make_unique<Ident>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   vector<string> mockStmtsThatPrint = {};
@@ -327,10 +339,11 @@ TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Integer> valueArgPtr = std::make_unique<Integer>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   vector<string> mockProcNameCalledByStmtNum = {"iWasCalled"};
@@ -363,10 +376,11 @@ TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation_noResults") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Integer> valueArgPtr = std::make_unique<Integer>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   vector<string> mockProcNameCalledByStmtNum = {};
@@ -387,10 +401,11 @@ TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Ident> valueArgPtr = std::make_unique<Ident>(attrRefValue);
+  
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
 
-  PKBStore pkbStore = PKBStore();
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   vector<string> mockStmtsThatCall = {"7", "8", "9"};
@@ -423,10 +438,11 @@ TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation_noResults") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Ident> valueArgPtr = std::make_unique<Ident>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   vector<string> mockStmtsThatCall = {};
@@ -447,10 +463,11 @@ TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Integer> valueArgPtr = std::make_unique<Integer>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   mockPkbReader.mockIsValidStatement = true;
@@ -479,10 +496,11 @@ TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation_noResults") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Integer> valueArgPtr = std::make_unique<Integer>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   mockPkbReader.mockIsValidStatement = false;
@@ -502,10 +520,11 @@ TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Integer> valueArgPtr = std::make_unique<Integer>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   mockPkbReader.mockIsValidStatement = true;
@@ -532,10 +551,11 @@ TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation_noResults") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Integer> valueArgPtr = std::make_unique<Integer>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   mockPkbReader.mockIsValidStatement = false;
@@ -555,10 +575,11 @@ TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Integer> valueArgPtr = std::make_unique<Integer>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   mockPkbReader.mockIsValidStatement = true;
@@ -586,10 +607,11 @@ TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation_noResults") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Integer> valueArgPtr = std::make_unique<Integer>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   mockPkbReader.mockIsValidStatement = false;
@@ -609,10 +631,11 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Ident> valueArgPtr = std::make_unique<Ident>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   mockPkbReader.mockIsValidVariable = true;
@@ -640,10 +663,11 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation_noResults") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Ident> valueArgPtr = std::make_unique<Ident>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   mockPkbReader.mockIsValidVariable = false;
@@ -663,10 +687,11 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Integer> valueArgPtr = std::make_unique<Integer>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   mockPkbReader.mockIsValidConstant = true;
@@ -694,10 +719,11 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation_noResults") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Integer> valueArgPtr = std::make_unique<Integer>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   mockPkbReader.mockIsValidConstant = false;
@@ -717,10 +743,11 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Ident> valueArgPtr = std::make_unique<Ident>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   mockPkbReader.mockIsValidProcName = true;
@@ -748,10 +775,11 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation_noResults") {
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
-  WithClause withClause = WithClause(std::move(withSynonymPtr), synonymEntity,
-                                     attrRef, attrRefValue);
+  unique_ptr<Ident> valueArgPtr = std::make_unique<Ident>(attrRefValue);
 
-  PKBStore pkbStore = PKBStore();
+  WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
+
+  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   mockPkbReader.mockIsValidProcName = false;

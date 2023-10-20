@@ -32,7 +32,6 @@ enum Entity_AttrRef_Permutation {
   PROCEDURE_PROCNAME
 };
 
-// TODO(houten): change ATTRREF to whatever kh write in keyword.h
 inline unordered_map<Entity, unordered_map<AttrRef, Entity_AttrRef_Permutation>>
     EntityAttrRefPermutationMap = {
         {STMT_ENTITY,
