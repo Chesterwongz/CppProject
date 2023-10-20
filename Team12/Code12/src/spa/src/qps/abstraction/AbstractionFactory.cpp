@@ -2,20 +2,26 @@
 
 #include <memory>
 
-#include "qps/abstraction/followsAbstraction/FollowsAbstraction.h"
-#include "qps/abstraction/followsStarAbstraction/FollowsStarAbstraction.h"
-#include "qps/abstraction/modifiesAbstraction/ModifiesAbstraction.h"
-#include "qps/abstraction/nextAbstraction/NextAbstraction.h"
-#include "qps/abstraction/nextStarAbstraction/NextStarAbstraction.h"
-#include "qps/abstraction/parentsAbstraction/ParentsAbstraction.h"
-#include "qps/abstraction/parentsStarAbstraction/ParentsStarAbstraction.h"
-#include "qps/abstraction/usesAbstraction/UsesAbstraction.h"
+#include "qps/abstraction/stmtOrProcToVarAbstraction/modifiesAbstraction/ModifiesAbstraction.h"
+#include "qps/abstraction/stmtOrProcToVarAbstraction/usesAbstraction/UsesAbstraction.h"
+#include "qps/abstraction/stmtToStmtAbstraction/followsAbstraction/FollowsAbstraction.h"
+#include "qps/abstraction/stmtToStmtAbstraction/followsStarAbstraction/FollowsStarAbstraction.h"
+#include "qps/abstraction/stmtToStmtAbstraction/nextAbstraction/NextAbstraction.h"
+#include "qps/abstraction/stmtToStmtAbstraction/nextStarAbstraction/NextStarAbstraction.h"
+#include "qps/abstraction/stmtToStmtAbstraction/parentsAbstraction/ParentsAbstraction.h"
+#include "qps/abstraction/stmtToStmtAbstraction/parentsStarAbstraction/ParentsStarAbstraction.h"
 
 using std::unique_ptr, std::make_unique;
 
 unique_ptr<BaseAbstraction> AbstractionFactory::createAbstraction(
     AbstractionParams &abstractionParams) {
   switch (abstractionParams.abstraction) {
+    case AFFECTS_ENUM:
+      // TODO(YQ)
+    case CALLS_ENUM:
+      // TODO(YQ)
+    case CALLS_STAR_ENUM:
+      // TODO(YQ)
     case FOLLOWS_ENUM:
       return make_unique<FollowsAbstraction>(abstractionParams);
     case FOLLOWS_STAR_ENUM:
