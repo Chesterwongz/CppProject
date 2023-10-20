@@ -9,7 +9,6 @@
 
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"
-#include "qps/clause/withClause/WithClauseUtils.h"
 #include "qps/intermediateTable/IntermediateTable.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 

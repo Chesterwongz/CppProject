@@ -6,7 +6,6 @@
 #include "qps/argument/integer/Integer.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/clause/withClause/WithClause.h"
-#include "qps/clause/withClause/WithClauseUtils.h"
 #include "qps/common/Keywords.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 #include "qps/intermediateTable/synonymRes/SynonymResFactory.h"

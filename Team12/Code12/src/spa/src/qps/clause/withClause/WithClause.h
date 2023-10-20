@@ -6,7 +6,6 @@
 #include <unordered_map>
 #include <utility>
 
-#include "WithClauseUtils.h"
 #include "qps/argument/AbstractArgument.h"
 #include "qps/clause/Clause.h"
 #include "qps/common/Keywords.h"

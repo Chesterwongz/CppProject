@@ -2,7 +2,6 @@
 #include <string>
 
 #include "WithEvaluator.h"
-#include "qps/exceptions/QPSInvalidWhileEvaluatorException.h"
 #include "qps/clause/utils/ClauseConstants.h"
 
 vector<SynonymRes> WithEvaluator::evaluateStmtEntity() {
