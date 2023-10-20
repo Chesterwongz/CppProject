@@ -40,7 +40,7 @@ class RelationTStore : public RelationStore<S, T> {
       std::unordered_map<K, std::unordered_set<V>>& transitiveMap,
       std::unordered_map<V, int>& visited) {
     constexpr int kVisited = 2;
-    if (transitiveMap.count(key) || !directMap.count(key)) {
+    if (!directMap.count(key) || transitiveMap.count(key)) {
       return;  // nothing to compute.
     }
     std::unordered_set<V> transitiveSet;
