@@ -2,7 +2,11 @@
 
 // (1, v)
 std::vector<std::string> ModifiesReader::getVariablesModifiedBy(int stmt) {
-  return modifiesSStore.getAllDirectSuccessorsOf(stmt);
+  if (!modifiesSStore.hasDirectSuccessor(stmt)) {
+    return {};
+  }
+  const auto& rawRes = modifiesSStore.getDirectSuccessors(stmt);
+  return {rawRes.begin(), rawRes.end()};
 }
 
 // (s, "name")
@@ -40,8 +44,13 @@ ModifiesReader::getModifiesStmtPairs(StmtType stmtType) {
 
 std::vector<std::string> ModifiesReader::getVarsModifiedByProc(
     const string& procName) {
-  return modifiesPStore.getAllDirectSuccessorsOf(procName);
+  if (!modifiesPStore.hasDirectSuccessor(procName)) {
+    return {};
+  }
+  const auto& rawRes = modifiesPStore.getDirectSuccessors(procName);
+  return {rawRes.begin(), rawRes.end()};
 }
+
 std::vector<std::string> ModifiesReader::getProcModifying(
     const string& varName) {
   return modifiesPStore.getAllDirectAncestorsOf(varName);

@@ -3,15 +3,13 @@
 void NextStore::precomputeRelationT(int from, int to) {}
 
 void NextStore::computeSuccessorsT(int from) {
-  std::unordered_map<int, int> visited = {};
   this->computeRelationT(from, this->directSuccessorMap,
-                         this->transitiveSuccessorMap, visited);
+                         this->transitiveSuccessorMap);
 }
 
 void NextStore::computeAncestorsT(int to) {
-  std::unordered_map<int, int> visited = {};
   this->computeRelationT(to, this->directAncestorMap,
-                         this->transitiveAncestorMap, visited);
+                         this->transitiveAncestorMap);
 }
 
 void NextStore::computeAllRelationsT() {

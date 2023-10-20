@@ -102,10 +102,6 @@ class RelationStore {
            directSuccessorMap.at(from).count(to);
   }
 
-  [[nodiscard]] std::vector<B> getAllDirectSuccessorsOf(A from) const {
-    return relationToVector<A, B>(from, directSuccessorMap);
-  }
-
   [[nodiscard]] std::vector<B> getDirectSuccessorsOf(
       A from, const std::function<bool(B)>& filter) const {
     return relationToVectorFiltered<A, B>(from, directSuccessorMap, filter);

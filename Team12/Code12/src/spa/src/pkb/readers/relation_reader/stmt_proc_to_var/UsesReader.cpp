@@ -2,7 +2,11 @@
 
 // (1, v)
 std::vector<std::string> UsesReader::getVariablesUsedBy(int stmt) {
-  return usesSStore.getAllDirectSuccessorsOf(stmt);
+  if (!usesSStore.hasDirectSuccessor(stmt)) {
+    return {};
+  }
+  const auto& rawRes = usesSStore.getDirectSuccessors(stmt);
+  return {rawRes.begin(), rawRes.end()};
 }
 
 // (s, "name")
@@ -40,7 +44,11 @@ std::vector<std::pair<std::string, std::string>> UsesReader::getUsesStmtPairs(
 
 std::vector<std::string> UsesReader::getVarsUsedByProc(
     const std::string& procName) {
-  return usesPStore.getAllDirectSuccessorsOf(procName);
+  if (!usesPStore.hasDirectSuccessor(procName)) {
+    return {};
+  }
+  const auto& rawRes = usesPStore.getDirectSuccessors(procName);
+  return {rawRes.begin(), rawRes.end()};
 }
 
 std::vector<std::string> UsesReader::getProcUsing(const std::string& varName) {

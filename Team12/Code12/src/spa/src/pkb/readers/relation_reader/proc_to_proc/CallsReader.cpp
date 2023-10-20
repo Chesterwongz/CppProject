@@ -10,7 +10,11 @@ std::vector<std::string> CallsReader::getCallerProcsStar(
 }
 
 std::vector<std::string> CallsReader::getCalleeProcs(const std::string& proc1) {
-  return callsStore.getAllDirectSuccessorsOf(proc1);
+  if (!callsStore.hasDirectSuccessor(proc1)) {
+    return {};
+  }
+  const auto& rawRes = callsStore.getDirectSuccessors(proc1);
+  return {rawRes.begin(), rawRes.end()};
 }
 
 std::vector<std::string> CallsReader::getCalleeProcsStar(
