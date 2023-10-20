@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <stack>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -34,31 +35,38 @@ class RelationTStore : public RelationStore<T, T> {
     }
   }
 
+  // DFS to compute transitive closure of vertex
   void computeRelationT(
       T key, std::unordered_map<T, std::unordered_set<T>>& directMap,
-      std::unordered_map<T, std::unordered_set<T>>& transitiveMap,
-      std::unordered_map<T, int>& visited) {
-    constexpr int kVisited = 2;
+      std::unordered_map<T, std::unordered_set<T>>& transitiveMap) {
     if (transitiveMap.count(key) || !directMap.count(key)) {
       return;  // nothing to compute.
     }
-    std::unordered_set<T> transitiveSet;
-    for (const auto& s : directMap.at(key)) {
-      if (visited[s] == kVisited) {
-       visited.clear();
-       continue;
-      }
-      visited[s]++;
-      computeRelationT(s, directMap, transitiveMap, visited);
-      if (transitiveMap.count(s)) {
-        const auto& sT = transitiveMap.at(s);
-        transitiveSet.reserve(sT.size() + 1);
-        transitiveSet.insert(sT.begin(), sT.end());
-      }
-      transitiveSet.insert(s);
+    std::unordered_set<T> visitedSet;
+    std::stack<T> toVisit;
+    for (const auto& directNbrs : directMap.at(key)) {
+      toVisit.push(directNbrs);
     }
-    if (!transitiveSet.empty()) {
-      transitiveMap[key] = transitiveSet;
+    while (!toVisit.empty()) {
+      T curr = toVisit.top();
+      toVisit.pop();
+      visitedSet.insert(curr);
+
+      if (!directMap.count(curr)) continue;
+      if (transitiveMap.count(curr)) {
+        const auto& currTransNbrs = transitiveMap.at(curr);
+        visitedSet.reserve(currTransNbrs.size());
+        visitedSet.insert(currTransNbrs.begin(), currTransNbrs.end());
+        continue;
+      }
+      for (const auto& nbr : directMap.at(curr)) {
+        if (!visitedSet.count(nbr)) {
+          toVisit.push(nbr);
+        }
+      }
+    }
+    if (!visitedSet.empty()) {
+      transitiveMap[key] = std::move(visitedSet);
     }
   }
 
@@ -90,7 +98,7 @@ class RelationTStore : public RelationStore<T, T> {
     return transitiveSuccessorMap.at(from);
   }
 
-  [[nodiscard]] const std::unordered_set<T>& getAncestorsS(T to) const {
+  [[nodiscard]] const std::unordered_set<T>& getAncestorsT(T to) const {
     return transitiveAncestorMap.at(to);
   }
 
