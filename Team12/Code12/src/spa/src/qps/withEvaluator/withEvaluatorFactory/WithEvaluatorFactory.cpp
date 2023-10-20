@@ -13,8 +13,13 @@ unique_ptr<WithEvaluator> WithEvaluatorFactory::createWithEvaluator(
   bool isSecondArgSynonym = secondArg->isSynonym();
 
   if (isFirstArgSynonym && isSecondArgSynonym) {
-    return make_unique<DoubleSynWithEvaluator>(move(firstArg), move(secondArg),
-                                               pkbReader);
+    unique_ptr<SynonymArg> synonymArg1 =
+        unique_ptr<SynonymArg>(dynamic_cast<SynonymArg*>(firstArg.release()));
+    unique_ptr<SynonymArg> synonymArg2 =
+        unique_ptr<SynonymArg>(dynamic_cast<SynonymArg*>(secondArg.release()));
+
+    return make_unique<DoubleSynWithEvaluator>(move(synonymArg1),
+                                               move(synonymArg2), pkbReader);
   } else if (!isFirstArgSynonym && !isSecondArgSynonym) {
     return make_unique<NoSynWithEvaluator>(move(firstArg), move(secondArg),
                                            pkbReader);
