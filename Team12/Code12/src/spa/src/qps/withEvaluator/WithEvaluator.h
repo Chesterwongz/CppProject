@@ -4,6 +4,7 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -54,11 +55,10 @@ class WithEvaluator {
       {VARIABLE_ENTITY, [this]() { return evaluateVarEntity(); }},
       {PROCEDURE_ENTITY, [this]() { return evaluateProcEntity(); }},
       {CONSTANT_ENTITY, [this]() { return evaluateConstantEntity(); }}
-
   };
+
  public:
-  explicit WithEvaluator(PKBReader& pkbReader)
-      : pkbReader(pkbReader) {}
+  explicit WithEvaluator(PKBReader& pkbReader) : pkbReader(pkbReader) {}
 
   virtual IntermediateTable evaluate() = 0;
 

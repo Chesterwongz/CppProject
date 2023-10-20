@@ -41,13 +41,15 @@ class SingleSynWithEvaluator : public WithEvaluator {
       {WHILE_ENTITY, [this]() { return getValueArgResultStmt(); }},
       {VARIABLE_ENTITY, [this]() { return getValueArgResultVar(); }},
       {CONSTANT_ENTITY, [this]() { return getValueArgResultConstant(); }},
-      {PROCEDURE_ENTITY, [this]() { return getValueArgResultProc(); }}
-  };
+      {PROCEDURE_ENTITY, [this]() { return getValueArgResultProc(); }}};
 
  public:
   explicit SingleSynWithEvaluator(unique_ptr<SynonymArg> firstArg,
-                                  unique_ptr<AbstractArgument> secondArg, PKBReader& pkbReader)
-      : WithEvaluator(pkbReader), synonymArg(move(firstArg)), valueArg(move(secondArg)) {};
+                                  unique_ptr<AbstractArgument> secondArg,
+                                  PKBReader& pkbReader)
+      : WithEvaluator(pkbReader),
+        synonymArg(move(firstArg)),
+        valueArg(move(secondArg)) {}
 
   IntermediateTable evaluate() override;
 };

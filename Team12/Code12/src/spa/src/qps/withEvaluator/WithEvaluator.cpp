@@ -1,7 +1,8 @@
-#include <vector>
-#include <string>
-
 #include "WithEvaluator.h"
+
+#include <string>
+#include <vector>
+
 #include "qps/clause/utils/ClauseConstants.h"
 
 vector<SynonymRes> WithEvaluator::evaluateStmtEntity() {
@@ -15,7 +16,6 @@ vector<SynonymRes> WithEvaluator::evaluateStmtEntity() {
 }
 
 vector<SynonymRes> WithEvaluator::evaluateAssignEntity() {
-
   vector<string> stmtsOfAssignType = pkbReader.getAllStmtsOf(StmtType::ASSIGN);
 
   // build stmt synonymRes
@@ -91,7 +91,6 @@ vector<SynonymRes> WithEvaluator::evaluateReadEntity() {
 }
 
 vector<SynonymRes> WithEvaluator::evaluatePrintEntity() {
-  
   vector<pair<string, string>> allPrintVarNamePairs =
       pkbReader.getAllStmtVarPrintPairs();
 
@@ -101,7 +100,8 @@ vector<SynonymRes> WithEvaluator::evaluatePrintEntity() {
   return printSynonymResObjs;
 }
 
-vector<SynonymRes> WithEvaluator::buildStmtSynonymResVector(vector<string> stmtNums) {
+vector<SynonymRes> WithEvaluator::buildStmtSynonymResVector(
+    vector<string> stmtNums) {
   vector<SynonymRes> stmtSynonymResObjs;
 
   for (string stmtNum : stmtNums) {
@@ -132,8 +132,7 @@ vector<SynonymRes> WithEvaluator::buildProcSynonymResVector(
   vector<SynonymRes> procSynonymResObjs;
 
   for (string procName : procNames) {
-    SynonymRes procSynonymRes =
-        SynonymResFactory::buildProcSynonym(procName);
+    SynonymRes procSynonymRes = SynonymResFactory::buildProcSynonym(procName);
 
     procSynonymResObjs.push_back(procSynonymRes);
   }
@@ -159,7 +158,8 @@ vector<SynonymRes> WithEvaluator::buildCallSynonymResVector(
   vector<SynonymRes> callSynonymResObjs;
 
   for (pair<string, string> callProcNamePair : callProcNamePairs) {
-    SynonymRes callSynonymRes = SynonymResFactory::buildCallsSynonym(callProcNamePair.first, callProcNamePair.second);
+    SynonymRes callSynonymRes = SynonymResFactory::buildCallsSynonym(
+        callProcNamePair.first, callProcNamePair.second);
 
     callSynonymResObjs.push_back(callSynonymRes);
   }

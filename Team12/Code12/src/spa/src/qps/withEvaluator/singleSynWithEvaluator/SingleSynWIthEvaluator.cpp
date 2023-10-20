@@ -3,7 +3,6 @@
 #include "qps/withEvaluator/singleSynWithEvaluator/SingleSynWithEvaluator.h"
 #include "qps/clause/utils/ClauseConstants.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
-#include <iostream>
 
 IntermediateTable SingleSynWithEvaluator::evaluate() {
   Entity synonymEntity = synonymArg->getEntityType();
@@ -29,7 +28,8 @@ IntermediateTable SingleSynWithEvaluator::getValueArgResultCall() {
   vector<SynonymRes> callSynonymResObjs;
 
   if (attrRef == ATTR_REF_STMT_NUMBER) {
-    vector<string> procCalledBy = pkbReader.getProcCalledBy(std::stoi(attrRefValue));
+    vector<string> procCalledBy =
+        pkbReader.getProcCalledBy(std::stoi(attrRefValue));
     for (string procName : procCalledBy) {
       SynonymRes callSynonymRes =
           SynonymResFactory::buildCallsSynonym(attrRefValue, procName);
@@ -38,8 +38,7 @@ IntermediateTable SingleSynWithEvaluator::getValueArgResultCall() {
   }
 
   if (attrRef == ATTR_REF_PROC_NAME) {
-    vector<string> stmtsThatCall =
-        pkbReader.getStmtsThatCall(attrRefValue);
+    vector<string> stmtsThatCall = pkbReader.getStmtsThatCall(attrRefValue);
     for (string stmtNum : stmtsThatCall) {
       SynonymRes callSynonymRes =
           SynonymResFactory::buildCallsSynonym(stmtNum, attrRefValue);
@@ -103,7 +102,6 @@ IntermediateTable SingleSynWithEvaluator::getValueArgResultPrint() {
   }
 
   if (attrRef == ATTR_REF_VAR_NAME) {
-
     vector<string> stmtsThatPrint = pkbReader.getStmtsThatPrint(attrRefValue);
     for (string stmtNum : stmtsThatPrint) {
       SynonymRes printSynonymRes =
@@ -139,8 +137,7 @@ IntermediateTable SingleSynWithEvaluator::getValueArgResultVar() {
 
   vector<SynonymRes> varSynonymResObjs;
 
-  varSynonymResObjs.push_back(
-      SynonymResFactory::buildVarSynonym(attrRefValue));
+  varSynonymResObjs.push_back(SynonymResFactory::buildVarSynonym(attrRefValue));
 
   IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
       synonymValue, varSynonymResObjs);

@@ -23,8 +23,11 @@ class DoubleSynWithEvaluator : public WithEvaluator {
 
  public:
   explicit DoubleSynWithEvaluator(unique_ptr<SynonymArg> firstArg,
-                                  unique_ptr<SynonymArg> secondArg, PKBReader& pkbReader)
-      : WithEvaluator(pkbReader), firstSynonymArg(move(firstArg)), secondSynonymArg(move(secondArg)) {};
+                                  unique_ptr<SynonymArg> secondArg,
+                                  PKBReader& pkbReader)
+      : WithEvaluator(pkbReader),
+        firstSynonymArg(move(firstArg)),
+        secondSynonymArg(move(secondArg)) {}
 
   IntermediateTable evaluate() override;
 };

@@ -1,3 +1,5 @@
+#include <string>
+
 #include "NoSynWithEvaluator.h"
 
 IntermediateTable NoSynWithEvaluator::evaluate() {
