@@ -11,8 +11,10 @@ PredictiveMap WhilePatternParserState::predictiveMap = {
 
 WhilePatternParserState::WhilePatternParserState(
     PQLParserContext &parserContext, PQLTokenType prev,
-    unique_ptr<SynonymArg> synWhile)
-    : BaseParserState(parserContext, prev), synWhile(std::move(synWhile)) {}
+    unique_ptr<SynonymArg> synWhile, bool isNegated)
+    : BaseParserState(parserContext, prev),
+      synWhile(std::move(synWhile)),
+      isNegated(isNegated) {}
 
 void WhilePatternParserState::processSynonymToken(PQLToken &curr) {
   string synType = parserContext.getValidSynonymType(curr.getValue());
@@ -21,19 +23,19 @@ void WhilePatternParserState::processSynonymToken(PQLToken &curr) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
   if (synType == VARIABLE_ENTITY) {
-    patternArg.push_back(std::make_unique<SynonymArg>(curr.getValue()));
+    patternArg.push_back(
+        std::make_unique<SynonymArg>(curr.getValue(), synType));
   } else {
     throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_VAR_SYN);
   }
 }
 
-bool WhilePatternParserState::checkSafeExit() {
+void WhilePatternParserState::checkSafeExit() {
   assert(synWhile);
   if (patternArg.size() != expectedNumberOfArgs ||
       nonFirstArgWildcardCount != expectedNonFirstArgWildcardCount) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
-  return true;
 }
 
 void WhilePatternParserState::handleToken() {

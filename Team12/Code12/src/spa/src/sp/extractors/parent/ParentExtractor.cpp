@@ -12,9 +12,7 @@ void ParentExtractor::visitWhile(const WhileNode& node) {
 
 void ParentExtractor::postVisitIf(const IfNode& node) { parents.pop(); }
 
-void ParentExtractor::postVisitWhile(const WhileNode& node) {
-  parents.pop();
-}
+void ParentExtractor::postVisitWhile(const WhileNode& node) { parents.pop(); }
 
 void ParentExtractor::visitStmtList(const StmtListNode& node) {
   if (parents.empty()) return;

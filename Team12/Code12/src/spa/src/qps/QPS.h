@@ -11,7 +11,7 @@
 #include "pkb/facade/PKBReader.h"
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/declarativeParserState/DeclarativeParserState.h"
-#include "qps/token/PQLToken.h"
+#include "qps/parser/tokenizer/token/PQLToken.h"
 
 using std::string, std::vector, std::unique_ptr, std::unordered_set;
 

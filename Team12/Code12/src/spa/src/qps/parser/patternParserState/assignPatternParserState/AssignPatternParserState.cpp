@@ -18,10 +18,11 @@ PredictiveMap AssignPatternParserState::predictiveMap = {
 
 AssignPatternParserState::AssignPatternParserState(
     PQLParserContext& parserContext, PQLTokenType prev,
-    unique_ptr<SynonymArg> synAssign)
+    unique_ptr<SynonymArg> synAssign, bool isNegated)
     : BaseParserState(parserContext, prev),
       isPartialMatch(false),
-      synAssign(std::move(synAssign)) {}
+      synAssign(std::move(synAssign)),
+      isNegated(isNegated) {}
 
 void AssignPatternParserState::processSynonymToken(PQLToken& curr) {
   string synType = parserContext.getValidSynonymType(curr.getValue());
@@ -32,7 +33,7 @@ void AssignPatternParserState::processSynonymToken(PQLToken& curr) {
 
   if (synType == VARIABLE_ENTITY) {
     patternArg.push_back(
-        std::move(std::make_unique<SynonymArg>(curr.getValue())));
+        std::move(std::make_unique<SynonymArg>(curr.getValue(), synType)));
   } else {
     throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_VAR_SYN);
   }
@@ -55,12 +56,11 @@ void AssignPatternParserState::processLastArgument() {
   }
 }
 
-bool AssignPatternParserState::checkSafeExit() {
+void AssignPatternParserState::checkSafeExit() {
   assert(synAssign);
   if (patternArg.size() != expectedNumberOfArgs) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
-  return true;
 }
 
 void AssignPatternParserState::processLiteralRefToken(PQLToken& curr) {
@@ -75,7 +75,6 @@ void AssignPatternParserState::checkIsValidExpr(const std::string& ref) {
   }
 }
 
-// TODO(Hwee): Review and remove redundant logic
 void AssignPatternParserState::handleToken() {
   auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 

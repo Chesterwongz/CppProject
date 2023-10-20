@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "qps/tokenizer/PQLTokenType.h"
+#include "qps/parser/tokenizer/PQLTokenType.h"
 
 using std::string, std::vector, std::unique_ptr;
 
@@ -22,7 +22,7 @@ class PQLToken {
   PQLTokenType getType();
   TokenValue getValue();
   void updateTokenType(PQLTokenType tokenType);
-  PQLToken(PQLTokenType type, const TokenValue &value);
+  PQLToken(PQLTokenType type, TokenValue value);
 };
 
 typedef vector<PQLToken> PQLTokenList;

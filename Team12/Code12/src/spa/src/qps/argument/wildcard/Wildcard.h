@@ -15,7 +15,7 @@ class Wildcard : public AbstractArgument {
 
  public:
   Wildcard() = default;
-  string getValue() override;
+  const string& getValue() override;
   QPSStringUtils::ArgumentType getArgumentType() override;
   bool isWildcard() override;
   bool operator==(const AbstractArgument& other) const override;

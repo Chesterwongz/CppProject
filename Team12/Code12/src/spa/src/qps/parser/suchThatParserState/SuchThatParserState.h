@@ -11,6 +11,7 @@ class SuchThatParserState : public BaseParserState {
  private:
   static PredictiveMap predictiveMap;
   void processNameToken(PQLToken& curr) override;
+  bool isNegated = false;
 
  public:
   explicit SuchThatParserState(PQLParserContext& parserContext,

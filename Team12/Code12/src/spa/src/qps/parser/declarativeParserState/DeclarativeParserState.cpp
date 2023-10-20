@@ -3,7 +3,7 @@
 #include "qps/parser/selectParserState/SelectParserState.h"
 
 PredictiveMap DeclarativeParserState::predictiveMap = {
-    {PQL_NULL_TOKEN, {PQL_ENTITY_TOKEN}},
+    {PQL_NULL_TOKEN, {PQL_ENTITY_TOKEN, PQL_SELECT_TOKEN}},
     {PQL_ENTITY_TOKEN, {PQL_SYNONYM_TOKEN}},
     {PQL_SYNONYM_TOKEN, {PQL_COMMA_TOKEN, PQL_SEMICOLON_TOKEN}},
     {PQL_COMMA_TOKEN, {PQL_SYNONYM_TOKEN}},
@@ -13,15 +13,12 @@ DeclarativeParserState::DeclarativeParserState(PQLParserContext& parserContext)
     : BaseParserState(parserContext, PQL_NULL_TOKEN) {}
 
 void DeclarativeParserState::processNameToken(PQLToken& curr) {
-  if (prev == PQL_ENTITY_TOKEN || prev == PQL_COMMA_TOKEN) {
+  bool isSynonym = (prev == PQL_ENTITY_TOKEN || prev == PQL_COMMA_TOKEN) &&
+                   QPSStringUtils::isSynonym(curr.getValue());
+  if (isSynonym) {
     curr.updateTokenType(PQL_SYNONYM_TOKEN);
   } else {
     auto tokenType = PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
-
-    //  Special check to ensure that Select without declaration is semantic err
-    if (prev == PQL_NULL_TOKEN && tokenType == PQL_SELECT_TOKEN) {
-      throw QPSSemanticError(QPS_SEMANTIC_ERR_INVALID_SELECT);
-    }
     curr.updateTokenType(tokenType);
   }
 }

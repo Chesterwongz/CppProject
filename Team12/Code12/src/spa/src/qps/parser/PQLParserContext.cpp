@@ -11,7 +11,7 @@ PQLParserContext::PQLParserContext(unique_ptr<PQLTokenStream> tokenStream,
     : tokenStream(std::move(tokenStream)),
       query(query),
       currState(),
-      context(std::make_unique<Context>()) {}
+      context(std::make_unique<SynonymContext>()) {}
 
 void PQLParserContext::addToContext(string entity, const string& synonym) {
   if (!QPSStringUtils::isSynonym(synonym)) {
@@ -20,23 +20,23 @@ void PQLParserContext::addToContext(string entity, const string& synonym) {
   this->context->addSynonym(synonym, std::move(entity));
 }
 
-void PQLParserContext::addSelectClause(const string& synonym) {
-  getValidSynonymType(synonym);
+void PQLParserContext::addSelectClause(unique_ptr<SynonymArg> synonym) {
   SynonymsToSelect synonymVector = {};
-  unique_ptr<SynonymArg> synonymArg
-      = std::make_unique<SynonymArg>(synonym);
-  synonymVector.emplace_back(std::move(synonymArg));
+  synonymVector.emplace_back(std::move(synonym));
   this->query->setSynonymToQuery(std::move(synonymVector));
 }
 
-void PQLParserContext::addSelectClause(
-    SynonymsToSelect synonyms) {
+void PQLParserContext::addSelectClause(SynonymsToSelect synonyms) {
   this->query->setSynonymToQuery(std::move(synonyms));
 }
 
 string PQLParserContext::getValidSynonymType(const string& synonym) {
   auto selectSynonym = context->getTokenEntity(synonym);
   return selectSynonym;
+}
+
+bool PQLParserContext::checkSynonymExists(const std::string& synonym) {
+  return context->checkIfSynonymExists(synonym);
 }
 
 void PQLParserContext::addClause(unique_ptr<Clause> clause) {
@@ -72,6 +72,10 @@ std::optional<PQLToken> PQLParserContext::eatCurrToken() {
   return tokenStream->eat();
 }
 
+std::optional<PQLToken> PQLParserContext::peekNextToken() {
+  return tokenStream->peek();
+}
+
 void PQLParserContext::transitionTo(unique_ptr<IParserState> nextState) {
   currState = std::move(nextState);
 }
@@ -80,5 +84,4 @@ void PQLParserContext::handleTokens() {
   while (tokenStream->peek().has_value()) {
     currState->handleToken();
   }
-  query->addContext(std::move(context));
 }
