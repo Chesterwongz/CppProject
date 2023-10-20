@@ -9,7 +9,6 @@ void PKBWriter::addRelationsForCallProcs(
   for (const auto& callee : calleeProcs) {
     if (!procStore.hasDirectSuccessors(callee)) continue;
     const auto& vars = procStore.getDirectSuccessors(callee);
-    allVars.reserve(vars.size());
     allVars.insert(vars.begin(), vars.end());
   }
   for (const auto& var : allVars) {
@@ -41,7 +40,6 @@ void PKBWriter::addRelationsForCallStmts(
   for (const auto& callee : allCallees) {
     if (!procStore.hasDirectSuccessors(callee)) continue;
     const auto& vars = procStore.getDirectSuccessors(callee);
-    allVars.reserve(vars.size());
     allVars.insert(vars.begin(), vars.end());
   }
 
