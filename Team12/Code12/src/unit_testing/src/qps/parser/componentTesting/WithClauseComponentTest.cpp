@@ -16,7 +16,7 @@ TEST_CASE("Component invalid with IDENT = INTEGER") {
   string query = "Select BOOLEAN with 2 = \"x\"";
 
   REQUIRE_THROWS_AS(parseStringToQuery(query, dummyQpsParserPkbReader),
-                         QPSSemanticError);
+                    QPSSemanticError);
 }
 
 TEST_CASE("Valid attrRef = INTEGER") {

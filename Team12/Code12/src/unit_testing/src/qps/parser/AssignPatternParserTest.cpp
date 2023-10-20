@@ -332,9 +332,8 @@ TEST_CASE("Invalid Pattern a (SYNONYM, PARTIAL_MATCH) - non variable synonym") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  REQUIRE_THROWS_AS(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSemanticError);
+  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+                    QPSSemanticError);
 }
 
 TEST_CASE(
