@@ -19,6 +19,7 @@ class IfPatternParserState : public BaseParserState {
  private:
   static constexpr int expectedNumberOfArgs = 1;
   static constexpr int expectedNonFirstArgWildcardCount = 2;
+  PQLTokenType startToken;
   bool isNegated;
   unique_ptr<SynonymArg> synIf;
   static PredictiveMap predictiveMap;

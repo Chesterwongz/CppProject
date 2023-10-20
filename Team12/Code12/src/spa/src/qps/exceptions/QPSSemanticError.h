@@ -18,6 +18,7 @@ const char QPS_SEMANTIC_ERR_INVALID_SELECT[] =
     "Select clause without declarations";
 const char QPS_SEMANTIC_ERR_INVALID_ATTR_REF[] = "Invalid Attr Ref";
 const char QPS_SEMANTIC_ERR_INVALID_WITH[] = "Different ref types";
+const char QPS_SEMANTIC_ERR[] = "SemanticErr";
 
 class QPSSemanticError : public QPSException {
  public:

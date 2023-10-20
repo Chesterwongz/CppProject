@@ -14,10 +14,8 @@ PQLParserContext::PQLParserContext(unique_ptr<PQLTokenStream> tokenStream,
       context(std::make_unique<SynonymContext>()) {}
 
 void PQLParserContext::addToContext(string entity, const string& synonym) {
-  if (!QPSStringUtils::isSynonym(synonym)) {
-    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_NAME);
-  }
-  this->context->addSynonym(synonym, std::move(entity));
+  bool isSuccess = this->context->addSynonym(synonym, std::move(entity));
+  if (!isSuccess) isSemanticallyValid = false;
 }
 
 void PQLParserContext::addSelectClause(unique_ptr<SynonymArg> synonym) {
@@ -31,8 +29,12 @@ void PQLParserContext::addSelectClause(SynonymsToSelect synonyms) {
 }
 
 string PQLParserContext::getValidSynonymType(const string& synonym) {
-  auto selectSynonym = context->getTokenEntity(synonym);
-  return selectSynonym;
+  auto entity = context->getTokenEntity(synonym);
+  if (entity.has_value()) {
+    return entity.value();
+  }
+  isSemanticallyValid = false;
+  return "";
 }
 
 bool PQLParserContext::checkSynonymExists(const std::string& synonym) {
@@ -41,6 +43,10 @@ bool PQLParserContext::checkSynonymExists(const std::string& synonym) {
 
 void PQLParserContext::addClause(unique_ptr<Clause> clause) {
   query->addClause(std::move(clause));
+}
+
+void PQLParserContext::setSemanticallyInvalid() {
+  isSemanticallyValid = false;
 }
 
 bool PQLParserContext::isExpectedToken(PQLTokenType curr, PQLTokenType prev,
@@ -76,6 +82,14 @@ std::optional<PQLToken> PQLParserContext::peekNextToken() {
   return tokenStream->peek();
 }
 
+void PQLParserContext::snapTokenStreamImage() {
+  tokenStreamImage = tokenStream->getCursor();
+}
+
+void PQLParserContext::restoreTokenStreamImage() {
+  tokenStream->setCursor(tokenStreamImage);
+}
+
 void PQLParserContext::transitionTo(unique_ptr<IParserState> nextState) {
   currState = std::move(nextState);
 }
@@ -83,5 +97,8 @@ void PQLParserContext::transitionTo(unique_ptr<IParserState> nextState) {
 void PQLParserContext::handleTokens() {
   while (tokenStream->peek().has_value()) {
     currState->handleToken();
+  }
+  if (!isSemanticallyValid) {
+    throw QPSSemanticError(QPS_SEMANTIC_ERR);
   }
 }

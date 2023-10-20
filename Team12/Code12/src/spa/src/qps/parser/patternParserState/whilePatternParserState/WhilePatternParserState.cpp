@@ -22,16 +22,14 @@ void WhilePatternParserState::processSynonymToken(PQLToken &curr) {
   if (patternArg.size() != FIRST_ARG) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
-  if (synType == VARIABLE_ENTITY) {
-    patternArg.push_back(
-        std::make_unique<SynonymArg>(curr.getValue(), synType));
-  } else {
-    throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_VAR_SYN);
+  if (synType != VARIABLE_ENTITY) {
+    parserContext.setSemanticallyInvalid();
   }
+  patternArg.push_back(
+      std::make_unique<SynonymArg>(curr.getValue(), synType));
 }
 
 void WhilePatternParserState::checkSafeExit() {
-  assert(synWhile);
   if (patternArg.size() != expectedNumberOfArgs ||
       nonFirstArgWildcardCount != expectedNonFirstArgWildcardCount) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);

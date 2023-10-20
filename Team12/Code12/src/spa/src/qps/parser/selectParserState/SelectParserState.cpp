@@ -9,13 +9,17 @@ SelectParserState::SelectParserState(PQLParserContext& parserContext,
     : BaseParserState(parserContext, prev) {}
 
 void SelectParserState::processNameToken(PQLToken& curr) {
-  if (parserContext.checkSynonymExists(curr.getValue())) {
-    curr.updateTokenType(PQL_SYNONYM_TOKEN);
-  } else if (curr.getValue() == BOOLEAN_KEYWORD) {
+  bool isDeclaredSyn = parserContext.checkSynonymExists(curr.getValue());
+  // if boolean keyword and not declared before --> Select BOOLEAN
+  if (curr.getValue() == BOOLEAN_KEYWORD && !isDeclaredSyn) {
     curr.updateTokenType(PQL_BOOLEAN_TOKEN);
   } else {
-    throw QPSSemanticError(QPS_SEMANTIC_ERR_UNDECLARED_SYNONYM +
-                           curr.getValue());
+    if (!QPSStringUtils::isSynonym(curr.getValue())) {
+      throw QPSSyntaxError(QPS_TOKENIZATION_ERR_SYNONYM);
+    }
+    // only Synonyms can appear here
+    curr.updateTokenType(PQL_SYNONYM_TOKEN);
+    if (!isDeclaredSyn) { parserContext.setSemanticallyInvalid(); }
   }
 }
 

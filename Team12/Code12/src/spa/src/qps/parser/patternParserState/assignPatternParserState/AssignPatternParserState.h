@@ -23,6 +23,7 @@ class AssignPatternParserState : public BaseParserState {
   static constexpr int WILDCARD_MATCH_COUNT = 1;
   static constexpr size_t expectedNumberOfArgs = 2;
 
+  PQLTokenType startToken;
   bool isPartialMatch;
   bool isNegated;
   int secondArgWildcardCount = 0;

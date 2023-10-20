@@ -1,8 +1,5 @@
 #include "PQLParserUtils.h"
 
-#include "qps/exceptions/QPSSemanticError.h"
-#include "qps/exceptions/QPSSyntaxError.h"
-
 unordered_map<string, PQLTokenType> PQLParserUtils::keywordToTokenType = {
     {STMT_ENTITY, PQL_ENTITY_TOKEN},
     {READ_ENTITY, PQL_ENTITY_TOKEN},
@@ -107,7 +104,7 @@ bool PQLParserUtils::isValidAttrRefFromSynonym(const std::string &synonymType,
   auto synRefPair = entityToAttrRef.find(synonymType);
 
   if (attrRefToType.find(ref) == attrRefToType.end()) {
-    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_ATTR_REF + ref);
+    return false;
   }
 
   if (synRefPair == entityToAttrRef.end()) return false;

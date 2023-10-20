@@ -1,6 +1,7 @@
 #include "AssignPatternParserState.h"
 
 PredictiveMap AssignPatternParserState::predictiveMap = {
+    {PQL_SYNONYM_TOKEN, {PQL_OPEN_BRACKET_TOKEN}},
     {PQL_ASSIGN_PATTERN_TOKEN, {PQL_OPEN_BRACKET_TOKEN}},
     {PQL_OPEN_BRACKET_TOKEN,
      {PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN}},
@@ -22,21 +23,19 @@ AssignPatternParserState::AssignPatternParserState(
     : BaseParserState(parserContext, prev),
       isPartialMatch(false),
       synAssign(std::move(synAssign)),
-      isNegated(isNegated) {}
+      isNegated(isNegated), startToken(prev) {}
 
 void AssignPatternParserState::processSynonymToken(PQLToken& curr) {
-  string synType = parserContext.getValidSynonymType(curr.getValue());
-
   if (patternArg.size() != FIRST_ARG) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
+  string synType = parserContext.getValidSynonymType(curr.getValue());
 
-  if (synType == VARIABLE_ENTITY) {
-    patternArg.push_back(
-        std::move(std::make_unique<SynonymArg>(curr.getValue(), synType)));
-  } else {
-    throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_VAR_SYN);
+  if (synType != VARIABLE_ENTITY) {
+    parserContext.setSemanticallyInvalid();
   }
+  patternArg.push_back(
+      std::move(std::make_unique<SynonymArg>(curr.getValue(), synType)));
 }
 
 void AssignPatternParserState::processLastArgument() {
@@ -57,7 +56,6 @@ void AssignPatternParserState::processLastArgument() {
 }
 
 void AssignPatternParserState::checkSafeExit() {
-  assert(synAssign);
   if (patternArg.size() != expectedNumberOfArgs) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
@@ -115,6 +113,14 @@ void AssignPatternParserState::handleToken() {
     this->prev = token.getType();
 
     curr = parserContext.eatExpectedToken(prev, predictiveMap);
+  }
+  if (startToken == PQL_SYNONYM_TOKEN) {
+    parserContext.restoreTokenStreamImage();
+    parserContext.transitionTo(std::make_unique<IfPatternParserState>(
+        parserContext, PQL_SYNONYM_TOKEN,
+        std::make_unique<SynonymArg>("", IF_ENTITY),
+        isNegated));
+    return;
   }
   throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_QUERY);
 }

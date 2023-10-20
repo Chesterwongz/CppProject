@@ -3,10 +3,10 @@
 PredictiveMap PatternParserState::predictiveMap = {
     {PQL_PATTERN_TOKEN,
      {PQL_NOT_TOKEN, PQL_ASSIGN_PATTERN_TOKEN, PQL_IF_PATTERN_TOKEN,
-      PQL_WHILE_PATTERN_TOKEN}},
+      PQL_WHILE_PATTERN_TOKEN, PQL_SYNONYM_TOKEN}},
     {PQL_NOT_TOKEN,
      {PQL_ASSIGN_PATTERN_TOKEN, PQL_IF_PATTERN_TOKEN,
-      PQL_WHILE_PATTERN_TOKEN}}};
+      PQL_WHILE_PATTERN_TOKEN, PQL_SYNONYM_TOKEN}}};
 
 PatternParserState::PatternParserState(PQLParserContext& parserContext,
                                        PQLTokenType prev)
@@ -35,7 +35,8 @@ void PatternParserState::processSynonymToken(PQLToken& curr) {
   } else if (synType == WHILE_ENTITY) {
     curr.updateTokenType(PQL_WHILE_PATTERN_TOKEN);
   } else {
-    throw QPSSemanticError(QPS_SEMANTIC_ERR_INVALID_PATTERN_SYN);
+    curr.updateTokenType(PQL_SYNONYM_TOKEN);
+    parserContext.setSemanticallyInvalid();
   }
 }
 
@@ -49,6 +50,9 @@ void PatternParserState::handleToken() {
       case PQL_NOT_TOKEN:
         isNegated = true;
         break;
+      case PQL_SYNONYM_TOKEN:
+        // semantically invalid but must ensure that it has no syntactic err
+        parserContext.snapTokenStreamImage();
       case PQL_ASSIGN_PATTERN_TOKEN:
         parserContext.transitionTo(std::make_unique<AssignPatternParserState>(
             parserContext, token.getType(),
