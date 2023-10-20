@@ -10,13 +10,13 @@ AffectsReader::getAffectsPairs() {
     std::unordered_set<std::string> done;
     std::string v = *modifiesSStore.getAllDirectSuccessorsOf(assign).begin();
 
-    FindAffectsPairs(assign, assign, v, done, result);
+    findAffectsPairs(assign, assign, v, done, result);
   }
 
   return result;
 }
 
-void AffectsReader::FindAffectsPairs(
+void AffectsReader::findAffectsPairs(
     int originalStmt, int currentStmt, const std::string& variable,
     std::unordered_set<std::string>& done,
     std::vector<std::pair<std::string, std::string>>& result) {
@@ -33,7 +33,7 @@ void AffectsReader::FindAffectsPairs(
       continue;
     }
 
-    if (stmtStore.getAllStmtsOf(StmtType::ASSIGN).count(nextStmt) > 0 &&
+    if (stmtStore.hasStmt(nextStmt, StmtType::ASSIGN) &&
         usesSStore.hasDirectRelation(nextStmt, variable)) {
       result.emplace_back(std::to_string(originalStmt),
                           std::to_string(nextStmt));
@@ -43,7 +43,7 @@ void AffectsReader::FindAffectsPairs(
       continue;
     }
 
-    FindAffectsPairs(originalStmt, nextStmt, variable, done, result);
+    findAffectsPairs(originalStmt, nextStmt, variable, done, result);
   }
 }
 

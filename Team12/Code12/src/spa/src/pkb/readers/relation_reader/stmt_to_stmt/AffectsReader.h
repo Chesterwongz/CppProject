@@ -37,7 +37,7 @@ class AffectsReader : public IAffectsReader {
   std::vector<std::string> getAffects(int firstStmtNum);
   std::vector<std::string> getAffectedBy(int secondStmtNum);
 
-  void FindAffectsPairs(
+  void findAffectsPairs(
       int originalStmt, int currentStmt, const std::string& variable,
       std::unordered_set<std::string>& done,
       std::vector<std::pair<std::string, std::string>>& result);
