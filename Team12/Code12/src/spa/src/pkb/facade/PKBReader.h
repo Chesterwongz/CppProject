@@ -6,6 +6,7 @@
 #include "pkb/readers/relation_reader/proc_to_proc/CallsReader.h"
 #include "pkb/readers/relation_reader/stmt_proc_to_var/ModifiesReader.h"
 #include "pkb/readers/relation_reader/stmt_proc_to_var/UsesReader.h"
+#include "pkb/readers/relation_reader/stmt_to_stmt/AffectsReader.h"
 #include "pkb/readers/relation_reader/stmt_to_stmt/FollowsReader.h"
 #include "pkb/readers/relation_reader/stmt_to_stmt/NextReader.h"
 #include "pkb/readers/relation_reader/stmt_to_stmt/ParentReader.h"
@@ -19,7 +20,8 @@
 #include "pkb/storage/UsesPStore.h"
 #include "pkb/storage/UsesSStore.h"
 
-class PKBReader : public DesignEntitiesReader,
+class PKBReader : public AffectsReader,
+                  public DesignEntitiesReader,
                   public FollowsReader,
                   public ModifiesReader,
                   public NextReader,
@@ -28,9 +30,12 @@ class PKBReader : public DesignEntitiesReader,
                   public UsesReader,
                   public CallsReader {
   NextStore& nextStore;
+
  public:
   explicit PKBReader(PKBStore& store)
       : nextStore(store.getNextStore()),
+        AffectsReader(store.getModifiesStore(), store.getNextStore(),
+                      store.getStmtStore(), store.getUsesStore()),
         DesignEntitiesReader(store.getCallsStmtStore(), store.getEntityStore(),
                              store.getModifiesStore(), store.getStmtStore(),
                              store.getUsesStore()),

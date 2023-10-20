@@ -2,6 +2,7 @@
 
 #include <string>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include "common/utils/CollectionUtils.h"
@@ -76,6 +77,21 @@ class DesignEntitiesReader : public IDesignEntitiesReader {
 
   // return name of variable printed at a particular statementNumber
   std::vector<std::string> getVariablePrintedBy(int statementNumber) override;
+
+  // return all pairs of call statement numbers and the procedures called at
+  // those statements
+  std::vector<std::pair<std::string, std::string>> getAllStmtProcCallsPairs()
+      override;
+
+  // return all pairs of read statement numbers and the variables read at those
+  // statements
+  std::vector<std::pair<std::string, std::string>> getAllStmtVarReadPairs()
+      override;
+
+  // return all pairs of print statement numbers and the variables printed at
+  // those statements
+  std::vector<std::pair<std::string, std::string>> getAllStmtVarPrintPairs()
+      override;
 
   template <typename SStoreType>
   std::vector<std::string> getEntityBy(int statementNumber, StmtType stmtType,
