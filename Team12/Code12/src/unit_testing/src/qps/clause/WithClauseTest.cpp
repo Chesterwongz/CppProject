@@ -16,7 +16,7 @@ TEST_CASE("test_withClause_isEqual") {
   Entity synonymEntity = WHILE_ENTITY;
   AttrRef attrRef = ATTR_REF_STMT_NUMBER;
   string attrRefValue = "100";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr1 =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -39,7 +39,7 @@ TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation") {
   Entity synonymEntity = STMT_ENTITY;
   AttrRef attrRef = ATTR_REF_STMT_NUMBER;
   string attrRefValue = "99";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -51,8 +51,7 @@ TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation") {
 
   mockPkbReader.mockIsValidStatement = true;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getTableData();
@@ -70,7 +69,7 @@ TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation_noResults") {
   Entity synonymEntity = STMT_ENTITY;
   AttrRef attrRef = ATTR_REF_STMT_NUMBER;
   string attrRefValue = "99";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -82,8 +81,7 @@ TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation_noResults") {
 
   mockPkbReader.mockIsValidStatement = false;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
 }
@@ -94,7 +92,7 @@ TEST_CASE("test_withClause_evaluate_READ_STMTNUM_permutation") {
   Entity synonymEntity = READ_ENTITY;
   AttrRef attrRef = ATTR_REF_STMT_NUMBER;
   string attrRefValue = "98";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -107,8 +105,7 @@ TEST_CASE("test_withClause_evaluate_READ_STMTNUM_permutation") {
   vector<string> mockVarReadBy = {"yes"};
   mockPkbReader.mockVariableReadBy = mockVarReadBy;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getTableData();
@@ -126,7 +123,7 @@ TEST_CASE("test_withClause_evaluate_read_STMTNUM_permutation_noResults") {
   Entity synonymEntity = READ_ENTITY;
   AttrRef attrRef = ATTR_REF_STMT_NUMBER;
   string attrRefValue = "98";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -138,8 +135,7 @@ TEST_CASE("test_withClause_evaluate_read_STMTNUM_permutation_noResults") {
 
   mockPkbReader.mockVariableReadBy = {};
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
 }
@@ -163,8 +159,7 @@ TEST_CASE("test_withClause_evaluate_READ_VARNAME_permutation") {
   vector<string> mockStatementsThatRead = {"1", "2", "3"};
   mockPkbReader.mockStatmentsThatRead = mockStatementsThatRead;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getTableData();
@@ -186,7 +181,7 @@ TEST_CASE("test_withClause_evaluate_READ_VARNAME_permutation_noResults") {
   Entity synonymEntity = READ_ENTITY;
   AttrRef attrRef = ATTR_REF_VAR_NAME;
   string attrRefValue = "readMe";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -199,8 +194,7 @@ TEST_CASE("test_withClause_evaluate_READ_VARNAME_permutation_noResults") {
   vector<string> mockStatementsThatRead = {};
   mockPkbReader.mockStatmentsThatRead = mockStatementsThatRead;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
 }
@@ -211,7 +205,7 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation") {
   Entity synonymEntity = PRINT_ENTITY;
   AttrRef attrRef = ATTR_REF_STMT_NUMBER;
   string attrRefValue = "97";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -224,9 +218,7 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation") {
   vector<string> mockVarPrintedBy = {"IWASPRINTED"};
   mockPkbReader.mockVariablePrintedBy = mockVarPrintedBy;
 
-
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getTableData();
@@ -249,7 +241,7 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation_noResults") {
   Entity synonymEntity = PRINT_ENTITY;
   AttrRef attrRef = ATTR_REF_STMT_NUMBER;
   string attrRefValue = "97";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -262,8 +254,7 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation_noResults") {
   vector<string> mockVarPrintedBy = {};
   mockPkbReader.mockVariablePrintedBy = mockVarPrintedBy;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
 }
@@ -274,7 +265,7 @@ TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation") {
   Entity synonymEntity = PRINT_ENTITY;
   AttrRef attrRef = ATTR_REF_VAR_NAME;
   string attrRefValue = "printMe";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -287,8 +278,7 @@ TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation") {
   vector<string> mockStmtsThatPrint = {"4", "5", "6"};
   mockPkbReader.mockStatementsThatPrint = mockStmtsThatPrint;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getTableData();
@@ -322,8 +312,7 @@ TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation_noResults") {
   vector<string> mockStmtsThatPrint = {};
   mockPkbReader.mockStatementsThatPrint = mockStmtsThatPrint;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
 }
@@ -347,8 +336,7 @@ TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation") {
   vector<string> mockProcNameCalledByStmtNum = {"iWasCalled"};
   mockPkbReader.mockProcNameCalledByStmtNum = mockProcNameCalledByStmtNum;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getTableData();
@@ -371,7 +359,7 @@ TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation_noResults") {
   Entity synonymEntity = CALL_ENTITY;
   AttrRef attrRef = ATTR_REF_STMT_NUMBER;
   string attrRefValue = "96";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -384,8 +372,7 @@ TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation_noResults") {
   vector<string> mockProcNameCalledByStmtNum = {};
   mockPkbReader.mockProcNameCalledByStmtNum = mockProcNameCalledByStmtNum;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
 }
@@ -396,7 +383,7 @@ TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation") {
   Entity synonymEntity = CALL_ENTITY;
   AttrRef attrRef = ATTR_REF_PROC_NAME;
   string attrRefValue = "plsCallMe";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -409,8 +396,7 @@ TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation") {
   vector<string> mockStmtsThatCall = {"7", "8", "9"};
   mockPkbReader.mockStatementsThatCall = mockStmtsThatCall;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getTableData();
@@ -433,7 +419,7 @@ TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation_noResults") {
   Entity synonymEntity = CALL_ENTITY;
   AttrRef attrRef = ATTR_REF_PROC_NAME;
   string attrRefValue = "plsCallMe";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -446,8 +432,7 @@ TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation_noResults") {
   vector<string> mockStmtsThatCall = {};
   mockPkbReader.mockStatementsThatCall = mockStmtsThatCall;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
 }
@@ -458,7 +443,7 @@ TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation") {
   Entity synonymEntity = WHILE_ENTITY;
   AttrRef attrRef = ATTR_REF_STMT_NUMBER;
   string attrRefValue = "95";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -470,8 +455,7 @@ TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation") {
 
   mockPkbReader.mockIsValidStatement = true;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   vector<string> actualColNames = actualTable.getColNames();
 
@@ -491,7 +475,7 @@ TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation_noResults") {
   Entity synonymEntity = WHILE_ENTITY;
   AttrRef attrRef = ATTR_REF_STMT_NUMBER;
   string attrRefValue = "95";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -503,8 +487,7 @@ TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation_noResults") {
 
   mockPkbReader.mockIsValidStatement = false;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
 }
@@ -515,7 +498,7 @@ TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation") {
   Entity synonymEntity = IF_ENTITY;
   AttrRef attrRef = ATTR_REF_STMT_NUMBER;
   string attrRefValue = "94";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -527,8 +510,7 @@ TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation") {
 
   mockPkbReader.mockIsValidStatement = true;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getTableData();
@@ -546,7 +528,7 @@ TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation_noResults") {
   Entity synonymEntity = IF_ENTITY;
   AttrRef attrRef = ATTR_REF_STMT_NUMBER;
   string attrRefValue = "94";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -558,8 +540,7 @@ TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation_noResults") {
 
   mockPkbReader.mockIsValidStatement = false;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
 }
@@ -570,7 +551,7 @@ TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation") {
   Entity synonymEntity = ASSIGN_ENTITY;
   AttrRef attrRef = ATTR_REF_STMT_NUMBER;
   string attrRefValue = "93";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -582,8 +563,7 @@ TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation") {
 
   mockPkbReader.mockIsValidStatement = true;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getTableData();
@@ -602,7 +582,7 @@ TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation_noResults") {
   Entity synonymEntity = ASSIGN_ENTITY;
   AttrRef attrRef = ATTR_REF_STMT_NUMBER;
   string attrRefValue = "93";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -614,8 +594,7 @@ TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation_noResults") {
 
   mockPkbReader.mockIsValidStatement = false;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
 }
@@ -626,7 +605,7 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation") {
   Entity synonymEntity = VARIABLE_ENTITY;
   AttrRef attrRef = ATTR_REF_VAR_NAME;
   string attrRefValue = "imAVariable";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -638,8 +617,7 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation") {
 
   mockPkbReader.mockIsValidVariable = true;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getTableData();
@@ -658,7 +636,7 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation_noResults") {
   Entity synonymEntity = VARIABLE_ENTITY;
   AttrRef attrRef = ATTR_REF_VAR_NAME;
   string attrRefValue = "imAVariable";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -670,8 +648,7 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation_noResults") {
 
   mockPkbReader.mockIsValidVariable = false;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
 }
@@ -682,7 +659,7 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation") {
   Entity synonymEntity = CONSTANT_ENTITY;
   AttrRef attrRef = ATTR_REF_VALUE;
   string attrRefValue = "93";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -694,8 +671,7 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation") {
 
   mockPkbReader.mockIsValidConstant = true;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getTableData();
@@ -714,7 +690,7 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation_noResults") {
   Entity synonymEntity = CONSTANT_ENTITY;
   AttrRef attrRef = ATTR_REF_VALUE;
   string attrRefValue = "93";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -726,8 +702,7 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation_noResults") {
 
   mockPkbReader.mockIsValidConstant = false;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
 }
@@ -738,7 +713,7 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation") {
   Entity synonymEntity = PROCEDURE_ENTITY;
   AttrRef attrRef = ATTR_REF_PROC_NAME;
   string attrRefValue = "theBestProc";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -750,8 +725,7 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation") {
 
   mockPkbReader.mockIsValidProcName = true;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualTableData = actualTable.getTableData();
@@ -770,7 +744,7 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation_noResults") {
   Entity synonymEntity = PROCEDURE_ENTITY;
   AttrRef attrRef = ATTR_REF_PROC_NAME;
   string attrRefValue = "theBestProc";
-  
+
   unique_ptr<SynonymArg> withSynonymPtr =
       std::make_unique<SynonymArg>(withSynonymArgVal, synonymEntity, attrRef);
 
@@ -782,8 +756,7 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation_noResults") {
 
   mockPkbReader.mockIsValidProcName = false;
 
-  IntermediateTable actualTable =
-      withClause.evaluate(mockPkbReader);
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
 }
