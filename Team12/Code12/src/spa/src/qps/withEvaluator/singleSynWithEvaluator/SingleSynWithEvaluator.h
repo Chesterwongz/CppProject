@@ -17,26 +17,38 @@
 using std::unique_ptr, std::string, std::move, std::pair, std::make_pair,
     std::function, std::make_unique;
 
+typedef function<IntermediateTable()> EntityValueFunc;
+
 class SingleSynWithEvaluator : public WithEvaluator {
  protected:
   unique_ptr<SynonymArg> synonymArg;
   unique_ptr<AbstractArgument> valueArg;
 
-  IntermediateTable evaluateStmtNum(PKBReader& pkbReader) override;
-  IntermediateTable evaluateConstantValue(PKBReader& pkbReader) override;
-  IntermediateTable evaluateProcName(PKBReader& pkbReader) override;
-  IntermediateTable evaluateVarName(PKBReader& pkbReader) override;
-  IntermediateTable evaluateCallProcName(PKBReader& pkbReader) override;
-  IntermediateTable evaluateCallStmtNum(PKBReader& pkbReader) override;
-  IntermediateTable evaluateReadVarName(PKBReader& pkbReader) override;
-  IntermediateTable evaluateReadStmtNum(PKBReader& pkbReader) override;
-  IntermediateTable evaluatePrintVarName(PKBReader& pkbReader) override;
-  IntermediateTable evaluatePrintStmtNum(PKBReader& pkbReader) override;
+  IntermediateTable getValueArgResultCall();
+  IntermediateTable getValueArgResultRead();
+  IntermediateTable getValueArgResultPrint();
+  IntermediateTable getValueArgResultStmt();
+  IntermediateTable getValueArgResultVar();
+  IntermediateTable getValueArgResultConstant();
+  IntermediateTable getValueArgResultProc();
+
+  unordered_map<Entity, EntityValueFunc> valueArgResultFuncMap = {
+      {CALL_ENTITY, [this]() { return getValueArgResultCall(); }},
+      {READ_ENTITY, [this]() { return getValueArgResultRead(); }},
+      {PRINT_ENTITY, [this]() { return getValueArgResultPrint(); }},
+      {STMT_ENTITY, [this]() { return getValueArgResultStmt(); }},
+      {ASSIGN_ENTITY, [this]() { return getValueArgResultStmt(); }},
+      {IF_ENTITY, [this]() { return getValueArgResultStmt(); }},
+      {WHILE_ENTITY, [this]() { return getValueArgResultStmt(); }},
+      {VARIABLE_ENTITY, [this]() { return getValueArgResultVar(); }},
+      {CONSTANT_ENTITY, [this]() { return getValueArgResultConstant(); }},
+      {PROCEDURE_ENTITY, [this]() { return getValueArgResultProc(); }}
+  };
 
  public:
   explicit SingleSynWithEvaluator(unique_ptr<SynonymArg> firstArg,
-                                  unique_ptr<AbstractArgument> secondArg)
-      : synonymArg(move(firstArg)), valueArg(move(secondArg)) {};
+                                  unique_ptr<AbstractArgument> secondArg, PKBReader& pkbReader)
+      : WithEvaluator(pkbReader), synonymArg(move(firstArg)), valueArg(move(secondArg)) {};
 
-  IntermediateTable evaluate(PKBReader& pkbReader) override;
+  IntermediateTable evaluate() override;
 };

@@ -9,9 +9,9 @@
 IntermediateTable WithClause::evaluate(PKBReader& pkb) {
 
   unique_ptr<WithEvaluator> withEvaluator = WithEvaluatorFactory::createWithEvaluator(
-      move(firstArg), move(secondArg));
+      move(firstArg), move(secondArg), pkb);
 
-  IntermediateTable pkbResult = withEvaluator->evaluate(pkb);
+  IntermediateTable pkbResult = withEvaluator->evaluate();
   
   return pkbResult;
 }

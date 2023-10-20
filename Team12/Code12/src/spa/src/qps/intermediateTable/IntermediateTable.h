@@ -87,6 +87,15 @@ class IntermediateTable {
   IntermediateTable join(const IntermediateTable &intermediateTable);
 
   /**
+   * @param otherTable Other table
+   * @param joinCols Vector of <colName, AttrRefEnum> pairs to join by. For a
+   * row to be joined: this.colName.attrRef == other.colName.attrRef for all
+   * <colName, AttrRefEnum> pairs in joinCols
+   */
+  IntermediateTable join(const IntermediateTable &otherTable,
+                         vector<pair<string, AttrRefEnum>> joinCols);
+
+  /**
    * @return vector of all column names
    */
   vector<string> getColNames();

@@ -5,7 +5,7 @@
 
 unique_ptr<WithEvaluator> WithEvaluatorFactory::createWithEvaluator(
     unique_ptr<AbstractArgument> firstArg,
-    unique_ptr<AbstractArgument> secondArg) {
+    unique_ptr<AbstractArgument> secondArg, PKBReader& pkbReader) {
   
   bool isFirstArgSynonym = firstArg->isSynonym();
   bool isSecondArgSynonym = secondArg->isSynonym();
@@ -13,17 +13,17 @@ unique_ptr<WithEvaluator> WithEvaluatorFactory::createWithEvaluator(
   if (isFirstArgSynonym && isSecondArgSynonym) {
     // create bothSynWithEvaluator
   } else if (!isFirstArgSynonym && !isSecondArgSynonym){
-    return make_unique<NoSynWithEvaluator>(move(firstArg), move(secondArg));
+    return make_unique<NoSynWithEvaluator>(move(firstArg), move(secondArg), pkbReader);
   } else if (isFirstArgSynonym) {
     unique_ptr<SynonymArg> synonymArg =
         unique_ptr<SynonymArg>(dynamic_cast<SynonymArg*>(firstArg.release()));
     return make_unique<SingleSynWithEvaluator>(move(synonymArg),
-                                               move(secondArg));
+                                               move(secondArg), pkbReader);
   } else {
     unique_ptr<SynonymArg> synonymArg =
         unique_ptr<SynonymArg>(dynamic_cast<SynonymArg*>(secondArg.release()));
 
     return make_unique<SingleSynWithEvaluator>(move(synonymArg),
-                                               move(firstArg));
+                                               move(firstArg), pkbReader);
   }
 }

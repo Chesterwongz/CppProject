@@ -3,245 +3,177 @@
 #include "qps/withEvaluator/singleSynWithEvaluator/SingleSynWithEvaluator.h"
 #include "qps/clause/utils/ClauseConstants.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
+#include <iostream>
 
-IntermediateTable SingleSynWithEvaluator::evaluate(PKBReader& pkbReader) {
-  Entity_AttrRef_Permutation permutation =
-      getPermutation(synonymArg->getEntityType(), synonymArg->getAttrRef());
-
-  IntermediateTable pkbResult = withEvaluatorFuncMap[permutation](pkbReader);
-
-  return pkbResult;
-}
-
-IntermediateTable SingleSynWithEvaluator::evaluateStmtNum(
-    PKBReader& pkbReader) {
-  string synonymArgValue = synonymArg->getValue();
+IntermediateTable SingleSynWithEvaluator::evaluate() {
   Entity synonymEntity = synonymArg->getEntityType();
-  string attrRefValue = valueArg->getValue();
+  string synonymValue = synonymArg->getValue();
 
-  StmtType stmtType = StmtEntityToStatementType.at(synonymEntity);
-  bool isValidStmt = pkbReader.isValidStmt(std::stoi(attrRefValue), stmtType);
+  vector<SynonymRes> synonymPKBResult = withEvaluatorFuncMap[synonymEntity]();
+  IntermediateTable synonymResult =
+      IntermediateTableFactory::buildSingleColTable(synonymValue,
+                                                    synonymPKBResult);
 
-  if (!isValidStmt) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
+  IntermediateTable valueArgResult = valueArgResultFuncMap[synonymEntity]();
 
-  vector<string> result = {attrRefValue};
-  return IntermediateTableFactory::buildSingleColTable(synonymArgValue, result);
+  IntermediateTable finalResult = synonymResult.join(valueArgResult);
+
+  return finalResult;
 }
 
-IntermediateTable SingleSynWithEvaluator::evaluateConstantValue(
-    PKBReader& pkbReader) {
-  string synonymArgValue = synonymArg->getValue();
+IntermediateTable SingleSynWithEvaluator::getValueArgResultCall() {
   string attrRefValue = valueArg->getValue();
+  AttrRef attrRef = synonymArg->getAttrRef();
+  string synonymValue = synonymArg->getValue();
 
-  bool isValidConstant = pkbReader.isValidConstant(attrRefValue);
+  vector<SynonymRes> callSynonymResObjs;
 
-  if (!isValidConstant) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  if (attrRef == ATTR_REF_STMT_NUMBER) {
+    vector<string> procCalledBy = pkbReader.getProcCalledBy(std::stoi(attrRefValue));
+    for (string procName : procCalledBy) {
+      SynonymRes callSynonymRes =
+          SynonymResFactory::buildCallsSynonym(attrRefValue, procName);
+      callSynonymResObjs.push_back(callSynonymRes);
+    }
   }
 
-  vector<string> result = {attrRefValue};
+  if (attrRef == ATTR_REF_PROC_NAME) {
+    vector<string> stmtsThatCall =
+        pkbReader.getStmtsThatCall(attrRefValue);
+    for (string stmtNum : stmtsThatCall) {
+      SynonymRes callSynonymRes =
+          SynonymResFactory::buildCallsSynonym(stmtNum, attrRefValue);
+      callSynonymResObjs.push_back(callSynonymRes);
+    }
+  }
 
-  return IntermediateTableFactory::buildSingleColTable(synonymArgValue, result);
+  IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
+      synonymValue, callSynonymResObjs);
+
+  return result;
 }
 
-IntermediateTable SingleSynWithEvaluator::evaluateProcName(
-    PKBReader& pkbReader) {
-  string synonymArgValue = synonymArg->getValue();
+IntermediateTable SingleSynWithEvaluator::getValueArgResultRead() {
   string attrRefValue = valueArg->getValue();
+  AttrRef attrRef = synonymArg->getAttrRef();
+  string synonymValue = synonymArg->getValue();
 
-  bool isValidProcName = pkbReader.isValidProc(attrRefValue);
+  vector<SynonymRes> readSynonymResObjs;
 
-  if (!isValidProcName) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  if (attrRef == ATTR_REF_STMT_NUMBER) {
+    vector<string> varReadBy =
+        pkbReader.getVariableReadBy(std::stoi(attrRefValue));
+    for (string varName : varReadBy) {
+      SynonymRes readSynonymRes =
+          SynonymResFactory::buildReadSynonym(attrRefValue, varName);
+      readSynonymResObjs.push_back(readSynonymRes);
+    }
   }
 
-  vector<string> result = {attrRefValue};
+  if (attrRef == ATTR_REF_VAR_NAME) {
+    vector<string> stmtsThatRead = pkbReader.getStmtsThatRead(attrRefValue);
+    for (string stmtNum : stmtsThatRead) {
+      SynonymRes readSynonymRes =
+          SynonymResFactory::buildReadSynonym(stmtNum, attrRefValue);
+      readSynonymResObjs.push_back(readSynonymRes);
+    }
+  }
 
-  return IntermediateTableFactory::buildSingleColTable(synonymArgValue, result);
+  IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
+      synonymValue, readSynonymResObjs);
+
+  return result;
 }
 
-IntermediateTable SingleSynWithEvaluator::evaluateVarName(
-    PKBReader& pkbReader) {
-  string synonymArgValue = synonymArg->getValue();
+IntermediateTable SingleSynWithEvaluator::getValueArgResultPrint() {
   string attrRefValue = valueArg->getValue();
+  AttrRef attrRef = synonymArg->getAttrRef();
+  string synonymValue = synonymArg->getValue();
 
-  bool isValidVariable = pkbReader.isValidVariable(attrRefValue);
+  vector<SynonymRes> printSynonymResObjs;
 
-  if (!isValidVariable) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  if (attrRef == ATTR_REF_STMT_NUMBER) {
+    vector<string> varPrintedBy =
+        pkbReader.getVariablePrintedBy(std::stoi(attrRefValue));
+    for (string varName : varPrintedBy) {
+      SynonymRes printSynonymRes =
+          SynonymResFactory::buildPrintSynonym(attrRefValue, varName);
+      printSynonymResObjs.push_back(printSynonymRes);
+    }
   }
 
-  vector<string> result = {attrRefValue};
+  if (attrRef == ATTR_REF_VAR_NAME) {
 
-  return IntermediateTableFactory::buildSingleColTable(synonymArgValue, result);
+    vector<string> stmtsThatPrint = pkbReader.getStmtsThatPrint(attrRefValue);
+    for (string stmtNum : stmtsThatPrint) {
+      SynonymRes printSynonymRes =
+          SynonymResFactory::buildPrintSynonym(stmtNum, attrRefValue);
+      printSynonymResObjs.push_back(printSynonymRes);
+    }
+  }
+
+  IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
+      synonymValue, printSynonymResObjs);
+
+  return result;
 }
 
-// for call.procname
-IntermediateTable SingleSynWithEvaluator::evaluateCallProcName(
-    PKBReader& pkbReader) {
-  string synonymArgValue = synonymArg->getValue();
+IntermediateTable SingleSynWithEvaluator::getValueArgResultStmt() {
   string attrRefValue = valueArg->getValue();
+  string synonymValue = synonymArg->getValue();
 
-  vector<string> stmtsThatCallProcName =
-      pkbReader.getStmtsThatCall(attrRefValue);
+  vector<SynonymRes> stmtSynonymResObjs;
 
-  if (stmtsThatCallProcName.size() == 0) {
-    // c.procName = attrRefVal does not exist
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
+  stmtSynonymResObjs.push_back(
+      SynonymResFactory::buildStmtSynonym(attrRefValue));
 
-  vector<SynonymRes> callsSynonymResColData;
+  IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
+      synonymValue, stmtSynonymResObjs);
 
-  // create call synonymRes objs
-  for (string stmtNum : stmtsThatCallProcName) {
-    SynonymRes callsSynonymRes =
-        SynonymResFactory::buildCallsSynonym(stmtNum, attrRefValue);
-
-    callsSynonymResColData.push_back(callsSynonymRes);
-  }
-
-  return IntermediateTableFactory::buildSingleColTable(synonymArgValue,
-                                                       callsSynonymResColData);
+  return result;
 }
 
-// for call.stmtNum
-IntermediateTable SingleSynWithEvaluator::evaluateCallStmtNum(
-    PKBReader& pkbReader) {
-  string synonymArgValue = synonymArg->getValue();
+IntermediateTable SingleSynWithEvaluator::getValueArgResultVar() {
   string attrRefValue = valueArg->getValue();
+  string synonymValue = synonymArg->getValue();
 
-  vector<string> procNameCalledByStmtNum =
-      pkbReader.getProcCalledBy(std::stoi(attrRefValue));
+  vector<SynonymRes> varSynonymResObjs;
 
-  if (procNameCalledByStmtNum.size() == 0) {
-    // c.stmtNum = attrRefVal does not exist
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
+  varSynonymResObjs.push_back(
+      SynonymResFactory::buildVarSynonym(attrRefValue));
 
-  vector<SynonymRes> callsSynonymResColData;
+  IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
+      synonymValue, varSynonymResObjs);
 
-  // create call synonymRes objs
-  for (string procName : procNameCalledByStmtNum) {
-    SynonymRes callsSynonymRes =
-        SynonymResFactory::buildCallsSynonym(attrRefValue, procName);
-
-    callsSynonymResColData.push_back(callsSynonymRes);
-  }
-
-  return IntermediateTableFactory::buildSingleColTable(synonymArgValue,
-                                                       callsSynonymResColData);
+  return result;
 }
 
-// for read.varName
-IntermediateTable SingleSynWithEvaluator::evaluateReadVarName(
-    PKBReader& pkbReader) {
-  string synonymArgValue = synonymArg->getValue();
+IntermediateTable SingleSynWithEvaluator::getValueArgResultConstant() {
   string attrRefValue = valueArg->getValue();
+  string synonymValue = synonymArg->getValue();
 
-  vector<string> stmtsThatReadVarName =
-      pkbReader.getStmtsThatRead(attrRefValue);
+  vector<SynonymRes> constSynonymResObjs;
 
-  if (stmtsThatReadVarName.size() == 0) {
-    // r.varName = attrRefVal does not exist
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
+  constSynonymResObjs.push_back(
+      SynonymResFactory::buildConstantSynonym(attrRefValue));
 
-  vector<SynonymRes> readSynonymResColData;
+  IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
+      synonymValue, constSynonymResObjs);
 
-  // create read synonymRes objs
-  for (string stmtNum : stmtsThatReadVarName) {
-    SynonymRes readSynonymRes =
-        SynonymResFactory::buildReadSynonym(stmtNum, attrRefValue);
-
-    readSynonymResColData.push_back(readSynonymRes);
-  }
-
-  return IntermediateTableFactory::buildSingleColTable(synonymArgValue,
-                                                       readSynonymResColData);
+  return result;
 }
 
-// for read.stmt#
-IntermediateTable SingleSynWithEvaluator::evaluateReadStmtNum(
-    PKBReader& pkbReader) {
-  string synonymArgValue = synonymArg->getValue();
+IntermediateTable SingleSynWithEvaluator::getValueArgResultProc() {
   string attrRefValue = valueArg->getValue();
+  string synonymValue = synonymArg->getValue();
 
-  vector<string> varReadByStmtNum =
-      pkbReader.getVariableReadBy(std::stoi(attrRefValue));
+  vector<SynonymRes> procSynonymResObjs;
 
-  if (varReadByStmtNum.empty()) {
-    // r.stmt# = attrRefVal does not exist
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
+  procSynonymResObjs.push_back(
+      SynonymResFactory::buildProcSynonym(attrRefValue));
 
-  vector<SynonymRes> readSynonymResColData;
+  IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
+      synonymValue, procSynonymResObjs);
 
-  // create read synonymRes objs
-  for (string varName : varReadByStmtNum) {
-    SynonymRes readSynonymRes =
-        SynonymResFactory::buildReadSynonym(attrRefValue, varName);
-
-    readSynonymResColData.push_back(readSynonymRes);
-  }
-
-  return IntermediateTableFactory::buildSingleColTable(synonymArgValue,
-                                                       readSynonymResColData);
-}
-
-// for print.varName
-IntermediateTable SingleSynWithEvaluator::evaluatePrintVarName(
-    PKBReader& pkbReader) {
-  string synonymArgValue = synonymArg->getValue();
-  string attrRefValue = valueArg->getValue();
-
-  vector<string> stmtsThatPrintVarName =
-      pkbReader.getStmtsThatPrint(attrRefValue);
-
-  if (stmtsThatPrintVarName.size() == 0) {
-    // print.varName = attrRefVal does not exist
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
-
-  vector<SynonymRes> printSynonymResColData;
-
-  // create read synonymRes objs
-  for (string stmtNum : stmtsThatPrintVarName) {
-    SynonymRes printSynonymRes =
-        SynonymResFactory::buildPrintSynonym(stmtNum, attrRefValue);
-
-    printSynonymResColData.push_back(printSynonymRes);
-  }
-
-  return IntermediateTableFactory::buildSingleColTable(synonymArgValue,
-                                                       printSynonymResColData);
-}
-
-// for print.stmt#
-IntermediateTable SingleSynWithEvaluator::evaluatePrintStmtNum(
-    PKBReader& pkbReader) {
-  string synonymArgValue = synonymArg->getValue();
-  string attrRefValue = valueArg->getValue();
-
-  vector<string> varPrintedByStmtNum =
-      pkbReader.getVariablePrintedBy(std::stoi(attrRefValue));
-
-  if (varPrintedByStmtNum.size() == 0) {
-    // print.stmt# = attrRefVal does not exist
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
-
-  vector<SynonymRes> printSynonymResColData;
-
-  // create read synonymRes objs
-  for (string varName : varPrintedByStmtNum) {
-    SynonymRes printSynonymRes =
-        SynonymResFactory::buildPrintSynonym(attrRefValue, varName);
-
-    printSynonymResColData.push_back(printSynonymRes);
-  }
-
-  return IntermediateTableFactory::buildSingleColTable(synonymArgValue,
-                                                       printSynonymResColData);
+  return result;
 }

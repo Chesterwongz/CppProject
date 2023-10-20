@@ -26,6 +26,9 @@ class MockDesignEntitiesReader : public BaseMockReader {
   vector<string> mockStatementsThatPrint;
   vector<string> mockProcNameCalledByStmtNum;
   vector<string> mockStatementsThatCall;
+  vector<pair<string, string>> mockStmtReadPairs;
+  vector<pair<string, string>> mockStmtVarPrintPairs;
+  vector<pair<string, string>> mockStmtProcCallsPairs;
 
   MockDesignEntitiesReader() : BaseMockReader() {}
 
@@ -63,5 +66,17 @@ class MockDesignEntitiesReader : public BaseMockReader {
 
   vector<string> getStmtsThatCall(const string& procName) override {
     return mockStatementsThatCall;
+  }
+
+  vector<pair<string, string>> getAllStmtVarReadPairs() override {
+    return mockStmtReadPairs;
+  }
+
+  vector<pair<string, string>> getAllStmtVarPrintPairs() override {
+    return mockStmtVarPrintPairs;
+  }
+
+  vector<pair<string, string>> getAllStmtProcCallsPairs() override {
+    return mockStmtProcCallsPairs;
   }
 };

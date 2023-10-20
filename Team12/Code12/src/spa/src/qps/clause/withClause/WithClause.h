@@ -15,8 +15,6 @@
 using std::unique_ptr, std::string, std::move, std::pair, std::make_pair,
     std::function;
 
-typedef function<IntermediateTable(PKBReader&)> WithEvaluatorFunc;
-
 class WithClause : public Clause {
  protected:
   unique_ptr<AbstractArgument> firstArg;

@@ -1,6 +1,6 @@
 #include "NoSynWithEvaluator.h"
 
-IntermediateTable NoSynWithEvaluator::evaluate(PKBReader& pkbReader) {
+IntermediateTable NoSynWithEvaluator::evaluate() {
   string firstArgValue = firstArg->getValue();
   string secondArgValue = secondArg->getValue();
 

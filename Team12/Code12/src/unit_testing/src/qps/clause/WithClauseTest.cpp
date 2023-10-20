@@ -53,7 +53,9 @@ TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation") {
 
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
-  mockPkbReader.mockIsValidStatement = true;
+  vector<string> mockStatements = {"1", "2", "3", "99"};
+
+  mockPkbReader.mockStatements = mockStatements;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -83,7 +85,9 @@ TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation_noResults") {
 
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
-  mockPkbReader.mockIsValidStatement = false;
+  vector<string> mockStatements = {"1", "2", "3", "100"}; // no 99
+
+  mockPkbReader.mockStatements = mockStatements;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -109,6 +113,10 @@ TEST_CASE("test_withClause_evaluate_READ_STMTNUM_permutation") {
 
   vector<string> mockVarReadBy = {"yes"};
   mockPkbReader.mockVariableReadBy = mockVarReadBy;
+  
+  vector<pair<string, string>> mockStmtVarReadPairs = {
+      {"1", "yes"}, {"2", "lol"}, {"98", "yes"}};
+  mockPkbReader.mockStmtReadPairs = mockStmtVarReadPairs;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -141,6 +149,10 @@ TEST_CASE("test_withClause_evaluate_read_STMTNUM_permutation_noResults") {
 
   mockPkbReader.mockVariableReadBy = {};
 
+  vector<pair<string, string>> mockStmtVarReadPairs = {
+      {"1", "yes"}, {"2", "lol"}, {"100", "yes"}}; // no 98
+  mockPkbReader.mockStmtReadPairs = mockStmtVarReadPairs;
+
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
@@ -165,6 +177,10 @@ TEST_CASE("test_withClause_evaluate_READ_VARNAME_permutation") {
 
   vector<string> mockStatementsThatRead = {"1", "2", "3"};
   mockPkbReader.mockStatmentsThatRead = mockStatementsThatRead;
+
+  vector<pair<string, string>> mockStmtVarReadPairs = {
+      {"1", "yes"}, {"2", "readMe"}, {"3", "yes"}};
+  mockPkbReader.mockStmtReadPairs = mockStmtVarReadPairs;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -202,6 +218,10 @@ TEST_CASE("test_withClause_evaluate_READ_VARNAME_permutation_noResults") {
   vector<string> mockStatementsThatRead = {};
   mockPkbReader.mockStatmentsThatRead = mockStatementsThatRead;
 
+  vector<pair<string, string>> mockStmtVarReadPairs = {
+      {"1", "yes"}, {"2", "notreadMe"}, {"3", "yes"}};
+  mockPkbReader.mockStmtReadPairs = mockStmtVarReadPairs;
+
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
@@ -226,6 +246,10 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation") {
 
   vector<string> mockVarPrintedBy = {"IWASPRINTED"};
   mockPkbReader.mockVariablePrintedBy = mockVarPrintedBy;
+
+  vector<pair<string, string>> stmtVarPrintPairs = {{"1", "hi"},
+                                                    {"97", "IWASPRINTED"}};
+  mockPkbReader.mockStmtVarPrintPairs = stmtVarPrintPairs;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -264,6 +288,10 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation_noResults") {
   vector<string> mockVarPrintedBy = {};
   mockPkbReader.mockVariablePrintedBy = mockVarPrintedBy;
 
+  vector<pair<string, string>> stmtVarPrintPairs = {{"1", "hi"},
+                                                    {"98", "IWASPRINTED"}};
+  mockPkbReader.mockStmtVarPrintPairs = stmtVarPrintPairs;
+
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
@@ -288,6 +316,10 @@ TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation") {
 
   vector<string> mockStmtsThatPrint = {"4", "5", "6"};
   mockPkbReader.mockStatementsThatPrint = mockStmtsThatPrint;
+
+  vector<pair<string, string>> stmtVarPrintPairs = {
+      {"4", "printMe"}, {"5", "printMe"}, {"6", "DONTPRINTME"}};
+  mockPkbReader.mockStmtVarPrintPairs = stmtVarPrintPairs;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -324,6 +356,10 @@ TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation_noResults") {
   vector<string> mockStmtsThatPrint = {};
   mockPkbReader.mockStatementsThatPrint = mockStmtsThatPrint;
 
+  vector<pair<string, string>> stmtVarPrintPairs = {
+      {"4", "printMeee"}, {"5", "printMee4"}, {"6", "DONTPRINTME"}};
+  mockPkbReader.mockStmtVarPrintPairs = stmtVarPrintPairs;
+
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
@@ -348,6 +384,10 @@ TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation") {
 
   vector<string> mockProcNameCalledByStmtNum = {"iWasCalled"};
   mockPkbReader.mockProcNameCalledByStmtNum = mockProcNameCalledByStmtNum;
+
+  vector<pair<string, string>> stmtProcCallsPairs = {
+      {"1", "sjdnf"}, {"96", "iWasCalled"}, {"100", "skjdf"}};
+  mockPkbReader.mockStmtProcCallsPairs = stmtProcCallsPairs;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -386,6 +426,10 @@ TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation_noResults") {
   vector<string> mockProcNameCalledByStmtNum = {};
   mockPkbReader.mockProcNameCalledByStmtNum = mockProcNameCalledByStmtNum;
 
+  vector<pair<string, string>> stmtProcCallsPairs = {
+      {"1", "sjdnf"}, {"99", "iWasCalled"}, {"100", "skjdf"}};
+  mockPkbReader.mockStmtProcCallsPairs = stmtProcCallsPairs;
+
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
@@ -408,8 +452,12 @@ TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation") {
   
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
-  vector<string> mockStmtsThatCall = {"7", "8", "9"};
+  vector<string> mockStmtsThatCall = {"7"};
   mockPkbReader.mockStatementsThatCall = mockStmtsThatCall;
+
+  vector<pair<string, string>> stmtProcCallsPairs = {
+      {"7", "plsCallMe"}, {"8", "iWasCalled"}, {"9", "skjdf"}};
+  mockPkbReader.mockStmtProcCallsPairs = stmtProcCallsPairs;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -448,6 +496,10 @@ TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation_noResults") {
   vector<string> mockStmtsThatCall = {};
   mockPkbReader.mockStatementsThatCall = mockStmtsThatCall;
 
+  vector<pair<string, string>> stmtProcCallsPairs = {
+      {"7", "CallMe"}, {"8", "iWasCalled"}, {"9", "skjdf"}};
+  mockPkbReader.mockStmtProcCallsPairs = stmtProcCallsPairs;
+
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
   REQUIRE(actualTable.isTableEmpty());
@@ -470,7 +522,8 @@ TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation") {
   
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
-  mockPkbReader.mockIsValidStatement = true;
+  vector<string> allStmtsOf = {"1", "2", "3", "4", "95"};
+  mockPkbReader.mockStatements = allStmtsOf;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -503,7 +556,8 @@ TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation_noResults") {
   
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
-  mockPkbReader.mockIsValidStatement = false;
+  vector<string> allStmtsOf = {"1", "2", "3", "4"};
+  mockPkbReader.mockStatements = allStmtsOf;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -527,7 +581,8 @@ TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation") {
   
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
-  mockPkbReader.mockIsValidStatement = true;
+  vector<string> allStmtsOf = {"1", "2", "3", "4", "94"};
+  mockPkbReader.mockStatements = allStmtsOf;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -558,7 +613,8 @@ TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation_noResults") {
   
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
-  mockPkbReader.mockIsValidStatement = false;
+  vector<string> allStmtsOf = {"1", "2", "3", "4"};
+  mockPkbReader.mockStatements = allStmtsOf;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -582,7 +638,8 @@ TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation") {
   
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
-  mockPkbReader.mockIsValidStatement = true;
+  vector<string> allStmtsOf = {"1", "2", "3", "4", "93"};
+  mockPkbReader.mockStatements = allStmtsOf;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -614,7 +671,8 @@ TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation_noResults") {
   
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
-  mockPkbReader.mockIsValidStatement = false;
+  vector<string> allStmtsOf = {"1", "2", "3", "4"};
+  mockPkbReader.mockStatements = allStmtsOf;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -638,7 +696,8 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation") {
   
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
-  mockPkbReader.mockIsValidVariable = true;
+  vector<string> allVariables = {"a", "b", "imAVariable", "c"};
+  mockPkbReader.mockAllVariables = allVariables;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -667,10 +726,10 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation_noResults") {
 
   WithClause withClause = WithClause(std::move(withSynonymPtr), std::move(valueArgPtr));
 
-  
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
-  mockPkbReader.mockIsValidVariable = false;
+  vector<string> allVariables = {"a", "b", "imNotAVariable", "c"};
+  mockPkbReader.mockAllVariables = allVariables;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -694,7 +753,8 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation") {
   
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
-  mockPkbReader.mockIsValidConstant = true;
+  vector<string> allConstants = {"1", "2", "3", "93"};
+  mockPkbReader.mockAllConstants = allConstants;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -726,7 +786,8 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation_noResults") {
   
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
-  mockPkbReader.mockIsValidConstant = false;
+  vector<string> allConstants = {"1", "2", "3", "92"};
+  mockPkbReader.mockAllConstants = allConstants;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -750,7 +811,8 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation") {
   
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
-  mockPkbReader.mockIsValidProcName = true;
+  vector<string> allProcs = {"sdf", "sdre", "theBestProc", "lousy"};
+  mockPkbReader.mockAllProcedures = allProcs;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -782,7 +844,8 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation_noResults") {
   
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
-  mockPkbReader.mockIsValidProcName = false;
+  vector<string> allProcs = {"sdf", "sdre", "lousy"};
+  mockPkbReader.mockAllProcedures = allProcs;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -807,7 +870,8 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation_swapArgs") {
 
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
-  mockPkbReader.mockIsValidProcName = true;
+  vector<string> allProcs = {"sdf", "sdre", "theBestProc", "lousy"};
+  mockPkbReader.mockAllProcedures = allProcs;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 

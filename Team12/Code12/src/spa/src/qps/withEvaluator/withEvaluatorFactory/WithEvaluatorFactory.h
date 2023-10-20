@@ -11,5 +11,5 @@ class WithEvaluatorFactory {
  public:
   static unique_ptr<WithEvaluator> createWithEvaluator(
       unique_ptr<AbstractArgument> firstArg,
-      unique_ptr<AbstractArgument> secondArg);
+      unique_ptr<AbstractArgument> secondArg, PKBReader& pkbReader);
 };

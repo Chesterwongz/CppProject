@@ -11,8 +11,8 @@ class NoSynWithEvaluator : public WithEvaluator {
 
   public:
   explicit NoSynWithEvaluator(unique_ptr<AbstractArgument> firstArg,
-                                  unique_ptr<AbstractArgument> secondArg)
-       : firstArg(move(firstArg)), secondArg(move(secondArg)) {};
+                                  unique_ptr<AbstractArgument> secondArg, PKBReader& pkbReader)
+       : WithEvaluator(pkbReader), firstArg(move(firstArg)), secondArg(move(secondArg)) {};
 
-  IntermediateTable evaluate(PKBReader& pkbReader) override;
+  IntermediateTable evaluate() override;
 };

@@ -1,91 +1,67 @@
 #pragma once
 
+#include <functional>
 #include <memory>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
-#include <functional>
 
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"
+#include "qps/clause/withClause/WithClauseUtils.h"
 #include "qps/intermediateTable/IntermediateTable.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
-#include "qps/clause/withClause/WithClauseUtils.h"
 
-using std::string, std::vector, std::unique_ptr, std::set, std::pair, std::move, std::function;
+using std::string, std::vector, std::unique_ptr, std::set, std::pair, std::move,
+    std::function;
 
-typedef function<IntermediateTable(PKBReader& pkbReader)> WithEvaluatorFunc;
+typedef function<vector<SynonymRes>()> WithEvaluatorFunc;
 
 class WithEvaluator {
  protected:
-  virtual IntermediateTable evaluateStmtNum(PKBReader& pkbReader);
-  virtual IntermediateTable evaluateConstantValue(PKBReader& pkbReader);
-  virtual IntermediateTable evaluateProcName(PKBReader& pkbReader);
-  virtual IntermediateTable evaluateVarName(PKBReader& pkbReader);
-  virtual IntermediateTable evaluateCallProcName(PKBReader& pkbReader);
-  virtual IntermediateTable evaluateCallStmtNum(PKBReader& pkbReader);
-  virtual IntermediateTable evaluateReadVarName(PKBReader& pkbReader);
-  virtual IntermediateTable evaluateReadStmtNum(PKBReader& pkbReader);
-  virtual IntermediateTable evaluatePrintVarName(PKBReader& pkbReader);
-  virtual IntermediateTable evaluatePrintStmtNum(PKBReader& pkbReader);
+  PKBReader& pkbReader;
 
-  unordered_map<Entity_AttrRef_Permutation, WithEvaluatorFunc>
-      withEvaluatorFuncMap {
-          {Entity_AttrRef_Permutation::STMT_STMTNUM,
-           [this](PKBReader& pkbReader) { 
-              return evaluateStmtNum(pkbReader); 
-          }},
-          {Entity_AttrRef_Permutation::READ_STMTNUM,
-           [this](PKBReader& pkbReader) {
-             return evaluateReadStmtNum(pkbReader);
-           }},
-          {Entity_AttrRef_Permutation::PRINT_STMTNUM,
-           [this](PKBReader& pkbReader) {
-             return evaluatePrintStmtNum(pkbReader);
-           }},
-          {Entity_AttrRef_Permutation::CALL_STMTNUM,
-           [this](PKBReader& pkbReader) {
-             return evaluateCallStmtNum(pkbReader);
-           }},
-          {Entity_AttrRef_Permutation::WHILE_STMTNUM,
-           [this](PKBReader& pkbReader) { 
-              return evaluateStmtNum(pkbReader); 
-          }},
-          {Entity_AttrRef_Permutation::IF_STMTNUM,
-           [this](PKBReader& pkbReader) { 
-              return evaluateStmtNum(pkbReader); 
-          }},
-          {Entity_AttrRef_Permutation::ASSIGN_STMTNUM,
-           [this](PKBReader& pkbReader) { 
-              return evaluateStmtNum(pkbReader); 
-          }},
-          {Entity_AttrRef_Permutation::READ_VARNAME,
-           [this](PKBReader& pkbReader) {
-             return evaluateReadVarName(pkbReader);
-           }},
-          {Entity_AttrRef_Permutation::VAR_VARNAME,
-           [this](PKBReader& pkbReader) { 
-              return evaluateVarName(pkbReader); 
-          }},
-          {Entity_AttrRef_Permutation::PRINT_VARNAME,
-           [this](PKBReader& pkbReader) {
-             return evaluatePrintVarName(pkbReader);
-           }},
-          {Entity_AttrRef_Permutation::PROCEDURE_PROCNAME,
-           [this](PKBReader& pkbReader) {
-             return evaluateProcName(pkbReader);
-           }},
-          {Entity_AttrRef_Permutation::CALL_PROCNAME,
-           [this](PKBReader& pkbReader) {
-             return evaluateCallProcName(pkbReader);
-           }},
-          {Entity_AttrRef_Permutation::CONSTANT_VALUE,
-           [this](PKBReader& pkbReader) {
-             return evaluateConstantValue(pkbReader);
-           }}};
+  virtual vector<SynonymRes> evaluateStmtEntity();
+  virtual vector<SynonymRes> evaluateAssignEntity();
+  virtual vector<SynonymRes> evaluateIfEntity();
+  virtual vector<SynonymRes> evaluateWhileEntity();
+  virtual vector<SynonymRes> evaluateConstantEntity();
+  virtual vector<SynonymRes> evaluateProcEntity();
+  virtual vector<SynonymRes> evaluateVarEntity();
+  virtual vector<SynonymRes> evaluateCallEntity();
+  virtual vector<SynonymRes> evaluateReadEntity();
+  virtual vector<SynonymRes> evaluatePrintEntity();
+
+  vector<SynonymRes> buildStmtSynonymResVector(vector<string> stmtNums);
+  vector<SynonymRes> buildConstantSynonymResVector(vector<string> constantVals);
+  vector<SynonymRes> buildProcSynonymResVector(vector<string> procNames);
+  vector<SynonymRes> buildVarSynonymResVector(vector<string> procNames);
+  vector<SynonymRes> buildCallSynonymResVector(
+      vector<pair<string, string>> callProcNamePairs);
+  vector<SynonymRes> buildReadSynonymResVector(
+      vector<pair<string, string>> readVarNamePairs);
+  vector<SynonymRes> buildPrintSynonymResVector(
+      vector<pair<string, string>> printVarNamePairs);
+
+  unordered_map<Entity, WithEvaluatorFunc> withEvaluatorFuncMap = {
+      {ASSIGN_ENTITY, [this]() { return evaluateAssignEntity(); }},
+      {IF_ENTITY, [this]() { return evaluateIfEntity(); }},
+      {WHILE_ENTITY, [this]() { return evaluateWhileEntity(); }},
+      {STMT_ENTITY, [this]() { return evaluateStmtEntity(); }},
+      {READ_ENTITY, [this]() { return evaluateReadEntity(); }},
+      {PRINT_ENTITY, [this]() { return evaluatePrintEntity(); }},
+      {CALL_ENTITY, [this]() { return evaluateCallEntity(); }},
+      {VARIABLE_ENTITY, [this]() { return evaluateVarEntity(); }},
+      {PROCEDURE_ENTITY, [this]() { return evaluateProcEntity(); }},
+      {CONSTANT_ENTITY, [this]() { return evaluateConstantEntity(); }}
+
+  };
  public:
-  virtual IntermediateTable evaluate(PKBReader& pkbReader) = 0;
+  explicit WithEvaluator(PKBReader& pkbReader)
+      : pkbReader(pkbReader) {}
+
+  virtual IntermediateTable evaluate() = 0;
 
   virtual ~WithEvaluator() = default;
 };
