@@ -19,6 +19,7 @@ class RelationshipParserState : public BaseParserState {
   static constexpr size_t expectedNumberOfArgs = 2;
 
   bool isInBracket;
+  bool isNegated;
   ArgumentList arguments;
   string abstraction;
   virtual unique_ptr<SuchThatClause> createSuchThatClause(
@@ -28,7 +29,7 @@ class RelationshipParserState : public BaseParserState {
       unordered_map<string, Abstraction> abstractionKeywordMap);
   explicit RelationshipParserState(PQLParserContext &parserContext,
                                    bool isInBracket, string abstraction,
-                                   PQLTokenType prev);
+                                   PQLTokenType prev, bool isNegated);
   void processNameToken(PQLToken &curr) override;
 
  public:

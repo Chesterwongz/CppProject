@@ -53,6 +53,8 @@ TEST_CASE("PKBReader Tests") {
   writer.addAssignPattern("z", " a b * c * d + ", 3);
   writer.addAssignPattern("x", " a 2 + ", 4);
 
+  writer.addCalls("proc1", "proc2", 2);
+
   SECTION("getAllVarUsedByStmt") {
     REQUIRE(compareVectorContents(reader.getAllVariables(), {"x", "y", "z"}));
   }
@@ -441,5 +443,118 @@ TEST_CASE("PKBReader Tests") {
                                                {"9", "a"},
                                                {"10", "b"},
                                                {"11", "d"}}));
+  }
+}
+
+TEST_CASE("PKBReader Tests - Entity Reader APIs") {
+  PKBStore store;
+  PKBWriter writer(store);
+  PKBReader reader(store);
+
+  writer.addVar("x");
+  writer.addVar("y");
+  writer.addVar("z");
+
+  writer.addConst("1");
+  writer.addConst("2");
+
+  writer.addProc("proc1");
+  writer.addProc("proc2");
+
+  writer.addStmt(1, StmtType::ASSIGN);
+  writer.addStmt(2, StmtType::WHILE);
+  writer.addStmt(3, StmtType::ASSIGN);
+  writer.addStmt(4, StmtType::IF);
+  writer.addStmt(5, StmtType::WHILE);
+  writer.addStmt(6, StmtType::READ);
+  writer.addStmt(7, StmtType::PRINT);
+  writer.addStmt(12, StmtType::CALL);
+
+  writer.addFollows(1, 2);
+  writer.addFollows(3, 4);
+  writer.addFollows(4, 5);
+
+  writer.addParent(1, 2);
+  writer.addParent(1, 3);
+  writer.addParent(3, 4);
+  writer.addParent(3, 5);
+  writer.setParentStarRelationship(1, 2);
+  writer.setParentStarRelationship(1, 3);
+  writer.setParentStarRelationship(1, 4);
+  writer.setParentStarRelationship(1, 5);
+  writer.setParentStarRelationship(3, 4);
+  writer.setParentStarRelationship(3, 5);
+
+  writer.addModifies("x", 1);
+  writer.addModifies("y", 2);
+  writer.addModifies("x", 3);
+  writer.addModifies("z", 4);
+  writer.addModifies("y", 5);
+  writer.addModifies("x", 6);
+
+  writer.addUses("x", 1);
+  writer.addUses("y", 1);
+  writer.addUses("x", 2);
+  writer.addUses("z", 3);
+  writer.addUses("x", 4);
+  writer.addUses("x", 7);
+
+  writer.addAssignPattern("x", " a b c * + ", 1);
+  writer.addAssignPattern("y", " d e + f + ", 2);
+  writer.addAssignPattern("z", " a b * c * d + ", 3);
+  writer.addAssignPattern("x", " a 2 + ", 4);
+
+  writer.addCalls("proc1", "proc2", 12);
+
+  SECTION("isValidStmt") {
+    REQUIRE(reader.isValidStmt(1, StmtType::ASSIGN));
+    REQUIRE_FALSE(reader.isValidStmt(1, StmtType::CALL));
+  }
+
+  SECTION("isValidConstant") {
+    REQUIRE(reader.isValidConstant("1"));
+    REQUIRE_FALSE(reader.isValidConstant("3"));
+  }
+
+  SECTION("isValidProc") {
+    REQUIRE(reader.isValidProc("proc1"));
+    REQUIRE(reader.isValidProc("proc2"));
+    REQUIRE_FALSE(reader.isValidProc("noProc"));
+  }
+
+  SECTION("isValidVariable") {
+    REQUIRE(reader.isValidVariable("x"));
+    REQUIRE_FALSE(reader.isValidVariable("a"));
+  }
+
+  SECTION("getStmtsThatCall") {
+    REQUIRE(reader.getStmtsThatCall("proc2") ==
+            std::vector<std::string> {"12"});
+    REQUIRE(reader.getStmtsThatCall("proc1") == std::vector<std::string> {});
+  }
+
+  SECTION("getProcCalledByStmt") {
+    REQUIRE(reader.getProcCalledBy(12) == std::vector<std::string> {"proc2"});
+    REQUIRE(reader.getProcCalledBy(4) == std::vector<std::string> {});
+  }
+
+  SECTION("getStmtsThatRead") {
+    REQUIRE(reader.getStmtsThatRead("x") == std::vector<std::string> {"6"});
+    REQUIRE(reader.getStmtsThatRead("wrong") == std::vector<std::string> {});
+  }
+
+  SECTION("getVariableReadBy") {
+    REQUIRE(reader.getVariableReadBy(6) == std::vector<std::string> {"x"});
+    REQUIRE(reader.getVariableReadBy(8) == std::vector<std::string> {});
+  }
+
+  SECTION("getStmtsThatPrint") {
+    REQUIRE(reader.getStmtsThatPrint("x") == std::vector<std::string> {"7"});
+    REQUIRE(reader.getStmtsThatPrint("wrong") == std::vector<std::string> {});
+  }
+
+  SECTION("getVariablePrintedBy") {
+    REQUIRE(reader.getVariablePrintedBy(7) == std::vector<std::string> {"x"});
+    REQUIRE(reader.getVariablePrintedBy(8) == std::vector<std::string> {});
   }
 }

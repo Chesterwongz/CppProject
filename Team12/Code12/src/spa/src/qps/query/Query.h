@@ -14,24 +14,22 @@
 #include "qps/clause/Clause.h"
 #include "qps/clause/selectClause/SelectClause.h"
 
-using std::set, std::vector, std::unique_ptr, std::string;
+using std::set, std::vector, std::unique_ptr, std::string, std::unordered_set;
 
 typedef vector<unique_ptr<Clause>> ClauseList;
 
 class Query {
  private:
   PKBReader& pkb;
-  unique_ptr<Context> context;
   vector<string> synonymsToQuery = {};
   unique_ptr<SelectClause> selectClause = {};
   ClauseList clauses = {};
 
  public:
   explicit Query(PKBReader& pkb);
-  void addContext(unique_ptr<Context> contextToAdd);
   void addClause(unique_ptr<Clause> clause);
   void setSynonymToQuery(SynonymsToSelect selectSynonyms);
 
-  set<string> evaluate();
+  unordered_set<string> evaluate();
   bool operator==(const Query& other);
 };

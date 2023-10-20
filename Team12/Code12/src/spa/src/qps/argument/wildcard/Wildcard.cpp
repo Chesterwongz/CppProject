@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-string Wildcard::getValue() { return wildcardValue; }
+const string& Wildcard::getValue() { return wildcardValue; }
 
 QPSStringUtils::ArgumentType Wildcard::getArgumentType() {
   return argumentType;

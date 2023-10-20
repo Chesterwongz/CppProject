@@ -7,11 +7,16 @@
 PredictiveMap SuchThatParserState::predictiveMap = {
     {PQL_SUCH_TOKEN, {PQL_THAT_TOKEN}},
     {PQL_THAT_TOKEN,
+     {PQL_NOT_TOKEN, PQL_STMT_STMT_TOKEN, PQL_STMT_VAR_TOKEN,
+      PQL_PROC_PROC_TOKEN}},
+    {PQL_NOT_TOKEN,
      {PQL_STMT_STMT_TOKEN, PQL_STMT_VAR_TOKEN, PQL_PROC_PROC_TOKEN}}};
 
 SuchThatParserState::SuchThatParserState(PQLParserContext &parserContext,
                                          PQLTokenType prev)
-    : BaseParserState(parserContext, prev) {}
+    : BaseParserState(parserContext, prev) {
+  prevClauseType = ClauseType::SUCH_THAT_CLAUSE;
+}
 
 void SuchThatParserState::processNameToken(PQLToken &curr) {
   auto tokenType = PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
@@ -25,17 +30,23 @@ void SuchThatParserState::handleToken() {
     PQLToken token = curr.value();
 
     switch (token.getType()) {
+      case PQL_NOT_TOKEN:
+        isNegated = true;
+        break;
       case PQL_STMT_STMT_TOKEN:
         parserContext.transitionTo(std::make_unique<StmtStmtParserState>(
-            parserContext, std::move(token.getValue()), token.getType()));
+            parserContext, std::move(token.getValue()), token.getType(),
+            isNegated));
         return;
       case PQL_STMT_VAR_TOKEN:
         parserContext.transitionTo(std::make_unique<StmtVarParserState>(
-            parserContext, std::move(token.getValue()), token.getType()));
+            parserContext, std::move(token.getValue()), token.getType(),
+            isNegated));
         return;
       case PQL_PROC_PROC_TOKEN:
         parserContext.transitionTo(std::make_unique<ProcProcParserState>(
-            parserContext, std::move(token.getValue()), token.getType()));
+            parserContext, std::move(token.getValue()), token.getType(),
+            isNegated));
         return;
       default:
         break;

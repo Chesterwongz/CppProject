@@ -15,7 +15,7 @@ class Integer : public AbstractArgument {
  public:
   explicit Integer(string argumentValue)
       : integerValue(std::move(argumentValue)) {}
-  string getValue() override;
+  const string& getValue() override;
   QPSStringUtils::ArgumentType getArgumentType() override;
   bool isInteger() override;
   bool operator==(const AbstractArgument& other) const override;

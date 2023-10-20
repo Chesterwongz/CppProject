@@ -2,7 +2,9 @@
 
 #include <stdexcept>
 
+#include "IntermediateTableFactory.h"
 #include "common/utils/CollectionUtils.h"
+#include "qps/exceptions/QPSIntermediateTableException.h"
 
 vector<string> getSharedColNames(IntermediateTable table1,
                                  IntermediateTable table2) {
@@ -34,30 +36,31 @@ pair<vector<int>, vector<int>> getSharedColIndexes(IntermediateTable table1,
 IntermediateTable getCrossProduct(IntermediateTable table1,
                                   IntermediateTable table2) {
   if (!getSharedColNames(table1, table2).empty()) {
-    throw std::runtime_error(
-        "Cross product not supported for tables with common columns");
+    throw QPSIntermediateTableException(
+        QPS_UNSUPPORTED_CROSS_PRODUCT_EXCEPTION);
   }
-  vector<string> resColumns = CollectionUtils::concatVectors<string>(
-      table1.getColNames(), table2.getColNames());
-  vector<vector<string>> resData = {};
-  for (auto &row1 : table1.getData()) {
-    for (auto &row2 : table2.getData()) {
-      resData.push_back(CollectionUtils::concatVectors<string>(row1, row2));
+  vector<string> resColumns =
+      concatColNames(table1.getColNames(), table2.getColNames());
+  TableDataType resData = {};
+  for (const TableRowType &row1 : table1.getTableData()) {
+    for (const TableRowType &row2 : table2.getTableData()) {
+      resData.push_back(concatRow(row1, row2));
     }
   }
-  return IntermediateTable(resColumns, resData);
+  return IntermediateTableFactory::buildIntermediateTable(resColumns,
+                                                          std::move(resData));
 }
 
 IntermediateTable getInnerJoin(
     const pair<vector<int>, vector<int>> &sharedColumnIndexes,
     IntermediateTable table1, IntermediateTable table2) {
-  vector<string> resColNames = CollectionUtils::concatVectors(
-      table1.getColNames(), table2.getColNames());
-  vector<vector<string>> resData = {};
+  vector<string> resColNames =
+      concatColNames(table1.getColNames(), table2.getColNames());
+  TableDataType resData = {};
   vector<int> table1SharedColIndexes = sharedColumnIndexes.first;
   vector<int> table2SharedColIndexes = sharedColumnIndexes.second;
-  for (auto &table1Row : table1.getData()) {
-    for (auto &table2Row : table2.getData()) {
+  for (auto &table1Row : table1.getTableData()) {
+    for (auto &table2Row : table2.getTableData()) {
       bool isJoin = true;
       for (int i = 0; i < table1SharedColIndexes.size(); i++) {
         // check that for this particular row,
@@ -72,7 +75,7 @@ IntermediateTable getInnerJoin(
       }
       if (isJoin) {
         vector<string> resRow;
-        resData.push_back(CollectionUtils::concatVectors(table1Row, table2Row));
+        resData.emplace_back(std::move(concatRow(table1Row, table2Row)));
       }
     }
   }
@@ -88,5 +91,29 @@ IntermediateTable getInnerJoin(
       row.erase(row.begin() + index);
     }
   }
-  return IntermediateTable(resColNames, resData);
+  return IntermediateTableFactory::buildIntermediateTable(resColNames,
+                                                          std::move(resData));
+}
+
+vector<string> concatColNames(const vector<string> &vector1,
+                              const vector<string> &vector2) {
+  vector<string> newVector;
+  newVector.reserve(vector1.size() + vector2.size());
+  std::move(vector1.begin(), vector1.end(), std::back_inserter(newVector));
+  std::move(vector2.begin(), vector2.end(), std::back_inserter(newVector));
+  return newVector;
+}
+
+TableRowType concatRow(const TableRowType &row1, const TableRowType &row2) {
+  TableRowType rowCopy = {};
+  rowCopy.reserve(row1.size() + row2.size());
+  // cannot move since the same row may have to be copied
+  // multiple times for cross join
+  for (const SynonymRes &val : row1) {
+    rowCopy.emplace_back(val.clone());
+  }
+  for (const SynonymRes &val : row2) {
+    rowCopy.emplace_back(val.clone());
+  }
+  return rowCopy;
 }

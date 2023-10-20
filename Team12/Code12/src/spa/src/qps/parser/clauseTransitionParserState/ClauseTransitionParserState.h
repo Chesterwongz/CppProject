@@ -6,16 +6,18 @@
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/patternParserState/PatternParserState.h"
 #include "qps/parser/suchThatParserState/SuchThatParserState.h"
+#include "qps/parser/withParserState/WithParserState.h"
 
 class ClauseTransitionParserState : public IParserState {
  private:
   static PredictiveMap predictiveMap;
-  void processNameToken(PQLToken& curr) override;
   PQLParserContext& parserContext;
+  void processNameToken(PQLToken& curr) override;
+  void createAndClause();
 
  public:
-  void handleToken() override;
   static void setClauseTransitionState(PQLParserContext& pc);
+  void handleToken() override;
   explicit ClauseTransitionParserState(PQLParserContext& parserContext);
   ~ClauseTransitionParserState() override = default;
 };

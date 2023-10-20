@@ -4,8 +4,7 @@
 
 #include "qps/patternEvaluator/whileEvaluator/WhileEvaluator.h"
 
-IntermediateTable WhilePatternClause::evaluate(Context& context,
-                                               PKBReader& pkbReader) {
+IntermediateTable WhilePatternClause::evaluate(PKBReader& pkbReader) {
   string synonymValue = synonym->getValue();
 
   unique_ptr<PatternEvaluator> evaluatorPtr;

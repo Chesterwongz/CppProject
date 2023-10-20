@@ -43,6 +43,6 @@ using std::string, std::unordered_map, std::map, std::unordered_set, std::set,
 //     sp.processContent(usesAssignSource, pkb.getWriter());
 //     QPS qps(pkb.getReader());
 //     auto result = qps.processQueryString(query);
-//     set<string> expected = {"1", "7", "11", "12"};
+//     unordered_set<string> expected = {"1", "7", "11", "12"};
 //     REQUIRE(result == expected);
 // }

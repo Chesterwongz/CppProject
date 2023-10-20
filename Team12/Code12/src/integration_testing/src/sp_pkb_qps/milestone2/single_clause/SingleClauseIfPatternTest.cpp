@@ -15,37 +15,36 @@ using std::string, std::unordered_map, std::map, std::unordered_set, std::set,
 
 string ifSource =
     "procedure p {"
-      "if (1 == 2) then {"        // 1
-        "while (hoho == 4) {"     // 2
-          "x = 1;"                // 3
-        "}"
-      "}"
-      "else {"
-        "if (hoho == 1) then {"   // 4
-          "while (hehe == x) {"   // 5
-            "z = 2;"              // 6
-          "}"
-        "}"
-        "else {"
-          "y = 3;"                // 7
-        "}"
-      "}"
-      "if (oi == 11) then {"      // 8
-        "oi = oi + 1;"            // 9
-      "}"
-      "else {"
-        "while (oi == 2) {"       // 10
-          "oi = oi - 1;"          // 11
-          "if (11 == oi) then {"  // 12
-            "oi = hi;"            // 13
-          "}"
-          "else {"
-            "oi = bye;"           // 14
-          "}"
-        "}"
-      "}"
+    "if (1 == 2) then {"   // 1
+    "while (hoho == 4) {"  // 2
+    "x = 1;"               // 3
+    "}"
+    "}"
+    "else {"
+    "if (hoho == 1) then {"  // 4
+    "while (hehe == x) {"    // 5
+    "z = 2;"                 // 6
+    "}"
+    "}"
+    "else {"
+    "y = 3;"  // 7
+    "}"
+    "}"
+    "if (oi == 11) then {"  // 8
+    "oi = oi + 1;"          // 9
+    "}"
+    "else {"
+    "while (oi == 2) {"     // 10
+    "oi = oi - 1;"          // 11
+    "if (11 == oi) then {"  // 12
+    "oi = hi;"              // 13
+    "}"
+    "else {"
+    "oi = bye;"  // 14
+    "}"
+    "}"
+    "}"
     "}";
-
 
 TEST_CASE(
     "SP-PKB-QPS tests/Milestone2/SingleClauseTests/ifPattern_queries.txt - "
@@ -59,7 +58,7 @@ TEST_CASE(
   sp.processContent(ifSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"4", "8", "12"};
+  unordered_set<string> expected = {"4", "8", "12"};
   REQUIRE(result == expected);
 }
 
@@ -75,7 +74,7 @@ TEST_CASE(
   sp.processContent(ifSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "4", "8", "12"};
+  unordered_set<string> expected = {"1", "4", "8", "12"};
   REQUIRE(result == expected);
 }
 
@@ -91,7 +90,7 @@ TEST_CASE(
   sp.processContent(ifSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"4", "8", "12"};
+  unordered_set<string> expected = {"4", "8", "12"};
   REQUIRE(result == expected);
 }
 
@@ -107,7 +106,7 @@ TEST_CASE(
   sp.processContent(ifSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "4", "8", "12"};
+  unordered_set<string> expected = {"1", "4", "8", "12"};
   REQUIRE(result == expected);
 }
 
@@ -123,7 +122,7 @@ TEST_CASE(
   sp.processContent(ifSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"8", "12"};
+  unordered_set<string> expected = {"8", "12"};
   REQUIRE(result == expected);
 }
 
@@ -140,7 +139,7 @@ TEST_CASE(
   sp.processContent(ifSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {"1", "4", "8", "12"};
+  unordered_set<string> expected = {"1", "4", "8", "12"};
   REQUIRE(result == expected);
 }
 
@@ -157,6 +156,6 @@ TEST_CASE(
   sp.processContent(ifSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
-  set<string> expected = {};
+  unordered_set<string> expected = {};
   REQUIRE(result == expected);
 }

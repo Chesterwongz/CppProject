@@ -10,8 +10,8 @@
 #include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/patternClause/AssignPatternClause.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
+#include "qps/parser/tokenizer/token/PQLToken.h"
 #include "qps/query/Query.h"
-#include "qps/token/PQLToken.h"
 
 using std::unique_ptr, std::make_unique, std::move, std::vector;
 
@@ -75,11 +75,9 @@ TEST_CASE("valid simple transitive follows") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = make_unique<Context>();
-  expectedContext->addSynonym("a", ASSIGN_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>("a");
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
@@ -116,17 +114,16 @@ TEST_CASE("valid simple uses") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = make_unique<Context>();
-  expectedContext->addSynonym("v", VARIABLE_ENTITY);
-  expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>("v");
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>("v", VARIABLE_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
   unique_ptr<Integer> firstArg = std::make_unique<Integer>("14");
-  unique_ptr<SynonymArg> secondArg = std::make_unique<SynonymArg>("v");
+  unique_ptr<SynonymArg> secondArg =
+      std::make_unique<SynonymArg>("v", VARIABLE_ENTITY);
   unique_ptr<SuchThatClause> suchThatClause = make_unique<SuchThatClause>(
       USES_ENUM, std::move(firstArg), std::move(secondArg));
   expected.addClause(std::move(suchThatClause));
@@ -162,22 +159,22 @@ TEST_CASE("valid such that before pattern") {
 
   // expected query object
   Query expected(dummyQpsParserPkbReader);
-  unique_ptr<Context> expectedContext = make_unique<Context>();
-  expectedContext->addSynonym("a", "assign");
-  expected.addContext(std::move(expectedContext));
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>("a");
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
-  unique_ptr<SynonymArg> firstSuchThatArg = std::make_unique<SynonymArg>("a");
+  unique_ptr<SynonymArg> firstSuchThatArg =
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   unique_ptr<Ident> secondSuchThatArg = std::make_unique<Ident>("x");
   unique_ptr<SuchThatClause> suchThatClause = make_unique<SuchThatClause>(
       USES_ENUM, std::move(firstSuchThatArg), std::move(secondSuchThatArg));
   expected.addClause(std::move(suchThatClause));
 
-  unique_ptr<SynonymArg> outerSynonym = std::make_unique<SynonymArg>("a");
+  unique_ptr<SynonymArg> outerSynonym =
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   unique_ptr<Ident> firstPatternArg = std::make_unique<Ident>("x");
   unique_ptr<Wildcard> secondPatternArg = std::make_unique<Wildcard>();
   vector<unique_ptr<AbstractArgument>> patternArg;
@@ -277,12 +274,14 @@ TEST_CASE("valid pattern before such that") {
   // expected query object
   Query expected(dummyQpsParserPkbReader);
 
-  unique_ptr<SynonymArg> synonymArg = std::make_unique<SynonymArg>("a");
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   SynonymsToSelect synonymsToSelect = {};
   synonymsToSelect.emplace_back(std::move(synonymArg));
   expected.setSynonymToQuery(std::move(synonymsToSelect));
 
-  unique_ptr<SynonymArg> outerSynonym = std::make_unique<SynonymArg>("a");
+  unique_ptr<SynonymArg> outerSynonym =
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   unique_ptr<Ident> firstPatternArg = std::make_unique<Ident>("x");
   unique_ptr<Wildcard> secondPatternArg = std::make_unique<Wildcard>();
   vector<unique_ptr<AbstractArgument>> patternArg;
@@ -294,10 +293,8 @@ TEST_CASE("valid pattern before such that") {
                                        std::move(patternArg[1]), false);
   expected.addClause(std::move(patternClause));
 
-  unique_ptr<Context> expectedContext = make_unique<Context>();
-  expectedContext->addSynonym("a", "assign");
-  expected.addContext(std::move(expectedContext));
-  unique_ptr<SynonymArg> firstSuchThatArg = std::make_unique<SynonymArg>("a");
+  unique_ptr<SynonymArg> firstSuchThatArg =
+      std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
   unique_ptr<Ident> secondSuchThatArg = std::make_unique<Ident>("x");
   unique_ptr<SuchThatClause> suchThatClause = make_unique<SuchThatClause>(
       USES_ENUM, std::move(firstSuchThatArg), std::move(secondSuchThatArg));

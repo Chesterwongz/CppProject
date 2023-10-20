@@ -4,7 +4,7 @@
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-string Integer::getValue() { return integerValue; }
+const string& Integer::getValue() { return integerValue; }
 
 QPSStringUtils::ArgumentType Integer::getArgumentType() { return argumentType; }
 

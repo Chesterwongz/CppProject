@@ -13,6 +13,7 @@ class PatternParserState : public BaseParserState {
   static PredictiveMap predictiveMap;
   void processNameToken(PQLToken& curr) override;
   void processSynonymToken(PQLToken& curr);
+  bool isNegated = false;
 
  public:
   explicit PatternParserState(PQLParserContext& parserContext,

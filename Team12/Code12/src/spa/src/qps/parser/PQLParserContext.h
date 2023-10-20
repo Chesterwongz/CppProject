@@ -7,9 +7,10 @@
 #include "IParserState.h"
 #include "qps/clause/Clause.h"
 #include "qps/common/PQLParserUtils.h"
-#include "qps/context/Context.h"
+#include "qps/parser/synonymContext/SynonymContext.h"
+#include "qps/parser/tokenizer/PQLTokenizer.h"
+#include "qps/parser/tokenizer/token/PQLToken.h"
 #include "qps/query/Query.h"
-#include "qps/tokenizer/PQLTokenizer.h"
 
 class PQLParserContext {
  private:
@@ -17,7 +18,7 @@ class PQLParserContext {
   //  PQLParserContext should not be a decorator, should
   //  directly return Query object
   unique_ptr<Query>& query;
-  unique_ptr<Context> context;
+  unique_ptr<SynonymContext> context;
   unique_ptr<PQLTokenStream> tokenStream;
   unique_ptr<IParserState> currState;
 
@@ -31,9 +32,10 @@ class PQLParserContext {
 
   //  Build clause - handling of Synonym Context
   void addToContext(string entity, const string& synonym);
-  void addSelectClause(const string& synonym);
+  void addSelectClause(unique_ptr<SynonymArg> synonym);
   void addSelectClause(SynonymsToSelect synonyms);
   string getValidSynonymType(const string& synonym);
+  bool checkSynonymExists(const string& synonym);
 
   //  Build clause - handling of query object
   void addClause(unique_ptr<Clause> clause);
@@ -42,6 +44,7 @@ class PQLParserContext {
   std::optional<PQLToken> eatExpectedToken(PQLTokenType prev,
                                            PredictiveMap& pm);
   std::optional<PQLToken> eatCurrToken();
+  std::optional<PQLToken> peekNextToken();
 
   // handling of parser state
   void transitionTo(unique_ptr<IParserState> nextState);

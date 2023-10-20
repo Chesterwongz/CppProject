@@ -29,3 +29,18 @@ const std::unordered_set<std::string>& EntityStore::getAllConsts() const {
 const std::unordered_set<std::string>& EntityStore::getAllProcs() const {
   return procData;
 }
+
+// Return true if the particular constant exists
+bool EntityStore::hasConst(const std::string& constVal) const {
+  return constData.count(constVal);
+}
+
+// Return true if the particular procedure exists
+bool EntityStore::hasProc(const std::string& procName) const {
+  return procData.count(procName);
+}
+
+// Return true if the particular variable exists
+bool EntityStore::hasVariable(const std::string& variableName) const {
+  return varData.count(variableName);
+}

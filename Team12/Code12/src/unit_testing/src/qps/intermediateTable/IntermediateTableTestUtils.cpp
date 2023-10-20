@@ -24,3 +24,29 @@ bool isVectorsSameAsPairs(vector<vector<string>> vectors,
   std::cout << "vectors matches pairs" << std::endl;
   return true;
 }
+
+vector<vector<SynonymRes>> convertToSynonymResCol(
+    const vector<string>& stringData) {
+  vector<vector<SynonymRes>> res{};
+  res.reserve(stringData.size());
+  for (const auto& stringDatum : stringData) {
+    vector<SynonymRes> datum = {
+        SynonymResFactory::buildDefaultSynonym(stringDatum)};
+    res.emplace_back(datum);
+  }
+  return res;
+}
+
+vector<vector<SynonymRes>> convertToSynonymResCol(
+    const vector<vector<string>>& stringData) {
+  vector<vector<SynonymRes>> res{};
+  res.reserve(stringData.size());
+  for (const auto& datumRow : stringData) {
+    vector<SynonymRes> row{};
+    for (const auto& datum : datumRow) {
+      row.emplace_back(SynonymResFactory::buildDefaultSynonym(datum));
+    }
+    res.emplace_back(row);
+  }
+  return res;
+}
