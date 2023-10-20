@@ -66,7 +66,7 @@ bool AffectsReader::isAffects(int firstStmtNum, int secondStmtNum) {
 
 std::vector<std::string> AffectsReader::getAffects(int firstStmtNum,
                                                    StmtType stmtType) {
-  assert(stmtType == StmtType::ASSIGN);
+  assert(stmtType == StmtType::ASSIGN || stmtType == StmtType::STMT);
   std::vector<std::string> result;
 
   const auto affectsPairs = getAffectsPairs();
@@ -83,7 +83,7 @@ std::vector<std::string> AffectsReader::getAffects(int firstStmtNum,
 
 std::vector<std::string> AffectsReader::getAffectedBy(int secondStmtNum,
                                                       StmtType stmtType) {
-  assert(stmtType == StmtType::ASSIGN);
+  assert(stmtType == StmtType::ASSIGN || stmtType == StmtType::STMT);
   std::vector<std::string> result;
 
   const auto affectsPairs = getAffectsPairs();
