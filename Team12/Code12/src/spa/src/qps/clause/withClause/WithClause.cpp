@@ -5,7 +5,7 @@
 #include "qps/clause/utils/ClauseConstants.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 
-IntermediateTable WithClause::evaluate(Context& context, PKBReader& pkb) {
+IntermediateTable WithClause::evaluate(PKBReader& pkb) {
   IntermediateTable pkbResult = withEvaluatorFuncMap[permutation](pkb);
 
   return pkbResult;

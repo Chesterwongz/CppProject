@@ -91,6 +91,6 @@ class WithClause : public Clause {
         attrRef(attrRef),
         attrRefValue(attrRefValue),
         permutation(getPermutation(synonymEntity, attrRef)) {}
-  IntermediateTable evaluate(Context& context, PKBReader& pkb) override;
+  IntermediateTable evaluate(PKBReader& pkb) override;
   bool isEquals(const Clause& other) override;
 };

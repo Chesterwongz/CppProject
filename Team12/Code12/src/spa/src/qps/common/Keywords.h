@@ -21,10 +21,6 @@ inline const Entity STMT_ENTITY = "stmt";
 inline const Entity VARIABLE_ENTITY = "variable";
 inline const Entity WHILE_ENTITY = "while";
 
-inline const AttrRef PROCNAME_ATTRREF = "procName";
-inline const AttrRef VARNAME_ATTRREF = "varName";
-inline const AttrRef VALUE_ATTRREF = "value";
-inline const AttrRef STMTNUM_ATTRREF = "stmt#";
 inline const string BOOLEAN_KEYWORD = "BOOLEAN";
 
 inline const string NOT_KEYWORD = "not";
