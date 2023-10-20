@@ -2,7 +2,7 @@
 
 // (1, v)
 std::vector<std::string> UsesReader::getVariablesUsedBy(int stmt) {
-  if (!usesSStore.hasDirectSuccessor(stmt)) {
+  if (!usesSStore.hasDirectSuccessors(stmt)) {
     return {};
   }
   const auto& rawRes = usesSStore.getDirectSuccessors(stmt);
@@ -13,7 +13,7 @@ std::vector<std::string> UsesReader::getVariablesUsedBy(int stmt) {
 std::vector<std::string> UsesReader::getStatementsUsing(
     const std::string& varName, StmtType stmtType) {
   if (!stmtStore.hasStmtType(stmtType) ||
-      !usesSStore.hasDirectAncestor(varName)) {
+      !usesSStore.hasDirectAncestors(varName)) {
     return {};
   }
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
@@ -47,7 +47,7 @@ std::vector<std::pair<std::string, std::string>> UsesReader::getUsesStmtPairs(
 
 std::vector<std::string> UsesReader::getVarsUsedByProc(
     const std::string& procName) {
-  if (!usesPStore.hasDirectSuccessor(procName)) {
+  if (!usesPStore.hasDirectSuccessors(procName)) {
     return {};
   }
   const auto& rawRes = usesPStore.getDirectSuccessors(procName);
@@ -55,7 +55,7 @@ std::vector<std::string> UsesReader::getVarsUsedByProc(
 }
 
 std::vector<std::string> UsesReader::getProcUsing(const std::string& varName) {
-  if (!usesPStore.hasDirectAncestor(varName)) {
+  if (!usesPStore.hasDirectAncestors(varName)) {
     return {};
   }
   const auto& rawRes = usesPStore.getDirectAncestors(varName);

@@ -3,7 +3,7 @@
 std::vector<std::string> FollowsReader::getFollowing(int stmt,
                                                      StmtType stmtType) {
   if (!stmtStore.hasStmtType(stmtType) ||
-      !followsStore.hasDirectSuccessor(stmt)) {
+      !followsStore.hasDirectSuccessors(stmt)) {
     return {};
   }
 
@@ -18,7 +18,7 @@ std::vector<std::string> FollowsReader::getFollowing(int stmt,
 std::vector<std::string> FollowsReader::getFollowed(int stmt,
                                                     StmtType stmtType) {
   if (!stmtStore.hasStmtType(stmtType) ||
-      !followsStore.hasDirectAncestor(stmt)) {
+      !followsStore.hasDirectAncestors(stmt)) {
     return {};
   }
 
@@ -66,7 +66,7 @@ std::vector<std::string> FollowsReader::getFollowsStar(int stmt,
 
 std::vector<std::string> FollowsReader::getFollowedStar(int stmt,
                                                         StmtType stmtType) {
-  if (!stmtStore.hasStmtType(stmtType)) {
+  if (!stmtStore.hasStmtType(stmtType) || !followsStore.hasAncestorsT(stmt)) {
     return {};
   }
 

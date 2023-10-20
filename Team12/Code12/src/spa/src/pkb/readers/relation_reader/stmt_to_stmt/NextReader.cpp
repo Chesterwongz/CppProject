@@ -3,7 +3,7 @@
 std::vector<std::string> NextReader::getPrevStmts(int stmt2,
                                                   StmtType stmtType1) {
   if (!stmtStore.hasStmtType(stmtType1) ||
-      !nextStore.hasDirectAncestor(stmt2)) {
+      !nextStore.hasDirectAncestors(stmt2)) {
     return {};
   }
 
@@ -18,7 +18,7 @@ std::vector<std::string> NextReader::getPrevStmts(int stmt2,
 std::vector<std::string> NextReader::getNextStmts(int stmt1,
                                                   StmtType stmtType2) {
   if (!stmtStore.hasStmtType(stmtType2) ||
-      !nextStore.hasDirectSuccessor(stmt1)) {
+      !nextStore.hasDirectSuccessors(stmt1)) {
     return {};
   }
 

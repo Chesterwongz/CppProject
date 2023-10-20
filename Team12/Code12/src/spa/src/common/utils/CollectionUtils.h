@@ -158,20 +158,6 @@ class CollectionUtils {
     return res;
   }
 
-  template <typename A, typename B, typename U = A>
-  static std::vector<std::pair<U, B>> transformMapSetABToVectorUB(
-      const std::unordered_map<A, std::unordered_set<B>>& mapSetAB,
-      std::function<U(A)> mapper1) {
-    std::vector<std::pair<U, B>> res;
-    for (const auto& [a, setB] : mapSetAB) {
-      res.reserve(setB.size());
-      for (const auto& b : setB) {
-        res.emplace_back(mapper1(a), b);
-      }
-    }
-    return res;
-  }
-
   template <typename A, typename B>
   static std::vector<std::pair<A, B>> transformMapSetABToVectorAB(
       const std::unordered_map<A, std::unordered_set<B>>& mapSetAB) {

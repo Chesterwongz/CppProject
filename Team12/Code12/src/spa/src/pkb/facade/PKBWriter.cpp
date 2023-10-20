@@ -7,7 +7,7 @@ void PKBWriter::addRelationsForCallProcs(
     std::function<void(const string&, const string&)>& adder) {
   unordered_set<string> allVars;
   for (const auto& callee : calleeProcs) {
-    if (!procStore.hasDirectSuccessor(callee)) continue;
+    if (!procStore.hasDirectSuccessors(callee)) continue;
     const auto& vars = procStore.getDirectSuccessors(callee);
     allVars.reserve(vars.size());
     allVars.insert(vars.begin(), vars.end());
@@ -39,7 +39,7 @@ void PKBWriter::addRelationsForCallStmts(
     std::function<void(const string&, int)>& adder) {
   unordered_set<string> allVars;
   for (const auto& callee : allCallees) {
-    if (!procStore.hasDirectSuccessor(callee)) continue;
+    if (!procStore.hasDirectSuccessors(callee)) continue;
     const auto& vars = procStore.getDirectSuccessors(callee);
     allVars.reserve(vars.size());
     allVars.insert(vars.begin(), vars.end());

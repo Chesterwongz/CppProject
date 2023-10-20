@@ -3,7 +3,7 @@
 std::vector<std::string> ParentReader::getImmediateChildrenOf(
     int stmt, StmtType stmtType) {
   if (!stmtStore.hasStmtType(stmtType) ||
-      !parentStore.hasDirectAncestor(stmt)) {
+      !parentStore.hasDirectSuccessors(stmt)) {
     return {};
   }
 
@@ -18,7 +18,7 @@ std::vector<std::string> ParentReader::getImmediateChildrenOf(
 std::vector<std::string> ParentReader::getImmediateParentOf(int stmt,
                                                             StmtType stmtType) {
   if (!stmtStore.hasStmtType(stmtType) ||
-      !parentStore.hasDirectAncestor(stmt)) {
+      !parentStore.hasDirectAncestors(stmt)) {
     return {};
   }
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
@@ -53,7 +53,7 @@ ParentReader::getParentChildPairs(StmtType stmtType1, StmtType stmtType2) {
 
 std::vector<std::string> ParentReader::getChildrenStarOf(int stmt,
                                                          StmtType stmtType) {
-  if (!stmtStore.hasStmtType(stmtType)) {
+  if (!stmtStore.hasStmtType(stmtType) || !parentStore.hasSuccessorsT(stmt)) {
     return {};
   }
 
@@ -66,7 +66,7 @@ std::vector<std::string> ParentReader::getChildrenStarOf(int stmt,
 
 std::vector<std::string> ParentReader::getParentStarOf(int stmt,
                                                        StmtType stmtType) {
-  if (!stmtStore.hasStmtType(stmtType)) {
+  if (!stmtStore.hasStmtType(stmtType) || !parentStore.hasAncestorsT(stmt)) {
     return {};
   }
 

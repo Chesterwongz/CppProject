@@ -2,7 +2,7 @@
 
 // (1, v)
 std::vector<std::string> ModifiesReader::getVariablesModifiedBy(int stmt) {
-  if (!modifiesSStore.hasDirectSuccessor(stmt)) {
+  if (!modifiesSStore.hasDirectSuccessors(stmt)) {
     return {};
   }
   const auto& rawRes = modifiesSStore.getDirectSuccessors(stmt);
@@ -13,7 +13,7 @@ std::vector<std::string> ModifiesReader::getVariablesModifiedBy(int stmt) {
 std::vector<std::string> ModifiesReader::getStatementsModifying(
     const std::string& varName, StmtType stmtType) {
   if (!stmtStore.hasStmtType(stmtType) ||
-      !modifiesSStore.hasDirectAncestor(varName)) {
+      !modifiesSStore.hasDirectAncestors(varName)) {
     return {};
   }
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
@@ -48,7 +48,7 @@ ModifiesReader::getModifiesStmtPairs(StmtType stmtType) {
 
 std::vector<std::string> ModifiesReader::getVarsModifiedByProc(
     const string& procName) {
-  if (!modifiesPStore.hasDirectSuccessor(procName)) {
+  if (!modifiesPStore.hasDirectSuccessors(procName)) {
     return {};
   }
   const auto& rawRes = modifiesPStore.getDirectSuccessors(procName);
@@ -57,7 +57,7 @@ std::vector<std::string> ModifiesReader::getVarsModifiedByProc(
 
 std::vector<std::string> ModifiesReader::getProcModifying(
     const string& varName) {
-  if (!modifiesPStore.hasDirectAncestor(varName)) {
+  if (!modifiesPStore.hasDirectAncestors(varName)) {
     return {};
   }
   const auto& rawRes = modifiesPStore.getDirectAncestors(varName);
