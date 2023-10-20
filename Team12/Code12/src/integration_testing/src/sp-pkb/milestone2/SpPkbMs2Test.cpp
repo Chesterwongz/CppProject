@@ -20,12 +20,15 @@ TEST_CASE("SP-PKB integration MS2 - Non-nesting statements") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"simple"};
+  vector<int> stmts = {1, 2, 3};
   StrToStrVecMap expectedModifiesMap = {{"simple", {"num1", "x"}}};
   StrToStrVecMap expectedUsesMap = {{"simple", {"num1", "num2"}}};
   StrToStrVecMap expectedCallsMap = {{"simple", {}}};
   StrToStrVecMap expectedCallsStarMap = {{"simple", {}}};
   StrStrPairVec expectedModifiesPairs = {{"1", "num1"}, {"3", "x"}};
   StrStrPairVec expectedUsesPairs = {{"2", "num2"}, {"3", "num1"}};
+  IntToStrVecMap expectedNextMap = {{1, {"2"}}, {2, {"3"}}};
+  IntToStrVecMap expectedNextTMap = {{1, {"2", "3"}}, {2, {"3"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -33,6 +36,8 @@ TEST_CASE("SP-PKB integration MS2 - Non-nesting statements") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - Simple transitive call") {
@@ -55,6 +60,7 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"A", "B", "C"};
+  vector<int> stmts = {1, 2, 3, 4};
   StrToStrVecMap expectedModifiesMap = {
       {"A", {"x", "y"}}, {"B", {"x", "y"}}, {"C", {"y"}}};
   StrToStrVecMap expectedUsesMap = {
@@ -66,6 +72,8 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call") {
       {"2", "x"}, {"4", "y"}, {"3", "y"}, {"1", "x"}, {"1", "y"}};
   StrStrPairVec expectedUsesPairs = {
       {"2", "a"}, {"4", "b"}, {"3", "b"}, {"1", "a"}, {"1", "b"}};
+  IntToStrVecMap expectedNextMap = {{2, {"3"}}};
+  IntToStrVecMap expectedNextTMap = {{2, {"3"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -73,6 +81,8 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - Simple transitive call with while") {
@@ -97,6 +107,7 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with while") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"X", "Y", "Z"};
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7};
   StrToStrVecMap expectedModifiesMap = {{"X", {"a"}}, {"Y", {"a"}}};
   StrToStrVecMap expectedUsesMap = {
       {"X", {"a", "b", "c"}}, {"Y", {"a", "b", "c"}}, {"Z", {"c"}}};
@@ -108,6 +119,13 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with while") {
   StrStrPairVec expectedUsesPairs = {{"3", "b"}, {"6", "a"}, {"2", "a"},
                                      {"2", "b"}, {"2", "c"}, {"5", "c"},
                                      {"4", "a"}, {"4", "c"}, {"7", "c"}};
+  IntToStrVecMap expectedNextMap = {
+      {1, {"2"}}, {3, {"4"}}, {4, {"5"}}, {5, {"6"}}, {6, {"4"}}};
+  IntToStrVecMap expectedNextTMap = {{1, {"2"}},
+                                     {3, {"4", "5", "6"}},
+                                     {4, {"4", "5", "6"}},
+                                     {5, {"4", "5", "6"}},
+                                     {6, {"4", "5", "6"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -115,6 +133,8 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with while") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - Simple transitive call with if") {
@@ -136,6 +156,7 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with if") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"A", "B"};
+  vector<int> stmts = {1, 2, 3, 4};
   StrToStrVecMap expectedModifiesMap = {{"A", {"y", "z"}}, {"B", {"z"}}};
   StrToStrVecMap expectedUsesMap = {{"A", {"x"}}, {"B", {"x"}}};
   StrToStrVecMap expectedCallsMap = {{"A", {"B"}}, {"B", {}}};
@@ -143,6 +164,8 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with if") {
   StrStrPairVec expectedModifiesPairs = {
       {"4", "z"}, {"3", "y"}, {"2", "z"}, {"1", "y"}, {"1", "z"}};
   StrStrPairVec expectedUsesPairs = {{"4", "x"}, {"2", "x"}, {"1", "x"}};
+  IntToStrVecMap expectedNextMap = {{1, {"2", "3"}}};
+  IntToStrVecMap expectedNextTMap = {{1, {"2", "3"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -150,6 +173,8 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with if") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - multiple transitive calls") {
@@ -174,6 +199,7 @@ TEST_CASE("SP-PKB integration MS2 - multiple transitive calls") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"P", "Q", "R", "S"};
+  vector<int> stmts = {1, 2, 3, 4, 5};
   StrToStrVecMap expectedModifiesMap = {
       {"P", {"z"}}, {"Q", {"z"}}, {"R", {"z"}}, {"S", {"z"}}};
   StrToStrVecMap expectedUsesMap = {
@@ -186,6 +212,8 @@ TEST_CASE("SP-PKB integration MS2 - multiple transitive calls") {
       {"2", "z"}, {"5", "z"}, {"3", "z"}, {"1", "z"}, {"4", "z"}};
   StrStrPairVec expectedUsesPairs = {{"2", "y"}, {"5", "z"}, {"4", "z"},
                                      {"3", "z"}, {"1", "z"}, {"1", "y"}};
+  IntToStrVecMap expectedNextMap = {{2, {"3"}}};
+  IntToStrVecMap expectedNextTMap = {{2, {"3"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -193,6 +221,8 @@ TEST_CASE("SP-PKB integration MS2 - multiple transitive calls") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - multiple calls without transitivity") {
@@ -214,6 +244,7 @@ TEST_CASE("SP-PKB integration MS2 - multiple calls without transitivity") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"Alpha", "Beta", "Gamma"};
+  vector<int> stmts = {1, 2, 3, 4};
   StrToStrVecMap expectedModifiesMap = {
       {"Alpha", {"b", "g"}}, {"Beta", {"b"}}, {"Gamma", {"g"}}};
   StrToStrVecMap expectedUsesMap = {
@@ -226,6 +257,8 @@ TEST_CASE("SP-PKB integration MS2 - multiple calls without transitivity") {
       {"3", "b"}, {"4", "g"}, {"1", "b"}, {"2", "g"}};
   StrStrPairVec expectedUsesPairs = {
       {"3", "y"}, {"4", "z"}, {"1", "y"}, {"2", "z"}};
+  IntToStrVecMap expectedNextMap = {{1, {"2"}}};
+  IntToStrVecMap expectedNextTMap = {{1, {"2"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -233,6 +266,8 @@ TEST_CASE("SP-PKB integration MS2 - multiple calls without transitivity") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - two chained calls and containers") {
@@ -257,6 +292,7 @@ TEST_CASE("SP-PKB integration MS2 - two chained calls and containers") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"Main", "Helper"};
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7, 8};
   StrToStrVecMap expectedModifiesMap = {{"Main", {"a", "b"}},
                                         {"Helper", {"a"}}};
   StrToStrVecMap expectedUsesMap = {{"Main", {"a", "b"}},
@@ -269,6 +305,12 @@ TEST_CASE("SP-PKB integration MS2 - two chained calls and containers") {
   StrStrPairVec expectedUsesPairs = {
       {"2", "a"}, {"3", "a"}, {"5", "b"}, {"6", "b"}, {"6", "a"},
       {"7", "a"}, {"4", "a"}, {"4", "b"}, {"2", "b"}, {"8", "a"}};
+  IntToStrVecMap expectedNextMap = {
+      {1, {"2"}}, {2, {"3", "5"}}, {3, {"4"}}, {4, {"2"}}};
+  IntToStrVecMap expectedNextTMap = {{1, {"2", "3", "4", "5"}},
+                                     {2, {"2", "3", "4", "5"}},
+                                     {3, {"2", "3", "4", "5"}},
+                                     {4, {"2", "3", "4", "5"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -276,6 +318,8 @@ TEST_CASE("SP-PKB integration MS2 - two chained calls and containers") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - three chained calls and containers") {
@@ -300,6 +344,7 @@ TEST_CASE("SP-PKB integration MS2 - three chained calls and containers") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"Start", "Operate", "Increment"};
+  vector<int> stmts = {1, 2, 3, 4, 5, 6};
   StrToStrVecMap expectedModifiesMap = {
       {"Start", {"i", "k"}}, {"Operate", {"i"}}, {"Increment", {"i"}}};
   StrToStrVecMap expectedUsesMap = {
@@ -323,6 +368,11 @@ TEST_CASE("SP-PKB integration MS2 - three chained calls and containers") {
       {"4", "k"},
 
       {"5", "i"}, {"5", "j"}, {"5", "k"}, {"6", "i"}, {"6", "j"}, {"6", "k"}};
+
+  IntToStrVecMap expectedNextMap = {
+      {1, {"2"}}, {2, {"3"}}, {4, {"5"}}, {5, {"4"}}};
+  IntToStrVecMap expectedNextTMap = {
+      {1, {"2", "3"}}, {2, {"3"}}, {4, {"4", "5"}}, {5, {"4", "5"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -330,6 +380,8 @@ TEST_CASE("SP-PKB integration MS2 - three chained calls and containers") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
@@ -376,6 +428,8 @@ TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
 
   vector<string> procs = {"Alpha",   "Beta", "Gamma", "Delta",
                           "Epsilon", "Zeta", "Eta"};
+  vector<int> stmts = {1,  2,  3,  4,  5,  6,  7,  8,  9, 10,
+                       11, 12, 13, 14, 15, 16, 17, 18, 19};
   StrToStrVecMap expectedModifiesMap = {
       {"Alpha", {"w", "m", "n", "o", "q", "r", "s", "t", "p"}},
       {"Beta", {"n", "o", "q", "r", "s", "t", "p"}},
@@ -422,6 +476,16 @@ TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
       {"11", "r"}, {"11", "s"}, {"12", "n"}, {"14", "o"}, {"14", "q"},
       {"15", "r"}, {"15", "s"}, {"16", "r"}, {"17", "r"}, {"17", "s"},
       {"19", "r"}, {"19", "s"}};
+
+  IntToStrVecMap expectedNextMap = {
+      {1, {"2"}},   {2, {"3"}},   {4, {"5", "7"}}, {5, {"6"}},   {6, {"9"}},
+      {7, {"8"}},   {8, {"9"}},   {9, {"2"}},      {10, {"11"}}, {13, {"14"}},
+      {14, {"15"}}, {16, {"17"}}, {18, {"19"}}};
+  IntToStrVecMap expectedNextTMap = {
+      {1, {"2", "3"}}, {2, {"3"}},   {4, {"5", "6", "7", "8", "9"}},
+      {5, {"6", "9"}}, {6, {"9"}},   {7, {"8", "9"}},
+      {8, {"9"}},      {10, {"11"}}, {13, {"14", "15"}},
+      {14, {"15"}},    {16, {"17"}}, {18, {"19"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -429,6 +493,8 @@ TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE(
@@ -469,6 +535,7 @@ TEST_CASE(
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"Init", "Process", "Clean", "Finish", "Update"};
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15};
   StrToStrVecMap expectedModifiesMap = {{"Init", {"u", "h", "v", "j"}},
                                         {"Process", {"u", "v", "j"}},
                                         {"Clean", {"u"}},
@@ -508,6 +575,21 @@ TEST_CASE(
       {"6", "p"},  {"6", "q"}, {"6", "r"}, {"6", "j"},  {"6", "u"},
       {"6", "v"},  {"7", "j"}, {"9", "u"}, {"10", "v"}, {"11", "v"},
       {"14", "j"}, {"15", "v"}};
+  IntToStrVecMap expectedNextMap = {{1, {"2"}},   {2, {"3"}},  {3, {"4"}},
+                                    {4, {"5"}},   {5, {"3"}},  {6, {"7", "8"}},
+                                    {7, {"11"}},  {8, {"9"}},  {9, {"10"}},
+                                    {10, {"11"}}, {13, {"14"}}};
+  IntToStrVecMap expectedNextTMap = {{1, {"2", "3", "4", "5"}},
+                                     {2, {"3", "4", "5"}},
+                                     {3, {"3", "4", "5"}},
+                                     {4, {"3", "4", "5"}},
+                                     {5, {"3", "4", "5"}},
+                                     {6, {"7", "8", "9", "10", "11"}},
+                                     {7, {"11"}},
+                                     {8, {"9", "10", "11"}},
+                                     {9, {"10", "11"}},
+                                     {10, {"11"}},
+                                     {13, {"14"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -515,4 +597,6 @@ TEST_CASE(
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
