@@ -23,7 +23,8 @@ AssignPatternParserState::AssignPatternParserState(
     : BaseParserState(parserContext, prev),
       isPartialMatch(false),
       synAssign(std::move(synAssign)),
-      isNegated(isNegated), startToken(prev) {}
+      isNegated(isNegated),
+      startToken(prev) {}
 
 void AssignPatternParserState::processSynonymToken(PQLToken& curr) {
   if (patternArg.size() != FIRST_ARG) {
@@ -118,8 +119,7 @@ void AssignPatternParserState::handleToken() {
     parserContext.restoreTokenStreamImage();
     parserContext.transitionTo(std::make_unique<IfPatternParserState>(
         parserContext, PQL_SYNONYM_TOKEN,
-        std::make_unique<SynonymArg>("", IF_ENTITY),
-        isNegated));
+        std::make_unique<SynonymArg>("", IF_ENTITY), isNegated));
     return;
   }
   throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_QUERY);

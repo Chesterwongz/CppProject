@@ -25,7 +25,7 @@ StmtVarParserState::StmtVarParserState(PQLParserContext& parserContext,
                               prev, isNegated) {}
 
 string StmtVarParserState::getValidSynonym(const string& synonym,
-                                             size_t argumentNumber) {
+                                           size_t argumentNumber) {
   auto synType = parserContext.getValidSynonymType(synonym);
   if (argumentNumber == SECOND_ARG && synType != VARIABLE_ENTITY) {
     parserContext.setSemanticallyInvalid();

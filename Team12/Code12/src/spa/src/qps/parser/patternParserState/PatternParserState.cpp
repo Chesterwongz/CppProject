@@ -5,8 +5,8 @@ PredictiveMap PatternParserState::predictiveMap = {
      {PQL_NOT_TOKEN, PQL_ASSIGN_PATTERN_TOKEN, PQL_IF_PATTERN_TOKEN,
       PQL_WHILE_PATTERN_TOKEN, PQL_SYNONYM_TOKEN}},
     {PQL_NOT_TOKEN,
-     {PQL_ASSIGN_PATTERN_TOKEN, PQL_IF_PATTERN_TOKEN,
-      PQL_WHILE_PATTERN_TOKEN, PQL_SYNONYM_TOKEN}}};
+     {PQL_ASSIGN_PATTERN_TOKEN, PQL_IF_PATTERN_TOKEN, PQL_WHILE_PATTERN_TOKEN,
+      PQL_SYNONYM_TOKEN}}};
 
 PatternParserState::PatternParserState(PQLParserContext& parserContext,
                                        PQLTokenType prev)

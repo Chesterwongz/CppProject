@@ -19,7 +19,9 @@ void SelectParserState::processNameToken(PQLToken& curr) {
     }
     // only Synonyms can appear here
     curr.updateTokenType(PQL_SYNONYM_TOKEN);
-    if (!isDeclaredSyn) { parserContext.setSemanticallyInvalid(); }
+    if (!isDeclaredSyn) {
+      parserContext.setSemanticallyInvalid();
+    }
   }
 }
 

@@ -25,8 +25,7 @@ void WhilePatternParserState::processSynonymToken(PQLToken &curr) {
   if (synType != VARIABLE_ENTITY) {
     parserContext.setSemanticallyInvalid();
   }
-  patternArg.push_back(
-      std::make_unique<SynonymArg>(curr.getValue(), synType));
+  patternArg.push_back(std::make_unique<SynonymArg>(curr.getValue(), synType));
 }
 
 void WhilePatternParserState::checkSafeExit() {

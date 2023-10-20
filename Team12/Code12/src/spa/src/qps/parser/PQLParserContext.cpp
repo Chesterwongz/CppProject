@@ -45,9 +45,7 @@ void PQLParserContext::addClause(unique_ptr<Clause> clause) {
   query->addClause(std::move(clause));
 }
 
-void PQLParserContext::setSemanticallyInvalid() {
-  isSemanticallyValid = false;
-}
+void PQLParserContext::setSemanticallyInvalid() { isSemanticallyValid = false; }
 
 bool PQLParserContext::isExpectedToken(PQLTokenType curr, PQLTokenType prev,
                                        PredictiveMap& pm) {

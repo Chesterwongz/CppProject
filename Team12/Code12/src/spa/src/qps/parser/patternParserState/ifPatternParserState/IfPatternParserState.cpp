@@ -16,7 +16,8 @@ IfPatternParserState::IfPatternParserState(PQLParserContext &parserContext,
                                            bool isNegated)
     : BaseParserState(parserContext, prev),
       synIf(std::move(synIf)),
-      isNegated(isNegated), startToken(prev) {}
+      isNegated(isNegated),
+      startToken(prev) {}
 
 void IfPatternParserState::processSynonymToken(PQLToken &curr) {
   string synType = parserContext.getValidSynonymType(curr.getValue());
@@ -28,8 +29,7 @@ void IfPatternParserState::processSynonymToken(PQLToken &curr) {
   if (synType != VARIABLE_ENTITY) {
     parserContext.setSemanticallyInvalid();
   }
-  patternArg.push_back(
-      std::make_unique<SynonymArg>(curr.getValue(), synType));
+  patternArg.push_back(std::make_unique<SynonymArg>(curr.getValue(), synType));
 }
 
 void IfPatternParserState::checkSafeExit() {
@@ -76,8 +76,7 @@ void IfPatternParserState::handleToken() {
     parserContext.restoreTokenStreamImage();
     parserContext.transitionTo(std::make_unique<WhilePatternParserState>(
         parserContext, PQL_SYNONYM_TOKEN,
-        std::make_unique<SynonymArg>("", WHILE_ENTITY),
-        isNegated));
+        std::make_unique<SynonymArg>("", WHILE_ENTITY), isNegated));
     return;
   }
   throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_QUERY);
