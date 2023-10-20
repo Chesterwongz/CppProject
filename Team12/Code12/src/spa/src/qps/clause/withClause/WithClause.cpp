@@ -4,7 +4,7 @@
 
 #include "qps/clause/utils/ClauseConstants.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
-#include "qps/withEvaluator/WithEvaluatorFactory.h"
+#include "qps/withEvaluator/WithEvaluatorFactory/WithEvaluatorFactory.h"
 
 IntermediateTable WithClause::evaluate(PKBReader& pkb) {
 

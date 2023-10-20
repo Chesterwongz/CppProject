@@ -12,6 +12,7 @@
 #include "qps/intermediateTable/IntermediateTable.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 #include "qps/clause/withClause/WithClauseUtils.h"
+
 using std::string, std::vector, std::unique_ptr, std::set, std::pair, std::move, std::function;
 
 typedef function<IntermediateTable(PKBReader& pkbReader)> WithEvaluatorFunc;

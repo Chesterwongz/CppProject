@@ -1,7 +1,6 @@
-#include "qps/withEvaluator/SingleSynWithEvaluator.h"
-
 #include <vector>
 
+#include "qps/withEvaluator/singleSynWithEvaluator/SingleSynWithEvaluator.h"
 #include "qps/clause/utils/ClauseConstants.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 

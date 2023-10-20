@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "WithEvaluator.h"
+#include "qps/withEvaluator/WithEvaluator.h"
 
 class NoSynWithEvaluator : public WithEvaluator {
  protected:

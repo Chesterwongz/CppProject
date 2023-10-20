@@ -2,7 +2,8 @@
 
 #include <memory>
 
-#include "WithEvaluator.h"
+#include "qps/withEvaluator/WithEvaluator.h"
+#include "WithEvaluatorFactory.h"
 
 using std::unique_ptr;
 

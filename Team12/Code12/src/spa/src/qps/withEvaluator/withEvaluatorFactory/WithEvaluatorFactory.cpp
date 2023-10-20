@@ -1,7 +1,7 @@
 #include "WithEvaluatorFactory.h"
 
-#include "qps/withEvaluator/NoSynWithEvaluator.h"
-#include "SingleSynWithEvaluator.h"
+#include "qps/withEvaluator/noSynWithEvaluator/NoSynWithEvaluator.h"
+#include "qps/withEvaluator/singleSynWithEvaluator/SingleSynWithEvaluator.h"
 
 unique_ptr<WithEvaluator> WithEvaluatorFactory::createWithEvaluator(
     unique_ptr<AbstractArgument> firstArg,
