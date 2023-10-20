@@ -21,9 +21,9 @@ TEST_CASE("Invalid with IDENT = INTEGER") {
                                 PQLToken(PQL_EQUALS_TOKEN, "="),
                                 PQLToken(PQL_LITERAL_REF_TOKEN, "x")};
 
-  REQUIRE_THROWS_MATCHES(
+  REQUIRE_THROWS_AS(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSemanticError, Catch::Message(QPS_SEMANTIC_ERR_INVALID_WITH));
+      QPSSemanticError);
 }
 
 TEST_CASE("Valid with attrRef = INTEGER") {

@@ -31,5 +31,5 @@ class ModifiesAbstraction : public StmtOrProcToVarAbstraction {
 
  public:
   explicit ModifiesAbstraction(AbstractionParams abstractionParams)
-      : StmtOrProcToVarAbstraction(abstractionParams){}
+      : StmtOrProcToVarAbstraction(abstractionParams) {}
 };

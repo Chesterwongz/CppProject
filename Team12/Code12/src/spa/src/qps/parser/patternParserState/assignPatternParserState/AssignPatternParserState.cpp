@@ -1,7 +1,7 @@
 #include "AssignPatternParserState.h"
 
 PredictiveMap AssignPatternParserState::predictiveMap = {
-    {PQL_SYNONYM_TOKEN, {PQL_OPEN_BRACKET_TOKEN}},
+    {PQL_NULL_TOKEN, {PQL_OPEN_BRACKET_TOKEN}},
     {PQL_ASSIGN_PATTERN_TOKEN, {PQL_OPEN_BRACKET_TOKEN}},
     {PQL_OPEN_BRACKET_TOKEN,
      {PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN}},
@@ -115,10 +115,10 @@ void AssignPatternParserState::handleToken() {
 
     curr = parserContext.eatExpectedToken(prev, predictiveMap);
   }
-  if (startToken == PQL_SYNONYM_TOKEN) {
+  if (startToken == PQL_NULL_TOKEN) {
     parserContext.restoreTokenStreamImage();
     parserContext.transitionTo(std::make_unique<IfPatternParserState>(
-        parserContext, PQL_SYNONYM_TOKEN,
+        parserContext, PQL_NULL_TOKEN,
         std::make_unique<SynonymArg>("", IF_ENTITY), isNegated));
     return;
   }

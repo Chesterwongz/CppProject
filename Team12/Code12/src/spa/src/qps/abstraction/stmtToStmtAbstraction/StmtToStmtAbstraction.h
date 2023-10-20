@@ -67,7 +67,7 @@ class StmtToStmtAbstraction : public BaseAbstraction {
    * and a has specified stmtNumber
    */
   virtual vector<string> getSecondStmt(int firstStmtNumber,
-                                      StmtType secondStmtType) = 0;
+                                       StmtType secondStmtType) = 0;
 
   /**
    * Abstraction(a, b): check if specified stmtNum and stmtNum are related

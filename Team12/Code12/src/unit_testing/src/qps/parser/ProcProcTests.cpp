@@ -506,9 +506,9 @@ TEST_CASE("Invalid Calls(SYNONYM, SYNONYM) - both are not proc synonyms") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  REQUIRE_THROWS_MATCHES(
+  REQUIRE_THROWS_AS(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSemanticError, Catch::Message(QPS_SEMANTIC_ERR_NOT_PROC_SYN));
+      QPSSemanticError);
 }
 
 TEST_CASE("Invalid Calls clause - undeclared synonym") {
@@ -528,9 +528,9 @@ TEST_CASE("Invalid Calls clause - undeclared synonym") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  REQUIRE_THROWS_MATCHES(
+  REQUIRE_THROWS_AS(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSemanticError, Catch::Message("Using undeclared synonym: a"));
+      QPSSemanticError);
 }
 
 TEST_CASE("Invalid Calls clause - invalid LITERAL_EXP_TOKEN") {

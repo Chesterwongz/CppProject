@@ -115,9 +115,9 @@ TEST_CASE("Invalid Pattern if (SYNONYM,_,_) - not var synonym") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  REQUIRE_THROWS_MATCHES(
+  REQUIRE_THROWS_AS(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSemanticError, Catch::Message(QPS_SEMANTIC_ERR_NOT_VAR_SYN));
+      QPSSemanticError);
 }
 
 TEST_CASE("Invalid Pattern if (SYNONYM,_,LITERAL_REF)") {

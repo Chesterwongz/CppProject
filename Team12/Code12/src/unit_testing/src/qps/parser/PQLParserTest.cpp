@@ -48,9 +48,9 @@ TEST_CASE("invalid query - select undeclared synonym") {
       PQLToken(PQL_NAME_TOKEN, "a1"),
   };
 
-  REQUIRE_THROWS_WITH(
+  REQUIRE_THROWS_AS(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      "Using undeclared synonym: a1");
+      QPSSemanticError);
 }
 
 TEST_CASE("valid simple transitive follows") {

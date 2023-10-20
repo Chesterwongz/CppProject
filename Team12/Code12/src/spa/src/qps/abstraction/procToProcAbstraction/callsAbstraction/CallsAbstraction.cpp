@@ -2,8 +2,8 @@
 
 /**
  * Calls abstraction:
-* - firstArg: Synonym (Proc) OR Identifier (Proc) OR Wildcard
-* - secondArg: Synonym (Proc) OR Identifier (Proc) OR Wildcard
+ * - firstArg: Synonym (Proc) OR Identifier (Proc) OR Wildcard
+ * - secondArg: Synonym (Proc) OR Identifier (Proc) OR Wildcard
  */
 
 vector<pair<string, string>> CallsAbstraction::getAllAbstractionPairs() {

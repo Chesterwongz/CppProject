@@ -15,6 +15,11 @@ string BaseParserState::getValidAttrRef(const std::string &synonym,
                                         const std::string &attrRef) {
   auto entityType = parserContext.getValidSynonymType(synonym);
 
+  if (PQLParserUtils::attrRefToType.find(attrRef) ==
+      PQLParserUtils::attrRefToType.end()) {
+    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_ATTR_REF + attrRef);
+  }
+
   if (PQLParserUtils::isValidAttrRefFromSynonym(entityType, attrRef)) {
     return attrRef;
   }

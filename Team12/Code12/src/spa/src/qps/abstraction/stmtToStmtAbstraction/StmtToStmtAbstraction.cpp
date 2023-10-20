@@ -99,8 +99,7 @@ IntermediateTable StmtToStmtAbstraction::handleFirstArgInteger() {
   StmtType secondArgStmtType = this->getSecondArgStmtType();
   string secondStmtSynonym = this->secondArgValue;
 
-  vector<string> results =
-      getSecondStmt(firstArgStmtNumber, secondArgStmtType);
+  vector<string> results = getSecondStmt(firstArgStmtNumber, secondArgStmtType);
 
   return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
                                                        results);
@@ -111,8 +110,7 @@ IntermediateTable StmtToStmtAbstraction::handleSecondArgInteger() {
   StmtType firstArgStmtType = this->getFirstArgStmtType();
   int secondArgStmtNumber = stoi(this->secondArgValue);
 
-  vector<string> results =
-      getFirstStmt(secondArgStmtNumber, firstArgStmtType);
+  vector<string> results = getFirstStmt(secondArgStmtNumber, firstArgStmtType);
 
   return IntermediateTableFactory::buildSingleColTable(firstArgStmtSynonym,
                                                        results);

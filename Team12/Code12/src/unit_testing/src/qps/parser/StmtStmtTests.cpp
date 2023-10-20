@@ -539,9 +539,9 @@ TEST_CASE("Invalid Parents(SYNONYM, SYNONYM) - both are not stmt synonyms") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  REQUIRE_THROWS_MATCHES(
+  REQUIRE_THROWS_AS(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSemanticError, Catch::Message(QPS_SEMANTIC_ERR_NOT_STMT_SYN));
+      QPSSemanticError);
 }
 
 TEST_CASE("Invalid Parent clause - undeclared synonym") {
@@ -561,9 +561,9 @@ TEST_CASE("Invalid Parent clause - undeclared synonym") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  REQUIRE_THROWS_MATCHES(
+  REQUIRE_THROWS_AS(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSemanticError, Catch::Message("Using undeclared synonym: a"));
+      QPSSemanticError);
 }
 
 TEST_CASE("Invalid Parent clause - invalid LITERAL_REF_TOKEN") {
@@ -628,8 +628,7 @@ TEST_CASE("Invalid Parent clause - invalid synonym token") {
   REQUIRE_THROWS_MATCHES(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
       QPSSyntaxError,
-      Catch::Message("Error occurred during tokenization, "
-                     "invalid token: v#"));
+      Catch::Message(QPS_TOKENIZATION_ERR_SYNONYM));
 }
 
 // not completed

@@ -1,6 +1,7 @@
 #include "WhilePatternParserState.h"
 
 PredictiveMap WhilePatternParserState::predictiveMap = {
+    {PQL_NULL_TOKEN, {PQL_OPEN_BRACKET_TOKEN}},
     {PQL_WHILE_PATTERN_TOKEN, {PQL_OPEN_BRACKET_TOKEN}},
     {PQL_OPEN_BRACKET_TOKEN,
      {PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN}},

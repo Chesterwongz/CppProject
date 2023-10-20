@@ -35,7 +35,7 @@ void PatternParserState::processSynonymToken(PQLToken& curr) {
   } else if (synType == WHILE_ENTITY) {
     curr.updateTokenType(PQL_WHILE_PATTERN_TOKEN);
   } else {
-    curr.updateTokenType(PQL_SYNONYM_TOKEN);
+    curr.updateTokenType(PQL_NULL_TOKEN);
     parserContext.setSemanticallyInvalid();
   }
 }
@@ -50,7 +50,7 @@ void PatternParserState::handleToken() {
       case PQL_NOT_TOKEN:
         isNegated = true;
         break;
-      case PQL_SYNONYM_TOKEN:
+      case PQL_NULL_TOKEN:
         // semantically invalid but must ensure that it has no syntactic err
         parserContext.snapTokenStreamImage();
       case PQL_ASSIGN_PATTERN_TOKEN:

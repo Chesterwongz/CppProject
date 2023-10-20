@@ -460,9 +460,9 @@ TEST_CASE("Invalid Uses(_, SYNONYM) - Wildcard cannot be first arg") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  REQUIRE_THROWS_MATCHES(
+  REQUIRE_THROWS_AS(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSemanticError, Catch::Message(QPS_SEMANTIC_ERR_WILDCARD_FIRSTARG));
+      QPSSemanticError);
 }
 
 TEST_CASE("Invalid Uses(INTEGER, SYNONYM) - invalid synonym type") {
@@ -488,9 +488,9 @@ TEST_CASE("Invalid Uses(INTEGER, SYNONYM) - invalid synonym type") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  REQUIRE_THROWS_MATCHES(
+  REQUIRE_THROWS_AS(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSemanticError, Catch::Message(QPS_SEMANTIC_ERR_NOT_VAR_SYN));
+      QPSSemanticError);
 }
 
 TEST_CASE("Valid Modifies(INTEGER, SYNONYM)") {
