@@ -468,6 +468,10 @@ TEST_CASE("PKBReader Tests - Entity Reader APIs") {
   writer.addStmt(5, StmtType::WHILE);
   writer.addStmt(6, StmtType::READ);
   writer.addStmt(7, StmtType::PRINT);
+  writer.addStmt(8, StmtType::READ);
+  writer.addStmt(9, StmtType::PRINT);
+  writer.addStmt(10, StmtType::READ);
+  writer.addStmt(11, StmtType::CALL);
   writer.addStmt(12, StmtType::CALL);
 
   writer.addFollows(1, 2);
@@ -491,6 +495,8 @@ TEST_CASE("PKBReader Tests - Entity Reader APIs") {
   writer.addModifies("z", 4);
   writer.addModifies("y", 5);
   writer.addModifies("x", 6);
+  writer.addModifies("a", 8);
+  writer.addModifies("b", 10);
 
   writer.addUses("x", 1);
   writer.addUses("y", 1);
@@ -498,12 +504,14 @@ TEST_CASE("PKBReader Tests - Entity Reader APIs") {
   writer.addUses("z", 3);
   writer.addUses("x", 4);
   writer.addUses("x", 7);
+  writer.addUses("y", 9);
 
   writer.addAssignPattern("x", " a b c * + ", 1);
   writer.addAssignPattern("y", " d e + f + ", 2);
   writer.addAssignPattern("z", " a b * c * d + ", 3);
   writer.addAssignPattern("x", " a 2 + ", 4);
 
+  writer.addCalls("proc3", "proc4", 11);
   writer.addCalls("proc1", "proc2", 12);
 
   SECTION("isValidStmt") {
@@ -545,7 +553,7 @@ TEST_CASE("PKBReader Tests - Entity Reader APIs") {
 
   SECTION("getVariableReadBy") {
     REQUIRE(reader.getVariableReadBy(6) == std::vector<std::string> {"x"});
-    REQUIRE(reader.getVariableReadBy(8) == std::vector<std::string> {});
+    REQUIRE(reader.getVariableReadBy(13) == std::vector<std::string> {});
   }
 
   SECTION("getStmtsThatPrint") {
@@ -555,6 +563,21 @@ TEST_CASE("PKBReader Tests - Entity Reader APIs") {
 
   SECTION("getVariablePrintedBy") {
     REQUIRE(reader.getVariablePrintedBy(7) == std::vector<std::string> {"x"});
-    REQUIRE(reader.getVariablePrintedBy(8) == std::vector<std::string> {});
+    REQUIRE(reader.getVariablePrintedBy(14) == std::vector<std::string> {});
+  }
+
+  SECTION("getAllStmtProcCallsPairs") {
+    REQUIRE(reader.getAllStmtProcCallsPairs() ==
+            StrStrPairVec {{"11", "proc4"}, {"12", "proc2"}});
+  }
+
+  SECTION("getAllStmtVarReadPairs") {
+    REQUIRE(reader.getAllStmtVarReadPairs() ==
+            StrStrPairVec {{"6", "x"}, {"8", "a"}, {"10", "b"}});
+  }
+
+  SECTION("getAllStmtVarPrintPairs") {
+    REQUIRE(reader.getAllStmtVarPrintPairs() ==
+            StrStrPairVec {{"7", "x"}, {"9", "y"}});
   }
 }
