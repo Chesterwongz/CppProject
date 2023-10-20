@@ -13,12 +13,16 @@ void NextStore::computeAncestorsT(int to) {
 }
 
 void NextStore::computeAllRelationsT() {
-  for (const auto& [a, _] : this->directSuccessorMap) {
-    if (this->directSuccessorMap.size() ==
-        this->transitiveSuccessorMap.size()) {
-      return;  // Optimization.
-    }
-    computeSuccessorsT(a);
+  std::vector<int> graphVector;
+  graphVector.reserve(directSuccessorMap.size());
+  for (const auto& [v, _] : this->directSuccessorMap) {
+    graphVector.push_back(v);
+  }
+  // Optimization
+  std::sort(graphVector.begin(), graphVector.end(),
+            std::greater<>()); // Sort in descending order
+  for (const auto& v : graphVector) {
+    computeSuccessorsT(v);
   }
 }
 
