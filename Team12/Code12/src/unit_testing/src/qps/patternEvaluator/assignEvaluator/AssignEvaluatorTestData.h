@@ -5,7 +5,7 @@
 #include <utility>
 #include <vector>
 
-#include "../../mocks/MockPKBReader.h"
+#include "../../mocks/mockReaders/MockPatternsReader.h"
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/patternExp/PatternExp.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
@@ -13,9 +13,7 @@
 
 using std::unique_ptr, std::make_pair;
 
-PKBStore assignStore = PKBStore();
-
-MockPKBReader assignMockPKBReader = MockPKBReader(assignStore);
+MockPatternsReader assignMockPKBReader = MockPatternsReader();
 
 vector<pair<string, string>> mockExactAssignPatternStmts = {
     make_pair("1", "a"), make_pair("2", "b"), make_pair("3", "c")};
