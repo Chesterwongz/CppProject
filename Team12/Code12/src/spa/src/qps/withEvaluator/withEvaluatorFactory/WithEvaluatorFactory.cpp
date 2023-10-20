@@ -1,7 +1,8 @@
-#include <utility>
-
 #include "WithEvaluatorFactory.h"
 
+#include <utility>
+
+#include "qps/withEvaluator/doubleSynWithEvaluator/DoubleSynWithEvaluator.h"
 #include "qps/withEvaluator/noSynWithEvaluator/NoSynWithEvaluator.h"
 #include "qps/withEvaluator/singleSynWithEvaluator/SingleSynWithEvaluator.h"
 
@@ -12,7 +13,8 @@ unique_ptr<WithEvaluator> WithEvaluatorFactory::createWithEvaluator(
   bool isSecondArgSynonym = secondArg->isSynonym();
 
   if (isFirstArgSynonym && isSecondArgSynonym) {
-    // create bothSynWithEvaluator
+    return make_unique<DoubleSynWithEvaluator>(move(firstArg), move(secondArg),
+                                               pkbReader);
   } else if (!isFirstArgSynonym && !isSecondArgSynonym) {
     return make_unique<NoSynWithEvaluator>(move(firstArg), move(secondArg),
                                            pkbReader);
