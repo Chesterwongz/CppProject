@@ -362,31 +362,9 @@ inline vector<vector<string>> MULTI_COL_DATA_2 = {
 };
 
 inline vector<vector<string>> MULTI_COL_DATA_JOIN = {
-    {
-        "0",
-        "1",
-        "0",
-        "1",
-        "banana",
-        "cat",
-    },
-    {
-        "6",
-        "5",
-        "banana",
-        "cat",
-        "carrot",
-        "durian",
-    },
-    {
-        "2",
-        "1",
-        "4",
-        "3",
-        "hamster",
-        "mouse",
-    },
-};
+    {"0", "1", "banana", "cat", "0", "1"},
+    {"6", "5", "carrot", "durian", "banana", "cat"},
+    {"2", "1", "hamster", "mouse", "4", "3"}};
 
 inline vector<string> COL_1 = {"0", "2", "4", "6", "6", "4", "2"};
 inline vector<string> COL_3 = {"banana", "lettuce", "pear",   "meow",

@@ -1,5 +1,6 @@
 #include "WithParserState.h"
 
+#include "qps/clause/withClause/WithClause.h"
 #include "qps/parser/clauseTransitionParserState/ClauseTransitionParserState.h"
 
 PredictiveMap WithParserState::predictiveMap = {
@@ -60,7 +61,8 @@ void WithParserState::handleToken() {
         break;
     }
     if (arguments.size() == expectedNumberOfArgs) {
-      // TODO(Houten): add With Clause here
+      parserContext.addClause(std::make_unique<WithClause>(
+          std::move(arguments[0]), std::move(arguments[1])));
       checkSameTypeComparison();
       ClauseTransitionParserState::setClauseTransitionState(parserContext);
       return;

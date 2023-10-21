@@ -15,13 +15,17 @@ string SynonymRes::toString() const {
   return this->attributeMap.at(AttrRefEnum::DEFAULT);
 }
 
-string SynonymRes::getAttribute(AttrRefEnum attrRef) {
+string SynonymRes::getAttribute(AttrRefEnum attrRef) const {
   bool isAttributeSpecified =
       this->attributeMap.find(attrRef) != this->attributeMap.end();
   if (isAttributeSpecified) {
     return attributeMap.at(attrRef);
   }
   return {};
+}
+
+string SynonymRes::getAttribute(const AttrRef& attrRef) const {
+  return getAttribute(attrRefToEnumMap.at(attrRef));
 }
 
 SynonymRes SynonymRes::clone() const {

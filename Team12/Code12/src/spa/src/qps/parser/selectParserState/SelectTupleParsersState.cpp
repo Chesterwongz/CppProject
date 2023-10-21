@@ -18,15 +18,14 @@ void SelectTupleParsersState::handleToken() {
     PQLToken token = curr.value();
 
     switch (token.getType()) {
-      case PQL_SYNONYM_TOKEN:
-        // will throw exception if not valid
-        if (!parserContext.checkSynonymExists(token.getValue())) {
-          parserContext.setSemanticallyInvalid();
-        }
-        synonymsToSelect.push_back(std::make_unique<SynonymArg>(
+      case PQL_SYNONYM_TOKEN: {
+        unique_ptr<SynonymArg> syn = std::make_unique<SynonymArg>(
             token.getValue(),
-            parserContext.getValidSynonymType(token.getValue())));
+            parserContext.getValidSynonymType(token.getValue()));
+        processAttrRef(syn);
+        synonymsToSelect.push_back(std::move(syn));
         break;
+      }
       case PQL_RIGHT_ANGLE_TOKEN:
         parserContext.addSelectClause(std::move(synonymsToSelect));
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
