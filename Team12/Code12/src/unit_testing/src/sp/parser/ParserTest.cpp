@@ -17,6 +17,15 @@ TEST_CASE("Test ProgramParser") {
   REQUIRE(ast.has_value());
 }
 
+TEST_CASE("Test invalid program") {
+  std::string input = "procedure proc {read a;}}";
+  std::shared_ptr<ParserContext> parserContext =
+      std::make_shared<ParserContext>(std::move(input));
+  std::optional<std::unique_ptr<TNode>> ast =
+      ProgramParser(parserContext).parse();
+  REQUIRE(!parserContext->isEnd());
+}
+
 TEST_CASE("Test ProgramParser multi procedures") {
   std::string input =
       "procedure main {\n"
