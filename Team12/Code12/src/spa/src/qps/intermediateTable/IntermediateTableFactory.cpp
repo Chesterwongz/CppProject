@@ -1,5 +1,7 @@
 #include "IntermediateTableFactory.h"
 
+#include <cassert>
+
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const string &firstColName, const string &secondColName,
     const vector<pair<std::string, std::string>> &data) {
@@ -57,6 +59,7 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
 
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const vector<string> &colNames, TableDataType data) {
+  assert(data.empty() || colNames.size() == data.at(0).size());
   return IntermediateTableFactory::tableBuilderHelper(colNames,
                                                       std::move(data));
 }

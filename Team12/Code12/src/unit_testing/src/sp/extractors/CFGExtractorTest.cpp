@@ -4,11 +4,9 @@
 #include <vector>
 #include <catch.hpp>
 
-#include "../mocks/MockCFG.h"
 #include "../mocks/MockData.h"
 #include "ExtractorUtils.h"
 #include "common/AliasTypes.h"
-#include "common/Constants.h"
 
 using std::unique_ptr, std::make_unique, std::vector, std::string,
     std::unordered_map, std::unordered_set;

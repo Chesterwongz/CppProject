@@ -6,6 +6,10 @@
  * - secondArg: Synonym OR Identifier OR Wildcard
  */
 
+bool ModifiesAbstraction::isFirstSynonymInvalid() {
+  return !this->firstArg.isProcSynonym() &&
+         this->getFirstArgStmtType() == StmtType::PRINT;}
+
 vector<pair<string, string>> ModifiesAbstraction::getAllStmtVarRelations(
     StmtType stmtType) {
   return pkb.getModifiesStmtPairs(stmtType);

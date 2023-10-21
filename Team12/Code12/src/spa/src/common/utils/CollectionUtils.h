@@ -30,46 +30,21 @@ class CollectionUtils {
     return vectorIntersection;
   }
 
-  static vector<std::string> transformIntToStrVector(vector<int> toTransform) {
-    std::vector<std::string> res;
-    res.reserve(toTransform.size());
-    std::transform(toTransform.begin(), toTransform.end(),
-                   std::back_inserter(res),
-                   [](const int& x) { return std::to_string(x); });
-    return res;
-  }
-
-  static vector<std::pair<std::string, std::string>>
-  transformIntIntToStrStrVector(vector<std::pair<int, int>> toTransform) {
-    std::vector<std::pair<std::string, std::string>> res;
-    res.reserve(toTransform.size());
-    std::transform(toTransform.begin(), toTransform.end(),
-                   std::back_inserter(res),
-                   [](const std::pair<int, int>& intPair) {
-                     return std::make_pair(std::to_string(intPair.first),
-                                           std::to_string(intPair.second));
-                   });
-    return res;
-  }
-
-  static vector<std::pair<std::string, std::string>>
-  transformIntStrToStrStrVector(
-      vector<std::pair<int, std::string>> toTransform) {
-    std::vector<std::pair<std::string, std::string>> res;
-    res.reserve(toTransform.size());
-    std::transform(toTransform.begin(), toTransform.end(),
-                   std::back_inserter(res),
-                   [](const std::pair<int, std::string>& intStrPair) {
-                     return std::make_pair(std::to_string(intStrPair.first),
-                                           intStrPair.second);
-                   });
+  template <typename U, typename V>
+  static std::vector<V> transformSetUToVectorV(
+      const std::unordered_set<U>& setU, const std::function<V(U)>& mapper) {
+    std::vector<V> res;
+    res.reserve(setU.size());
+    for (const U& u : setU) {
+      res.push_back(mapper(u));
+    }
     return res;
   }
 
   template <typename U, typename V>
   static std::vector<V> transformSetUToVectorV(
-      const std::unordered_set<U>& setU, std::function<V(U)> mapper,
-      std::function<bool(U)> filter = [](const U&) { return true; }) {
+      const std::unordered_set<U>& setU, const std::function<V(U)>& mapper,
+      const std::function<bool(U)>& filter) {
     std::vector<V> res;
     res.reserve(setU.size());
     for (const U& u : setU) {
@@ -79,71 +54,69 @@ class CollectionUtils {
     return res;
   }
 
-  template <typename A, typename B, typename U = A, typename V = B>
-  static std::vector<std::pair<U, V>> transformMapSetABToVectorUV(
-      const std::unordered_map<A, std::unordered_set<B>>& mapSetAB,
-      std::pair<std::function<U(A)>, std::function<V(B)>> mapperPair,
-      std::pair<std::function<bool(A)>, std::function<bool(B)>> filterPair) {
-    std::vector<std::pair<U, V>> res;
-    for (const auto& [a, setB] : mapSetAB) {
+  static std::vector<std::string> intSetToStrVector(
+      const std::unordered_set<int>& intSet,
+      const std::function<bool(int)>& filter) {
+    std::vector<std::string> res;
+    res.reserve(res.size() + intSet.size());
+    for (const int& val : intSet) {
+      if (!filter(val)) continue;
+      res.push_back(intToStrMapper(val));
+    }
+    return res;
+  }
+
+  static std::vector<std::pair<std::string, std::string>>
+  intIntMapSetToStrPairVector(
+      const std::unordered_map<int, std::unordered_set<int>>& mapSet,
+      const std::pair<std::function<bool(int)>, std::function<bool(int)>>&
+          filterPair) {
+    std::vector<std::pair<std::string, std::string>> res;
+    for (const auto& [a, setB] : mapSet) {
       if (!filterPair.first(a)) continue;
       for (const auto& b : setB) {
         if (!filterPair.second(b)) continue;
-        res.emplace_back(mapperPair.first(a), mapperPair.second(b));
+        res.emplace_back(intToStrMapper(a), intToStrMapper(b));
       }
     }
     return res;
   }
 
-  template <typename A, typename B, typename U = A, typename V = B>
-  static std::vector<std::pair<U, V>> transformMapSetABToVectorUV(
-      const std::unordered_map<A, std::unordered_set<B>>& mapSetAB,
-      std::function<U(A)> mapper1, std::function<V(B)> mapper2) {
-    std::vector<std::pair<U, V>> res;
+  static std::vector<std::pair<std::string, std::string>>
+  intStrMapSetToStrPairVector(
+      const std::unordered_map<int, std::unordered_set<std::string>>&
+      mapSetAB) {
+    std::vector<std::pair<std::string, std::string>> res;
     for (const auto& [a, setB] : mapSetAB) {
-      res.reserve(setB.size());
+      res.reserve(res.size() + setB.size());
       for (const auto& b : setB) {
-        res.emplace_back(mapper1(a), mapper2(b));
+        res.emplace_back(intToStrMapper(a), b);
       }
     }
     return res;
   }
 
-  template <typename A, typename B, typename U = A>
-  static std::vector<std::pair<U, B>> transformMapSetABToVectorUB(
-      const std::unordered_map<A, std::unordered_set<B>>& mapSetAB,
-      std::function<U(A)> mapper1, std::function<bool(A)> filter1) {
-    std::vector<std::pair<U, B>> res;
+  static std::vector<std::pair<std::string, std::string>>
+  intStrMapSetToStrPairVector(
+      const std::unordered_map<int, std::unordered_set<std::string>>& mapSetAB,
+      const std::function<bool(int)>& filter1) {
+    std::vector<std::pair<std::string, std::string>> res;
     for (const auto& [a, setB] : mapSetAB) {
       if (!filter1(a)) continue;
-      res.reserve(setB.size());
+      res.reserve(res.size() + setB.size());
       for (const auto& b : setB) {
-        res.emplace_back(mapper1(a), b);
-      }
-    }
-    return res;
-  }
-
-  template <typename A, typename B, typename U = A>
-  static std::vector<std::pair<U, B>> transformMapSetABToVectorUB(
-      const std::unordered_map<A, std::unordered_set<B>>& mapSetAB,
-      std::function<U(A)> mapper1) {
-    std::vector<std::pair<U, B>> res;
-    for (const auto& [a, setB] : mapSetAB) {
-      res.reserve(setB.size());
-      for (const auto& b : setB) {
-        res.emplace_back(mapper1(a), b);
+        res.emplace_back(intToStrMapper(a), b);
       }
     }
     return res;
   }
 
   template <typename A, typename B>
-  static std::vector<std::pair<A, B>> transformMapSetABToVectorAB(
+  static std::vector<std::pair<A, B>> mapSetToPairVector(
       const std::unordered_map<A, std::unordered_set<B>>& mapSetAB) {
     std::vector<std::pair<A, B>> res;
     for (const auto& [a, setB] : mapSetAB) {
-      res.reserve(setB.size());
+      res.reserve(res.size() + setB.size());
       for (const auto& b : setB) {
         res.emplace_back(a, b);
       }
@@ -153,12 +126,5 @@ class CollectionUtils {
 
   static std::string intToStrMapper(const int& val) {
     return std::to_string(val);
-  }
-
-  static std::pair<std::function<std::string(int)>,
-                   std::function<std::string(int)>>
-  getIntToStrMapperPair() {
-    return std::make_pair(CollectionUtils::intToStrMapper,
-                          CollectionUtils::intToStrMapper);
   }
 };

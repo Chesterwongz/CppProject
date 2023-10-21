@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <stack>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -8,23 +9,23 @@
 
 #include "RelationStore.h"
 
-template <typename S, typename T = S>
-class RelationTStore : public RelationStore<S, T> {
+template <typename T>
+class RelationTStore : public RelationStore<T, T> {
  protected:
-  // An unordered set of the direct successors of S. I.e., S *-> T
-  std::unordered_map<S, std::unordered_set<T>> transitiveSuccessorMap;
+  // An unordered set of the direct successors of T. I.e., T *-> T
+  std::unordered_map<T, std::unordered_set<T>> transitiveSuccessorMap;
 
-  // An unordered set of the direct ancestors of S. I.e., S <-* T
-  std::unordered_map<T, std::unordered_set<S>> transitiveAncestorMap;
+  // An unordered set of the direct ancestors of T. I.e., T <-* T
+  std::unordered_map<T, std::unordered_set<T>> transitiveAncestorMap;
 
   RelationTStore() = default;
 
-  void addRelationT(S from, T to) {
+  void addRelationT(T from, T to) {
     transitiveSuccessorMap[from].insert(to);
     transitiveAncestorMap[to].insert(from);
   }
 
-  virtual void precomputeRelationT(S from, T to) {
+  virtual void precomputeRelationT(T from, T to) {
     addRelationT(from, to);
     for (const auto& s : transitiveAncestorMap[from]) {
       addRelationT(s, to);
@@ -34,52 +35,58 @@ class RelationTStore : public RelationStore<S, T> {
     }
   }
 
-  template <typename K, typename V = K>
+  // DFS to compute transitive closure of vertex
   void computeRelationT(
-      K key, std::unordered_map<K, std::unordered_set<V>>& directMap,
-      std::unordered_map<K, std::unordered_set<V>>& transitiveMap,
-      std::unordered_map<V, int>& visited) {
-    constexpr int kVisited = 2;
+      T key, std::unordered_map<T, std::unordered_set<T>>& directMap,
+      std::unordered_map<T, std::unordered_set<T>>& transitiveMap) {
     if (transitiveMap.count(key) || !directMap.count(key)) {
       return;  // nothing to compute.
     }
-    std::unordered_set<V> transitiveSet;
-    for (const auto& s : directMap.at(key)) {
-      if (visited[s] == kVisited) {
-       visited.clear();
-       continue;
-      }
-      visited[s]++;
-      computeRelationT(s, directMap, transitiveMap, visited);
-      if (transitiveMap.count(s)) {
-        const auto& sT = transitiveMap.at(s);
-        transitiveSet.reserve(sT.size() + 1);
-        transitiveSet.insert(sT.begin(), sT.end());
-      }
-      transitiveSet.insert(s);
+    std::unordered_set<T> visitedSet;
+    std::stack<T> toVisit;
+    for (const auto& directNbrs : directMap.at(key)) {
+      toVisit.push(directNbrs);
     }
-    if (!transitiveSet.empty()) {
-      transitiveMap[key] = transitiveSet;
+    while (!toVisit.empty()) {
+      T curr = toVisit.top();
+      toVisit.pop();
+      visitedSet.insert(curr);
+
+      if (!directMap.count(curr)) continue;
+      if (transitiveMap.count(curr)) {
+        const auto& currTransNbrs = transitiveMap.at(curr);
+        visitedSet.reserve(currTransNbrs.size());
+        visitedSet.insert(currTransNbrs.begin(), currTransNbrs.end());
+        continue;
+      }
+      for (const auto& nbr : directMap.at(curr)) {
+        if (!visitedSet.count(nbr)) {
+          toVisit.push(nbr);
+        }
+      }
+    }
+    if (!visitedSet.empty()) {
+      transitiveMap[key] = std::move(visitedSet);
     }
   }
 
   virtual void computeAncestorsT(T to) {}
-  virtual void computeSuccessorsT(S from) {}
+  virtual void computeSuccessorsT(T from) {}
   virtual void computeAllRelationsT() {}
 
  public:
-  void addRelation(S from, T to) override {
-    RelationStore<S, T>::addRelation(from, to);
+  void addRelation(T from, T to) override {
+    RelationStore<T, T>::addRelation(from, to);
     precomputeRelationT(from, to);
   }
 
-  [[nodiscard]] bool hasRelationT(S from, T to) {
-    return hasSuccessorsT(from) && transitiveSuccessorMap.at(from).count(to);
-  }
-
-  [[nodiscard]] bool hasSuccessorsT(S from) {
+  [[nodiscard]] bool hasSuccessorsT(T from) {
     computeSuccessorsT(from);
     return transitiveSuccessorMap.count(from);
+  }
+
+  [[nodiscard]] const std::unordered_set<T>& getSuccessorsT(T from) const {
+    return transitiveSuccessorMap.at(from);
   }
 
   [[nodiscard]] bool hasAncestorsT(T to) {
@@ -87,46 +94,15 @@ class RelationTStore : public RelationStore<S, T> {
     return transitiveAncestorMap.count(to);
   }
 
-  [[nodiscard]] const std::unordered_set<T>& getSuccessorsT(S from) const {
-    return transitiveSuccessorMap.at(from);
-  }
-
   [[nodiscard]] const std::unordered_set<T>& getAncestorsT(T to) const {
     return transitiveAncestorMap.at(to);
   }
 
-  [[nodiscard]] std::vector<T> getAllSuccessorsTOf(S from) const {
-    return RelationStore<S, T>::relationToVector(from, transitiveSuccessorMap);
+  [[nodiscard]] bool hasRelationT(T from, T to) {
+    return hasSuccessorsT(from) && transitiveSuccessorMap.at(from).count(to);
   }
 
-  [[nodiscard]] std::vector<T> getSuccessorsTOf(
-      S from, const std::function<bool(T)>& filter) const {
-    return RelationStore<S, T>::relationToVectorFiltered(
-        from, transitiveSuccessorMap, filter);
-  }
-
-  [[nodiscard]] std::vector<S> getAllAncestorsTOf(T to) const {
-    return RelationStore<S, T>::relationToVector(to, transitiveAncestorMap);
-  }
-
-  [[nodiscard]] std::vector<S> getAncestorsTOf(
-      T to, const std::function<bool(S)>& filter) const {
-    return RelationStore<S, T>::relationToVectorFiltered(
-        to, transitiveAncestorMap, filter);
-  }
-
-  [[nodiscard]] std::vector<std::pair<S, T>> getAllRelationsT() const {
-    return RelationStore<S, T>::allRelationsToVector(transitiveSuccessorMap);
-  }
-
-  [[nodiscard]] std::vector<std::pair<S, T>> getRelationsT(
-      std::pair<const std::function<bool(S)>&, const std::function<bool(T)>&>
-          filterStmtPair) const {
-    return RelationStore<S, T>::allRelationsToVectorFiltered(
-        transitiveSuccessorMap, filterStmtPair.first, filterStmtPair.second);
-  }
-
-  [[nodiscard]] const std::unordered_map<S, std::unordered_set<T>>&
+  [[nodiscard]] const std::unordered_map<T, std::unordered_set<T>>&
   getRelationsT() {
     computeAllRelationsT();
     return transitiveSuccessorMap;

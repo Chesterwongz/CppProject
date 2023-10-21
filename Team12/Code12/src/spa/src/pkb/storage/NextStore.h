@@ -1,6 +1,9 @@
 #pragma once
 
+#include <algorithm>
+#include <functional>
 #include <unordered_map>
+#include <vector>
 
 #include "RelationTStore.h"
 

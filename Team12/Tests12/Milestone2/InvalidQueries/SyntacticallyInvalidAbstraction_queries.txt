@@ -1,0 +1,100 @@
+====== 1 - Select typo ======
+stmt s;
+Selec s such that Calls(1,   2)
+SyntaxError
+1000
+====== 2 - such typo ======
+stmt s;
+Select s uch that Calls(1,   2)
+SyntaxError
+1000
+====== 3 - that typo ======
+stmt s;
+Select s such tat Calls(1,   2)
+SyntaxError
+1000
+====== 4 - Case sensitive select ======
+stmt s;
+select s
+SyntaxError
+1000
+====== 5 - Case sensitive such ======
+stmt s;
+Select s Such that Calls(1,   2)
+SyntaxError
+1000
+====== 6 - Case sensitive that ======
+stmt s;
+Select s such THAT Calls(1,   2)
+SyntaxError
+1000
+====== 7 - Case sensitive Calls ======
+stmt s;
+Select s such that calls(1,   2)
+SyntaxError
+1000
+====== 8 - Case sensitive Next ======
+stmt s;
+Select s such that next(1,   2)
+SyntaxError
+1000
+====== 9 - Case sensitive Calls* ======
+stmt s;
+Select s such that calls*(1,   2)
+SyntaxError
+1000
+====== 10 - Case sensitive Next* ======
+stmt s;
+Select s such that next*(1,   2)
+SyntaxError
+1000
+====== 11 - Case sensitive Affects ======
+stmt s;
+Select s such that affects(1,2)
+SyntaxError
+1000
+====== 12 - Nothing selected ======
+stmt s;
+Select such that Calls(1, 2)
+SyntaxError
+1000
+====== 13 - Extra semicolon for Select statement ======
+stmt s;
+Select such that Calls(1, 2);
+SyntaxError
+1000
+====== 14 - Missing that ======
+stmt s;
+Select s such Calls(1,   2)
+SyntaxError
+1000
+====== 15 - Missing such ======
+stmt s;
+Select s that Calls(1,   2)
+SyntaxError
+1000
+====== 16 - Missing such that ======
+stmt s;
+Select s Calls(1,   2)
+SyntaxError
+1000
+====== 17 - Missing Select ======
+stmt s;
+s such that Calls(1,   2)
+SyntaxError
+1000
+====== 18 - Missing abstraction ======
+stmt s;
+Select s such that
+SyntaxError
+1000
+====== 19 - Abstraction SyntaxError before SemanticError ======
+stmt s;
+Select s1 such tat Follows(1,2)
+SyntaxError
+1000
+====== 20 - Abstraction SyntaxError before SemanticError quotation mark ======
+stmt s;
+Select s1 such that Follows(1,"2")
+SyntaxError
+1000

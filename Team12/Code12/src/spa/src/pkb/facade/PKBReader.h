@@ -29,9 +29,12 @@ class PKBReader : public AffectsReader,
                   public PatternReader,
                   public UsesReader,
                   public CallsReader {
+  NextStore& nextStore;
+
  public:
   explicit PKBReader(PKBStore& store)
-      : AffectsReader(store.getModifiesStore(), store.getNextStore(),
+      : nextStore(store.getNextStore()),
+        AffectsReader(store.getModifiesStore(), store.getNextStore(),
                       store.getStmtStore(), store.getUsesStore()),
         DesignEntitiesReader(store.getCallsStmtStore(), store.getEntityStore(),
                              store.getModifiesStore(), store.getStmtStore(),
@@ -45,4 +48,6 @@ class PKBReader : public AffectsReader,
         UsesReader(store.getUsesStore(), store.getUsesProcStore(),
                    store.getStmtStore()),
         CallsReader(store.getCallsStore()) {}
+
+  void clearCache();
 };

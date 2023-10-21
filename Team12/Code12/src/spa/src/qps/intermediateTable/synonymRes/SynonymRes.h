@@ -20,6 +20,12 @@ class SynonymRes {
    * - Variable  -> varName
    */
   unordered_map<AttrRefEnum, string> attributeMap = {};
+  const unordered_map<AttrRef, AttrRefEnum> attrRefToEnumMap = {
+      {ATTR_REF_PROC_NAME, AttrRefEnum::PROC_NAME_ENUM },
+      {ATTR_REF_VAR_NAME, AttrRefEnum::VAR_NAME_ENUM },
+      {ATTR_REF_VALUE, AttrRefEnum::VALUE_ENUM },
+      {ATTR_REF_STMT_NUMBER, AttrRefEnum::STMT_NUM_ENUM },
+  };
   explicit SynonymRes(unordered_map<AttrRefEnum, string> attributeMap);
   friend class SynonymResFactory;
 

@@ -1,0 +1,355 @@
+====== 1 - Uses SemanticError (constant, stmt) ======
+stmt stmt; constant constant;
+Select stmt such that Uses(stmt, constant)
+SemanticError
+1000
+====== 2 - Uses SemanticError (constant, assign) ======
+stmt stmt; assign assign; constant constant;
+Select stmt such that Uses(constant, assign)
+SemanticError
+1000
+====== 3 - Uses SemanticError (constant, while) ======
+stmt stmt; while while; constant constant;
+Select stmt such that Uses(constant, while)
+SemanticError
+1000
+====== 4 - Uses SemanticError (constant, if) ======
+stmt stmt; if if; constant constant;
+Select stmt such that Uses(constant, if)
+SemanticError
+1000
+====== 5 - Uses SemanticError (constant, call) ======
+stmt stmt; call call; constant constant;
+Select stmt such that Uses(constant, call)
+SemanticError
+1000
+====== 6 - Uses SemanticError (constant, read) ======
+stmt stmt; read read; constant constant;
+Select stmt such that Uses(constant, read)
+SemanticError
+1000
+====== 7 - Uses SemanticError (constant, print) ======
+stmt stmt; print print; constant constant;
+Select stmt such that Uses(constant, print)
+SemanticError
+1000
+====== 8 - Uses SemanticError (variable, stmt) ======
+stmt stmt; variable variable;
+Select stmt such that Uses(variable, stmt)
+SemanticError
+1000
+====== 10 - Uses SemanticError (variable, assign) ======
+stmt stmt; assign assign; variable variable;
+Select stmt such that Uses(variable, assign)
+SemanticError
+1000
+====== 11 - Uses SemanticError (variable, while) ======
+stmt stmt; while while; variable variable;
+Select stmt such that Uses(variable, while)
+SemanticError
+1000
+====== 12 - Uses SemanticError (variable, if) ======
+stmt stmt; if if; variable variable;
+Select stmt such that Uses(variable, if)
+SemanticError
+1000
+====== 13 - Uses SemanticError (variable, call) ======
+stmt stmt; call call; variable variable;
+Select stmt such that Uses(variable, call)
+SemanticError
+1000
+====== 14 - Uses SemanticError (variable, read) ======
+stmt stmt; read read; variable variable;
+Select stmt such that Uses(variable, read)
+SemanticError
+1000
+====== 15 - Uses SemanticError (variable, print) ======
+stmt stmt; print print; variable variable;
+Select stmt such that Uses(variable, print)
+SemanticError
+1000
+====== 16 - Uses SemanticError (procedure, stmt) ======
+stmt stmt; procedure procedure;
+Select stmt such that Uses(stmt, procedure)
+SemanticError
+1000
+===== 17 - Uses SemanticError (procedure, assign) ======
+stmt stmt; assign assign; procedure procedure;
+Select stmt such that Uses(procedure, assign)
+SemanticError
+1000
+====== 18 - Uses SemanticError (procedure, while) ======
+stmt stmt; while while; procedure procedure;
+Select stmt such that Uses(procedure, while)
+SemanticError
+1000
+====== 19 - Uses SemanticError (procedure, if) ======
+stmt stmt; if if; procedure procedure;
+Select stmt such that Uses(procedure, if)
+SemanticError
+1000
+====== 20 - Uses SemanticError (procedure, call) ======
+stmt stmt; call call; procedure procedure;
+Select stmt such that Uses(procedure, call)
+SemanticError
+1000
+====== 21 - Uses SemanticError (procedure, read) ======
+stmt stmt; read read; procedure procedure;
+Select stmt such that Uses(procedure, read)
+SemanticError
+1000
+====== 22 - Uses SemanticError (procedure, print) ======
+stmt stmt; print print; procedure procedure;
+Select stmt such that Uses(procedure, print)
+SemanticError
+1000
+====== 23 - Uses SemanticError (stmt, stmt) ======
+stmt stmt1, stmt2;
+Select stmt1 such that Uses(stmt1, stmt2)
+SemanticError
+1000
+====== 24 - Uses SemanticError (stmt, assign) ======
+stmt stmt; assign assign;
+Select stmt such that Uses(stmt, assign)
+SemanticError
+1000
+====== 25 - Uses SemanticError (stmt, while) ======
+stmt stmt; while while;
+Select stmt such that Uses(stmt, while)
+SemanticError
+1000
+====== 26 - Uses SemanticError (stmt, if) ======
+stmt stmt; if if;
+Select stmt such that Uses(stmt, if)
+SemanticError
+1000
+====== 27 - Uses SemanticError (stmt, call) ======
+stmt stmt; call call;
+Select stmt such that Uses(stmt, call)
+SemanticError
+1000
+====== 28 - Uses SemanticError (stmt, read) ======
+stmt stmt; read read;
+Select stmt such that Uses(stmt, read)
+SemanticError
+1000
+====== 29 - Uses SemanticError (stmt, print) ======
+stmt stmt; print print;
+Select stmt such that Uses(stmt, print)
+SemanticError
+1000
+====== 30 - Uses SemanticError (assign, stmt) ======
+stmt stmt; assign assign;
+Select assign such that Uses(assign, stmt)
+SemanticError
+1000
+====== 31 - Uses SemanticError (assign, assign) ======
+assign assign1, assign2;
+Select assign1 such that Uses(assign1, assign2)
+SemanticError
+1000
+====== 32 - Uses SemanticError (assign, while) ======
+assign assign; while while;
+Select assign such that Uses(assign, while)
+SemanticError
+1000
+====== 33 - Uses SemanticError (assign, if) ======
+assign assign; if if;
+Select assign such that Uses(assign, if)
+SemanticError
+1000
+====== 34 - Uses SemanticError (assign, call) ======
+assign assign; call call;
+Select assign such that Uses(assign, call)
+SemanticError
+1000
+====== 35 - Uses SemanticError (assign, read) ======
+assign assign; read read;
+Select assign such that Uses(assign, read)
+SemanticError
+1000
+====== 36 - Uses SemanticError (assign, print) ======
+assign assign; print print;
+Select assign such that Uses(assign, print)
+SemanticError
+1000
+====== 37 - Uses SemanticError (while, stmt) ======
+stmt stmt; while while;
+Select while such that Uses(while, stmt)
+SemanticError
+1000
+====== 38 - Uses SemanticError (while, assign) ======
+assign assign; while while;
+Select while such that Uses(while, assign)
+SemanticError
+1000
+====== 39 - Uses SemanticError (while, while) ======
+while while1, while2;
+Select while1 such that Uses(while1, while2)
+SemanticError
+1000
+====== 40 - Uses SemanticError (while, if) ======
+while while; if if;
+Select while such that Uses(while, if)
+SemanticError
+1000
+====== 41 - Uses SemanticError (while, call) ======
+while while; call call;
+Select while such that Uses(while, call)
+SemanticError
+1000
+====== 42 - Uses SemanticError (while, read) ======
+while while; read read;
+Select while such that Uses(while, read)
+SemanticError
+1000
+====== 43 - Uses SemanticError (while, print) ======
+while while; print print;
+Select while such that Uses(while, print)
+SemanticError
+1000
+====== 44 - Uses SemanticError (if, stmt) ======
+stmt stmt; if if;
+Select if such that Uses(if, stmt)
+SemanticError
+1000
+====== 45 - Uses SemanticError (if, assign) ======
+assign assign; if if;
+Select if such that Uses(if, assign)
+SemanticError
+1000
+====== 46 - Uses SemanticError (if, while) ======
+while while; if if;
+Select if such that Uses(if, while)
+SemanticError
+1000
+====== 47 - Uses SemanticError (if, if) ======
+if if1, if2;
+Select if1 such that Uses(if1, if2)
+SemanticError
+1000
+====== 48 - Uses SemanticError (if, call) ======
+if if; call call;
+Select if such that Uses(if, call)
+SemanticError
+1000
+====== 49 - Uses SemanticError (if, read) ======
+if if; read read;
+Select if such that Uses(if, read)
+SemanticError
+1000
+====== 50 - Uses SemanticError (if, print) ======
+if if; print print;
+Select if such that Uses(if, print)
+SemanticError
+1000
+====== 51 - Uses SemanticError (call, stmt) ======
+stmt stmt; call call;
+Select call such that Uses(call, stmt)
+SemanticError
+1000
+====== 52 - Uses SemanticError (call, assign) ======
+assign assign; call call;
+Select call such that Uses(call, assign)
+SemanticError
+1000
+====== 53 - Uses SemanticError (call, while) ======
+while while; call call;
+Select call such that Uses(call, while)
+SemanticError
+1000
+====== 54 - Uses SemanticError (call, if) ======
+if if; call call;
+Select call such that Uses(call, if)
+SemanticError
+1000
+====== 55 - Uses SemanticError (call, call) ======
+call call1, call2;
+Select call1 such that Uses(call1, call2)
+SemanticError
+1000
+====== 56 - Uses SemanticError (call, read) ======
+call call; read read;
+Select call such that Uses(call, read)
+SemanticError
+1000
+====== 57 - Uses SemanticError (call, print) ======
+call call; print print;
+Select call such that Uses(call, print)
+SemanticError
+1000
+====== 58 - Uses SemanticError (read, stmt) ======
+stmt stmt; read read;
+Select read such that Uses(read, stmt)
+SemanticError
+1000
+====== 59 - Uses SemanticError (read, assign) ======
+assign assign; read read;
+Select read such that Uses(read, assign)
+SemanticError
+1000
+====== 60 - Uses SemanticError (read, while) ======
+while while; read read;
+Select read such that Uses(read, while)
+SemanticError
+1000
+====== 61 - Uses SemanticError (read, if) ======
+if if; read read;
+Select read such that Uses(read, if)
+SemanticError
+1000
+====== 62 - Uses SemanticError (read, call) ======
+call call; read read;
+Select read such that Uses(read, call)
+SemanticError
+1000
+====== 63 - Uses SemanticError (read, read) ======
+read read1, read2;
+Select read1 such that Uses(read1, read2)
+SemanticError
+1000
+====== 64 - Uses SemanticError (read, print) ======
+read read; print print;
+Select read such that Uses(read, print)
+SemanticError
+1000
+====== 65 - Uses SemanticError (print, stmt) ======
+stmt stmt; print print;
+Select print such that Uses(print, stmt)
+SemanticError
+1000
+====== 66 - Uses SemanticError (print, assign) ======
+assign assign; print print;
+Select print such that Uses(print, assign)
+SemanticError
+1000
+====== 67 - Uses SemanticError (print, while) ======
+while while; print print;
+Select print such that Uses(print, while)
+SemanticError
+1000
+====== 68 - Uses SemanticError (print, if) ======
+if if; print print;
+Select print such that Uses(print, if)
+SemanticError
+1000
+====== 69 - Uses SemanticError (print, call) ======
+call call; print print;
+Select print such that Uses(print, call)
+SemanticError
+1000
+====== 70 - Uses SemanticError (print, read) ======
+read read; print print;
+Select print such that Uses(print, read)
+SemanticError
+1000
+====== 71 - Uses SemanticError (print, print) ======
+print print1, print2;
+Select print1 such that Uses(print1, print2)
+SemanticError
+1000
+====== 72 - Uses SemanticError first arg wildcard ======
+print print1, print2;
+Select print1 such that Uses(_, print2)
+SemanticError
+1000

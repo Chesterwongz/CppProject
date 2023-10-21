@@ -7,14 +7,11 @@
 #include "qps/abstraction/BaseAbstraction.h"
 #include "qps/intermediateTable/IntermediateTable.h"
 
-using GetAllStmtStmtPairsFuncType = vector<pair<string, string>> (PKBReader::*)(
-    StmtType firstStmtType, StmtType secondStmtType);
-using IsRelationTrueFuncType = bool (PKBReader::*)(int firstStmtNum,
-                                                   int secondStmtNum);
-
 class StmtToStmtAbstraction : public BaseAbstraction {
  private:
   virtual bool isSelfReferencePossible();
+  virtual bool isFirstStmtTypeInvalid();
+  virtual bool isSecondStmtTypeInvalid();
 
   /**
    * For handling cases where both args are non-integer
@@ -67,7 +64,7 @@ class StmtToStmtAbstraction : public BaseAbstraction {
    * and a has specified stmtNumber
    */
   virtual vector<string> getSecondStmt(int firstStmtNumber,
-                                      StmtType secondStmtType) = 0;
+                                       StmtType secondStmtType) = 0;
 
   /**
    * Abstraction(a, b): check if specified stmtNum and stmtNum are related

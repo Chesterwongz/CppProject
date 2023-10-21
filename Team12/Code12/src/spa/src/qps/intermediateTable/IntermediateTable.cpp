@@ -36,7 +36,7 @@ int IntermediateTable::createNewCol(const string &newColName) {
   return this->currentColCount++;
 }
 
-vector<vector<string>> IntermediateTable::getDataAsStrings() {
+vector<vector<string>> IntermediateTable::getDataAsStrings() const {
   vector<vector<string>> res;
   for (const TableRowType &synonymDataRow : this->tableData) {
     vector<string> row = {};
@@ -49,10 +49,12 @@ vector<vector<string>> IntermediateTable::getDataAsStrings() {
   return res;
 }
 
-TableDataType IntermediateTable::getTableData() { return this->tableData; }
+TableDataType IntermediateTable::getTableData() const {
+  return this->tableData;
+}
 
 unordered_set<string> IntermediateTable::getColumns(
-    const vector<string> &colNameVector) {
+    const vector<string> &colNameVector) const {
   if (colNameVector.empty()) {
     return {};
   }
@@ -78,7 +80,7 @@ unordered_set<string> IntermediateTable::getColumns(
 }
 
 unordered_set<string> IntermediateTable::getColumns(
-    const SynonymsToSelect &selectSynonyms) {
+    const SynonymsToSelect &selectSynonyms) const {
   if (selectSynonyms.empty()) {
     return {};
   }
@@ -106,20 +108,20 @@ unordered_set<string> IntermediateTable::getColumns(
   return res;
 }
 
-vector<string> IntermediateTable::getColNames() { return this->colNames; }
+vector<string> IntermediateTable::getColNames() const { return this->colNames; }
 
-int IntermediateTable::getColIndex(const string &colName) {
+int IntermediateTable::getColIndex(const string &colName) const {
   if (!isColExists(colName)) {
-    return -1;
+    return IntermediateTableUtils::INVALID_COL_INDEX;
   }
   return this->colNameToIndexMap.at(colName);
 }
 
-bool IntermediateTable::isColExists(const std::string &colName) {
+bool IntermediateTable::isColExists(const std::string &colName) const {
   return this->colNameToIndexMap.find(colName) != this->colNameToIndexMap.end();
 }
 
-size_t IntermediateTable::getRowCount() { return this->tableData.size(); }
+size_t IntermediateTable::getRowCount() const { return this->tableData.size(); }
 
 bool IntermediateTable::isTableWildcard() const { return this->isWildcard; }
 
@@ -129,38 +131,63 @@ bool IntermediateTable::isTableEmptyAndNotWildcard() const {
   return !this->isTableWildcard() && this->isTableEmpty();
 }
 
-IntermediateTable IntermediateTable::join(
-    const IntermediateTable &intermediateTable) {
-  if (this->isTableWildcard() && intermediateTable.isTableWildcard()) {
+IntermediateTable IntermediateTable::join(const IntermediateTable &otherTable) {
+  if (this->isTableWildcard() && otherTable.isTableWildcard()) {
     // WILDCARD x WILDCARD = WILDCARD
-    return intermediateTable;
+    return otherTable;
   }
   if (this->isTableEmptyAndNotWildcard() ||
-      intermediateTable.isTableEmptyAndNotWildcard()) {
+      otherTable.isTableEmptyAndNotWildcard()) {
     // (ANY x EMPTY || EMPTY x ANY) = EMPTY
     return IntermediateTable::makeEmptyTable();
   }
-  if (this->isTableWildcard() && !intermediateTable.isTableWildcard()) {
+  if (this->isTableWildcard() && !otherTable.isTableWildcard()) {
     // WILDCARD X TABLE_2 = TABLE_2
-    return intermediateTable;
+    return otherTable;
   }
-  if (!this->isTableWildcard() && intermediateTable.isTableWildcard()) {
+  if (!this->isTableWildcard() && otherTable.isTableWildcard()) {
     // TABLE_1 x WILDCARD = TABLE_1
     return *this;
   }
 
   pair<vector<int>, vector<int>> sharedColumnIndexes =
-      getSharedColIndexes(*this, intermediateTable);
+      IntermediateTableUtils::getSharedColIndexes(*this, otherTable);
   bool noSharedColumns =
       sharedColumnIndexes.first.empty() && sharedColumnIndexes.second.empty();
 
   // Cross if no shared columns, inner join if shared columns exists
   return noSharedColumns
-             ? getCrossProduct(*this, intermediateTable)
-             : getInnerJoin(sharedColumnIndexes, *this, intermediateTable);
+             ? IntermediateTableUtils::getCrossProduct(*this, otherTable)
+             : IntermediateTableUtils::getInnerJoin(sharedColumnIndexes, *this,
+                                                    otherTable);
 }
 
-void IntermediateTable::printTable() {
+IntermediateTable IntermediateTable::join(
+    const IntermediateTable &otherTable,
+    const pair<string, AttrRef> &joinColThis,
+    const pair<string, AttrRef> &joinColOther) {
+  if (this->isTableWildcard() && otherTable.isTableWildcard()) {
+    // WILDCARD x WILDCARD = WILDCARD
+    return otherTable;
+  }
+  if (this->isTableEmptyAndNotWildcard() ||
+      otherTable.isTableEmptyAndNotWildcard()) {
+    // (ANY x EMPTY || EMPTY x ANY) = EMPTY
+    return IntermediateTable::makeEmptyTable();
+  }
+  if (this->isTableWildcard() && !otherTable.isTableWildcard()) {
+    // WILDCARD X TABLE_2 = TABLE_2
+    return otherTable;
+  }
+  if (!this->isTableWildcard() && otherTable.isTableWildcard()) {
+    // TABLE_1 x WILDCARD = TABLE_1
+    return *this;
+  }
+  return IntermediateTableUtils::getInnerJoinOn(*this, otherTable, joinColThis,
+                                                joinColOther);
+}
+
+void IntermediateTable::printTable() const {
   std::cout << "table: " << std::endl;
   if (this->isWildcard || this->isEmpty) {
     std::cout << (isWildcard ? "WILDCARD" : "EMPTY") << std::endl;
@@ -173,10 +200,14 @@ void IntermediateTable::printTable() {
   }
   std::cout << colNamesToPrint << std::endl;
 
-  for (auto &row : this->getDataAsStrings()) {
+  for (auto &row : this->getTableData()) {
     string rowDataToPrint;
     for (auto &col : row) {
-      rowDataToPrint += col + " | ";
+      rowDataToPrint += col.getAttribute(AttrRefEnum::DEFAULT) + "," +
+                        col.getAttribute(AttrRefEnum::VALUE_ENUM) + "," +
+                        col.getAttribute(AttrRefEnum::VAR_NAME_ENUM) + "," +
+                        col.getAttribute(AttrRefEnum::STMT_NUM_ENUM) + "," +
+                        col.getAttribute(AttrRefEnum::PROC_NAME_ENUM) + " | ";
     }
     std::cout << rowDataToPrint << std::endl;
   }

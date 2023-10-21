@@ -1,0 +1,260 @@
+====== 1 - Affects SemanticError (assign, constant) ======
+stmt s; assign assign; constant constant;
+Select s such that Affects(assign, constant)
+SemanticError
+1000
+====== 2 - Affects SemanticError (assign, procedure) ======
+stmt s; assign assign; procedure procedure;
+Select s such that Affects(assign, procedure)
+SemanticError
+1000
+====== 3 - Affects SemanticError (assign, variable) ======
+stmt s; assign assign; variable variable;
+Select s such that Affects(assign, variable)
+SemanticError
+1000
+====== 4 - Affects SemanticError (call, constant) ======
+stmt s; call call; constant constant;
+Select s such that Affects(call, constant)
+SemanticError
+1000
+====== 5 - Affects SemanticError (call, procedure) ======
+stmt s; call call; procedure procedure;
+Select s such that Affects(call, procedure)
+SemanticError
+1000
+====== 6 - Affects SemanticError (call, variable) ======
+stmt s; call call; variable variable;
+Select s such that Affects(call, variable)
+SemanticError
+1000
+====== 7 - Affects SemanticError (print, constant) ======
+stmt s; print print; constant constant;
+Select s such that Affects(print, constant)
+SemanticError
+1000
+====== 8 - Affects SemanticError (print, procedure) ======
+stmt s; print print; procedure procedure;
+Select s such that Affects(print, procedure)
+SemanticError
+1000
+====== 9 - Affects SemanticError (print, variable) ======
+stmt s; print print; variable variable;
+Select s such that Affects(print, variable)
+SemanticError
+1000
+====== 10 - Affects SemanticError (read, constant) ======
+stmt s; read read; constant constant;
+Select s such that Affects(read, constant)
+SemanticError
+1000
+====== 11 - Affects SemanticError (read, procedure) ======
+stmt s; read read; procedure procedure;
+Select s such that Affects(read, procedure)
+SemanticError
+1000
+====== 12 - Affects SemanticError (read, variable) ======
+stmt s; read read; variable variable;
+Select s such that Affects(read, variable)
+SemanticError
+1000
+====== 13 - Affects SemanticError (if, constant) ======
+stmt s; if if; constant constant;
+Select s such that Affects(if, constant)
+SemanticError
+1000
+====== 14 - Affects SemanticError (if, procedure) ======
+stmt s; if if; procedure procedure;
+Select s such that Affects(if, procedure)
+SemanticError
+1000
+====== 15 - Affects SemanticError (if, variable) ======
+stmt s; if if; variable variable;
+Select s such that Affects(if, variable)
+SemanticError
+1000
+====== 16 - Affects SemanticError (while, constant) ======
+stmt s; while while; constant constant;
+Select s such that Affects(while, constant)
+SemanticError
+1000
+====== 17 - Affects SemanticError (while, procedure) ======
+stmt s; while while; procedure procedure;
+Select s such that Affects(while, procedure)
+SemanticError
+1000
+====== 18 - Affects SemanticError (while, variable) ======
+stmt s; while while; variable variable;
+Select s such that Affects(while, variable)
+SemanticError
+1000
+====== 19 - Affects SemanticError (stmt, constant) ======
+stmt s; stmt stmt; constant constant;
+Select s such that Affects(stmt, constant)
+SemanticError
+1000
+====== 20 - Affects SemanticError (stmt, procedure) ======
+stmt s; stmt stmt; procedure procedure;
+Select s such that Affects(stmt, procedure)
+SemanticError
+1000
+====== 21 - Affects SemanticError (stmt, variable) ======
+stmt s; stmt stmt; variable variable;
+Select s such that Affects(stmt, variable)
+SemanticError
+1000
+====== 22 - Affects SemanticError (constant, assign) ======
+stmt s; constant constant; assign assign;
+Select s such that Affects(constant, assign)
+SemanticError
+1000
+====== 23 - Affects SemanticError (constant, call) ======
+stmt s; constant constant; call call;
+Select s such that Affects(constant, call)
+SemanticError
+1000
+====== 24 - Affects SemanticError (constant, print) ======
+stmt s; constant constant; print print;
+Select s such that Affects(constant, print)
+SemanticError
+1000
+====== 25 - Affects SemanticError (constant, read) ======
+stmt s; constant constant; read read;
+Select s such that Affects(constant, read)
+SemanticError
+1000
+====== 26 - Affects SemanticError (constant, if) ======
+stmt s; constant constant; if if;
+Select s such that Affects(constant, if)
+SemanticError
+1000
+====== 27 - Affects SemanticError (constant, while) ======
+stmt s; constant constant; while while;
+Select s such that Affects(constant, while)
+SemanticError
+1000
+====== 28 - Affects SemanticError (constant, stmt) ======
+stmt s; constant constant; stmt stmt;
+Select s such that Affects(constant, stmt)
+SemanticError
+1000
+====== 29 - Affects SemanticError (procedure, assign) ======
+stmt s; procedure procedure; assign assign;
+Select s such that Affects(procedure, assign)
+SemanticError
+1000
+====== 30 - Affects SemanticError (procedure, call) ======
+stmt s; procedure procedure; call call;
+Select s such that Affects(procedure, call)
+SemanticError
+1000
+====== 31 - Affects SemanticError (procedure, print) ======
+stmt s; procedure procedure; print print;
+Select s such that Affects(procedure, print)
+SemanticError
+1000
+====== 32 - Affects SemanticError (procedure, read) ======
+stmt s; procedure procedure; read read;
+Select s such that Affects(procedure, read)
+SemanticError
+1000
+====== 33 - Affects SemanticError (procedure, if) ======
+stmt s; procedure procedure; if if;
+Select s such that Affects(procedure, if)
+SemanticError
+1000
+====== 34 - Affects SemanticError (procedure, while) ======
+stmt s; procedure procedure; while while;
+Select s such that Affects(procedure, while)
+SemanticError
+1000
+====== 35 - Affects SemanticError (procedure, stmt) ======
+stmt s; procedure procedure; stmt stmt;
+Select s such that Affects(procedure, stmt)
+SemanticError
+1000
+====== 36 - Affects SemanticError (variable, assign) ======
+stmt s; variable variable; assign assign;
+Select s such that Affects(variable, assign)
+SemanticError
+1000
+====== 37 - Affects SemanticError (variable, call) ======
+stmt s; variable variable; call call;
+Select s such that Affects(variable, call)
+SemanticError
+1000
+====== 38 - Affects SemanticError (variable, print) ======
+stmt s; variable variable; print print;
+Select s such that Affects(variable, print)
+SemanticError
+1000
+====== 39 - Affects SemanticError (variable, read) ======
+stmt s; variable variable; read read;
+Select s such that Affects(variable, read)
+SemanticError
+1000
+====== 40 - Affects SemanticError (variable, if) ======
+stmt s; variable variable; if if;
+Select s such that Affects(variable, if)
+SemanticError
+1000
+====== 41 - Affects SemanticError (variable, while) ======
+stmt s; variable variable; while while;
+Select s such that Affects(variable, while)
+SemanticError
+1000
+====== 42 - Affects SemanticError (variable, stmt) ======
+stmt s; variable variable; stmt stmt;
+Select s such that Affects(variable, stmt)
+SemanticError
+1000
+====== 43 - Affects SemanticError (constant, constant) ======
+stmt s; constant constant1, constant2;
+Select s such that Affects(constant1, constant2)
+SemanticError
+1000
+====== 44 - Affects SemanticError (constant, procedure) ======
+stmt s; constant constant; procedure procedure;
+Select s such that Affects(constant, procedure)
+SemanticError
+1000
+====== 45 - Affects SemanticError (constant, variable) ======
+stmt s; constant constant; variable variable;
+Select s such that Affects(constant, variable)
+SemanticError
+1000
+====== 46 - Affects SemanticError (procedure, constant) ======
+stmt s; procedure procedure; constant constant;
+Select s such that Affects(procedure, constant)
+SemanticError
+1000
+====== 47 - Affects SemanticError (procedure, procedure) ======
+stmt s; procedure procedure1, procedure2;
+Select s such that Affects(procedure1, procedure2)
+SemanticError
+1000
+====== 48 - Affects SemanticError (procedure, variable) ======
+stmt s; procedure procedure; variable variable;
+Select s such that Affects(procedure, variable)
+SemanticError
+1000
+====== 49 - Affects SemanticError (variable, constant) ======
+stmt s; variable variable; constant constant;
+Select s such that Affects(variable, constant)
+SemanticError
+1000
+====== 50 - Affects SemanticError (variable, procedure) ======
+stmt s; variable variable; procedure procedure;
+Select s such that Affects(variable, procedure)
+SemanticError
+1000
+====== 51 - Affects SemanticError (variable, variable) ======
+stmt s; variable variable1, variable2;
+Select s such that Affects(variable1, variable2)
+SemanticError
+1000
+====== 52 - Affects SemanticError with undeclared synonym ======
+stmt s; assign a;
+Select s such that Affects(a1, s)
+SemanticError
+1000
