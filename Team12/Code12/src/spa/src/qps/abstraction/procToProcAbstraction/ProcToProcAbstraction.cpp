@@ -2,7 +2,7 @@
 
 #include <unordered_set>
 
-#include "qps/abstraction/SynResConversionUtils.h"
+#include "qps/clause/utils/ClauseUtil.h"
 
 /**
  * ProcToProcAbstraction abstraction:
@@ -70,8 +70,8 @@ IntermediateTable ProcToProcAbstraction::handleSynonymOrWildcardArgs() {
 
   vector<pair<string, string>> allPairs = getAllAbstractionPairs();
 
-  pair<Entity, Entity> entityPair = {getArgEntity(this->firstArg),
-                                     getArgEntity(this->secondArg)};
+  pair<Entity, Entity> entityPair = {ClauseUtil::getArgEntity(this->firstArg),
+                                     ClauseUtil::getArgEntity(this->secondArg)};
   vector<string> colNames = {firstArgSynonym, secondArgSynonym};
   TableDataType resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
       allPairs, entityPair, this->pkb);

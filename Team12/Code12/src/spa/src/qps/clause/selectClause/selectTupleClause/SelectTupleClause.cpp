@@ -2,6 +2,9 @@
 
 #include <cassert>
 
+#include "qps/abstraction/AbstractionUtils.h"
+#include "qps/abstraction/SynResConversionUtils.h"
+#include "qps/clause/utils/ClauseUtil.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 
@@ -35,7 +38,12 @@ IntermediateTable SelectTupleClause::getAllPossibleValues(
   } else {
     results = SelectTupleClause::evaluatorFuncMap.at(entity)(pkb);
   }
-  return IntermediateTableFactory::buildSingleColTable(synonymValue, results);
+
+  vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+      results, ClauseUtil::getArgEntity(*synonymArg), pkb);
+
+  return IntermediateTableFactory::buildSingleColTable(synonymValue,
+                                                       resultAsSynonymRes);
 }
 
 bool SelectTupleClause::isEquals(const Clause &other) {

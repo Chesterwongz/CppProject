@@ -1,5 +1,7 @@
 #include "StmtToStmtAbstraction.h"
 
+#include "qps/clause/utils/ClauseUtil.h"
+
 /**
  * StmtToStmtAbstraction abstraction:
  * - firstArg: Synonym OR Integer OR Wildcard
@@ -106,8 +108,8 @@ IntermediateTable StmtToStmtAbstraction::handleSynonymOrWildcardArgs() {
 
   filterSelfRefPairs(stmtStmtPairs);
 
-  pair<Entity, Entity> entityPair = {getArgEntity(this->firstArg),
-                                     getArgEntity(this->secondArg)};
+  pair<Entity, Entity> entityPair = {ClauseUtil::getArgEntity(this->firstArg),
+                                     ClauseUtil::getArgEntity(this->secondArg)};
   vector<string> colNames = {firstArgStmtSynonym, secondArgStmtSynonym};
   TableDataType resultAsSynonymRes =
       SynResConversionUtils::toSynonymRes(stmtStmtPairs, entityPair, this->pkb);
@@ -145,7 +147,7 @@ IntermediateTable StmtToStmtAbstraction::handleFirstArgInteger() {
 
   vector<string> results = getSecondStmt(firstArgStmtNumber, secondArgStmtType);
 
-  Entity secondArgEntity = getArgEntity(this->secondArg);
+  Entity secondArgEntity = ClauseUtil::getArgEntity(this->secondArg);
   vector<SynonymRes> resultAsSynonymRes =
       SynResConversionUtils::toSynonymRes(results, secondArgEntity, this->pkb);
 
@@ -164,7 +166,7 @@ IntermediateTable StmtToStmtAbstraction::handleSecondArgInteger() {
 
   vector<string> results = getFirstStmt(secondArgStmtNumber, firstArgStmtType);
 
-  Entity firstArgEntity = getArgEntity(this->firstArg);
+  Entity firstArgEntity = ClauseUtil::getArgEntity(this->firstArg);
   vector<SynonymRes> resultAsSynonymRes =
       SynResConversionUtils::toSynonymRes(results, firstArgEntity, this->pkb);
 

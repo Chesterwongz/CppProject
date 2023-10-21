@@ -3,6 +3,7 @@
 #include <unordered_set>
 
 #include "qps/abstraction/SynResConversionUtils.h"
+#include "qps/clause/utils/ClauseUtil.h"
 
 /**
  * StmtOrProcToVarAbstraction abstraction:
@@ -39,7 +40,8 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymIdent() {
   }
 
   vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
-      possibleValuesOfSynonym, getArgEntity(this->firstArg), this->pkb);
+      possibleValuesOfSynonym, ClauseUtil::getArgEntity(this->firstArg),
+      this->pkb);
 
   return IntermediateTableFactory::buildSingleColTable(firstArgSynonym,
                                                        resultAsSynonymRes);
@@ -129,8 +131,8 @@ IntermediateTable StmtOrProcToVarAbstraction::handleSynonymOrWildcardArgs() {
     allStmtOrProcAndVarPairs = getAllStmtVarRelations(firstArgStmtType);
   }
 
-  pair<Entity, Entity> entityPair = {getArgEntity(this->firstArg),
-                                     getArgEntity(this->secondArg)};
+  pair<Entity, Entity> entityPair = {ClauseUtil::getArgEntity(this->firstArg),
+                                     ClauseUtil::getArgEntity(this->secondArg)};
   vector<string> colNames = {firstArgSynonym, secondArgVarSynonym};
   TableDataType resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
       allStmtOrProcAndVarPairs, entityPair, this->pkb);
