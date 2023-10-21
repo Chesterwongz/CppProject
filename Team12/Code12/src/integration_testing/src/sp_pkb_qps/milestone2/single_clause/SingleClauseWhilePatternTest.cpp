@@ -156,3 +156,34 @@ TEST_CASE(
   unordered_set<string> expected = {};
   REQUIRE(result == expected);
 }
+
+string whileSource2 =
+    "procedure test {\n"
+    "  a = 1;\n"
+    "  print b;\n"
+    "  read c;\n"
+    "  if (x == 2) then {\n"
+    "    a = 2;\n"
+    "  } else {\n"
+    "    c = 3;\n"
+    "  }\n"
+    "  while (x == 2) {\n"
+    "    d = 4;\n"
+    "  }\n"
+    "}";
+
+// TODO(Hwee): Rename this test
+TEST_CASE("SP-PKB-QPS we shall rename this later") {
+  string query =
+      "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while "
+      "w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable "
+      "v1, v2;\n"
+      "Select s1 pattern w1(v1, \"1\")";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(whileSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"SemanticError"};
+  REQUIRE(result == expected);
+}

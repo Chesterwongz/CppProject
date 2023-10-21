@@ -61,7 +61,7 @@ void PatternParserState::createPatternClause() {
           isPartialMatch));
       return;
     }
-    if (synEntity == WHILE_ENTITY) {
+    if (synEntity == WHILE_ENTITY && nonFirstArgs[0]->isWildcard()) {
       parserContext.addClause(std::make_unique<WhilePatternClause>(
           std::move(syn), std::move(firstArg)));
       return;
