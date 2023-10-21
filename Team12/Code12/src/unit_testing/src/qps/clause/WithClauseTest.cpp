@@ -1007,8 +1007,8 @@ TEST_CASE("test_withClause_evaluate_int = ident_emptyTable") {
 
 TEST_CASE(
     "test_withClause_evaluate_proc.procName = "
-    "call.procName_permutation_swapArgs_"
-    "noSharedCol") {
+    "call.procName_"
+    "joinOnDifferentColNameButSameAttr") {
   // procedure proc call call; select proc with proc.procName = call.procName
   string withProcSynonymArgVal = "proc";
   Entity procSynonymEntity = PROCEDURE_ENTITY;
@@ -1060,8 +1060,8 @@ TEST_CASE(
 
 TEST_CASE(
     "test_withClause_evaluate_a.stmt# = "
-    "a.stmt#_permutation_swapArgs_"
-    "with") {
+    "a.stmt#_"
+    "joinOnSameColNameAndAttr") {
   // assign a; select a with a.stmt# = a.stmt#
   string assignSynonymArgVal = "a";
   Entity assignSynonymEntity = ASSIGN_ENTITY;
@@ -1097,4 +1097,89 @@ TEST_CASE(
   REQUIRE(actualColNames[0] == assignSynonymArgVal);
   REQUIRE(actualRowCount == 4);
   REQUIRE(actualData == expectedData);
+}
+
+TEST_CASE(
+    "test_withClause_evaluate_c.varName = "
+    "p.procName_"
+    "joinOnDifferentColNameAndDifferentAttr") {
+  // variable v; proc p; Select v with v.varName = p.procName
+  string varSynonymArgVal = "v";
+  Entity varSynonymEntity = VARIABLE_ENTITY;
+  AttrRef varAttrRef = ATTR_REF_VAR_NAME;
+
+  string procSynonymArgVal = "p";
+  Entity procSynonymEntity = PROCEDURE_ENTITY;
+  AttrRef procAttrRef = ATTR_REF_PROC_NAME;
+
+  unique_ptr<SynonymArg> withVarSynonymPtr = std::make_unique<SynonymArg>(
+      varSynonymArgVal, varSynonymEntity, varAttrRef);
+
+  unique_ptr<SynonymArg> withProcSynonymPtr = std::make_unique<SynonymArg>(
+      procSynonymArgVal, procSynonymEntity, procAttrRef);
+
+  WithClause withClause =
+      WithClause(std::move(withVarSynonymPtr), std::move(withProcSynonymPtr));
+
+  MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
+
+  vector<string> allVars = {"p1", "p2", "p3"};
+  mockPkbReader.mockAllVariables = allVars;
+
+  vector<string> allProcs = {"p1", "p2"};
+  mockPkbReader.mockAllProcedures = allProcs;
+
+  SynonymRes var1 = SynonymResFactory::buildVarSynonym("p1");
+  SynonymRes var2 = SynonymResFactory::buildVarSynonym("p2");
+  SynonymRes var3 = SynonymResFactory::buildVarSynonym("p3");
+
+  SynonymRes proc1 = SynonymResFactory::buildVarSynonym("p1");
+  SynonymRes proc2 = SynonymResFactory::buildVarSynonym("p2");
+
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
+  vector<string> actualColNames = actualTable.getColNames();
+  TableDataType actualData = actualTable.getTableData();
+  int actualRowCount = actualTable.getRowCount();
+
+  TableDataType expectedData = {{var1, proc1}, {var2, proc2}};
+
+  REQUIRE(actualColNames.size() == 2);
+  REQUIRE(actualColNames[0] == varSynonymArgVal);
+  REQUIRE(actualColNames[1] == procSynonymArgVal);
+  REQUIRE(actualRowCount == 2);
+  REQUIRE(actualData == expectedData);
+}
+
+TEST_CASE(
+    "test_withClause_evaluate_c.varName = "
+    "p.procName_"
+    "joinOnSameColNameButDifferentAttr") {
+  // variable v; proc p; Select v with v.varName = p.procName
+  string callSynonymArgVal = "c";
+  Entity callSynonymEntity = VARIABLE_ENTITY;
+  AttrRef callAttrRef1 = ATTR_REF_STMT_NUMBER;
+  AttrRef callAttrRef2 = ATTR_REF_PROC_NAME;
+
+  unique_ptr<SynonymArg> withCallSynonymPtr1 = std::make_unique<SynonymArg>(
+      callSynonymArgVal, callSynonymEntity, callAttrRef1);
+
+  unique_ptr<SynonymArg> withCallSynonymPtr2 = std::make_unique<SynonymArg>(
+      callSynonymArgVal, callSynonymEntity, callAttrRef2);
+
+  WithClause withClause = WithClause(std::move(withCallSynonymPtr1),
+                                     std::move(withCallSynonymPtr2));
+
+  MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
+
+  vector<pair<string, string>> stmtProcCallsPairs = {
+      {"1", "p1"}, {"99", "p2"}, {"100", "p3"}};
+  mockPkbReader.mockStmtProcCallsPairs = stmtProcCallsPairs;
+
+  SynonymRes call1 = SynonymResFactory::buildCallsSynonym("1", "pq");
+  SynonymRes call2 = SynonymResFactory::buildCallsSynonym("99", "p2");
+  SynonymRes call3 = SynonymResFactory::buildCallsSynonym("100", "p3");
+
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
+
+  REQUIRE(actualTable.isTableEmpty());
 }

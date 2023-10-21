@@ -71,11 +71,11 @@ none
 ====== 15 - with stmt.stmt# - select different stmt ======
 stmt s1, s2;
 Select s1 with s2.stmt# = 1
-1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
 1000
 ====== 16 - with stmt.stmt# - select different stmt, no results ======
 stmt s1, s2;
-Select s1 with s2.stmt# = 24
+Select s1 with s2.stmt# = 25
 none
 1000
 ====== 17 - with constant.value ======
@@ -303,8 +303,28 @@ procedure p;
 Select p with p.varName = x
 SemanticError
 1000
-====== 60 - with variable.stmt# - SemanticError ======
+====== 62 - with variable.stmt# - SemanticError ======
 variable v;
 Select v with v.stmt# = 6
 SemanticError
+1000
+====== 63 - with assign.stmt# = assign.stmt# - joinOnSameColNameAndAttr ======
+assign a; procedure p;
+Select p with a.stmt# = a.stmt#
+WithSource1, WithSource2, WithSource3
+1000
+====== 64 - with assign.stmt# = assign.stmt# - joinOnDifferentColNameButSameAttr ======
+assign a1, a2; procedure p;
+Select p with a1.stmt# = a2.stmt#
+WithSource1, WithSource2, WithSource3
+1000
+====== 65 - with var.varName = p.procName - joinOnDifferentColNameAndDifferentAttr ======
+variable v; procedure p;
+Select v with v.varName = p.procName
+WithSource3
+1000
+====== 65 - with var.varName = p.procName - joinOnSameColNameButDifferentAttr ======
+call c; stmt s;
+Select s with c.varName = c.stmt#
+none
 1000

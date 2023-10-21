@@ -28,4 +28,5 @@ procedure WithSource2 {
 procedure WithSource3 {
   print wow;
   read amazing;
+  WithSource1 = 100;
 }
