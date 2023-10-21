@@ -5,6 +5,14 @@
  * - firstArg: Synonym OR Integer OR Wildcard
  * - secondArg: Synonym OR Integer OR Wildcard
  */
+
+bool ParentsStarAbstraction::isFirstStmtTypeInvalid() {
+  StmtType stmtType = this->getFirstArgStmtType();
+  return stmtType != StmtType::STMT &&
+         stmtType != StmtType::IF &&
+         stmtType != StmtType::WHILE;
+}
+
 vector<pair<string, string>> ParentsStarAbstraction::getAllPairs(
     StmtType firstStmtType, StmtType secondStmtType) {
   return pkb.getParentChildStarPairs(firstStmtType, secondStmtType);

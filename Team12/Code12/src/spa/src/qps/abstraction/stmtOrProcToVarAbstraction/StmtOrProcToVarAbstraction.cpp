@@ -8,6 +8,10 @@
  * - secondArg: Synonym OR Identifier OR Wildcard
  */
 
+bool StmtOrProcToVarAbstraction::isFirstSynonymInvalid() { return false; }
+
+bool StmtOrProcToVarAbstraction::isSecondSynonymInvalid() { return false; }
+
 // Abstraction (StatementOrProcSynonym, VarSynonym)
 IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymSynonym() {
   return handleSynonymOrWildcardArgs();
@@ -15,6 +19,9 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymSynonym() {
 
 // Abstraction (StatementOrProcSynonym, VarIdentifier)
 IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymIdent() {
+  if (isFirstSynonymInvalid()) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
   string firstArgSynonym = this->firstArgValue;
   bool isFirstArgProcedure = this->firstArg.isProcSynonym();
   string secondArgVarName = this->secondArgValue;
@@ -39,6 +46,10 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymWildcard() {
 
 // Abstraction (StatementNumber, VarSynonym)
 IntermediateTable StmtOrProcToVarAbstraction::evaluateIntegerSynonym() {
+  if (isSecondSynonymInvalid()) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
+
   int firstArgStmtNumber = stoi(this->firstArgValue);
   string secondArgVarSynonym = this->secondArgValue;
 
@@ -92,6 +103,10 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateIdentWildcard() {
 }
 
 IntermediateTable StmtOrProcToVarAbstraction::handleSynonymOrWildcardArgs() {
+  if (isFirstSynonymInvalid() || isSecondSynonymInvalid()) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
+
   string firstArgSynonym = this->firstArgValue;
   bool isFirstArgProcedure = this->firstArg.isProcSynonym();
   string secondArgVarSynonym = this->secondArgValue;
@@ -112,6 +127,10 @@ IntermediateTable StmtOrProcToVarAbstraction::handleSynonymOrWildcardArgs() {
 
 IntermediateTable
 StmtOrProcToVarAbstraction::handleProcNameWithVarSynonymOrWildcard() {
+  if (isSecondSynonymInvalid()) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
+
   string firstArgProcName = this->firstArgValue;
   string secondArgVarValue = this->secondArgValue;
   vector<string> possibleVarValues = getVarsRelatedToProc(firstArgProcName);

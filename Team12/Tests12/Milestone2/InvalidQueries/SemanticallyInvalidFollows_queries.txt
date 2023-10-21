@@ -1,0 +1,260 @@
+====== 1 - Follows SemanticError (assign, constant) ======
+stmt s; assign assign; constant constant;
+Select s such that Follows(assign, constant)
+SemanticError
+1000
+====== 2 - Follows SemanticError (assign, procedure) ======
+stmt s; assign assign; procedure procedure;
+Select s such that Follows(assign, procedure)
+SemanticError
+1000
+====== 3 - Follows SemanticError (assign, variable) ======
+stmt s; assign assign; variable variable;
+Select s such that Follows(assign, variable)
+SemanticError
+1000
+====== 4 - Follows SemanticError (call, constant) ======
+stmt s; call call; constant constant;
+Select s such that Follows(call, constant)
+SemanticError
+1000
+====== 5 - Follows SemanticError (call, procedure) ======
+stmt s; call call; procedure procedure;
+Select s such that Follows(call, procedure)
+SemanticError
+1000
+====== 6 - Follows SemanticError (call, variable) ======
+stmt s; call call; variable variable;
+Select s such that Follows(call, variable)
+SemanticError
+1000
+====== 7 - Follows SemanticError (print, constant) ======
+stmt s; print print; constant constant;
+Select s such that Follows(print, constant)
+SemanticError
+1000
+====== 8 - Follows SemanticError (print, procedure) ======
+stmt s; print print; procedure procedure;
+Select s such that Follows(print, procedure)
+SemanticError
+1000
+====== 9 - Follows SemanticError (print, variable) ======
+stmt s; print print; variable variable;
+Select s such that Follows(print, variable)
+SemanticError
+1000
+====== 10 - Follows SemanticError (read, constant) ======
+stmt s; read read; constant constant;
+Select s such that Follows(read, constant)
+SemanticError
+1000
+====== 11 - Follows SemanticError (read, procedure) ======
+stmt s; read read; procedure procedure;
+Select s such that Follows(read, procedure)
+SemanticError
+1000
+====== 12 - Follows SemanticError (read, variable) ======
+stmt s; read read; variable variable;
+Select s such that Follows(read, variable)
+SemanticError
+1000
+====== 13 - Follows SemanticError (if, constant) ======
+stmt s; if if; constant constant;
+Select s such that Follows(if, constant)
+SemanticError
+1000
+====== 14 - Follows SemanticError (if, procedure) ======
+stmt s; if if; procedure procedure;
+Select s such that Follows(if, procedure)
+SemanticError
+1000
+====== 15 - Follows SemanticError (if, variable) ======
+stmt s; if if; variable variable;
+Select s such that Follows(if, variable)
+SemanticError
+1000
+====== 16 - Follows SemanticError (while, constant) ======
+stmt s; while while; constant constant;
+Select s such that Follows(while, constant)
+SemanticError
+1000
+====== 17 - Follows SemanticError (while, procedure) ======
+stmt s; while while; procedure procedure;
+Select s such that Follows(while, procedure)
+SemanticError
+1000
+====== 18 - Follows SemanticError (while, variable) ======
+stmt s; while while; variable variable;
+Select s such that Follows(while, variable)
+SemanticError
+1000
+====== 19 - Follows SemanticError (stmt, constant) ======
+stmt s; stmt stmt; constant constant;
+Select s such that Follows(stmt, constant)
+SemanticError
+1000
+====== 20 - Follows SemanticError (stmt, procedure) ======
+stmt s; stmt stmt; procedure procedure;
+Select s such that Follows(stmt, procedure)
+SemanticError
+1000
+====== 21 - Follows SemanticError (stmt, variable) ======
+stmt s; stmt stmt; variable variable;
+Select s such that Follows(stmt, variable)
+SemanticError
+1000
+====== 22 - Follows SemanticError (constant, assign) ======
+stmt s; constant constant; assign assign;
+Select s such that Follows(constant, assign)
+SemanticError
+1000
+====== 23 - Follows SemanticError (constant, call) ======
+stmt s; constant constant; call call;
+Select s such that Follows(constant, call)
+SemanticError
+1000
+====== 24 - Follows SemanticError (constant, print) ======
+stmt s; constant constant; print print;
+Select s such that Follows(constant, print)
+SemanticError
+1000
+====== 25 - Follows SemanticError (constant, read) ======
+stmt s; constant constant; read read;
+Select s such that Follows(constant, read)
+SemanticError
+1000
+====== 26 - Follows SemanticError (constant, if) ======
+stmt s; constant constant; if if;
+Select s such that Follows(constant, if)
+SemanticError
+1000
+====== 27 - Follows SemanticError (constant, while) ======
+stmt s; constant constant; while while;
+Select s such that Follows(constant, while)
+SemanticError
+1000
+====== 28 - Follows SemanticError (constant, stmt) ======
+stmt s; constant constant; stmt stmt;
+Select s such that Follows(constant, stmt)
+SemanticError
+1000
+====== 29 - Follows SemanticError (procedure, assign) ======
+stmt s; procedure procedure; assign assign;
+Select s such that Follows(procedure, assign)
+SemanticError
+1000
+====== 30 - Follows SemanticError (procedure, call) ======
+stmt s; procedure procedure; call call;
+Select s such that Follows(procedure, call)
+SemanticError
+1000
+====== 31 - Follows SemanticError (procedure, print) ======
+stmt s; procedure procedure; print print;
+Select s such that Follows(procedure, print)
+SemanticError
+1000
+====== 32 - Follows SemanticError (procedure, read) ======
+stmt s; procedure procedure; read read;
+Select s such that Follows(procedure, read)
+SemanticError
+1000
+====== 33 - Follows SemanticError (procedure, if) ======
+stmt s; procedure procedure; if if;
+Select s such that Follows(procedure, if)
+SemanticError
+1000
+====== 34 - Follows SemanticError (procedure, while) ======
+stmt s; procedure procedure; while while;
+Select s such that Follows(procedure, while)
+SemanticError
+1000
+====== 35 - Follows SemanticError (procedure, stmt) ======
+stmt s; procedure procedure; stmt stmt;
+Select s such that Follows(procedure, stmt)
+SemanticError
+1000
+====== 36 - Follows SemanticError (variable, assign) ======
+stmt s; variable variable; assign assign;
+Select s such that Follows(variable, assign)
+SemanticError
+1000
+====== 37 - Follows SemanticError (variable, call) ======
+stmt s; variable variable; call call;
+Select s such that Follows(variable, call)
+SemanticError
+1000
+====== 38 - Follows SemanticError (variable, print) ======
+stmt s; variable variable; print print;
+Select s such that Follows(variable, print)
+SemanticError
+1000
+====== 39 - Follows SemanticError (variable, read) ======
+stmt s; variable variable; read read;
+Select s such that Follows(variable, read)
+SemanticError
+1000
+====== 40 - Follows SemanticError (variable, if) ======
+stmt s; variable variable; if if;
+Select s such that Follows(variable, if)
+SemanticError
+1000
+====== 41 - Follows SemanticError (variable, while) ======
+stmt s; variable variable; while while;
+Select s such that Follows(variable, while)
+SemanticError
+1000
+====== 42 - Follows SemanticError (variable, stmt) ======
+stmt s; variable variable; stmt stmt;
+Select s such that Follows(variable, stmt)
+SemanticError
+1000
+====== 43 - Follows SemanticError (constant, constant) ======
+stmt s; constant constant1, constant2;
+Select s such that Follows(constant1, constant2)
+SemanticError
+1000
+====== 44 - Follows SemanticError (constant, procedure) ======
+stmt s; constant constant; procedure procedure;
+Select s such that Follows(constant, procedure)
+SemanticError
+1000
+====== 45 - Follows SemanticError (constant, variable) ======
+stmt s; constant constant; variable variable;
+Select s such that Follows(constant, variable)
+SemanticError
+1000
+====== 46 - Follows SemanticError (procedure, constant) ======
+stmt s; procedure procedure; constant constant;
+Select s such that Follows(procedure, constant)
+SemanticError
+1000
+====== 47 - Follows SemanticError (procedure, procedure) ======
+stmt s; procedure procedure1, procedure2;
+Select s such that Follows(procedure1, procedure2)
+SemanticError
+1000
+====== 48 - Follows SemanticError (procedure, variable) ======
+stmt s; procedure procedure; variable variable;
+Select s such that Follows(procedure, variable)
+SemanticError
+1000
+====== 49 - Follows SemanticError (variable, constant) ======
+stmt s; variable variable; constant constant;
+Select s such that Follows(variable, constant)
+SemanticError
+1000
+====== 50 - Follows SemanticError (variable, procedure) ======
+stmt s; variable variable; procedure procedure;
+Select s such that Follows(variable, procedure)
+SemanticError
+1000
+====== 51 - Follows SemanticError (variable, variable) ======
+stmt s; variable variable1, variable2;
+Select s such that Follows(variable1, variable2)
+SemanticError
+1000
+====== 52 - Follows SemanticError with undeclared synonym ======
+stmt s; assign a;
+Select s such that Follows(a1, s)
+SemanticError
+1000
