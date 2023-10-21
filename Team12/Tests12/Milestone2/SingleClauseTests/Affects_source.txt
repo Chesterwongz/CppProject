@@ -1,0 +1,42 @@
+procedure Initialize {
+    read x;
+    read b;
+}
+
+procedure MainProcess {
+    x = 0;
+    i = 5;
+    call Initialize; 
+    while (i > 0) {
+        x = x + 2*y;
+        call SubProcess;
+        i = i - 1;
+        if (x == 1) then {
+            x = x + 1;
+            y = y + 1;
+        } else {
+            z = x + y;
+        }
+    }
+    if (x < 2) then {
+        z = 1;
+    } else {
+        z = z * 2;
+    }
+    z = z + x + i;
+    y = z + 2;
+    x = x * y + z;
+    call PrintResults;
+}
+
+procedure SubProcess {
+    z = 5;
+    v = z;
+    print v;
+}
+
+procedure PrintResults {
+    print x;
+    print y;
+    print z;
+}
