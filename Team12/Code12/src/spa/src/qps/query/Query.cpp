@@ -35,15 +35,15 @@ unordered_set<string> Query::evaluate() {
     currIntermediateTable = currIntermediateTable.join(clauseResult);
     if (currIntermediateTable.isTableEmptyAndNotWildcard()) {
       // do not continue evaluating once we have an empty table
-      return {};
+      break;
     }
   }
 
   assert(selectClause);
-  currIntermediateTable =
-      currIntermediateTable.join(selectClause->evaluate(pkb));
-  if (currIntermediateTable.isTableEmptyAndNotWildcard()) {
-    return {};
+  bool hasRowsInTable = !currIntermediateTable.isTableEmptyAndNotWildcard();
+  if (hasRowsInTable) {
+    currIntermediateTable =
+        currIntermediateTable.join(selectClause->evaluate(pkb));
   }
 
   return selectClause->getQueryResult(currIntermediateTable);
