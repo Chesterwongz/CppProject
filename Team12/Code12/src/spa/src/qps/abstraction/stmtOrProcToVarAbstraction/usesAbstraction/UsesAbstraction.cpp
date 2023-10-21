@@ -8,7 +8,8 @@
 
 bool UsesAbstraction::isFirstSynonymInvalid() {
   return !this->firstArg.isProcSynonym() &&
-         this->getFirstArgStmtType() == StmtType::PRINT;}
+         this->getFirstArgStmtType() == StmtType::READ;
+}
 
 vector<pair<string, string>> UsesAbstraction::getAllStmtVarRelations(
     StmtType stmtType) {
