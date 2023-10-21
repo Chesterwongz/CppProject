@@ -3,24 +3,26 @@
 void NextStore::precomputeRelationT(int from, int to) {}
 
 void NextStore::computeSuccessorsT(int from) {
-  std::unordered_map<int, int> visited = {};
   this->computeRelationT(from, this->directSuccessorMap,
-                         this->transitiveSuccessorMap, visited);
+                         this->transitiveSuccessorMap);
 }
 
 void NextStore::computeAncestorsT(int to) {
-  std::unordered_map<int, int> visited = {};
   this->computeRelationT(to, this->directAncestorMap,
-                         this->transitiveAncestorMap, visited);
+                         this->transitiveAncestorMap);
 }
 
 void NextStore::computeAllRelationsT() {
-  for (const auto& [a, _] : this->directSuccessorMap) {
-    if (this->directSuccessorMap.size() ==
-        this->transitiveSuccessorMap.size()) {
-      return;  // Optimization.
-    }
-    computeSuccessorsT(a);
+  std::vector<int> graphVector;
+  graphVector.reserve(directSuccessorMap.size());
+  for (const auto& [v, _] : this->directSuccessorMap) {
+    graphVector.push_back(v);
+  }
+  // Optimization
+  std::sort(graphVector.begin(), graphVector.end(),
+            std::greater<>());  // Sort in descending order
+  for (const auto& v : graphVector) {
+    computeSuccessorsT(v);
   }
 }
 

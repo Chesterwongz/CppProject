@@ -13,6 +13,10 @@ IntermediateTable DOUBLE_COLUMN_SYNONYM_RES_TABLE_2 =
     IntermediateTableFactory::buildIntermediateTable(
         SYNONYM_RES_COL_NAME_2, DOUBLE_COL_SYNONYM_RES_DATA_2);
 
+IntermediateTable DOUBLE_COLUMN_SYNONYM_RES_TABLE_3 =
+    IntermediateTableFactory::buildIntermediateTable(
+        SYNONYM_RES_COL_NAME_3, DOUBLE_COL_SYNONYM_RES_DATA_3);
+
 IntermediateTable MULTI_COLUMN_SYNONYM_RES_TABLE_1 =
     IntermediateTableFactory::buildIntermediateTable(
         SYNONYM_RES_MULTI_COL_NAME_1, MULTI_COL_SYNONYM_RES_DATA_1);
@@ -75,13 +79,14 @@ TEST_CASE("IntermediateTable - isColExists - SynonymRes") {
 
 TEST_CASE(
     "IntermediateTable - getSharedColNames, getSharedColIndexes - SynonymRes") {
-  REQUIRE(getSharedColNames(DOUBLE_COLUMN_SYNONYM_RES_TABLE_2,
-                            MULTI_COLUMN_SYNONYM_RES_TABLE_2) ==
-          SYNONYM_RES_COL_NAME_2);
+  REQUIRE(IntermediateTableUtils::getSharedColNames(
+              DOUBLE_COLUMN_SYNONYM_RES_TABLE_2,
+              MULTI_COLUMN_SYNONYM_RES_TABLE_2) == SYNONYM_RES_COL_NAME_2);
   vector<int> sharedColIndex1 = {0, 1};
   vector<int> sharedColIndex2 = {0, 3};
-  REQUIRE(getSharedColIndexes(DOUBLE_COLUMN_SYNONYM_RES_TABLE_2,
-                              MULTI_COLUMN_SYNONYM_RES_TABLE_2) ==
+  REQUIRE(IntermediateTableUtils::getSharedColIndexes(
+              DOUBLE_COLUMN_SYNONYM_RES_TABLE_2,
+              MULTI_COLUMN_SYNONYM_RES_TABLE_2) ==
           pair(sharedColIndex1, sharedColIndex2));
 }
 
@@ -100,8 +105,21 @@ TEST_CASE("IntermediateTable - join_cross - SynonymRes") {
 TEST_CASE("IntermediateTable - join_inner_join - SynonymRes") {
   IntermediateTable joinTable =
       MULTI_COLUMN_SYNONYM_RES_TABLE_1.join(MULTI_COLUMN_SYNONYM_RES_TABLE_2);
-  joinTable.printTable();
   REQUIRE(joinTable.getTableData() == MULTI_COL_SYNONYM_RES_DATA_INNER_JOIN);
+}
+
+TEST_CASE("IntermediateTable - join_inner_join_on - SynonymRes") {
+  IntermediateTable joinTable = DOUBLE_COLUMN_SYNONYM_RES_TABLE_1.join(
+      DOUBLE_COLUMN_SYNONYM_RES_TABLE_3, {"calls", ATTR_REF_PROC_NAME},
+      {"print", ATTR_REF_VAR_NAME});
+  joinTable.printTable();
+  vector<vector<SynonymRes>> expected = {
+      {MOCK_CONSTANT_SYN_1, MOCK_PRINT_SYN_1, MOCK_CONSTANT_SYN_2,
+       MOCK_PRINT_SYN_2},
+      {MOCK_CONSTANT_SYN_2, MOCK_PRINT_SYN_2, MOCK_CONSTANT_SYN_2,
+       MOCK_PRINT_SYN_2},
+  };
+  REQUIRE(joinTable.getTableData() == expected);
 }
 
 TEST_CASE("IntermediateTable - join - any_x_empty - SynonymRes") {

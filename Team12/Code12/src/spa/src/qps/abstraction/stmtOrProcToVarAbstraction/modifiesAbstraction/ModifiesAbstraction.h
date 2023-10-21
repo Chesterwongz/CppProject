@@ -10,6 +10,8 @@
 
 class ModifiesAbstraction : public StmtOrProcToVarAbstraction {
  private:
+  bool isFirstSynonymInvalid() override;
+
   vector<pair<string, string>> getAllStmtVarRelations(
       StmtType stmtType) override;
 
@@ -31,5 +33,5 @@ class ModifiesAbstraction : public StmtOrProcToVarAbstraction {
 
  public:
   explicit ModifiesAbstraction(AbstractionParams abstractionParams)
-      : StmtOrProcToVarAbstraction(abstractionParams){}
+      : StmtOrProcToVarAbstraction(abstractionParams) {}
 };

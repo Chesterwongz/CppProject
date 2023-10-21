@@ -97,12 +97,13 @@ TEST_CASE("IntermediateTable - isColExists") {
 }
 
 TEST_CASE("IntermediateTable - getSharedColNames, getSharedColIndexes") {
-  REQUIRE(getSharedColNames(DOUBLE_COLUMN_TABLE_FROM_PAIR_1,
-                            MULTI_COLUMN_TABLE_1) == DOUBLE_COL_NAME_VECTOR);
+  REQUIRE(IntermediateTableUtils::getSharedColNames(
+              DOUBLE_COLUMN_TABLE_FROM_PAIR_1, MULTI_COLUMN_TABLE_1) ==
+          DOUBLE_COL_NAME_VECTOR);
   vector<int> sharedColIndex1 = {0, 1};
   vector<int> sharedColIndex2 = {3, 2};
-  REQUIRE(getSharedColIndexes(DOUBLE_COLUMN_TABLE_FROM_PAIR_1,
-                              MULTI_COLUMN_TABLE_1) ==
+  REQUIRE(IntermediateTableUtils::getSharedColIndexes(
+              DOUBLE_COLUMN_TABLE_FROM_PAIR_1, MULTI_COLUMN_TABLE_1) ==
           pair(sharedColIndex1, sharedColIndex2));
 }
 

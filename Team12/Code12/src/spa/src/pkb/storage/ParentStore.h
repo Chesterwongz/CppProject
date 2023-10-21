@@ -2,4 +2,4 @@
 
 #include "RelationTStore.h"
 
-class ParentStore : public RelationTStore<int, int> {};
+class ParentStore : public RelationTStore<int> {};

@@ -1,0 +1,70 @@
+====== 1 - SyntaxError for suchthat-cl and assign pattern-cl ======
+stmt s; assign assign;
+Select s such that Modifies(s, _) and assign(_, _)
+SyntaxError
+1000
+====== 2 - SyntaxError for suchthat-cl and assign pattern-cl before SemanticError ======
+stmt s; assign assign;
+Select s such that Modifies(s, _) and a(_, _)
+SyntaxError
+1000
+====== 3 - SyntaxError for suchthat-cl and if pattern-cl ======
+stmt s; if if;
+Select s such that Modifies(s, _) and if (_, _)
+SyntaxError
+1000
+====== 4 - SyntaxError for suchthat-cl and while pattern-cl ======
+stmt s; while w;
+Select s such that Modifies(s, _) and w (_,_, _)
+SyntaxError
+1000
+====== 5 - SyntaxError for suchthat-cl and stmt# with-cl ======
+stmt s; assign assign;
+Select s such that Modifies(s, _) and s.stmt# = 1
+SyntaxError
+1000
+====== 6 - SyntaxError for suchthat-cl and procName with-cl ======
+stmt s; procedure p;
+Select s such that Modifies(s, _) and p.procName = 1
+SyntaxError
+1000
+====== 7 - SyntaxError for pattern-cl and with-cl ======
+assign assign;
+Select assign pattern assign(_, _) and assign.stmt# = 1
+SyntaxError
+1000
+====== 8 - SyntaxError for multiple suchthat-cl and pattern-cl ======
+assign assign; stmt s;
+Select assign such that Modifies(assign, _) and Modifies(s, _) and assign (_, _)
+SyntaxError
+1000
+====== 9 - SyntaxError for multiple suchthat-cl and with-cl ======
+assign assign; stmt s;
+Select assign such that Modifies(assign, _) and Modifies(s, _) and assign.stmt# = 1
+SyntaxError
+1000
+====== 10 - SyntaxError for multiple pattern-cl and with-cl ======
+assign assign; stmt s;
+Select assign pattern assign("x", _) and assign("y", _) and assign.stmt# = 1
+SyntaxError
+1000
+====== 11 - SyntaxError for suchthat-cl and multiple pattern-cl ======
+assign assign; stmt s;
+Select assign such that Modifies(s, _) and assign("x", _) and assign("y", _)
+SyntaxError
+1000
+====== 12 - SyntaxError for suchthat-cl and multiple with-cl ======
+print assign; stmt s;
+Select assign such that Modifies(s, _) and assign.stmt# = 1 and s.stmt# = 1
+SyntaxError
+1000
+====== 13 - SyntaxError for pattern-cl and multiple with-cl ======
+assign assign; stmt s;
+Select assign pattern assign("x", _) and assign.stmt# = 1 and s.stmt# = 1
+SyntaxError
+1000
+====== 14 - SyntaxError for suchthat-cl, pattern-cl, and with-cl ======
+assign assign; stmt s; variable v;
+Select assign such that Modifies(v, v) and pattern assign(_,_) and assign.stmt# = 2
+SyntaxError
+1000
