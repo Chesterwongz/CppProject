@@ -50,4 +50,6 @@ class ParserContext {
   void saveContext();
   void removePrevSavedContext();
   void loadPrevSavedContext();
+
+  bool isEnd();
 };
