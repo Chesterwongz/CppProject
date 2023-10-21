@@ -11,24 +11,26 @@ void HelperFunctions::printEntities(const string& abstraction,
   std::cout << std::endl << "-------------" << std::endl;
 }
 
-void HelperFunctions::printDifferences(const StrStrPairVec& actual,
-                                       const StrStrPairVec& expected) {
-  StrStrPairSet actualCopy = {actual.begin(), actual.end()};
-  StrStrPairSet expectedCopy = {expected.begin(), expected.end()};
-  for (const auto& actualPair : actual) {
-    if (expectedCopy.find(actualPair) != expectedCopy.end()) {
-      expectedCopy.erase(actualPair);
-      actualCopy.erase(actualPair);
+void HelperFunctions::printDifferences(const vector<string>& actual,
+                                       const vector<string>& expected) {
+  unordered_set<string> actualCopy = {actual.begin(), actual.end()};
+  unordered_set<string> expectedCopy = {expected.begin(), expected.end()};
+  for (const auto& actualStr : actual) {
+    if (expectedCopy.find(actualStr) != expectedCopy.end()) {
+      expectedCopy.erase(actualStr);
+      actualCopy.erase(actualStr);
     }
   }
   std::cout << "Actual - Expected: " << std::endl;
-  for (const auto& actualPair : actualCopy) {
-    std::cout << actualPair.first << ", " << actualPair.second << std::endl;
+  for (const auto& actualStr : actualCopy) {
+    std::cout << actualStr << ", ";
   }
+  std::cout << std::endl << "-------------" << std::endl;
   std::cout << "Expected - Actual: " << std::endl;
-  for (const auto& expectedPair : expectedCopy) {
-    std::cout << expectedPair.first << ", " << expectedPair.second << std::endl;
+  for (const auto& expectedStr : expectedCopy) {
+    std::cout << expectedStr << ", ";
   }
+  std::cout << std::endl << "-------------" << std::endl;
 }
 
 template <typename T>
@@ -133,54 +135,67 @@ bool HelperFunctions::isAssignResultMatch(StrStrPairVec actual,
   return compareVectorContents(std::move(actual), std::move(expected));
 }
 
-bool HelperFunctions::validateModifiesProcVar(
-    PKBReader& reader, const vector<string>& procs,
-    StrToStrVecMap& expectedModifiesMap) {
-  for (const string& proc : procs) {
-    vector<string> expectedModifies = expectedModifiesMap[proc];
-    vector<string> actualModifies = reader.getVarsModifiedByProc(proc);
-    if (!compareVectorContents(actualModifies, expectedModifies)) {
+template <typename S, typename T>
+bool HelperFunctions::validateWithMap(
+    PKBReader& reader, const vector<S>& elements,
+    const unordered_map<S, vector<string>>& expectedMap,
+    std::function<vector<string>(PKBReader&, T)> getActual) {
+  for (const S& element : elements) {
+    if (!expectedMap.count(element)) {
+      return getActual(reader, element).empty();
+    }
+    vector<string> expected = expectedMap.at(element);
+    vector<string> actual = getActual(reader, element);
+    if (!compareVectorContents(actual, expected)) {
+      printDifferences(actual, expected);
       return false;
     }
   }
   return true;
 }
 
-bool HelperFunctions::validateUsesProcVar(PKBReader& reader,
-                                          const vector<string>& procs,
-                                          StrToStrVecMap& expectedUsesMap) {
-  for (const string& proc : procs) {
-    vector<string> expectedUses = expectedUsesMap[proc];
-    vector<string> actualUses = reader.getVarsUsedByProc(proc);
-    if (!compareVectorContents(actualUses, expectedUses)) {
-      return false;
-    }
-  }
-  return true;
+bool HelperFunctions::validateModifiesProcVar(
+    PKBReader& reader, const vector<string>& procs,
+    const StrToStrVecMap& expectedModifiesMap) {
+  return validateWithMap<string, const string&>(
+      reader, procs, expectedModifiesMap,
+      [](PKBReader& r, const string& p) { return r.getVarsModifiedByProc(p); });
+}
+
+bool HelperFunctions::validateUsesProcVar(
+    PKBReader& reader, const vector<string>& procs,
+    const StrToStrVecMap& expectedUsesMap) {
+  return validateWithMap<string, const string&>(
+      reader, procs, expectedUsesMap,
+      [](PKBReader& r, const string& p) { return r.getVarsUsedByProc(p); });
 }
 
 bool HelperFunctions::validateCalls(PKBReader& reader,
                                     const vector<string>& procs,
-                                    StrToStrVecMap& expectedCallsMap) {
-  for (const string& proc : procs) {
-    vector<string> expectedCalls = expectedCallsMap[proc];
-    vector<string> actualCalls = reader.getCalleeProcs(proc);
-    if (!compareVectorContents(actualCalls, expectedCalls)) {
-      return false;
-    }
-  }
-  return true;
+                                    const StrToStrVecMap& expectedCallsMap) {
+  return validateWithMap<string, const string&>(
+      reader, procs, expectedCallsMap,
+      [](PKBReader& r, const string& p) { return r.getCalleeProcs(p); });
 }
 
 bool HelperFunctions::validateCallsT(PKBReader& reader,
                                      const vector<string>& procs,
-                                     StrToStrVecMap& expectedCallsTMap) {
-  for (const string& proc : procs) {
-    vector<string> expectedCallsT = expectedCallsTMap[proc];
-    vector<string> actualCallsT = reader.getCalleeProcsStar(proc);
-    if (!compareVectorContents(actualCallsT, expectedCallsT)) {
-      return false;
-    }
-  }
-  return true;
+                                     const StrToStrVecMap& expectedCallsTMap) {
+  return validateWithMap<string, const string&>(
+      reader, procs, expectedCallsTMap,
+      [](PKBReader& r, const string& p) { return r.getCalleeProcsStar(p); });
+}
+
+bool HelperFunctions::validateNext(PKBReader& reader, const vector<int>& stmts,
+                                   const IntToStrVecMap& expectedNextMap) {
+  return validateWithMap<int, int>(
+      reader, stmts, expectedNextMap,
+      [](PKBReader& r, int s) { return r.getNextStmts(s, StmtType::STMT); });
+}
+
+bool HelperFunctions::validateNextT(PKBReader& reader, const vector<int>& stmts,
+                                    const IntToStrVecMap& expectedNextTMap) {
+  return validateWithMap<int, int>(
+      reader, stmts, expectedNextTMap,
+      [](PKBReader& r, int s) { return r.getNextTStmts(s, StmtType::STMT); });
 }

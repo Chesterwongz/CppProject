@@ -20,12 +20,15 @@ TEST_CASE("SP-PKB integration MS2 - Non-nesting statements") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"simple"};
+  vector<int> stmts = {1, 2, 3};
   StrToStrVecMap expectedModifiesMap = {{"simple", {"num1", "x"}}};
   StrToStrVecMap expectedUsesMap = {{"simple", {"num1", "num2"}}};
   StrToStrVecMap expectedCallsMap = {{"simple", {}}};
   StrToStrVecMap expectedCallsStarMap = {{"simple", {}}};
   StrStrPairVec expectedModifiesPairs = {{"1", "num1"}, {"3", "x"}};
   StrStrPairVec expectedUsesPairs = {{"2", "num2"}, {"3", "num1"}};
+  IntToStrVecMap expectedNextMap = {{1, {"2"}}, {2, {"3"}}};
+  IntToStrVecMap expectedNextTMap = {{1, {"2", "3"}}, {2, {"3"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -33,6 +36,8 @@ TEST_CASE("SP-PKB integration MS2 - Non-nesting statements") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - Simple transitive call") {
@@ -55,6 +60,7 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"A", "B", "C"};
+  vector<int> stmts = {1, 2, 3, 4};
   StrToStrVecMap expectedModifiesMap = {
       {"A", {"x", "y"}}, {"B", {"x", "y"}}, {"C", {"y"}}};
   StrToStrVecMap expectedUsesMap = {
@@ -66,6 +72,8 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call") {
       {"2", "x"}, {"4", "y"}, {"3", "y"}, {"1", "x"}, {"1", "y"}};
   StrStrPairVec expectedUsesPairs = {
       {"2", "a"}, {"4", "b"}, {"3", "b"}, {"1", "a"}, {"1", "b"}};
+  IntToStrVecMap expectedNextMap = {{2, {"3"}}};
+  IntToStrVecMap expectedNextTMap = {{2, {"3"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -73,6 +81,8 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - Simple transitive call with while") {
@@ -97,6 +107,7 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with while") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"X", "Y", "Z"};
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7};
   StrToStrVecMap expectedModifiesMap = {{"X", {"a"}}, {"Y", {"a"}}};
   StrToStrVecMap expectedUsesMap = {
       {"X", {"a", "b", "c"}}, {"Y", {"a", "b", "c"}}, {"Z", {"c"}}};
@@ -108,6 +119,13 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with while") {
   StrStrPairVec expectedUsesPairs = {{"3", "b"}, {"6", "a"}, {"2", "a"},
                                      {"2", "b"}, {"2", "c"}, {"5", "c"},
                                      {"4", "a"}, {"4", "c"}, {"7", "c"}};
+  IntToStrVecMap expectedNextMap = {
+      {1, {"2"}}, {3, {"4"}}, {4, {"5"}}, {5, {"6"}}, {6, {"4"}}};
+  IntToStrVecMap expectedNextTMap = {{1, {"2"}},
+                                     {3, {"4", "5", "6"}},
+                                     {4, {"4", "5", "6"}},
+                                     {5, {"4", "5", "6"}},
+                                     {6, {"4", "5", "6"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -115,6 +133,8 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with while") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - Simple transitive call with if") {
@@ -136,6 +156,7 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with if") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"A", "B"};
+  vector<int> stmts = {1, 2, 3, 4};
   StrToStrVecMap expectedModifiesMap = {{"A", {"y", "z"}}, {"B", {"z"}}};
   StrToStrVecMap expectedUsesMap = {{"A", {"x"}}, {"B", {"x"}}};
   StrToStrVecMap expectedCallsMap = {{"A", {"B"}}, {"B", {}}};
@@ -143,6 +164,8 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with if") {
   StrStrPairVec expectedModifiesPairs = {
       {"4", "z"}, {"3", "y"}, {"2", "z"}, {"1", "y"}, {"1", "z"}};
   StrStrPairVec expectedUsesPairs = {{"4", "x"}, {"2", "x"}, {"1", "x"}};
+  IntToStrVecMap expectedNextMap = {{1, {"2", "3"}}};
+  IntToStrVecMap expectedNextTMap = {{1, {"2", "3"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -150,6 +173,8 @@ TEST_CASE("SP-PKB integration MS2 - Simple transitive call with if") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - multiple transitive calls") {
@@ -174,6 +199,7 @@ TEST_CASE("SP-PKB integration MS2 - multiple transitive calls") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"P", "Q", "R", "S"};
+  vector<int> stmts = {1, 2, 3, 4, 5};
   StrToStrVecMap expectedModifiesMap = {
       {"P", {"z"}}, {"Q", {"z"}}, {"R", {"z"}}, {"S", {"z"}}};
   StrToStrVecMap expectedUsesMap = {
@@ -186,6 +212,8 @@ TEST_CASE("SP-PKB integration MS2 - multiple transitive calls") {
       {"2", "z"}, {"5", "z"}, {"3", "z"}, {"1", "z"}, {"4", "z"}};
   StrStrPairVec expectedUsesPairs = {{"2", "y"}, {"5", "z"}, {"4", "z"},
                                      {"3", "z"}, {"1", "z"}, {"1", "y"}};
+  IntToStrVecMap expectedNextMap = {{2, {"3"}}};
+  IntToStrVecMap expectedNextTMap = {{2, {"3"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -193,6 +221,8 @@ TEST_CASE("SP-PKB integration MS2 - multiple transitive calls") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - multiple calls without transitivity") {
@@ -214,6 +244,7 @@ TEST_CASE("SP-PKB integration MS2 - multiple calls without transitivity") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"Alpha", "Beta", "Gamma"};
+  vector<int> stmts = {1, 2, 3, 4};
   StrToStrVecMap expectedModifiesMap = {
       {"Alpha", {"b", "g"}}, {"Beta", {"b"}}, {"Gamma", {"g"}}};
   StrToStrVecMap expectedUsesMap = {
@@ -226,6 +257,8 @@ TEST_CASE("SP-PKB integration MS2 - multiple calls without transitivity") {
       {"3", "b"}, {"4", "g"}, {"1", "b"}, {"2", "g"}};
   StrStrPairVec expectedUsesPairs = {
       {"3", "y"}, {"4", "z"}, {"1", "y"}, {"2", "z"}};
+  IntToStrVecMap expectedNextMap = {{1, {"2"}}};
+  IntToStrVecMap expectedNextTMap = {{1, {"2"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -233,6 +266,8 @@ TEST_CASE("SP-PKB integration MS2 - multiple calls without transitivity") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - two chained calls and containers") {
@@ -257,6 +292,7 @@ TEST_CASE("SP-PKB integration MS2 - two chained calls and containers") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"Main", "Helper"};
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7, 8};
   StrToStrVecMap expectedModifiesMap = {{"Main", {"a", "b"}},
                                         {"Helper", {"a"}}};
   StrToStrVecMap expectedUsesMap = {{"Main", {"a", "b"}},
@@ -269,6 +305,12 @@ TEST_CASE("SP-PKB integration MS2 - two chained calls and containers") {
   StrStrPairVec expectedUsesPairs = {
       {"2", "a"}, {"3", "a"}, {"5", "b"}, {"6", "b"}, {"6", "a"},
       {"7", "a"}, {"4", "a"}, {"4", "b"}, {"2", "b"}, {"8", "a"}};
+  IntToStrVecMap expectedNextMap = {
+      {1, {"2"}}, {2, {"3", "5"}}, {3, {"4"}}, {4, {"2"}}};
+  IntToStrVecMap expectedNextTMap = {{1, {"2", "3", "4", "5"}},
+                                     {2, {"2", "3", "4", "5"}},
+                                     {3, {"2", "3", "4", "5"}},
+                                     {4, {"2", "3", "4", "5"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -276,6 +318,8 @@ TEST_CASE("SP-PKB integration MS2 - two chained calls and containers") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - three chained calls and containers") {
@@ -300,6 +344,7 @@ TEST_CASE("SP-PKB integration MS2 - three chained calls and containers") {
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"Start", "Operate", "Increment"};
+  vector<int> stmts = {1, 2, 3, 4, 5, 6};
   StrToStrVecMap expectedModifiesMap = {
       {"Start", {"i", "k"}}, {"Operate", {"i"}}, {"Increment", {"i"}}};
   StrToStrVecMap expectedUsesMap = {
@@ -323,6 +368,11 @@ TEST_CASE("SP-PKB integration MS2 - three chained calls and containers") {
       {"4", "k"},
 
       {"5", "i"}, {"5", "j"}, {"5", "k"}, {"6", "i"}, {"6", "j"}, {"6", "k"}};
+
+  IntToStrVecMap expectedNextMap = {
+      {1, {"2"}}, {2, {"3"}}, {4, {"5"}}, {5, {"4"}}};
+  IntToStrVecMap expectedNextTMap = {
+      {1, {"2", "3"}}, {2, {"3"}}, {4, {"4", "5"}}, {5, {"4", "5"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -330,6 +380,8 @@ TEST_CASE("SP-PKB integration MS2 - three chained calls and containers") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
@@ -376,6 +428,8 @@ TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
 
   vector<string> procs = {"Alpha",   "Beta", "Gamma", "Delta",
                           "Epsilon", "Zeta", "Eta"};
+  vector<int> stmts = {1,  2,  3,  4,  5,  6,  7,  8,  9, 10,
+                       11, 12, 13, 14, 15, 16, 17, 18, 19};
   StrToStrVecMap expectedModifiesMap = {
       {"Alpha", {"w", "m", "n", "o", "q", "r", "s", "t", "p"}},
       {"Beta", {"n", "o", "q", "r", "s", "t", "p"}},
@@ -422,6 +476,16 @@ TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
       {"11", "r"}, {"11", "s"}, {"12", "n"}, {"14", "o"}, {"14", "q"},
       {"15", "r"}, {"15", "s"}, {"16", "r"}, {"17", "r"}, {"17", "s"},
       {"19", "r"}, {"19", "s"}};
+
+  IntToStrVecMap expectedNextMap = {
+      {1, {"2"}},   {2, {"3"}},   {4, {"5", "7"}}, {5, {"6"}},   {6, {"9"}},
+      {7, {"8"}},   {8, {"9"}},   {9, {"2"}},      {10, {"11"}}, {13, {"14"}},
+      {14, {"15"}}, {16, {"17"}}, {18, {"19"}}};
+  IntToStrVecMap expectedNextTMap = {
+      {1, {"2", "3"}}, {2, {"3"}},   {4, {"5", "6", "7", "8", "9"}},
+      {5, {"6", "9"}}, {6, {"9"}},   {7, {"8", "9"}},
+      {8, {"9"}},      {10, {"11"}}, {13, {"14", "15"}},
+      {14, {"15"}},    {16, {"17"}}, {18, {"19"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -429,6 +493,8 @@ TEST_CASE("SP-PKB integration MS2 - nested calls with deep dependencies") {
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
 }
 
 TEST_CASE(
@@ -469,6 +535,7 @@ TEST_CASE(
   PKBReader& reader = pkb.getReader();
 
   vector<string> procs = {"Init", "Process", "Clean", "Finish", "Update"};
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15};
   StrToStrVecMap expectedModifiesMap = {{"Init", {"u", "h", "v", "j"}},
                                         {"Process", {"u", "v", "j"}},
                                         {"Clean", {"u"}},
@@ -508,6 +575,21 @@ TEST_CASE(
       {"6", "p"},  {"6", "q"}, {"6", "r"}, {"6", "j"},  {"6", "u"},
       {"6", "v"},  {"7", "j"}, {"9", "u"}, {"10", "v"}, {"11", "v"},
       {"14", "j"}, {"15", "v"}};
+  IntToStrVecMap expectedNextMap = {{1, {"2"}},   {2, {"3"}},  {3, {"4"}},
+                                    {4, {"5"}},   {5, {"3"}},  {6, {"7", "8"}},
+                                    {7, {"11"}},  {8, {"9"}},  {9, {"10"}},
+                                    {10, {"11"}}, {13, {"14"}}};
+  IntToStrVecMap expectedNextTMap = {{1, {"2", "3", "4", "5"}},
+                                     {2, {"3", "4", "5"}},
+                                     {3, {"3", "4", "5"}},
+                                     {4, {"3", "4", "5"}},
+                                     {5, {"3", "4", "5"}},
+                                     {6, {"7", "8", "9", "10", "11"}},
+                                     {7, {"11"}},
+                                     {8, {"9", "10", "11"}},
+                                     {9, {"10", "11"}},
+                                     {10, {"11"}},
+                                     {13, {"14"}}};
   REQUIRE(HelperFunctions::validateUses(reader, expectedUsesPairs));
   REQUIRE(HelperFunctions::validateModifies(reader, expectedModifiesPairs));
   REQUIRE(HelperFunctions::validateUsesProcVar(reader, procs, expectedUsesMap));
@@ -515,4 +597,499 @@ TEST_CASE(
                                                    expectedModifiesMap));
   REQUIRE(HelperFunctions::validateCalls(reader, procs, expectedCallsMap));
   REQUIRE(HelperFunctions::validateCallsT(reader, procs, expectedCallsStarMap));
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
+}
+
+TEST_CASE("SP-PKB integration MS2 - 1 procedure with nested if statements") {
+  string input =
+      "procedure multipleIf {"
+      "   read v;"                          // 1
+      "   read w;"                          // 2
+      "   if (v == 0) then {"               // 3
+      "       read x;"                      // 4
+      "       if (w != v) then {"           // 5
+      "           read y;"                  // 6
+      "           if (x > (y - 1)) then {"  // 7
+      "               read z;"              // 8
+      "           } else { x = 1; }"        // 9
+      "       } else { z = x + 1; }"        // 10
+      "   } else { v = z; }"                // 11
+      "}";
+  // extract
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(input, pkb.getWriter());
+  PKBReader& reader = pkb.getReader();
+
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+  IntToStrVecMap expectedNextMap = {
+      {1, {"2"}},       {2, {"3"}}, {3, {"4", "11"}}, {4, {"5"}},
+      {5, {"6", "10"}}, {6, {"7"}}, {7, {"8", "9"}}};
+  IntToStrVecMap expectedNextTMap = {
+      {1, {"2", "3", "4", "5", "6", "7", "8", "9", "10", "11"}},
+      {2, {"3", "4", "5", "6", "7", "8", "9", "10", "11"}},
+      {3, {"4", "5", "6", "7", "8", "9", "10", "11"}},
+      {4, {"5", "6", "7", "8", "9", "10"}},
+      {5, {"6", "7", "8", "9", "10"}},
+      {6, {"7", "8", "9"}},
+      {7, {"8", "9"}}};
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNextMap));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextTMap));
+}
+
+TEST_CASE("SP-PKB integration MS2 - 1 procedure with nested while statements") {
+  string input =
+      "procedure nestedWhile {"
+      "   read v;"               // 1
+      "   while (v > 0) {"       // 2
+      "       read x;"           // 3
+      "       while (x != v) {"  // 4
+      "           y = 123;"      // 5
+      "           print y;"      // 6
+      "       }"
+      "       x = y + 1;"  // 7
+      "   }"
+      "   print v;"  // 8
+      "}";
+  // extract
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(input, pkb.getWriter());
+  PKBReader& reader = pkb.getReader();
+
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7, 8};
+  IntToStrVecMap expectedNext = {{1, {"2"}},      {2, {"3", "8"}}, {3, {"4"}},
+                                 {4, {"5", "7"}}, {5, {"6"}},      {6, {"4"}},
+                                 {7, {"2"}}};
+  IntToStrVecMap expectedNextT = {{1, {"2", "3", "4", "5", "6", "7", "8"}},
+                                  {2, {"2", "3", "4", "5", "6", "7", "8"}},
+                                  {3, {"2", "3", "4", "5", "6", "7", "8"}},
+                                  {4, {"2", "3", "4", "5", "6", "7", "8"}},
+                                  {5, {"2", "3", "4", "5", "6", "7", "8"}},
+                                  {6, {"2", "3", "4", "5", "6", "7", "8"}},
+                                  {7, {"2", "3", "4", "5", "6", "7", "8"}}};
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNext));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextT));
+}
+
+TEST_CASE("SP-PKB integration MS2 - 1 procedure with if in while statement") {
+  string input =
+      "procedure ifInWhile {"
+      "   read v;"                  // 1
+      "   while (v > 0) {"          // 2
+      "       x = 1 + v;"           // 3
+      "       if (x != v) then {"   // 4
+      "           read y;"          // 5
+      "           y = x + 2;"       // 6
+      "       } else { print x; }"  // 7
+      "   }"
+      "   print v;"  // 8
+      "}";
+  // extract
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(input, pkb.getWriter());
+  PKBReader& reader = pkb.getReader();
+
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7, 8};
+  IntToStrVecMap expectedNext = {{1, {"2"}},      {2, {"3", "8"}}, {3, {"4"}},
+                                 {4, {"5", "7"}}, {5, {"6"}},      {6, {"2"}},
+                                 {7, {"2"}}};
+  IntToStrVecMap expectedNextT = {{1, {"2", "3", "4", "5", "6", "7", "8"}},
+                                  {2, {"2", "3", "4", "5", "6", "7", "8"}},
+                                  {3, {"2", "3", "4", "5", "6", "7", "8"}},
+                                  {4, {"2", "3", "4", "5", "6", "7", "8"}},
+                                  {5, {"2", "3", "4", "5", "6", "7", "8"}},
+                                  {6, {"2", "3", "4", "5", "6", "7", "8"}},
+                                  {7, {"2", "3", "4", "5", "6", "7", "8"}}};
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNext));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextT));
+}
+
+TEST_CASE("SP-PKB integration MS2 - 1 procedure with while in if statement") {
+  string input =
+      "procedure whileInIf {"
+      "   read a;"               // 1
+      "   if (a == 1) then {"    // 2
+      "       read b;"           // 3
+      "       while (b < 10) {"  // 4
+      "           read c;"       // 5
+      "           c = c + 1;"    // 6
+      "       }"
+      "   } else { a = 342; }"  // 7
+      "}";
+  // extract
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(input, pkb.getWriter());
+  PKBReader& reader = pkb.getReader();
+
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7};
+  IntToStrVecMap expectedNext = {{1, {"2"}}, {2, {"3", "7"}}, {3, {"4"}},
+                                 {4, {"5"}}, {5, {"6"}},      {6, {"4"}}};
+  IntToStrVecMap expectedNextT = {{1, {"2", "3", "4", "5", "6", "7"}},
+                                  {2, {"3", "4", "5", "6", "7"}},
+                                  {3, {"4", "5", "6"}},
+                                  {4, {"4", "5", "6"}},
+                                  {5, {"4", "5", "6"}},
+                                  {6, {"4", "5", "6"}}};
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNext));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextT));
+}
+
+TEST_CASE("SP-PKB integration MS2 - multiple nesting with while-if-while") {
+  string input =
+      "procedure multipleNesting {"
+      "  while (x > 1) {"        // 1
+      "    if (y != 2) then {"   // 2
+      "       while (z <= 1) {"  // 3
+      "           abc = xyz;"    // 4
+      "       }"
+      "       qwe = 1234;"  // 5
+      "    } else {"
+      "      while (while > 1) {"  // 6
+      "        x = qwe;"           // 7
+      "      }"
+      "    }"
+      "    read y;"  // 8
+      "  }"
+      "}";
+  // extract
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(input, pkb.getWriter());
+  PKBReader& reader = pkb.getReader();
+
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7, 8};
+  IntToStrVecMap expectedNext = {{1, {"2"}}, {2, {"3", "6"}}, {3, {"4", "5"}},
+                                 {4, {"3"}}, {5, {"8"}},      {6, {"7", "8"}},
+                                 {7, {"6"}}, {8, {"1"}}};
+  IntToStrVecMap expectedNextT = {
+      {1, {"1", "2", "3", "4", "5", "6", "7", "8"}},
+      {2, {"1", "2", "3", "4", "5", "6", "7", "8"}},
+      {3, {"1", "2", "3", "4", "5", "6", "7", "8"}},
+      {4, {"1", "2", "3", "4", "5", "6", "7", "8"}},
+      {5, {"1", "2", "3", "4", "5", "6", "7", "8"}},
+      {6, {"1", "2", "3", "4", "5", "6", "7", "8"}},
+      {7, {"1", "2", "3", "4", "5", "6", "7", "8"}},
+      {8, {"1", "2", "3", "4", "5", "6", "7", "8"}}};
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNext));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextT));
+}
+
+TEST_CASE("SP-PKB integration MS2 - multiple nesting with while-if-if") {
+  string input =
+      "procedure nestedIfInWhile {"
+      "  while (x > 1) {"          // 1
+      "    if (y != 2) then {"     // 2
+      "       if (z <= 1) then {"  // 3
+      "           abc = xyz;"      // 4
+      "       } else {"
+      "           qwe = 1234;"  // 5
+      "       }"
+      "    } else {"
+      "       if (w == 3) then {"  // 6
+      "           x = qwe;"        // 7
+      "       } else {"
+      "           rty = 5678;"  // 8
+      "       }"
+      "    }"
+      "    read y;"  // 9
+      "  }"
+      "}";
+  // extract
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(input, pkb.getWriter());
+  PKBReader& reader = pkb.getReader();
+
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+  IntToStrVecMap expectedNext = {
+      {1, {"2"}},      {2, {"3", "6"}}, {3, {"4", "5"}}, {4, {"9"}}, {5, {"9"}},
+      {6, {"7", "8"}}, {7, {"9"}},      {8, {"9"}},      {9, {"1"}},
+  };
+  IntToStrVecMap expectedNextT = {
+      {1, {"1", "2", "3", "4", "5", "6", "7", "8", "9"}},
+      {2, {"1", "2", "3", "4", "5", "6", "7", "8", "9"}},
+      {3, {"1", "2", "3", "4", "5", "6", "7", "8", "9"}},
+      {4, {"1", "2", "3", "4", "5", "6", "7", "8", "9"}},
+      {5, {"1", "2", "3", "4", "5", "6", "7", "8", "9"}},
+      {6, {"1", "2", "3", "4", "5", "6", "7", "8", "9"}},
+      {7, {"1", "2", "3", "4", "5", "6", "7", "8", "9"}},
+      {8, {"1", "2", "3", "4", "5", "6", "7", "8", "9"}},
+      {9, {"1", "2", "3", "4", "5", "6", "7", "8", "9"}},
+  };
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNext));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextT));
+}
+
+TEST_CASE("SP-PKB integration MS2 - multiple nesting with if-if-while") {
+  string input =
+      "procedure nestedWhileInIf {"
+      "  if (x > 1) then {"      // 1
+      "    if (y != 2) then {"   // 2
+      "       while (z <= 1) {"  // 3
+      "           abc = xyz;"    // 4
+      "       }"
+      "       qwe = 1234;"  // 5
+      "    } else {"
+      "       while (w == 3) {"  // 6
+      "           x = qwe;"      // 7
+      "       }"
+      "    }"
+      "    read y;"  // 8
+      "  } else {"
+      "    print z;"  // 9
+      "  }"
+      "}";
+  // extract
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(input, pkb.getWriter());
+  PKBReader& reader = pkb.getReader();
+
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+  IntToStrVecMap expectedNext = {
+      {1, {"2", "9"}}, {2, {"3", "6"}}, {3, {"4", "5"}}, {4, {"3"}},
+      {5, {"8"}},      {6, {"7", "8"}}, {7, {"6"}}};
+  IntToStrVecMap expectedNextT = {
+      {1, {"2", "3", "4", "5", "6", "7", "8", "9"}},
+      {2, {"3", "4", "5", "6", "7", "8"}},
+      {3, {"3", "4", "5", "8"}},
+      {4, {"3", "4", "5", "8"}},
+      {5, {"8"}},
+      {6, {"6", "7", "8"}},
+      {7, {"6", "7", "8"}},
+  };
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNext));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextT));
+}
+
+TEST_CASE("SP-PKB integration MS2 - multiple nesting with while-while-if") {
+  string input =
+      "procedure nestedIfInDoubleWhile {"
+      "  while (x > 1) {"          // 1
+      "    while (y != 2) {"       // 2
+      "       if (z <= 1) then {"  // 3
+      "           abc = xyz;"      // 4
+      "       } else {"
+      "           qwe = 1234;"  // 5
+      "       }"
+      "    }"
+      "    read y;"  // 6
+      "  }"
+      "  print x;"  // 7
+      "}";
+  // extract
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(input, pkb.getWriter());
+  PKBReader& reader = pkb.getReader();
+
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7};
+  IntToStrVecMap expectedNext = {{1, {"2", "7"}}, {2, {"3", "6"}},
+                                 {3, {"4", "5"}}, {4, {"2"}},
+                                 {5, {"2"}},      {6, {"1"}}};
+  IntToStrVecMap expectedNextT = {{1, {"1", "2", "3", "4", "5", "6", "7"}},
+                                  {2, {"1", "2", "3", "4", "5", "6", "7"}},
+                                  {3, {"1", "2", "3", "4", "5", "6", "7"}},
+                                  {4, {"1", "2", "3", "4", "5", "6", "7"}},
+                                  {5, {"1", "2", "3", "4", "5", "6", "7"}},
+                                  {6, {"1", "2", "3", "4", "5", "6", "7"}}};
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNext));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextT));
+}
+
+TEST_CASE("SP-PKB integration MS2 - multiple nesting with if-if-if") {
+  string input =
+      "procedure tripleNestedIf {"
+      "  if (x > 1) then {"        // 1
+      "    if (y != 2) then {"     // 2
+      "       if (z <= 1) then {"  // 3
+      "           abc = xyz;"      // 4
+      "       } else {"
+      "           qwe = 1234;"  // 5
+      "       }"
+      "    } else {"
+      "       print w;"  // 6
+      "    }"
+      "    read y;"  // 7
+      "  } else {"
+      "    print z;"  // 8
+      "  }"
+      "}";
+  // extract
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(input, pkb.getWriter());
+  PKBReader& reader = pkb.getReader();
+
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7, 8};
+  IntToStrVecMap expectedNext = {{1, {"2", "8"}}, {2, {"3", "6"}},
+                                 {3, {"4", "5"}}, {4, {"7"}},
+                                 {5, {"7"}},      {6, {"7"}}};
+  IntToStrVecMap expectedNextT = {
+      {1, {"2", "3", "4", "5", "6", "7", "8"}},
+      {2, {"3", "4", "5", "6", "7"}},
+      {3, {"4", "5", "7"}},
+      {4, {"7"}},
+      {5, {"7"}},
+      {6, {"7"}},
+  };
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNext));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextT));
+}
+
+TEST_CASE("SP-PKB integration MS2 - multiple nesting with while-while-while") {
+  string input =
+      "procedure tripleNestedWhile {"
+      "  while (x > 1) {"        // 1
+      "    while (y != 2) {"     // 2
+      "       while (z <= 1) {"  // 3
+      "           abc = xyz;"    // 4
+      "       }"
+      "       qwe = 1234;"  // 5
+      "    }"
+      "    read y;"  // 6
+      "  }"
+      "  print x;"  // 7
+      "}";
+  // extract
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(input, pkb.getWriter());
+  PKBReader& reader = pkb.getReader();
+
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7};
+  IntToStrVecMap expectedNext = {{1, {"2", "7"}}, {2, {"3", "6"}},
+                                 {3, {"4", "5"}}, {4, {"3"}},
+                                 {5, {"2"}},      {6, {"1"}}};
+  IntToStrVecMap expectedNextT = {{1, {"1", "2", "3", "4", "5", "6", "7"}},
+                                  {2, {"1", "2", "3", "4", "5", "6", "7"}},
+                                  {3, {"1", "2", "3", "4", "5", "6", "7"}},
+                                  {4, {"1", "2", "3", "4", "5", "6", "7"}},
+                                  {5, {"1", "2", "3", "4", "5", "6", "7"}},
+                                  {6, {"1", "2", "3", "4", "5", "6", "7"}}};
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNext));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextT));
+}
+
+TEST_CASE("SP-PKB integration MS2 - multiple nesting with if-while-while") {
+  string input =
+      "procedure doubleNestedWhileInIf {"
+      "  if (x > 1) then {"      // 1
+      "    while (y != 2) {"     // 2
+      "       while (z <= 1) {"  // 3
+      "           abc = xyz;"    // 4
+      "       }"
+      "       qwe = 1234;"  // 5
+      "    }"
+      "    read y;"  // 6
+      "  } else {"
+      "    print z;"  // 7
+      "  }"
+      "}";
+  // extract
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(input, pkb.getWriter());
+  PKBReader& reader = pkb.getReader();
+
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7};
+  IntToStrVecMap expectedNext = {{1, {"2", "7"}},
+                                 {2, {"3", "6"}},
+                                 {3, {"4", "5"}},
+                                 {4, {"3"}},
+                                 {5, {"2"}}};
+  IntToStrVecMap expectedNextT = {{1, {"2", "3", "4", "5", "6", "7"}},
+                                  {2, {"2", "3", "4", "5", "6"}},
+                                  {3, {"2", "3", "4", "5", "6"}},
+                                  {4, {"2", "3", "4", "5", "6"}},
+                                  {5, {"2", "3", "4", "5", "6"}}};
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNext));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextT));
+}
+
+TEST_CASE("SP-PKB integration MS2 - wiki code 6") {
+  string input =
+      "procedure Second {"
+      "    x = 0;"            // 1
+      "    i = 5;"            // 2
+      "    while (i!=0) {"    // 3
+      "        x = x + 2*y;"  // 4
+      "        call Third;"   // 5
+      "        i = i - 1; "   // 6
+      "    }"
+      "    if (x==1) then {"        // 7
+      "        x = x+1; }"          // 8
+      "    else { z = 1; }"         // 9
+      "    z= z + x + i; "          // 10
+      "    y= z + 2;"               // 11
+      "    x= x * y + z; }"         // 12
+      "procedure Third {read x;}";  // 13
+  // extract
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(input, pkb.getWriter());
+  PKBReader& reader = pkb.getReader();
+
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+  IntToStrVecMap expectedNext = {{1, {"2"}},      {2, {"3"}},  {3, {"4", "7"}},
+                                 {4, {"5"}},      {5, {"6"}},  {6, {"3"}},
+                                 {7, {"8", "9"}}, {8, {"10"}}, {9, {"10"}},
+                                 {10, {"11"}},    {11, {"12"}}};
+  IntToStrVecMap expectedNextT = {
+      {1, {"2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}},
+      {2, {"3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}},
+      {3, {"3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}},
+      {4, {"3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}},
+      {5, {"3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}},
+      {6, {"3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}},
+      {7, {"8", "9", "10", "11", "12"}},
+      {8, {"10", "11", "12"}},
+      {9, {"10", "11", "12"}},
+      {10, {"11", "12"}},
+      {11, {"12"}}};
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNext));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextT));
+}
+
+TEST_CASE("SP-PKB integration MS2 - integration test") {
+  string input =
+      "procedure Next {"
+      "  read line1;"                                    // 1
+      "  if (line2 > line2)then {"                       // 2
+      "    while((line3 < line3)&& ( line3 == line3)){"  // 3
+      "      print line4;"                               // 4
+      "    }"
+      "    call Potato;"  // 5
+      "  } else {"
+      "    call Potato;"     // 6
+      "    assign = line7;"  // 7
+      "  }"
+      "  assign = line8;"  // 8
+      "}"
+      "procedure Potato {"
+      "  assign = line9;"  // 9
+      "}";
+  // extract
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(input, pkb.getWriter());
+  PKBReader& reader = pkb.getReader();
+
+  vector<int> stmts = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+  IntToStrVecMap expectedNext = {{1, {"2"}}, {2, {"3", "6"}}, {3, {"4", "5"}},
+                                 {4, {"3"}}, {5, {"8"}},      {6, {"7"}},
+                                 {7, {"8"}}};
+  IntToStrVecMap expectedNextT = {{1, {"2", "3", "4", "5", "6", "7", "8"}},
+                                  {2, {"3", "4", "5", "6", "7", "8"}},
+                                  {3, {"3", "4", "5", "8"}},
+                                  {4, {"3", "4", "5", "8"}},
+                                  {5, {"8"}},
+                                  {6, {"7", "8"}},
+                                  {7, {"8"}}};
+  REQUIRE(HelperFunctions::validateNext(reader, stmts, expectedNext));
+  REQUIRE(HelperFunctions::validateNextT(reader, stmts, expectedNextT));
 }
