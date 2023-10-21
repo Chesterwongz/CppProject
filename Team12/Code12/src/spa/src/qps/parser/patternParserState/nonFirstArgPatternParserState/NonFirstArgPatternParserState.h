@@ -14,7 +14,6 @@
 
 class NonFirstArgPatternParserState : public BaseParserState {
  private:
-
   bool isPartialMatch = false;
   static PredictiveMap predictiveMap;
   vector<unique_ptr<AbstractArgument>> secondPatternArg;

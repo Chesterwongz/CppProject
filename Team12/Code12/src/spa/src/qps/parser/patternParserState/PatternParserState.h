@@ -2,6 +2,8 @@
 
 #include <memory>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "qps/argument/ident/Ident.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
@@ -22,8 +24,9 @@ class PatternParserState : public BaseParserState {
     INVALID_PATTERN
   };
   static PredictiveMap predictiveMap;
-  const static size_t IF_ARG_COUNT = 2;
-  const static size_t ASSIGN_WHILE_ARG_COUNT = 1;
+  static const size_t IF_ARG_COUNT = 2;
+  static const size_t ASSIGN_WHILE_ARG_COUNT = 1;
+
   void processNameToken(PQLToken& curr) override;
   void checkSafeExit();
   void createPatternClause();
