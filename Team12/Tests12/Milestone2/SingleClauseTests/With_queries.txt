@@ -323,7 +323,7 @@ variable v; procedure p;
 Select v with v.varName = p.procName
 WithSource3
 1000
-====== 65 - with var.varName = p.procName - joinOnSameColNameButDifferentAttr ======
+====== 66 - with var.varName = p.procName - joinOnSameColNameButDifferentAttr ======
 call c; stmt s;
 Select s with c.varName = c.stmt#
 none
