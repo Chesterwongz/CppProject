@@ -41,8 +41,8 @@ IntermediateTable IntermediateTableUtils::getCrossProduct(
     throw QPSIntermediateTableException(
         QPS_UNSUPPORTED_CROSS_PRODUCT_EXCEPTION);
   }
-  vector<string> resColumns = IntermediateTableUtils::concatColNames(
-      table1.getColNames(), table2.getColNames());
+  vector<string> resColumns = IntermediateTableUtils::getJoinColNames(
+      table1.getColNames(), table2.getColNames(), {});
   TableDataType resData = {};
   for (const TableRowType &row1 : table1.getTableData()) {
     for (const TableRowType &row2 : table2.getTableData()) {
@@ -131,35 +131,29 @@ IntermediateTable IntermediateTableUtils::getInnerJoinOn(
       }
     }
   }
+
   vector<string> resColNames =
       t1ColName == t2ColName
           ? IntermediateTableUtils::getJoinColNames(
                 t1.getColNames(), t2.getColNames(), {t2JoinColIndex})
-          : concatColNames(t1.getColNames(), t2.getColNames());
+          : IntermediateTableUtils::getJoinColNames(t1.getColNames(),
+                                                    t2.getColNames(), {});
+
   return IntermediateTableFactory::buildIntermediateTable(resColNames,
                                                           std::move(resData));
 }
 
 vector<string> IntermediateTableUtils::getJoinColNames(
-    const vector<string> &vector1, const vector<string> &vector2,
-    unordered_set<size_t> vector2JoinedColIndexes) {
-  vector<string> resColNames(vector1.begin(), vector1.end());
-  for (size_t i = 0; i < vector2.size(); i++) {
-    if (vector2JoinedColIndexes.find(i) == vector2JoinedColIndexes.end()) {
+    const vector<string> &t1Names, const vector<string> &t2Names,
+    unordered_set<size_t> t2SharedColIndexes) {
+  vector<string> resColNames(t1Names.begin(), t1Names.end());
+  for (size_t i = 0; i < t2Names.size(); i++) {
+    if (t2SharedColIndexes.find(i) == t2SharedColIndexes.end()) {
       // only insert col names not joined on
-      resColNames.emplace_back(vector2.at(i));
+      resColNames.emplace_back(t2Names.at(i));
     }
   }
   return resColNames;
-}
-
-vector<string> IntermediateTableUtils::concatColNames(
-    const vector<string> &vector1, const vector<string> &vector2) {
-  vector<string> newVector;
-  newVector.reserve(vector1.size() + vector2.size());
-  std::move(vector1.begin(), vector1.end(), std::back_inserter(newVector));
-  std::move(vector2.begin(), vector2.end(), std::back_inserter(newVector));
-  return newVector;
 }
 
 TableRowType IntermediateTableUtils::concatRow(const TableRowType &row1,
