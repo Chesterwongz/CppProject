@@ -23,25 +23,25 @@ class SingleSynWithEvaluator : public WithEvaluator {
   unique_ptr<SynonymArg> synonymArg;
   unique_ptr<AbstractArgument> valueArg;
 
-  IntermediateTable getValueArgResultCall();
-  IntermediateTable getValueArgResultRead();
-  IntermediateTable getValueArgResultPrint();
-  IntermediateTable getValueArgResultStmt();
-  IntermediateTable getValueArgResultVar();
-  IntermediateTable getValueArgResultConstant();
-  IntermediateTable getValueArgResultProc();
+  IntermediateTable getCallValueArgResult();
+  IntermediateTable getReadValueArgResult();
+  IntermediateTable getPrintValueArgResult();
+  IntermediateTable getStmtValueArgResult();
+  IntermediateTable getVarValueArgResult();
+  IntermediateTable getConstantValueArgResult();
+  IntermediateTable getProcValueArgResult();
 
   unordered_map<Entity, EntityValueFunc> valueArgResultFuncMap = {
-      {CALL_ENTITY, [this]() { return getValueArgResultCall(); }},
-      {READ_ENTITY, [this]() { return getValueArgResultRead(); }},
-      {PRINT_ENTITY, [this]() { return getValueArgResultPrint(); }},
-      {STMT_ENTITY, [this]() { return getValueArgResultStmt(); }},
-      {ASSIGN_ENTITY, [this]() { return getValueArgResultStmt(); }},
-      {IF_ENTITY, [this]() { return getValueArgResultStmt(); }},
-      {WHILE_ENTITY, [this]() { return getValueArgResultStmt(); }},
-      {VARIABLE_ENTITY, [this]() { return getValueArgResultVar(); }},
-      {CONSTANT_ENTITY, [this]() { return getValueArgResultConstant(); }},
-      {PROCEDURE_ENTITY, [this]() { return getValueArgResultProc(); }}};
+      {CALL_ENTITY, [this]() { return getCallValueArgResult(); }},
+      {READ_ENTITY, [this]() { return getReadValueArgResult(); }},
+      {PRINT_ENTITY, [this]() { return getPrintValueArgResult(); }},
+      {STMT_ENTITY, [this]() { return getStmtValueArgResult(); }},
+      {ASSIGN_ENTITY, [this]() { return getStmtValueArgResult(); }},
+      {IF_ENTITY, [this]() { return getStmtValueArgResult(); }},
+      {WHILE_ENTITY, [this]() { return getStmtValueArgResult(); }},
+      {VARIABLE_ENTITY, [this]() { return getVarValueArgResult(); }},
+      {CONSTANT_ENTITY, [this]() { return getConstantValueArgResult(); }},
+      {PROCEDURE_ENTITY, [this]() { return getProcValueArgResult(); }}};
 
  public:
   explicit SingleSynWithEvaluator(unique_ptr<SynonymArg> firstArg,

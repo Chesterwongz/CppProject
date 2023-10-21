@@ -20,7 +20,7 @@ IntermediateTable SingleSynWithEvaluator::evaluate() {
   return finalResult;
 }
 
-IntermediateTable SingleSynWithEvaluator::getValueArgResultCall() {
+IntermediateTable SingleSynWithEvaluator::getCallValueArgResult() {
   string attrRefValue = valueArg->getValue();
   AttrRef attrRef = synonymArg->getAttrRef();
   string synonymValue = synonymArg->getValue();
@@ -52,7 +52,7 @@ IntermediateTable SingleSynWithEvaluator::getValueArgResultCall() {
   return result;
 }
 
-IntermediateTable SingleSynWithEvaluator::getValueArgResultRead() {
+IntermediateTable SingleSynWithEvaluator::getReadValueArgResult() {
   string attrRefValue = valueArg->getValue();
   AttrRef attrRef = synonymArg->getAttrRef();
   string synonymValue = synonymArg->getValue();
@@ -84,7 +84,7 @@ IntermediateTable SingleSynWithEvaluator::getValueArgResultRead() {
   return result;
 }
 
-IntermediateTable SingleSynWithEvaluator::getValueArgResultPrint() {
+IntermediateTable SingleSynWithEvaluator::getPrintValueArgResult() {
   string attrRefValue = valueArg->getValue();
   AttrRef attrRef = synonymArg->getAttrRef();
   string synonymValue = synonymArg->getValue();
@@ -116,7 +116,7 @@ IntermediateTable SingleSynWithEvaluator::getValueArgResultPrint() {
   return result;
 }
 
-IntermediateTable SingleSynWithEvaluator::getValueArgResultStmt() {
+IntermediateTable SingleSynWithEvaluator::getStmtValueArgResult() {
   string attrRefValue = valueArg->getValue();
   string synonymValue = synonymArg->getValue();
 
@@ -131,7 +131,7 @@ IntermediateTable SingleSynWithEvaluator::getValueArgResultStmt() {
   return result;
 }
 
-IntermediateTable SingleSynWithEvaluator::getValueArgResultVar() {
+IntermediateTable SingleSynWithEvaluator::getVarValueArgResult() {
   string attrRefValue = valueArg->getValue();
   string synonymValue = synonymArg->getValue();
 
@@ -145,7 +145,7 @@ IntermediateTable SingleSynWithEvaluator::getValueArgResultVar() {
   return result;
 }
 
-IntermediateTable SingleSynWithEvaluator::getValueArgResultConstant() {
+IntermediateTable SingleSynWithEvaluator::getConstantValueArgResult() {
   string attrRefValue = valueArg->getValue();
   string synonymValue = synonymArg->getValue();
 
@@ -160,7 +160,7 @@ IntermediateTable SingleSynWithEvaluator::getValueArgResultConstant() {
   return result;
 }
 
-IntermediateTable SingleSynWithEvaluator::getValueArgResultProc() {
+IntermediateTable SingleSynWithEvaluator::getProcValueArgResult() {
   string attrRefValue = valueArg->getValue();
   string synonymValue = synonymArg->getValue();
 
