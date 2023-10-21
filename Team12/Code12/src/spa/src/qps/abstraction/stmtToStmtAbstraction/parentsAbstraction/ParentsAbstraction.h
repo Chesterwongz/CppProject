@@ -10,6 +10,8 @@
 
 class ParentsAbstraction : public StmtToStmtAbstraction {
  private:
+  bool isFirstStmtTypeInvalid() override;
+
   vector<pair<string, string>> getAllPairs(StmtType firstStmtType,
                                            StmtType secondStmtType) override;
   vector<string> getFirstStmt(int secondStmtNumber,

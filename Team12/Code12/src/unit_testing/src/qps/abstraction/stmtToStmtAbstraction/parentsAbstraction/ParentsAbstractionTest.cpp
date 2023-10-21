@@ -43,6 +43,60 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)") {
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
 }
 
+TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)_IF") {
+  MockParentsReader mockReader = MockParentsReader();
+  mockReader.mockParentChildPairs = MOCK_PARENT_CHILD_PAIRS;
+  unique_ptr<AbstractArgument> mockArgument1 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, IF_ENTITY);
+  unique_ptr<AbstractArgument> mockArgument2 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, PARENTS_ENUM, *mockArgument1, *mockArgument2);
+
+  ParentsAbstraction abstraction(*abstractionParams);
+  IntermediateTable resultTable = abstraction.evaluate();
+
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_PARENT_CHILD_VECTORS);
+  REQUIRE(resultTable.getColNames().size() == 2);
+  REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+  REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
+}
+
+TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)_WHILE") {
+  MockParentsReader mockReader = MockParentsReader();
+  mockReader.mockParentChildPairs = MOCK_PARENT_CHILD_PAIRS;
+  unique_ptr<AbstractArgument> mockArgument1 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, WHILE_ENTITY);
+  unique_ptr<AbstractArgument> mockArgument2 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, PARENTS_ENUM, *mockArgument1, *mockArgument2);
+
+  ParentsAbstraction abstraction(*abstractionParams);
+  IntermediateTable resultTable = abstraction.evaluate();
+
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_PARENT_CHILD_VECTORS);
+  REQUIRE(resultTable.getColNames().size() == 2);
+  REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+  REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
+}
+
+TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)_not_if_or_while") {
+  MockParentsReader mockReader = MockParentsReader();
+  mockReader.mockParentChildPairs = MOCK_PARENT_CHILD_PAIRS;
+  unique_ptr<AbstractArgument> mockArgument1 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, ASSIGN_ENTITY);
+  unique_ptr<AbstractArgument> mockArgument2 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, PARENTS_ENUM, *mockArgument1, *mockArgument2);
+
+  ParentsAbstraction abstraction(*abstractionParams);
+  IntermediateTable resultTable = abstraction.evaluate();
+
+  REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+}
+
 TEST_CASE("ParentsAbstraction - Parents(Synonym, Integer)") {
   MockParentsReader mockReader = MockParentsReader();
   mockReader.mockImmediateParentOf = MOCK_IMMEDIATE_PARENT_OF;
@@ -60,6 +114,22 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Integer)") {
   REQUIRE(resultTable.getDataAsStrings().at(0).size() == 1);
   REQUIRE(resultTable.getDataAsStrings().at(0).at(0) ==
           MOCK_IMMEDIATE_PARENT_OF[0]);
+}
+
+TEST_CASE("ParentsAbstraction - Parents(Synonym, Integer)_not_if_or_while") {
+  MockParentsReader mockReader = MockParentsReader();
+  mockReader.mockImmediateParentOf = MOCK_IMMEDIATE_PARENT_OF;
+  unique_ptr<AbstractArgument> mockArgument1 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, CALL_ENTITY);
+  unique_ptr<AbstractArgument> mockArgument2 =
+      std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, PARENTS_ENUM, *mockArgument1, *mockArgument2);
+
+  ParentsAbstraction abstraction(*abstractionParams);
+  IntermediateTable resultTable = abstraction.evaluate();
+
+  REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
 TEST_CASE(
@@ -93,6 +163,36 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Wildcard)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_PARENT_CHILD_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+}
+
+TEST_CASE("ParentsAbstraction - Parents(Synonym, Wildcard)_not_if_or_while") {
+  MockParentsReader mockReader = MockParentsReader();
+  mockReader.mockParentChildPairs = MOCK_PARENT_CHILD_PAIRS;
+  unique_ptr<AbstractArgument> mockArgument1 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, PRINT_ENTITY);
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, PARENTS_ENUM, *mockArgument1, *mockArgument2);
+
+  ParentsAbstraction abstraction(*abstractionParams);
+  IntermediateTable resultTable = abstraction.evaluate();
+
+  REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+}
+
+TEST_CASE("ParentsAbstraction - Parents(Synonym, Wildcard)_empty") {
+  MockParentsReader mockReader = MockParentsReader();
+  mockReader.mockParentChildPairs = {};
+  unique_ptr<AbstractArgument> mockArgument1 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, PRINT_ENTITY);
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, PARENTS_ENUM, *mockArgument1, *mockArgument2);
+
+  ParentsAbstraction abstraction(*abstractionParams);
+  IntermediateTable resultTable = abstraction.evaluate();
+
+  REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Integer, Synonym)_EMPTY") {

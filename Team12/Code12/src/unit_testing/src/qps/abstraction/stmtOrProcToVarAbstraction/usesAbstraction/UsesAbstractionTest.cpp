@@ -28,6 +28,23 @@ TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Synonym)") {
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
 }
 
+TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Synonym)_READ") {
+  MockUsesReader mockReader = MockUsesReader();
+  mockReader.mockAllUsedVariables = MOCK_USED_PAIRS;
+  unique_ptr<AbstractArgument> mockArgument1 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, READ_ENTITY);
+  unique_ptr<AbstractArgument> mockArgument2 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, VARIABLE_ENTITY);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, USES_ENUM, *mockArgument1, *mockArgument2);
+
+  UsesAbstraction abstraction(*abstractionParams);
+  IntermediateTable resultTable = abstraction.evaluate();
+
+  REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+}
+
+
 TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Synonym)_empty") {
   MockUsesReader mockReader = MockUsesReader();
   unique_ptr<AbstractArgument> mockArgument1 =
@@ -44,11 +61,11 @@ TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Synonym)_empty") {
   REQUIRE(resultTable.isTableEmpty());
 }
 
-TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Ident)") {
+TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Ident)_READ") {
   MockUsesReader mockReader = MockUsesReader();
   mockReader.mockStatementsUsing = MOCK_USING_STATEMENTS_1;
   unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, READ_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -57,9 +74,7 @@ TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Ident)") {
   UsesAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
 
-  REQUIRE(resultTable.getDataAsStrings() == MOCK_USING_STATEMENTS_COL);
-  REQUIRE(resultTable.getColNames().size() == 1);
-  REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+  REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
 TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Ident)_empty") {
@@ -92,6 +107,21 @@ TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Wildcard)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_USED_VECTORS_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+}
+
+TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Wildcard)_READ") {
+  MockUsesReader mockReader = MockUsesReader();
+  mockReader.mockAllUsedVariables = MOCK_USED_PAIRS;
+  unique_ptr<AbstractArgument> mockArgument1 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, READ_ENTITY);
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, USES_ENUM, *mockArgument1, *mockArgument2);
+
+  UsesAbstraction abstraction(*abstractionParams);
+  IntermediateTable resultTable = abstraction.evaluate();
+
+  REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
 TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Wildcard)_empty") {

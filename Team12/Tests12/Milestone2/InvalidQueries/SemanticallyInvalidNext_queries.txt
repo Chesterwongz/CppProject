@@ -1,0 +1,260 @@
+====== 1 - Next SemanticError (assign, constant) ======
+stmt s; assign assign; constant constant;
+Select s such that Next(assign, constant)
+SemanticError
+1000
+====== 2 - Next SemanticError (assign, procedure) ======
+stmt s; assign assign; procedure procedure;
+Select s such that Next(assign, procedure)
+SemanticError
+1000
+====== 3 - Next SemanticError (assign, variable) ======
+stmt s; assign assign; variable variable;
+Select s such that Next(assign, variable)
+SemanticError
+1000
+====== 4 - Next SemanticError (call, constant) ======
+stmt s; call call; constant constant;
+Select s such that Next(call, constant)
+SemanticError
+1000
+====== 5 - Next SemanticError (call, procedure) ======
+stmt s; call call; procedure procedure;
+Select s such that Next(call, procedure)
+SemanticError
+1000
+====== 6 - Next SemanticError (call, variable) ======
+stmt s; call call; variable variable;
+Select s such that Next(call, variable)
+SemanticError
+1000
+====== 7 - Next SemanticError (print, constant) ======
+stmt s; print print; constant constant;
+Select s such that Next(print, constant)
+SemanticError
+1000
+====== 8 - Next SemanticError (print, procedure) ======
+stmt s; print print; procedure procedure;
+Select s such that Next(print, procedure)
+SemanticError
+1000
+====== 9 - Next SemanticError (print, variable) ======
+stmt s; print print; variable variable;
+Select s such that Next(print, variable)
+SemanticError
+1000
+====== 10 - Next SemanticError (read, constant) ======
+stmt s; read read; constant constant;
+Select s such that Next(read, constant)
+SemanticError
+1000
+====== 11 - Next SemanticError (read, procedure) ======
+stmt s; read read; procedure procedure;
+Select s such that Next(read, procedure)
+SemanticError
+1000
+====== 12 - Next SemanticError (read, variable) ======
+stmt s; read read; variable variable;
+Select s such that Next(read, variable)
+SemanticError
+1000
+====== 13 - Next SemanticError (if, constant) ======
+stmt s; if if; constant constant;
+Select s such that Next(if, constant)
+SemanticError
+1000
+====== 14 - Next SemanticError (if, procedure) ======
+stmt s; if if; procedure procedure;
+Select s such that Next(if, procedure)
+SemanticError
+1000
+====== 15 - Next SemanticError (if, variable) ======
+stmt s; if if; variable variable;
+Select s such that Next(if, variable)
+SemanticError
+1000
+====== 16 - Next SemanticError (while, constant) ======
+stmt s; while while; constant constant;
+Select s such that Next(while, constant)
+SemanticError
+1000
+====== 17 - Next SemanticError (while, procedure) ======
+stmt s; while while; procedure procedure;
+Select s such that Next(while, procedure)
+SemanticError
+1000
+====== 18 - Next SemanticError (while, variable) ======
+stmt s; while while; variable variable;
+Select s such that Next(while, variable)
+SemanticError
+1000
+====== 19 - Next SemanticError (stmt, constant) ======
+stmt s; stmt stmt; constant constant;
+Select s such that Next(stmt, constant)
+SemanticError
+1000
+====== 20 - Next SemanticError (stmt, procedure) ======
+stmt s; stmt stmt; procedure procedure;
+Select s such that Next(stmt, procedure)
+SemanticError
+1000
+====== 21 - Next SemanticError (stmt, variable) ======
+stmt s; stmt stmt; variable variable;
+Select s such that Next(stmt, variable)
+SemanticError
+1000
+====== 22 - Next SemanticError (constant, assign) ======
+stmt s; constant constant; assign assign;
+Select s such that Next(constant, assign)
+SemanticError
+1000
+====== 23 - Next SemanticError (constant, call) ======
+stmt s; constant constant; call call;
+Select s such that Next(constant, call)
+SemanticError
+1000
+====== 24 - Next SemanticError (constant, print) ======
+stmt s; constant constant; print print;
+Select s such that Next(constant, print)
+SemanticError
+1000
+====== 25 - Next SemanticError (constant, read) ======
+stmt s; constant constant; read read;
+Select s such that Next(constant, read)
+SemanticError
+1000
+====== 26 - Next SemanticError (constant, if) ======
+stmt s; constant constant; if if;
+Select s such that Next(constant, if)
+SemanticError
+1000
+====== 27 - Next SemanticError (constant, while) ======
+stmt s; constant constant; while while;
+Select s such that Next(constant, while)
+SemanticError
+1000
+====== 28 - Next SemanticError (constant, stmt) ======
+stmt s; constant constant; stmt stmt;
+Select s such that Next(constant, stmt)
+SemanticError
+1000
+====== 29 - Next SemanticError (procedure, assign) ======
+stmt s; procedure procedure; assign assign;
+Select s such that Next(procedure, assign)
+SemanticError
+1000
+====== 30 - Next SemanticError (procedure, call) ======
+stmt s; procedure procedure; call call;
+Select s such that Next(procedure, call)
+SemanticError
+1000
+====== 31 - Next SemanticError (procedure, print) ======
+stmt s; procedure procedure; print print;
+Select s such that Next(procedure, print)
+SemanticError
+1000
+====== 32 - Next SemanticError (procedure, read) ======
+stmt s; procedure procedure; read read;
+Select s such that Next(procedure, read)
+SemanticError
+1000
+====== 33 - Next SemanticError (procedure, if) ======
+stmt s; procedure procedure; if if;
+Select s such that Next(procedure, if)
+SemanticError
+1000
+====== 34 - Next SemanticError (procedure, while) ======
+stmt s; procedure procedure; while while;
+Select s such that Next(procedure, while)
+SemanticError
+1000
+====== 35 - Next SemanticError (procedure, stmt) ======
+stmt s; procedure procedure; stmt stmt;
+Select s such that Next(procedure, stmt)
+SemanticError
+1000
+====== 36 - Next SemanticError (variable, assign) ======
+stmt s; variable variable; assign assign;
+Select s such that Next(variable, assign)
+SemanticError
+1000
+====== 37 - Next SemanticError (variable, call) ======
+stmt s; variable variable; call call;
+Select s such that Next(variable, call)
+SemanticError
+1000
+====== 38 - Next SemanticError (variable, print) ======
+stmt s; variable variable; print print;
+Select s such that Next(variable, print)
+SemanticError
+1000
+====== 39 - Next SemanticError (variable, read) ======
+stmt s; variable variable; read read;
+Select s such that Next(variable, read)
+SemanticError
+1000
+====== 40 - Next SemanticError (variable, if) ======
+stmt s; variable variable; if if;
+Select s such that Next(variable, if)
+SemanticError
+1000
+====== 41 - Next SemanticError (variable, while) ======
+stmt s; variable variable; while while;
+Select s such that Next(variable, while)
+SemanticError
+1000
+====== 42 - Next SemanticError (variable, stmt) ======
+stmt s; variable variable; stmt stmt;
+Select s such that Next(variable, stmt)
+SemanticError
+1000
+====== 43 - Next SemanticError (constant, constant) ======
+stmt s; constant constant1, constant2;
+Select s such that Next(constant1, constant2)
+SemanticError
+1000
+====== 44 - Next SemanticError (constant, procedure) ======
+stmt s; constant constant; procedure procedure;
+Select s such that Next(constant, procedure)
+SemanticError
+1000
+====== 45 - Next SemanticError (constant, variable) ======
+stmt s; constant constant; variable variable;
+Select s such that Next(constant, variable)
+SemanticError
+1000
+====== 46 - Next SemanticError (procedure, constant) ======
+stmt s; procedure procedure; constant constant;
+Select s such that Next(procedure, constant)
+SemanticError
+1000
+====== 47 - Next SemanticError (procedure, procedure) ======
+stmt s; procedure procedure1, procedure2;
+Select s such that Next(procedure1, procedure2)
+SemanticError
+1000
+====== 48 - Next SemanticError (procedure, variable) ======
+stmt s; procedure procedure; variable variable;
+Select s such that Next(procedure, variable)
+SemanticError
+1000
+====== 49 - Next SemanticError (variable, constant) ======
+stmt s; variable variable; constant constant;
+Select s such that Next(variable, constant)
+SemanticError
+1000
+====== 50 - Next SemanticError (variable, procedure) ======
+stmt s; variable variable; procedure procedure;
+Select s such that Next(variable, procedure)
+SemanticError
+1000
+====== 51 - Next SemanticError (variable, variable) ======
+stmt s; variable variable1, variable2;
+Select s such that Next(variable1, variable2)
+SemanticError
+1000
+====== 52 - Next SemanticError with undeclared synonym ======
+stmt s; assign a;
+Select s such that Next(a1, s)
+SemanticError
+1000

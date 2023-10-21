@@ -13,7 +13,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Synonym)") {
   MockModifiesReader mockReader = MockModifiesReader();
   mockReader.mockAllModifiedVariables = MOCK_MODIFIED_PAIRS;
   unique_ptr<AbstractArgument> mockArgument1 =
-      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, ASSIGN_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -26,6 +26,22 @@ TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Synonym)") {
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
+}
+
+TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Synonym)_PRINT") {
+  MockModifiesReader mockReader = MockModifiesReader();
+  mockReader.mockAllModifiedVariables = MOCK_MODIFIED_PAIRS;
+  unique_ptr<AbstractArgument> mockArgument1 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, PRINT_ENTITY);
+  unique_ptr<AbstractArgument> mockArgument2 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
+
+  ModifiesAbstraction abstraction(*abstractionParams);
+  IntermediateTable resultTable = abstraction.evaluate();
+
+  REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
 TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Synonym)_empty") {
@@ -63,6 +79,22 @@ TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Ident)") {
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
 }
 
+TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Ident)_PRINT") {
+  MockModifiesReader mockReader = MockModifiesReader();
+  mockReader.mockStatementsModifying = MOCK_MODIFYING_STATEMENTS;
+  unique_ptr<AbstractArgument> mockArgument1 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, PRINT_ENTITY);
+  unique_ptr<AbstractArgument> mockArgument2 =
+      std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
+
+  ModifiesAbstraction abstraction(*abstractionParams);
+  IntermediateTable resultTable = abstraction.evaluate();
+
+  REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+}
+
 TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Ident)_empty") {
   MockModifiesReader mockReader = MockModifiesReader();
   unique_ptr<AbstractArgument> mockArgument1 =
@@ -93,6 +125,21 @@ TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Wildcard)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_MODIFIED_VECTORS_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+}
+
+TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Wildcard)_PRINT") {
+  MockModifiesReader mockReader = MockModifiesReader();
+  mockReader.mockAllModifiedVariables = MOCK_MODIFIED_PAIRS;
+  unique_ptr<AbstractArgument> mockArgument1 =
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, PRINT_ENTITY);
+  unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
+  unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
+      mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
+
+  ModifiesAbstraction abstraction(*abstractionParams);
+  IntermediateTable resultTable = abstraction.evaluate();
+
+  REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
 TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Wildcard)_empty") {
