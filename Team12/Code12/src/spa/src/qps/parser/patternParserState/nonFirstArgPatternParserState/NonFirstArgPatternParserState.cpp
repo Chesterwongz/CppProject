@@ -3,7 +3,7 @@
 PredictiveMap NonFirstArgPatternParserState::predictiveMap = {
     {PQL_COMMA_TOKEN,
      {PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN, PQL_LITERAL_EXPRESSION_TOKEN}},
-    {PQL_WILDCARD_TOKEN, {PQL_CLOSE_BRACKET_TOKEN}},
+    {PQL_WILDCARD_TOKEN, {PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
     {PQL_LITERAL_REF_TOKEN, {PQL_CLOSE_BRACKET_TOKEN}},
     {PQL_LITERAL_EXPRESSION_TOKEN, {PQL_CLOSE_BRACKET_TOKEN}},
 };
@@ -12,14 +12,15 @@ NonFirstArgPatternParserState::NonFirstArgPatternParserState(
     PQLParserContext& parserContext, PQLTokenType prev)
     : BaseParserState(parserContext, prev) {}
 
-void NonFirstArgPatternParserState::processWildcard() {
+void NonFirstArgPatternParserState::processWildcard(PQLTokenType prev) {
   auto nextToken = parserContext.peekNextToken();
+  this->prev = prev;
   if (!nextToken.has_value()) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
   }
   auto nextType = nextToken->getType();
 
-  if (nextType == PQL_COMMA_TOKEN) {
+  if (nextType == PQL_COMMA_TOKEN || nextType == PQL_CLOSE_BRACKET_TOKEN) {
     secondPatternArg.emplace_back(std::make_unique<Wildcard>());
     return;
   }
@@ -36,7 +37,7 @@ void NonFirstArgPatternParserState::processWildcard() {
   auto wildcardToken = parserContext.eatCurrToken();
   if (!wildcardToken.has_value() ||
       wildcardToken->getType() != PQL_WILDCARD_TOKEN) {
-    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
+    throw QPSSyntaxError(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH);
   }
   isPartialMatch = true;
 }
@@ -66,7 +67,7 @@ void NonFirstArgPatternParserState::handleToken() {
       case PQL_CLOSE_BRACKET_TOKEN:
         return;
       case PQL_WILDCARD_TOKEN:
-        processWildcard();
+        processWildcard(token.getType());
         break;
       case PQL_LITERAL_REF_TOKEN:
       case PQL_LITERAL_EXPRESSION_TOKEN:

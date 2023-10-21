@@ -1,7 +1,7 @@
 #include "PatternParserState.h"
 
 PredictiveMap PatternParserState::predictiveMap = {
-    {PQL_PATTERN_TOKEN, {PQL_SYNONYM_TOKEN}},
+    {PQL_PATTERN_TOKEN, {PQL_SYNONYM_TOKEN, PQL_NOT_TOKEN}},
     {PQL_NOT_TOKEN, {PQL_SYNONYM_TOKEN}},
     {PQL_OPEN_BRACKET_TOKEN,
      {PQL_SYNONYM_TOKEN, PQL_LITERAL_REF_TOKEN, PQL_WILDCARD_TOKEN}},
@@ -55,6 +55,7 @@ void PatternParserState::createPatternClause() {
       parserContext.addClause(std::make_unique<AssignPatternClause>(
           std::move(syn), std::move(firstArg), std::move(nonFirstArgs[0]),
           isPartialMatch));
+      return;
     }
     if (synEntity == WHILE_ENTITY) {
       parserContext.addClause(std::make_unique<WhilePatternClause>(
@@ -70,7 +71,7 @@ void PatternParserState::createPatternClause() {
 
 void PatternParserState::handleToken() {
   auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
-  NonFirstArgPatternParserState subPatternState(parserContext, prev);
+  NonFirstArgPatternParserState subPatternState(parserContext, PQL_COMMA_TOKEN);
 
   while (curr.has_value()) {
     PQLToken token = curr.value();

@@ -19,7 +19,7 @@ class NonFirstArgPatternParserState : public BaseParserState {
   static PredictiveMap predictiveMap;
   vector<unique_ptr<AbstractArgument>> secondPatternArg;
   static void checkIsValidExpr(const string& ref);
-  void processWildcard();
+  void processWildcard(PQLTokenType prev);
 
  public:
   explicit NonFirstArgPatternParserState(PQLParserContext& parserContext,

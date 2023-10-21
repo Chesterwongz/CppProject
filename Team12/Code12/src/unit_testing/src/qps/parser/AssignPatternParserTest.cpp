@@ -306,7 +306,7 @@ TEST_CASE("Invalid Pattern a (LITERAL_REF, RIGHT_PARTIAL_MATCH)") {
 
   REQUIRE_THROWS_WITH(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH);
+      "Error occurred during tokenization, invalid token: _");
 }
 
 TEST_CASE("Invalid Pattern a (SYNONYM, PARTIAL_MATCH) - non variable synonym") {
@@ -362,7 +362,8 @@ TEST_CASE(
 
   REQUIRE_THROWS_MATCHES(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSyntaxError, Catch::Message(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH));
+      QPSSyntaxError,
+      Catch::Message("Error occurred during tokenization, invalid token: x"));
 }
 
 TEST_CASE("Invalid Pattern a (LITERAL_REF_, PARTIAL_MATCH) - invalid 1st arg") {
@@ -389,7 +390,8 @@ TEST_CASE("Invalid Pattern a (LITERAL_REF_, PARTIAL_MATCH) - invalid 1st arg") {
 
   REQUIRE_THROWS_MATCHES(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSyntaxError, Catch::Message(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH));
+      QPSSyntaxError,
+      Catch::Message("Error occurred during tokenization, invalid token: _"));
 }
 
 TEST_CASE("Invalid Pattern a (SYNONYM, EXACT_EXPR_MATCH) - invalid expr") {

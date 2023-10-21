@@ -242,7 +242,7 @@ TEST_CASE("invalid query - Pattern clause only has 1 argument") {
 
   REQUIRE_THROWS_WITH(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH);
+      "Error occurred during tokenization, invalid token: )");
 }
 
 TEST_CASE("valid pattern before such that") {
