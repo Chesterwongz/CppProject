@@ -15,10 +15,9 @@ IntermediateTable PatternEvaluator::buildResultTable(
   bool isFirstArgSynonym = firstArg->isSynonym();
   string firstArgValue = firstArg->getValue();
 
-  Entity firstArgEntity = ClauseUtil::getArgEntity(*firstArg);
   vector<vector<SynonymRes>> resultAsSynonymRes =
       SynResConversionUtils::toSynonymRes(
-          pkbResult, {firstArgEntity, VARIABLE_ENTITY}, pkbReader);
+          pkbResult, {STMT_ENTITY, VARIABLE_ENTITY}, pkbReader);
 
   if (isFirstArgSynonym) {
     // need to add additional variable column to result
