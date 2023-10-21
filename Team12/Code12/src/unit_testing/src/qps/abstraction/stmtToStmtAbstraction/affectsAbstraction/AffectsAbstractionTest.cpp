@@ -223,7 +223,7 @@ TEST_CASE("AffectsAbstraction - Affects(Integer, Wildcard)") {
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableWildcard());
 }
-git ad
+
 
 TEST_CASE("AffectsAbstraction - Affects(Integer, Wildcard)_no_affected") {
   MockAffectsReader mockReader = MockAffectsReader();
