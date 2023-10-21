@@ -8,11 +8,11 @@
 #include "qps/parser/patternParserState/ifPatternParserState/IfPatternParserState.h"
 #include "qps/parser/patternParserState/whilePatternParserState/WhilePatternParserState.h"
 
+// parses up to first argument of parser state
 class PatternParserState : public BaseParserState {
  private:
   static PredictiveMap predictiveMap;
   void processNameToken(PQLToken& curr) override;
-  void processSynonymToken(PQLToken& curr);
   bool isNegated = false;
 
  public:

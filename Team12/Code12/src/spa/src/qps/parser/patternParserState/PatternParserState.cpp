@@ -1,13 +1,14 @@
 #include "PatternParserState.h"
 
 PredictiveMap PatternParserState::predictiveMap = {
-    {PQL_PATTERN_TOKEN,
-     {PQL_NOT_TOKEN, PQL_ASSIGN_PATTERN_TOKEN, PQL_IF_PATTERN_TOKEN,
-      PQL_WHILE_PATTERN_TOKEN, PQL_SYNONYM_TOKEN}},
-    {PQL_NOT_TOKEN,
-     {PQL_ASSIGN_PATTERN_TOKEN, PQL_IF_PATTERN_TOKEN, PQL_WHILE_PATTERN_TOKEN,
-      PQL_SYNONYM_TOKEN}}};
-
+    {PQL_PATTERN_TOKEN, {PQL_SYNONYM_TOKEN}},
+    {PQL_NOT_TOKEN, {PQL_SYNONYM_TOKEN}},
+    {PQL_OPEN_BRACKET_TOKEN,
+     {PQL_SYNONYM_TOKEN, PQL_LITERAL_REF_TOKEN, PQL_WILDCARD_TOKEN}},
+    {PQL_SYNONYM_TOKEN, {PQL_OPEN_BRACKET_TOKEN, PQL_COMMA_TOKEN}},
+    {PQL_LITERAL_REF_TOKEN, {PQL_COMMA_TOKEN}},
+    {PQL_WILDCARD_TOKEN, {PQL_COMMA_TOKEN}},
+};
 PatternParserState::PatternParserState(PQLParserContext& parserContext,
                                        PQLTokenType prev)
     : BaseParserState(parserContext, prev) {
@@ -17,26 +18,11 @@ PatternParserState::PatternParserState(PQLParserContext& parserContext,
 void PatternParserState::processNameToken(PQLToken& curr) {
   auto next = parserContext.peekNextToken();
   if (next.has_value() && next->getType() == PQL_OPEN_BRACKET_TOKEN) {
-    processSynonymToken(curr);
+    BaseParserState::processNameToken(curr);
   } else {
     PQLTokenType toUpdate =
         PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
     curr.updateTokenType(toUpdate);
-  }
-}
-
-void PatternParserState::processSynonymToken(PQLToken& curr) {
-  string synType = parserContext.getValidSynonymType(curr.getValue());
-
-  if (synType == ASSIGN_ENTITY) {
-    curr.updateTokenType(PQL_ASSIGN_PATTERN_TOKEN);
-  } else if (synType == IF_ENTITY) {
-    curr.updateTokenType(PQL_IF_PATTERN_TOKEN);
-  } else if (synType == WHILE_ENTITY) {
-    curr.updateTokenType(PQL_WHILE_PATTERN_TOKEN);
-  } else {
-    curr.updateTokenType(PQL_NULL_TOKEN);
-    parserContext.setSemanticallyInvalid();
   }
 }
 
@@ -50,25 +36,15 @@ void PatternParserState::handleToken() {
       case PQL_NOT_TOKEN:
         isNegated = true;
         break;
-      case PQL_NULL_TOKEN:
+      case PQL_SYNONYM_TOKEN:
         // semantically invalid but must ensure that it has no syntactic err
         parserContext.snapTokenStreamImage();
-      case PQL_ASSIGN_PATTERN_TOKEN:
+        // chain of responsibilities start here
         parserContext.transitionTo(std::make_unique<AssignPatternParserState>(
             parserContext, token.getType(),
-            std::make_unique<SynonymArg>(token.getValue(), ASSIGN_ENTITY),
-            isNegated));
-        return;
-      case PQL_IF_PATTERN_TOKEN:
-        parserContext.transitionTo(std::make_unique<IfPatternParserState>(
-            parserContext, token.getType(),
-            std::make_unique<SynonymArg>(token.getValue(), IF_ENTITY),
-            isNegated));
-        return;
-      case PQL_WHILE_PATTERN_TOKEN:
-        parserContext.transitionTo(std::make_unique<WhilePatternParserState>(
-            parserContext, token.getType(),
-            std::make_unique<SynonymArg>(token.getValue(), WHILE_ENTITY),
+            std::make_unique<SynonymArg>(
+                token.getValue(),
+                parserContext.getValidSynonymType(token.getValue())),
             isNegated));
         return;
       default:
