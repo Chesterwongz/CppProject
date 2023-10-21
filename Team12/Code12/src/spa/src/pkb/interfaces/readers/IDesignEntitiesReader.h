@@ -6,8 +6,6 @@
 
 #include "common/StmtTypes.h"
 
-using std::vector, std::string;
-
 class IDesignEntitiesReader {
  public:
   virtual ~IDesignEntitiesReader() = default;
@@ -20,8 +18,6 @@ class IDesignEntitiesReader {
 
   // return the names of all procedures in the program
   virtual std::vector<std::string> getAllProcedures() = 0;
-
-  // virtual bool isValidProcName(string procName);
 
   // return all the stmts of given type in the program
   virtual std::vector<std::string> getAllStmtsOf(StmtType statementType) = 0;
