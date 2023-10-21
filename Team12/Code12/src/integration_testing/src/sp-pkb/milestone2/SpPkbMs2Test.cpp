@@ -729,7 +729,7 @@ TEST_CASE("SP-PKB integration MS2 - 1 procedure with while in if statement") {
   IntToStrVecMap expectedNext = {{1, {"2"}}, {2, {"3", "7"}}, {3, {"4"}},
                                  {4, {"5"}}, {5, {"6"}},      {6, {"4"}}};
   IntToStrVecMap expectedNextT = {{1, {"2", "3", "4", "5", "6", "7"}},
-                                  {2, {"2", "3", "4", "5", "6", "7"}},
+                                  {2, {"3", "4", "5", "6", "7"}},
                                   {3, {"4", "5", "6"}},
                                   {4, {"4", "5", "6"}},
                                   {5, {"4", "5", "6"}},
@@ -1002,7 +1002,7 @@ TEST_CASE("SP-PKB integration MS2 - multiple nesting with if-while-while") {
                                  {3, {"4", "5"}},
                                  {4, {"3"}},
                                  {5, {"2"}}};
-  IntToStrVecMap expectedNextT = {{1, {"1", "2", "3", "4", "5", "6", "7"}},
+  IntToStrVecMap expectedNextT = {{1, {"2", "3", "4", "5", "6", "7"}},
                                   {2, {"2", "3", "4", "5", "6"}},
                                   {3, {"2", "3", "4", "5", "6"}},
                                   {4, {"2", "3", "4", "5", "6"}},
@@ -1083,8 +1083,8 @@ TEST_CASE("SP-PKB integration MS2 - integration test") {
   IntToStrVecMap expectedNext = {{1, {"2"}}, {2, {"3", "6"}}, {3, {"4", "5"}},
                                  {4, {"3"}}, {5, {"8"}},      {6, {"7"}},
                                  {7, {"8"}}};
-  IntToStrVecMap expectedNextT = {{1, {"1", "2", "3", "4", "5", "6", "7", "8"}},
-                                  {2, {"2", "3", "4", "5", "6", "7", "8"}},
+  IntToStrVecMap expectedNextT = {{1, {"2", "3", "4", "5", "6", "7", "8"}},
+                                  {2, {"3", "4", "5", "6", "7", "8"}},
                                   {3, {"3", "4", "5", "8"}},
                                   {4, {"3", "4", "5", "8"}},
                                   {5, {"8"}},

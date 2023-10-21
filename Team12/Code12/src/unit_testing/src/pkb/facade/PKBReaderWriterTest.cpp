@@ -538,46 +538,46 @@ TEST_CASE("PKBReader Tests - Entity Reader APIs") {
   SECTION("getStmtsThatCall") {
     REQUIRE(reader.getStmtsThatCall("proc2") ==
             std::vector<std::string> {"12"});
-    REQUIRE(reader.getStmtsThatCall("proc1") == std::vector<std::string> {});
+    REQUIRE(reader.getStmtsThatCall("proc1").empty());
   }
 
   SECTION("getProcCalledByStmt") {
     REQUIRE(reader.getProcCalledBy(12) == std::vector<std::string> {"proc2"});
-    REQUIRE(reader.getProcCalledBy(4) == std::vector<std::string> {});
+    REQUIRE(reader.getProcCalledBy(4).empty());
   }
 
   SECTION("getStmtsThatRead") {
     REQUIRE(reader.getStmtsThatRead("x") == std::vector<std::string> {"6"});
-    REQUIRE(reader.getStmtsThatRead("wrong") == std::vector<std::string> {});
+    REQUIRE(reader.getStmtsThatRead("wrong").empty());
   }
 
   SECTION("getVariableReadBy") {
     REQUIRE(reader.getVariableReadBy(6) == std::vector<std::string> {"x"});
-    REQUIRE(reader.getVariableReadBy(13) == std::vector<std::string> {});
+    REQUIRE(reader.getVariableReadBy(13).empty());
   }
 
   SECTION("getStmtsThatPrint") {
     REQUIRE(reader.getStmtsThatPrint("x") == std::vector<std::string> {"7"});
-    REQUIRE(reader.getStmtsThatPrint("wrong") == std::vector<std::string> {});
+    REQUIRE(reader.getStmtsThatPrint("wrong").empty());
   }
 
   SECTION("getVariablePrintedBy") {
     REQUIRE(reader.getVariablePrintedBy(7) == std::vector<std::string> {"x"});
-    REQUIRE(reader.getVariablePrintedBy(14) == std::vector<std::string> {});
+    REQUIRE(reader.getVariablePrintedBy(14).empty());
   }
 
   SECTION("getAllStmtProcCallsPairs") {
-    REQUIRE(reader.getAllStmtProcCallsPairs() ==
-            StrStrPairVec {{"11", "proc4"}, {"12", "proc2"}});
+    REQUIRE(compareVectorContents(reader.getAllStmtProcCallsPairs(),
+                                  {{"11", "proc4"}, {"12", "proc2"}}));
   }
 
   SECTION("getAllStmtVarReadPairs") {
-    REQUIRE(reader.getAllStmtVarReadPairs() ==
-            StrStrPairVec {{"6", "x"}, {"8", "a"}, {"10", "b"}});
+    REQUIRE(compareVectorContents(reader.getAllStmtVarReadPairs(),
+                                  {{"6", "x"}, {"8", "a"}, {"10", "b"}}));
   }
 
   SECTION("getAllStmtVarPrintPairs") {
-    REQUIRE(reader.getAllStmtVarPrintPairs() ==
-            StrStrPairVec {{"7", "x"}, {"9", "y"}});
+    REQUIRE(compareVectorContents(reader.getAllStmtVarPrintPairs(),
+                                  {{"7", "x"}, {"9", "y"}}));
   }
 }
