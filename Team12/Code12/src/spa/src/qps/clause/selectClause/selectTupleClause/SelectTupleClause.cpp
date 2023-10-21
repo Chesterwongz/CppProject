@@ -33,7 +33,7 @@ IntermediateTable SelectTupleClause::getAllPossibleValues(
     StmtType stmtType = StmtEntityToStatementType.at(entity);
     results = pkb.getAllStmtsOf(stmtType);
   } else {
-    results = SelectTupleClauseUtils::evaluatorFuncMap[entity](pkb);
+    results = SelectTupleClause::evaluatorFuncMap.at(entity)(pkb);
   }
   return IntermediateTableFactory::buildSingleColTable(synonymValue, results);
 }

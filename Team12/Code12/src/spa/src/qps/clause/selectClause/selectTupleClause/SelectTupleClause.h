@@ -15,8 +15,16 @@
 
 using std::unique_ptr;
 
+typedef std::function<vector<string>(PKBReader &pkb)> evaluatorFunc;
+
 class SelectTupleClause : public ISelectClause {
  private:
+  static inline const unordered_map<Entity, evaluatorFunc> evaluatorFuncMap = {
+      {PROCEDURE_ENTITY, [](PKBReader &pkb) { return pkb.getAllProcedures(); }},
+      {VARIABLE_ENTITY, [](PKBReader &pkb) { return pkb.getAllVariables(); }},
+      {CONSTANT_ENTITY, [](PKBReader &pkb) { return pkb.getAllConstants(); }},
+  };
+
   static IntermediateTable getAllPossibleValues(
       PKBReader &pkb, unique_ptr<SynonymArg> &synonymArg);
 
@@ -31,12 +39,3 @@ class SelectTupleClause : public ISelectClause {
   unordered_set<string> getQueryResult(
       IntermediateTable &intermediateTable) override;
 };
-
-typedef std::function<vector<string>(PKBReader &pkb)> evaluatorFunc;
-namespace SelectTupleClauseUtils {
-static inline unordered_map<Entity, evaluatorFunc> evaluatorFuncMap = {
-    {PROCEDURE_ENTITY, [](PKBReader &pkb) { return pkb.getAllProcedures(); }},
-    {VARIABLE_ENTITY, [](PKBReader &pkb) { return pkb.getAllVariables(); }},
-    {CONSTANT_ENTITY, [](PKBReader &pkb) { return pkb.getAllConstants(); }},
-};
-}
