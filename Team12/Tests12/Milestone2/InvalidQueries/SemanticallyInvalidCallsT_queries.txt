@@ -1,0 +1,460 @@
+====== 1 - Calls* SemanticError (constant, stmt) ======
+stmt stmt; constant constant;
+Select stmt such that Calls*(stmt, constant)
+SemanticError
+1000
+====== 2 - Calls* SemanticError (constant, assign) ======
+stmt stmt; assign assign; constant constant;
+Select stmt such that Calls*(constant, assign)
+SemanticError
+1000
+====== 3 - Calls* SemanticError (constant, while) ======
+stmt stmt; while while; constant constant;
+Select stmt such that Calls*(constant, while)
+SemanticError
+1000
+====== 4 - Calls* SemanticError (constant, if) ======
+stmt stmt; if if; constant constant;
+Select stmt such that Calls*(constant, if)
+SemanticError
+1000
+====== 5 - Calls* SemanticError (constant, call) ======
+stmt stmt; call call; constant constant;
+Select stmt such that Calls*(constant, call)
+SemanticError
+1000
+====== 6 - Calls* SemanticError (constant, read) ======
+stmt stmt; read read; constant constant;
+Select stmt such that Calls*(constant, read)
+SemanticError
+1000
+====== 7 - Calls* SemanticError (constant, print) ======
+stmt stmt; print print; constant constant;
+Select stmt such that Calls*(constant, print)
+SemanticError
+1000
+====== 8 - Calls* SemanticError (variable, stmt) ======
+stmt stmt; variable variable;
+Select stmt such that Calls*(variable, stmt)
+SemanticError
+1000
+====== 10 - Calls* SemanticError (variable, assign) ======
+stmt stmt; assign assign; variable variable;
+Select stmt such that Calls*(variable, assign)
+SemanticError
+1000
+====== 11 - Calls* SemanticError (variable, while) ======
+stmt stmt; while while; variable variable;
+Select stmt such that Calls*(variable, while)
+SemanticError
+1000
+====== 12 - Calls* SemanticError (variable, if) ======
+stmt stmt; if if; variable variable;
+Select stmt such that Calls*(variable, if)
+SemanticError
+1000
+====== 13 - Calls* SemanticError (variable, call) ======
+stmt stmt; call call; variable variable;
+Select stmt such that Calls*(variable, call)
+SemanticError
+1000
+====== 14 - Calls* SemanticError (variable, read) ======
+stmt stmt; read read; variable variable;
+Select stmt such that Calls*(variable, read)
+SemanticError
+1000
+====== 15 - Calls* SemanticError (variable, print) ======
+stmt stmt; print print; variable variable;
+Select stmt such that Calls*(variable, print)
+SemanticError
+1000
+====== 16 - Calls* SemanticError (procedure, stmt) ======
+stmt stmt; procedure procedure;
+Select stmt such that Calls*(stmt, procedure)
+SemanticError
+1000
+===== 17 - Calls* SemanticError (procedure, assign) ======
+stmt stmt; assign assign; procedure procedure;
+Select stmt such that Calls*(procedure, assign)
+SemanticError
+1000
+====== 18 - Calls* SemanticError (procedure, while) ======
+stmt stmt; while while; procedure procedure;
+Select stmt such that Calls*(procedure, while)
+SemanticError
+1000
+====== 19 - Calls* SemanticError (procedure, if) ======
+stmt stmt; if if; procedure procedure;
+Select stmt such that Calls*(procedure, if)
+SemanticError
+1000
+====== 20 - Calls* SemanticError (procedure, call) ======
+stmt stmt; call call; procedure procedure;
+Select stmt such that Calls*(procedure, call)
+SemanticError
+1000
+====== 21 - Calls* SemanticError (procedure, read) ======
+stmt stmt; read read; procedure procedure;
+Select stmt such that Calls*(procedure, read)
+SemanticError
+1000
+====== 22 - Calls* SemanticError (procedure, print) ======
+stmt stmt; print print; procedure procedure;
+Select stmt such that Calls*(procedure, print)
+SemanticError
+1000
+====== 23 - Calls* SemanticError (stmt, stmt) ======
+stmt stmt1, stmt2;
+Select stmt1 such that Calls*(stmt1, stmt2)
+SemanticError
+1000
+====== 24 - Calls* SemanticError (stmt, assign) ======
+stmt stmt; assign assign;
+Select stmt such that Calls*(stmt, assign)
+SemanticError
+1000
+====== 25 - Calls* SemanticError (stmt, while) ======
+stmt stmt; while while;
+Select stmt such that Calls*(stmt, while)
+SemanticError
+1000
+====== 26 - Calls* SemanticError (stmt, if) ======
+stmt stmt; if if;
+Select stmt such that Calls*(stmt, if)
+SemanticError
+1000
+====== 27 - Calls* SemanticError (stmt, call) ======
+stmt stmt; call call;
+Select stmt such that Calls*(stmt, call)
+SemanticError
+1000
+====== 28 - Calls* SemanticError (stmt, read) ======
+stmt stmt; read read;
+Select stmt such that Calls*(stmt, read)
+SemanticError
+1000
+====== 29 - Calls* SemanticError (stmt, print) ======
+stmt stmt; print print;
+Select stmt such that Calls*(stmt, print)
+SemanticError
+1000
+====== 30 - Calls* SemanticError (assign, stmt) ======
+stmt stmt; assign assign;
+Select assign such that Calls*(assign, stmt)
+SemanticError
+1000
+====== 31 - Calls* SemanticError (assign, assign) ======
+assign assign1, assign2;
+Select assign1 such that Calls*(assign1, assign2)
+SemanticError
+1000
+====== 32 - Calls* SemanticError (assign, while) ======
+assign assign; while while;
+Select assign such that Calls*(assign, while)
+SemanticError
+1000
+====== 33 - Calls* SemanticError (assign, if) ======
+assign assign; if if;
+Select assign such that Calls*(assign, if)
+SemanticError
+1000
+====== 34 - Calls* SemanticError (assign, call) ======
+assign assign; call call;
+Select assign such that Calls*(assign, call)
+SemanticError
+1000
+====== 35 - Calls* SemanticError (assign, read) ======
+assign assign; read read;
+Select assign such that Calls*(assign, read)
+SemanticError
+1000
+====== 36 - Calls* SemanticError (assign, print) ======
+assign assign; print print;
+Select assign such that Calls*(assign, print)
+SemanticError
+1000
+====== 37 - Calls* SemanticError (while, stmt) ======
+stmt stmt; while while;
+Select while such that Calls*(while, stmt)
+SemanticError
+1000
+====== 38 - Calls* SemanticError (while, assign) ======
+assign assign; while while;
+Select while such that Calls*(while, assign)
+SemanticError
+1000
+====== 39 - Calls* SemanticError (while, while) ======
+while while1, while2;
+Select while1 such that Calls*(while1, while2)
+SemanticError
+1000
+====== 40 - Calls* SemanticError (while, if) ======
+while while; if if;
+Select while such that Calls*(while, if)
+SemanticError
+1000
+====== 41 - Calls* SemanticError (while, call) ======
+while while; call call;
+Select while such that Calls*(while, call)
+SemanticError
+1000
+====== 42 - Calls* SemanticError (while, read) ======
+while while; read read;
+Select while such that Calls*(while, read)
+SemanticError
+1000
+====== 43 - Calls* SemanticError (while, print) ======
+while while; print print;
+Select while such that Calls*(while, print)
+SemanticError
+1000
+====== 44 - Calls* SemanticError (if, stmt) ======
+stmt stmt; if if;
+Select if such that Calls*(if, stmt)
+SemanticError
+1000
+====== 45 - Calls* SemanticError (if, assign) ======
+assign assign; if if;
+Select if such that Calls*(if, assign)
+SemanticError
+1000
+====== 46 - Calls* SemanticError (if, while) ======
+while while; if if;
+Select if such that Calls*(if, while)
+SemanticError
+1000
+====== 47 - Calls* SemanticError (if, if) ======
+if if1, if2;
+Select if1 such that Calls*(if1, if2)
+SemanticError
+1000
+====== 48 - Calls* SemanticError (if, call) ======
+if if; call call;
+Select if such that Calls*(if, call)
+SemanticError
+1000
+====== 49 - Calls* SemanticError (if, read) ======
+if if; read read;
+Select if such that Calls*(if, read)
+SemanticError
+1000
+====== 50 - Calls* SemanticError (if, print) ======
+if if; print print;
+Select if such that Calls*(if, print)
+SemanticError
+1000
+====== 51 - Calls* SemanticError (call, stmt) ======
+stmt stmt; call call;
+Select call such that Calls*(call, stmt)
+SemanticError
+1000
+====== 52 - Calls* SemanticError (call, assign) ======
+assign assign; call call;
+Select call such that Calls*(call, assign)
+SemanticError
+1000
+====== 53 - Calls* SemanticError (call, while) ======
+while while; call call;
+Select call such that Calls*(call, while)
+SemanticError
+1000
+====== 54 - Calls* SemanticError (call, if) ======
+if if; call call;
+Select call such that Calls*(call, if)
+SemanticError
+1000
+====== 55 - Calls* SemanticError (call, call) ======
+call call1, call2;
+Select call1 such that Calls*(call1, call2)
+SemanticError
+1000
+====== 56 - Calls* SemanticError (call, read) ======
+call call; read read;
+Select call such that Calls*(call, read)
+SemanticError
+1000
+====== 57 - Calls* SemanticError (call, print) ======
+call call; print print;
+Select call such that Calls*(call, print)
+SemanticError
+1000
+====== 58 - Calls* SemanticError (read, stmt) ======
+stmt stmt; read read;
+Select read such that Calls*(read, stmt)
+SemanticError
+1000
+====== 59 - Calls* SemanticError (read, assign) ======
+assign assign; read read;
+Select read such that Calls*(read, assign)
+SemanticError
+1000
+====== 60 - Calls* SemanticError (read, while) ======
+while while; read read;
+Select read such that Calls*(read, while)
+SemanticError
+1000
+====== 61 - Calls* SemanticError (read, if) ======
+if if; read read;
+Select read such that Calls*(read, if)
+SemanticError
+1000
+====== 62 - Calls* SemanticError (read, call) ======
+call call; read read;
+Select read such that Calls*(read, call)
+SemanticError
+1000
+====== 63 - Calls* SemanticError (read, read) ======
+read read1, read2;
+Select read1 such that Calls*(read1, read2)
+SemanticError
+1000
+====== 64 - Calls* SemanticError (read, print) ======
+read read; print print;
+Select read such that Calls*(read, print)
+SemanticError
+1000
+====== 65 - Calls* SemanticError (print, stmt) ======
+stmt stmt; print print;
+Select print such that Calls*(print, stmt)
+SemanticError
+1000
+====== 66 - Calls* SemanticError (print, assign) ======
+assign assign; print print;
+Select print such that Calls*(print, assign)
+SemanticError
+1000
+====== 67 - Calls* SemanticError (print, while) ======
+while while; print print;
+Select print such that Calls*(print, while)
+SemanticError
+1000
+====== 68 - Calls* SemanticError (print, if) ======
+if if; print print;
+Select print such that Calls*(print, if)
+SemanticError
+1000
+====== 69 - Calls* SemanticError (print, call) ======
+call call; print print;
+Select print such that Calls*(print, call)
+SemanticError
+1000
+====== 70 - Calls* SemanticError (print, read) ======
+read read; print print;
+Select print such that Calls*(print, read)
+SemanticError
+1000
+====== 71 - Calls* SemanticError (print, print) ======
+print print1, print2;
+Select print1 such that Calls*(print1, print2)
+SemanticError
+1000
+====== 72 - Calls* SemanticError first arg wildcard ======
+print print1, print2;
+Select print1 such that Calls*(_, print2)
+SemanticError
+1000
+====== 73 - Calls* SemanticError (stmt, constant) ======
+stmt stmt; constant constant;
+Select stmt such that Calls*(stmt, constant)
+SemanticError
+1000
+====== 74 - Calls* SemanticError (stmt, variable) ======
+stmt stmt; variable variable;
+Select stmt such that Calls*(stmt, variable)
+SemanticError
+1000
+====== 75 - Calls* SemanticError (stmt, procedure) ======
+stmt stmt; procedure procedure;
+Select stmt such that Calls*(stmt, procedure)
+SemanticError
+1000
+====== 76 - Calls* SemanticError (assign, constant) ======
+assign assign; constant constant;
+Select assign such that Calls*(assign, constant)
+SemanticError
+1000
+====== 77 - Calls* SemanticError (assign, variable) ======
+assign assign; variable variable;
+Select assign such that Calls*(assign, variable)
+SemanticError
+1000
+====== 78 - Calls* SemanticError (assign, procedure) ======
+assign assign; procedure procedure;
+Select assign such that Calls*(assign, procedure)
+SemanticError
+1000
+====== 79 - Calls* SemanticError (while, constant) ======
+while while; constant constant;
+Select while such that Calls*(while, constant)
+SemanticError
+1000
+====== 80 - Calls* SemanticError (while, variable) ======
+while while; variable variable;
+Select while such that Calls*(while, variable)
+SemanticError
+1000
+====== 81 - Calls* SemanticError (while, procedure) ======
+while while; procedure procedure;
+Select while such that Calls*(while, procedure)
+SemanticError
+1000
+====== 82 - Calls* SemanticError (if, constant) ======
+if if; constant constant;
+Select if such that Calls*(if, constant)
+SemanticError
+1000
+====== 83 - Calls* SemanticError (if, variable) ======
+if if; variable variable;
+Select if such that Calls*(if, variable)
+SemanticError
+1000
+====== 84 - Calls* SemanticError (if, procedure) ======
+if if; procedure procedure;
+Select if such that Calls*(if, procedure)
+SemanticError
+1000
+====== 85 - Calls* SemanticError (call, constant) ======
+call call; constant constant;
+Select call such that Calls*(call, constant)
+SemanticError
+1000
+====== 86 - Calls* SemanticError (call, variable) ======
+call call; variable variable;
+Select call such that Calls*(call, variable)
+SemanticError
+1000
+====== 87 - Calls* SemanticError (call, procedure) ======
+call call; procedure procedure;
+Select call such that Calls*(call, procedure)
+SemanticError
+1000
+====== 88 - Calls* SemanticError (read, constant) ======
+read read; constant constant;
+Select read such that Calls*(read, constant)
+SemanticError
+1000
+====== 89 - Calls* SemanticError (read, variable) ======
+read read; variable variable;
+Select read such that Calls*(read, variable)
+SemanticError
+1000
+====== 90 - Calls* SemanticError (read, procedure) ======
+read read; procedure procedure;
+Select read such that Calls*(read, procedure)
+SemanticError
+1000
+====== 91 - Calls* SemanticError (print, constant) ======
+print print; constant constant;
+Select print such that Calls*(print, constant)
+SemanticError
+1000
+====== 92 - Calls* SemanticError (print, variable) ======
+print print; variable variable;
+Select print such that Calls*(print, variable)
+SemanticError
+1000
+====== 93 - Calls* SemanticError (print, procedure) ======
+print print; procedure procedure;
+Select print such that Calls*(print, procedure)
+SemanticError
+1000

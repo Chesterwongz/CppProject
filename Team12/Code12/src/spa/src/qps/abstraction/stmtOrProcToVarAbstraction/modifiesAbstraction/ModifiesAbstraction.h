@@ -10,6 +10,8 @@
 
 class ModifiesAbstraction : public StmtOrProcToVarAbstraction {
  private:
+  bool isFirstSynonymInvalid() override;
+
   vector<pair<string, string>> getAllStmtVarRelations(
       StmtType stmtType) override;
 
