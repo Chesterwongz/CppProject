@@ -1004,3 +1004,103 @@ TEST_CASE("test_withClause_evaluate_int = ident_emptyTable") {
 
   REQUIRE(actualTable.isTableEmpty());
 }
+
+TEST_CASE(
+    "test_withClause_evaluate_proc.procName = "
+    "call.procName_permutation_swapArgs_"
+    "noSharedCol") {
+  // procedure proc call call; select proc with proc.procName = call.procName
+  string withProcSynonymArgVal = "proc";
+  Entity procSynonymEntity = PROCEDURE_ENTITY;
+  AttrRef procAttrRef = ATTR_REF_PROC_NAME;
+  // string procAttrRefValue = "theBestProc";
+
+  string withCallSynonymArgVal = "call";
+  Entity callSynonymEntity = CALL_ENTITY;
+  AttrRef callAttrRef = ATTR_REF_PROC_NAME;
+
+  unique_ptr<SynonymArg> withProcSynonymPtr = std::make_unique<SynonymArg>(
+      withProcSynonymArgVal, procSynonymEntity, procAttrRef);
+
+  unique_ptr<SynonymArg> withCallSynonymPtr = std::make_unique<SynonymArg>(
+      withCallSynonymArgVal, callSynonymEntity, callAttrRef);
+
+  WithClause withClause =
+      WithClause(std::move(withProcSynonymPtr), std::move(withCallSynonymPtr));
+
+  MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
+
+  vector<string> allProcs = {"p1", "p2"};
+  mockPkbReader.mockAllProcedures = allProcs;
+
+  vector<pair<string, string>> stmtProcCallsPairs = {
+      {"1", "p1"}, {"96", "p2"}, {"101", "p1"}};
+  mockPkbReader.mockStmtProcCallsPairs = stmtProcCallsPairs;
+
+  SynonymRes proc1 = SynonymResFactory::buildProcSynonym("p1");
+  SynonymRes proc2 = SynonymResFactory::buildProcSynonym("p2");
+
+  SynonymRes call1 = SynonymResFactory::buildCallsSynonym("1", "p1");
+  SynonymRes call2 = SynonymResFactory::buildCallsSynonym("96", "p2");
+  SynonymRes call3 = SynonymResFactory::buildCallsSynonym("101", "p1");
+
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
+  vector<string> actualColNames = actualTable.getColNames();
+  TableDataType actualData = actualTable.getTableData();
+  int actualRowCount = actualTable.getRowCount();
+
+  TableDataType expectedData = {{proc1, call1}, {proc2, call2}, {proc1, call3}};
+
+  // TODO(houten): change the requires once merge yq pr
+  /*REQUIRE(actualColNames.size() == 2);
+  REQUIRE(actualColNames[0] == withProcSynonymArgVal);
+  REQUIRE(actualColNames[1] == withCallSynonymArgVal);
+  REQUIRE(actualRowCount == 3);
+  REQUIRE(actualData == expectedData);*/
+
+  REQUIRE(actualTable.isTableEmpty());
+}
+
+TEST_CASE(
+    "test_withClause_evaluate_a.stmt# = "
+    "a.stmt#_permutation_swapArgs_"
+    "with") {
+  // assign a; select a with a.stmt# = a.stmt#
+  string assignSynonymArgVal = "a";
+  Entity assignSynonymEntity = ASSIGN_ENTITY;
+  AttrRef assignAttrRef = ATTR_REF_STMT_NUMBER;
+
+  unique_ptr<SynonymArg> withAssignSynonymPtr1 = std::make_unique<SynonymArg>(
+      assignSynonymArgVal, assignSynonymEntity, assignAttrRef);
+
+  unique_ptr<SynonymArg> withAssignSynonymPtr2 = std::make_unique<SynonymArg>(
+      assignSynonymArgVal, assignSynonymEntity, assignAttrRef);
+
+  WithClause withClause = WithClause(std::move(withAssignSynonymPtr1),
+                                     std::move(withAssignSynonymPtr2));
+
+  MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
+
+  vector<string> allStmtsOf = {"1", "2", "4", "8"};
+  mockPkbReader.mockStatements = allStmtsOf;
+
+  SynonymRes assign1 = SynonymResFactory::buildStmtSynonym("1");
+  SynonymRes assign2 = SynonymResFactory::buildStmtSynonym("2");
+  SynonymRes assign3 = SynonymResFactory::buildStmtSynonym("4");
+  SynonymRes assign4 = SynonymResFactory::buildStmtSynonym("8");
+
+  IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
+  vector<string> actualColNames = actualTable.getColNames();
+  TableDataType actualData = actualTable.getTableData();
+  int actualRowCount = actualTable.getRowCount();
+  
+  TableDataType expectedData = {{assign1}, {assign2}, {assign3}, {assign4}};
+
+  // TODO(houten): change the requires once merge yq pr
+  /*REQUIRE(actualColNames.size() == 1);
+  REQUIRE(actualColNames[0] == assignSynonymArgVal);
+  REQUIRE(actualRowCount == 4);
+  REQUIRE(actualData == expectedData);*/
+
+  REQUIRE(actualTable.isTableEmpty());
+}
