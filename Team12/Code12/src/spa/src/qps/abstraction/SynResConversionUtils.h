@@ -72,8 +72,8 @@ inline const unordered_map<Entity, ToSynonymResFunc> EntityToFuncMap = {
     {WHILE_ENTITY, SynResConversionUtils::stmtToSynonymRes},
     {INVALID_ENTITY, SynResConversionUtils::defaultToSynonymRes}};
 
-vector<SynonymRes> toSynonymRes(const vector<string>& res, const Entity& argEntity,
-                                PKBReader& pkbReader);
+vector<SynonymRes> toSynonymRes(const vector<string>& res,
+                                const Entity& argEntity, PKBReader& pkbReader);
 
 vector<vector<SynonymRes>> toSynonymRes(const vector<pair<string, string>>& res,
                                         const pair<Entity, Entity>& argPair,
