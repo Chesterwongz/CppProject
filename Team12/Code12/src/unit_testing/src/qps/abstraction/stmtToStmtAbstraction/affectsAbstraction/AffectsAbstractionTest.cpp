@@ -118,7 +118,7 @@ TEST_CASE(
 
 TEST_CASE("AffectsAbstraction - Affects(Synonym, Integer)") {
   MockAffectsReader mockReader = MockAffectsReader();
-  mockReader.mockAffects = MOCK_AFFECTS;
+  mockReader.mockAffectedBy = MOCK_AFFECTED_BY;
   unique_ptr<SynonymArg> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, ASSIGN_ENTITY);
   unique_ptr<Integer> mockArgument2 =
@@ -128,10 +128,10 @@ TEST_CASE("AffectsAbstraction - Affects(Synonym, Integer)") {
 
   AffectsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
-  REQUIRE(resultTable.getDataAsStrings() == MOCK_AFFECTS_COL);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_AFFECTED_BY_COL);
 }
 
-TEST_CASE("AffectsAbstraction - Affects(Synonym, Integer)_not_followed") {
+TEST_CASE("AffectsAbstraction - Affects(Synonym, Integer)_not_affected") {
   MockAffectsReader mockReader = MockAffectsReader();
   mockReader.mockAffectedBy = {};
   unique_ptr<SynonymArg> mockArgument1 =
@@ -151,7 +151,7 @@ TEST_CASE("AffectsAbstraction - Affects(Synonym, Integer)_not_assign") {
   MockAffectsReader mockReader = MockAffectsReader();
   mockReader.mockAffectedBy = MOCK_AFFECTED_BY;
   unique_ptr<SynonymArg> mockArgument1 =
-      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, STMT_ENTITY);
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, CALL_ENTITY);
   unique_ptr<Integer> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
@@ -182,7 +182,7 @@ TEST_CASE("AffectsAbstraction - Affects(Synonym, Wildcard)") {
 
 TEST_CASE("AffectsAbstraction - Affects(Integer, Synonym)") {
   MockAffectsReader mockReader = MockAffectsReader();
-  mockReader.mockAffectedBy = MOCK_AFFECTED_BY;
+  mockReader.mockAffects = MOCK_AFFECTS;
   unique_ptr<Integer> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<SynonymArg> mockArgument2 =
@@ -192,12 +192,12 @@ TEST_CASE("AffectsAbstraction - Affects(Integer, Synonym)") {
 
   AffectsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
-  REQUIRE(resultTable.getDataAsStrings() == MOCK_AFFECTED_BY_COL);
+  REQUIRE(resultTable.getDataAsStrings() == MOCK_AFFECTS_COL);
 }
 
-TEST_CASE("AffectsAbstraction - Affects(Integer, Synonym)_no followed") {
+TEST_CASE("AffectsAbstraction - Affects(Integer, Synonym)_no_affected") {
   MockAffectsReader mockReader = MockAffectsReader();
-  mockReader.mockAffectedBy = {};
+  mockReader.mockAffects = {};
   unique_ptr<Integer> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<SynonymArg> mockArgument2 =
@@ -212,7 +212,7 @@ TEST_CASE("AffectsAbstraction - Affects(Integer, Synonym)_no followed") {
 
 TEST_CASE("AffectsAbstraction - Affects(Integer, Wildcard)") {
   MockAffectsReader mockReader = MockAffectsReader();
-  mockReader.mockAffectedBy = MOCK_AFFECTED_BY;
+  mockReader.mockAffects = MOCK_AFFECTS;
   unique_ptr<Integer> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<Wildcard> mockArgument2 = std::make_unique<Wildcard>();
@@ -224,9 +224,10 @@ TEST_CASE("AffectsAbstraction - Affects(Integer, Wildcard)") {
   REQUIRE(resultTable.isTableWildcard());
 }
 
-TEST_CASE("AffectsAbstraction - Affects(Integer, Wildcard)_no followed") {
+
+TEST_CASE("AffectsAbstraction - Affects(Integer, Wildcard)_no_affected") {
   MockAffectsReader mockReader = MockAffectsReader();
-  mockReader.mockAffectedBy = {};
+  mockReader.mockAffects = {};
   unique_ptr<Integer> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<SynonymArg> mockArgument2 =
@@ -288,7 +289,7 @@ TEST_CASE("AffectsAbstraction - Affects(Wildcard, Synonym)") {
 
 TEST_CASE("AffectsAbstraction - Affects(Wildcard, Integer)") {
   MockAffectsReader mockReader = MockAffectsReader();
-  mockReader.mockAffects = MOCK_AFFECTS;
+  mockReader.mockAffectedBy = MOCK_AFFECTED_BY;
   unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
@@ -302,7 +303,7 @@ TEST_CASE("AffectsAbstraction - Affects(Wildcard, Integer)") {
 
 TEST_CASE("AffectsAbstraction - Affects(Wildcard, Integer) not followed") {
   MockAffectsReader mockReader = MockAffectsReader();
-  mockReader.mockAffects = {};
+  mockReader.mockAffectedBy = {};
   unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
