@@ -83,16 +83,13 @@ IntermediateTable ProcToProcAbstraction::handleSynonymOrWildcardArgs() {
 
   vector<pair<string, string>> allPairs = getAllAbstractionPairs();
 
-  pair<Entity, Entity> entityPair = {ClauseUtil::getArgEntity(this->firstArg),
-                                     ClauseUtil::getArgEntity(this->secondArg)};
   vector<string> colNames = {firstArgSynonym, secondArgSynonym};
   TableDataType resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
-      allPairs, entityPair, this->pkb);
-
+      allPairs, {PROCEDURE_ENTITY, PROCEDURE_ENTITY}, this->pkb);
 
   //! If any of the args are "_", the column will be ignored.
-  return IntermediateTableFactory::buildIntermediateTable(
-      colNames, resultAsSynonymRes);
+  return IntermediateTableFactory::buildIntermediateTable(colNames,
+                                                          resultAsSynonymRes);
 }
 
 IntermediateTable ProcToProcAbstraction::handleFirstArgIdent() {
@@ -104,8 +101,11 @@ IntermediateTable ProcToProcAbstraction::handleFirstArgIdent() {
 
   vector<string> possibleSecondProcs =
       getSecondProcInAbstraction(firstArgProcName);
+  vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+      possibleSecondProcs, PROCEDURE_ENTITY, this->pkb);
+
   return IntermediateTableFactory::buildSingleColTable(secondArgProcSynonym,
-                                                       possibleSecondProcs);
+                                                       resultAsSynonymRes);
 }
 
 IntermediateTable ProcToProcAbstraction::handleSecondArgIdent() {
@@ -115,10 +115,13 @@ IntermediateTable ProcToProcAbstraction::handleSecondArgIdent() {
   string firstArgSynonym = this->firstArgValue;
   string secondArgProcName = this->secondArgValue;
 
-  vector<string> possibleValuesOfSynonym =
+  vector<string> possibleFirstProcs =
       getFirstProcInAbstraction(secondArgProcName);
+  vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+      possibleFirstProcs, PROCEDURE_ENTITY, this->pkb);
+
   return IntermediateTableFactory::buildSingleColTable(firstArgSynonym,
-                                                       possibleValuesOfSynonym);
+                                                       resultAsSynonymRes);
 }
 
 IntermediateTable ProcToProcAbstraction::handleBothArgsIdent() {

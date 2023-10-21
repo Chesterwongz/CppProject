@@ -42,8 +42,8 @@ IntermediateTable SelectTupleClause::getAllPossibleValues(
   vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
       results, ClauseUtil::getArgEntity(*synonymArg), pkb);
 
-  return IntermediateTableFactory::buildSingleColTable(synonymValue,
-                                                       resultAsSynonymRes);
+  return IntermediateTableFactory::buildSingleColTable(
+      synonymValue, std::move(resultAsSynonymRes));
 }
 
 bool SelectTupleClause::isEquals(const Clause &other) {

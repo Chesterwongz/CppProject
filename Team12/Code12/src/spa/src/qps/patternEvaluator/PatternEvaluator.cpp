@@ -25,7 +25,7 @@ IntermediateTable PatternEvaluator::buildResultTable(
 
     IntermediateTable linesSatisfyingPatternAndVarsModified =
         IntermediateTableFactory::buildIntermediateTable(
-            {synonymValue, varColName}, resultAsSynonymRes);
+            {synonymValue, varColName}, std::move(resultAsSynonymRes));
 
     return linesSatisfyingPatternAndVarsModified;
   }
@@ -33,7 +33,7 @@ IntermediateTable PatternEvaluator::buildResultTable(
   // otherwise just return the single column table
   IntermediateTable linesSatisfyingPattern =
       IntermediateTableFactory::buildIntermediateTable(
-          {synonymValue, WILDCARD_KEYWORD}, resultAsSynonymRes);
+          {synonymValue, WILDCARD_KEYWORD}, std::move(resultAsSynonymRes));
 
   return linesSatisfyingPattern;
 }
