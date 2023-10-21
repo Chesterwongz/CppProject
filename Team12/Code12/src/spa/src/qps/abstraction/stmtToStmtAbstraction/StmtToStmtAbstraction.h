@@ -9,6 +9,7 @@
 
 class StmtToStmtAbstraction : public BaseAbstraction {
  private:
+  void filterSelfRefPairs(vector<pair<string, string>>& stmtPairs);
   virtual bool isSelfReferencePossible();
   virtual bool isFirstStmtTypeInvalid();
   virtual bool isSecondStmtTypeInvalid();
