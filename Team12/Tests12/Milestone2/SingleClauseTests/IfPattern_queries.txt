@@ -20,12 +20,12 @@ Select if1 pattern if2(d, _, _)
 1000
 ====== 5 - if (ident,_,_) ======
 if if;
-Select if pattern if("oi", _, _);
+Select if pattern if("oi", _, _)
 8
 1000
 ====== 6 - if (ident,_,_) different if synonym ======
 if if1, if2;
-Select if1 pattern if2(hoho, _, _);
+Select if1 pattern if2(hoho, _, _)
 1, 2, 4, 8
 1000
 ====== 7 - if (ident,_,_) different if synonym none======

@@ -40,6 +40,10 @@ void ClauseTransitionParserState::handleToken() {
 
   if (!curr.has_value()) return;
 
+  if (!parserContext.peekNextToken().has_value()) {
+    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_QUERY);
+  }
+
   processNameToken(curr.value());
 
   switch (curr->getType()) {
