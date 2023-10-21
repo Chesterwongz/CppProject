@@ -31,7 +31,6 @@ bool StmtToStmtAbstraction::isSecondSynonymInvalid() {
   bool isNotStmtOrWildcard =
       !(this->secondArg.isStmtSynonym() || this->secondArg.isWildcard());
   return isNotStmtOrWildcard;
-  ;
 }
 
 // Abstraction (StmtSynonym, StmtSynonym)

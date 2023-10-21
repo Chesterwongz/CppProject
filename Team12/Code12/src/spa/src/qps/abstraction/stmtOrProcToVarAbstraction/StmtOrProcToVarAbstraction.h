@@ -12,8 +12,8 @@ class StmtOrProcToVarAbstraction : public BaseAbstraction {
  private:
   IntermediateTable handleSynonymOrWildcardArgs();
   IntermediateTable handleProcNameWithVarSynonymOrWildcard();
-  virtual bool isFirstSynonymInvalid();
-  virtual bool isSecondSynonymInvalid();
+  bool isFirstSynonymInvalid() override;
+  bool isSecondSynonymInvalid() override;
 
   /**
    * Abstraction(a, b): get all a, b pairs where a has specified stmtType
@@ -51,8 +51,7 @@ class StmtOrProcToVarAbstraction : public BaseAbstraction {
   /**
    * Abstraction(a, b): check if specified stmtNum and varName are related
    */
-  virtual bool isVarRelatedToStmt(int stmtNum,
-                                  const string& varName) = 0;
+  virtual bool isVarRelatedToStmt(int stmtNum, const string& varName) = 0;
 
   /**
    * Abstraction(a, b): check if specified procName and varName are related
