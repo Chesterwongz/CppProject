@@ -48,8 +48,8 @@ class SingleSynWithEvaluator : public WithEvaluator {
                                   unique_ptr<AbstractArgument> secondArg,
                                   PKBReader& pkbReader)
       : WithEvaluator(pkbReader),
-        synonymArg(move(firstArg)),
-        valueArg(move(secondArg)) {}
+        synonymArg(std::move(firstArg)),
+        valueArg(std::move(secondArg)) {}
 
   IntermediateTable evaluate() override;
 };

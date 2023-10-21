@@ -15,8 +15,8 @@ class NoSynWithEvaluator : public WithEvaluator {
                               unique_ptr<AbstractArgument> secondArg,
                               PKBReader& pkbReader)
       : WithEvaluator(pkbReader),
-        firstArg(move(firstArg)),
-        secondArg(move(secondArg)) {}
+        firstArg(std::move(firstArg)),
+        secondArg(std::move(secondArg)) {}
 
   IntermediateTable evaluate() override;
 };
