@@ -3,7 +3,7 @@
 std::vector<std::string> NextReader::getPrevStmts(int stmt2,
                                                   StmtType stmtType1) {
   if (!stmtStore.hasStmtType(stmtType1) ||
-      !nextStore.hasDirectAncestor(stmt2)) {
+      !nextStore.hasDirectAncestors(stmt2)) {
     return {};
   }
 
@@ -18,7 +18,7 @@ std::vector<std::string> NextReader::getPrevStmts(int stmt2,
 std::vector<std::string> NextReader::getNextStmts(int stmt1,
                                                   StmtType stmtType2) {
   if (!stmtStore.hasStmtType(stmtType2) ||
-      !nextStore.hasDirectSuccessor(stmt1)) {
+      !nextStore.hasDirectSuccessors(stmt1)) {
     return {};
   }
 
@@ -45,9 +45,7 @@ std::vector<std::pair<std::string, std::string>> NextReader::getNextPairs(
 
   const auto& rawRes = nextStore.getDirectRelations();
 
-  return CollectionUtils::transformMapSetABToVectorUV<int, int, std::string,
-                                                      std::string>(
-      rawRes, CollectionUtils::getIntToStrMapperPair(), stmtFilters);
+  return CollectionUtils::intIntMapSetToStrPairVector(rawRes, stmtFilters);
 }
 
 // =================================== NextT ===================================
@@ -95,7 +93,5 @@ std::vector<std::pair<std::string, std::string>> NextReader::getNextTPairs(
 
   const auto& rawRes = nextStore.getRelationsT();
 
-  return CollectionUtils::transformMapSetABToVectorUV<int, int, std::string,
-                                                      std::string>(
-      rawRes, CollectionUtils::getIntToStrMapperPair(), stmtFilters);
+  return CollectionUtils::intIntMapSetToStrPairVector(rawRes, stmtFilters);
 }

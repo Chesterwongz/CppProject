@@ -12,6 +12,8 @@ class StmtOrProcToVarAbstraction : public BaseAbstraction {
  private:
   IntermediateTable handleSynonymOrWildcardArgs();
   IntermediateTable handleProcNameWithVarSynonymOrWildcard();
+  virtual bool isFirstSynonymInvalid();
+  virtual bool isSecondSynonymInvalid();
 
   /**
    * Abstraction(a, b): get all a, b pairs where a has specified stmtType
