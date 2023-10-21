@@ -13,7 +13,12 @@ class PatternParserState : public BaseParserState {
  private:
   static PredictiveMap predictiveMap;
   void processNameToken(PQLToken& curr) override;
+  void checkSafeExit();
+  unique_ptr<SynonymArg> syn;
+  vector<AbstractArgument> syn;
   bool isNegated = false;
+  bool isInBracket = false;
+  int numberOfArgs = 0;
 
  public:
   explicit PatternParserState(PQLParserContext& parserContext,

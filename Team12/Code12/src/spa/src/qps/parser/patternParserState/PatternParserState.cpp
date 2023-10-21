@@ -17,7 +17,7 @@ PatternParserState::PatternParserState(PQLParserContext& parserContext,
 
 void PatternParserState::processNameToken(PQLToken& curr) {
   auto next = parserContext.peekNextToken();
-  if (next.has_value() && next->getType() == PQL_OPEN_BRACKET_TOKEN) {
+  if (next.has_value() && next->getType() == PQL_OPEN_BRACKET_TOKEN || isInBracket) {
     BaseParserState::processNameToken(curr);
   } else {
     PQLTokenType toUpdate =
@@ -36,6 +36,9 @@ void PatternParserState::handleToken() {
       case PQL_NOT_TOKEN:
         isNegated = true;
         break;
+      case PQL_OPEN_BRACKET_TOKEN:
+        isInBracket = true;
+        break;
       case PQL_SYNONYM_TOKEN:
         // semantically invalid but must ensure that it has no syntactic err
         parserContext.snapTokenStreamImage();
@@ -47,6 +50,9 @@ void PatternParserState::handleToken() {
                 parserContext.getValidSynonymType(token.getValue())),
             isNegated));
         return;
+      case PQL_CLOSE_BRACKET_TOKEN:
+        checkSafeExit();
+        break;
       default:
         break;
     }
