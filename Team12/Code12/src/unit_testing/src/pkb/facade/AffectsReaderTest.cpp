@@ -1,5 +1,5 @@
-#include <catch.hpp>
 #include <unordered_set>
+#include <catch.hpp>
 
 #include "../../common/utils/HelperFunctions.h"
 #include "pkb/readers/relation_reader/stmt_to_stmt/AffectsReader.h"
