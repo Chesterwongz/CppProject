@@ -10,6 +10,18 @@
  * - secondArg: Synonym (Proc) OR Identifier (Proc) OR Wildcard
  */
 
+bool ProcToProcAbstraction::isFirstSynonymInvalid() {
+  bool isNotProcOrWildcard =
+      !(this->firstArg.isProcSynonym() || this->firstArg.isWildcard());
+  return isNotProcOrWildcard;
+}
+
+bool ProcToProcAbstraction::isSecondSynonymInvalid() {
+  bool isNotProcOrWildcard =
+      !(this->secondArg.isProcSynonym() || this->secondArg.isWildcard());
+  return isNotProcOrWildcard;
+}
+
 // Abstraction (Synonym, Synonym)
 IntermediateTable ProcToProcAbstraction::evaluateSynonymSynonym() {
   if (this->firstArgValue == this->secondArgValue) {
@@ -53,7 +65,7 @@ IntermediateTable ProcToProcAbstraction::evaluateWildcardSynonym() {
 
 // Abstraction (_, ProcName)
 IntermediateTable ProcToProcAbstraction::evaluateWildcardIdent() {
-    return handleSecondArgIdent();
+  return handleSecondArgIdent();
 }
 
 // Abstraction (_, _)
@@ -62,11 +74,12 @@ IntermediateTable ProcToProcAbstraction::evaluateWildcardWildcard() {
 }
 
 IntermediateTable ProcToProcAbstraction::handleSynonymOrWildcardArgs() {
+  if (isFirstSynonymInvalid() || isSecondSynonymInvalid()) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
+
   string firstArgSynonym = this->firstArgValue;
   string secondArgSynonym = this->secondArgValue;
-
-  assert(this->firstArg.isProcSynonym() || this->firstArg.isWildcard());
-  assert(this->secondArg.isProcSynonym() || this->secondArg.isWildcard());
 
   vector<pair<string, string>> allPairs = getAllAbstractionPairs();
 
@@ -83,9 +96,12 @@ IntermediateTable ProcToProcAbstraction::handleSynonymOrWildcardArgs() {
 }
 
 IntermediateTable ProcToProcAbstraction::handleFirstArgIdent() {
+  if (isSecondSynonymInvalid()) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
   string firstArgProcName = this->firstArgValue;
   string secondArgProcSynonym = this->secondArgValue;
-  assert(this->secondArg.isProcSynonym() || this->secondArg.isWildcard());
+
   vector<string> possibleSecondProcs =
       getSecondProcInAbstraction(firstArgProcName);
   return IntermediateTableFactory::buildSingleColTable(secondArgProcSynonym,
@@ -93,8 +109,10 @@ IntermediateTable ProcToProcAbstraction::handleFirstArgIdent() {
 }
 
 IntermediateTable ProcToProcAbstraction::handleSecondArgIdent() {
+  if (isFirstSynonymInvalid()) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
   string firstArgSynonym = this->firstArgValue;
-  assert(this->firstArg.isProcSynonym() || this->firstArg.isWildcard());
   string secondArgProcName = this->secondArgValue;
 
   vector<string> possibleValuesOfSynonym =

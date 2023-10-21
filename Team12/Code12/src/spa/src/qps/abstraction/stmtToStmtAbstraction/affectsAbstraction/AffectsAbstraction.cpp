@@ -10,12 +10,16 @@ bool AffectsAbstraction::isInvalidStmtType(StmtType stmtType) {
   return stmtType != StmtType::STMT && stmtType != StmtType::ASSIGN;
 }
 
-bool AffectsAbstraction::isFirstStmtTypeInvalid() {
-  return isInvalidStmtType(this->getFirstArgStmtType());
+bool AffectsAbstraction::isFirstSynonymInvalid() {
+  bool isNotStmtOrWildcard =
+      !(this->firstArg.isStmtSynonym() || this->firstArg.isWildcard());
+  return isNotStmtOrWildcard || isInvalidStmtType(this->getFirstArgStmtType());
 }
 
-bool AffectsAbstraction::isSecondStmtTypeInvalid() {
-  return isInvalidStmtType(this->getSecondArgStmtType());
+bool AffectsAbstraction::isSecondSynonymInvalid() {
+  bool isNotStmtOrWildcard =
+      !(this->secondArg.isStmtSynonym() || this->secondArg.isWildcard());
+  return isNotStmtOrWildcard || isInvalidStmtType(this->getSecondArgStmtType());
 }
 
 bool AffectsAbstraction::isSelfReferencePossible() { return true; }

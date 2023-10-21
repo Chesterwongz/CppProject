@@ -11,9 +11,17 @@
  * - secondArg: Synonym OR Identifier OR Wildcard
  */
 
-bool StmtOrProcToVarAbstraction::isFirstSynonymInvalid() { return false; }
+bool StmtOrProcToVarAbstraction::isFirstSynonymInvalid() {
+  bool isNotStmtOrProc =
+      !(this->firstArg.isStmtSynonym() || this->firstArg.isProcSynonym());
+  return isNotStmtOrProc;
+}
 
-bool StmtOrProcToVarAbstraction::isSecondSynonymInvalid() { return false; }
+bool StmtOrProcToVarAbstraction::isSecondSynonymInvalid() {
+  bool isNotVarOrWildcard =
+      !(this->secondArg.isVarSynonym() || this->secondArg.isWildcard());
+  return isNotVarOrWildcard;
+}
 
 // Abstraction (StatementOrProcSynonym, VarSynonym)
 IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymSynonym() {

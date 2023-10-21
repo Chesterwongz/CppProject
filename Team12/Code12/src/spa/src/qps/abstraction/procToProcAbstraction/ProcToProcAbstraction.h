@@ -10,6 +10,9 @@
 
 class ProcToProcAbstraction : public BaseAbstraction {
  private:
+  virtual bool isFirstSynonymInvalid() override;
+  virtual bool isSecondSynonymInvalid() override;
+
   IntermediateTable handleSynonymOrWildcardArgs();
   IntermediateTable handleFirstArgIdent();
   IntermediateTable handleSecondArgIdent();

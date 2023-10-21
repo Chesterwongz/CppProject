@@ -22,8 +22,17 @@ void StmtToStmtAbstraction::filterSelfRefPairs(
 }
 // Self-reference (i.e. Abstraction (a, a) where a == a) not possible be default
 bool StmtToStmtAbstraction::isSelfReferencePossible() { return false; }
-bool StmtToStmtAbstraction::isFirstStmtTypeInvalid() { return false; }
-bool StmtToStmtAbstraction::isSecondStmtTypeInvalid() { return false; }
+bool StmtToStmtAbstraction::isFirstSynonymInvalid() {
+  bool isNotStmtOrWildcard =
+      !(this->firstArg.isStmtSynonym() || this->firstArg.isWildcard());
+  return isNotStmtOrWildcard;
+}
+bool StmtToStmtAbstraction::isSecondSynonymInvalid() {
+  bool isNotStmtOrWildcard =
+      !(this->secondArg.isStmtSynonym() || this->secondArg.isWildcard());
+  return isNotStmtOrWildcard;
+  ;
+}
 
 // Abstraction (StmtSynonym, StmtSynonym)
 IntermediateTable StmtToStmtAbstraction ::evaluateSynonymSynonym() {
@@ -93,7 +102,7 @@ IntermediateTable StmtToStmtAbstraction::handleBothArgsWildcard() {
 }
 
 IntermediateTable StmtToStmtAbstraction::handleSynonymOrWildcardArgs() {
-  if (isFirstStmtTypeInvalid() || isSecondStmtTypeInvalid()) {
+  if (isFirstSynonymInvalid() || isSecondSynonymInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
 
@@ -137,7 +146,7 @@ IntermediateTable StmtToStmtAbstraction::handleBothArgsInteger() {
 }
 
 IntermediateTable StmtToStmtAbstraction::handleFirstArgInteger() {
-  if (isSecondStmtTypeInvalid()) {
+  if (isSecondSynonymInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
 
@@ -156,7 +165,7 @@ IntermediateTable StmtToStmtAbstraction::handleFirstArgInteger() {
 }
 
 IntermediateTable StmtToStmtAbstraction::handleSecondArgInteger() {
-  if (isFirstStmtTypeInvalid()) {
+  if (isFirstSynonymInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
 

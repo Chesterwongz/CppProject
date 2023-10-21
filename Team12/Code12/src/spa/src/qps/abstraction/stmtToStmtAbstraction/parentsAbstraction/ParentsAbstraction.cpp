@@ -6,10 +6,14 @@
  * - secondArg: Synonym OR Integer OR Wildcard
  */
 
-bool ParentsAbstraction::isFirstStmtTypeInvalid() {
+bool ParentsAbstraction::isFirstSynonymInvalid() {
+  bool isNotStmtOrWildcard =
+      !(this->firstArg.isStmtSynonym() || this->firstArg.isWildcard());
+  if (isNotStmtOrWildcard) {
+    return true;
+  }
   StmtType stmtType = this->getFirstArgStmtType();
-  return stmtType != StmtType::STMT &&
-         stmtType != StmtType::IF &&
+  return stmtType != StmtType::STMT && stmtType != StmtType::IF &&
          stmtType != StmtType::WHILE;
 }
 

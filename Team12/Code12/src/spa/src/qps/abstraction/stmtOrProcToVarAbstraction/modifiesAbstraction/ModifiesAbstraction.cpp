@@ -7,8 +7,12 @@
  */
 
 bool ModifiesAbstraction::isFirstSynonymInvalid() {
-  return !this->firstArg.isProcSynonym() &&
-         this->getFirstArgStmtType() == StmtType::PRINT;}
+  bool isNotStmtOrProc =
+      !(this->firstArg.isStmtSynonym() || this->firstArg.isProcSynonym());
+  bool isPrintStmt = this->firstArg.isStmtSynonym() &&
+                     this->getFirstArgStmtType() == StmtType::PRINT;
+  return isNotStmtOrProc || isPrintStmt;
+}
 
 vector<pair<string, string>> ModifiesAbstraction::getAllStmtVarRelations(
     StmtType stmtType) {

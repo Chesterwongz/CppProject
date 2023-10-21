@@ -12,8 +12,8 @@ class StmtToStmtAbstraction : public BaseAbstraction {
  private:
   void filterSelfRefPairs(vector<pair<string, string>>& stmtPairs);
   virtual bool isSelfReferencePossible();
-  virtual bool isFirstStmtTypeInvalid();
-  virtual bool isSecondStmtTypeInvalid();
+  virtual bool isFirstSynonymInvalid() override;
+  virtual bool isSecondSynonymInvalid() override;
 
   /**
    * For handling cases where both args are non-integer and there is at most

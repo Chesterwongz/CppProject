@@ -16,6 +16,10 @@
 #include "qps/query/Query.h"
 
 class BaseAbstraction {
+ private:
+  virtual bool isFirstSynonymInvalid() = 0;
+  virtual bool isSecondSynonymInvalid() = 0;
+
  protected:
   PKBReader& pkb;
   Abstraction abstraction;

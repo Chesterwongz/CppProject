@@ -18,6 +18,12 @@ QPSStringUtils::ArgumentType SynonymArg::getArgumentType() {
 
 bool SynonymArg::isSynonym() { return true; }
 
+bool SynonymArg::isStmtSynonym() {
+  return STATEMENT_ENTITIES.find(entityType) != STATEMENT_ENTITIES.end();
+}
+
+bool SynonymArg::isVarSynonym() { return entityType == VARIABLE_ENTITY; }
+
 bool SynonymArg::isProcSynonym() { return entityType == PROCEDURE_ENTITY; }
 
 bool SynonymArg::operator==(const AbstractArgument& other) const {
