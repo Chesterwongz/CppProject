@@ -8,13 +8,16 @@ void SourceProcessor::process(const std::string &filePath,
 
 void SourceProcessor::processContent(const std::string &fileContent,
                                      PKBWriter &pkbWriter) {
+  std::shared_ptr<ParserContext> parserContext =
+      std::make_shared<ParserContext>(fileContent);
   std::optional<std::unique_ptr<TNode>> abstractSyntaxTree =
-      ProgramParser(std::move(std::make_shared<ParserContext>(fileContent)))
+      ProgramParser(parserContext)
           .parse();
 
-  if (!abstractSyntaxTree.has_value()) {
+  if (!parserContext->isEnd() || !abstractSyntaxTree.has_value()) {
     throw SpParsingFailedException();
   }
+
   TNode &root = *abstractSyntaxTree.value();
   semanticValidator.validate(root);
   DesignExtractor designExtractor(pkbWriter);
