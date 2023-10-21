@@ -48,6 +48,7 @@ class SynonymRes {
 
 namespace SynonymResUtils {
 const unordered_map<AttrRef, AttrRefEnum> attrRefToEnumMap = {
+    {"", AttrRefEnum::DEFAULT},
     {ATTR_REF_PROC_NAME, AttrRefEnum::PROC_NAME_ENUM },
     {ATTR_REF_VAR_NAME, AttrRefEnum::VAR_NAME_ENUM },
     {ATTR_REF_VALUE, AttrRefEnum::VALUE_ENUM },

@@ -41,7 +41,7 @@ unordered_set<string> Query::evaluate() {
   }
 
   assert(selectClause);
-  currIntermediateTable.join(selectClause->evaluate(pkb));
+  currIntermediateTable= currIntermediateTable.join(selectClause->evaluate(pkb));
   if (currIntermediateTable.isTableEmptyAndNotWildcard()) {
     return {};
   }
