@@ -10,6 +10,6 @@ using std::unique_ptr;
 
 class SelectClauseFactory {
  public:
-  static unique_ptr<ISelectClause> buildSelectClause(
+  static unique_ptr<ISelectClause> createSelectClause(
       SynonymsToSelect synonymsToSelect);
 };

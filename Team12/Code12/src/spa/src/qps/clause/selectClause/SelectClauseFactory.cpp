@@ -1,6 +1,6 @@
 #include "SelectClauseFactory.h"
 
-unique_ptr<ISelectClause> SelectClauseFactory::buildSelectClause(
+unique_ptr<ISelectClause> SelectClauseFactory::createSelectClause(
     SynonymsToSelect synonymsToSelect) {
   if (synonymsToSelect.empty()) {
     return std::make_unique<SelectBooleanClause>(std::move(synonymsToSelect));

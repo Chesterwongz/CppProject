@@ -16,7 +16,7 @@ void Query::addClause(unique_ptr<Clause> clause) {
 
 void Query::setSynonymToQuery(SynonymsToSelect selectSynonyms) {
   this->selectClause =
-      SelectClauseFactory::buildSelectClause(std::move(selectSynonyms));
+      SelectClauseFactory::createSelectClause(std::move(selectSynonyms));
 }
 
 unordered_set<string> Query::evaluate() {
