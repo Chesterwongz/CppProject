@@ -10,7 +10,9 @@ PredictiveMap DeclarativeParserState::predictiveMap = {
     {PQL_SEMICOLON_TOKEN, {PQL_ENTITY_TOKEN, PQL_SELECT_TOKEN}}};
 
 DeclarativeParserState::DeclarativeParserState(PQLParserContext& parserContext)
-    : BaseParserState(parserContext, PQL_NULL_TOKEN) {}
+    : BaseParserState(parserContext, PQL_NULL_TOKEN) {
+  prevClauseType = ClauseType::NULL_CLAUSE;
+}
 
 void DeclarativeParserState::processNameToken(PQLToken& curr) {
   bool expectedSyn = (prev == PQL_ENTITY_TOKEN || prev == PQL_COMMA_TOKEN);
