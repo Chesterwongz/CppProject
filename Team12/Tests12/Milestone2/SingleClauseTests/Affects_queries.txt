@@ -1,0 +1,5 @@
+====== 1 - Affects (a,_) (+) ======
+assign a;
+Select a such that Affects (13 , a)
+16
+10000

@@ -14,6 +14,10 @@ AffectsReader::getAffectsPairs() {
     findAffectsPairs(assign, assign, v, done, result);
   }
 
+  for (const auto& pair : result) {
+      std::cout << "(" << pair.first << ", " << pair.second << ")" << std::endl;
+  }
+
   return result;
 }
 
