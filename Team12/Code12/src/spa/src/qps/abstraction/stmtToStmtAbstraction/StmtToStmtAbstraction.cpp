@@ -8,14 +8,15 @@
 
 void StmtToStmtAbstraction::filterSelfRefPairs(
     vector<pair<string, string>>& stmtPairs) {
-  if (isSelfReferencePossible() &&
-      this->firstArgValue == this->secondArgValue) {
-    stmtPairs.erase(std::remove_if(stmtPairs.begin(), stmtPairs.end(),
-                                   [](const pair<string, string>& stmtPair) {
-                                     return stmtPair.first != stmtPair.second;
-                                   }),
-                    stmtPairs.end());
+  if (!isSelfReferencePossible() ||
+      this->firstArgValue != this->secondArgValue) {
+    return;
   }
+  stmtPairs.erase(std::remove_if(stmtPairs.begin(), stmtPairs.end(),
+                                 [](const pair<string, string>& stmtPair) {
+                                   return stmtPair.first != stmtPair.second;
+                                 }),
+                  stmtPairs.end());
 }
 // Self-reference (i.e. Abstraction (a, a) where a == a) not possible be default
 bool StmtToStmtAbstraction::isSelfReferencePossible() { return false; }
@@ -72,7 +73,21 @@ IntermediateTable StmtToStmtAbstraction ::evaluateWildcardInteger() {
 
 // Abstraction (_, _)
 IntermediateTable StmtToStmtAbstraction ::evaluateWildcardWildcard() {
-  return handleSynonymOrWildcardArgs();
+  return handleBothArgsWildcard();
+}
+
+IntermediateTable StmtToStmtAbstraction::handleBothArgsWildcard() {
+  StmtType firstStmtType = this->getFirstArgStmtType();
+  StmtType secondStmtType = this->getSecondArgStmtType();
+
+  vector<pair<string, string>> stmtStmtPairs =
+      getAllPairs(firstStmtType, secondStmtType);
+
+  if (stmtStmtPairs.empty()) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
+
+  return IntermediateTableFactory::buildWildcardIntermediateTable();
 }
 
 IntermediateTable StmtToStmtAbstraction::handleSynonymOrWildcardArgs() {
@@ -127,7 +142,6 @@ IntermediateTable StmtToStmtAbstraction::handleFirstArgInteger() {
   return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
                                                        results);
 }
-
 IntermediateTable StmtToStmtAbstraction::handleSecondArgInteger() {
   if (isFirstStmtTypeInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();

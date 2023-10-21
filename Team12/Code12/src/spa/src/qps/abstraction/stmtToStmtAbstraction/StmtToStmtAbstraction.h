@@ -15,9 +15,15 @@ class StmtToStmtAbstraction : public BaseAbstraction {
   virtual bool isSecondStmtTypeInvalid();
 
   /**
-   * For handling cases where both args are non-integer
+   * For handling cases where both args are non-integer and there is at most
+   * one wildcard
    */
   IntermediateTable handleSynonymOrWildcardArgs();
+
+  /**
+   * For handling cases where both args wildcards
+   */
+  IntermediateTable handleBothArgsWildcard();
 
   /**
    * For handling cases where both args are stmtNumbers
