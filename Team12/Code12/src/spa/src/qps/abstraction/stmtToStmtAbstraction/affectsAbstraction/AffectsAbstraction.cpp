@@ -33,7 +33,7 @@ vector<string> AffectsAbstraction::getFirstStmt(int secondStmtNumber,
   if (isInvalidStmtType(firstStmtType)) {
     return {};
   }
-  return pkb.getAffects(secondStmtNumber, firstStmtType);
+  return pkb.getAffectedBy(secondStmtNumber, firstStmtType);
 }
 
 vector<string> AffectsAbstraction::getSecondStmt(int firstStmtNumber,
@@ -41,7 +41,7 @@ vector<string> AffectsAbstraction::getSecondStmt(int firstStmtNumber,
   if (isInvalidStmtType(secondStmtType)) {
     return {};
   }
-  return pkb.getAffectedBy(firstStmtNumber, secondStmtType);
+  return pkb.getAffects(firstStmtNumber, secondStmtType);
 }
 
 bool AffectsAbstraction::isStmtRelatedToStmt(int stmtNum1, int stmtNum2) {
