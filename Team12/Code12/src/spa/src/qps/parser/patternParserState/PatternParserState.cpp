@@ -17,7 +17,8 @@ PatternParserState::PatternParserState(PQLParserContext& parserContext,
 
 void PatternParserState::processNameToken(PQLToken& curr) {
   auto next = parserContext.peekNextToken();
-  if (next.has_value() && next->getType() == PQL_OPEN_BRACKET_TOKEN || isInBracket) {
+  if (next.has_value() && next->getType() == PQL_OPEN_BRACKET_TOKEN ||
+      isInBracket) {
     BaseParserState::processNameToken(curr);
   } else {
     PQLTokenType toUpdate =
@@ -26,8 +27,50 @@ void PatternParserState::processNameToken(PQLToken& curr) {
   }
 }
 
+void PatternParserState::checkSafeExit() {
+  if (!syn || !firstArg) {
+    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
+  }
+  bool isValidIfPattern = nonFirstArgs.size() == IF_ARG_COUNT &&
+                          nonFirstArgs[0]->isWildcard() &&
+                          nonFirstArgs[1]->isWildcard();
+  if (isValidIfPattern) {
+    parsedPatternState = IF_PATTERN;
+    return;
+  }
+  bool isValidAssignWhilePattern =
+      nonFirstArgs.size() == ASSIGN_WHILE_ARG_COUNT &&
+      (nonFirstArgs[0]->isWildcard() || nonFirstArgs[0]->isPatternExp());
+  if (isValidAssignWhilePattern) {
+    parsedPatternState = ASSIGN_WHILE_PATTERN;
+    return;
+  }
+  throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
+}
+
+void PatternParserState::createPatternClause() {
+  string synEntity = syn->getEntityType();
+  if (parsedPatternState == ASSIGN_WHILE_PATTERN) {
+    if (synEntity == ASSIGN_ENTITY) {
+      parserContext.addClause(std::make_unique<AssignPatternClause>(
+          std::move(syn), std::move(firstArg), std::move(nonFirstArgs[0]),
+          isPartialMatch));
+    }
+    if (synEntity == WHILE_ENTITY) {
+      parserContext.addClause(std::make_unique<WhilePatternClause>(
+          std::move(syn), std::move(nonFirstArgs[0])));
+      return;
+    }
+  } else if (parsedPatternState == IF_PATTERN && synEntity == IF_ENTITY) {
+    parserContext.addClause(std::make_unique<IfPatternClause>(std::move(syn), std::move(nonFirstArgs[0])));
+    return;
+  }
+  parserContext.setSemanticallyInvalid();
+}
+
 void PatternParserState::handleToken() {
   auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
+  NonFirstArgPatternParserState subPatternState(parserContext, prev);
 
   while (curr.has_value()) {
     PQLToken token = curr.value();
@@ -39,20 +82,31 @@ void PatternParserState::handleToken() {
       case PQL_OPEN_BRACKET_TOKEN:
         isInBracket = true;
         break;
-      case PQL_SYNONYM_TOKEN:
-        // semantically invalid but must ensure that it has no syntactic err
-        parserContext.snapTokenStreamImage();
-        // chain of responsibilities start here
-        parserContext.transitionTo(std::make_unique<AssignPatternParserState>(
-            parserContext, token.getType(),
-            std::make_unique<SynonymArg>(
-                token.getValue(),
-                parserContext.getValidSynonymType(token.getValue())),
-            isNegated));
-        return;
-      case PQL_CLOSE_BRACKET_TOKEN:
-        checkSafeExit();
+      case PQL_SYNONYM_TOKEN: {
+        unique_ptr<SynonymArg> currSyn = std::make_unique<SynonymArg>(
+            token.getValue(),
+            parserContext.getValidSynonymType(token.getValue()));
+        if (!syn) {
+          syn = std::move(currSyn);
+        } else {
+          firstArg = std::move(currSyn);
+        }
         break;
+      }
+      case PQL_LITERAL_REF_TOKEN:
+        firstArg = std::make_unique<Ident>(token.getValue());
+        break;
+      case PQL_WILDCARD_TOKEN:
+        firstArg = std::make_unique<Wildcard>();
+        break;
+      case PQL_COMMA_TOKEN:
+        subPatternState.handleToken();
+        nonFirstArgs = subPatternState.getNonFirstArgs();
+        isPartialMatch = subPatternState.getIsPartialMatch();
+        checkSafeExit();
+        createPatternClause();
+        ClauseTransitionParserState::setClauseTransitionState(parserContext);
+        return;
       default:
         break;
     }
