@@ -80,14 +80,6 @@ std::optional<PQLToken> PQLParserContext::peekNextToken() {
   return tokenStream->peek();
 }
 
-void PQLParserContext::snapTokenStreamImage() {
-  tokenStreamImage = tokenStream->getCursor();
-}
-
-void PQLParserContext::restoreTokenStreamImage() {
-  tokenStream->setCursor(tokenStreamImage);
-}
-
 void PQLParserContext::transitionTo(unique_ptr<IParserState> nextState) {
   currState = std::move(nextState);
 }

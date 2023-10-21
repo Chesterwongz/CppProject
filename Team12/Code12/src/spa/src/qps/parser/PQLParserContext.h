@@ -23,7 +23,6 @@ class PQLParserContext {
   unique_ptr<PQLTokenStream> tokenStream;
   unique_ptr<IParserState> currState;
   bool isSemanticallyValid = true;
-  int tokenStreamImage = 0;
 
   //  handling of TokenStream
   static bool isExpectedToken(PQLTokenType curr, PQLTokenType prev,
@@ -49,8 +48,6 @@ class PQLParserContext {
                                            PredictiveMap& pm);
   std::optional<PQLToken> eatCurrToken();
   std::optional<PQLToken> peekNextToken();
-  void snapTokenStreamImage();
-  void restoreTokenStreamImage();
 
   // handling of parser state
   void transitionTo(unique_ptr<IParserState> nextState);
