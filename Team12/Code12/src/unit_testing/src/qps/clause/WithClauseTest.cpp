@@ -1049,16 +1049,13 @@ TEST_CASE(
   TableDataType actualData = actualTable.getTableData();
   int actualRowCount = actualTable.getRowCount();
 
-  TableDataType expectedData = {{proc1, call1}, {proc2, call2}, {proc1, call3}};
+  TableDataType expectedData = {{proc1, call1}, {proc1, call3}, {proc2, call2}};
 
-  // TODO(houten): change the requires once merge yq pr
-  /*REQUIRE(actualColNames.size() == 2);
+  REQUIRE(actualColNames.size() == 2);
   REQUIRE(actualColNames[0] == withProcSynonymArgVal);
   REQUIRE(actualColNames[1] == withCallSynonymArgVal);
   REQUIRE(actualRowCount == 3);
-  REQUIRE(actualData == expectedData);*/
-
-  REQUIRE(actualTable.isTableEmpty());
+  REQUIRE(actualData == expectedData);
 }
 
 TEST_CASE(
@@ -1096,11 +1093,8 @@ TEST_CASE(
   
   TableDataType expectedData = {{assign1}, {assign2}, {assign3}, {assign4}};
 
-  // TODO(houten): change the requires once merge yq pr
-  /*REQUIRE(actualColNames.size() == 1);
+  REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == assignSynonymArgVal);
   REQUIRE(actualRowCount == 4);
-  REQUIRE(actualData == expectedData);*/
-
-  REQUIRE(actualTable.isTableEmpty());
+  REQUIRE(actualData == expectedData);
 }

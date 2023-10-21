@@ -9,10 +9,14 @@ IntermediateTable DoubleSynWithEvaluator::evaluate() {
   string firstSynonymValue = firstSynonymArg->getValue();
   Entity firstEntityType = firstSynonymArg->getEntityType();
   AttrRef firstAttrRef = firstSynonymArg->getAttrRef();
+  pair<string, AttrRef> firstColNameAttrRefPair = {firstSynonymValue,
+                                                   firstAttrRef};
 
   string secondSynonymValue = secondSynonymArg->getValue();
   Entity secondEntityType = secondSynonymArg->getEntityType();
   AttrRef secondAttrRef = secondSynonymArg->getAttrRef();
+  pair<string, AttrRef> secondColNameAttrRefPair = {secondSynonymValue,
+                                                    secondAttrRef};
 
   vector<SynonymRes> firstPKBResult = withEvaluatorFuncMap[firstEntityType]();
   IntermediateTable firstResult = IntermediateTableFactory::buildSingleColTable(
@@ -23,7 +27,6 @@ IntermediateTable DoubleSynWithEvaluator::evaluate() {
       IntermediateTableFactory::buildSingleColTable(secondSynonymValue,
                                                     secondPKBResult);
 
-  // TODO(houten) integrate with yq for joining on specific attrref
-  // return firstPKBResult.join(secondPKBResult, firstAttrRef, secondAttrRef)
-  return IntermediateTableFactory::buildEmptyIntermediateTable();
+  return firstResult.join(secondResult, firstColNameAttrRefPair,
+                             secondColNameAttrRefPair);
 }
