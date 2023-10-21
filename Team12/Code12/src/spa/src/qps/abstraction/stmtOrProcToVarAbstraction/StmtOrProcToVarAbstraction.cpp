@@ -2,6 +2,8 @@
 
 #include <unordered_set>
 
+#include "qps/abstraction/SynResConversionUtils.h"
+
 /**
  * StmtOrProcToVarAbstraction abstraction:
  * - firstArg: Synonym OR Integer (stmt) OR Identifier (Proc)
@@ -35,8 +37,12 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymIdent() {
     possibleValuesOfSynonym =
         getStmtsRelatedToVar(secondArgVarName, firstArgStmtType);
   }
+
+  vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+      possibleValuesOfSynonym, getArgEntity(this->firstArg), this->pkb);
+
   return IntermediateTableFactory::buildSingleColTable(firstArgSynonym,
-                                                       possibleValuesOfSynonym);
+                                                       resultAsSynonymRes);
 }
 
 // Abstraction (StatementOrProcSynonym, _)
@@ -55,8 +61,11 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateIntegerSynonym() {
 
   vector<string> possibleVars = getVarsRelatedToStmt(firstArgStmtNumber);
 
+  vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+      possibleVars, VARIABLE_ENTITY, this->pkb);
+
   return IntermediateTableFactory::buildSingleColTable(secondArgVarSynonym,
-                                                       possibleVars);
+                                                       resultAsSynonymRes);
 }
 
 // Abstraction (StatementNumber, VarIdentifier)
@@ -120,9 +129,15 @@ IntermediateTable StmtOrProcToVarAbstraction::handleSynonymOrWildcardArgs() {
     allStmtOrProcAndVarPairs = getAllStmtVarRelations(firstArgStmtType);
   }
 
+  pair<Entity, Entity> entityPair = {getArgEntity(this->firstArg),
+                                     getArgEntity(this->secondArg)};
+  vector<string> colNames = {firstArgSynonym, secondArgVarSynonym};
+  TableDataType resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+      allStmtOrProcAndVarPairs, entityPair, this->pkb);
+
   //! If any of the args are "_", the column will be ignored.
-  return IntermediateTableFactory::buildIntermediateTable(
-      firstArgSynonym, secondArgVarSynonym, allStmtOrProcAndVarPairs);
+  return IntermediateTableFactory::buildIntermediateTable(colNames,
+                                                          resultAsSynonymRes);
 }
 
 IntermediateTable
@@ -134,7 +149,9 @@ StmtOrProcToVarAbstraction::handleProcNameWithVarSynonymOrWildcard() {
   string firstArgProcName = this->firstArgValue;
   string secondArgVarValue = this->secondArgValue;
   vector<string> possibleVarValues = getVarsRelatedToProc(firstArgProcName);
+  vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+      possibleVarValues, VARIABLE_ENTITY, this->pkb);
   //! If second arg is "_", wildcard table is built instead.
   return IntermediateTableFactory::buildSingleColTable(secondArgVarValue,
-                                                       possibleVarValues);
+                                                       resultAsSynonymRes);
 }

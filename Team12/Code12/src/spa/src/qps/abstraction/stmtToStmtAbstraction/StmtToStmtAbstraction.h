@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "qps/abstraction/BaseAbstraction.h"
+#include "qps/abstraction/SynResConversionUtils.h"
 #include "qps/intermediateTable/IntermediateTable.h"
 
 class StmtToStmtAbstraction : public BaseAbstraction {

@@ -2,6 +2,8 @@
 
 #include <unordered_set>
 
+#include "qps/abstraction/SynResConversionUtils.h"
+
 /**
  * ProcToProcAbstraction abstraction:
  * - firstArg: Synonym (Proc) OR Identifier (Proc) OR Wildcard
@@ -68,9 +70,16 @@ IntermediateTable ProcToProcAbstraction::handleSynonymOrWildcardArgs() {
 
   vector<pair<string, string>> allPairs = getAllAbstractionPairs();
 
+  pair<Entity, Entity> entityPair = {getArgEntity(this->firstArg),
+                                     getArgEntity(this->secondArg)};
+  vector<string> colNames = {firstArgSynonym, secondArgSynonym};
+  TableDataType resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+      allPairs, entityPair, this->pkb);
+
+
   //! If any of the args are "_", the column will be ignored.
   return IntermediateTableFactory::buildIntermediateTable(
-      firstArgSynonym, secondArgSynonym, allPairs);
+      colNames, resultAsSynonymRes);
 }
 
 IntermediateTable ProcToProcAbstraction::handleFirstArgIdent() {

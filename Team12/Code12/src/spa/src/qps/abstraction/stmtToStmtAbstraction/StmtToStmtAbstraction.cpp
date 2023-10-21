@@ -9,12 +9,8 @@
 // Self-reference (i.e. Abstraction (a, a) where a == a) not possible be default
 bool StmtToStmtAbstraction::isSelfReferencePossible() { return false; }
 
-bool StmtToStmtAbstraction::isFirstStmtTypeInvalid() {
-  return false;
-}
-bool StmtToStmtAbstraction::isSecondStmtTypeInvalid() {
-  return false;
-}
+bool StmtToStmtAbstraction::isFirstStmtTypeInvalid() { return false; }
+bool StmtToStmtAbstraction::isSecondStmtTypeInvalid() { return false; }
 
 // Abstraction (StmtSynonym, StmtSynonym)
 IntermediateTable StmtToStmtAbstraction ::evaluateSynonymSynonym() {
@@ -83,9 +79,15 @@ IntermediateTable StmtToStmtAbstraction::handleSynonymOrWildcardArgs() {
   vector<pair<string, string>> stmtStmtPairs =
       getAllPairs(firstStmtType, secondStmtType);
 
+  pair<Entity, Entity> entityPair = {getArgEntity(this->firstArg),
+                                     getArgEntity(this->secondArg)};
+  vector<string> colNames = {firstArgStmtSynonym, secondArgStmtSynonym};
+  TableDataType resultAsSynonymRes =
+      SynResConversionUtils::toSynonymRes(stmtStmtPairs, entityPair, this->pkb);
+
   //! If any of the args are "_", the column will be ignored.
-  return IntermediateTableFactory::buildIntermediateTable(
-      firstArgStmtSynonym, secondArgStmtSynonym, stmtStmtPairs);
+  return IntermediateTableFactory::buildIntermediateTable(colNames,
+                                                          resultAsSynonymRes);
 }
 
 IntermediateTable StmtToStmtAbstraction::handleBothArgsInteger() {
@@ -114,11 +116,14 @@ IntermediateTable StmtToStmtAbstraction::handleFirstArgInteger() {
   StmtType secondArgStmtType = this->getSecondArgStmtType();
   string secondStmtSynonym = this->secondArgValue;
 
-  vector<string> results =
-      getSecondStmt(firstArgStmtNumber, secondArgStmtType);
+  vector<string> results = getSecondStmt(firstArgStmtNumber, secondArgStmtType);
+
+  Entity secondArgEntity = getArgEntity(this->secondArg);
+  vector<SynonymRes> resultAsSynonymRes =
+      SynResConversionUtils::toSynonymRes(results, secondArgEntity, this->pkb);
 
   return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
-                                                       results);
+                                                       resultAsSynonymRes);
 }
 
 IntermediateTable StmtToStmtAbstraction::handleSecondArgInteger() {
@@ -130,9 +135,12 @@ IntermediateTable StmtToStmtAbstraction::handleSecondArgInteger() {
   StmtType firstArgStmtType = this->getFirstArgStmtType();
   int secondArgStmtNumber = stoi(this->secondArgValue);
 
-  vector<string> results =
-      getFirstStmt(secondArgStmtNumber, firstArgStmtType);
+  vector<string> results = getFirstStmt(secondArgStmtNumber, firstArgStmtType);
+
+  Entity firstArgEntity = getArgEntity(this->firstArg);
+  vector<SynonymRes> resultAsSynonymRes =
+      SynResConversionUtils::toSynonymRes(results, firstArgEntity, this->pkb);
 
   return IntermediateTableFactory::buildSingleColTable(firstArgStmtSynonym,
-                                                       results);
+                                                       resultAsSynonymRes);
 }

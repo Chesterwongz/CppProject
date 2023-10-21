@@ -1,7 +1,7 @@
 #include "SynResConversionUtils.h"
 
 vector<SynonymRes> SynResConversionUtils::toSynonymRes(
-    const vector<string>& res, Entity& argEntity, PKBReader& pkbReader) {
+    const vector<string>& res, const Entity& argEntity, PKBReader& pkbReader) {
   vector<SynonymRes> synResVector {};
   synResVector.reserve(res.size());
 
