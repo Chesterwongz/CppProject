@@ -1,6 +1,5 @@
 #include <catch.hpp>
 
-#include "IntermediateTableTestUtils.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 #include "qps/intermediateTable/IntermediateTableUtils.h"
 #include "testData/SynonymResTestData.h"
@@ -34,23 +33,27 @@ TEST_CASE("IntermediateTable - constructors + getTableData") {
 
 TEST_CASE("IntermediateTable - getColumns - SynonymRes") {
   // get 0 column
-  vector<pair<string, AttrRefEnum>> vectorWithNoCol = {};
+  vector<unique_ptr<SynonymArg>> vectorWithNoCol = {};
   unordered_set<string> expectedNoCol = {};
   REQUIRE(MULTI_COLUMN_SYNONYM_RES_TABLE_1.getColumns(vectorWithNoCol) ==
           expectedNoCol);
 
   // get 1 column
-  vector<pair<string, AttrRefEnum>> vectorWithOneCol = {
-      {"calls", AttrRefEnum::PROC_NAME_ENUM}};
+  vector<unique_ptr<SynonymArg>> vectorWithOneCol {};
+  vectorWithOneCol.push_back(
+      std::make_unique<SynonymArg>("calls", CALL_ENTITY, ATTR_REF_PROC_NAME));
   unordered_set<string> expectedOneCol = {SYNONYM_VAL_1B, SYNONYM_VAL_2B};
   REQUIRE(MULTI_COLUMN_SYNONYM_RES_TABLE_1.getColumns(vectorWithOneCol) ==
           expectedOneCol);
 
   // get >1 columns
-  vector<pair<string, AttrRefEnum>> vectorWithMultiCols = {
-      {"calls", AttrRefEnum::PROC_NAME_ENUM},
-      {"stmt", AttrRefEnum::STMT_NUM_ENUM},
-      {"constant", AttrRefEnum::VALUE_ENUM}};
+  vector<unique_ptr<SynonymArg>> vectorWithMultiCols {};
+  vectorWithNoCol.push_back(
+      std::make_unique<SynonymArg>("calls", CALL_ENTITY, ATTR_REF_PROC_NAME));
+  vectorWithNoCol.push_back(
+      std::make_unique<SynonymArg>("stmt", STMT_ENTITY, ATTR_REF_STMT_NUMBER));
+  vectorWithNoCol.push_back(std::make_unique<SynonymArg>(
+      "constant", CONSTANT_ENTITY, ATTR_REF_VALUE));
   unordered_set<string> expectedMultiCols = {
       SYNONYM_VAL_1B + " " + SYNONYM_VAL_1 + " " + SYNONYM_VAL_1,
       SYNONYM_VAL_1B + " " + SYNONYM_VAL_2 + " " + SYNONYM_VAL_2,
@@ -66,7 +69,7 @@ TEST_CASE("IntermediateTable - getColumns - SynonymRes") {
           expectedWithNonExistent);
 
   // non-existent attrRefs will be caught by parser
-}t
+}
 
 TEST_CASE("IntermediateTable - isColExists - SynonymRes") {
   REQUIRE(MULTI_COLUMN_SYNONYM_RES_TABLE_2.isColExists("var"));
