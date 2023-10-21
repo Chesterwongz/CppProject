@@ -7,7 +7,7 @@
  */
 
 bool UsesAbstraction::isFirstSynonymInvalid() {
-  return !this->firstArg.isProcSynonym() &&
+  return this->getFirstArgStmtType() == StmtType::INVALID ||
          this->getFirstArgStmtType() == StmtType::READ;
 }
 

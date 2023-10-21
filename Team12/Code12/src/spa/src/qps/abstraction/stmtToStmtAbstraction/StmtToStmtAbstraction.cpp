@@ -9,12 +9,8 @@
 // Self-reference (i.e. Abstraction (a, a) where a == a) not possible be default
 bool StmtToStmtAbstraction::isSelfReferencePossible() { return false; }
 
-bool StmtToStmtAbstraction::isFirstStmtTypeInvalid() {
-  return false;
-}
-bool StmtToStmtAbstraction::isSecondStmtTypeInvalid() {
-  return false;
-}
+bool StmtToStmtAbstraction::isFirstStmtTypeInvalid() { return false; }
+bool StmtToStmtAbstraction::isSecondStmtTypeInvalid() { return false; }
 
 // Abstraction (StmtSynonym, StmtSynonym)
 IntermediateTable StmtToStmtAbstraction ::evaluateSynonymSynonym() {

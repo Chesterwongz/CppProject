@@ -115,7 +115,10 @@ inline StmtType getArgStmtType(AbstractArgument &argument) {
     auto &synonymArg = dynamic_cast<SynonymArg &>(argument);
     auto firstStmtEntity = synonymArg.getEntityType();
     assert(firstStmtEntity != PROCEDURE_ENTITY);
-    return StmtEntityToStatementType.at(firstStmtEntity);
+    auto entityPair = StmtEntityToStatementType.find(firstStmtEntity);
+    return entityPair == StmtEntityToStatementType.end()
+        ? StmtType::INVALID
+        : entityPair->second;
   } else if (argument.isWildcard()) {
     return StmtType::STMT;
   }

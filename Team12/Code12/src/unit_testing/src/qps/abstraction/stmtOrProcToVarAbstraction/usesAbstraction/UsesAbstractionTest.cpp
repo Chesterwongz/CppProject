@@ -44,7 +44,6 @@ TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Synonym)_READ") {
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
 }
 
-
 TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Synonym)_empty") {
   MockUsesReader mockReader = MockUsesReader();
   unique_ptr<AbstractArgument> mockArgument1 =
