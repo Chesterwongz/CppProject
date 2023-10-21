@@ -1,0 +1,32 @@
+procedure WithSource1 {
+  if (x<0) then {         
+    while (100>hihi) {         
+      x = z * 3 + 2 * y;  
+      print q;            
+      i = i - 1; }        
+    x = x + 1;            
+    z = x + z; }          
+  else {
+    z = 1; }
+  lalala = 200;
+  z = z + x + i; } 
+
+procedure WithSource2 {            
+  while (i!=0) {      
+    x = x - 1;       
+    if (hello==1) then {  
+      z = x + 1; }    
+    else {
+      y = z + x; 
+      call WithSource1; } 
+    z = z + x + i;  
+    read q; }
+  lololol = 100;
+  print p; 
+  call WithSource3;} 
+
+procedure WithSource3 {
+  print wow;
+  read amazing;
+  WithSource1 = 100;
+}
