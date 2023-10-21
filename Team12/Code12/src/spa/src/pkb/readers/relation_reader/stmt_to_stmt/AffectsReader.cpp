@@ -14,10 +14,6 @@ AffectsReader::getAffectsPairs() {
     findAffectsPairs(assign, assign, v, done, result);
   }
 
-  for (const auto& pair : result) {
-      std::cout << "(" << pair.first << ", " << pair.second << ")" << std::endl;
-  }
-
   return result;
 }
 
@@ -44,7 +40,11 @@ void AffectsReader::findAffectsPairs(
                           std::to_string(nextStmt));
     }
 
-    if (modifiesSStore.hasDirectRelation(nextStmt, variable)) {
+    bool isValidType = stmtStore.hasStmt(nextStmt, StmtType::ASSIGN) ||
+                       stmtStore.hasStmt(nextStmt, StmtType::READ) ||
+                       stmtStore.hasStmt(nextStmt, StmtType::CALL);
+
+    if (isValidType && modifiesSStore.hasDirectRelation(nextStmt, variable)) {
       continue;
     }
 
