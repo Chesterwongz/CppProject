@@ -47,7 +47,7 @@ while read -r out_file; do
     fi
 done < <(find "$output_dir" -type f -iname '*_out.xml')
 
-if [ "$failed_files" -eq "$total_files" ]; then
+if [[ $failed_files -eq 0 ]]; then
     echo "Success: All $total_files autotester output files passed!!"
     exit 0  # exit with success, passes CI/CD
 else
