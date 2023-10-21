@@ -6,6 +6,11 @@
  * - secondArg: Synonym OR Identifier OR Wildcard
  */
 
+bool UsesAbstraction::isFirstSynonymInvalid() {
+  return !this->firstArg.isProcSynonym() &&
+         this->getFirstArgStmtType() == StmtType::READ;
+}
+
 vector<pair<string, string>> UsesAbstraction::getAllStmtVarRelations(
     StmtType stmtType) {
   return pkb.getUsesStmtPairs(stmtType);
