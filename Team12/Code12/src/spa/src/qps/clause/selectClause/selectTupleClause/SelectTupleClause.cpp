@@ -1,14 +1,11 @@
-#include "SelectClause.h"
+#include "SelectTupleClause.h"
 
 #include <cassert>
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 
-SelectClause::SelectClause(SynonymsToSelect synonymsToSelect)
-    : synonymsToSelect(std::move(synonymsToSelect)) {}
-
-IntermediateTable SelectClause::evaluate(PKBReader &pkb) {
+IntermediateTable SelectTupleClause::evaluate(PKBReader &pkb) {
   assert(!this->synonymsToSelect.empty());
 
   IntermediateTable result =
@@ -23,7 +20,7 @@ IntermediateTable SelectClause::evaluate(PKBReader &pkb) {
   return result;
 }
 
-IntermediateTable SelectClause::getAllPossibleValues(
+IntermediateTable SelectTupleClause::getAllPossibleValues(
     PKBReader &pkb, unique_ptr<SynonymArg> &synonymArg) {
   string synonymValue = synonymArg->getValue();
   Entity entity = synonymArg->getEntityType();
@@ -36,13 +33,13 @@ IntermediateTable SelectClause::getAllPossibleValues(
     StmtType stmtType = StmtEntityToStatementType.at(entity);
     results = pkb.getAllStmtsOf(stmtType);
   } else {
-    results = evaluatorFuncMap[entity](pkb);
+    results = SelectTupleClauseUtils::evaluatorFuncMap[entity](pkb);
   }
   return IntermediateTableFactory::buildSingleColTable(synonymValue, results);
 }
 
-bool SelectClause::isEquals(const Clause &other) {
-  const auto *otherSelect = dynamic_cast<const SelectClause *>(&other);
+bool SelectTupleClause::isEquals(const Clause &other) {
+  const auto *otherSelect = dynamic_cast<const SelectTupleClause *>(&other);
   if (!otherSelect) return false;
 
   if (this->synonymsToSelect.size() != otherSelect->synonymsToSelect.size()) {
@@ -57,4 +54,8 @@ bool SelectClause::isEquals(const Clause &other) {
   }
 
   return true;
+}
+
+unordered_set<string> SelectTupleClause::getQueryResult(IntermediateTable &intermediateTable) {
+  return intermediateTable.getColumns(this->synonymsToSelect);
 }

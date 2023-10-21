@@ -3,7 +3,9 @@
 #include <cassert>
 
 #include "../intermediateTable/IntermediateTableFactory.h"
-#include "qps/clause/selectClause/SelectClause.h"
+#include "qps/clause/selectClause/ISelectClause.h"
+#include "qps/clause/selectClause/SelectClauseFactory.h"
+#include "qps/clause/selectClause/selectTupleClause/SelectTupleClause.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
 Query::Query(PKBReader &pkb) : pkb(pkb) {}
@@ -12,12 +14,10 @@ void Query::addClause(unique_ptr<Clause> clause) {
   this->clauses.push_back(std::move(clause));
 }
 
+
 void Query::setSynonymToQuery(SynonymsToSelect selectSynonyms) {
-  for (auto &synonymArg : selectSynonyms) {
-    this->synonymsToQuery.emplace_back(synonymArg->getValue());
-  }
   this->selectClause =
-      std::make_unique<SelectClause>(std::move(selectSynonyms));
+      SelectClauseFactory::buildSelectClause(std::move(selectSynonyms));
 }
 
 unordered_set<string> Query::evaluate() {
@@ -27,14 +27,8 @@ unordered_set<string> Query::evaluate() {
   // columns else return empty
 
   // todo 2: abstract out evaluation to evaluator
-
-  assert(selectClause);
-
-  // evaluate SelectClause first
-  IntermediateTable currIntermediateTable = selectClause->evaluate(pkb);
-  if (currIntermediateTable.isTableEmptyAndNotWildcard()) {
-    return {};
-  }
+  IntermediateTable currIntermediateTable =
+      IntermediateTableFactory::buildWildcardIntermediateTable();
 
   // iteratively join results of each clause
   for (unique_ptr<Clause> &clause : clauses) {
@@ -46,7 +40,13 @@ unordered_set<string> Query::evaluate() {
     }
   }
 
-  return currIntermediateTable.getColumns(synonymsToQuery);
+  assert(selectClause);
+  currIntermediateTable.join(selectClause->evaluate(pkb));
+  if (currIntermediateTable.isTableEmptyAndNotWildcard()) {
+    return {};
+  }
+
+  return selectClause->getQueryResult(currIntermediateTable);
 }
 
 bool Query::operator==(const Query &other) {

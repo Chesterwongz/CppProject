@@ -66,7 +66,7 @@ TEST_CASE("IntermediateTable - getColumns - SynonymRes") {
           expectedWithNonExistent);
 
   // non-existent attrRefs will be caught by parser
-}
+}t
 
 TEST_CASE("IntermediateTable - isColExists - SynonymRes") {
   REQUIRE(MULTI_COLUMN_SYNONYM_RES_TABLE_2.isColExists("var"));

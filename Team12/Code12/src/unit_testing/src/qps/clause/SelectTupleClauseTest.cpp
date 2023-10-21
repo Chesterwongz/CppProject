@@ -3,7 +3,7 @@
 #include "../mocks/MockPKBReaderData.h"
 #include "../mocks/mockReaders/BaseMockReader.h"
 #include "SelectClauseTestData.h"
-#include "qps/clause/selectClause/SelectClause.h"
+#include "qps/clause/selectClause/selectTupleClause/SelectTupleClause.h"
 #include "qps/common/Keywords.h"
 
 TEST_CASE("SelectClause - evaluate - no data") {
@@ -17,7 +17,7 @@ TEST_CASE("SelectClause - evaluate - no data") {
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg1));
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg2));
 
-  SelectClause selectClause(std::move(mockSynonymsToSelect));
+  SelectTupleClause selectClause(std::move(mockSynonymsToSelect));
   IntermediateTable result = selectClause.evaluate(mockPKB);
 
   vector<string> singleColName = {MOCK_SYNONYM_VALUE_2};
@@ -39,7 +39,7 @@ TEST_CASE("SelectClause - evaluate - missing col") {
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg1));
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg2));
 
-  SelectClause selectClause(std::move(mockSynonymsToSelect));
+  SelectTupleClause selectClause(std::move(mockSynonymsToSelect));
   IntermediateTable result = selectClause.evaluate(mockPKB);
 
   vector<string> singleColName = {MOCK_SYNONYM_VALUE_4};
@@ -61,7 +61,7 @@ TEST_CASE("SelectClause - evaluate - assign entity") {
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg1));
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg2));
 
-  SelectClause selectClause(std::move(mockSynonymsToSelect));
+  SelectTupleClause selectClause(std::move(mockSynonymsToSelect));
   IntermediateTable result = selectClause.evaluate(mockPKB);
 
   vector<string> singleColName = {MOCK_SYNONYM_VALUE_2};
@@ -83,7 +83,7 @@ TEST_CASE("SelectClause - evaluate - constant entity") {
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg1));
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg2));
 
-  SelectClause selectClause(std::move(mockSynonymsToSelect));
+  SelectTupleClause selectClause(std::move(mockSynonymsToSelect));
   IntermediateTable result = selectClause.evaluate(mockPKB);
 
   vector<string> singleColName = {MOCK_SYNONYM_VALUE_2};
@@ -105,7 +105,7 @@ TEST_CASE("SelectClause - evaluate - procedure entity") {
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg1));
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg2));
 
-  SelectClause selectClause(std::move(mockSynonymsToSelect));
+  SelectTupleClause selectClause(std::move(mockSynonymsToSelect));
   IntermediateTable result = selectClause.evaluate(mockPKB);
 
   vector<string> singleColName = {MOCK_SYNONYM_VALUE_2};
@@ -128,7 +128,7 @@ TEST_CASE("SelectClause - evaluate - stmt entity") {
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg1));
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg2));
 
-  SelectClause selectClause(std::move(mockSynonymsToSelect));
+  SelectTupleClause selectClause(std::move(mockSynonymsToSelect));
   IntermediateTable result = selectClause.evaluate(mockPKB);
 
   vector<string> singleColName = {MOCK_SYNONYM_VALUE_2};
@@ -150,7 +150,7 @@ TEST_CASE("SelectClause - evaluate - variable entity") {
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg1));
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg2));
 
-  SelectClause selectClause(std::move(mockSynonymsToSelect));
+  SelectTupleClause selectClause(std::move(mockSynonymsToSelect));
   IntermediateTable result = selectClause.evaluate(mockPKB);
 
   vector<string> singleColName = {MOCK_SYNONYM_VALUE_2};
@@ -182,7 +182,7 @@ TEST_CASE("SelectClause - evaluate - multi entity") {
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg3));
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg4));
 
-  SelectClause selectClause(std::move(mockSynonymsToSelect));
+  SelectTupleClause selectClause(std::move(mockSynonymsToSelect));
   IntermediateTable result = selectClause.evaluate(mockPKB);
 
   vector<string> singleColName = {MOCK_SYNONYM_VALUE_1};

@@ -1,12 +1,14 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "qps/argument/AbstractArgument.h"
 #include "qps/common/Keywords.h"
 
-using std::string;
+using std::string, std::vector, std::unique_ptr;
 
 class SynonymArg : public AbstractArgument {
  private:
@@ -34,3 +36,5 @@ class SynonymArg : public AbstractArgument {
   bool isProcSynonym() override;
   bool operator==(const AbstractArgument& other) const override;
 };
+
+typedef vector<unique_ptr<SynonymArg>> SynonymsToSelect;

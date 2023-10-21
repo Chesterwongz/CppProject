@@ -78,14 +78,14 @@ unordered_set<string> IntermediateTable::getColumns(
 }
 
 unordered_set<string> IntermediateTable::getColumns(
-    const vector<pair<string, AttrRefEnum>> &colNameAndAttrRefVector) {
-  if (colNameAndAttrRefVector.empty()) {
+    const SynonymsToSelect &selectSynonyms) {
+  if (selectSynonyms.empty()) {
     return {};
   }
 
-  for (auto [colName, attrRef] : colNameAndAttrRefVector) {
+  for (const auto &synonym : selectSynonyms) {
     // return empty if any column requested does not exist
-    if (!this->isColExists(colName)) {
+    if (!this->isColExists(synonym->getValue())) {
       return {};
     }
   }
@@ -93,8 +93,10 @@ unordered_set<string> IntermediateTable::getColumns(
   unordered_set<string> res = {};
   for (int rowIndex = 0; rowIndex < this->getRowCount(); rowIndex++) {
     string row;
-    for (auto &[colName, attrRef] : colNameAndAttrRefVector) {
-      int colIndex = this->colNameToIndexMap.at(colName);
+    for (const auto &synonym : selectSynonyms) {
+      string synonymValue = synonym->getValue();
+      AttrRef attrRef = synonym->getAttrRef();
+      int colIndex = this->colNameToIndexMap.at(synonymValue);
       assert(this->tableData.at(rowIndex).at(colIndex).isAttrExists(attrRef));
       row += (row.empty() ? "" : " ") +
              this->tableData.at(rowIndex).at(colIndex).getAttribute(attrRef);

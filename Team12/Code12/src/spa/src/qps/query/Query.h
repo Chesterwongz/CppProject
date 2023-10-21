@@ -12,7 +12,7 @@
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/clause/Clause.h"
-#include "qps/clause/selectClause/SelectClause.h"
+#include "qps/clause/selectClause/ISelectClause.h"
 
 using std::set, std::vector, std::unique_ptr, std::string, std::unordered_set;
 
@@ -21,8 +21,7 @@ typedef vector<unique_ptr<Clause>> ClauseList;
 class Query {
  private:
   PKBReader& pkb;
-  vector<string> synonymsToQuery = {};
-  unique_ptr<SelectClause> selectClause = {};
+  unique_ptr<ISelectClause> selectClause = {};
   ClauseList clauses = {};
 
  public:
