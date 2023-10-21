@@ -3,8 +3,8 @@
 #include <cassert>
 
 #include "qps/abstraction/AbstractionUtils.h"
-#include "qps/abstraction/SynResConversionUtils.h"
 #include "qps/clause/utils/ClauseUtil.h"
+#include "qps/clause/utils/SynResConversionUtils.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 

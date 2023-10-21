@@ -3,9 +3,9 @@
 #include <string>
 #include <unordered_map>
 
+#include "SynResConversionUtils.h"
 #include "common/StmtTypes.h"
 #include "qps/common/Keywords.h"
-#include "qps/abstraction/SynResConversionUtils.h"
 
 using std::string, std::unordered_map;
 typedef string Entity;

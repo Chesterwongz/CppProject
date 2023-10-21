@@ -2,8 +2,8 @@
 
 #include <unordered_set>
 
-#include "qps/abstraction/SynResConversionUtils.h"
 #include "qps/clause/utils/ClauseUtil.h"
+#include "qps/clause/utils/SynResConversionUtils.h"
 
 /**
  * StmtOrProcToVarAbstraction abstraction:

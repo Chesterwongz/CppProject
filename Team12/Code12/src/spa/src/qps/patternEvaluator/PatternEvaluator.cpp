@@ -1,7 +1,7 @@
 #include "PatternEvaluator.h"
 
-#include "qps/abstraction/SynResConversionUtils.h"
 #include "qps/clause/utils/ClauseUtil.h"
+#include "qps/clause/utils/SynResConversionUtils.h"
 
 IntermediateTable PatternEvaluator::evaluate() {
   vector<std::pair<string, string>> pkbResult = evaluateArguments();
