@@ -20,6 +20,10 @@ void PatternParserState::processNameToken(PQLToken& curr) {
   if (next.has_value() && next->getType() == PQL_OPEN_BRACKET_TOKEN ||
       isInBracket) {
     BaseParserState::processNameToken(curr);
+    if (syn &&
+        parserContext.getValidSynonymType(curr.getValue()) != VARIABLE_ENTITY) {
+      parserContext.setSemanticallyInvalid();
+    }
   } else {
     PQLTokenType toUpdate =
         PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
@@ -59,11 +63,12 @@ void PatternParserState::createPatternClause() {
     }
     if (synEntity == WHILE_ENTITY) {
       parserContext.addClause(std::make_unique<WhilePatternClause>(
-          std::move(syn), std::move(nonFirstArgs[0])));
+          std::move(syn), std::move(firstArg)));
       return;
     }
   } else if (parsedPatternState == IF_PATTERN && synEntity == IF_ENTITY) {
-    parserContext.addClause(std::make_unique<IfPatternClause>(std::move(syn), std::move(nonFirstArgs[0])));
+    parserContext.addClause(std::make_unique<IfPatternClause>(
+        std::move(syn), std::move(firstArg)));
     return;
   }
   parserContext.setSemanticallyInvalid();

@@ -145,8 +145,7 @@ TEST_CASE("Invalid Pattern if (SYNONYM,_,LITERAL_REF)") {
   REQUIRE_THROWS_MATCHES(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
       QPSSyntaxError,
-      Catch::Message("Error occurred during tokenization, invalid token: "
-                     "hello"));
+      Catch::Message(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT));
 }
 
 TEST_CASE("Invalid Pattern if (SYNONYM,_)") {
@@ -170,9 +169,9 @@ TEST_CASE("Invalid Pattern if (SYNONYM,_)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  REQUIRE_THROWS_MATCHES(
+  REQUIRE_THROWS_AS(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSyntaxError, Catch::Message(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT));
+      QPSSemanticError);
 }
 
 TEST_CASE("Valid Pattern not if (_,_,_)") {
