@@ -1,7 +1,5 @@
 #include "AffectsReader.h"
 
-#include <cassert>
-
 std::vector<std::pair<std::string, std::string>>
 AffectsReader::getAffectsPairs() {
   std::vector<std::pair<std::string, std::string>> result;
@@ -67,7 +65,6 @@ bool AffectsReader::isAffects(int firstStmtNum, int secondStmtNum) {
 
 std::vector<std::string> AffectsReader::getAffects(int firstStmtNum,
                                                    StmtType stmtType) {
-  assert(stmtType == StmtType::ASSIGN);
   std::vector<std::string> result;
 
   const auto affectsPairs = getAffectsPairs();
@@ -84,7 +81,6 @@ std::vector<std::string> AffectsReader::getAffects(int firstStmtNum,
 
 std::vector<std::string> AffectsReader::getAffectedBy(int secondStmtNum,
                                                       StmtType stmtType) {
-  assert(stmtType == StmtType::ASSIGN);
   std::vector<std::string> result;
 
   const auto affectsPairs = getAffectsPairs();

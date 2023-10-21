@@ -5,12 +5,17 @@
 #include <vector>
 
 #include "pkb/facade/PKB.h"
-#include "qps/abstraction/BaseAbstraction.h"
 #include "qps/abstraction/stmtToStmtAbstraction/StmtToStmtAbstraction.h"
 
-class ParentsStarAbstraction : public StmtToStmtAbstraction {
+class AffectsAbstraction : public StmtToStmtAbstraction {
  private:
+  static bool isInvalidStmtType(StmtType stmtType);
+
   bool isFirstStmtTypeInvalid() override;
+
+  bool isSecondStmtTypeInvalid() override;
+
+  bool isSelfReferencePossible() override;
 
   vector<pair<string, string>> getAllPairs(StmtType firstStmtType,
                                            StmtType secondStmtType) override;
@@ -21,6 +26,6 @@ class ParentsStarAbstraction : public StmtToStmtAbstraction {
   bool isStmtRelatedToStmt(int stmtNum1, int stmtNum2) override;
 
  public:
-  explicit ParentsStarAbstraction(AbstractionParams abstractionParams)
+  explicit AffectsAbstraction(AbstractionParams &abstractionParams)
       : StmtToStmtAbstraction(abstractionParams) {}
 };
