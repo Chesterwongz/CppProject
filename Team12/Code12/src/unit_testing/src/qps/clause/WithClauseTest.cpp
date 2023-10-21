@@ -1090,7 +1090,7 @@ TEST_CASE(
   vector<string> actualColNames = actualTable.getColNames();
   TableDataType actualData = actualTable.getTableData();
   int actualRowCount = actualTable.getRowCount();
-  
+
   TableDataType expectedData = {{assign1}, {assign2}, {assign3}, {assign4}};
 
   REQUIRE(actualColNames.size() == 1);
