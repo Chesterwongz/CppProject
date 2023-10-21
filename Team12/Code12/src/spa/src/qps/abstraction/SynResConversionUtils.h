@@ -23,13 +23,15 @@ inline ToSynonymResFunc constantToSynonymRes = [](const string& constant,
 
 inline ToSynonymResFunc callToSynonymRes = [](const string& stmtNum,
                                               PKBReader& pkbReader) {
-  string procName = pkbReader.getProcCalledBy(stoi(stmtNum)).at(0);
+  string procName =
+      pkbReader.getProcCalledBy(stoi(stmtNum)).at(CollectionUtils::FIRST_ELEM);
   return SynonymResFactory::buildCallsSynonym(stmtNum, procName);
 };
 
 inline ToSynonymResFunc printToSynonymRes = [](const string& stmtNum,
                                                PKBReader& pkbReader) {
-  string varName = pkbReader.getVariablePrintedBy(stoi(stmtNum)).at(0);
+  string varName = pkbReader.getVariablePrintedBy(stoi(stmtNum))
+                       .at(CollectionUtils::FIRST_ELEM);
   return SynonymResFactory::buildPrintSynonym(stmtNum, varName);
 };
 

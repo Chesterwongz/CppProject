@@ -16,6 +16,8 @@ class CollectionUtils {
   CollectionUtils() = default;
 
  public:
+  static const size_t FIRST_ELEM = 0;
+
   template <typename T>
   static vector<T> intersectVectors(vector<T> vector1, vector<T> vector2) {
     std::sort(vector1.begin(), vector1.end());
