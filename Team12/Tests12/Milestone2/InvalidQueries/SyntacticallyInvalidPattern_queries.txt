@@ -158,3 +158,23 @@ stmt s;
 Select s such that pattern(1, 2)
 SyntaxError
 1000
+====== 32 - invalid expr ======
+assign a;
+Select a pattern a(_, "(a)(b)")
+SyntaxError
+1000
+====== 33 - invalid expr ======
+assign a;
+Select a pattern a(_, "a(b)")
+SyntaxError
+1000
+====== 34 - invalid expr ======
+assign a;
+Select a pattern a(_, "ab)")
+SyntaxError
+1000
+====== 35 - invalid expr ======
+assign a;
+Select a pattern a(_, "(a b")
+SyntaxError
+1000
