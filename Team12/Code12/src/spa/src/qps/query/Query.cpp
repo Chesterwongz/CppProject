@@ -14,7 +14,6 @@ void Query::addClause(unique_ptr<Clause> clause) {
   this->clauses.push_back(std::move(clause));
 }
 
-
 void Query::setSynonymToQuery(SynonymsToSelect selectSynonyms) {
   this->selectClause =
       SelectClauseFactory::buildSelectClause(std::move(selectSynonyms));
@@ -41,7 +40,8 @@ unordered_set<string> Query::evaluate() {
   }
 
   assert(selectClause);
-  currIntermediateTable= currIntermediateTable.join(selectClause->evaluate(pkb));
+  currIntermediateTable =
+      currIntermediateTable.join(selectClause->evaluate(pkb));
   if (currIntermediateTable.isTableEmptyAndNotWildcard()) {
     return {};
   }

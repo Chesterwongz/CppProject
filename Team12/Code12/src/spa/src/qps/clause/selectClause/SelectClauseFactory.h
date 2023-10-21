@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <utility>
 
 #include "qps/clause/selectClause/selectBooleanClause/SelectBooleanClause.h"
 #include "qps/clause/selectClause/selectTupleClause/SelectTupleClause.h"
