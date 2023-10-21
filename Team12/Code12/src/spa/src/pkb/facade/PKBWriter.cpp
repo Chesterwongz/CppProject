@@ -7,7 +7,8 @@ void PKBWriter::addRelationsForCallProcs(
     std::function<void(const string&, const string&)>& adder) {
   unordered_set<string> allVars;
   for (const auto& callee : calleeProcs) {
-    vector<string> vars = procStore.getAllDirectSuccessorsOf(callee);
+    if (!procStore.hasDirectSuccessors(callee)) continue;
+    const auto& vars = procStore.getDirectSuccessors(callee);
     allVars.insert(vars.begin(), vars.end());
   }
   for (const auto& var : allVars) {
@@ -36,14 +37,16 @@ void PKBWriter::addRelationsForCallStmts(
     const ProcStoreType& procStore,
     std::function<void(const string&, int)>& adder) {
   unordered_set<string> allVars;
-  for (const auto& proc : allCallees) {
-    vector<string> vars = procStore.getAllDirectSuccessorsOf(proc);
+  for (const auto& callee : allCallees) {
+    if (!procStore.hasDirectSuccessors(callee)) continue;
+    const auto& vars = procStore.getDirectSuccessors(callee);
     allVars.insert(vars.begin(), vars.end());
   }
 
   for (const auto& var : allVars) {
     adder(var, stmtNum);
-    for (int p : parentStore.getAllAncestorsTOf(stmtNum)) {
+    if (!parentStore.hasAncestorsT(stmtNum)) continue;
+    for (const int& p : parentStore.getAncestorsT(stmtNum)) {
       adder(var, p);
     }
   }
@@ -65,7 +68,7 @@ void PKBWriter::addModifiesForCallStmts(
 }
 
 void PKBWriter::setIndirectCallsProcRelationships() {
-  for (const auto& [caller, callees] : callsPStore.getCallsPMap()) {
+  for (const auto& [caller, callees] : callsPStore.getRelationsT()) {
     addUsesForCallsProc(caller, callees);
     addModifiesForCallProcs(caller, callees);
   }
@@ -73,10 +76,11 @@ void PKBWriter::setIndirectCallsProcRelationships() {
 
 void PKBWriter::setIndirectCallsStmtRelationships() {
   unordered_set<string> allCallees;
-  for (const auto& [s, directCallees] : callsSStore.getCallsSMap()) {
+  for (const auto& [s, directCallees] : callsSStore.getDirectRelations()) {
     allCallees.insert(directCallees.begin(), directCallees.end());
     for (const auto& callee : directCallees) {
-      vector<string> indirectCallees = callsPStore.getAllSuccessorsTOf(callee);
+      if (!callsPStore.hasSuccessorsT(callee)) continue;
+      const auto& indirectCallees = callsPStore.getSuccessorsT(callee);
       allCallees.insert(indirectCallees.begin(), indirectCallees.end());
     }
 

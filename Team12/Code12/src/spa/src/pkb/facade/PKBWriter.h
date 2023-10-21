@@ -50,11 +50,11 @@ class PKBWriter : public DesignEntitiesWriter,
   void setIndirectCallsRelationship();
 
  private:
-  const UsesPStore& usesPStore;
-  const ModifiesPStore& modifiesPStore;
-  const ParentStore& parentStore;
-  const CallsStore& callsPStore;
-  const CallsSStore& callsSStore;
+  UsesPStore& usesPStore;
+  ModifiesPStore& modifiesPStore;
+  ParentStore& parentStore;
+  CallsStore& callsPStore;
+  CallsSStore& callsSStore;
 
   void addUsesForCallsProc(const string& callerProc,
                            const unordered_set<string>& calleeProcs);

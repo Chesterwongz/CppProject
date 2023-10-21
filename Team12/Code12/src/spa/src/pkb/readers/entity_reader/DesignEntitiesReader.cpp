@@ -44,7 +44,7 @@ bool DesignEntitiesReader::isValidVariable(std::string varName) {
 
 std::vector<std::string> DesignEntitiesReader::getStmtsThatCall(
     const std::string& procName) {
-  if (!callsSStore.hasDirectAncestor(procName)) {
+  if (!callsSStore.hasDirectAncestors(procName)) {
     return {};
   }
 
@@ -57,26 +57,31 @@ std::vector<std::string> DesignEntitiesReader::getStmtsThatCall(
 
 std::vector<std::string> DesignEntitiesReader::getStmtsThatRead(
     const std::string& varName) {
-  if (!stmtStore.hasStmtType(StmtType::READ)) {
+  if (!stmtStore.hasStmtType(StmtType::READ) ||
+      !modifiesSStore.hasDirectAncestors(varName)) {
     return {};
   }
+  auto stmtFilter = stmtStore.getStmtFilterPredicate(StmtType::READ);
 
-  auto readStmtFilter = stmtStore.getStmtFilterPredicate(StmtType::READ);
+  const auto& rawRes = modifiesSStore.getDirectAncestors(varName);
 
-  return CollectionUtils::transformIntToStrVector(
-      modifiesSStore.getDirectAncestorsOf(varName, readStmtFilter));
+  return CollectionUtils::transformSetUToVectorV<int, std::string>(
+      rawRes, CollectionUtils::intToStrMapper, stmtFilter);
 }
 
 std::vector<std::string> DesignEntitiesReader::getStmtsThatPrint(
     const std::string& varName) {
-  if (!stmtStore.hasStmtType(StmtType::PRINT)) {
+  if (!stmtStore.hasStmtType(StmtType::PRINT) ||
+      !usesSStore.hasDirectAncestors(varName)) {
     return {};
   }
 
   auto printStmtFilter = stmtStore.getStmtFilterPredicate(StmtType::PRINT);
 
-  return CollectionUtils::transformIntToStrVector(
-      usesSStore.getDirectAncestorsOf(varName, printStmtFilter));
+  const auto& rawRes = usesSStore.getDirectAncestors(varName);
+
+  return CollectionUtils::transformSetUToVectorV<int, std::string>(
+      rawRes, CollectionUtils::intToStrMapper, printStmtFilter);
 }
 
 template <typename SStoreType>
@@ -85,9 +90,9 @@ std::vector<std::string> DesignEntitiesReader::getEntityBy(int statementNumber,
                                                            SStoreType& sStore) {
   std::vector<std::string> result;
   if (isValidStmt(statementNumber, stmtType) &&
-      sStore.hasDirectSuccessor(statementNumber)) {
-    result = {sStore.getDirectSuccessors(statementNumber).begin(),
-              sStore.getDirectSuccessors(statementNumber).end()};
+      sStore.hasDirectSuccessors(statementNumber)) {
+    const auto& rawRes = sStore.getDirectSuccessors(statementNumber);
+    result = {rawRes.begin(), rawRes.end()};
   }
   return result;
 }
@@ -109,8 +114,8 @@ std::vector<std::string> DesignEntitiesReader::getVariablePrintedBy(
 
 std::vector<std::pair<std::string, std::string>>
 DesignEntitiesReader::getAllStmtProcCallsPairs() {
-  return CollectionUtils::transformIntStrToStrStrVector(
-      callsSStore.getAllDirectRelations());
+  const auto& rawRes = callsSStore.getDirectRelations();
+  return CollectionUtils::intStrMapSetToStrPairVector(rawRes);
 }
 
 std::vector<std::pair<std::string, std::string>>
