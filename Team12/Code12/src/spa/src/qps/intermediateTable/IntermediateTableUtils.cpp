@@ -101,7 +101,7 @@ IntermediateTable IntermediateTableUtils::getInnerJoinOn(
   assert(getSharedColNames(t1, t2).empty() ||
          (getSharedColNames(t1, t2).size() == 1 &&
           getSharedColNames(t1, t2).at(0) == joinColT1.first &&
-          getSharedColNames(t1, t2).at(0) == joinColT1.second));
+          getSharedColNames(t1, t2).at(0) == joinColT2.first));
   TableDataType resData = {};
   auto &[t1ColName, t1AttrRef] = joinColT1;
   auto &[t2ColName, t2AttrRef] = joinColT2;
