@@ -31,8 +31,7 @@ while read -r source_file; do
         out_file="$output_dir/${base_name}_out.xml"
         ((total_files++))
         # Run the command
-        echo "[INFO] Executing :wq!
-        $query_file"
+        echo "[INFO] Executing $query_file"
         $1 "$source_file" "$query_file" "$out_file" > /dev/null 2>&1
     else
         echo "[WARN] Query file for $source_file not found!"
