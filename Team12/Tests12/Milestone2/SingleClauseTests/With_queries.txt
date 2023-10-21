@@ -11,7 +11,7 @@ none
 ====== 3 - with assign.stmt# - select different assign ======
 assign a1, a2;
 Select a1 with a2.stmt# = 5
-3, 5, 6, 7, 8, 9, 10, 12, 14, 15, 17, 19 
+3, 5, 6, 7, 8, 9, 10, 12, 14, 15, 17, 19, 24 
 1000
 ====== 4 - with assign.stmt# - select different assign, no results ======
 assign a1, a2;
@@ -91,7 +91,7 @@ none
 ====== 19 - with constant.value - select different const ======
 constant const1, const2;
 Select const1 with const2.value = 1
-1, 2, 3, 100, 200
+0, 1, 2, 3, 100, 200
 1000
 ====== 20 - with constant.value - select different const, no results ======
 constant const1, const2;
@@ -100,42 +100,42 @@ none
 1000
 ====== 21 - with procedure.procName ======
 procedure p;
-Select p with p.procName = withSource1
-withSource1
+Select p with p.procName = "WithSource1"
+WithSource1
 1000
 ====== 22 - with procedure.procName - no results ======
 procedure p;
-Select p with p.procName = withSource3
+Select p with p.procName = "withSource3"
 none
 1000
 ====== 23 - with procedure.procName - select different procedure ======
 procedure p1, p2;
-Select p1 with p2.procName = withSource2
-withSource1, withSource2
+Select p1 with p2.procName = "WithSource2"
+WithSource1, WithSource2, WithSource3
 1000
 ====== 24 - with procedure.procName - select different procedure, no results ======
 procedure p1, p2;
-Select p1 with p2.procName = withSource3
+Select p1 with p2.procName = "withSource3"
 none
 1000
 ====== 25 - with variable.varName ======
 variable v;
-Select v with v.varName = x
+Select v with v.varName = "x"
 x
 1000
 ====== 26 - with variable.varName - no results ======
 variable v;
-Select v with v.varName = iDontExist
+Select v with v.varName = "iDontExist"
 none
 1000
 ====== 27 - with variable.varName - select different var ======
 variable v1, v2;
-Select v1 with v2.varName = lalala
-i, p, q, x, y, z, lalala, lololol, wow, amazing, hihi, haha
+Select v1 with v2.varName = "lalala"
+i, p, q, x, y, z, lalala, lololol, wow, amazing, hihi, hello, WithSource1
 1000
 ====== 28 - with variable.varName - select different var, no results ======
 variable v1, v2;
-Select v1 with v2.varName = lalalal
+Select v1 with v2.varName = "lalalal"
 none
 1000
 ====== 29 - with call.stmt# ======
@@ -160,62 +160,62 @@ none
 1000
 ====== 33 - with call.procName ======
 call c;
-Select c with c.procName = WithSource3
+Select c with c.procName = "WithSource3"
 21
 1000
 ====== 34 - with call.procName - no results ======
 call c;
-Select c with c.procName = WithSource2
+Select c with c.procName = "WithSource2"
 none
 1000
 ====== 35 - with call.procName - select different call ======
 call c1, c2;
-Select c1 with c2.procName = WithSource1
+Select c1 with c2.procName = "WithSource1"
 16, 21
 1000
 ====== 36 - with call.procName - select different call, no results ======
 call c1, c2;
-Select c1 with c2.procName = WithSource2
+Select c1 with c2.procName = "WithSource2"
 none
 1000
 ====== 37 - with read.stmtNum ======
 read r;
-Select r with r.stmtNum = 23
+Select r with r.stmt# = 23
 23
 1000
 ====== 38 - with read.stmtNum - no results ======
 read r;
-Select r with r.stmtNum = 22
+Select r with r.stmt# = 22
 none
 1000
 ====== 39 - with read.stmtNum - select different read ======
 read r1, r2;
-Select r1 with r2.stmtNum = 18
+Select r1 with r2.stmt# = 18
 18, 23
 1000
 ====== 40 - with read.stmtNum - select different read, no results ======
 read r1, r2;
-Select r1 with r2.stmtNum = 19
+Select r1 with r2.stmt# = 19
 none
 1000
 ====== 41 - with read.varName ======
 read r;
-Select r with r.varName = amazing
+Select r with r.varName = "amazing"
 23
 1000
 ====== 42 - with read.varName - no results ======
 read r;
-Select r with r.varName = notAmazing
+Select r with r.varName = "notAmazing"
 none
 1000
 ====== 43 - with read.varName - select different read ======
 read r;
-Select r with r.varName = q
-18, 23
+Select r with r.varName = "q"
+18
 1000
 ====== 44 - with read.varName - select different read, no results ======
 read r;
-Select r with r.varName = q1
+Select r with r.varName = "q1"
 none
 1000
 ====== 45 - with print.stmt# ======
@@ -240,37 +240,37 @@ none
 1000
 ====== 49 - with print.varName ======
 print pn;
-Select pn with pn.varName = wow
+Select pn with pn.varName = "wow"
 22
 1000
 ====== 50 - with print.varName - no results ======
 print pn;
-Select pn with pn.varName = notWow
+Select pn with pn.varName = "notWow"
 none
 1000
 ====== 51 - with print.varName - select different print ======
 print pn1, pn2;
-Select pn1 with pn2.varName = p
+Select pn1 with pn2.varName = "p"
 4, 20, 22
 1000
 ====== 52 - with print.varName - select different print, no results ======
 print pn1, pn2;
-Select pn1 with pn2.varName = XD
+Select pn1 with pn2.varName = "XD"
 none
 1000
 ====== 53 - with assign.varName - SemanticError ======
 assign a;
-Select a with a.varName = x
+Select a with a.varName = "x"
 SemanticError
 1000
 ====== 54 - with if.procName - SemanticError ======
 if i;
-Select i with i.procName = WithSource1
+Select i with i.procName = "WithSource1"
 SemanticError
 1000
 ====== 55 - with while.varName - SemanticError ======
 while w;
-Select w with w.varName = hihi
+Select w with w.varName = "hihi"
 SemanticError
 1000
 ====== 56 - with call.value - SemanticError ======
@@ -280,17 +280,17 @@ SemanticError
 1000
 ====== 57 - with print.procName - SemanticError ======
 print pn;
-Select pn with pn.procName = wow
+Select pn with pn.procName = "wow"
 SemanticError
 1000
 ====== 58 - with read.procName - SemanticError ======
 read r;
-Select r with r.procName = amazing
+Select r with r.procName = "amazing"
 SemanticError
 1000
 ====== 59 - with stmt.varName - SemanticError ======
 stmt s;
-Select s with s.varName = z
+Select s with s.varName = "z"
 SemanticError
 1000
 ====== 60 - with constant.stmt# - SemanticError ======
@@ -300,7 +300,7 @@ SemanticError
 1000
 ====== 61 - with procedure.varName - SemanticError ======
 procedure p;
-Select p with p.varName = x
+Select p with p.varName = "x"
 SemanticError
 1000
 ====== 62 - with variable.stmt# - SemanticError ======
@@ -321,10 +321,35 @@ WithSource1, WithSource2, WithSource3
 ====== 65 - with var.varName = p.procName - joinOnDifferentColNameAndDifferentAttr ======
 variable v; procedure p;
 Select v with v.varName = p.procName
-WithSource3
+WithSource1
 1000
-====== 66 - with var.varName = p.procName - joinOnSameColNameButDifferentAttr ======
+====== 66 - with call.procName = c.stmt# - joinOnSameColNameButDifferentAttr ======
 call c; stmt s;
-Select s with c.varName = c.stmt#
+Select s with c.procName = c.stmt#
+SemanticError
+1000
+====== 67 - with integer = integer ======
+stmt s;
+Select s with 3 = 3
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
+1000
+====== 68 - with integer = integer - no results ======
+stmt s;
+Select s with 3 = 4
 none
+1000
+====== 69 - with ident = ident ======
+stmt s;
+Select s with "samesame" = "samesame"
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
+1000
+====== 70 - with ident = ident - no results ======
+stmt s;
+Select s with "samesame" = "samesamebutdifferent"
+none
+1000
+====== 70 - with ident = integer - no results ======
+stmt s;
+Select s with "samesame" = 100
+SemanticError
 1000
