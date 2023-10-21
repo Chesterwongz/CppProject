@@ -25,3 +25,12 @@ TEST_CASE("Valid attrRef = INTEGER") {
 
   parseStringToQuery(query, dummyQpsParserPkbReader);
 }
+
+TEST_CASE("Valid Select <r, r.varName, r.stmt#>") {
+  string query =
+      "read r;\n"
+      "Select <r, r.varName, r.stmt#> with r.varName = \"d\" and r.stmt# = 5 "
+      "and r.varName = \"d\"";
+
+  parseStringToQuery(query, dummyQpsParserPkbReader);
+}

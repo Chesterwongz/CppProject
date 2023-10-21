@@ -26,8 +26,8 @@ class DoubleSynWithEvaluator : public WithEvaluator {
                                   unique_ptr<SynonymArg> secondArg,
                                   PKBReader& pkbReader)
       : WithEvaluator(pkbReader),
-        firstSynonymArg(move(firstArg)),
-        secondSynonymArg(move(secondArg)) {}
+        firstSynonymArg(std::move(firstArg)),
+        secondSynonymArg(std::move(secondArg)) {}
 
   IntermediateTable evaluate() override;
 };

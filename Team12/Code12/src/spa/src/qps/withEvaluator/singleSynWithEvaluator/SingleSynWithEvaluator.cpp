@@ -1,6 +1,7 @@
+#include "SingleSynWithEvaluator.h"
+
 #include <vector>
 
-#include "qps/withEvaluator/singleSynWithEvaluator/SingleSynWithEvaluator.h"
 #include "qps/clause/utils/ClauseConstants.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 
@@ -30,7 +31,7 @@ IntermediateTable SingleSynWithEvaluator::getCallValueArgResult() {
   if (attrRef == ATTR_REF_STMT_NUMBER) {
     vector<string> procCalledBy =
         pkbReader.getProcCalledBy(std::stoi(attrRefValue));
-    for (string procName : procCalledBy) {
+    for (const string& procName : procCalledBy) {
       SynonymRes callSynonymRes =
           SynonymResFactory::buildCallsSynonym(attrRefValue, procName);
       callSynonymResObjs.push_back(callSynonymRes);
@@ -39,7 +40,7 @@ IntermediateTable SingleSynWithEvaluator::getCallValueArgResult() {
 
   if (attrRef == ATTR_REF_PROC_NAME) {
     vector<string> stmtsThatCall = pkbReader.getStmtsThatCall(attrRefValue);
-    for (string stmtNum : stmtsThatCall) {
+    for (const string& stmtNum : stmtsThatCall) {
       SynonymRes callSynonymRes =
           SynonymResFactory::buildCallsSynonym(stmtNum, attrRefValue);
       callSynonymResObjs.push_back(callSynonymRes);
@@ -62,7 +63,7 @@ IntermediateTable SingleSynWithEvaluator::getReadValueArgResult() {
   if (attrRef == ATTR_REF_STMT_NUMBER) {
     vector<string> varReadBy =
         pkbReader.getVariableReadBy(std::stoi(attrRefValue));
-    for (string varName : varReadBy) {
+    for (const string& varName : varReadBy) {
       SynonymRes readSynonymRes =
           SynonymResFactory::buildReadSynonym(attrRefValue, varName);
       readSynonymResObjs.push_back(readSynonymRes);
@@ -71,7 +72,7 @@ IntermediateTable SingleSynWithEvaluator::getReadValueArgResult() {
 
   if (attrRef == ATTR_REF_VAR_NAME) {
     vector<string> stmtsThatRead = pkbReader.getStmtsThatRead(attrRefValue);
-    for (string stmtNum : stmtsThatRead) {
+    for (const string& stmtNum : stmtsThatRead) {
       SynonymRes readSynonymRes =
           SynonymResFactory::buildReadSynonym(stmtNum, attrRefValue);
       readSynonymResObjs.push_back(readSynonymRes);
@@ -94,7 +95,7 @@ IntermediateTable SingleSynWithEvaluator::getPrintValueArgResult() {
   if (attrRef == ATTR_REF_STMT_NUMBER) {
     vector<string> varPrintedBy =
         pkbReader.getVariablePrintedBy(std::stoi(attrRefValue));
-    for (string varName : varPrintedBy) {
+    for (const string& varName : varPrintedBy) {
       SynonymRes printSynonymRes =
           SynonymResFactory::buildPrintSynonym(attrRefValue, varName);
       printSynonymResObjs.push_back(printSynonymRes);
@@ -103,7 +104,7 @@ IntermediateTable SingleSynWithEvaluator::getPrintValueArgResult() {
 
   if (attrRef == ATTR_REF_VAR_NAME) {
     vector<string> stmtsThatPrint = pkbReader.getStmtsThatPrint(attrRefValue);
-    for (string stmtNum : stmtsThatPrint) {
+    for (const string& stmtNum : stmtsThatPrint) {
       SynonymRes printSynonymRes =
           SynonymResFactory::buildPrintSynonym(stmtNum, attrRefValue);
       printSynonymResObjs.push_back(printSynonymRes);
