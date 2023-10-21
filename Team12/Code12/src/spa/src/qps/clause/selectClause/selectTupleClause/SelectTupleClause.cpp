@@ -56,6 +56,7 @@ bool SelectTupleClause::isEquals(const Clause &other) {
   return true;
 }
 
-unordered_set<string> SelectTupleClause::getQueryResult(IntermediateTable &intermediateTable) {
+unordered_set<string> SelectTupleClause::getQueryResult(
+    IntermediateTable &intermediateTable) {
   return intermediateTable.getColumns(this->synonymsToSelect);
 }

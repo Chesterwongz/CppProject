@@ -1,10 +1,8 @@
 #pragma once
 
-#include <functional>
 #include <memory>
-#include <set>
 #include <string>
-#include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -20,7 +18,7 @@ class ISelectClause : public Clause {
 
  public:
   explicit ISelectClause(SynonymsToSelect synonymsToSelect)
-      : synonymsToSelect(std::move(synonymsToSelect)) {};
+      : synonymsToSelect(std::move(synonymsToSelect)) {}
   virtual unordered_set<string> getQueryResult(
       IntermediateTable &intermediateTable) = 0;
 };

@@ -22,7 +22,7 @@ class SelectTupleClause : public ISelectClause {
 
  public:
   explicit SelectTupleClause(SynonymsToSelect synonymsToSelect)
-      : ISelectClause(std::move(synonymsToSelect)) {};
+      : ISelectClause(std::move(synonymsToSelect)) {}
 
   IntermediateTable evaluate(PKBReader &pkb) override;
 

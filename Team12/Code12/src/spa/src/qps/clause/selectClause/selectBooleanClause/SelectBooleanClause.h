@@ -16,7 +16,7 @@ using std::unique_ptr;
 class SelectBooleanClause : public ISelectClause {
  public:
   explicit SelectBooleanClause(SynonymsToSelect synonymsToSelect)
-      : ISelectClause(std::move(synonymsToSelect)) {};
+      : ISelectClause(std::move(synonymsToSelect)) {}
 
   IntermediateTable evaluate(PKBReader &pkb) override;
 
