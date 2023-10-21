@@ -21,6 +21,8 @@ inline const Entity STMT_ENTITY = "stmt";
 inline const Entity VARIABLE_ENTITY = "variable";
 inline const Entity WHILE_ENTITY = "while";
 
+inline const Entity INVALID_ENTITY = "INVALID";
+
 inline const string BOOLEAN_KEYWORD = "BOOLEAN";
 
 inline const string NOT_KEYWORD = "not";

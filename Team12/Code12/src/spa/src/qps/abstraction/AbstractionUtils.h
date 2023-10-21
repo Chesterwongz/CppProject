@@ -122,3 +122,10 @@ inline StmtType getArgStmtType(AbstractArgument &argument) {
   throw QPSInvalidAbstractionException(
       QPS_INVALID_ABSTRACTION_ERR_NON_STATEMENT_TYPE);
 }
+
+inline Entity getArgEntity(AbstractArgument &arg) {
+  if (arg.isSynonym()) {
+    return reinterpret_cast<SynonymArg &>(arg).getEntityType();
+  }
+  return INVALID_ENTITY;
+}
