@@ -12,7 +12,7 @@ TEST_CASE("SelectClause - evaluate") {
   unique_ptr<ISelectClause> selectClause =
       SelectClauseFactory::buildSelectClause({});
   IntermediateTable result = selectClause->evaluate(mockPKB);
-  REQUIRE(result.isTableEmptyAndNotWildcard());
+  REQUIRE(result.isTableWildcard());
 }
 
 TEST_CASE("SelectClause - getQuery - empty") {
