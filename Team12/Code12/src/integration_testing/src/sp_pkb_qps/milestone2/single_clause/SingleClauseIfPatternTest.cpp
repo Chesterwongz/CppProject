@@ -160,35 +160,38 @@ TEST_CASE(
   REQUIRE(result == expected);
 }
 
-string ifSource2 = "procedure p {\n"
-    "  if (1 == 2) then {        \n" // 1
-    "    while (hoho == 4) {     \n" // 2
-    "      x = 1;                \n" // 3
+string ifSource2 =
+    "procedure p {\n"
+    "  if (1 == 2) then {        \n"  // 1
+    "    while (hoho == 4) {     \n"  // 2
+    "      x = 1;                \n"  // 3
     "    }\n"
     "  }\n"
     "  else {\n"
-    "    if (hoho == 1) then {   \n" // 4
-    "      while (hehe == x) {  \n" // 5
-    "        z = 2;             \n" // 6
+    "    if (hoho == 1) then {   \n"  // 4
+    "      while (hehe == x) {  \n"   // 5
+    "        z = 2;             \n"   // 6
     "      }\n"
     "    }\n"
     "    else {\n"
-    "      y = 3;               \n" // 7
+    "      y = 3;               \n"  // 7
     "    }\n"
     "  }\n"
-    "  if (oi == 11) then {      \n" // 8
-    "    oi = oi + 1;            \n" // 9
+    "  if (oi == 11) then {      \n"  // 8
+    "    oi = oi + 1;            \n"  // 9
     "  }\n"
     "  else {\n"
-    "    while (oi == 2) {       \n" // 10
-    "      oi = oi - 1;         \n" // 11
+    "    while (oi == 2) {       \n"  // 10
+    "      oi = oi - 1;         \n"   // 11
     "    }\n"
     "  }\n"
     "}";
 
-TEST_CASE("SP-PKB-QPS tests/Milestone2/SingleClauseTests/ifPattern_queries.txt - \"\n"
+TEST_CASE(
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/ifPattern_queries.txt - \"\n"
     "8") {
-  string query = "if if;\n"
+  string query =
+      "if if;\n"
       "Select if pattern if(_, _, _)";
   SourceProcessor sp;
   PKB pkb;
