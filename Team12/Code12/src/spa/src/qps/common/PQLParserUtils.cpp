@@ -77,6 +77,7 @@ unordered_map<AttrRef, ArgumentType> PQLParserUtils::attrRefToType = {
     {ATTR_REF_VAR_NAME, ArgumentType::NAME_TYPE},
     {ATTR_REF_PROC_NAME, ArgumentType::NAME_TYPE},
     {ATTR_REF_VALUE, ArgumentType::INTEGER_TYPE},
+    {ATTR_REF_INVALID, ArgumentType::INVALID_TYPE},
 };
 
 PQLTokenType PQLParserUtils::isDelimiterToken(const char &c) {

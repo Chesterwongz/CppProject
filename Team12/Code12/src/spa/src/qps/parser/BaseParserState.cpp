@@ -19,7 +19,7 @@ string BaseParserState::getValidAttrRef(const std::string &synonym,
     return attrRef;
   }
   parserContext.setSemanticallyInvalid();
-  return "";
+  return ATTR_REF_INVALID;
 }
 
 void BaseParserState::processAttrRef(unique_ptr<SynonymArg> &synArg) {
