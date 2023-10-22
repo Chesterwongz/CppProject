@@ -27,7 +27,13 @@ StmtVarParserState::StmtVarParserState(PQLParserContext& parserContext,
 string StmtVarParserState::getValidSynonym(const string& synonym,
                                            size_t argumentNumber) {
   auto synType = parserContext.getValidSynonymType(synonym);
-  if (argumentNumber == SECOND_ARG && synType != VARIABLE_ENTITY) {
+  bool isValidFirstSyn =
+      argumentNumber == FIRST_ARG &&
+      (synType != VARIABLE_ENTITY && synType != CONSTANT_ENTITY);
+  bool isValidSecondSyn =
+      argumentNumber == SECOND_ARG && synType == VARIABLE_ENTITY;
+
+  if (!isValidFirstSyn && !isValidSecondSyn) {
     parserContext.setSemanticallyInvalid();
   }
   return synType;

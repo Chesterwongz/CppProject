@@ -491,6 +491,59 @@ TEST_CASE("Invalid Uses(INTEGER, SYNONYM) - invalid synonym type") {
                     QPSSemanticError);
 }
 
+TEST_CASE("Invalid Modifies(SYNONYM, SYNONYM) - both var arg") {
+  string d1 = "hello";
+  string d2 = "assign";
+  string int1 = "4";
+  vector<PQLToken> tokenList = {
+      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_NAME_TOKEN, d2),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, MODIFIES_ABSTRACTION),
+      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_NAME_TOKEN, d2),
+      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+  };
+
+  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+                    QPSSemanticError);
+}
+
+TEST_CASE("Invalid Modifies(SYNONYM, SYNONYM) - first const arg") {
+  string d1 = "hello";
+  string d2 = "assign";
+  string int1 = "4";
+  vector<PQLToken> tokenList = {
+      PQLToken(PQL_NAME_TOKEN, CONSTANT_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
+      PQLToken(PQL_NAME_TOKEN, d2),
+      PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+      PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_NAME_TOKEN, SUCH_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, THAT_KEYWORD),
+      PQLToken(PQL_NAME_TOKEN, USES_ABSTRACTION),
+      PQLToken(PQL_OPEN_BRACKET_TOKEN, "("),
+      PQLToken(PQL_NAME_TOKEN, d1),
+      PQLToken(PQL_COMMA_TOKEN, ","),
+      PQLToken(PQL_NAME_TOKEN, d2),
+      PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
+  };
+
+  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+                    QPSSemanticError);
+}
+
 TEST_CASE("Valid Modifies(INTEGER, SYNONYM)") {
   vector<PQLToken> tokenList = {
       PQLToken(PQL_NAME_TOKEN, VARIABLE_ENTITY),
