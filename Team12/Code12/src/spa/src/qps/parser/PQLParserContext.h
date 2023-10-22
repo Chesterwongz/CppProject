@@ -7,6 +7,7 @@
 #include "IParserState.h"
 #include "qps/clause/Clause.h"
 #include "qps/common/PQLParserUtils.h"
+#include "qps/exceptions/QPSSemanticError.h"
 #include "qps/parser/synonymContext/SynonymContext.h"
 #include "qps/parser/tokenizer/PQLTokenizer.h"
 #include "qps/parser/tokenizer/token/PQLToken.h"
@@ -21,6 +22,7 @@ class PQLParserContext {
   unique_ptr<SynonymContext> context;
   unique_ptr<PQLTokenStream> tokenStream;
   unique_ptr<IParserState> currState;
+  bool isSemanticallyValid = true;
 
   //  handling of TokenStream
   static bool isExpectedToken(PQLTokenType curr, PQLTokenType prev,
@@ -39,6 +41,7 @@ class PQLParserContext {
 
   //  Build clause - handling of query object
   void addClause(unique_ptr<Clause> clause);
+  void setSemanticallyInvalid();
 
   // handling of TokenStream
   std::optional<PQLToken> eatExpectedToken(PQLTokenType prev,

@@ -1,6 +1,5 @@
 #include "PQLParserUtils.h"
 
-#include "qps/exceptions/QPSSemanticError.h"
 #include "qps/exceptions/QPSSyntaxError.h"
 
 unordered_map<string, PQLTokenType> PQLParserUtils::keywordToTokenType = {

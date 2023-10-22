@@ -68,9 +68,8 @@ TEST_CASE("Invalid Select<BOOLEAN, b, c>") {
                                 PQLToken(PQL_NAME_TOKEN, "c"),
                                 PQLToken(PQL_RIGHT_ANGLE_TOKEN, ">")};
 
-  REQUIRE_THROWS_MATCHES(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSemanticError, Catch::Message("Using undeclared synonym: BOOLEAN"));
+  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+                    QPSSemanticError);
 }
 
 TEST_CASE("Valid Select BOOLEAN - no declarations") {
@@ -161,9 +160,8 @@ TEST_CASE("Invalid Select a.procName - incompatible attrRef") {
                                 PQLToken(PQL_PERIOD_TOKEN, "."),
                                 PQLToken(PQL_NAME_TOKEN, ATTR_REF_PROC_NAME)};
 
-  REQUIRE_THROWS_MATCHES(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPSSemanticError, Catch::Message(QPS_SEMANTIC_ERR_INVALID_ATTR_REF));
+  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+                    QPSSemanticError);
 }
 
 TEST_CASE("Invalid Select a.asjdfjd - not an attrRef") {

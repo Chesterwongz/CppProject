@@ -51,7 +51,7 @@ IntermediateTable ProcToProcAbstraction::evaluateWildcardSynonym() {
 
 // Abstraction (_, ProcName)
 IntermediateTable ProcToProcAbstraction::evaluateWildcardIdent() {
-    return handleSecondArgIdent();
+  return handleSecondArgIdent();
 }
 
 // Abstraction (_, _)

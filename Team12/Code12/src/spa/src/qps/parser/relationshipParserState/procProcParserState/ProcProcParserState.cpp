@@ -26,7 +26,7 @@ ProcProcParserState::ProcProcParserState(PQLParserContext &parserContext,
 void ProcProcParserState::checkIsProcSynonym(const std::string &synonym) {
   auto synType = parserContext.getValidSynonymType(synonym);
   if (synType != PROCEDURE_ENTITY) {
-    throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_PROC_SYN);
+    parserContext.setSemanticallyInvalid();
   }
 }
 

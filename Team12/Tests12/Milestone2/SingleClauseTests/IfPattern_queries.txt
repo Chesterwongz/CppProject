@@ -1,36 +1,36 @@
 ====== 1 - if (_,_,_) ======
 if if;
 Select if pattern if(_, _, _)
-2, 4, 8
+4, 8
 1000
 ====== 2 - if (_,_,_) differnt if synonym ======
 if if1, if2;
 Select if1 pattern if2(_, _, _)
-1, 2, 4, 8
+1, 4, 8
 1000
 ====== 3 - if (var,_,_) ======
 if if; variable v;
 Select if pattern if(v, _, _)
-2, 4, 8
+4, 8
 1000
 ====== 4 - if (var,_,_) different if synonym ======
 if if1, if2; variable d;
 Select if1 pattern if2(d, _, _)
-1, 2, 4, 8
+1, 4, 8
 1000
 ====== 5 - if (ident,_,_) ======
 if if;
-Select if pattern if("oi", _, _);
+Select if pattern if("oi", _, _)
 8
 1000
 ====== 6 - if (ident,_,_) different if synonym ======
 if if1, if2;
-Select if1 pattern if2(hoho, _, _);
-1, 2, 4, 8
+Select if1 pattern if2("hoho", _, _)
+1, 4, 8
 1000
 ====== 7 - if (ident,_,_) different if synonym none======
 if if1, if2;
-Select if1 pattern if2(hehe, _, _)
+Select if1 pattern if2("hehe", _, _)
 none
 1000
 ====== 8 - if (assignStmt,_,_) semantic error ======

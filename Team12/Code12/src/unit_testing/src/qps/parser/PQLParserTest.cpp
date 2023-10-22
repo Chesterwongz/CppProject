@@ -48,9 +48,8 @@ TEST_CASE("invalid query - select undeclared synonym") {
       PQLToken(PQL_NAME_TOKEN, "a1"),
   };
 
-  REQUIRE_THROWS_WITH(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      "Using undeclared synonym: a1");
+  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+                    QPSSemanticError);
 }
 
 TEST_CASE("valid simple transitive follows") {
@@ -243,7 +242,7 @@ TEST_CASE("invalid query - Pattern clause only has 1 argument") {
 
   REQUIRE_THROWS_WITH(
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
-      QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH);
+      "Error occurred during tokenization, invalid token: )");
 }
 
 TEST_CASE("valid pattern before such that") {

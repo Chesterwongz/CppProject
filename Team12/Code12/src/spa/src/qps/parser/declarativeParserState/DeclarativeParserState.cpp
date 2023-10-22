@@ -10,12 +10,17 @@ PredictiveMap DeclarativeParserState::predictiveMap = {
     {PQL_SEMICOLON_TOKEN, {PQL_ENTITY_TOKEN, PQL_SELECT_TOKEN}}};
 
 DeclarativeParserState::DeclarativeParserState(PQLParserContext& parserContext)
-    : BaseParserState(parserContext, PQL_NULL_TOKEN) {}
+    : BaseParserState(parserContext, PQL_NULL_TOKEN) {
+  prevClauseType = ClauseType::NULL_CLAUSE;
+}
 
 void DeclarativeParserState::processNameToken(PQLToken& curr) {
-  bool isSynonym = (prev == PQL_ENTITY_TOKEN || prev == PQL_COMMA_TOKEN) &&
-                   QPSStringUtils::isSynonym(curr.getValue());
-  if (isSynonym) {
+  bool expectedSyn = (prev == PQL_ENTITY_TOKEN || prev == PQL_COMMA_TOKEN);
+
+  if (expectedSyn) {
+    if (!QPSStringUtils::isSynonym(curr.getValue())) {
+      throw QPSSyntaxError(QPS_TOKENIZATION_ERR_SYNONYM);
+    }
     curr.updateTokenType(PQL_SYNONYM_TOKEN);
   } else {
     auto tokenType = PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
