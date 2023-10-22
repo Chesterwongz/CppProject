@@ -25,7 +25,7 @@ string SynonymRes::getAttribute(AttrRefEnum attrRef) const {
 }
 
 string SynonymRes::getAttribute(const AttrRef& attrRef) const {
-  return getAttribute(attrRefToEnumMap.at(attrRef));
+  return getAttribute(SynonymResUtils::attrRefToEnumMap.at(attrRef));
 }
 
 SynonymRes SynonymRes::clone() const {
@@ -36,6 +36,10 @@ SynonymRes SynonymRes::clone() const {
 
 bool SynonymRes::isAttrExists(AttrRefEnum attrRef) const {
   return this->attributeMap.find(attrRef) != this->attributeMap.end();
+}
+
+bool SynonymRes::isAttrExists(const AttrRef& attrRef) const {
+  return isAttrExists(SynonymResUtils::attrRefToEnumMap.at(attrRef));
 }
 
 bool SynonymRes::operator==(const SynonymRes& other) const {

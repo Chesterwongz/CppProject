@@ -1,5 +1,7 @@
 #include "StmtToStmtAbstraction.h"
 
+#include "qps/clause/utils/ClauseUtil.h"
+
 /**
  * StmtToStmtAbstraction abstraction:
  * - firstArg: Synonym OR Integer OR Wildcard
@@ -20,8 +22,16 @@ void StmtToStmtAbstraction::filterSelfRefPairs(
 }
 // Self-reference (i.e. Abstraction (a, a) where a == a) not possible be default
 bool StmtToStmtAbstraction::isSelfReferencePossible() { return false; }
-bool StmtToStmtAbstraction::isFirstStmtTypeInvalid() { return false; }
-bool StmtToStmtAbstraction::isSecondStmtTypeInvalid() { return false; }
+bool StmtToStmtAbstraction::isFirstSynonymInvalid() {
+  bool isNotStmtOrWildcard =
+      !(this->firstArg.isStmtSynonym() || this->firstArg.isWildcard());
+  return isNotStmtOrWildcard;
+}
+bool StmtToStmtAbstraction::isSecondSynonymInvalid() {
+  bool isNotStmtOrWildcard =
+      !(this->secondArg.isStmtSynonym() || this->secondArg.isWildcard());
+  return isNotStmtOrWildcard;
+}
 
 // Abstraction (StmtSynonym, StmtSynonym)
 IntermediateTable StmtToStmtAbstraction ::evaluateSynonymSynonym() {
@@ -91,7 +101,7 @@ IntermediateTable StmtToStmtAbstraction::handleBothArgsWildcard() {
 }
 
 IntermediateTable StmtToStmtAbstraction::handleSynonymOrWildcardArgs() {
-  if (isFirstStmtTypeInvalid() || isSecondStmtTypeInvalid()) {
+  if (isFirstSynonymInvalid() || isSecondSynonymInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
 
@@ -106,9 +116,15 @@ IntermediateTable StmtToStmtAbstraction::handleSynonymOrWildcardArgs() {
 
   filterSelfRefPairs(stmtStmtPairs);
 
+  pair<Entity, Entity> entityPair = {ClauseUtil::getArgEntity(this->firstArg),
+                                     ClauseUtil::getArgEntity(this->secondArg)};
+  vector<string> colNames = {firstArgStmtSynonym, secondArgStmtSynonym};
+  TableDataType resultAsSynonymRes =
+      SynResConversionUtils::toSynonymRes(stmtStmtPairs, entityPair, this->pkb);
+
   //! If any of the args are "_", the column will be ignored.
-  return IntermediateTableFactory::buildIntermediateTable(
-      firstArgStmtSynonym, secondArgStmtSynonym, stmtStmtPairs);
+  return IntermediateTableFactory::buildIntermediateTable(colNames,
+                                                          resultAsSynonymRes);
 }
 
 IntermediateTable StmtToStmtAbstraction::handleBothArgsInteger() {
@@ -129,7 +145,7 @@ IntermediateTable StmtToStmtAbstraction::handleBothArgsInteger() {
 }
 
 IntermediateTable StmtToStmtAbstraction::handleFirstArgInteger() {
-  if (isSecondStmtTypeInvalid()) {
+  if (isSecondSynonymInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
 
@@ -139,11 +155,16 @@ IntermediateTable StmtToStmtAbstraction::handleFirstArgInteger() {
 
   vector<string> results = getSecondStmt(firstArgStmtNumber, secondArgStmtType);
 
+  Entity secondArgEntity = ClauseUtil::getArgEntity(this->secondArg);
+  vector<SynonymRes> resultAsSynonymRes =
+      SynResConversionUtils::toSynonymRes(results, secondArgEntity, this->pkb);
+
   return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
-                                                       results);
+                                                       resultAsSynonymRes);
 }
+
 IntermediateTable StmtToStmtAbstraction::handleSecondArgInteger() {
-  if (isFirstStmtTypeInvalid()) {
+  if (isFirstSynonymInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
 
@@ -153,6 +174,10 @@ IntermediateTable StmtToStmtAbstraction::handleSecondArgInteger() {
 
   vector<string> results = getFirstStmt(secondArgStmtNumber, firstArgStmtType);
 
+  Entity firstArgEntity = ClauseUtil::getArgEntity(this->firstArg);
+  vector<SynonymRes> resultAsSynonymRes =
+      SynResConversionUtils::toSynonymRes(results, firstArgEntity, this->pkb);
+
   return IntermediateTableFactory::buildSingleColTable(firstArgStmtSynonym,
-                                                       results);
+                                                       resultAsSynonymRes);
 }

@@ -2,11 +2,25 @@
 
 #include <unordered_set>
 
+#include "qps/clause/utils/ClauseUtil.h"
+
 /**
  * ProcToProcAbstraction abstraction:
  * - firstArg: Synonym (Proc) OR Identifier (Proc) OR Wildcard
  * - secondArg: Synonym (Proc) OR Identifier (Proc) OR Wildcard
  */
+
+bool ProcToProcAbstraction::isFirstSynonymInvalid() {
+  bool isNotProcOrWildcard =
+      !(this->firstArg.isProcSynonym() || this->firstArg.isWildcard());
+  return isNotProcOrWildcard;
+}
+
+bool ProcToProcAbstraction::isSecondSynonymInvalid() {
+  bool isNotProcOrWildcard =
+      !(this->secondArg.isProcSynonym() || this->secondArg.isWildcard());
+  return isNotProcOrWildcard;
+}
 
 // Abstraction (Synonym, Synonym)
 IntermediateTable ProcToProcAbstraction::evaluateSynonymSynonym() {
@@ -60,38 +74,54 @@ IntermediateTable ProcToProcAbstraction::evaluateWildcardWildcard() {
 }
 
 IntermediateTable ProcToProcAbstraction::handleSynonymOrWildcardArgs() {
+  if (isFirstSynonymInvalid() || isSecondSynonymInvalid()) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
+
   string firstArgSynonym = this->firstArgValue;
   string secondArgSynonym = this->secondArgValue;
 
-  assert(this->firstArg.isProcSynonym() || this->firstArg.isWildcard());
-  assert(this->secondArg.isProcSynonym() || this->secondArg.isWildcard());
-
   vector<pair<string, string>> allPairs = getAllAbstractionPairs();
 
+  vector<string> colNames = {firstArgSynonym, secondArgSynonym};
+  TableDataType resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+      allPairs, {PROCEDURE_ENTITY, PROCEDURE_ENTITY}, this->pkb);
+
   //! If any of the args are "_", the column will be ignored.
-  return IntermediateTableFactory::buildIntermediateTable(
-      firstArgSynonym, secondArgSynonym, allPairs);
+  return IntermediateTableFactory::buildIntermediateTable(colNames,
+                                                          resultAsSynonymRes);
 }
 
 IntermediateTable ProcToProcAbstraction::handleFirstArgIdent() {
+  if (isSecondSynonymInvalid()) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
   string firstArgProcName = this->firstArgValue;
   string secondArgProcSynonym = this->secondArgValue;
-  assert(this->secondArg.isProcSynonym() || this->secondArg.isWildcard());
+
   vector<string> possibleSecondProcs =
       getSecondProcInAbstraction(firstArgProcName);
+  vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+      possibleSecondProcs, PROCEDURE_ENTITY, this->pkb);
+
   return IntermediateTableFactory::buildSingleColTable(secondArgProcSynonym,
-                                                       possibleSecondProcs);
+                                                       resultAsSynonymRes);
 }
 
 IntermediateTable ProcToProcAbstraction::handleSecondArgIdent() {
+  if (isFirstSynonymInvalid()) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
   string firstArgSynonym = this->firstArgValue;
-  assert(this->firstArg.isProcSynonym() || this->firstArg.isWildcard());
   string secondArgProcName = this->secondArgValue;
 
-  vector<string> possibleValuesOfSynonym =
+  vector<string> possibleFirstProcs =
       getFirstProcInAbstraction(secondArgProcName);
+  vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+      possibleFirstProcs, PROCEDURE_ENTITY, this->pkb);
+
   return IntermediateTableFactory::buildSingleColTable(firstArgSynonym,
-                                                       possibleValuesOfSynonym);
+                                                       resultAsSynonymRes);
 }
 
 IntermediateTable ProcToProcAbstraction::handleBothArgsIdent() {

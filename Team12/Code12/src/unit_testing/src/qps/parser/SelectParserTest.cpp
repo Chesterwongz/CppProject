@@ -91,6 +91,7 @@ TEST_CASE("Valid Select BOOLEAN - no declarations") {
 
   // expected query obj
   Query expected(dummyQpsParserPkbReader);
+  expected.setSynonymToQuery({});
   unique_ptr<Integer> firstArg = std::make_unique<Integer>("1");
   unique_ptr<Integer> secondArg = std::make_unique<Integer>("2");
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(

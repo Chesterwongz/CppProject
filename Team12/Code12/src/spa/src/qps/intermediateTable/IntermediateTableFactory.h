@@ -99,7 +99,7 @@ class IntermediateTableFactory {
       row.emplace_back(std::move(datum));
       dataColumn.emplace_back(std::move(row));
     }
-    return IntermediateTable(columnNames, dataColumn);
+    return IntermediateTable(columnNames, std::move(dataColumn));
   }
 
   /**

@@ -11,9 +11,9 @@ class AffectsAbstraction : public StmtToStmtAbstraction {
  private:
   static bool isInvalidStmtType(StmtType stmtType);
 
-  bool isFirstStmtTypeInvalid() override;
+  bool isFirstSynonymInvalid() override;
 
-  bool isSecondStmtTypeInvalid() override;
+  bool isSecondSynonymInvalid() override;
 
   bool isSelfReferencePossible() override;
 

@@ -5,14 +5,15 @@
 #include <vector>
 
 #include "qps/abstraction/BaseAbstraction.h"
+#include "qps/clause/utils/SynResConversionUtils.h"
 #include "qps/intermediateTable/IntermediateTable.h"
 
 class StmtToStmtAbstraction : public BaseAbstraction {
  private:
   void filterSelfRefPairs(vector<pair<string, string>>& stmtPairs);
   virtual bool isSelfReferencePossible();
-  virtual bool isFirstStmtTypeInvalid();
-  virtual bool isSecondStmtTypeInvalid();
+  bool isFirstSynonymInvalid() override;
+  bool isSecondSynonymInvalid() override;
 
   /**
    * For handling cases where both args are non-integer and there is at most

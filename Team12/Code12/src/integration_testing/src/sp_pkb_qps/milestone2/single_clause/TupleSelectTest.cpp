@@ -12,7 +12,7 @@
 using std::string, std::unordered_map, std::map, std::unordered_set, std::set,
     std::vector, std::pair;
 
-string tupleSelectSource =
+string selectTuplePatternSource =
     "procedure procedure {\n"
     "  read line1;\n"
     "  call PotatoLine2;\n"
@@ -39,13 +39,16 @@ string tupleSelectSource =
     "}\n";
 // 3 assign | 1 call | 3 constants | 2 ifs | 2 prints
 // 2 procedures | 4 reads | 14 stmts | 16 variables | 2 whiles
-TEST_CASE("SP-PKB-QPS integration - select tuples ASSIGN - 1") {
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 1") {
   string query =
       "assign assign1, assign2;\n"
       "Select <assign1, assign2>";
   SourceProcessor sp;
   PKB pkb;
-  sp.processContent(tupleSelectSource, pkb.getWriter());
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
   unordered_set<string> expected = {"11 11", "11 14", "11 6", "14 11", "14 14",
@@ -53,26 +56,30 @@ TEST_CASE("SP-PKB-QPS integration - select tuples ASSIGN - 1") {
   REQUIRE(result == expected);
 }
 
-TEST_CASE("SP-PKB-QPS integration - select tuples CALL - 2") {
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 2") {
   string query =
       "call call1, call2;\n"
       "Select <call1, call2>";
   SourceProcessor sp;
   PKB pkb;
-  sp.processContent(tupleSelectSource, pkb.getWriter());
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
   unordered_set<string> expected = {"2 2"};
   REQUIRE(result == expected);
 }
 
-TEST_CASE("SP-PKB-QPS integration - select tuples CONSTANT - 3") {
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 3") {
   string query =
       "constant constant1, constant2;\n"
       "Select <constant1, constant2>";
   SourceProcessor sp;
   PKB pkb;
-  sp.processContent(tupleSelectSource, pkb.getWriter());
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
   unordered_set<string> expected = {"10 10", "10 14", "10 5", "14 10", "14 14",
@@ -80,39 +87,45 @@ TEST_CASE("SP-PKB-QPS integration - select tuples CONSTANT - 3") {
   REQUIRE(result == expected);
 }
 
-TEST_CASE("SP-PKB-QPS integration - select tuples IF - 4") {
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 4") {
   string query =
       "if if1, if2;\n"
       "Select <if1, if2>";
   SourceProcessor sp;
   PKB pkb;
-  sp.processContent(tupleSelectSource, pkb.getWriter());
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
   unordered_set<string> expected = {"5 5", "5 7", "7 5", "7 7"};
   REQUIRE(result == expected);
 }
 
-TEST_CASE("SP-PKB-QPS integration - select tuples PRINT - 5") {
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 5") {
   string query =
       "print print1, print2;\n"
       "Select <print1, print2>";
   SourceProcessor sp;
   PKB pkb;
-  sp.processContent(tupleSelectSource, pkb.getWriter());
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
   unordered_set<string> expected = {"3 3", "3 9", "9 3", "9 9"};
   REQUIRE(result == expected);
 }
 
-TEST_CASE("SP-PKB-QPS integration - select tuples PROCEDURE - 6") {
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 6") {
   string query =
       "procedure procedure1, procedure2;\n"
       "Select <procedure1, procedure2>";
   SourceProcessor sp;
   PKB pkb;
-  sp.processContent(tupleSelectSource, pkb.getWriter());
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
   unordered_set<string> expected = {
@@ -121,13 +134,15 @@ TEST_CASE("SP-PKB-QPS integration - select tuples PROCEDURE - 6") {
   REQUIRE(result == expected);
 }
 
-TEST_CASE("SP-PKB-QPS integration - select tuples READ - 7") {
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 7") {
   string query =
       "read read1, read2;\n"
       "Select <read1, read2>";
   SourceProcessor sp;
   PKB pkb;
-  sp.processContent(tupleSelectSource, pkb.getWriter());
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
   unordered_set<string> expected = {
@@ -136,13 +151,15 @@ TEST_CASE("SP-PKB-QPS integration - select tuples READ - 7") {
   REQUIRE(result == expected);
 }
 
-TEST_CASE("SP-PKB-QPS integration - select tuples STMT - 8") {
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 8") {
   string query =
       "stmt stmt1, stmt2;\n"
       "Select <stmt1, stmt2>";
   SourceProcessor sp;
   PKB pkb;
-  sp.processContent(tupleSelectSource, pkb.getWriter());
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
   unordered_set<string> expected = {
@@ -174,13 +191,15 @@ TEST_CASE("SP-PKB-QPS integration - select tuples STMT - 8") {
   REQUIRE(result == expected);
 }
 
-TEST_CASE("SP-PKB-QPS integration - select tuples VARIABLE - 9") {
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 9") {
   string query =
       "variable variable1, variable2;\n"
       "Select <variable1, variable2>";
   SourceProcessor sp;
   PKB pkb;
-  sp.processContent(tupleSelectSource, pkb.getWriter());
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
   unordered_set<string> expected = {"if if",
@@ -510,26 +529,30 @@ TEST_CASE("SP-PKB-QPS integration - select tuples VARIABLE - 9") {
   REQUIRE(result == expected);
 }
 
-TEST_CASE("SP-PKB-QPS integration - select tuples WHILE - 10") {
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 10") {
   string query =
       "while while1, while2;\n"
       "Select <while1, while2>";
   SourceProcessor sp;
   PKB pkb;
-  sp.processContent(tupleSelectSource, pkb.getWriter());
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
   unordered_set<string> expected = {"4 4", "4 10", "10 4", "10 10"};
   REQUIRE(result == expected);
 }
 
-TEST_CASE("SP-PKB-QPS integration - select tuples READ CALL - 11") {
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 11") {
   string query =
       "read read1; call call1;\n"
       "Select <read1, call1>";
   SourceProcessor sp;
   PKB pkb;
-  sp.processContent(tupleSelectSource, pkb.getWriter());
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
   unordered_set<string> expected = {"1 2", "12 2", "13 2", "8 2"};
@@ -537,15 +560,15 @@ TEST_CASE("SP-PKB-QPS integration - select tuples READ CALL - 11") {
 }
 
 TEST_CASE(
-    "SP-PKB-QPS integration - select tuples "
-    "ASSIGN CALL CONSTANT PRINT PROCEDURE - 12") {
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 12") {
   string query =
       "assign assign; call call; constant constant; print print; procedure "
       "procedure;\n"
       "Select <assign, call, constant, print, procedure >";
   SourceProcessor sp;
   PKB pkb;
-  sp.processContent(tupleSelectSource, pkb.getWriter());
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
   QPS qps(pkb.getReader());
   auto result = qps.processQueryString(query);
   unordered_set<string> expected = {
@@ -561,5 +584,179 @@ TEST_CASE(
       "6 2 10 9 procedure",    "6 2 14 3 PotatoLine2",  "6 2 14 3 procedure",
       "6 2 14 9 PotatoLine2",  "6 2 14 9 procedure",    "6 2 5 3 PotatoLine2",
       "6 2 5 3 procedure",     "6 2 5 9 PotatoLine2",   "6 2 5 9 procedure"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 13") {
+  string query =
+      "call call;\n"
+      "Select <call, call.procName, call.stmt#>";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"2 PotatoLine2 2"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 14") {
+  string query =
+      "read read;\n"
+      "Select <read, read.varName, read.stmt#>";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"8 line8 8", "1 line1 1", "12 line12 12",
+                                    "13 line13 13"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 15") {
+  string query =
+      "print print;\n"
+      "Select <print, print.varName, print.stmt#>";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"9 line9 9", "3 line3 3"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 16") {
+  string query =
+      "stmt stmt;\n"
+      "Select <stmt, stmt.stmt#>";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"11 11", "2 2",   "8 8",   "7 7",  "6 6",
+                                    "5 5",   "4 4",   "3 3",   "9 9",  "1 1",
+                                    "10 10", "12 12", "13 13", "14 14"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 17") {
+  string query =
+      "stmt stmt;\n"
+      "Select <stmt, stmt.varName, stmt.stmt#>";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"SemanticError"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 18") {
+  string query =
+      "constant c;\n"
+      "Select <c, c.value>";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"10 10", "14 14", "5 5"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 19") {
+  string query =
+      "variable v;\n"
+      "Select <v, v.varName>";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {
+      "line10 line10", "line14 line14",      "line5 line5",   "line6 line6",
+      "line4 line4",   "line3 line3",        "line8 line8",   "line7 line7",
+      "line1 line1",   "line11 line11",      "if if",         "line13 line13",
+      "if2 if2",       "variable variable",  "line12 line12", "line9 line9",
+      "while2 while2", "variable2 variable2"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 20") {
+  string query =
+      "while c;\n"
+      "Select <c, c.stmt#>";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"4 4", "10 10"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 21") {
+  string query =
+      "if if;\n"
+      "Select <if, if.stmt#>";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"5 5", "7 7"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 22") {
+  string query =
+      "assign if;\n"
+      "Select <if, if.stmt#>";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"6 6", "11 11", "14 14"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS "
+    "../../Tests12/Milestone2/SingleClauseTests/TupleSelect_queries.txt - 23") {
+  string query =
+      "procedure call;\n"
+      "Select <call, call.procName>";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(selectTuplePatternSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"PotatoLine2 PotatoLine2",
+                                    "procedure procedure"};
   REQUIRE(result == expected);
 }

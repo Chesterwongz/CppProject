@@ -3,7 +3,7 @@
 #include <utility>
 
 #include "qps/argument/synonymArg/SynonymArg.h"
-#include "qps/clause/selectClause/SelectClause.h"
+#include "qps/clause/selectClause/ISelectClause.h"
 #include "qps/common/QPSStringUtils.h"
 
 PQLParserContext::PQLParserContext(unique_ptr<PQLTokenStream> tokenStream,
@@ -16,6 +16,10 @@ PQLParserContext::PQLParserContext(unique_ptr<PQLTokenStream> tokenStream,
 void PQLParserContext::addToContext(string entity, const string& synonym) {
   bool isSuccess = this->context->addSynonym(synonym, std::move(entity));
   if (!isSuccess) isSemanticallyValid = false;
+}
+
+void PQLParserContext::addSelectClause() {
+  this->query->setSynonymToQuery({});
 }
 
 void PQLParserContext::addSelectClause(unique_ptr<SynonymArg> synonym) {

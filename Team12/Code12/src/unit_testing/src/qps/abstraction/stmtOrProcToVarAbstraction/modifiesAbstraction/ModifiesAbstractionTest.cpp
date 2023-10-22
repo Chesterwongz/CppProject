@@ -15,7 +15,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(StmtSynonym, Synonym)") {
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_1, ASSIGN_ENTITY);
   unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, VARIABLE_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
@@ -262,7 +262,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(Integer, Synonym)") {
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, VARIABLE_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 
@@ -356,7 +356,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcName, Synonym)") {
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 =
-      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, STMT_ENTITY);
+      std::make_unique<SynonymArg>(MOCK_SYNONYM_VALUE_2, VARIABLE_ENTITY);
   unique_ptr<AbstractionParams> abstractionParams = createMockAbstractionParams(
       mockReader, MODIFIES_ENUM, *mockArgument1, *mockArgument2);
 

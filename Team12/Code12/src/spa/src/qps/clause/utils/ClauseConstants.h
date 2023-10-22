@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 
+#include "SynResConversionUtils.h"
 #include "common/StmtTypes.h"
 #include "qps/common/Keywords.h"
 

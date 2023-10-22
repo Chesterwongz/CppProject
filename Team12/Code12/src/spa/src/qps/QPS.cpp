@@ -11,7 +11,9 @@ unordered_set<string> QPS::processQueryString(const string& query) {
     setupParser(parserContext);
     parserContext.handleTokens();
 
-    return queryObj->evaluate();
+    auto res = queryObj->evaluate();
+    pkb.clearCache();
+    return res;
   } catch (CommonSyntaxError& e) {
     return {"SyntaxError"};
   } catch (QPSSyntaxError& e) {

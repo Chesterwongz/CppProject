@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "qps/common/Keywords.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/intermediateTable/synonymRes/SynonymRes.h"
 
 using std::pair, std::unordered_map, std::unordered_set, std::string,
@@ -75,11 +76,10 @@ class IntermediateTable {
   /**
    * same as getColumns(const vector<string> &colNameVector), but allows
    * you to specify the specific attribute ref you want
-   * @param colNameAndAttrRefVector vector of <column names, attrRef> pairs to
    * retrieve
    */
   [[nodiscard]] unordered_set<string> getColumns(
-      const vector<pair<string, AttrRefEnum>> &colNameAndAttrRefVector) const;
+      const vector<unique_ptr<SynonymArg>> &selectSynonyms) const;
 
   /**
    * Join a different intermediateTable into this

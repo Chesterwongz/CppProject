@@ -7,8 +7,11 @@
  */
 
 bool UsesAbstraction::isFirstSynonymInvalid() {
-  return !this->firstArg.isProcSynonym() &&
-         this->getFirstArgStmtType() == StmtType::READ;
+  bool isNotStmtOrProc =
+      !(this->firstArg.isStmtSynonym() || this->firstArg.isProcSynonym());
+  bool isReadStmt = this->firstArg.isStmtSynonym() &&
+                    this->getFirstArgStmtType() == StmtType::READ;
+  return isNotStmtOrProc || isReadStmt;
 }
 
 vector<pair<string, string>> UsesAbstraction::getAllStmtVarRelations(

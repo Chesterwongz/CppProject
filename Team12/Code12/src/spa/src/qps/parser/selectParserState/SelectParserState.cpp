@@ -33,7 +33,7 @@ void SelectParserState::handleToken() {
 
     switch (token.getType()) {
       case PQL_BOOLEAN_TOKEN:
-        // TODO(Yuqi): create new SelectBoolClause
+        parserContext.addSelectClause();
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
       case PQL_SYNONYM_TOKEN: {
