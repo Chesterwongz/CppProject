@@ -188,7 +188,7 @@ string ifSource2 =
     "}";
 
 TEST_CASE(
-    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/ifPattern_queries.txt - \"\n"
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/ifPattern_queries.txt - "
     "8") {
   string query =
       "if if;\n"
