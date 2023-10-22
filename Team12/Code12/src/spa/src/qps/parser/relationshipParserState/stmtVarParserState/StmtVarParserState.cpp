@@ -14,7 +14,7 @@ PredictiveMap StmtVarParserState::predictiveMap = {
     {PQL_COMMA_TOKEN,
      {PQL_SYNONYM_TOKEN, PQL_WILDCARD_TOKEN, PQL_LITERAL_REF_TOKEN}},
     {PQL_SYNONYM_TOKEN, {PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
-    {PQL_WILDCARD_TOKEN, {PQL_CLOSE_BRACKET_TOKEN}},
+    {PQL_WILDCARD_TOKEN, {PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
     {PQL_LITERAL_REF_TOKEN, {PQL_COMMA_TOKEN, PQL_CLOSE_BRACKET_TOKEN}},
     {PQL_INTEGER_TOKEN, {PQL_COMMA_TOKEN}}};
 
@@ -24,18 +24,18 @@ StmtVarParserState::StmtVarParserState(PQLParserContext& parserContext,
     : RelationshipParserState(parserContext, false, std::move(abstraction),
                               prev, isNegated) {}
 
-string StmtVarParserState::getIfValidSynonym(const std::string& synonym,
-                                             size_t argumentNumber) {
+string StmtVarParserState::getValidSynonym(const string& synonym,
+                                           size_t argumentNumber) {
   auto synType = parserContext.getValidSynonymType(synonym);
   if (argumentNumber == SECOND_ARG && synType != VARIABLE_ENTITY) {
-    throw QPSSemanticError(QPS_SEMANTIC_ERR_NOT_VAR_SYN);
+    parserContext.setSemanticallyInvalid();
   }
   return synType;
 }
 
 void StmtVarParserState::checkIsValidWildcard() {
   if (arguments.size() == FIRST_ARG) {
-    throw QPSSemanticError(QPS_SEMANTIC_ERR_WILDCARD_FIRSTARG);
+    parserContext.setSemanticallyInvalid();
   }
 }
 
@@ -58,7 +58,7 @@ void StmtVarParserState::handleToken() {
       case PQL_SYNONYM_TOKEN:
         arguments.push_back(std::make_unique<SynonymArg>(
             token.getValue(),
-            getIfValidSynonym(token.getValue(), arguments.size())));
+            getValidSynonym(token.getValue(), arguments.size())));
         break;
       case PQL_WILDCARD_TOKEN:
         checkIsValidWildcard();

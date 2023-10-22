@@ -25,7 +25,7 @@ WithParserState::WithParserState(PQLParserContext& parserContext,
 void WithParserState::checkSameTypeComparison() {
   assert(argumentTypes.size() == expectedNumberOfArgs);
   if (argumentTypes[FIRST_ARG] != argumentTypes[SECOND_ARG]) {
-    throw QPSSemanticError(QPS_SEMANTIC_ERR_INVALID_WITH);
+    parserContext.setSemanticallyInvalid();
   }
 }
 

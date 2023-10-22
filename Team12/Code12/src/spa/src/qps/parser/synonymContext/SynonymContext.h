@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <string>
 #include <unordered_map>
 
@@ -12,7 +13,7 @@ class SynonymContext {
   unordered_map<Synonym, Entity> tokenNameToTokenMap = {};
 
  public:
-  virtual void addSynonym(const Synonym& tokenSynonym, Entity tokenEntity);
-  virtual Entity getTokenEntity(const Synonym& tokenName);
+  virtual bool addSynonym(const Synonym& tokenSynonym, Entity tokenEntity);
+  virtual std::optional<Entity> getTokenEntity(const Synonym& tokenName);
   virtual bool checkIfSynonymExists(const Synonym& tokenName);
 };

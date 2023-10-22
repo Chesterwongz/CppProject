@@ -1,5 +1,3 @@
 #include "PKBReader.h"
 
-void PKBReader::clearCache() {
-  nextStore.clearCache();
-}
+void PKBReader::clearCache() { nextStore.clearCache(); }

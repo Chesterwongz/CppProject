@@ -52,6 +52,7 @@ inline const string ATTR_REF_PROC_NAME = "procName";
 inline const string ATTR_REF_VAR_NAME = "varName";
 inline const string ATTR_REF_VALUE = "value";
 inline const string ATTR_REF_STMT_NUMBER = "stmt#";
+inline const string ATTR_REF_INVALID;
 
 inline const string WILDCARD_KEYWORD = "_";
 inline const string INVALID_STATEMENT_NUMBER = "-1";

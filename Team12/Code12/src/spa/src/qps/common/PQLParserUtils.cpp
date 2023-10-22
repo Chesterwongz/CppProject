@@ -1,6 +1,5 @@
 #include "PQLParserUtils.h"
 
-#include "qps/exceptions/QPSSemanticError.h"
 #include "qps/exceptions/QPSSyntaxError.h"
 
 unordered_map<string, PQLTokenType> PQLParserUtils::keywordToTokenType = {
@@ -78,6 +77,7 @@ unordered_map<AttrRef, ArgumentType> PQLParserUtils::attrRefToType = {
     {ATTR_REF_VAR_NAME, ArgumentType::NAME_TYPE},
     {ATTR_REF_PROC_NAME, ArgumentType::NAME_TYPE},
     {ATTR_REF_VALUE, ArgumentType::INTEGER_TYPE},
+    {ATTR_REF_INVALID, ArgumentType::INVALID_TYPE},
 };
 
 PQLTokenType PQLParserUtils::isDelimiterToken(const char &c) {

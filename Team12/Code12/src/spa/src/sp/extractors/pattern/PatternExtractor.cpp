@@ -10,8 +10,8 @@ std::string PatternExtractor::nodeToPostfixString(const TNode& node) {
   }
 
   assert(node.getChildren().size() == 2);
-  std::string left = nodeToPostfixString(node.getChildAt(0));
-  std::string right = nodeToPostfixString(node.getChildAt(1));
+  std::string left = nodeToPostfixString(node.getChildAt(common::LEFT_CHILD));
+  std::string right = nodeToPostfixString(node.getChildAt(common::RIGHT_CHILD));
   return left + " " + right + " " + node.getValue();
 }
 
@@ -26,8 +26,9 @@ void PatternExtractor::getControlVars(std::unordered_set<std::string>& vars,
 }
 
 void PatternExtractor::visitAssign(const AssignNode& node) {
-  std::string varName = node.getChildValueAt(0);
-  std::string postfixExpr = " " + nodeToPostfixString(node.getChildAt(1)) + " ";
+  std::string varName = node.getChildValueAt(common::LEFT_CHILD);
+  std::string postfixExpr =
+      " " + nodeToPostfixString(node.getChildAt(common::RIGHT_CHILD)) + " ";
   pkbWriter.addAssignPattern(varName, postfixExpr, node.getLineNum());
 }
 
@@ -42,7 +43,7 @@ void PatternExtractor::visitIf(const IfNode& node) {
 void PatternExtractor::processContainerStmt(StmtType stmtType,
                                             const StmtNode& node) {
   std::unordered_set<std::string> controlVars;
-  getControlVars(controlVars, node.getChildAt(0));
+  getControlVars(controlVars, node.getChildAt(common::FIRST_CHILD));
   for (auto& var : controlVars) {
     if (stmtType == StmtType::WHILE) {
       pkbWriter.addWhilePattern(node.getLineNum(), var);

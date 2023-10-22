@@ -67,4 +67,4 @@ enum PQLTokenType {
   PQL_NOT_TOKEN
 };
 
-enum class ArgumentType { NAME_TYPE, INTEGER_TYPE };
+enum class ArgumentType { NAME_TYPE, INTEGER_TYPE, INVALID_TYPE };

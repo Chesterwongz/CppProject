@@ -13,8 +13,7 @@ bool ParentsStarAbstraction::isFirstSynonymInvalid() {
     return true;
   }
   StmtType stmtType = this->getFirstArgStmtType();
-  return stmtType != StmtType::STMT &&
-         stmtType != StmtType::IF &&
+  return stmtType != StmtType::STMT && stmtType != StmtType::IF &&
          stmtType != StmtType::WHILE;
 }
 

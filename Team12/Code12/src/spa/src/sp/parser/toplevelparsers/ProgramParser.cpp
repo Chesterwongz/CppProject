@@ -1,8 +1,5 @@
 #include "ProgramParser.h"
 
-#include "ProcedureParser.h"
-#include "sp/ast/ProgramNode.h"
-
 /* program: procedure+
  * node = new ProgramNode()
  * childNode = parseProcedure()

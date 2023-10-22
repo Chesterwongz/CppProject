@@ -15,13 +15,10 @@ unordered_set<string> QPS::processQueryString(const string& query) {
     pkb.clearCache();
     return res;
   } catch (CommonSyntaxError& e) {
-    std::cout << e.what() << std::endl;
     return {"SyntaxError"};
   } catch (QPSSyntaxError& e) {
-    std::cout << e.what() << std::endl;
     return {"SyntaxError"};
   } catch (QPSSemanticError& e) {
-    std::cout << e.what() << std::endl;
     return {"SemanticError"};
   }
 }

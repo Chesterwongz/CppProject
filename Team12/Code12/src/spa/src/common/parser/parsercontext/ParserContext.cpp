@@ -55,3 +55,5 @@ std::string ParserContext::forceEatExpected(SpTokenType expectedType,
     throw UnexpectedTokenException(expectedValue, lineNum);
   return tokenStream->eat().value().getValue();
 }
+
+bool ParserContext::isEnd() { return !tokenStream->peek().has_value(); }

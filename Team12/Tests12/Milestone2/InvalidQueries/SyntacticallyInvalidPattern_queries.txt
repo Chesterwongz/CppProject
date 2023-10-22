@@ -6,7 +6,7 @@ SyntaxError
 ====== 2 - Pattern stmt 2 arg ======
 stmt s;
 Select s pattern s(_, _)
-SyntaxError
+SemanticError
 1000
 ====== 3 - Assign pattern assign 1 arg ======
 assign a;
@@ -16,7 +16,7 @@ SyntaxError
 ====== 4 - Assign pattern assign 3 arg ======
 assign a;
 Select a pattern a(_, _,_)
-SyntaxError
+SemanticError
 1000
 ====== 5 - Assign pattern first arg integer ======
 assign a;
@@ -116,12 +116,12 @@ SyntaxError
 ====== 23 - If pattern with two args ======
 if i;
 Select i pattern if( _, _)
-SyntaxError
+SemanticError
 1000
 ====== 24 - While pattern with non-wildcard second arg ======
 while w;
 Select w pattern w(_, "x")
-SyntaxError
+SemanticError
 1000
 ====== 25 - While pattern with extra quotation mark ======
 while w;
@@ -136,7 +136,7 @@ SyntaxError
 ====== 27 - While pattern with 3 args ======
 while w;
 Select w pattern w(_, _, _)
-SyntaxError
+SemanticError
 1000
 ====== 28 - Missing pattern ======
 stmt s;
@@ -156,5 +156,25 @@ SyntaxError
 ====== 31 - such that before pattern ======
 stmt s;
 Select s such that pattern(1, 2)
+SyntaxError
+1000
+====== 32 - invalid expr ======
+assign a;
+Select a pattern a(_, "(a)(b)")
+SyntaxError
+1000
+====== 33 - invalid expr ======
+assign a;
+Select a pattern a(_, "a(b)")
+SyntaxError
+1000
+====== 34 - invalid expr ======
+assign a;
+Select a pattern a(_, "ab)")
+SyntaxError
+1000
+====== 35 - invalid expr ======
+assign a;
+Select a pattern a(_, "(a b")
 SyntaxError
 1000

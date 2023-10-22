@@ -87,7 +87,7 @@ class CollectionUtils {
   static std::vector<std::pair<std::string, std::string>>
   intStrMapSetToStrPairVector(
       const std::unordered_map<int, std::unordered_set<std::string>>&
-      mapSetAB) {
+          mapSetAB) {
     std::vector<std::pair<std::string, std::string>> res;
     for (const auto& [a, setB] : mapSetAB) {
       res.reserve(res.size() + setB.size());

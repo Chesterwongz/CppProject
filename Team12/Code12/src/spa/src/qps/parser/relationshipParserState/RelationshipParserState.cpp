@@ -15,12 +15,13 @@ RelationshipParserState::RelationshipParserState(
 
 void RelationshipParserState::processNameToken(PQLToken &curr) {
   if (this->isInBracket) {
-    if (parserContext.checkSynonymExists(curr.getValue())) {
-      curr.updateTokenType(PQL_SYNONYM_TOKEN);
-    } else {
-      throw QPSSemanticError(QPS_SEMANTIC_ERR_UNDECLARED_SYNONYM +
-                             curr.getValue());
+    if (!QPSStringUtils::isSynonym(curr.getValue())) {
+      throw QPSSyntaxError(QPS_TOKENIZATION_ERR_SYNONYM);
     }
+    if (!parserContext.checkSynonymExists(curr.getValue())) {
+      parserContext.setSemanticallyInvalid();
+    }
+    curr.updateTokenType(PQL_SYNONYM_TOKEN);
     return;
   }
   curr.updateTokenType(
