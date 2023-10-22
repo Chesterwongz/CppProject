@@ -25,7 +25,8 @@ string BaseParserState::getValidAttrRef(const std::string &synonym,
 void BaseParserState::processAttrRef(unique_ptr<SynonymArg> &synArg) {
   // must be a syn to enter here; peek will be peeking the next token after syn
   auto next = parserContext.peekNextToken();
-  if (!next.has_value() && prevClauseType == ClauseType::WITH_CLAUSE) {
+  if (prevClauseType == ClauseType::WITH_CLAUSE &&
+      (!next.has_value() || next->getType() == PQL_PERIOD_TOKEN)) {
     throw QPSSyntaxError(QPS_SYNTAX_ERR_INVALID_WITH);
   }
   if (!next.has_value()) return;
