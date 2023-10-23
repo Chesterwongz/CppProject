@@ -1,35 +1,30 @@
-#include <utility>
-#include <vector>
-#include <memory>
-
 #include "QPS.h"
-#include "qps/parser/declarativeParserState/DeclarativeParserState.h"
-#include "qps/tokenizer/TokenizerFactory.h"
 
-using std::string, std::vector, std::unique_ptr;
+QPS::QPS(PKBReader& pkb) : pkb(pkb) {}
 
-// TODO: test
-QPS::QPS(PKBReader &pkb) :
-    pkb(pkb),
-    tokenizerFactory() {}
+unordered_set<string> QPS::processQueryString(const string& query) {
+  unique_ptr<Query> queryObj = std::make_unique<Query>(pkb);
+  try {
+    unique_ptr<PQLTokenStream> tokenStream = PQLTokenizer::tokenize(query);
 
-std::set<string> QPS::processQueryString(const string& query) {
-    unique_ptr<PQLTokenizer> tokenizer = tokenizerFactory.makeTokenizer(query);
-    unique_ptr<PQLTokenList> tokenList = tokenizer->tokenize();
-    PQLTokenStream tokenStream(*tokenList);
-
-    Query queryObj(pkb);
-
-    PQLParserContext parserContext(tokenStream, queryObj);
+    PQLParserContext parserContext(std::move(tokenStream), queryObj);
     setupParser(parserContext);
-
     parserContext.handleTokens();
 
-    return queryObj.evaluate();
+    auto res = queryObj->evaluate();
+    pkb.clearCache();
+    return res;
+  } catch (CommonSyntaxError& e) {
+    return {"SyntaxError"};
+  } catch (QPSSyntaxError& e) {
+    return {"SyntaxError"};
+  } catch (QPSSemanticError& e) {
+    return {"SemanticError"};
+  }
 }
 
 void QPS::setupParser(PQLParserContext& pc) {
-    unique_ptr<DeclarativeParserState> declarativeParserState = make_unique<DeclarativeParserState>(pc);
-    pc.transitionTo(move(declarativeParserState));
-
+  unique_ptr<DeclarativeParserState> declarativeParserState =
+      std::make_unique<DeclarativeParserState>(pc);
+  pc.transitionTo(std::move(declarativeParserState));
 }

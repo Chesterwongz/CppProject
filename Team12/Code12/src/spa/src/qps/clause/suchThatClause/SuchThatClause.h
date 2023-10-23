@@ -1,28 +1,26 @@
 #pragma once
 
-#include <string>
+#include <memory>
 #include <set>
+#include <string>
+#include <utility>
+
+#include "qps/argument/AbstractArgument.h"
 #include "qps/clause/Clause.h"
 #include "qps/clause/utils/ClauseConstants.h"
-#include "qps/argument/IArgument.h"
 
 using std::unique_ptr;
 
 class SuchThatClause : public Clause {
-private:
-    Abstraction relationship;
-    unique_ptr<IArgument> firstArg;
-    unique_ptr<IArgument> secondArg;
-    bool isTransitive;
+ private:
+  Abstraction relationship;
+  unique_ptr<AbstractArgument> firstArg;
+  unique_ptr<AbstractArgument> secondArg;
 
-public:
-    explicit SuchThatClause(
-            Abstraction relationship,
-            unique_ptr<IArgument> firstArg,
-            unique_ptr<IArgument> secondArg,
-            bool isTransitive);
-    IntermediateTable evaluate(
-            Context& context,
-            PKBReader& pkb) override;
-    bool isEquals(const Clause& other) override;
+ public:
+  explicit SuchThatClause(Abstraction relationship,
+                          unique_ptr<AbstractArgument> firstArg,
+                          unique_ptr<AbstractArgument> secondArg);
+  IntermediateTable evaluate(PKBReader& pkb) override;
+  bool isEquals(const Clause& other) override;
 };

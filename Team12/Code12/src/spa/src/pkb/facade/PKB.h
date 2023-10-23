@@ -1,23 +1,17 @@
 #pragma once
 
-#include "PKBWriter.h"
 #include "PKBReader.h"
-#include "pkb/storage/DesignEntitiesStorage.h"
-#include "pkb/storage/FollowsStorage.h"
-#include "pkb/storage/ModifiesStorage.h"
-#include "pkb/storage/ParentStorage.h"
-#include "pkb/storage/StatementStorage.h"
-#include "pkb/storage/UsesStorage.h"
-#include "PKBStorage.h"
+#include "PKBStore.h"
+#include "PKBWriter.h"
 
 class PKB {
-private:
-    PKBStorage storage;
+ private:
+  PKBStore store;
+  PKBReader reader;
+  PKBWriter writer;
 
-public:
-    PKBReader reader;
-    PKBWriter writer;
-    PKB() : storage(), writer(storage), reader(storage) {};
-    PKBWriter& getWriter() { return writer; }
-    PKBReader& getReader() { return reader; }
+ public:
+  PKB() : store(), writer(store), reader(store) {}
+  PKBWriter& getWriter() { return writer; }
+  PKBReader& getReader() { return reader; }
 };

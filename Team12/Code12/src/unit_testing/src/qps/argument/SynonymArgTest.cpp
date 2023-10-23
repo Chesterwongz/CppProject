@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch.hpp>
 
 #include "qps/argument/synonymArg/SynonymArg.h"
 
@@ -6,52 +6,52 @@ string synonymString = "test1234";
 string expectedSynonymValue = "test1234";
 string synonymArgType = "synonym";
 
-SynonymArg synonym = SynonymArg(synonymString);
+SynonymArg synonym = SynonymArg(synonymString, STMT_ENTITY);
 
 TEST_CASE("test_synonym_getValue") {
-	string actual = synonym.getValue();
+  string actual = synonym.getValue();
 
-	REQUIRE(actual == expectedSynonymValue);
+  REQUIRE(actual == expectedSynonymValue);
 }
 
 TEST_CASE("test_synonym_getArgumentType") {
-	QPSStringUtils::ArgumentType actualSynonymArgType = synonym.getArgumentType();
+  QPSStringUtils::ArgumentType actualSynonymArgType = synonym.getArgumentType();
 
-	REQUIRE(actualSynonymArgType == QPSStringUtils::SYNONYM);
+  REQUIRE(actualSynonymArgType == QPSStringUtils::SYNONYM);
 }
 
 TEST_CASE("test_synonym_isIdent_false") {
-	bool actualIsSynonym = synonym.isIdent();
+  bool actualIsSynonym = synonym.isIdent();
 
-	REQUIRE(actualIsSynonym == false);
+  REQUIRE(actualIsSynonym == false);
 }
 
 TEST_CASE("test_synonym_isInteger_false") {
-	bool actualIsSynonym = synonym.isInteger();
+  bool actualIsSynonym = synonym.isInteger();
 
-	REQUIRE(actualIsSynonym == false);
+  REQUIRE(actualIsSynonym == false);
 }
 
 TEST_CASE("test_synonym_isSynonym_true") {
-	bool actualIsSynonym = synonym.isSynonym();
+  bool actualIsSynonym = synonym.isSynonym();
 
-	REQUIRE(actualIsSynonym);
+  REQUIRE(actualIsSynonym);
 }
 
 TEST_CASE("test_synonym_isWildcard_false") {
-	bool actualIsSynonym = synonym.isWildcard();
+  bool actualIsSynonym = synonym.isWildcard();
 
-	REQUIRE(actualIsSynonym == false);
+  REQUIRE(actualIsSynonym == false);
 }
 
 TEST_CASE("test_synonym_operator==_true") {
-	SynonymArg similarSynonym = SynonymArg(synonymString);
+  SynonymArg similarSynonym = SynonymArg(synonymString, STMT_ENTITY);
 
-	REQUIRE(synonym == similarSynonym);
+  REQUIRE(synonym == similarSynonym);
 }
 
 TEST_CASE("test_synonym_operator==_false") {
-	SynonymArg diffSynonym = SynonymArg("randomsynonym");
+  SynonymArg diffSynonym = SynonymArg("randomsynonym", STMT_ENTITY);
 
-	REQUIRE(!(synonym == diffSynonym));
+  REQUIRE(!(synonym == diffSynonym));
 }

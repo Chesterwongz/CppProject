@@ -1,19 +1,21 @@
 #pragma once
 
+#include <memory>
+#include <utility>
+
+#include "qps/parser/BaseParserState.h"
 #include "qps/parser/PQLParserContext.h"
-#include "qps/parser/IParserState.h"
 
 // get such that and check next relation to determine relationship parser to use
-class SuchThatParserState : public IParserState {
-private:
-    PQLParserContext& parserContext;
-    PQLTokenStream& tokenStream;
-    PQLTokenType prev;
-    static PredictiveMap predictiveMap;
-    void processNameToken(PQLToken& curr) override;
+class SuchThatParserState : public BaseParserState {
+ private:
+  static PredictiveMap predictiveMap;
+  void processNameToken(PQLToken& curr) override;
+  bool isNegated = false;
 
-public:
-    explicit SuchThatParserState(PQLParserContext& parserContext);
-    void handleToken() override;
-    ~SuchThatParserState() override = default;
+ public:
+  explicit SuchThatParserState(PQLParserContext& parserContext,
+                               PQLTokenType prev);
+  void handleToken() override;
+  ~SuchThatParserState() override = default;
 };

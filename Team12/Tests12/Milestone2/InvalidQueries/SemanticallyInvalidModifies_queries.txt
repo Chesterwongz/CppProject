@@ -1,0 +1,355 @@
+====== 1 - Modifies SemanticError (constant, stmt) ======
+stmt stmt; constant constant;
+Select stmt such that Modifies(stmt, constant)
+SemanticError
+1000
+====== 2 - Modifies SemanticError (constant, assign) ======
+stmt stmt; assign assign; constant constant;
+Select stmt such that Modifies(constant, assign)
+SemanticError
+1000
+====== 3 - Modifies SemanticError (constant, while) ======
+stmt stmt; while while; constant constant;
+Select stmt such that Modifies(constant, while)
+SemanticError
+1000
+====== 4 - Modifies SemanticError (constant, if) ======
+stmt stmt; if if; constant constant;
+Select stmt such that Modifies(constant, if)
+SemanticError
+1000
+====== 5 - Modifies SemanticError (constant, call) ======
+stmt stmt; call call; constant constant;
+Select stmt such that Modifies(constant, call)
+SemanticError
+1000
+====== 6 - Modifies SemanticError (constant, read) ======
+stmt stmt; read read; constant constant;
+Select stmt such that Modifies(constant, read)
+SemanticError
+1000
+====== 7 - Modifies SemanticError (constant, print) ======
+stmt stmt; print print; constant constant;
+Select stmt such that Modifies(constant, print)
+SemanticError
+1000
+====== 8 - Modifies SemanticError (variable, stmt) ======
+stmt stmt; variable variable;
+Select stmt such that Modifies(variable, stmt)
+SemanticError
+1000
+====== 10 - Modifies SemanticError (variable, assign) ======
+stmt stmt; assign assign; variable variable;
+Select stmt such that Modifies(variable, assign)
+SemanticError
+1000
+====== 11 - Modifies SemanticError (variable, while) ======
+stmt stmt; while while; variable variable;
+Select stmt such that Modifies(variable, while)
+SemanticError
+1000
+====== 12 - Modifies SemanticError (variable, if) ======
+stmt stmt; if if; variable variable;
+Select stmt such that Modifies(variable, if)
+SemanticError
+1000
+====== 13 - Modifies SemanticError (variable, call) ======
+stmt stmt; call call; variable variable;
+Select stmt such that Modifies(variable, call)
+SemanticError
+1000
+====== 14 - Modifies SemanticError (variable, read) ======
+stmt stmt; read read; variable variable;
+Select stmt such that Modifies(variable, read)
+SemanticError
+1000
+====== 15 - Modifies SemanticError (variable, print) ======
+stmt stmt; print print; variable variable;
+Select stmt such that Modifies(variable, print)
+SemanticError
+1000
+====== 16 - Modifies SemanticError (procedure, stmt) ======
+stmt stmt; procedure procedure;
+Select stmt such that Modifies(stmt, procedure)
+SemanticError
+1000
+===== 17 - Modifies SemanticError (procedure, assign) ======
+stmt stmt; assign assign; procedure procedure;
+Select stmt such that Modifies(procedure, assign)
+SemanticError
+1000
+====== 18 - Modifies SemanticError (procedure, while) ======
+stmt stmt; while while; procedure procedure;
+Select stmt such that Modifies(procedure, while)
+SemanticError
+1000
+====== 19 - Modifies SemanticError (procedure, if) ======
+stmt stmt; if if; procedure procedure;
+Select stmt such that Modifies(procedure, if)
+SemanticError
+1000
+====== 20 - Modifies SemanticError (procedure, call) ======
+stmt stmt; call call; procedure procedure;
+Select stmt such that Modifies(procedure, call)
+SemanticError
+1000
+====== 21 - Modifies SemanticError (procedure, read) ======
+stmt stmt; read read; procedure procedure;
+Select stmt such that Modifies(procedure, read)
+SemanticError
+1000
+====== 22 - Modifies SemanticError (procedure, print) ======
+stmt stmt; print print; procedure procedure;
+Select stmt such that Modifies(procedure, print)
+SemanticError
+1000
+====== 23 - Modifies SemanticError (stmt, stmt) ======
+stmt stmt1, stmt2;
+Select stmt1 such that Modifies(stmt1, stmt2)
+SemanticError
+1000
+====== 24 - Modifies SemanticError (stmt, assign) ======
+stmt stmt; assign assign;
+Select stmt such that Modifies(stmt, assign)
+SemanticError
+1000
+====== 25 - Modifies SemanticError (stmt, while) ======
+stmt stmt; while while;
+Select stmt such that Modifies(stmt, while)
+SemanticError
+1000
+====== 26 - Modifies SemanticError (stmt, if) ======
+stmt stmt; if if;
+Select stmt such that Modifies(stmt, if)
+SemanticError
+1000
+====== 27 - Modifies SemanticError (stmt, call) ======
+stmt stmt; call call;
+Select stmt such that Modifies(stmt, call)
+SemanticError
+1000
+====== 28 - Modifies SemanticError (stmt, read) ======
+stmt stmt; read read;
+Select stmt such that Modifies(stmt, read)
+SemanticError
+1000
+====== 29 - Modifies SemanticError (stmt, print) ======
+stmt stmt; print print;
+Select stmt such that Modifies(stmt, print)
+SemanticError
+1000
+====== 30 - Modifies SemanticError (assign, stmt) ======
+stmt stmt; assign assign;
+Select assign such that Modifies(assign, stmt)
+SemanticError
+1000
+====== 31 - Modifies SemanticError (assign, assign) ======
+assign assign1, assign2;
+Select assign1 such that Modifies(assign1, assign2)
+SemanticError
+1000
+====== 32 - Modifies SemanticError (assign, while) ======
+assign assign; while while;
+Select assign such that Modifies(assign, while)
+SemanticError
+1000
+====== 33 - Modifies SemanticError (assign, if) ======
+assign assign; if if;
+Select assign such that Modifies(assign, if)
+SemanticError
+1000
+====== 34 - Modifies SemanticError (assign, call) ======
+assign assign; call call;
+Select assign such that Modifies(assign, call)
+SemanticError
+1000
+====== 35 - Modifies SemanticError (assign, read) ======
+assign assign; read read;
+Select assign such that Modifies(assign, read)
+SemanticError
+1000
+====== 36 - Modifies SemanticError (assign, print) ======
+assign assign; print print;
+Select assign such that Modifies(assign, print)
+SemanticError
+1000
+====== 37 - Modifies SemanticError (while, stmt) ======
+stmt stmt; while while;
+Select while such that Modifies(while, stmt)
+SemanticError
+1000
+====== 38 - Modifies SemanticError (while, assign) ======
+assign assign; while while;
+Select while such that Modifies(while, assign)
+SemanticError
+1000
+====== 39 - Modifies SemanticError (while, while) ======
+while while1, while2;
+Select while1 such that Modifies(while1, while2)
+SemanticError
+1000
+====== 40 - Modifies SemanticError (while, if) ======
+while while; if if;
+Select while such that Modifies(while, if)
+SemanticError
+1000
+====== 41 - Modifies SemanticError (while, call) ======
+while while; call call;
+Select while such that Modifies(while, call)
+SemanticError
+1000
+====== 42 - Modifies SemanticError (while, read) ======
+while while; read read;
+Select while such that Modifies(while, read)
+SemanticError
+1000
+====== 43 - Modifies SemanticError (while, print) ======
+while while; print print;
+Select while such that Modifies(while, print)
+SemanticError
+1000
+====== 44 - Modifies SemanticError (if, stmt) ======
+stmt stmt; if if;
+Select if such that Modifies(if, stmt)
+SemanticError
+1000
+====== 45 - Modifies SemanticError (if, assign) ======
+assign assign; if if;
+Select if such that Modifies(if, assign)
+SemanticError
+1000
+====== 46 - Modifies SemanticError (if, while) ======
+while while; if if;
+Select if such that Modifies(if, while)
+SemanticError
+1000
+====== 47 - Modifies SemanticError (if, if) ======
+if if1, if2;
+Select if1 such that Modifies(if1, if2)
+SemanticError
+1000
+====== 48 - Modifies SemanticError (if, call) ======
+if if; call call;
+Select if such that Modifies(if, call)
+SemanticError
+1000
+====== 49 - Modifies SemanticError (if, read) ======
+if if; read read;
+Select if such that Modifies(if, read)
+SemanticError
+1000
+====== 50 - Modifies SemanticError (if, print) ======
+if if; print print;
+Select if such that Modifies(if, print)
+SemanticError
+1000
+====== 51 - Modifies SemanticError (call, stmt) ======
+stmt stmt; call call;
+Select call such that Modifies(call, stmt)
+SemanticError
+1000
+====== 52 - Modifies SemanticError (call, assign) ======
+assign assign; call call;
+Select call such that Modifies(call, assign)
+SemanticError
+1000
+====== 53 - Modifies SemanticError (call, while) ======
+while while; call call;
+Select call such that Modifies(call, while)
+SemanticError
+1000
+====== 54 - Modifies SemanticError (call, if) ======
+if if; call call;
+Select call such that Modifies(call, if)
+SemanticError
+1000
+====== 55 - Modifies SemanticError (call, call) ======
+call call1, call2;
+Select call1 such that Modifies(call1, call2)
+SemanticError
+1000
+====== 56 - Modifies SemanticError (call, read) ======
+call call; read read;
+Select call such that Modifies(call, read)
+SemanticError
+1000
+====== 57 - Modifies SemanticError (call, print) ======
+call call; print print;
+Select call such that Modifies(call, print)
+SemanticError
+1000
+====== 58 - Modifies SemanticError (read, stmt) ======
+stmt stmt; read read;
+Select read such that Modifies(read, stmt)
+SemanticError
+1000
+====== 59 - Modifies SemanticError (read, assign) ======
+assign assign; read read;
+Select read such that Modifies(read, assign)
+SemanticError
+1000
+====== 60 - Modifies SemanticError (read, while) ======
+while while; read read;
+Select read such that Modifies(read, while)
+SemanticError
+1000
+====== 61 - Modifies SemanticError (read, if) ======
+if if; read read;
+Select read such that Modifies(read, if)
+SemanticError
+1000
+====== 62 - Modifies SemanticError (read, call) ======
+call call; read read;
+Select read such that Modifies(read, call)
+SemanticError
+1000
+====== 63 - Modifies SemanticError (read, read) ======
+read read1, read2;
+Select read1 such that Modifies(read1, read2)
+SemanticError
+1000
+====== 64 - Modifies SemanticError (read, print) ======
+read read; print print;
+Select read such that Modifies(read, print)
+SemanticError
+1000
+====== 65 - Modifies SemanticError (print, stmt) ======
+stmt stmt; print print;
+Select print such that Modifies(print, stmt)
+SemanticError
+1000
+====== 66 - Modifies SemanticError (print, assign) ======
+assign assign; print print;
+Select print such that Modifies(print, assign)
+SemanticError
+1000
+====== 67 - Modifies SemanticError (print, while) ======
+while while; print print;
+Select print such that Modifies(print, while)
+SemanticError
+1000
+====== 68 - Modifies SemanticError (print, if) ======
+if if; print print;
+Select print such that Modifies(print, if)
+SemanticError
+1000
+====== 69 - Modifies SemanticError (print, call) ======
+call call; print print;
+Select print such that Modifies(print, call)
+SemanticError
+1000
+====== 70 - Modifies SemanticError (print, read) ======
+read read; print print;
+Select print such that Modifies(print, read)
+SemanticError
+1000
+====== 71 - Modifies SemanticError (print, print) ======
+print print1, print2;
+Select print1 such that Modifies(print1, print2)
+SemanticError
+1000
+====== 72 - Modifies SemanticError first arg wildcard ======
+print print1, print2;
+Select print1 such that Modifies(_, print2)
+SemanticError
+1000

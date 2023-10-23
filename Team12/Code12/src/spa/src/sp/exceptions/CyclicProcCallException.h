@@ -2,12 +2,12 @@
 
 #include <string>
 #include <string_view>
+
 #include "SpException.h"
 
 class CyclicProcCallException : public SpException {
-public:
-    static inline constexpr string_view type = "CyclicProcCallException";
+ public:
+  static inline constexpr string_view type = "CyclicProcCallException";
 
-    explicit CyclicProcCallException()
-        : SpException("Cyclic procedure calls detected!") {}
+  CyclicProcCallException() : SpException("Cyclic procedure calls detected!") {}
 };

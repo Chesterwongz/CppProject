@@ -1,0 +1,180 @@
+====== 1 - Pattern stmt 1 arg ======
+stmt s;
+Select s pattern s(_)
+SyntaxError
+1000
+====== 2 - Pattern stmt 2 arg ======
+stmt s;
+Select s pattern s(_, _)
+SemanticError
+1000
+====== 3 - Assign pattern assign 1 arg ======
+assign a;
+Select a pattern a(_)
+SyntaxError
+1000
+====== 4 - Assign pattern assign 3 arg ======
+assign a;
+Select a pattern a(_, _,_)
+SemanticError
+1000
+====== 5 - Assign pattern first arg integer ======
+assign a;
+Select a pattern a(1, _)
+SyntaxError
+1000
+====== 6 - Assign pattern second arg integer ======
+assign a;
+Select a pattern a(_, 1)
+SyntaxError
+1000
+====== 7 - Assign pattern second arg synonym ======
+assign a;
+Select a pattern a(_, a)
+SyntaxError
+1000
+====== 8 - Assign pattern missing open quotation mark ======
+assign a;
+Select a pattern a(_, 1+2")
+SyntaxError
+1000
+====== 9 - Assign pattern missing close quotation mark ======
+assign a;
+Select a pattern a(_, "1+2)
+SyntaxError
+1000
+====== 10 - Assign pattern with non-existing entity type ======
+dummyType d;
+Select d pattern d(_, _)
+SyntaxError
+1000
+====== 11 - Assign pattern without closing bracket ======
+assign a;
+Select a pattern a(_, _
+SyntaxError
+1000
+====== 12 - Assign pattern with extraneous characters ======
+assign a;
+Select a pattern a(_, _)xyz
+SyntaxError
+1000
+====== 13 - Assign pattern with invalid wildcard ======
+assign a;
+Select a pattern a(?, _)
+SyntaxError
+1000
+====== 14 - Assign pattern with unmatched quote ======
+assign a;
+Select a pattern a('var', _)
+SyntaxError
+1000
+====== 15 - Assign pattern using wrong bracket type ======
+assign a;
+Select a pattern s[_, _]
+SyntaxError
+1000
+====== 16 - Assign pattern with no arguments ======
+assign a;
+Select a pattern a
+SyntaxError
+1000
+====== 17 - Assign pattern with nested patterns ======
+assign a;
+Select a pattern a(_, pattern a(_, _))
+SyntaxError
+1000
+====== 18 - Assign pattern with misplaced comma ======
+assign a;
+Select a pattern a(,_)
+SyntaxError
+1000
+====== 19 - If pattern with non-wildcard second arg ======
+if i;
+Select i pattern i(_, "x", _)
+SyntaxError
+1000
+====== 20 - If pattern with non-wildcard third arg ======
+if i;
+Select i pattern i(_, _, "x")
+SyntaxError
+1000
+====== 21 - If pattern with extra quotation mark ======
+if i;
+Select i pattern if("x"", _, _)
+SyntaxError
+1000
+====== 22 - If pattern with missing quotation mark ======
+if i;
+Select i pattern if("x, _, _)
+SyntaxError
+1000
+====== 23 - If pattern with missing closing bracket ======
+if i;
+Select i pattern if("x", _, _
+SyntaxError
+1000
+====== 23 - If pattern with two args ======
+if i;
+Select i pattern if( _, _)
+SemanticError
+1000
+====== 24 - While pattern with non-wildcard second arg ======
+while w;
+Select w pattern w(_, "x")
+SemanticError
+1000
+====== 25 - While pattern with extra quotation mark ======
+while w;
+Select w pattern w("x"", _)
+SyntaxError
+1000
+====== 26 - While pattern with missing quotation mark ======
+while w;
+Select w pattern w("x, _)
+SyntaxError
+1000
+====== 27 - While pattern with 3 args ======
+while w;
+Select w pattern w(_, _, _)
+SemanticError
+1000
+====== 28 - Missing pattern ======
+stmt s;
+Select s pattern
+SyntaxError
+1000
+====== 29 - pattern typo ======
+stmt s;
+Select s patterns a(_, _)
+SyntaxError
+1000
+====== 30 - Case sensitive pattern ======
+stmt s;
+Select s Pattern a(_,_)
+SyntaxError
+1000
+====== 31 - such that before pattern ======
+stmt s;
+Select s such that pattern(1, 2)
+SyntaxError
+1000
+====== 32 - invalid expr ======
+assign a;
+Select a pattern a(_, "(a)(b)")
+SyntaxError
+1000
+====== 33 - invalid expr ======
+assign a;
+Select a pattern a(_, "a(b)")
+SyntaxError
+1000
+====== 34 - invalid expr ======
+assign a;
+Select a pattern a(_, "ab)")
+SyntaxError
+1000
+====== 35 - invalid expr ======
+assign a;
+Select a pattern a(_, "(a b")
+SyntaxError
+1000

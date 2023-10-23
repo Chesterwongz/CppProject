@@ -1,0 +1,260 @@
+====== 1 - Parent* SemanticError (assign, constant) ======
+stmt s; assign assign; constant constant;
+Select s such that Parent*(assign, constant)
+SemanticError
+1000
+====== 2 - Parent* SemanticError (assign, procedure) ======
+stmt s; assign assign; procedure procedure;
+Select s such that Parent*(assign, procedure)
+SemanticError
+1000
+====== 3 - Parent* SemanticError (assign, variable) ======
+stmt s; assign assign; variable variable;
+Select s such that Parent*(assign, variable)
+SemanticError
+1000
+====== 4 - Parent* SemanticError (call, constant) ======
+stmt s; call call; constant constant;
+Select s such that Parent*(call, constant)
+SemanticError
+1000
+====== 5 - Parent* SemanticError (call, procedure) ======
+stmt s; call call; procedure procedure;
+Select s such that Parent*(call, procedure)
+SemanticError
+1000
+====== 6 - Parent* SemanticError (call, variable) ======
+stmt s; call call; variable variable;
+Select s such that Parent*(call, variable)
+SemanticError
+1000
+====== 7 - Parent* SemanticError (print, constant) ======
+stmt s; print print; constant constant;
+Select s such that Parent*(print, constant)
+SemanticError
+1000
+====== 8 - Parent* SemanticError (print, procedure) ======
+stmt s; print print; procedure procedure;
+Select s such that Parent*(print, procedure)
+SemanticError
+1000
+====== 9 - Parent* SemanticError (print, variable) ======
+stmt s; print print; variable variable;
+Select s such that Parent*(print, variable)
+SemanticError
+1000
+====== 10 - Parent* SemanticError (read, constant) ======
+stmt s; read read; constant constant;
+Select s such that Parent*(read, constant)
+SemanticError
+1000
+====== 11 - Parent* SemanticError (read, procedure) ======
+stmt s; read read; procedure procedure;
+Select s such that Parent*(read, procedure)
+SemanticError
+1000
+====== 12 - Parent* SemanticError (read, variable) ======
+stmt s; read read; variable variable;
+Select s such that Parent*(read, variable)
+SemanticError
+1000
+====== 13 - Parent* SemanticError (if, constant) ======
+stmt s; if if; constant constant;
+Select s such that Parent*(if, constant)
+SemanticError
+1000
+====== 14 - Parent* SemanticError (if, procedure) ======
+stmt s; if if; procedure procedure;
+Select s such that Parent*(if, procedure)
+SemanticError
+1000
+====== 15 - Parent* SemanticError (if, variable) ======
+stmt s; if if; variable variable;
+Select s such that Parent*(if, variable)
+SemanticError
+1000
+====== 16 - Parent* SemanticError (while, constant) ======
+stmt s; while while; constant constant;
+Select s such that Parent*(while, constant)
+SemanticError
+1000
+====== 17 - Parent* SemanticError (while, procedure) ======
+stmt s; while while; procedure procedure;
+Select s such that Parent*(while, procedure)
+SemanticError
+1000
+====== 18 - Parent* SemanticError (while, variable) ======
+stmt s; while while; variable variable;
+Select s such that Parent*(while, variable)
+SemanticError
+1000
+====== 19 - Parent* SemanticError (stmt, constant) ======
+stmt s; stmt stmt; constant constant;
+Select s such that Parent*(stmt, constant)
+SemanticError
+1000
+====== 20 - Parent* SemanticError (stmt, procedure) ======
+stmt s; stmt stmt; procedure procedure;
+Select s such that Parent*(stmt, procedure)
+SemanticError
+1000
+====== 21 - Parent* SemanticError (stmt, variable) ======
+stmt s; stmt stmt; variable variable;
+Select s such that Parent*(stmt, variable)
+SemanticError
+1000
+====== 22 - Parent* SemanticError (constant, assign) ======
+stmt s; constant constant; assign assign;
+Select s such that Parent*(constant, assign)
+SemanticError
+1000
+====== 23 - Parent* SemanticError (constant, call) ======
+stmt s; constant constant; call call;
+Select s such that Parent*(constant, call)
+SemanticError
+1000
+====== 24 - Parent* SemanticError (constant, print) ======
+stmt s; constant constant; print print;
+Select s such that Parent*(constant, print)
+SemanticError
+1000
+====== 25 - Parent* SemanticError (constant, read) ======
+stmt s; constant constant; read read;
+Select s such that Parent*(constant, read)
+SemanticError
+1000
+====== 26 - Parent* SemanticError (constant, if) ======
+stmt s; constant constant; if if;
+Select s such that Parent*(constant, if)
+SemanticError
+1000
+====== 27 - Parent* SemanticError (constant, while) ======
+stmt s; constant constant; while while;
+Select s such that Parent*(constant, while)
+SemanticError
+1000
+====== 28 - Parent* SemanticError (constant, stmt) ======
+stmt s; constant constant; stmt stmt;
+Select s such that Parent*(constant, stmt)
+SemanticError
+1000
+====== 29 - Parent* SemanticError (procedure, assign) ======
+stmt s; procedure procedure; assign assign;
+Select s such that Parent*(procedure, assign)
+SemanticError
+1000
+====== 30 - Parent* SemanticError (procedure, call) ======
+stmt s; procedure procedure; call call;
+Select s such that Parent*(procedure, call)
+SemanticError
+1000
+====== 31 - Parent* SemanticError (procedure, print) ======
+stmt s; procedure procedure; print print;
+Select s such that Parent*(procedure, print)
+SemanticError
+1000
+====== 32 - Parent* SemanticError (procedure, read) ======
+stmt s; procedure procedure; read read;
+Select s such that Parent*(procedure, read)
+SemanticError
+1000
+====== 33 - Parent* SemanticError (procedure, if) ======
+stmt s; procedure procedure; if if;
+Select s such that Parent*(procedure, if)
+SemanticError
+1000
+====== 34 - Parent* SemanticError (procedure, while) ======
+stmt s; procedure procedure; while while;
+Select s such that Parent*(procedure, while)
+SemanticError
+1000
+====== 35 - Parent* SemanticError (procedure, stmt) ======
+stmt s; procedure procedure; stmt stmt;
+Select s such that Parent*(procedure, stmt)
+SemanticError
+1000
+====== 36 - Parent* SemanticError (variable, assign) ======
+stmt s; variable variable; assign assign;
+Select s such that Parent*(variable, assign)
+SemanticError
+1000
+====== 37 - Parent* SemanticError (variable, call) ======
+stmt s; variable variable; call call;
+Select s such that Parent*(variable, call)
+SemanticError
+1000
+====== 38 - Parent* SemanticError (variable, print) ======
+stmt s; variable variable; print print;
+Select s such that Parent*(variable, print)
+SemanticError
+1000
+====== 39 - Parent* SemanticError (variable, read) ======
+stmt s; variable variable; read read;
+Select s such that Parent*(variable, read)
+SemanticError
+1000
+====== 40 - Parent* SemanticError (variable, if) ======
+stmt s; variable variable; if if;
+Select s such that Parent*(variable, if)
+SemanticError
+1000
+====== 41 - Parent* SemanticError (variable, while) ======
+stmt s; variable variable; while while;
+Select s such that Parent*(variable, while)
+SemanticError
+1000
+====== 42 - Parent* SemanticError (variable, stmt) ======
+stmt s; variable variable; stmt stmt;
+Select s such that Parent*(variable, stmt)
+SemanticError
+1000
+====== 43 - Parent* SemanticError (constant, constant) ======
+stmt s; constant constant1, constant2;
+Select s such that Parent*(constant1, constant2)
+SemanticError
+1000
+====== 44 - Parent* SemanticError (constant, procedure) ======
+stmt s; constant constant; procedure procedure;
+Select s such that Parent*(constant, procedure)
+SemanticError
+1000
+====== 45 - Parent* SemanticError (constant, variable) ======
+stmt s; constant constant; variable variable;
+Select s such that Parent*(constant, variable)
+SemanticError
+1000
+====== 46 - Parent* SemanticError (procedure, constant) ======
+stmt s; procedure procedure; constant constant;
+Select s such that Parent*(procedure, constant)
+SemanticError
+1000
+====== 47 - Parent* SemanticError (procedure, procedure) ======
+stmt s; procedure procedure1, procedure2;
+Select s such that Parent*(procedure1, procedure2)
+SemanticError
+1000
+====== 48 - Parent* SemanticError (procedure, variable) ======
+stmt s; procedure procedure; variable variable;
+Select s such that Parent*(procedure, variable)
+SemanticError
+1000
+====== 49 - Parent* SemanticError (variable, constant) ======
+stmt s; variable variable; constant constant;
+Select s such that Parent*(variable, constant)
+SemanticError
+1000
+====== 50 - Parent* SemanticError (variable, procedure) ======
+stmt s; variable variable; procedure procedure;
+Select s such that Parent*(variable, procedure)
+SemanticError
+1000
+====== 51 - Parent* SemanticError (variable, variable) ======
+stmt s; variable variable1, variable2;
+Select s such that Parent*(variable1, variable2)
+SemanticError
+1000
+====== 52 - Parent* SemanticError with undeclared synonym ======
+stmt s; assign a;
+Select s such that Parent*(a1, s)
+SemanticError
+1000

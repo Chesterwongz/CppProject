@@ -1,15 +1,24 @@
 #pragma once
 
-#include <memory>
+#include "qps/exceptions/QPSSyntaxError.h"
+#include "qps/parser/tokenizer/token/PQLToken.h"
 
-#include "qps/token/PQLToken.h"
+class PQLParserContext;
 
-using std::unique_ptr;
+enum class ClauseType {
+  NULL_CLAUSE,
+  SUCH_THAT_CLAUSE,
+  PATTERN_CLAUSE,
+  WITH_CLAUSE
+};
 
 class IParserState {
-protected:
-    virtual void processNameToken(PQLToken& curr) = 0;
-public:
-	virtual void handleToken() = 0;
-    virtual ~IParserState() = default;
+ protected:
+  inline static ClauseType prevClauseType = ClauseType::NULL_CLAUSE;
+  virtual void processNameToken(PQLToken& curr) = 0;
+
+ public:
+  virtual void handleToken() = 0;
+  virtual ~IParserState() = default;
+  friend class PQLParserContext;
 };

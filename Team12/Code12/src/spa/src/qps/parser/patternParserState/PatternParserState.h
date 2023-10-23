@@ -1,31 +1,46 @@
 #pragma once
 
-#include "qps/parser/PQLParserContext.h"
-#include "qps/parser/IParserState.h"
-#include "qps/argument/IArgument.h"
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
-using std::make_unique, std::unique_ptr;
+#include "qps/argument/ident/Ident.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/argument/wildcard/Wildcard.h"
+#include "qps/parser/BaseParserState.h"
+#include "qps/parser/clauseTransitionParserState/ClauseTransitionParserState.h"
+#include "qps/clause/patternClause/AssignPatternClause.h"
+#include "qps/clause/patternClause/IfPatternClause.h"
+#include "qps/clause/patternClause/WhilePatternClause.h"
+#include "qps/parser/patternParserState/nonFirstArgPatternParserState/NonFirstArgPatternParserState.h"
 
-class PatternParserState : public IParserState {
-private:
-    PQLParserContext& parserContext;
-    PQLTokenStream& tokenStream;
-    PQLTokenType prev;
-    bool isInBracket;
-    string matchPattern;
-    int partialMatchWildCardCount;
-    int argumentCount;
-    unique_ptr<IArgument> outerSynonym;
-    static PredictiveMap predictiveMap;
-    static PQLTokenType exitToken;
-    static size_t maxNumberOfArgs;
-    vector<unique_ptr<IArgument>> patternArg;
-    void processNameToken(PQLToken& curr) override;
-    void processSynonymToken(PQLToken& curr);
-    void processLastArgument();
+// parses up to first argument of parser state
+class PatternParserState : public BaseParserState {
+ private:
+  enum PatternState {
+    IF_PATTERN,
+    ASSIGN_WHILE_PATTERN,
+    INVALID_PATTERN
+  };
+  static PredictiveMap predictiveMap;
+  static const size_t IF_ARG_COUNT = 2;
+  static const size_t ASSIGN_WHILE_ARG_COUNT = 1;
 
-public:
-    explicit PatternParserState(PQLParserContext& parserContext);
-    void handleToken() override;
-    ~PatternParserState() override = default;
+  void processNameToken(PQLToken& curr) override;
+  void checkSafeExit();
+  void createPatternClause();
+  unique_ptr<SynonymArg> syn;
+  unique_ptr<AbstractArgument> firstArg;
+  vector<unique_ptr<AbstractArgument>> nonFirstArgs;
+  PatternState parsedPatternState = INVALID_PATTERN;
+  bool isNegated = false;
+  bool isInBracket = false;
+  bool isPartialMatch = false;
+
+ public:
+  explicit PatternParserState(PQLParserContext& parserContext,
+                              PQLTokenType prev);
+  void handleToken() override;
+  ~PatternParserState() override = default;
 };

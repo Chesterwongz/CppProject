@@ -1,93 +1,172 @@
-#include <stdexcept>
-#include "common/utils/VectorUtils.h"
 #include "IntermediateTableUtils.h"
 
-vector<string> getSharedColNames(
-        IntermediateTable table1,
-        IntermediateTable table2) {
-    vector<string> tableNames1 = table1.getColNames();
-    vector<string> tableNames2 = table2.getColNames();
-    return intersectVectors(tableNames1, tableNames2);
+#include <cassert>
+#include <stdexcept>
+
+#include "IntermediateTableFactory.h"
+#include "common/utils/CollectionUtils.h"
+#include "qps/exceptions/QPSIntermediateTableException.h"
+
+vector<string> IntermediateTableUtils::getSharedColNames(
+    const IntermediateTable &table1, const IntermediateTable &table2) {
+  vector<string> tableNames1 = table1.getColNames();
+  vector<string> tableNames2 = table2.getColNames();
+  return CollectionUtils::intersectVectors(tableNames1, tableNames2);
 }
 
-pair<vector<int>, vector<int>> getSharedColIndexes(
-        IntermediateTable table1,
-        IntermediateTable table2) {
-    vector<string> sharedColNames = getSharedColNames(table1, table2);
-    vector<int> table1Indexes = {};
-    std::transform(sharedColNames.begin(), sharedColNames.end(),
-                   std::back_inserter(table1Indexes),
-                   [&table1](const string& colName) -> int {return table1.getColIndex(colName);});
+pair<vector<int>, vector<int>> IntermediateTableUtils::getSharedColIndexes(
+    IntermediateTable table1, IntermediateTable table2) {
+  vector<string> sharedColNames =
+      IntermediateTableUtils::getSharedColNames(table1, table2);
+  vector<int> table1Indexes = {};
+  std::transform(sharedColNames.begin(), sharedColNames.end(),
+                 std::back_inserter(table1Indexes),
+                 [&table1](const string &colName) -> int {
+                   return table1.getColIndex(colName);
+                 });
 
-    vector<int> table2Indexes = {};
-    std::transform(sharedColNames.begin(), sharedColNames.end(),
-                   std::back_inserter(table2Indexes),
-                   [&table2](const string& colName) -> int {return table2.getColIndex(colName);});
+  vector<int> table2Indexes = {};
+  std::transform(sharedColNames.begin(), sharedColNames.end(),
+                 std::back_inserter(table2Indexes),
+                 [&table2](const string &colName) -> int {
+                   return table2.getColIndex(colName);
+                 });
 
-    return { table1Indexes, table2Indexes };
+  return {table1Indexes, table2Indexes};
 }
 
-
-IntermediateTable getCrossProduct(IntermediateTable table1,
-                                  IntermediateTable table2) {
-    if (!getSharedColNames(table1, table2).empty()) {
-        throw std::runtime_error(
-                "Cross product not supported for tables with common columns");
+IntermediateTable IntermediateTableUtils::getCrossProduct(
+    const IntermediateTable &table1, const IntermediateTable &table2) {
+  if (!IntermediateTableUtils::getSharedColNames(table1, table2).empty()) {
+    throw QPSIntermediateTableException(
+        QPS_UNSUPPORTED_CROSS_PRODUCT_EXCEPTION);
+  }
+  vector<string> resColumns = IntermediateTableUtils::getJoinColNames(
+      table1.getColNames(), table2.getColNames(), {});
+  TableDataType resData = {};
+  for (const TableRowType &row1 : table1.getTableData()) {
+    for (const TableRowType &row2 : table2.getTableData()) {
+      resData.emplace_back(IntermediateTableUtils::concatRow(row1, row2));
     }
-    vector<string> resColumns = concatVectors<string>(
-            table1.getColNames(),
-            table2.getColNames());
-    vector<vector<string>> resData = {};
-    for (auto &row1 : table1.getData()) {
-        for (auto &row2 : table2.getData()) {
-            resData.push_back(concatVectors<string>(row1, row2));
+  }
+  return IntermediateTableFactory::buildIntermediateTable(resColumns,
+                                                          std::move(resData));
+}
+
+IntermediateTable IntermediateTableUtils::getInnerJoin(
+    const pair<vector<int>, vector<int>> &sharedColumnIndexes,
+    const IntermediateTable &t1, const IntermediateTable &t2) {
+  TableDataType resData {};
+  auto &[t1SharedColIndexes, t2SharedColIndexes] = sharedColumnIndexes;
+  // need this for o(1) search of t2 indexes
+  unordered_set<size_t> t2SharedColIndexesSet(t2SharedColIndexes.begin(),
+                                              t2SharedColIndexes.end());
+  for (TableRowType &t1Row : t1.getTableData()) {
+    for (TableRowType &t2Row : t2.getTableData()) {
+      bool isJoin = true;
+      for (int i = 0; i < t1SharedColIndexes.size(); i++) {
+        // for each t1-t2 row combination, check that all elements in shared
+        // cols of t1 matches with all elements in shared cols of t2
+        int t1ColIndex = t1SharedColIndexes.at(i);
+        int t2ColIndex = t2SharedColIndexes.at(i);
+        if (t1Row.at(t1ColIndex) != t2Row.at(t2ColIndex)) {
+          isJoin = false;
+          break;
         }
+      }
+      if (isJoin) {
+        vector<SynonymRes> resRow(t1Row.begin(), t1Row.end());
+        for (size_t i = 0; i < t2Row.size(); i++) {
+          if (t2SharedColIndexesSet.find(i) == t2SharedColIndexesSet.end()) {
+            // only insert cols that aren't shared with t 1
+            resRow.push_back(t2Row.at(i));
+          }
+        }
+        resData.emplace_back(std::move(resRow));
+      }
     }
-    return IntermediateTable(resColumns, resData);
+  }
+  vector<string> resColNames = IntermediateTableUtils::getJoinColNames(
+      t1.getColNames(), t2.getColNames(), t2SharedColIndexesSet);
+  return IntermediateTableFactory::buildIntermediateTable(resColNames,
+                                                          std::move(resData));
 }
 
-IntermediateTable getInnerJoin(
-        const pair<vector<int>, vector<int>>& sharedColumnIndexes,
-        IntermediateTable table1,
-        IntermediateTable table2) {
-    vector<string> resColNames = concatVectors(table1.getColNames(),
-                                               table2.getColNames());
-    vector<vector<string>> resData = {};
-    vector<int> table1SharedColIndexes = sharedColumnIndexes.first;
-    vector<int> table2SharedColIndexes = sharedColumnIndexes.second;
-    for (auto &table1Row : table1.getData()) {
-        for (auto &table2Row : table2.getData()) {
-            bool isJoin = true;
-            for (int i = 0; i < table1SharedColIndexes.size(); i++) {
-                // check that for this particular row,
-                // all elements in shared cols of table 1
-                // matches with all elements in shared cols of table 2
-                int table1ColIndex = table1SharedColIndexes.at(i);
-                int table2ColIndex = table2SharedColIndexes.at(i);
-                if (table1Row.at(table1ColIndex) != table2Row.at(table2ColIndex)) {
-                    isJoin = false;
-                    break;
-                }
-            }
-            if (isJoin) {
-                vector<string> resRow;
-                resData.push_back(concatVectors(table1Row, table2Row));
-            }
-        }
-    }
+IntermediateTable IntermediateTableUtils::getInnerJoinOn(
+    const IntermediateTable &t1, const IntermediateTable &t2,
+    const pair<string, AttrRef> &joinColT1,
+    const pair<string, AttrRef> &joinColT2) {
+  // either there are no shared columns, or we are joining on the
+  // only shared column
+  assert(getSharedColNames(t1, t2).empty() ||
+         (getSharedColNames(t1, t2).size() == 1 &&
+          getSharedColNames(t1, t2).at(0) == joinColT1.first &&
+          getSharedColNames(t1, t2).at(0) == joinColT2.first));
+  TableDataType resData = {};
+  auto &[t1ColName, t1AttrRef] = joinColT1;
+  auto &[t2ColName, t2AttrRef] = joinColT2;
+  if (!t1.isColExists(t1ColName) || !t2.isColExists(t2ColName)) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
+  size_t t1JoinColIndex = t1.getColIndex(t1ColName);
+  size_t t2JoinColIndex = t2.getColIndex(t2ColName);
+  if (t1JoinColIndex == IntermediateTableUtils::INVALID_COL_INDEX ||
+      t2JoinColIndex == IntermediateTableUtils::INVALID_COL_INDEX) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
 
-    // sort indexes of table1Cols that were shared
-    // from largest to smallest
-    sort(table1SharedColIndexes.rbegin(), table1SharedColIndexes.rend());
-    // remove extra shared columns from table 1
-    // from largest to smallest index
-    for (int index : table1SharedColIndexes) {
-        resColNames.erase(resColNames.begin() + index);
-        for (auto &row : resData) {
-            row.erase(row.begin() + index);
+  for (TableRowType &t1Row : t1.getTableData()) {
+    for (TableRowType &t2Row : t2.getTableData()) {
+      bool isJoin = t1Row.at(t1JoinColIndex).getAttribute(t1AttrRef) ==
+                    t2Row.at(t2JoinColIndex).getAttribute(t2AttrRef);
+      if (isJoin) {
+        vector<SynonymRes> resRow(t1Row.begin(), t1Row.end());
+        for (size_t i = 0; i < t2Row.size(); i++) {
+          if (t1ColName != t2ColName || i != t2JoinColIndex) {
+            // skip repeated col in t2
+            resRow.push_back(t2Row.at(i));
+          }
         }
+        resData.emplace_back(std::move(resRow));
+      }
     }
-    return IntermediateTable(resColNames, resData);
+  }
+
+  vector<string> resColNames =
+      t1ColName == t2ColName
+          ? IntermediateTableUtils::getJoinColNames(
+                t1.getColNames(), t2.getColNames(), {t2JoinColIndex})
+          : IntermediateTableUtils::getJoinColNames(t1.getColNames(),
+                                                    t2.getColNames(), {});
+
+  return IntermediateTableFactory::buildIntermediateTable(resColNames,
+                                                          std::move(resData));
 }
 
+vector<string> IntermediateTableUtils::getJoinColNames(
+    const vector<string> &t1Names, const vector<string> &t2Names,
+    unordered_set<size_t> t2SharedColIndexes) {
+  vector<string> resColNames(t1Names.begin(), t1Names.end());
+  for (size_t i = 0; i < t2Names.size(); i++) {
+    if (t2SharedColIndexes.find(i) == t2SharedColIndexes.end()) {
+      // only insert col names not joined on
+      resColNames.emplace_back(t2Names.at(i));
+    }
+  }
+  return resColNames;
+}
 
+TableRowType IntermediateTableUtils::concatRow(const TableRowType &row1,
+                                               const TableRowType &row2) {
+  TableRowType rowCopy = {};
+  rowCopy.reserve(row1.size() + row2.size());
+  // cannot move since the same row may have to be copied
+  // multiple times for cross join
+  for (const SynonymRes &val : row1) {
+    rowCopy.emplace_back(val.clone());
+  }
+  for (const SynonymRes &val : row2) {
+    rowCopy.emplace_back(val.clone());
+  }
+  return rowCopy;
+}

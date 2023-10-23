@@ -5,18 +5,15 @@
 #include <regex>
 #include <string>
 
-using std::string;
-
 class StringUtils {
-public:
-    static const char CHAR_ZERO;
+ public:
+  static const char CHAR_ZERO;
 
-    static bool isWhiteSpace(char ch);
-    static bool isDigit(char ch);
-    static bool isAlpha(char ch);
-    static bool isAlphaNumeric(char ch);
+  static bool isWhiteSpace(char ch);
+  static bool isDigit(char ch);
+  static bool isAlpha(char ch);
+  static bool isAlphaNumeric(char ch);
 
-private:
-    StringUtils() = default;
-
+ private:
+  StringUtils() = default;
 };

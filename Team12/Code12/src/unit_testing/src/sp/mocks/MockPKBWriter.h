@@ -1,167 +1,207 @@
 #pragma once
 
 #include <iostream>
+#include <map>
+#include <memory>
+#include <set>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
-#include <map>
-#include <unordered_set>
-#include <unordered_map>
 
+#include "common/cfg/CFG.h"
 #include "pkb/facade/PKBWriter.h"
 
+using std::string, std::unordered_set, std::unordered_map, std::set, std::pair;
+
 class MockPKBWriter : public PKBWriter {
-private:
-    std::unordered_set<std::string> variableStorage;
-    std::unordered_set<std::string> constantStorage;
-    std::unordered_map<std::string, int> procedureStorage;
-    std::unordered_map<StmtType, std::unordered_set<int>> statementStorage;
-    std::unordered_map<int, std::set<int>> followsStorage;
-    std::unordered_map<int, std::set<int>> parentStorage;
-    std::unordered_map<int, std::set<int>> parentStarStorage;
-    std::unordered_map<std::string, std::unordered_set<int>> modifiesStorage;
-    std::unordered_map<std::string, std::unordered_set<std::string>> modifiesProcStorage; // var to proc
-    std::unordered_map<std::string, std::unordered_set<int>> usesStorage;
-    std::unordered_map<std::string, std::unordered_set<std::string>> usesProcStorage; // var to proc
-    std::unordered_map<int, std::pair<std::string, std::string>> assignPatternStorage;
-    std::unordered_map<int, std::unordered_set<std::string>> whilePatternStorage;
-    std::unordered_map<int, std::unordered_set<std::string>> ifPatternStorage;
-    std::unordered_map<std::string, std::unordered_set<std::string>> callsStorage;
-    std::unordered_map<std::string, std::unordered_set<std::string>> callsStarStorage;
+ private:
+  unordered_set<string> variableStorage;
+  unordered_set<string> constantStorage;
+  unordered_set<string> procStorage;
+  unordered_map<StmtType, unordered_set<int>> statementStorage;
+  unordered_map<int, set<int>> followsStorage;
+  unordered_map<int, set<int>> parentStorage;
+  unordered_map<int, set<int>> parentStarStorage;
+  unordered_map<string, unordered_set<int>> modifiesStorage;
+  unordered_map<string, unordered_set<string>>
+      modifiesProcStorage;  // var to proc
+  unordered_map<string, unordered_set<int>> usesStorage;
+  unordered_map<string, unordered_set<string>> usesProcStorage;  // var to proc
+  unordered_map<int, std::pair<string, string>> assignPatternStorage;
+  unordered_map<int, unordered_set<string>> whilePatternStorage;
+  unordered_map<int, unordered_set<string>> ifPatternStorage;
+  unordered_map<string, unordered_set<string>> callsStorage;
+  unordered_map<string, unique_ptr<CFG>> cfgStorage;
+  IntToIntSetMap nextStorage;
 
-public:
-    explicit MockPKBWriter(PKBStorage &storage) : PKBWriter(storage){};
-    ~MockPKBWriter() override = default;
+ public:
+  explicit MockPKBWriter(PKBStore store) : PKBWriter(store) {}
+  ~MockPKBWriter() override = default;
 
-    void setFollowsRelationship(int statementNumber, int followingStatement) override {
-        followsStorage[statementNumber].insert(followingStatement);
+  void addFollows(int stmtNum, int followingStmt) override {
+    followsStorage[stmtNum].insert(followingStmt);
+  }
+
+  void addParent(int stmtNum, int childStmt) override {
+    parentStorage[stmtNum].insert(childStmt);
+  }
+
+  void setParentStarRelationship(int stmtNum, int childStmt) override {
+    parentStarStorage[stmtNum].insert(childStmt);
+  }
+
+  void addModifies(const string &varName, int stmtNum) override {
+    modifiesStorage[varName].insert(stmtNum);
+  }
+
+  void addModifies(const string &varName, const string &procName) override {
+    modifiesProcStorage[varName].insert(procName);
+  }
+
+  void addUses(const string &varName, int stmtNum) override {
+    usesStorage[varName].insert(stmtNum);
+  }
+
+  void addUses(const string &varName, const string &procName) override {
+    usesProcStorage[varName].insert(procName);
+  }
+
+  void addVar(const string &varName) override {
+    variableStorage.insert(varName);
+  }
+
+  void addConst(const string &constValue) override {
+    constantStorage.insert(constValue);
+  }
+
+  void addProc(const std::string &procName) override {
+    procStorage.insert(procName);
+  }
+
+  void addStmt(int stmtNum, StmtType statementType) override {
+    statementStorage[statementType].insert(stmtNum);
+  }
+
+  void addAssignPattern(const string &varName, const string &expr,
+                        int lineNum) override {
+    assignPatternStorage[lineNum] = std::make_pair(varName, expr);
+  }
+
+  void addWhilePattern(int lineNum, const string &varName) override {
+    whilePatternStorage[lineNum].insert(varName);
+  }
+
+  void addIfPattern(int lineNum, const string &varName) override {
+    ifPatternStorage[lineNum].insert(varName);
+  }
+
+  void addCalls(const string &caller, const string &callee,
+                int stmtNum) override {
+    callsStorage[caller].insert(callee);
+  }
+
+  void addNext(int from, int to) override {
+    if (to != common::CFG_END_STMT_NUM) {
+      nextStorage[from].insert(to);
+    }
+  }
+
+  [[nodiscard]] bool isVariablesEqual(
+      const unordered_set<string> &variables) const {
+    return variableStorage == variables;
+  }
+
+  [[nodiscard]] bool isConstantsEqual(
+      const unordered_set<string> &constants) const {
+    return constantStorage == constants;
+  }
+
+  [[nodiscard]] bool isProcsEqual(const unordered_set<string> &procsSet) const {
+    return procStorage == procsSet;
+  }
+
+  [[nodiscard]] bool isStmtTypeEquals(StmtType stmtType,
+                                      const unordered_set<int> &stmts) const {
+    auto it = statementStorage.find(stmtType);
+    if (it == statementStorage.end()) {
+      return stmts.empty();
+    }
+    return it->second == stmts;
+  }
+
+  [[nodiscard]] bool isFollowsEqual(
+      const unordered_map<int, set<int>> &follows) const {
+    return followsStorage == follows;
+  }
+
+  [[nodiscard]] bool isParentEqual(
+      const unordered_map<int, set<int>> &parent) const {
+    return parentStorage == parent;
+  }
+
+  [[nodiscard]] bool isParentStarEqual(
+      const unordered_map<int, set<int>> &parentStar) const {
+    return parentStarStorage == parentStar;
+  }
+
+  [[nodiscard]] bool isUsesEqual(
+      unordered_map<string, unordered_set<int>> &uses) const {
+    return usesStorage == uses;
+  }
+
+  [[nodiscard]] bool isUsesEqual(
+      unordered_map<string, unordered_set<string>> &uses) const {
+    return usesProcStorage == uses;
+  }
+
+  [[nodiscard]] bool isModifiesEqual(
+      unordered_map<string, unordered_set<int>> &modifies) const {
+    return modifiesStorage == modifies;
+  }
+
+  [[nodiscard]] bool isModifiesEqual(
+      unordered_map<string, unordered_set<string>> &modifies) const {
+    return modifiesProcStorage == modifies;
+  }
+
+  [[nodiscard]] bool isAssignPatternEqual(
+      unordered_map<int, std::pair<string, string>> &assignPattern) const {
+    return assignPatternStorage == assignPattern;
+  }
+
+  [[nodiscard]] bool isWhilePatternEqual(
+      unordered_map<int, unordered_set<string>> &whilePattern) const {
+    return whilePatternStorage == whilePattern;
+  }
+
+  [[nodiscard]] bool isIfPatternEqual(
+      unordered_map<int, unordered_set<string>> &ifPattern) const {
+    return ifPatternStorage == ifPattern;
+  }
+
+  [[nodiscard]] bool isCallsEqual(
+      unordered_map<string, unordered_set<string>> &calls) const {
+    return callsStorage == calls;
+  }
+
+  [[nodiscard]] bool isCFGEqual(
+      const unordered_map<string, unique_ptr<CFG>> &other) const {
+    if (cfgStorage.size() != other.size()) {
+      return false;
     }
 
-    void setParentRelationship(int statementNumber, int childStatement) override {
-        parentStorage[statementNumber].insert(childStatement);
-    }
+    return std::all_of(cfgStorage.begin(), cfgStorage.end(),
+                       [&](const auto &pair) {
+                         const string &procName = pair.first;
+                         const unique_ptr<CFG> &cfgPtr = pair.second;
+                         return other.find(procName) != other.end() &&
+                                *cfgPtr == *other.at(procName);
+                       });
+  }
 
-    void setParentStarRelationship(int statementNumber, int childStatement) override {
-        parentStarStorage[statementNumber].insert(childStatement);
-    }
-
-    void setModifiesRelationship(const std::string &variableName, int statementNumber) override {
-        modifiesStorage[variableName].insert(statementNumber);
-    }
-
-    void setModifiesRelationship(const std::string &variableName, const std::string& procName) override {
-        modifiesProcStorage[variableName].insert(procName);
-    }
-
-    void setUsesRelationship(const std::string &variableName, int statementNumber) override {
-        usesStorage[variableName].insert(statementNumber);
-    }
-
-    void setUsesRelationship(const std::string &variableName, const std::string& procName) override {
-        usesProcStorage[variableName].insert(procName);
-    }
-
-    void setVariable(const std::string &variableName) override {
-        variableStorage.insert(variableName);
-    }
-
-    void setConstant(const std::string &constantValue) override {
-        constantStorage.insert(constantValue);
-    }
-
-    void setProcedure(const std::string &procedureName, int startStatement) override {
-        procedureStorage[procedureName] = startStatement;
-    }
-
-    void setStatement(int statementNumber, StmtType statementType) override {
-        statementStorage[statementType].insert(statementNumber);
-    }
-
-    void setAssignPattern(const std::string& variableName, const std::string& expression, int lineNum) override {
-        assignPatternStorage[lineNum] = std::make_pair(variableName, expression);
-    }
-
-    void setWhilePattern(int lineNum, const std::string &variableName) override {
-        whilePatternStorage[lineNum].insert(variableName);
-    }
-
-    void setIfPattern(int lineNum, const std::string &variableName) override {
-        ifPatternStorage[lineNum].insert(variableName);
-    }
-
-    void setCallsRelationship(const std::string &caller, const std::string &callee) override {
-        callsStorage[caller].insert(callee);
-    }
-
-    void setCallsStarRelationship(const std::string &caller, const std::string &callee) override {
-        callsStarStorage[caller].insert(callee);
-    }
-
-    [[nodiscard]] bool isVariablesEqual(const std::unordered_set<std::string> &variables) const {
-        return variableStorage == variables;
-    }
-
-    [[nodiscard]] bool isConstantsEqual(const std::unordered_set<std::string> &constants) const {
-        return constantStorage == constants;
-    }
-
-    [[nodiscard]] bool isProceduresEqual(const std::unordered_map<std::string, int> &procedures) const {
-        return procedureStorage == procedures;
-    }
-
-    [[nodiscard]] bool isStmtTypeEquals(StmtType stmtType, const std::unordered_set<int> &stmts) const {
-        auto it = statementStorage.find(stmtType);
-        if (it == statementStorage.end()) {
-            return stmts.empty();
-        }
-        return it->second == stmts;
-    }
-
-    [[nodiscard]] bool isFollowsEqual(const std::unordered_map<int, std::set<int>> &follows) const {
-        return followsStorage == follows;
-    }
-
-    [[nodiscard]] bool isParentEqual(const std::unordered_map<int, std::set<int>> &parent) const {
-        return parentStorage == parent;
-    }
-
-    [[nodiscard]] bool isParentStarEqual(const std::unordered_map<int, std::set<int>> &parentStar) const {
-        return parentStarStorage == parentStar;
-    }
-
-    [[nodiscard]] bool isUsesEqual(std::unordered_map<std::string, std::unordered_set<int>> &uses) const {
-        return usesStorage == uses;
-    }
-
-    [[nodiscard]] bool isUsesEqual(std::unordered_map<std::string, std::unordered_set<string>> &uses) const {
-        return usesProcStorage == uses;
-    }
-
-    [[nodiscard]] bool isModifiesEqual(std::unordered_map<std::string, std::unordered_set<int>> &modifies) const {
-        return modifiesStorage == modifies;
-    }
-
-    [[nodiscard]] bool isModifiesEqual(std::unordered_map<std::string, std::unordered_set<string>> &modifies) const {
-        return modifiesProcStorage == modifies;
-    }
-
-    [[nodiscard]] bool isAssignPatternEqual(std::unordered_map<int, std::pair<std::string, std::string>> &assignPattern) const {
-        return assignPatternStorage == assignPattern;
-    }
-
-    [[nodiscard]] bool isWhilePatternEqual(std::unordered_map<int, std::unordered_set<std::string>> &whilePattern) const {
-        return whilePatternStorage == whilePattern;
-    }
-
-    [[nodiscard]] bool isIfPatternEqual(std::unordered_map<int, std::unordered_set<std::string>> &ifPattern) const {
-        return ifPatternStorage == ifPattern;
-    }
-
-    [[nodiscard]] bool isCallsEqual(std::unordered_map<std::string, std::unordered_set<std::string>> &calls) const {
-        return callsStorage == calls;
-    }
-
-    [[nodiscard]] bool isCallsStarEqual(std::unordered_map<std::string, std::unordered_set<std::string>> &callsStar) const {
-        return callsStarStorage == callsStar;
-    }
+  [[nodiscard]] bool isNextEqual(const IntToIntSetMap &next) const {
+    return nextStorage == next;
+  }
 };

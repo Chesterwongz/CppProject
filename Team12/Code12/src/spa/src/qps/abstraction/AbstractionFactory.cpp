@@ -1,25 +1,47 @@
+#include "AbstractionFactory.h"
+
 #include <memory>
 
-#include "AbstractionFactory.h"
-#include "qps/abstraction/FollowsAbstraction/FollowsAbstraction.h"
-#include "qps/abstraction/ModifiesAbstraction/ModifiesAbstraction.h"
-#include "qps/abstraction/UsesAbstraction/UsesAbstraction.h"
-#include "qps/abstraction/ParentsAbstraction/ParentsAbstraction.h"
-#include "qps/clause/utils/ClauseConstants.h"
+#include "qps/abstraction/procToProcAbstraction/callsAbstraction/CallsAbstraction.h"
+#include "qps/abstraction/procToProcAbstraction/callsStarAbstraction/CallsStarAbstraction.h"
+#include "qps/abstraction/stmtOrProcToVarAbstraction/modifiesAbstraction/ModifiesAbstraction.h"
+#include "qps/abstraction/stmtOrProcToVarAbstraction/usesAbstraction/UsesAbstraction.h"
+#include "qps/abstraction/stmtToStmtAbstraction/affectsAbstraction/AffectsAbstraction.h"
+#include "qps/abstraction/stmtToStmtAbstraction/followsAbstraction/FollowsAbstraction.h"
+#include "qps/abstraction/stmtToStmtAbstraction/followsStarAbstraction/FollowsStarAbstraction.h"
+#include "qps/abstraction/stmtToStmtAbstraction/nextAbstraction/NextAbstraction.h"
+#include "qps/abstraction/stmtToStmtAbstraction/nextStarAbstraction/NextStarAbstraction.h"
+#include "qps/abstraction/stmtToStmtAbstraction/parentsAbstraction/ParentsAbstraction.h"
+#include "qps/abstraction/stmtToStmtAbstraction/parentsStarAbstraction/ParentsStarAbstraction.h"
 
 using std::unique_ptr, std::make_unique;
 
-unique_ptr<IAbstraction> AbstractionFactory::createAbstraction(
-        AbstractionParams &abstractionParams) {
-    switch (abstractionParams.abstraction) {
-        case FOLLOWS_ENUM:
-            return make_unique<FollowsAbstraction>(abstractionParams);
-        case MODIFIES_ENUM:
-            return make_unique<ModifiesAbstraction>(abstractionParams);
-        case PARENTS_ENUM:
-            return make_unique<ParentsAbstraction>(abstractionParams);
-        case USES_ENUM:
-            return make_unique<UsesAbstraction>(abstractionParams);
-    }
-    return nullptr;
+unique_ptr<BaseAbstraction> AbstractionFactory::createAbstraction(
+    AbstractionParams &abstractionParams) {
+  switch (abstractionParams.abstraction) {
+    case AFFECTS_ENUM:
+      return make_unique<AffectsAbstraction>(abstractionParams);
+    case CALLS_ENUM:
+      return make_unique<CallsAbstraction>(abstractionParams);
+    case CALLS_STAR_ENUM:
+      return make_unique<CallsStarAbstraction>(abstractionParams);
+    case FOLLOWS_ENUM:
+      return make_unique<FollowsAbstraction>(abstractionParams);
+    case FOLLOWS_STAR_ENUM:
+      return make_unique<FollowsStarAbstraction>(abstractionParams);
+    case MODIFIES_ENUM:
+      return make_unique<ModifiesAbstraction>(abstractionParams);
+    case NEXT_ENUM:
+      return make_unique<NextAbstraction>(abstractionParams);
+    case NEXT_STAR_ENUM:
+      return make_unique<NextStarAbstraction>(abstractionParams);
+    case PARENTS_ENUM:
+      return make_unique<ParentsAbstraction>(abstractionParams);
+    case PARENTS_STAR_ENUM:
+      return make_unique<ParentsStarAbstraction>(abstractionParams);
+    case USES_ENUM:
+      return make_unique<UsesAbstraction>(abstractionParams);
+  }
+  throw QPSInvalidAbstractionException(
+      QPS_INVALID_ABSTRACTION_ERR_UNKNOWN_ABSTRACTION);
 }

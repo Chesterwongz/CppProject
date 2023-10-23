@@ -1,42 +1,36 @@
-#include <string>
 #include "SynonymArg.h"
+
+#include <string>
+
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
-SynonymArg::SynonymArg(const string& argumentValue) {
-	if (!QPSStringUtils::isSynonym(argumentValue)) {
-		throw QPSInvalidQueryException("argumentValue is not a synonymArg");
-	}
+const string& SynonymArg::getValue() { return synonymValue; }
 
-	synonymValue = argumentValue;
-}
+const Entity& SynonymArg::getEntityType() { return entityType; }
 
-string SynonymArg::getValue() {
-	return synonymValue;
-}
+void SynonymArg::setAttrRef(AttrRef ref) { this->attrRef = std::move(ref); }
+
+const AttrRef& SynonymArg::getAttrRef() { return this->attrRef; }
 
 QPSStringUtils::ArgumentType SynonymArg::getArgumentType() {
-	return argumentType;
+  return argumentType;
 }
 
-bool SynonymArg::isIdent() {
-	return false;
+bool SynonymArg::isSynonym() { return true; }
+
+bool SynonymArg::isStmtSynonym() {
+  return STATEMENT_ENTITIES.find(entityType) != STATEMENT_ENTITIES.end();
 }
 
-bool SynonymArg::isInteger() {
-	return false;
-}
+bool SynonymArg::isVarSynonym() { return entityType == VARIABLE_ENTITY; }
 
-bool SynonymArg::isSynonym() {
-	return true;
-}
+bool SynonymArg::isProcSynonym() { return entityType == PROCEDURE_ENTITY; }
 
-bool SynonymArg::isWildcard() {
-	return false;
-}
+bool SynonymArg::operator==(const AbstractArgument& other) const {
+  const auto* otherSynonym = dynamic_cast<const SynonymArg*>(&other);
+  if (!otherSynonym) return false;
 
-bool SynonymArg::operator==(const IArgument& other) const {
-    const auto* otherSynonym = dynamic_cast<const SynonymArg*>(&other);
-    if (!otherSynonym) return false;
-
-    return this->synonymValue == otherSynonym->synonymValue;
+  return this->synonymValue == otherSynonym->synonymValue &&
+         this->entityType == otherSynonym->entityType &&
+         this->attrRef == otherSynonym->attrRef;
 }

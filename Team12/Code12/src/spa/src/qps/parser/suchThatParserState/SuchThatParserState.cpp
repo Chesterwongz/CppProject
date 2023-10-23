@@ -1,63 +1,60 @@
 #include "SuchThatParserState.h"
 
-#include "qps/exceptions/QPSInvalidQueryException.h"
-#include "qps/parser/relationshipParserState/followsParserState/FollowsParserState.h"
-#include "qps/parser/relationshipParserState/parentsParserState/ParentsParserState.h"
-#include "qps/parser/relationshipParserState/usesParserState/UsesParserState.h"
-#include "qps/parser/relationshipParserState/modifiesParserState/ModifiesParserState.h"
+#include "qps/parser/relationshipParserState/procProcParserState/ProcProcParserState.h"
+#include "qps/parser/relationshipParserState/stmtStmtParserState/StmtStmtParserState.h"
+#include "qps/parser/relationshipParserState/stmtVarParserState/StmtVarParserState.h"
 
 PredictiveMap SuchThatParserState::predictiveMap = {
-        { PQL_NULL_TOKEN, { PQL_SUCH_TOKEN } },
-        { PQL_SUCH_TOKEN, { PQL_THAT_TOKEN } },
-        { PQL_THAT_TOKEN, { PQL_FOLLOWS_TOKEN, PQL_PARENT_TOKEN,
-                            PQL_USES_TOKEN, PQL_MODIFIES_TOKEN} }
-};
+    {PQL_SUCH_TOKEN, {PQL_THAT_TOKEN}},
+    {PQL_THAT_TOKEN,
+     {PQL_NOT_TOKEN, PQL_STMT_STMT_TOKEN, PQL_STMT_VAR_TOKEN,
+      PQL_PROC_PROC_TOKEN}},
+    {PQL_NOT_TOKEN,
+     {PQL_STMT_STMT_TOKEN, PQL_STMT_VAR_TOKEN, PQL_PROC_PROC_TOKEN}}};
 
-SuchThatParserState::SuchThatParserState(PQLParserContext &parserContext) :
-        parserContext(parserContext),
-        tokenStream(parserContext.getTokenStream()),
-        prev(PQL_NULL_TOKEN) {};
+SuchThatParserState::SuchThatParserState(PQLParserContext &parserContext,
+                                         PQLTokenType prev)
+    : BaseParserState(parserContext, prev) {
+  prevClauseType = ClauseType::SUCH_THAT_CLAUSE;
+}
 
 void SuchThatParserState::processNameToken(PQLToken &curr) {
-    auto tokenType = PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
-    curr.updateTokenType(tokenType);
+  auto tokenType = PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
+  curr.updateTokenType(tokenType);
 }
 
 void SuchThatParserState::handleToken() {
-    while (!this->tokenStream.isTokenStreamEnd()) {
-        auto& curr = tokenStream.getCurrentToken();
+  auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
-        if (curr.getType() == PQL_NAME_TOKEN) {
-            processNameToken(curr);
-        }
+  while (curr.has_value()) {
+    PQLToken token = curr.value();
 
-        if (!PQLParserUtils::isExpectedToken(predictiveMap, prev, curr.getType())) {
-            throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNEXPECTED_TOKEN);
-        }
-        switch (curr.getType()) {
-            case PQL_SUCH_TOKEN:
-            case PQL_THAT_TOKEN:
-                break;
-            case PQL_FOLLOWS_TOKEN:
-                parserContext.transitionTo(make_unique<FollowsParserState>(parserContext));
-                return;
-            case PQL_PARENT_TOKEN:
-                parserContext.transitionTo(make_unique<ParentsParserState>(parserContext));
-                return;
-            case PQL_USES_TOKEN:
-                parserContext.transitionTo(make_unique<UsesParserState>(parserContext));
-                return;
-            case PQL_MODIFIES_TOKEN:
-                parserContext.transitionTo(make_unique<ModifiesParserState>(parserContext));
-                return;
-            default:
-                throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);
-        }
-        this->prev = curr.getType();
-        tokenStream.next();
+    switch (token.getType()) {
+      case PQL_NOT_TOKEN:
+        isNegated = true;
+        break;
+      case PQL_STMT_STMT_TOKEN:
+        parserContext.transitionTo(std::make_unique<StmtStmtParserState>(
+            parserContext, std::move(token.getValue()), token.getType(),
+            isNegated));
+        return;
+      case PQL_STMT_VAR_TOKEN:
+        parserContext.transitionTo(std::make_unique<StmtVarParserState>(
+            parserContext, std::move(token.getValue()), token.getType(),
+            isNegated));
+        return;
+      case PQL_PROC_PROC_TOKEN:
+        parserContext.transitionTo(std::make_unique<ProcProcParserState>(
+            parserContext, std::move(token.getValue()), token.getType(),
+            isNegated));
+        return;
+      default:
+        break;
     }
-    // should never exit in this parser
-    throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCOMPLETE_QUERY);
+    this->prev = token.getType();
+
+    curr = parserContext.eatExpectedToken(prev, predictiveMap);
+  }
+  // should never exit in this parser
+  throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_QUERY);
 }
-
-

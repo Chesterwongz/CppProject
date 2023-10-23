@@ -1,42 +1,28 @@
 #include "AssignEvaluator.h"
+
+#include <memory>
+
 #include "common/utils/StringUtils.h"
 #include "qps/common/Keywords.h"
 
-IntermediateTable AssignEvaluator::evaluate() {
-	PatternArgsStream patternArgsStream = std::move(*patternArgsStreamPtr);
+vector<pair<string, string>> AssignEvaluator::evaluateArguments() {
+  string firstArgValue = firstArg->getValue();
+  string secondArgValue = secondArg->getValue();
 
-	unique_ptr<IArgument> firstArg = std::move(patternArgsStream[0]);
-	unique_ptr<IArgument> secondArg = std::move(patternArgsStream[1]);
+  bool isFirstArgSynonym = firstArg->isSynonym();
 
-	string firstArgValue = firstArg->getValue();
+  if (isFirstArgSynonym) {
+    firstArgValue = WILDCARD_KEYWORD;
+  }
 
-	bool isFirstArgSynonym = firstArg->isSynonym();
+  vector<pair<string, string>> pkbResult;
 
-	string secondArgRPNValue;
+  if (isPartialMatch) {
+    pkbResult =
+        pkbReader.getPartialAssignPattern(firstArgValue, secondArgValue);
+  } else {
+    pkbResult = pkbReader.getExactAssignPattern(firstArgValue, secondArgValue);
+  }
 
-	if (secondArg->isWildcard()) {
-		secondArgRPNValue = secondArg->getValue();
-	}
-	else {
-		secondArgRPNValue = QPSStringUtils::convertToRPN(secondArg->getValue());
-	}
-
-	vector<string> pkbResult;
-
-	if (isPartialMatch) {
-		pkbResult = pkbReader.getPartialAssignPattern(firstArgValue, secondArgRPNValue, isFirstArgSynonym);
-	}
-	else {
-		pkbResult = pkbReader.getExactAssignPattern(firstArgValue, secondArgRPNValue, isFirstArgSynonym);
-	}
-
-	IntermediateTable linesSatisfyingPattern
-            = IntermediateTableFactory::buildSingleColTable(synonymValue, pkbResult);
-    string colName = (firstArg->isWildcard() || firstArg->isIdent())
-			? WILDCARD_KEYWORD : firstArgValue;
-	vector<pair<string, string>> lineVariablePairs = pkbReader.getAllModifiedVariables(StmtType::ASSIGN);
-	IntermediateTable lineAndVarsModified
-            = IntermediateTableFactory::buildIntermediateTable(synonymValue, colName, lineVariablePairs);
-	IntermediateTable linesSatisfyingPatternAndVarsModified = linesSatisfyingPattern.join(lineAndVarsModified);
-    return linesSatisfyingPatternAndVarsModified;
+  return pkbResult;
 }

@@ -1,43 +1,188 @@
-#include "catch.hpp"
+#include <catch.hpp>
 
-#include "qps/patternEvaluator/assignEvaluator/AssignEvaluator.h"
 #include "../../patternEvaluator/assignEvaluator/AssignEvaluatorTestData.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/common/Keywords.h"
+#include "qps/patternEvaluator/assignEvaluator/AssignEvaluator.h"
 
 using std::make_unique;
 
-TEST_CASE("test_AssignEvaluator_evaluate") {
-	mockPKBReader.resetMockExactAssignPatternStmts();
-	mockPKBReader.resetMockPartialAssignPatternStmts();
-	mockPKBReader.setMockExactAssignPatternStmts(mockExactAssignPatternStmts);
-	
-	SynonymArg synonym = SynonymArg("test");
-	Ident ident = Ident("x", PQL_LITERAL_REF_TOKEN);
+TEST_CASE("test_AssignEvaluator_processArgs_synonymFirstArg") {
+  assignMockPKBReader.resetMockExactAssignPatternStmts();
+  assignMockPKBReader.resetMockPartialAssignPatternStmts();
+  assignMockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmts;
 
-	unique_ptr<SynonymArg> synonymPtr = make_unique<SynonymArg>(synonym.getValue());
-	unique_ptr<Ident> identPtr = make_unique<Ident>(ident.getValue(), PQL_LITERAL_REF_TOKEN);
+  // assign meow; variable test; select meow pattern meow (test, "x");
+  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue, ASSIGN_ENTITY);
+  SynonymArg variableSynonym = SynonymArg("test", VARIABLE_ENTITY);
+  PatternExp patternExp = PatternExp("x");
 
-	PatternArgsStream patternArgsStreamTest;
-	patternArgsStreamTest.push_back(std::move(synonymPtr));
-	patternArgsStreamTest.push_back(std::move(identPtr));
+  unique_ptr<SynonymArg> variableSynonymPtr =
+      make_unique<SynonymArg>(variableSynonym.getValue(), VARIABLE_ENTITY);
+  unique_ptr<PatternExp> patternExpPtr =
+      make_unique<PatternExp>(patternExp.getValue());
 
-	PatternArgsStreamPtr patternArgsStreamPtrTest = make_unique<PatternArgsStream>(std::move(patternArgsStreamTest));
+  AssignEvaluator assignEvaluator =
+      AssignEvaluator(std::move(variableSynonymPtr), std::move(patternExpPtr),
+                      assignMockPKBReader, assignIsPartialMatchFalse,
+                      selectedSynonym.getValue());
 
-	AssignEvaluator assignEvaluator = AssignEvaluator(
-		mockContext,
-		std::move(patternArgsStreamPtrTest),
-		mockPKBReader,
-		isPartialMatchFalse,
-		synonymValue);
+  vector<pair<string, string>> pkbResult = assignEvaluator.evaluateArguments();
 
-	IntermediateTable actualTable = assignEvaluator.evaluate();
+  REQUIRE(pkbResult == mockExactAssignPatternStmts);
+}
 
-	vector<string> actualColNames = actualTable.getColNames();
-	vector<vector<string>> actualTableData = actualTable.getData();
+TEST_CASE("test_AssignEvaluator_processArgs_identFirstArg") {
+  assignMockPKBReader.resetMockExactAssignPatternStmts();
+  assignMockPKBReader.resetMockPartialAssignPatternStmts();
+  assignMockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmtsIdent;
+  assignMockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
 
-	REQUIRE(actualColNames.size() == 1);
-	REQUIRE(actualColNames[0] == synonym.getValue());
-	REQUIRE(actualTableData.size() == 3);
-	REQUIRE(actualTableData[0][0] == mockExactAssignPatternStmts[0]);
-	REQUIRE(actualTableData[1][0] == mockExactAssignPatternStmts[1]);
-	REQUIRE(actualTableData[2][0] == mockExactAssignPatternStmts[2]);
+  // assign meow; select meow pattern meow ("a", "x");
+  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue, ASSIGN_ENTITY);
+  Ident patternFirstArg = Ident("a");
+  PatternExp patternExp = PatternExp("x");
+
+  unique_ptr<Ident> patternFirstArgPtr =
+      make_unique<Ident>(patternFirstArg.getValue());
+  unique_ptr<PatternExp> patternExpPtr =
+      make_unique<PatternExp>(patternExp.getValue());
+
+  AssignEvaluator assignEvaluator =
+      AssignEvaluator(std::move(patternFirstArgPtr), std::move(patternExpPtr),
+                      assignMockPKBReader, assignIsPartialMatchFalse,
+                      selectedSynonym.getValue());
+
+  vector<pair<string, string>> pkbResult = assignEvaluator.evaluateArguments();
+
+  REQUIRE(pkbResult == mockExactAssignPatternStmtsIdent);
+}
+
+TEST_CASE("test_AssignEvaluator_processArgs_wildcardFirstArg") {
+  // wildcard first arg is the same as variable synonym first arg
+
+  assignMockPKBReader.resetMockExactAssignPatternStmts();
+  assignMockPKBReader.resetMockPartialAssignPatternStmts();
+  assignMockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmts;
+
+  // assign meow; select meow pattern meow (_, "x");
+  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue, ASSIGN_ENTITY);
+  PatternExp patternExp = PatternExp("x");
+
+  unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
+  unique_ptr<PatternExp> patternExpPtr =
+      make_unique<PatternExp>(patternExp.getValue());
+
+  AssignEvaluator assignEvaluator = AssignEvaluator(
+      std::move(wildcardPtr), std::move(patternExpPtr), assignMockPKBReader,
+      assignIsPartialMatchFalse, selectedSynonym.getValue());
+
+  vector<pair<string, string>> pkbResult = assignEvaluator.evaluateArguments();
+
+  REQUIRE(pkbResult == mockExactAssignPatternStmts);
+}
+
+TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
+  assignMockPKBReader.resetMockExactAssignPatternStmts();
+  assignMockPKBReader.resetMockPartialAssignPatternStmts();
+  assignMockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmts;
+  assignMockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
+
+  // assign meow; variable test; select meow pattern meow (test, "x");
+  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue, ASSIGN_ENTITY);
+  SynonymArg variableSynonym = SynonymArg("test", VARIABLE_ENTITY);
+  PatternExp patternExp = PatternExp("x");
+
+  unique_ptr<SynonymArg> variableSynonymPtr =
+      make_unique<SynonymArg>(variableSynonym.getValue(), VARIABLE_ENTITY);
+  unique_ptr<PatternExp> patternExpPtr =
+      make_unique<PatternExp>(patternExp.getValue());
+
+  AssignEvaluator assignEvaluator =
+      AssignEvaluator(std::move(variableSynonymPtr), std::move(patternExpPtr),
+                      assignMockPKBReader, assignIsPartialMatchFalse,
+                      selectedSynonym.getValue());
+
+  IntermediateTable actualTable = assignEvaluator.evaluate();
+
+  vector<string> actualColNames = actualTable.getColNames();
+  vector<vector<string>> actualTableData = actualTable.getDataAsStrings();
+
+  REQUIRE(actualColNames.size() == 2);
+  REQUIRE(actualColNames[0] == selectedSynonym.getValue());
+  REQUIRE(actualColNames[1] == variableSynonym.getValue());
+  REQUIRE(actualTableData.size() == 3);
+  REQUIRE(actualTableData[0][0] == mockExactAssignPatternStmts[0].first);
+  REQUIRE(actualTableData[1][0] == mockExactAssignPatternStmts[1].first);
+  REQUIRE(actualTableData[2][0] == mockExactAssignPatternStmts[2].first);
+  REQUIRE(actualTableData[0][1] == mockExactAssignPatternStmts[0].second);
+  REQUIRE(actualTableData[1][1] == mockExactAssignPatternStmts[1].second);
+  REQUIRE(actualTableData[2][1] == mockExactAssignPatternStmts[2].second);
+}
+
+TEST_CASE("test_AssignEvaluator_evaluate_identFirstArg") {
+  assignMockPKBReader.resetMockExactAssignPatternStmts();
+  assignMockPKBReader.resetMockPartialAssignPatternStmts();
+  assignMockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmtsIdent;
+  assignMockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
+
+  // assign meow; select meow pattern meow ("a", "x");
+  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue, ASSIGN_ENTITY);
+  Ident patternFirstArg = Ident("a");
+  PatternExp patternExp = PatternExp("x");
+
+  unique_ptr<Ident> patternFirstArgPtr =
+      make_unique<Ident>(patternFirstArg.getValue());
+  unique_ptr<PatternExp> patternExpPtr =
+      make_unique<PatternExp>(patternExp.getValue());
+
+  AssignEvaluator assignEvaluator =
+      AssignEvaluator(std::move(patternFirstArgPtr), std::move(patternExpPtr),
+                      assignMockPKBReader, assignIsPartialMatchFalse,
+                      selectedSynonym.getValue());
+
+  IntermediateTable actualTable = assignEvaluator.evaluate();
+
+  vector<string> actualColNames = actualTable.getColNames();
+  vector<vector<string>> actualTableData = actualTable.getDataAsStrings();
+
+  REQUIRE(actualColNames.size() == 1);
+  REQUIRE(actualColNames[0] == selectedSynonym.getValue());
+  REQUIRE(actualTableData.size() == 1);
+  REQUIRE(actualTableData[0][0] == mockExactAssignPatternStmts[0].first);
+}
+
+TEST_CASE("test_AssignEvaluator_evaluate_wildcardFirstArg") {
+  // wildcard first arg is the same is variable synonym first arg
+  // but without the variable column in the result
+  // only selected synonym will be in the result column
+
+  assignMockPKBReader.resetMockExactAssignPatternStmts();
+  assignMockPKBReader.resetMockPartialAssignPatternStmts();
+  assignMockPKBReader.mockExactAssignPattern = mockExactAssignPatternStmts;
+  assignMockPKBReader.mockAllModifiedVariables = mockAllModifiedVariables;
+
+  // assign meow; select meow pattern meow (_, "x");
+  SynonymArg selectedSynonym = SynonymArg(assignSynonymValue, ASSIGN_ENTITY);
+  PatternExp patternExp = PatternExp("x");
+
+  unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
+  unique_ptr<PatternExp> patternExpPtr =
+      make_unique<PatternExp>(patternExp.getValue());
+
+  AssignEvaluator assignEvaluator = AssignEvaluator(
+      std::move(wildcardPtr), std::move(patternExpPtr), assignMockPKBReader,
+      assignIsPartialMatchFalse, selectedSynonym.getValue());
+
+  IntermediateTable actualTable = assignEvaluator.evaluate();
+
+  vector<string> actualColNames = actualTable.getColNames();
+  vector<vector<string>> actualTableData = actualTable.getDataAsStrings();
+
+  REQUIRE(actualColNames.size() == 1);
+  REQUIRE(actualColNames[0] == selectedSynonym.getValue());
+  REQUIRE(actualTableData.size() == 3);
+  REQUIRE(actualTableData[0][0] == mockExactAssignPatternStmts[0].first);
+  REQUIRE(actualTableData[1][0] == mockExactAssignPatternStmts[1].first);
+  REQUIRE(actualTableData[2][0] == mockExactAssignPatternStmts[2].first);
 }

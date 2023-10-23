@@ -1,68 +1,58 @@
 #include "DeclarativeParserState.h"
 
-#include <iostream>
-
-#include "qps/exceptions/QPSInvalidQueryException.h"
 #include "qps/parser/selectParserState/SelectParserState.h"
 
 PredictiveMap DeclarativeParserState::predictiveMap = {
-    { PQL_NULL_TOKEN, { PQL_ENTITY_TOKEN } },
-    { PQL_ENTITY_TOKEN, { PQL_SYNONYM_TOKEN } },
-	{ PQL_SYNONYM_TOKEN, { PQL_COMMA_TOKEN, PQL_SEMICOLON_TOKEN } },
-	{ PQL_COMMA_TOKEN, { PQL_SYNONYM_TOKEN } },
-	{ PQL_SEMICOLON_TOKEN, { PQL_ENTITY_TOKEN, PQL_SELECT_TOKEN } }
-};
+    {PQL_NULL_TOKEN, {PQL_ENTITY_TOKEN, PQL_SELECT_TOKEN}},
+    {PQL_ENTITY_TOKEN, {PQL_SYNONYM_TOKEN}},
+    {PQL_SYNONYM_TOKEN, {PQL_COMMA_TOKEN, PQL_SEMICOLON_TOKEN}},
+    {PQL_COMMA_TOKEN, {PQL_SYNONYM_TOKEN}},
+    {PQL_SEMICOLON_TOKEN, {PQL_ENTITY_TOKEN, PQL_SELECT_TOKEN}}};
 
-DeclarativeParserState::DeclarativeParserState(PQLParserContext& parserContext) :
-    parserContext(parserContext),
-	tokenStream(parserContext.getTokenStream()),
-	prev(PQL_NULL_TOKEN) {}
+DeclarativeParserState::DeclarativeParserState(PQLParserContext& parserContext)
+    : BaseParserState(parserContext, PQL_NULL_TOKEN) {
+  prevClauseType = ClauseType::NULL_CLAUSE;
+}
 
-// To identify what type is the name token
-void DeclarativeParserState::processNameToken(PQLToken& curr)
-{
-    if (prev == PQL_ENTITY_TOKEN || prev == PQL_COMMA_TOKEN) {
-        curr.updateTokenType(PQL_SYNONYM_TOKEN);
-    } else {
-        auto tokenType = PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
-        curr.updateTokenType(tokenType);
+void DeclarativeParserState::processNameToken(PQLToken& curr) {
+  bool expectedSyn = (prev == PQL_ENTITY_TOKEN || prev == PQL_COMMA_TOKEN);
+
+  if (expectedSyn) {
+    if (!QPSStringUtils::isSynonym(curr.getValue())) {
+      throw QPSSyntaxError(QPS_TOKENIZATION_ERR_SYNONYM);
     }
+    curr.updateTokenType(PQL_SYNONYM_TOKEN);
+  } else {
+    auto tokenType = PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
+    curr.updateTokenType(tokenType);
+  }
 }
 
 void DeclarativeParserState::handleToken() {
-	while (!this->tokenStream.isTokenStreamEnd()) {
-        PQLToken& curr = tokenStream.getCurrentToken();
+  auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
-        // always upgrade name token before doing any checks
-        if (curr.getType() == PQL_NAME_TOKEN) {
-            processNameToken(curr);
-        }
+  while (curr.has_value()) {
+    PQLToken token = curr.value();
 
-		if (!PQLParserUtils::isExpectedToken(predictiveMap, prev, curr.getType())) {
-			throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_UNEXPECTED_TOKEN);
-		}
+    switch (token.getType()) {
+      case PQL_ENTITY_TOKEN:
+        this->currentEntity = token.getValue();
+        break;
+      case PQL_SYNONYM_TOKEN:
+        this->parserContext.addToContext(this->currentEntity, token.getValue());
+        break;
+      case PQL_SELECT_TOKEN:
+        this->parserContext.transitionTo(std::make_unique<SelectParserState>(
+            parserContext, token.getType()));
+        return;
+      default:
+        break;
+    }
+    this->prev = token.getType();
 
-		switch (curr.getType()) {
-		case PQL_ENTITY_TOKEN:
-			this->currentEntity = curr.getValue();
-			break;
-		case PQL_SYNONYM_TOKEN:
-            this->parserContext.addToContext(this->currentEntity, curr.getValue());
-            break;
-		case PQL_COMMA_TOKEN:
-		case PQL_SEMICOLON_TOKEN:
-			break;
-		case PQL_SELECT_TOKEN: // exit token
-			this->parserContext.transitionTo(make_unique<SelectParserState>(parserContext));
-            return;
-		default:
-			throw QPSInvalidQueryException(QPS_INVALID_QUERY_ERR_INVALID_TOKEN);
-		}
-        this->prev = curr.getType();
-        tokenStream.next();
-	}
+    curr = parserContext.eatExpectedToken(prev, predictiveMap);
+  }
 
-    // should never exit in this parser
-    throw QPSInvalidQueryException(QPS_INVALID_QUERY_INCOMPLETE_QUERY);
+  // should never exit in this parser
+  throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_DECLARATION);
 }
-
