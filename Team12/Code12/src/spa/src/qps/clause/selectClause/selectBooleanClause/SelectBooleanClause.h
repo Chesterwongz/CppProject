@@ -9,15 +9,15 @@
 
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/clause/Clause.h"
-#include "qps/clause/selectClause/ISelectClause.h"
+#include "qps/clause/selectClause/BaseSelectClause.h"
 #include "qps/clause/utils/ClauseConstants.h"
 
 using std::unique_ptr;
 
-class SelectBooleanClause : public ISelectClause {
+class SelectBooleanClause : public BaseSelectClause {
  public:
   explicit SelectBooleanClause(SynonymsToSelect synonymsToSelect)
-      : ISelectClause(std::move(synonymsToSelect)) {}
+      : BaseSelectClause(std::move(synonymsToSelect)) {}
 
   IntermediateTable evaluate(PKBReader &pkb) override;
 

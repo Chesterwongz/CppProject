@@ -3,7 +3,7 @@
 #include <cassert>
 
 #include "../intermediateTable/IntermediateTableFactory.h"
-#include "qps/clause/selectClause/ISelectClause.h"
+#include "qps/clause/selectClause/BaseSelectClause.h"
 #include "qps/clause/selectClause/SelectClauseFactory.h"
 #include "qps/clause/selectClause/selectTupleClause/SelectTupleClause.h"
 #include "qps/exceptions/QPSInvalidQueryException.h"
@@ -31,7 +31,7 @@ unordered_set<string> Query::evaluate() {
 
   // iteratively join results of each clause
   for (unique_ptr<Clause> &clause : clauses) {
-    selectClause->addSynonymInOtherClause(clause->getClauseSynonyms());
+    selectClause->addSynonymsInOtherClause(clause->getClauseSynonyms());
     IntermediateTable clauseResult = clause->evaluate(pkb);
     currIntermediateTable = currIntermediateTable.join(clauseResult);
     if (currIntermediateTable.isTableEmptyAndNotWildcard()) {

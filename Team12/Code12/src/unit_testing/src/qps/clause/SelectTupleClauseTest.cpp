@@ -18,7 +18,7 @@ TEST_CASE("SelectClause - evaluate - no data") {
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg1));
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg2));
 
-  unique_ptr<ISelectClause> selectClause =
+  unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause(std::move(mockSynonymsToSelect));
   IntermediateTable result = selectClause->evaluate(mockPKB);
 
@@ -41,7 +41,7 @@ TEST_CASE("SelectClause - evaluate - missing col") {
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg1));
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg2));
 
-  unique_ptr<ISelectClause> selectClause =
+  unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause(std::move(mockSynonymsToSelect));
   IntermediateTable result = selectClause->evaluate(mockPKB);
 
@@ -64,7 +64,7 @@ TEST_CASE("SelectClause - evaluate - assign entity") {
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg1));
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg2));
 
-  unique_ptr<ISelectClause> selectClause =
+  unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause(std::move(mockSynonymsToSelect));
   IntermediateTable result = selectClause->evaluate(mockPKB);
 
@@ -87,7 +87,7 @@ TEST_CASE("SelectClause - evaluate - constant entity") {
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg1));
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg2));
 
-  unique_ptr<ISelectClause> selectClause =
+  unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause(std::move(mockSynonymsToSelect));
   IntermediateTable result = selectClause->evaluate(mockPKB);
 
@@ -110,7 +110,7 @@ TEST_CASE("SelectClause - evaluate - procedure entity") {
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg1));
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg2));
 
-  unique_ptr<ISelectClause> selectClause =
+  unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause(std::move(mockSynonymsToSelect));
   IntermediateTable result = selectClause->evaluate(mockPKB);
 
@@ -134,7 +134,7 @@ TEST_CASE("SelectClause - evaluate - stmt entity") {
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg1));
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg2));
 
-  unique_ptr<ISelectClause> selectClause =
+  unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause(std::move(mockSynonymsToSelect));
   IntermediateTable result = selectClause->evaluate(mockPKB);
 
@@ -157,7 +157,7 @@ TEST_CASE("SelectClause - evaluate - variable entity") {
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg1));
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg2));
 
-  unique_ptr<ISelectClause> selectClause =
+  unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause(std::move(mockSynonymsToSelect));
   IntermediateTable result = selectClause->evaluate(mockPKB);
 
@@ -190,7 +190,7 @@ TEST_CASE("SelectClause - evaluate - multi entity") {
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg3));
   mockSynonymsToSelect.push_back(std::move(mockSynonymArg4));
 
-  unique_ptr<ISelectClause> selectClause =
+  unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause(std::move(mockSynonymsToSelect));
   IntermediateTable result = selectClause->evaluate(mockPKB);
 

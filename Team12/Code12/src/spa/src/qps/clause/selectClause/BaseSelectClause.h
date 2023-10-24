@@ -15,21 +15,17 @@
 
 using std::unique_ptr;
 
-class ISelectClause : public Clause {
+class BaseSelectClause : public Clause {
  protected:
   SynonymsToSelect synonymsToSelect;
   set<string> synonymsInOtherClauses;
 
  public:
-  explicit ISelectClause(SynonymsToSelect synonymsToSelect)
+  explicit BaseSelectClause(SynonymsToSelect synonymsToSelect)
       : synonymsToSelect(std::move(synonymsToSelect)) {}
 
   virtual unordered_set<string> getQueryResult(
       IntermediateTable &intermediateTable) = 0;
 
-  void addSynonymInOtherClause(const set<string>& syns) {
-    for (const auto& syn : syns) {
-      synonymsInOtherClauses.insert(syn);
-    }
-  }
+  void addSynonymsInOtherClause(const set<string>& synonyms);
 };
