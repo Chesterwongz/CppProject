@@ -8,8 +8,8 @@
 
 IntermediateTable WithClause::evaluate(PKBReader& pkb) {
   unique_ptr<WithEvaluator> withEvaluator =
-      WithEvaluatorFactory::createWithEvaluator(move(firstArg), move(secondArg),
-                                                pkb);
+      WithEvaluatorFactory::createWithEvaluator(std::move(firstArg),
+                                                std::move(secondArg), pkb);
 
   IntermediateTable pkbResult = withEvaluator->evaluate();
 

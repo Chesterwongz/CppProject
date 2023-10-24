@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <memory>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -22,7 +23,7 @@ class WithClause : public Clause {
  public:
   explicit WithClause(unique_ptr<AbstractArgument> firstArg,
                       unique_ptr<AbstractArgument> secondArg)
-      : firstArg(move(firstArg)), secondArg(move(secondArg)) {}
+      : firstArg(std::move(firstArg)), secondArg(std::move(secondArg)) {}
 
   IntermediateTable evaluate(PKBReader& pkb) override;
   bool isEquals(const Clause& other) override;
