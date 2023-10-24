@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "qps/clause/utils/ClauseUtil.h"
 #include "qps/patternEvaluator/whileEvaluator/WhileEvaluator.h"
 
 IntermediateTable WhilePatternClause::evaluate(PKBReader& pkbReader) {
@@ -24,5 +25,5 @@ bool WhilePatternClause::isEquals(const Clause& other) {
 }
 
 set<string> WhilePatternClause::getClauseSynonyms() {
-  return { synonym->getValue(), firstArg->getValue() };
+  return ClauseUtil::getSynonymArgValues(synonym, firstArg);
 }

@@ -1,5 +1,6 @@
 #include "AssignPatternClause.h"
 
+#include "qps/clause/utils/ClauseUtil.h"
 #include "qps/patternEvaluator/assignEvaluator/AssignEvaluator.h"
 
 IntermediateTable AssignPatternClause::evaluate(PKBReader& pkbReader) {
@@ -25,6 +26,6 @@ bool AssignPatternClause::isEquals(const Clause& other) {
 }
 
 set<string> AssignPatternClause::getClauseSynonyms() {
-  return { firstArg->getValue(), secondArg->getValue() };
+  return ClauseUtil::getSynonymArgValues(firstArg, secondArg);
 }
 

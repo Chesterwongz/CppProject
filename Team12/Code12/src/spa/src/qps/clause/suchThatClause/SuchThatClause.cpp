@@ -3,6 +3,7 @@
 #include "qps/abstraction/AbstractionFactory.h"
 #include "qps/abstraction/BaseAbstraction.h"
 #include "qps/argument/AbstractArgument.h"
+#include "qps/clause/utils/ClauseUtil.h"
 
 SuchThatClause::SuchThatClause(Abstraction relationship,
                                unique_ptr<AbstractArgument> firstArg,
@@ -31,5 +32,5 @@ bool SuchThatClause::isEquals(const Clause& other) {
          *secondArg == *otherSuchThat->secondArg;
 }
 set<string> SuchThatClause::getClauseSynonyms() {
-  return {this->firstArg->getValue(), this->secondArg->getValue()};
+  return ClauseUtil::getSynonymArgValues(this->firstArg, this->secondArg);
 }
