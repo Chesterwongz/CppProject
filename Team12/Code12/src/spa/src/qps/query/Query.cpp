@@ -31,6 +31,7 @@ unordered_set<string> Query::evaluate() {
 
   // iteratively join results of each clause
   for (unique_ptr<Clause> &clause : clauses) {
+    selectClause->addSynonymInOtherClause(clause->getClauseSynonyms());
     IntermediateTable clauseResult = clause->evaluate(pkb);
     currIntermediateTable = currIntermediateTable.join(clauseResult);
     if (currIntermediateTable.isTableEmptyAndNotWildcard()) {

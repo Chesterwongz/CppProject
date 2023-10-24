@@ -19,4 +19,5 @@ class Clause {
   virtual IntermediateTable evaluate(PKBReader& pkb) = 0;
   virtual ~Clause() = default;
   virtual bool isEquals(const Clause& other) = 0;
+  virtual set<string> getClauseSynonyms() = 0;
 };

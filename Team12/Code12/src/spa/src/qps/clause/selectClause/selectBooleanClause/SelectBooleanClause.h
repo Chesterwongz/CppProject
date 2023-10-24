@@ -24,6 +24,8 @@ class SelectBooleanClause : public ISelectClause {
 
   unordered_set<string> getQueryResult(
       IntermediateTable &intermediateTable) override;
+
+  set<string> getClauseSynonyms() override;
 };
 
 namespace SelectBooleanClauseUtils {

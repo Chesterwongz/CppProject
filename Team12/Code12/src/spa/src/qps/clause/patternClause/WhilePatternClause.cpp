@@ -22,3 +22,7 @@ bool WhilePatternClause::isEquals(const Clause& other) {
   return *firstArg == *(otherPattern->firstArg) &&
          *synonym == *otherPattern->synonym;
 }
+
+set<string> WhilePatternClause::getClauseSynonyms() {
+  return { synonym->getValue(), firstArg->getValue() };
+}

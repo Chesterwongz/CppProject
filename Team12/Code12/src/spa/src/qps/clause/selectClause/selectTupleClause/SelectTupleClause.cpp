@@ -1,5 +1,6 @@
 #include "SelectTupleClause.h"
 
+#include <algorithm>
 #include <cassert>
 
 #include "qps/abstraction/AbstractionUtils.h"
@@ -14,6 +15,10 @@ IntermediateTable SelectTupleClause::evaluate(PKBReader &pkb) {
   IntermediateTable result =
       IntermediateTableFactory::buildWildcardIntermediateTable();
   for (auto &synonymArg : this->synonymsToSelect) {
+    if (synonymsInOtherClauses.find(synonymArg->getValue()) !=
+        synonymsInOtherClauses.end()) {
+      continue;
+    }
     IntermediateTable possibleValues = getAllPossibleValues(pkb, synonymArg);
     result = result.join(possibleValues);
     if (result.isTableEmptyAndNotWildcard()) {
@@ -42,8 +47,8 @@ IntermediateTable SelectTupleClause::getAllPossibleValues(
   vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
       results, ClauseUtil::getArgEntity(*synonymArg), pkb);
 
-  return IntermediateTableFactory::buildSingleColTable(
-      synonymValue, std::move(resultAsSynonymRes));
+  return IntermediateTableFactory::buildSingleColTable(synonymValue,
+                                                       resultAsSynonymRes);
 }
 
 bool SelectTupleClause::isEquals(const Clause &other) {
@@ -67,4 +72,12 @@ bool SelectTupleClause::isEquals(const Clause &other) {
 unordered_set<string> SelectTupleClause::getQueryResult(
     IntermediateTable &intermediateTable) {
   return intermediateTable.getColumns(this->synonymsToSelect);
+}
+
+set<string> SelectTupleClause::getClauseSynonyms() {
+  set<string> res = {};
+  for (auto const &syn : this->synonymsToSelect) {
+    res.insert(syn->getValue());
+  }
+  return res;
 }

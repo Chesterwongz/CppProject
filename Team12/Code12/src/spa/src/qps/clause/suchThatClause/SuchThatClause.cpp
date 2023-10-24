@@ -30,3 +30,6 @@ bool SuchThatClause::isEquals(const Clause& other) {
          *firstArg == *otherSuchThat->firstArg &&
          *secondArg == *otherSuchThat->secondArg;
 }
+set<string> SuchThatClause::getClauseSynonyms() {
+  return {this->firstArg->getValue(), this->secondArg->getValue()};
+}

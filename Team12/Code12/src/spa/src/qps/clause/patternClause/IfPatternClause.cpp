@@ -22,3 +22,7 @@ bool IfPatternClause::isEquals(const Clause& other) {
   return *firstArg == *(otherPattern->firstArg) &&
          *synonym == *otherPattern->synonym;
 }
+
+set<string> IfPatternClause::getClauseSynonyms() {
+  return { synonym->getValue(), firstArg->getValue() };
+}

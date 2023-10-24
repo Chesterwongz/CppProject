@@ -23,4 +23,5 @@ class SuchThatClause : public Clause {
                           unique_ptr<AbstractArgument> secondArg);
   IntermediateTable evaluate(PKBReader& pkb) override;
   bool isEquals(const Clause& other) override;
+  set<string> getClauseSynonyms() override;
 };

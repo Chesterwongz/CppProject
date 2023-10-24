@@ -23,3 +23,6 @@ bool WithClause::isEquals(const Clause& other) {
   return *firstArg == *(otherClause->firstArg) &&
          *secondArg == *(otherClause->secondArg);
 }
+set<string> WithClause::getClauseSynonyms() {
+  return {firstArg->getValue(), secondArg->getValue()};
+}

@@ -23,3 +23,8 @@ bool AssignPatternClause::isEquals(const Clause& other) {
          isPartialMatch == otherPattern->isPartialMatch &&
          *synonym == *otherPattern->synonym;
 }
+
+set<string> AssignPatternClause::getClauseSynonyms() {
+  return { firstArg->getValue(), secondArg->getValue() };
+}
+
