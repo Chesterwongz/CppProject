@@ -13,7 +13,8 @@ def extract_information(txt_content):
         lines = section.split("\n")
         lines[1] = lines[1].replace('\"', '\\\"')
         query_lines = lines[:2]
-        results = lines[2].split(", ") if lines[2] != "none" else []
+        results = [] if lines[2] == "none" else [x.strip() for x in lines[
+            2].split(",")]
         number += 1
         test_cases.append((number, query_lines, results))
     return test_cases
@@ -33,7 +34,7 @@ def generate_cpp_test(test_cases, query_path):
     sp.processContent(source, pkb.getWriter());
     QPS qps(pkb.getReader());
     auto result = qps.processQueryString(query);
-    set<string> expected = {{{results_str}}};
+    unordered_set<string> expected = {{{results_str}}};
     REQUIRE(result == expected);
 }}\n"""
         cpp_tests.append(cpp_test)
@@ -87,9 +88,9 @@ if __name__ == "__main__":
     #           "TestFollows.cpp ")
     #     sys.exit(1)
 
-    source_filename = "../../Tests12/Milestone1/InvalidQueries" \
-                      "/SyntacticallyInvalid_source.txt"
-    query_filename = "../../Tests12/Milestone1/InvalidQueries" \
-                     "/SyntacticallyInvalid_queries.txt"
-    destination_filename = "milestone1/invalid_queries/TestInvalidSyntax.cpp"
+    source_filename = "../../Tests12/Milestone2/SingleClauseTests" \
+                      "/With_source.txt"
+    query_filename = "../../Tests12/Milestone2/SingleClauseTests" \
+                     "/With_queries.txt"
+    destination_filename = "milestone2/single_clause/WithClauseTest.cpp"
     process_files(source_filename, query_filename, destination_filename)
