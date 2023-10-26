@@ -59,6 +59,11 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
 
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const vector<string> &colNames, TableDataType data) {
+  if (std::find(colNames.begin(), colNames.end(), WILDCARD_KEYWORD) ==
+      colNames.end()) {
+    // build without additional checks if there are no wildcard cols
+    return buildWithoutWildcardFilter(colNames, std::move(data));
+  }
   assert(data.empty() || colNames.size() == data.at(0).size());
   return IntermediateTableFactory::tableBuilderHelper(colNames,
                                                       std::move(data));
@@ -70,4 +75,14 @@ IntermediateTable IntermediateTableFactory::buildEmptyIntermediateTable() {
 
 IntermediateTable IntermediateTableFactory::buildWildcardIntermediateTable() {
   return IntermediateTable::makeWildcardTable();
+}
+
+IntermediateTable IntermediateTableFactory::buildWithoutWildcardFilter(
+    const vector<string> &colNames, TableDataType data) {
+  assert(std::find(colNames.begin(), colNames.end(), WILDCARD_KEYWORD) ==
+         colNames.end());
+  if (data.empty()) {
+    return IntermediateTable::makeEmptyTable();
+  }
+  return IntermediateTable(colNames, std::move(data));
 }

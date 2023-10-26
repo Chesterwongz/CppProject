@@ -54,8 +54,16 @@ class IntermediateTableFactory {
       }
     }
     return IntermediateTable(columnNamesWithoutWildcard,
-                             dataWithoutWildcardColumns);
+                             std::move(dataWithoutWildcardColumns));
   }
+
+  /**
+   * Builds intermediate table without any WILDCARD columns
+   * using using a vector of vectors of SynonymRes.
+   * ! DOES NOT CHECK AND FILTER OUT WILDCARD COLUMNS
+   */
+  static IntermediateTable buildWithoutWildcardFilter(
+      const vector<string> &colNames, TableDataType data);
 
  public:
   /**
