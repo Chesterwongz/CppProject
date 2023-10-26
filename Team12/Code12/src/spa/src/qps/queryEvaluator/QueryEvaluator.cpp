@@ -3,27 +3,44 @@
 QueryEvaluator::QueryEvaluator(PKBReader& pkb) : pkb(pkb) {}
 
 unordered_set<string> QueryEvaluator::evaluate(unique_ptr<Query>& query) {
-  IntermediateTable currIntermediateTable =
-      IntermediateTableFactory::buildWildcardIntermediateTable();
-
-  // iteratively join results of each clause
+  // iteratively evaluate all non-select clause
   for (unique_ptr<Clause>& clause : query->clauses) {
     IntermediateTable clauseResult = clause->evaluate(this->pkb);
-    currIntermediateTable = currIntermediateTable.join(clauseResult);
-    if (currIntermediateTable.isTableEmptyAndNotWildcard()) {
+    if (clauseResult.isTableEmptyAndNotWildcard()) {
       // do not continue evaluating once we have an empty table
-      break;
+      return query->selectClause->getQueryResult(clauseResult);
     }
+    this->tableQueue.push(std::move(clauseResult));
   }
 
-  bool hasRowsInTable = !currIntermediateTable.isTableEmptyAndNotWildcard();
-  if (hasRowsInTable) {
-    currIntermediateTable =
-        currIntermediateTable.join(query->evalSelectClause(this->pkb));
-  }
+  IntermediateTable finalTable =
+      IntermediateTableFactory::buildWildcardIntermediateTable();
 
-  auto res = query->selectClause->getQueryResult(currIntermediateTable);
+  // eval select clause
+  this->tableQueue.push(std::move(query->evalSelectClause(this->pkb)));
+
+  // do joining
+  finalTable = this->getJoinResult();
+
   this->pkb.clearCache();
+  return query->selectClause->getQueryResult(finalTable);
+}
 
-  return res;
+IntermediateTable QueryEvaluator::getJoinResult() {
+  if (this->tableQueue.empty()) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
+  // 1. get smallest two tables
+  // 2. join
+  // 3. push into queue
+  while (this->tableQueue.size() > 1) {
+    IntermediateTable smallest = this->tableQueue.top();
+    this->tableQueue.pop();
+    IntermediateTable secondSmallest = this->tableQueue.top();
+    this->tableQueue.pop();
+    this->tableQueue.push(smallest.join(secondSmallest));
+  }
+  IntermediateTable final = tableQueue.top();
+  tableQueue.pop();
+  return final;
 }

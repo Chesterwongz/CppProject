@@ -8,8 +8,8 @@
 #include <utility>
 #include <vector>
 
-#include "qps/common/Keywords.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/common/Keywords.h"
 #include "qps/intermediateTable/synonymRes/SynonymRes.h"
 
 using std::pair, std::unordered_map, std::unordered_set, std::string,
@@ -127,3 +127,9 @@ class IntermediateTable {
 
   friend class IntermediateTableFactory;
 };
+
+/**
+   * for min heap implementation
+ */
+bool operator<(const IntermediateTable &thisTable,
+               const IntermediateTable &otherTable);

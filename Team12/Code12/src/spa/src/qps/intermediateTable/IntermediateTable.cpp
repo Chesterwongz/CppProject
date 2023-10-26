@@ -212,3 +212,11 @@ void IntermediateTable::printTable() const {
     std::cout << rowDataToPrint << std::endl;
   }
 }
+
+/**
+   * for min heap implementation
+ */
+bool operator<(const IntermediateTable &thisTable,
+               const IntermediateTable &otherTable) {
+  return thisTable.getRowCount() > otherTable.getRowCount();
+}
