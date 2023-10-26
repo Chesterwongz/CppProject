@@ -29,7 +29,7 @@ TEST_CASE("Valid Pattern while (LITERAL_REF,_)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   REQUIRE(true);
 }
@@ -55,7 +55,7 @@ TEST_CASE("Valid Pattern while (SYNONYM,_)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   REQUIRE(true);
 }
@@ -81,7 +81,7 @@ TEST_CASE("Valid Pattern while (_,_)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   REQUIRE(true);
 }
@@ -107,7 +107,7 @@ TEST_CASE("Invalid Pattern while (_,_) - not a var synonym") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+  REQUIRE_THROWS_AS(parseToQuery(tokenList),
                     QPSSemanticError);
 }
 
@@ -136,7 +136,7 @@ TEST_CASE("Invalid Pattern while (LITERAL_REF,SYNONYM)") {
   };
 
   REQUIRE_THROWS_MATCHES(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       QPSSyntaxError,
       Catch::Message("Error occurred during tokenization, invalid token: " +
                      var2));
@@ -160,7 +160,7 @@ TEST_CASE("Valid Pattern not while (LITERAL_REF,_)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   REQUIRE(true);
 }

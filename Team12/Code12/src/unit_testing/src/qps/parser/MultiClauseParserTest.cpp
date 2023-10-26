@@ -81,10 +81,10 @@ TEST_CASE("Wiki Example - only such that clauses") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")")};
 
   std::unique_ptr<Query> query1 =
-      parseToQuery(std::move(tokenList1), dummyQpsParserPkbReader);
+      parseToQuery(tokenList1);
 
   std::unique_ptr<Query> query2 =
-      parseToQuery(std::move(tokenList2), dummyQpsParserPkbReader);
+      parseToQuery(tokenList2);
 
   bool res = *query1 == *query2;
   REQUIRE(res);
@@ -154,10 +154,10 @@ TEST_CASE("Valid pattern a and if") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")")};
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   vector<unique_ptr<SynonymArg>> synonymsToSelect = {};
   synonymsToSelect.push_back(std::make_unique<SynonymArg>(ass2, ASSIGN_ENTITY));
@@ -286,10 +286,10 @@ TEST_CASE("Valid pattern not a and not if") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")")};
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   vector<unique_ptr<SynonymArg>> synonymsToSelect = {};
   synonymsToSelect.push_back(std::make_unique<SynonymArg>(ass2, ASSIGN_ENTITY));

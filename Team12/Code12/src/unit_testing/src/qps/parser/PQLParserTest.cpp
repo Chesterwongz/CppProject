@@ -23,7 +23,7 @@ TEST_CASE("Invalid parser state - declarative") {
   PKBReader pkbReader(store);
 
   REQUIRE_THROWS_WITH(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       QPS_TOKENIZATION_ERR + name);
 }
 
@@ -35,7 +35,7 @@ TEST_CASE("incomplete query - only declarative clause") {
   };
 
   REQUIRE_THROWS_WITH(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       QPS_TOKENIZATION_ERR_INCOMPLETE_DECLARATION);
 }
 
@@ -48,7 +48,7 @@ TEST_CASE("invalid query - select undeclared synonym") {
       PQLToken(PQL_NAME_TOKEN, "a1"),
   };
 
-  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+  REQUIRE_THROWS_AS(parseToQuery(tokenList),
                     QPSSemanticError);
 }
 
@@ -70,10 +70,10 @@ TEST_CASE("valid simple transitive follows") {
   };
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
@@ -109,10 +109,10 @@ TEST_CASE("valid simple uses") {
   };
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>("v", VARIABLE_ENTITY);
@@ -154,10 +154,10 @@ TEST_CASE("valid such that before pattern") {
                                 PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")")};
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);
@@ -213,7 +213,7 @@ TEST_CASE("invalid query - Uses clause only has 1 argument") {
                                 PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")")};
 
   REQUIRE_THROWS_WITH(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);
 }
 
@@ -241,7 +241,7 @@ TEST_CASE("invalid query - Pattern clause only has 1 argument") {
                                 PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")")};
 
   REQUIRE_THROWS_WITH(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       "Error occurred during tokenization, invalid token: )");
 }
 
@@ -268,10 +268,10 @@ TEST_CASE("valid pattern before such that") {
                                 PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")")};
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>("a", ASSIGN_ENTITY);

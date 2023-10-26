@@ -5,7 +5,6 @@
 #include "PQLParserTestUtils.h"
 #include "qps/argument/integer/Integer.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
-#include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
 #include "qps/parser/tokenizer/token/PQLToken.h"
 #include "qps/query/Query.h"
@@ -22,7 +21,7 @@ TEST_CASE("Valid Select BOOLEAN") {
                                 PQLToken(PQL_NAME_TOKEN, BOOLEAN_KEYWORD)};
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 }
 
 TEST_CASE("Valid Select BOOLEAN - BOOLEAN as synonym") {
@@ -37,10 +36,10 @@ TEST_CASE("Valid Select BOOLEAN - BOOLEAN as synonym") {
                                 PQLToken(PQL_NAME_TOKEN, BOOLEAN_KEYWORD)};
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query obj
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   vector<unique_ptr<SynonymArg>> synonymsToQuery = {};
   synonymsToQuery.push_back(
@@ -68,7 +67,7 @@ TEST_CASE("Invalid Select<BOOLEAN, b, c>") {
                                 PQLToken(PQL_NAME_TOKEN, "c"),
                                 PQLToken(PQL_RIGHT_ANGLE_TOKEN, ">")};
 
-  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+  REQUIRE_THROWS_AS(parseToQuery(tokenList),
                     QPSSemanticError);
 }
 
@@ -87,10 +86,10 @@ TEST_CASE("Valid Select BOOLEAN - no declarations") {
   };
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query obj
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
   expected.setSynonymToQuery({});
   unique_ptr<Integer> firstArg = std::make_unique<Integer>("1");
   unique_ptr<Integer> secondArg = std::make_unique<Integer>("2");
@@ -116,10 +115,10 @@ TEST_CASE("Valid Select a.stmt#") {
                                 PQLToken(PQL_NAME_TOKEN, ATTR_REF_STMT_NUMBER)};
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query obj
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   vector<unique_ptr<SynonymArg>> synonymsToQuery = {};
   synonymsToQuery.push_back(
@@ -143,7 +142,7 @@ TEST_CASE("Invalid Select a. - incomplete declaration") {
                                 PQLToken(PQL_PERIOD_TOKEN, ".")};
 
   REQUIRE_THROWS_MATCHES(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       QPSSyntaxError,
       Catch::Message("Error occurred during tokenization, invalid token: "));
 }
@@ -161,7 +160,7 @@ TEST_CASE("Invalid Select a.procName - incompatible attrRef") {
                                 PQLToken(PQL_PERIOD_TOKEN, "."),
                                 PQLToken(PQL_NAME_TOKEN, ATTR_REF_PROC_NAME)};
 
-  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+  REQUIRE_THROWS_AS(parseToQuery(tokenList),
                     QPSSemanticError);
 }
 
@@ -180,6 +179,6 @@ TEST_CASE("Invalid Select a.asjdfjd - not an attrRef") {
                                 PQLToken(PQL_NAME_TOKEN, notAttrRef)};
 
   REQUIRE_THROWS_MATCHES(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       QPSSyntaxError, Catch::Message("AttrRef is invalid: myAss"));
 }

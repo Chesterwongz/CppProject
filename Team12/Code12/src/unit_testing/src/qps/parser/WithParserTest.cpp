@@ -21,7 +21,7 @@ TEST_CASE("Invalid with IDENT = INTEGER") {
                                 PQLToken(PQL_EQUALS_TOKEN, "="),
                                 PQLToken(PQL_LITERAL_REF_TOKEN, "x")};
 
-  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+  REQUIRE_THROWS_AS(parseToQuery(tokenList),
                     QPSSemanticError);
 }
 
@@ -40,10 +40,10 @@ TEST_CASE("Valid with attrRef = INTEGER") {
                                 PQLToken(PQL_INTEGER_TOKEN, "2")};
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(ass1, ASSIGN_ENTITY);

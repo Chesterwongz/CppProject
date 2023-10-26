@@ -1,9 +1,9 @@
 #include "QPS.h"
 
-QPS::QPS(PKBReader& pkb) : pkb(pkb) {}
+QPS::QPS(PKBReader& pkb) : pkb(pkb), queryEvaluator(pkb) {}
 
 unordered_set<string> QPS::processQueryString(const string& query) {
-  unique_ptr<Query> queryObj = std::make_unique<Query>(pkb);
+  unique_ptr<Query> queryObj = std::make_unique<Query>();
   try {
     unique_ptr<PQLTokenStream> tokenStream = PQLTokenizer::tokenize(query);
 
@@ -11,9 +11,7 @@ unordered_set<string> QPS::processQueryString(const string& query) {
     setupParser(parserContext);
     parserContext.handleTokens();
 
-    auto res = queryObj->evaluate();
-    pkb.clearCache();
-    return res;
+    return queryEvaluator.evaluate(queryObj);
   } catch (CommonSyntaxError& e) {
     return {"SyntaxError"};
   } catch (QPSSyntaxError& e) {
