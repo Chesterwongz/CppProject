@@ -40,6 +40,7 @@ IntermediateTable IntermediateTableUtils::getCrossProduct(
   vector<string> resColumns = IntermediateTableUtils::getJoinColNames(
       table1.getColNames(), table2.getColNames(), {});
   TableDataType resData = {};
+  resData.reserve(table1.getRowCount() + table2.getRowCount());
   for (const TableRowType &row1 : table1.getTableData()) {
     for (const TableRowType &row2 : table2.getTableData()) {
       resData.emplace_back(IntermediateTableUtils::concatRow(row1, row2));
