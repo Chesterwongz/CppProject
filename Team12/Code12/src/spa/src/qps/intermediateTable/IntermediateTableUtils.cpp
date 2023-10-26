@@ -5,7 +5,6 @@
 
 #include "IntermediateTableFactory.h"
 #include "common/utils/CollectionUtils.h"
-#include "qps/exceptions/QPSIntermediateTableException.h"
 
 vector<string> IntermediateTableUtils::getSharedColNames(
     const IntermediateTable &table1, const IntermediateTable &table2) {
@@ -37,10 +36,7 @@ pair<vector<int>, vector<int>> IntermediateTableUtils::getSharedColIndexes(
 
 IntermediateTable IntermediateTableUtils::getCrossProduct(
     const IntermediateTable &table1, const IntermediateTable &table2) {
-  if (!IntermediateTableUtils::getSharedColNames(table1, table2).empty()) {
-    throw QPSIntermediateTableException(
-        QPS_UNSUPPORTED_CROSS_PRODUCT_EXCEPTION);
-  }
+  assert(IntermediateTableUtils::getSharedColNames(table1, table2).empty());
   vector<string> resColumns = IntermediateTableUtils::getJoinColNames(
       table1.getColNames(), table2.getColNames(), {});
   TableDataType resData = {};
@@ -158,15 +154,11 @@ vector<string> IntermediateTableUtils::getJoinColNames(
 
 TableRowType IntermediateTableUtils::concatRow(const TableRowType &row1,
                                                const TableRowType &row2) {
-  TableRowType rowCopy = {};
-  rowCopy.reserve(row1.size() + row2.size());
   // cannot move since the same row may have to be copied
   // multiple times for cross join
-  for (const SynonymRes &val : row1) {
-    rowCopy.emplace_back(val.clone());
-  }
-  for (const SynonymRes &val : row2) {
-    rowCopy.emplace_back(val.clone());
-  }
+  TableRowType rowCopy{};
+  rowCopy.reserve(row1.size() + row2.size());  // preallocate memory
+  rowCopy.insert(rowCopy.end(), row1.begin(), row1.end());
+  rowCopy.insert(rowCopy.end(), row2.begin(), row2.end());
   return rowCopy;
 }

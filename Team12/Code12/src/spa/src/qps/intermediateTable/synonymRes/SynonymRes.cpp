@@ -28,12 +28,6 @@ string SynonymRes::getAttribute(const AttrRef& attrRef) const {
   return getAttribute(SynonymResUtils::attrRefToEnumMap.at(attrRef));
 }
 
-SynonymRes SynonymRes::clone() const {
-  assert(isAttrExists(AttrRefEnum::DEFAULT));
-  unordered_map<AttrRefEnum, string> attrRefCopy = this->attributeMap;
-  return SynonymRes(attrRefCopy);
-}
-
 bool SynonymRes::isAttrExists(AttrRefEnum attrRef) const {
   return this->attributeMap.find(attrRef) != this->attributeMap.end();
 }
