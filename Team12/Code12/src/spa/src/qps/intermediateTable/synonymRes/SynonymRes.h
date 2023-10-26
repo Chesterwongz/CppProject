@@ -31,7 +31,7 @@ class SynonymRes {
   [[nodiscard]] string getAttribute(AttrRefEnum attrRef) const;
   [[nodiscard]] string getAttribute(const AttrRef& attrRef) const;
 
-  SynonymRes& operator=(const SynonymRes& other);
+  SynonymRes& operator=(const SynonymRes& other) = default;
 
   [[nodiscard]] bool isAttrExists(AttrRefEnum attrRef) const;
   [[nodiscard]] bool isAttrExists(const AttrRef& attrRef) const;
