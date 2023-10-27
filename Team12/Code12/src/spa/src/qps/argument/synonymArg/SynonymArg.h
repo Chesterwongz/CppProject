@@ -36,6 +36,7 @@ class SynonymArg : public AbstractArgument {
   bool isStmtSynonym() override;
   bool isVarSynonym() override;
   bool isProcSynonym() override;
+  unique_ptr<AbstractArgument> clone() override;
   bool operator==(const AbstractArgument& other) const override;
 };
 

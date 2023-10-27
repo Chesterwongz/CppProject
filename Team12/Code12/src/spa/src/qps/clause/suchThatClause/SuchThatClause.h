@@ -17,6 +17,9 @@ class SuchThatClause : public Clause {
   unique_ptr<AbstractArgument> firstArg;
   unique_ptr<AbstractArgument> secondArg;
 
+ protected:
+  vector<unique_ptr<AbstractArgument>> getAllArguments() override;
+
  public:
   explicit SuchThatClause(Abstraction relationship,
                           unique_ptr<AbstractArgument> firstArg,

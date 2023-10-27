@@ -2,6 +2,17 @@
 
 #include "qps/patternEvaluator/assignEvaluator/AssignEvaluator.h"
 
+vector<unique_ptr<AbstractArgument>> AssignPatternClause::getAllArguments() {
+  
+  vector<unique_ptr<AbstractArgument>> argVector;
+
+  argVector.push_back(synonym->clone());
+  argVector.push_back(firstArg->clone());
+  argVector.push_back(secondArg->clone());
+
+  return argVector;
+}
+
 IntermediateTable AssignPatternClause::evaluate(PKBReader& pkbReader) {
   string synonymValue = synonym->getValue();
 

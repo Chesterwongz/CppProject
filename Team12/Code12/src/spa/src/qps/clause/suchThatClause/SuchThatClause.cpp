@@ -4,6 +4,15 @@
 #include "qps/abstraction/BaseAbstraction.h"
 #include "qps/argument/AbstractArgument.h"
 
+vector<unique_ptr<AbstractArgument>> SuchThatClause::getAllArguments() {
+  vector<unique_ptr<AbstractArgument>> argVector;
+
+  argVector.push_back(firstArg->clone());
+  argVector.push_back(secondArg->clone());
+
+  return argVector;
+}
+
 SuchThatClause::SuchThatClause(Abstraction relationship,
                                unique_ptr<AbstractArgument> firstArg,
                                unique_ptr<AbstractArgument> secondArg)

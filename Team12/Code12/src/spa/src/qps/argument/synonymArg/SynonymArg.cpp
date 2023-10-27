@@ -26,6 +26,10 @@ bool SynonymArg::isVarSynonym() { return entityType == VARIABLE_ENTITY; }
 
 bool SynonymArg::isProcSynonym() { return entityType == PROCEDURE_ENTITY; }
 
+unique_ptr<AbstractArgument> SynonymArg::clone() {
+  return std::make_unique<SynonymArg>(*this);
+}
+
 bool SynonymArg::operator==(const AbstractArgument& other) const {
   const auto* otherSynonym = dynamic_cast<const SynonymArg*>(&other);
   if (!otherSynonym) return false;

@@ -4,6 +4,15 @@
 
 #include "qps/patternEvaluator/ifEvaluator/IfEvaluator.h"
 
+vector<unique_ptr<AbstractArgument>> IfPatternClause::getAllArguments() {
+  vector<unique_ptr<AbstractArgument>> argVector;
+
+  argVector.push_back(synonym->clone());
+  argVector.push_back(firstArg->clone());
+
+  return argVector;
+}
+
 IntermediateTable IfPatternClause::evaluate(PKBReader& pkbReader) {
   string synonymValue = synonym->getValue();
 

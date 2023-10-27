@@ -16,6 +16,8 @@ class ISelectClause : public Clause {
  protected:
   SynonymsToSelect synonymsToSelect;
 
+  vector<unique_ptr<AbstractArgument>> getAllArguments() override;
+
  public:
   explicit ISelectClause(SynonymsToSelect synonymsToSelect)
       : synonymsToSelect(std::move(synonymsToSelect)) {}

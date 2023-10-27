@@ -17,6 +17,9 @@ class IfPatternClause : public Clause {
   unique_ptr<AbstractArgument> synonym;
   unique_ptr<AbstractArgument> firstArg;
 
+ protected:
+  vector<unique_ptr<AbstractArgument>> getAllArguments() override;
+
  public:
   explicit IfPatternClause(unique_ptr<AbstractArgument> synonym,
                            unique_ptr<AbstractArgument> firstArg)

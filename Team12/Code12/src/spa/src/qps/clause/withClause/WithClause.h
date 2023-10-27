@@ -19,6 +19,9 @@ class WithClause : public Clause {
   unique_ptr<AbstractArgument> firstArg;
   unique_ptr<AbstractArgument> secondArg;
 
+ protected:
+  vector<unique_ptr<AbstractArgument>> getAllArguments() override;
+
  public:
   explicit WithClause(unique_ptr<AbstractArgument> firstArg,
                       unique_ptr<AbstractArgument> secondArg)

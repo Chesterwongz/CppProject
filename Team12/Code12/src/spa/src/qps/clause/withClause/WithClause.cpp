@@ -6,6 +6,15 @@
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 #include "qps/withEvaluator/WithEvaluatorFactory/WithEvaluatorFactory.h"
 
+vector<unique_ptr<AbstractArgument>> WithClause::getAllArguments() {
+  vector<unique_ptr<AbstractArgument>> argVector;
+
+  argVector.push_back(firstArg->clone());
+  argVector.push_back(secondArg->clone());
+
+  return argVector;
+}
+
 IntermediateTable WithClause::evaluate(PKBReader& pkb) {
   unique_ptr<WithEvaluator> withEvaluator =
       WithEvaluatorFactory::createWithEvaluator(*(this->firstArg), *(this->secondArg),
