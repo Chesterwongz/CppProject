@@ -8,7 +8,7 @@ IntermediateTable AssignPatternClause::evaluate(PKBReader& pkbReader) {
   unique_ptr<PatternEvaluator> evaluatorPtr;
 
   evaluatorPtr = std::make_unique<AssignEvaluator>(
-      std::move(firstArg), std::move(secondArg), pkbReader, isPartialMatch,
+      *(this->firstArg), *(this->secondArg), pkbReader, isPartialMatch,
       synonymValue);
 
   return evaluatorPtr->evaluate();

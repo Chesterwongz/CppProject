@@ -12,8 +12,8 @@ IntermediateTable PatternEvaluator::evaluate() {
 
 IntermediateTable PatternEvaluator::buildResultTable(
     const vector<pair<string, string>>& pkbResult) {
-  bool isFirstArgSynonym = firstArg->isSynonym();
-  string firstArgValue = firstArg->getValue();
+  bool isFirstArgSynonym = firstArg.isSynonym();
+  string firstArgValue = firstArg.getValue();
 
   vector<vector<SynonymRes>> resultAsSynonymRes =
       SynResConversionUtils::toSynonymRes(

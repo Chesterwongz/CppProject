@@ -9,7 +9,7 @@ IntermediateTable IfPatternClause::evaluate(PKBReader& pkbReader) {
 
   unique_ptr<PatternEvaluator> evaluatorPtr;
 
-  evaluatorPtr = std::make_unique<IfEvaluator>(std::move(firstArg), pkbReader,
+  evaluatorPtr = std::make_unique<IfEvaluator>(*(this->firstArg), pkbReader,
                                                synonymValue);
 
   return evaluatorPtr->evaluate();

@@ -6,8 +6,8 @@
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 
 IntermediateTable SingleSynWithEvaluator::evaluate() {
-  Entity synonymEntity = synonymArg->getEntityType();
-  string synonymValue = synonymArg->getValue();
+  Entity synonymEntity = synonymArg.getEntityType();
+  string synonymValue = synonymArg.getValue();
 
   vector<SynonymRes> synonymPKBResult = withEvaluatorFuncMap[synonymEntity]();
   IntermediateTable synonymResult =
@@ -22,9 +22,9 @@ IntermediateTable SingleSynWithEvaluator::evaluate() {
 }
 
 IntermediateTable SingleSynWithEvaluator::getCallValueArgResult() {
-  string attrRefValue = valueArg->getValue();
-  AttrRef attrRef = synonymArg->getAttrRef();
-  string synonymValue = synonymArg->getValue();
+  string attrRefValue = valueArg.getValue();
+  AttrRef attrRef = synonymArg.getAttrRef();
+  string synonymValue = synonymArg.getValue();
 
   vector<SynonymRes> callSynonymResObjs;
 
@@ -54,9 +54,9 @@ IntermediateTable SingleSynWithEvaluator::getCallValueArgResult() {
 }
 
 IntermediateTable SingleSynWithEvaluator::getReadValueArgResult() {
-  string attrRefValue = valueArg->getValue();
-  AttrRef attrRef = synonymArg->getAttrRef();
-  string synonymValue = synonymArg->getValue();
+  string attrRefValue = valueArg.getValue();
+  AttrRef attrRef = synonymArg.getAttrRef();
+  string synonymValue = synonymArg.getValue();
 
   vector<SynonymRes> readSynonymResObjs;
 
@@ -86,9 +86,9 @@ IntermediateTable SingleSynWithEvaluator::getReadValueArgResult() {
 }
 
 IntermediateTable SingleSynWithEvaluator::getPrintValueArgResult() {
-  string attrRefValue = valueArg->getValue();
-  AttrRef attrRef = synonymArg->getAttrRef();
-  string synonymValue = synonymArg->getValue();
+  string attrRefValue = valueArg.getValue();
+  AttrRef attrRef = synonymArg.getAttrRef();
+  string synonymValue = synonymArg.getValue();
 
   vector<SynonymRes> printSynonymResObjs;
 
@@ -118,8 +118,8 @@ IntermediateTable SingleSynWithEvaluator::getPrintValueArgResult() {
 }
 
 IntermediateTable SingleSynWithEvaluator::getStmtValueArgResult() {
-  string attrRefValue = valueArg->getValue();
-  string synonymValue = synonymArg->getValue();
+  string attrRefValue = valueArg.getValue();
+  string synonymValue = synonymArg.getValue();
 
   vector<SynonymRes> stmtSynonymResObjs;
 
@@ -133,8 +133,8 @@ IntermediateTable SingleSynWithEvaluator::getStmtValueArgResult() {
 }
 
 IntermediateTable SingleSynWithEvaluator::getVarValueArgResult() {
-  string attrRefValue = valueArg->getValue();
-  string synonymValue = synonymArg->getValue();
+  string attrRefValue = valueArg.getValue();
+  string synonymValue = synonymArg.getValue();
 
   vector<SynonymRes> varSynonymResObjs;
 
@@ -147,8 +147,8 @@ IntermediateTable SingleSynWithEvaluator::getVarValueArgResult() {
 }
 
 IntermediateTable SingleSynWithEvaluator::getConstantValueArgResult() {
-  string attrRefValue = valueArg->getValue();
-  string synonymValue = synonymArg->getValue();
+  string attrRefValue = valueArg.getValue();
+  string synonymValue = synonymArg.getValue();
 
   vector<SynonymRes> constSynonymResObjs;
 
@@ -162,8 +162,8 @@ IntermediateTable SingleSynWithEvaluator::getConstantValueArgResult() {
 }
 
 IntermediateTable SingleSynWithEvaluator::getProcValueArgResult() {
-  string attrRefValue = valueArg->getValue();
-  string synonymValue = synonymArg->getValue();
+  string attrRefValue = valueArg.getValue();
+  string synonymValue = synonymArg.getValue();
 
   vector<SynonymRes> procSynonymResObjs;
 

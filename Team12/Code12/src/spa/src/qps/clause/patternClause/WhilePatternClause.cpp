@@ -9,7 +9,7 @@ IntermediateTable WhilePatternClause::evaluate(PKBReader& pkbReader) {
 
   unique_ptr<PatternEvaluator> evaluatorPtr;
 
-  evaluatorPtr = std::make_unique<WhileEvaluator>(std::move(firstArg),
+  evaluatorPtr = std::make_unique<WhileEvaluator>(*(this->firstArg),
                                                   pkbReader, synonymValue);
 
   return evaluatorPtr->evaluate();
