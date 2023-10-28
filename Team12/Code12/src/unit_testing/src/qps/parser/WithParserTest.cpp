@@ -82,3 +82,33 @@ TEST_CASE("Valid with not attrRef = INTEGER") {
 
   // TODO(Hwee): add with test cases
 }
+
+TEST_CASE("Valid with not INTEGER = attrRef") {
+  string ass1 = "newa";
+  vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+                                PQLToken(PQL_NAME_TOKEN, ass1),
+                                PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, ass1),
+                                PQLToken(PQL_NAME_TOKEN, WITH_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, NOT_KEYWORD),
+                                PQLToken(PQL_INTEGER_TOKEN, "5"),
+                                PQLToken(PQL_EQUALS_TOKEN, "="),
+                                PQLToken(PQL_NAME_TOKEN, ass1),
+                                PQLToken(PQL_PERIOD_TOKEN, "."),
+                                PQLToken(PQL_NAME_TOKEN, ATTR_REF_STMT_NUMBER)};
+
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+
+  // expected query object
+  Query expected(dummyQpsParserPkbReader);
+
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>(ass1, ASSIGN_ENTITY);
+  SynonymsToSelect synonymsToSelect = {};
+  synonymsToSelect.emplace_back(std::move(synonymArg));
+  expected.setSynonymToQuery(std::move(synonymsToSelect));
+
+  // TODO(Hwee): add with test cases
+}
