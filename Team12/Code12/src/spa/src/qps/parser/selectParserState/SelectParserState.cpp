@@ -14,11 +14,7 @@ void SelectParserState::processNameToken(PQLToken& curr) {
   if (curr.getValue() == BOOLEAN_KEYWORD && !isDeclaredSyn) {
     curr.updateTokenType(PQL_BOOLEAN_TOKEN);
   } else {
-    if (!QPSStringUtils::isSynonym(curr.getValue())) {
-      throw QPSSyntaxError(QPS_TOKENIZATION_ERR_SYNONYM);
-    }
-    // only Synonyms can appear here
-    curr.updateTokenType(PQL_SYNONYM_TOKEN);
+    BaseParserState::processNameToken(curr);
     if (!isDeclaredSyn) {
       parserContext.setSemanticallyInvalid();
     }

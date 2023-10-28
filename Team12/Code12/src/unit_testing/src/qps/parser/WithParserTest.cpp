@@ -13,7 +13,6 @@
 #include "qps/query/Query.h"
 
 TEST_CASE("Invalid with IDENT = INTEGER") {
-  string ass1 = "newa";
   vector<PQLToken> tokenList = {PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
                                 PQLToken(PQL_NAME_TOKEN, BOOLEAN_KEYWORD),
                                 PQLToken(PQL_NAME_TOKEN, WITH_KEYWORD),
@@ -38,6 +37,36 @@ TEST_CASE("Valid with attrRef = INTEGER") {
                                 PQLToken(PQL_NAME_TOKEN, ATTR_REF_STMT_NUMBER),
                                 PQLToken(PQL_EQUALS_TOKEN, "="),
                                 PQLToken(PQL_INTEGER_TOKEN, "2")};
+
+  std::unique_ptr<Query> query =
+      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+
+  // expected query object
+  Query expected(dummyQpsParserPkbReader);
+
+  unique_ptr<SynonymArg> synonymArg =
+      std::make_unique<SynonymArg>(ass1, ASSIGN_ENTITY);
+  SynonymsToSelect synonymsToSelect = {};
+  synonymsToSelect.emplace_back(std::move(synonymArg));
+  expected.setSynonymToQuery(std::move(synonymsToSelect));
+
+  // TODO(Hwee): add with test cases
+}
+
+TEST_CASE("Valid with not attrRef = INTEGER") {
+  string ass1 = "newa";
+  vector<PQLToken> tokenList = {PQLToken(PQL_NAME_TOKEN, ASSIGN_ENTITY),
+                                PQLToken(PQL_NAME_TOKEN, ass1),
+                                PQLToken(PQL_SEMICOLON_TOKEN, ";"),
+                                PQLToken(PQL_SELECT_TOKEN, SELECT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, ass1),
+                                PQLToken(PQL_NAME_TOKEN, WITH_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, NOT_KEYWORD),
+                                PQLToken(PQL_NAME_TOKEN, ass1),
+                                PQLToken(PQL_PERIOD_TOKEN, "."),
+                                PQLToken(PQL_NAME_TOKEN, ATTR_REF_STMT_NUMBER),
+                                PQLToken(PQL_EQUALS_TOKEN, "="),
+                                PQLToken(PQL_INTEGER_TOKEN, "5")};
 
   std::unique_ptr<Query> query =
       parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
