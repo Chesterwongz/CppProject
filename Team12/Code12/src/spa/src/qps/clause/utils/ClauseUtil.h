@@ -15,7 +15,7 @@ using std::string, std::unordered_map, std::set;
 namespace ClauseUtil {
 static Entity getArgEntity(AbstractArgument& arg) {
   if (arg.isSynonym()) {
-    return reinterpret_cast<SynonymArg&>(arg).getEntityType();
+    return dynamic_cast<SynonymArg&>(arg).getEntityType();
   }
   return INVALID_ENTITY;
 }
