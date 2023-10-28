@@ -10,6 +10,7 @@
 #include "qps/clause/patternClause/AssignPatternClause.h"
 #include "qps/parser/tokenizer/token/PQLToken.h"
 #include "qps/query/Query.h"
+#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
 
 TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_MATCH)") {
   vector<PQLToken> tokenList = {
@@ -514,7 +515,10 @@ TEST_CASE("Valid Pattern not a (_, PARTIAL_MATCH)") {
       std::make_unique<AssignPatternClause>(std::move(outerSynonym),
                                             std::move(firstArg),
                                             std::move(secondArg), true);
-  expected.addClause(std::move(patternClause));
+  unique_ptr<NotDecorator> notPatternClause =
+      std::make_unique<NotDecorator>(std::move(patternClause));
+
+  expected.addClause(std::move(notPatternClause));
 
   bool res = *query == expected;
   REQUIRE(res);

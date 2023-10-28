@@ -29,7 +29,7 @@ IntermediateTable NotDecorator::generateBiggerTable(
       // not synonym, ignore
       continue;
     }
-    
+
     unique_ptr<SynonymArg> wrapeeClauseSynArg =
         unique_ptr<SynonymArg>(dynamic_cast<SynonymArg*>(wrapeeClauseArg.release()));
 
@@ -40,7 +40,7 @@ IntermediateTable NotDecorator::generateBiggerTable(
         IntermediateTableFactory::buildSingleColTable(
             wrapeeClauseSynArg->getValue(), synonymResObjsOfEntityType);
 
-    biggerTable.join(tableOfEntityType);
+    biggerTable = biggerTable.join(tableOfEntityType);
   }
 
   return biggerTable;

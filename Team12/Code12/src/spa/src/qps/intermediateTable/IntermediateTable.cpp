@@ -198,6 +198,17 @@ IntermediateTable IntermediateTable::getDifference(const IntermediateTable& othe
     return *this;
   }
 
+  if (this->isTableWildcard()) {
+    // WILDCARD - ANY = ANY?
+    // not sure abt this tbh (houten)
+    return otherTable;
+  }
+
+  if (this->isTableEmpty()) {
+    // EMPTY - ANY = EMPTY
+    return *this;
+  }
+    
   // must have same number of cols
   assert(colNames.size() == otherTable.getColNames().size());
   for (int i = 0; i < colNames.size(); i++) {

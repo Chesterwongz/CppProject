@@ -1,5 +1,7 @@
 #include "PatternParserState.h"
 
+#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
+
 PredictiveMap PatternParserState::predictiveMap = {
     {PQL_PATTERN_TOKEN, {PQL_SYNONYM_TOKEN, PQL_NOT_TOKEN}},
     {PQL_NOT_TOKEN, {PQL_SYNONYM_TOKEN}},
@@ -56,19 +58,40 @@ void PatternParserState::createPatternClause() {
   string synEntity = syn->getEntityType();
   if (parsedPatternState == ASSIGN_WHILE_PATTERN) {
     if (synEntity == ASSIGN_ENTITY) {
-      parserContext.addClause(std::make_unique<AssignPatternClause>(
-          std::move(syn), std::move(firstArg), std::move(nonFirstArgs[0]),
-          isPartialMatch));
+      unique_ptr<AssignPatternClause> assignPatternClause =
+          std::make_unique<AssignPatternClause>(
+              std::move(syn), std::move(firstArg), std::move(nonFirstArgs[0]),
+              isPartialMatch);
+
+      if (isNegated) {
+        parserContext.addClause(
+            std::make_unique<NotDecorator>(std::move(assignPatternClause)));
+        return;
+      }
+      parserContext.addClause(std::move(assignPatternClause));
       return;
     }
     if (synEntity == WHILE_ENTITY && nonFirstArgs[0]->isWildcard()) {
-      parserContext.addClause(std::make_unique<WhilePatternClause>(
-          std::move(syn), std::move(firstArg)));
+      unique_ptr<WhilePatternClause> whilePatternClause = std::make_unique<WhilePatternClause>(
+          std::move(syn), std::move(firstArg));
+      if (isNegated) {
+        parserContext.addClause(
+            std::make_unique<NotDecorator>(std::move(whilePatternClause)));
+        return;
+      }
+      parserContext.addClause(std::move(whilePatternClause));
       return;
     }
   } else if (parsedPatternState == IF_PATTERN && synEntity == IF_ENTITY) {
-    parserContext.addClause(std::make_unique<IfPatternClause>(
-        std::move(syn), std::move(firstArg)));
+    unique_ptr<IfPatternClause> ifPatternClause =
+        std::make_unique<IfPatternClause>(std::move(syn), std::move(firstArg));
+
+    if (isNegated) {
+      parserContext.addClause(
+          std::make_unique<NotDecorator>(std::move(ifPatternClause)));
+      return;
+    }
+    parserContext.addClause(std::move(ifPatternClause));
     return;
   }
   parserContext.setSemanticallyInvalid();

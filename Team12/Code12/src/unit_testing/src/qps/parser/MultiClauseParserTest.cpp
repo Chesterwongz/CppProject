@@ -11,6 +11,7 @@
 #include "qps/clause/suchThatClause/SuchThatClause.h"
 #include "qps/parser/tokenizer/token/PQLToken.h"
 #include "qps/query/Query.h"
+#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
 
 TEST_CASE("Wiki Example - only such that clauses") {
   string syn1 = "a";
@@ -304,7 +305,10 @@ TEST_CASE("Valid pattern not a and not if") {
       std::make_unique<AssignPatternClause>(std::move(outerSyn1),
                                             std::move(firstArg1),
                                             std::move(secondArg1), false);
-  expected.addClause(std::move(patternClause1));
+  unique_ptr<NotDecorator> notPatternClause1 =
+      std::make_unique<NotDecorator>(std::move(patternClause1));
+
+  expected.addClause(std::move(notPatternClause1));
 
   // pattern a2 ("x", _"x"_)
   unique_ptr<SynonymArg> outerSyn2 =
@@ -315,7 +319,10 @@ TEST_CASE("Valid pattern not a and not if") {
       std::make_unique<AssignPatternClause>(std::move(outerSyn2),
                                             std::move(firstArg2),
                                             std::move(secondArg2), true);
-  expected.addClause(std::move(patternClause2));
+  unique_ptr<NotDecorator> notPatternClause2 =
+      std::make_unique<NotDecorator>(std::move(patternClause2));
+
+  expected.addClause(std::move(notPatternClause2));
 
   // Follows (a1, a2)
   unique_ptr<SynonymArg> firstArg3 =

@@ -167,3 +167,98 @@ TEST_CASE("IntermediateTable - join - any_x_wildcard") {
   // WILDCARD X EMPTY and vice versa is already
   // tested in "any_x_empty" tests
 }
+
+TEST_CASE("IntermediateTable - getDifference : ANY - WILDCARD") {
+
+  TableDataType randomData = {{SynonymResFactory::buildDefaultSynonym("1"),
+                               SynonymResFactory::buildDefaultSynonym("2")},
+                              {SynonymResFactory::buildDefaultSynonym("3"),
+                               SynonymResFactory::buildDefaultSynonym("4")}};
+  vector<string> colNames = {"a", "b"};
+  IntermediateTable randomTable = IntermediateTableFactory::buildIntermediateTable(colNames, randomData);
+
+  IntermediateTable wildcardTable =
+      IntermediateTableFactory::buildWildcardIntermediateTable();
+
+  IntermediateTable resultTable = randomTable.getDifference(wildcardTable);
+
+  REQUIRE(resultTable.isTableEmpty());
+}
+
+TEST_CASE("IntermediateTable - getDifference : ANY - EMPTY") {
+  TableDataType randomData = {{SynonymResFactory::buildDefaultSynonym("1"),
+                               SynonymResFactory::buildDefaultSynonym("2")},
+                              {SynonymResFactory::buildDefaultSynonym("3"),
+                               SynonymResFactory::buildDefaultSynonym("4")}};
+  vector<string> colNames = {"a", "b"};
+  IntermediateTable randomTable =
+      IntermediateTableFactory::buildIntermediateTable(colNames, randomData);
+
+  IntermediateTable emptyTable =
+      IntermediateTableFactory::buildEmptyIntermediateTable();
+
+  IntermediateTable resultTable = randomTable.getDifference(emptyTable);
+
+  REQUIRE(resultTable.getTableData() == randomData);
+}
+
+TEST_CASE("IntermediateTable - getDifference : EMPTY - ANY") {
+  TableDataType randomData = {{SynonymResFactory::buildDefaultSynonym("1"),
+                               SynonymResFactory::buildDefaultSynonym("2")},
+                              {SynonymResFactory::buildDefaultSynonym("3"),
+                               SynonymResFactory::buildDefaultSynonym("4")}};
+  vector<string> colNames = {"a", "b"};
+  IntermediateTable randomTable =
+      IntermediateTableFactory::buildIntermediateTable(colNames, randomData);
+
+  IntermediateTable emptyTable =
+      IntermediateTableFactory::buildEmptyIntermediateTable();
+
+  IntermediateTable resultTable = emptyTable.getDifference(randomTable);
+
+  REQUIRE(resultTable.isTableEmpty());
+}
+
+TEST_CASE("IntermediateTable - getDifference : WILDCARD - ANY") {
+  TableDataType randomData = {{SynonymResFactory::buildDefaultSynonym("1"),
+                               SynonymResFactory::buildDefaultSynonym("2")},
+                              {SynonymResFactory::buildDefaultSynonym("3"),
+                               SynonymResFactory::buildDefaultSynonym("4")}};
+  vector<string> colNames = {"a", "b"};
+  IntermediateTable randomTable =
+      IntermediateTableFactory::buildIntermediateTable(colNames, randomData);
+
+  IntermediateTable wildcardTable = IntermediateTableFactory::buildWildcardIntermediateTable();
+
+  IntermediateTable resultTable = wildcardTable.getDifference(randomTable);
+
+  REQUIRE(resultTable.getTableData() == randomData);
+}
+
+TEST_CASE("IntermediateTable - getDifference : ANY - ANY") {
+  vector<string> colNames = {"a", "b"};
+
+  TableDataType randomData1 = {{SynonymResFactory::buildDefaultSynonym("1"),
+                               SynonymResFactory::buildDefaultSynonym("2")},
+                              {SynonymResFactory::buildDefaultSynonym("3"),
+                               SynonymResFactory::buildDefaultSynonym("4")}};
+  
+  IntermediateTable randomTable1 =
+      IntermediateTableFactory::buildIntermediateTable(colNames, randomData1);
+
+  TableDataType randomData2 = {{SynonymResFactory::buildDefaultSynonym("5"),
+                                SynonymResFactory::buildDefaultSynonym("2")},
+                               {SynonymResFactory::buildDefaultSynonym("3"),
+                                SynonymResFactory::buildDefaultSynonym("4")}};
+
+  IntermediateTable randomTable2 =
+      IntermediateTableFactory::buildIntermediateTable(colNames, randomData2);
+
+
+  IntermediateTable resultTable = randomTable1.getDifference(randomTable2);
+
+  TableDataType expectedData = {{SynonymResFactory::buildDefaultSynonym("1"),
+                                SynonymResFactory::buildDefaultSynonym("2")}};
+
+  REQUIRE(resultTable.getTableData() == expectedData);
+}
