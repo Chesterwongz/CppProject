@@ -16,11 +16,10 @@ class ISelectClause : public Clause {
  protected:
   SynonymsToSelect synonymsToSelect;
 
-  vector<unique_ptr<AbstractArgument>> getAllArguments() override;
-
  public:
   explicit ISelectClause(SynonymsToSelect synonymsToSelect)
       : synonymsToSelect(std::move(synonymsToSelect)) {}
   virtual unordered_set<string> getQueryResult(
       IntermediateTable &intermediateTable) = 0;
+  vector<unique_ptr<AbstractArgument>> getAllArguments() override;
 };

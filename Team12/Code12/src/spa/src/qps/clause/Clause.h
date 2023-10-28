@@ -15,12 +15,9 @@ typedef vector<std::unique_ptr<AbstractArgument>> ArgumentList;
 using std::string, std::set, std::map, std::pair, std::vector;
 
 class Clause {
- protected:
-  // protected cos only intended for the decorators to use
-  virtual vector<unique_ptr<AbstractArgument>> getAllArguments() = 0;
-
  public:
   virtual IntermediateTable evaluate(PKBReader& pkb) = 0;
   virtual ~Clause() = default;
+  virtual vector<unique_ptr<AbstractArgument>> getAllArguments() = 0;
   virtual bool isEquals(const Clause& other) = 0;
 };

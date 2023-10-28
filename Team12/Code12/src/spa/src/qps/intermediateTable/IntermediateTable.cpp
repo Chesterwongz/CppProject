@@ -187,6 +187,43 @@ IntermediateTable IntermediateTable::join(
                                                 joinColOther);
 }
 
+IntermediateTable IntermediateTable::getDifference(const IntermediateTable& otherTable) {
+  if (otherTable.isTableWildcard()) {
+    // ANY - WILDCARD = emptytable
+    return IntermediateTable::makeEmptyTable();
+  }
+
+  if (otherTable.isTableEmpty()) {
+    // ANY - EMPTY = ANY
+    return *this;
+  }
+
+  // must have same number of cols
+  assert(colNames.size() == otherTable.getColNames().size());
+  for (int i = 0; i < colNames.size(); i++) {
+    // both tables cols must be the same
+    assert(colNames[i] == otherTable.getColNames()[i]);
+  } 
+
+  TableDataType newTableData;
+
+  TableDataType otherTableData = otherTable.getTableData();
+
+  for (TableRowType thisRowData : tableData) {
+    auto it =
+        std::find(otherTableData.begin(), otherTableData.end(), thisRowData);
+
+    if (it == otherTableData.end()) {
+      // thisRowData does not exist in otherTableData
+      newTableData.push_back(thisRowData);
+    }
+  }
+
+  IntermediateTable newTable = IntermediateTable(colNames, newTableData);
+
+  return newTable;
+}
+
 void IntermediateTable::printTable() const {
   std::cout << "table: " << std::endl;
   if (this->isWildcard || this->isEmpty) {

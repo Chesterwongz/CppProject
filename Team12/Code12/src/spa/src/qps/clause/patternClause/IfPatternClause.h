@@ -17,14 +17,12 @@ class IfPatternClause : public Clause {
   unique_ptr<AbstractArgument> synonym;
   unique_ptr<AbstractArgument> firstArg;
 
- protected:
-  vector<unique_ptr<AbstractArgument>> getAllArguments() override;
-
  public:
   explicit IfPatternClause(unique_ptr<AbstractArgument> synonym,
                            unique_ptr<AbstractArgument> firstArg)
       : synonym(std::move(synonym)), firstArg(std::move(firstArg)) {}
 
   IntermediateTable evaluate(PKBReader& pkb) override;
+  vector<unique_ptr<AbstractArgument>> getAllArguments() override;
   bool isEquals(const Clause& other) override;
 };

@@ -17,10 +17,7 @@ class AssignPatternClause : public Clause {
   unique_ptr<AbstractArgument> synonym;
   unique_ptr<AbstractArgument> firstArg;
   unique_ptr<AbstractArgument> secondArg;
-  bool isPartialMatch;
-
- protected:
-  vector<unique_ptr<AbstractArgument>> getAllArguments() override;
+  bool isPartialMatch;  
 
  public:
   explicit AssignPatternClause(unique_ptr<AbstractArgument> synonym,
@@ -33,6 +30,7 @@ class AssignPatternClause : public Clause {
         isPartialMatch(isPartialMatch) {}
 
   IntermediateTable evaluate(PKBReader& pkb) override;
+  vector<unique_ptr<AbstractArgument>> getAllArguments() override;
   bool isEquals(const Clause& other) override;
   
 };
