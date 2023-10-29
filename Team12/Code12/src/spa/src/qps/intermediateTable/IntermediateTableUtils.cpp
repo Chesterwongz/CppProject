@@ -143,7 +143,9 @@ IntermediateTable IntermediateTableUtils::getInnerJoinOn(
 vector<string> IntermediateTableUtils::getJoinColNames(
     const vector<string> &t1Names, const vector<string> &t2Names,
     unordered_set<size_t> t2SharedColIndexes) {
-  vector<string> resColNames(t1Names.begin(), t1Names.end());
+  vector<string> resColNames{};
+  resColNames.reserve(t1Names.size() + t2Names.size());
+  resColNames.insert(resColNames.end(), t1Names.begin(), t1Names.end());
   for (size_t i = 0; i < t2Names.size(); i++) {
     if (t2SharedColIndexes.find(i) == t2SharedColIndexes.end()) {
       // only insert col names not joined on

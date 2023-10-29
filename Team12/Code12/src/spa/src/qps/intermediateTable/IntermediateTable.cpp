@@ -32,7 +32,7 @@ IntermediateTable IntermediateTable::makeEmptyTable() {
 
 int IntermediateTable::createNewCol(const string &newColName) {
   this->colNameToIndexMap[newColName] = this->currentColCount;
-  this->colNames.emplace_back(newColName);
+  this->colNames.emplace_back((newColName));
   return this->currentColCount++;
 }
 
@@ -85,11 +85,12 @@ unordered_set<string> IntermediateTable::getColumns(
     return {};
   }
 
-  for (const auto &synonym : selectSynonyms) {
-    // return empty if any column requested does not exist
-    if (!this->isColExists(synonym->getValue())) {
-      return {};
-    }
+  // return empty if any column requested does not exist
+  if (std::any_of(selectSynonyms.begin(), selectSynonyms.end(),
+                  [this](const auto &synonym) {
+                    return !this->isColExists(synonym->getValue());
+                  })) {
+    return {};
   }
 
   unordered_set<string> res = {};
@@ -103,7 +104,7 @@ unordered_set<string> IntermediateTable::getColumns(
       row += (row.empty() ? "" : " ") +
              this->tableData.at(rowIndex).at(colIndex).getAttribute(attrRef);
     }
-    res.insert(row);
+    res.insert(std::move(row));
   }
   return res;
 }
