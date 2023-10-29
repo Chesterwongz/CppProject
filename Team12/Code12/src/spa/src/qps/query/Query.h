@@ -12,15 +12,14 @@
 #include "qps/clause/Clause.h"
 #include "qps/clause/selectClause/BaseSelectClause.h"
 #include "qps/clause/selectClause/SelectClauseFactory.h"
+#include "qps/clause/utils/ClauseUtil.h"
 
 using std::vector, std::unique_ptr, std::string;
-
-typedef vector<unique_ptr<Clause>> ClauseList;
 
 class Query {
  private:
   unique_ptr<BaseSelectClause> selectClause = {};
-  ClauseList clauses = {};
+  ClauseUtil::ClauseList clauses = {};
 
 
  public:

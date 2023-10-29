@@ -127,9 +127,3 @@ class IntermediateTable {
 
   friend class IntermediateTableFactory;
 };
-
-/**
-   * for min heap implementation
- */
-bool operator<(const IntermediateTable &thisTable,
-               const IntermediateTable &otherTable);
