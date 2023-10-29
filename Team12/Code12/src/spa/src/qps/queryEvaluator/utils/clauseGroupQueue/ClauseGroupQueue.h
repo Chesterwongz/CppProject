@@ -17,6 +17,10 @@ class ClauseGroupQueue {
  public:
   void addClauseGroup(const ClauseGroup& clause);
   IntermediateTable evaluate(PKBReader& pkb);
+  /**
+   * for testing usage only
+   */
+  std::priority_queue<ClauseGroup>& getQueue();
 };
 
 /**

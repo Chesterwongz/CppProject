@@ -18,6 +18,10 @@ inline string MOCK_SYNONYM_VALUE_1 = "x";
 inline string MOCK_SYNONYM_VALUE_2 = "y";
 inline string MOCK_SYNONYM_VALUE_3 = "z";
 inline string MOCK_SYNONYM_VALUE_4 = "potato";
+inline string MOCK_SYNONYM_VALUE_5 = "x1";
+inline string MOCK_SYNONYM_VALUE_6 = "y2";
+inline string MOCK_SYNONYM_VALUE_7 = "z3";
+inline string MOCK_SYNONYM_VALUE_8 = "potato4";
 
 inline string MOCK_IDENT_VALUE_1 = "x";
 inline string MOCK_IDENT_VALUE_2 = "y";
