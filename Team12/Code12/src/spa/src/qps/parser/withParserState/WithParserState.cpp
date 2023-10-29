@@ -31,10 +31,12 @@ void WithParserState::checkSameTypeComparison() {
 
 void WithParserState::processNameToken(PQLToken& curr) {
   auto next = parserContext.peekNextToken();
-  if (next.has_value() && next->getType() == PQL_NAME_TOKEN) {
-    PQLTokenType toUpdate =
-        PQLParserUtils::getTokenTypeFromKeyword(curr.getValue());
-    curr.updateTokenType(toUpdate);
+  bool isNotToken = curr.getValue() == NOT_KEYWORD && next.has_value() &&
+                    (next->getType() == PQL_NAME_TOKEN ||
+                     next->getType() == PQL_LITERAL_REF_TOKEN ||
+                     next->getType() == PQL_INTEGER_TOKEN);
+  if (isNotToken) {
+    curr.updateTokenType(PQL_NOT_TOKEN);
   } else {
     BaseParserState::processNameToken(curr);
     if (!parserContext.checkSynonymExists(curr.getValue())) {
