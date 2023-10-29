@@ -8,12 +8,13 @@
 #include <utility>
 #include <vector>
 
+#include "IClauseGrouper.h"
 #include "qps/queryEvaluator/utils/clauseGroup/ClauseGroup.h"
 #include "qps/queryEvaluator/utils/clauseGroupQueue/ClauseGroupQueue.h"
 
 using std::vector, std::unique_ptr, std::unordered_map, std::string;
 
-class ClauseGrouper {
+class ClauseGrouper : public IClauseGrouper {
  private:
   static const size_t INITIAL_RANK = 0;
   static const size_t RANK_INCREMENT = 1;
@@ -28,11 +29,11 @@ class ClauseGrouper {
    */
   unordered_map<string, size_t> rankMap;
 
-  explicit ClauseGrouper(ClauseUtil::ClauseList& clauses);
-  ClauseGroupQueue groupClauses();
   void unionSynonym(const string& syn1, const string& syn2);
   string findSynonymParent(const string& syn);
 
+
  public:
-  static ClauseGroupQueue groupClauses(ClauseUtil::ClauseList& clauses);
+  explicit ClauseGrouper(ClauseUtil::ClauseList& clauses);
+  ClauseGroupQueue groupClauses() override;
 };

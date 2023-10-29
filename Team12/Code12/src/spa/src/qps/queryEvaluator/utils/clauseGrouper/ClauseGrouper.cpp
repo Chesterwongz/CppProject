@@ -53,11 +53,6 @@ ClauseGroupQueue ClauseGrouper::groupClauses() {
   return res;
 }
 
-ClauseGroupQueue ClauseGrouper::groupClauses(ClauseUtil::ClauseList& clauses) {
-  ClauseGrouper grouper(clauses);
-  return grouper.groupClauses();
-}
-
 void ClauseGrouper::unionSynonym(const string& syn1, const string& syn2) {
   string syn1Root = findSynonymParent(syn1);
   string syn2Root = findSynonymParent(syn2);
