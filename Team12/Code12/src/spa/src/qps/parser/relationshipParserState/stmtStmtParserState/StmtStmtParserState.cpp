@@ -2,6 +2,8 @@
 
 #include <utility>
 
+#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
+
 unordered_map<string, Abstraction>
     StmtStmtParserState::stmtStmtKeywordToAbstraction = {
         {FOLLOWS_ABSTRACTION, FOLLOWS_ENUM},
@@ -39,6 +41,8 @@ string StmtStmtParserState::getStmtSynonym(const std::string &synonym) {
 void StmtStmtParserState::handleToken() {
   auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
+  unique_ptr<SuchThatClause> suchThatClause;
+
   while (curr.has_value()) {
     PQLToken token = curr.value();
 
@@ -48,8 +52,17 @@ void StmtStmtParserState::handleToken() {
         break;
       case PQL_CLOSE_BRACKET_TOKEN:
         isInBracket = false;
-        parserContext.addClause(std::move(createSuchThatClause(
-            getAbstractionType(abstraction, stmtStmtKeywordToAbstraction))));
+
+        suchThatClause = createSuchThatClause(
+            getAbstractionType(abstraction, stmtStmtKeywordToAbstraction));
+
+        if (isNegated) {
+          parserContext.addClause(
+              std::make_unique<NotDecorator>(std::move(suchThatClause)));
+        } else {
+          parserContext.addClause(std::move(suchThatClause));
+        }
+
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
       case PQL_SYNONYM_TOKEN:
