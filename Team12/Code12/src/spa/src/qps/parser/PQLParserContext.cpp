@@ -3,7 +3,7 @@
 #include <utility>
 
 #include "qps/argument/synonymArg/SynonymArg.h"
-#include "qps/clause/selectClause/ISelectClause.h"
+#include "qps/clause/selectClause/BaseSelectClause.h"
 #include "qps/common/QPSStringUtils.h"
 
 PQLParserContext::PQLParserContext(unique_ptr<PQLTokenStream> tokenStream,

@@ -1,6 +1,9 @@
 #pragma once
 
+#include <algorithm>
+#include <iterator>
 #include <memory>
+#include <set>
 #include <string>
 #include <unordered_set>
 #include <utility>
@@ -12,13 +15,17 @@
 
 using std::unique_ptr;
 
-class ISelectClause : public Clause {
+class BaseSelectClause : public Clause {
  protected:
   SynonymsToSelect synonymsToSelect;
+  set<string> synonymsInOtherClauses;
 
  public:
-  explicit ISelectClause(SynonymsToSelect synonymsToSelect)
+  explicit BaseSelectClause(SynonymsToSelect synonymsToSelect)
       : synonymsToSelect(std::move(synonymsToSelect)) {}
+
   virtual unordered_set<string> getQueryResult(
       IntermediateTable &intermediateTable) = 0;
+
+  void addSynonymsInOtherClause(const set<string>& synonyms);
 };
