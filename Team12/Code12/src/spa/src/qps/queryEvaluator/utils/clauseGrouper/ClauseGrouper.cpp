@@ -19,7 +19,7 @@ ClauseGroupQueue ClauseGrouper::groupClauses() {
     if (synonyms.empty()) {
       continue;
     }
-    // union all synonyms in a clause to the first synonym
+    // union all synonyms in a clause to the clause's first synonym
     for (auto it = next(synonyms.begin()); it != synonyms.end(); it++) {
       this->unionSynonym(*(synonyms.begin()), *it);
     }
