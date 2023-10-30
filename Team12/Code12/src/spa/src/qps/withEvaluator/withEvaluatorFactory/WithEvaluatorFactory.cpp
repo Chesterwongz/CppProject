@@ -23,7 +23,7 @@ unique_ptr<WithEvaluator> WithEvaluatorFactory::createWithEvaluator(
   } else if (isFirstArgSynonym) {
     SynonymArg* synonymArgPtr = dynamic_cast<SynonymArg*>(&firstArg);
     return make_unique<SingleSynWithEvaluator>(*synonymArgPtr,
-                                               std::move(secondArg), pkbReader);
+                                               secondArg, pkbReader);
   } else {
     SynonymArg* synonymArgPtr = dynamic_cast<SynonymArg*>(&secondArg);
 

@@ -166,7 +166,7 @@ vector<SynonymRes> NotDecorator::getAllProcedures(PKBReader& pkb) {
 
   for (string procName : allprocs) {
     procSynonymResVec.push_back(
-        SynonymResFactory::buildConstantSynonym(procName));
+        SynonymResFactory::buildProcSynonym(procName));
   }
 
   return procSynonymResVec;
