@@ -11,19 +11,19 @@
 using std::unique_ptr, std::make_unique, std::vector, std::string,
     std::unordered_map, std::unordered_set;
 
-TEST_CASE("CFGExtractor - 1 procedure with 1 read") {
+TEST_CASE("NextExtractor - 1 procedure with 1 read") {
   string input =
       "procedure simple {"
       "read num1;"
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   REQUIRE(mockPKB.isNextEqual({}));
 }
 
-TEST_CASE("CFGExtractor - 1 procedure with different non-nesting statements") {
+TEST_CASE("NextExtractor - 1 procedure with different non-nesting statements") {
   string input =
       "procedure simple {"
       "read num1;"
@@ -32,13 +32,13 @@ TEST_CASE("CFGExtractor - 1 procedure with different non-nesting statements") {
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - 1 procedure with a while loop") {
+TEST_CASE("NextExtractor - 1 procedure with a while loop") {
   string input =
       "procedure simpleLoop {"
       "   read m;"          // 1
@@ -50,13 +50,13 @@ TEST_CASE("CFGExtractor - 1 procedure with a while loop") {
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 5}}, {3, {4}}, {4, {2}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - 1 procedure with an if statement") {
+TEST_CASE("NextExtractor - 1 procedure with an if statement") {
   string input =
       "procedure simpleIf {"
       "   read m;"            // 1
@@ -69,13 +69,13 @@ TEST_CASE("CFGExtractor - 1 procedure with an if statement") {
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 4}}, {3, {5}}, {4, {5}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - 1 procedure with multiple statements in if") {
+TEST_CASE("NextExtractor - 1 procedure with multiple statements in if") {
   string input =
       "procedure multiStmts {"
       "   read h;"             // 1
@@ -92,14 +92,14 @@ TEST_CASE("CFGExtractor - 1 procedure with multiple statements in if") {
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 6}}, {3, {4}}, {4, {5}},
                                  {5, {9}}, {6, {7}},    {7, {8}}, {8, {9}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - 1 procedure with nested if statements") {
+TEST_CASE("NextExtractor - 1 procedure with nested if statements") {
   string input =
       "procedure multipleIf {"
       "   read v;"                          // 1
@@ -116,14 +116,14 @@ TEST_CASE("CFGExtractor - 1 procedure with nested if statements") {
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {{1, {2}},     {2, {3}}, {3, {4, 11}}, {4, {5}},
                                  {5, {6, 10}}, {6, {7}}, {7, {8, 9}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - 1 procedure with nested while statements") {
+TEST_CASE("NextExtractor - 1 procedure with nested while statements") {
   string input =
       "procedure nestedWhile {"
       "   read v;"               // 1
@@ -139,14 +139,14 @@ TEST_CASE("CFGExtractor - 1 procedure with nested while statements") {
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 8}}, {3, {4}}, {4, {5, 7}},
                                  {5, {6}}, {6, {4}},    {7, {2}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - 1 procedure with if in while statement") {
+TEST_CASE("NextExtractor - 1 procedure with if in while statement") {
   string input =
       "procedure ifInWhile {"
       "   read v;"                  // 1
@@ -161,14 +161,14 @@ TEST_CASE("CFGExtractor - 1 procedure with if in while statement") {
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 8}}, {3, {4}}, {4, {5, 7}},
                                  {5, {6}}, {6, {2}},    {7, {2}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - 1 procedure with while in if statement") {
+TEST_CASE("NextExtractor - 1 procedure with while in if statement") {
   string input =
       "procedure whileInIf {"
       "   read a;"               // 1
@@ -182,14 +182,14 @@ TEST_CASE("CFGExtractor - 1 procedure with while in if statement") {
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 7}}, {3, {4}},
                                  {4, {5}}, {5, {6}},    {6, {4}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - multiple procedures") {
+TEST_CASE("NextExtractor - multiple procedures") {
   string input =
       "procedure first {"
       "   read d;"            // 1
@@ -206,14 +206,14 @@ TEST_CASE("CFGExtractor - multiple procedures") {
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 4}}, {5, {6}},
                                  {6, {7}}, {7, {8}},    {8, {6}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - multiple nesting with while-if-while") {
+TEST_CASE("NextExtractor - multiple nesting with while-if-while") {
   string input =
       "procedure multipleNesting {"
       "  while (x > 1) {"        // 1
@@ -232,14 +232,14 @@ TEST_CASE("CFGExtractor - multiple nesting with while-if-while") {
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 6}}, {3, {4, 5}}, {4, {3}},
                                  {5, {8}}, {6, {7, 8}}, {7, {6}},    {8, {1}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - multiple nesting with while-if-if") {
+TEST_CASE("NextExtractor - multiple nesting with while-if-if") {
   string input =
       "procedure nestedIfInWhile {"
       "  while (x > 1) {"          // 1
@@ -261,7 +261,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-if-if") {
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {
       {1, {2}},    {2, {3, 6}}, {3, {4, 5}}, {4, {9}}, {5, {9}},
@@ -270,7 +270,7 @@ TEST_CASE("CFGExtractor - multiple nesting with while-if-if") {
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - multiple nesting with if-if-while") {
+TEST_CASE("NextExtractor - multiple nesting with if-if-while") {
   string input =
       "procedure nestedWhileInIf {"
       "  if (x > 1) then {"      // 1
@@ -291,7 +291,7 @@ TEST_CASE("CFGExtractor - multiple nesting with if-if-while") {
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {{1, {2, 9}}, {2, {3, 6}}, {3, {4, 5}},
                                  {4, {3}},    {5, {8}},    {6, {7, 8}},
@@ -299,7 +299,7 @@ TEST_CASE("CFGExtractor - multiple nesting with if-if-while") {
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - multiple nesting with while-while-if") {
+TEST_CASE("NextExtractor - multiple nesting with while-while-if") {
   string input =
       "procedure nestedIfInDoubleWhile {"
       "  while (x > 1) {"          // 1
@@ -316,14 +316,14 @@ TEST_CASE("CFGExtractor - multiple nesting with while-while-if") {
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {{1, {2, 7}}, {2, {3, 6}}, {3, {4, 5}},
                                  {4, {2}},    {5, {2}},    {6, {1}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - multiple nesting with if-if-if") {
+TEST_CASE("NextExtractor - multiple nesting with if-if-if") {
   string input =
       "procedure tripleNestedIf {"
       "  if (x > 1) then {"        // 1
@@ -343,14 +343,14 @@ TEST_CASE("CFGExtractor - multiple nesting with if-if-if") {
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {{1, {2, 8}}, {2, {3, 6}}, {3, {4, 5}},
                                  {4, {7}},    {5, {7}},    {6, {7}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - multiple nesting with while-while-while") {
+TEST_CASE("NextExtractor - multiple nesting with while-while-while") {
   string input =
       "procedure tripleNestedWhile {"
       "  while (x > 1) {"        // 1
@@ -366,14 +366,14 @@ TEST_CASE("CFGExtractor - multiple nesting with while-while-while") {
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {{1, {2, 7}}, {2, {3, 6}}, {3, {4, 5}},
                                  {4, {3}},    {5, {2}},    {6, {1}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - multiple nesting with if-while-while") {
+TEST_CASE("NextExtractor - multiple nesting with if-while-while") {
   string input =
       "procedure doubleNestedWhileInIf {"
       "  if (x > 1) then {"      // 1
@@ -390,14 +390,14 @@ TEST_CASE("CFGExtractor - multiple nesting with if-while-while") {
       "}";
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {
       {1, {2, 7}}, {2, {3, 6}}, {3, {4, 5}}, {4, {3}}, {5, {2}}};
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - wiki code 6") {
+TEST_CASE("NextExtractor - wiki code 6") {
   string input =
       "procedure Second {"
       "    x = 0;"            // 1
@@ -416,7 +416,7 @@ TEST_CASE("CFGExtractor - wiki code 6") {
       "procedure Third {read x;}";  // 13
   // extract
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {{1, {2}},  {2, {3}},   {3, {4, 7}}, {4, {5}},
                                  {5, {6}},  {6, {3}},   {7, {8, 9}}, {8, {10}},
@@ -424,7 +424,7 @@ TEST_CASE("CFGExtractor - wiki code 6") {
   REQUIRE(mockPKB.isNextEqual(expectedNext));
 }
 
-TEST_CASE("CFGExtractor - integration test") {
+TEST_CASE("NextExtractor - integration test") {
   string input =
       "procedure Next {"
       "  read line1;"                                    // 1
@@ -443,7 +443,7 @@ TEST_CASE("CFGExtractor - integration test") {
       "  assign = line9;"  // 9
       "}";
   MockPKBWriter mockPKB(MOCK_WRITER_STORE);
-  extractAbstraction(input, mockPKB, AbstractionType::CFG);
+  extractAbstraction(input, mockPKB, AbstractionType::NEXT);
 
   IntToIntSetMap expectedNext = {{1, {2}}, {2, {3, 6}}, {3, {4, 5}}, {4, {3}},
                                  {5, {8}}, {6, {7}},    {7, {8}}};

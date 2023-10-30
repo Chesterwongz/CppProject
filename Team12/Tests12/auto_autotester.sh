@@ -2,6 +2,7 @@
 
 script_dir="$(dirname "$0")"
 output_dir="$script_dir/output"
+rm -r "$output_dir"
 mkdir -p "$output_dir"
 
 # Change to the directory containing the script, if not found, exit with err

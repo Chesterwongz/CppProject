@@ -7,7 +7,6 @@
 #include <vector>
 
 #include "common/Constants.h"
-#include "common/cfg/CFG.h"
 #include "sp/ast/ProcNode.h"
 #include "sp/ast/StmtListNode.h"
 #include "sp/ast/statements/AssignNode.h"
@@ -26,10 +25,9 @@ struct StmtListState {
   stack<int> prevLines = stack<int>();
 };
 
-class CFGExtractor : public Extractor {
+class NextExtractor : public Extractor {
  private:
   vector<StmtListState> stmtListStates;
-  unique_ptr<CFG> cfg;
   void addNext(int from, int to);
   void processStmt(const StmtNode& node);
   void addEdgesToLine(int toLine);
@@ -37,7 +35,7 @@ class CFGExtractor : public Extractor {
 
  public:
   static constexpr int REVERSE_INDEX_ONE = 1;
-  explicit CFGExtractor(PKBWriter& pkbWriter);
+  explicit NextExtractor(PKBWriter& pkbWriter);
   void visitProcedure(const ProcNode& node) override;
   void postVisitProcedure(const ProcNode& node) override;
 

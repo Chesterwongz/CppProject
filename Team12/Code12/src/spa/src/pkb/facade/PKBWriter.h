@@ -9,7 +9,6 @@
 #include <utility>
 #include <vector>
 
-#include "common/cfg/CFG.h"
 #include "common/utils/PairUtils.h"
 #include "pkb/facade/PKBStore.h"
 #include "pkb/writers/entity_writer/DesignEntitiesWriter.h"
