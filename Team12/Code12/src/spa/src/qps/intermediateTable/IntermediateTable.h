@@ -103,7 +103,7 @@ class IntermediateTable {
   /**
    * @return vector of all column names
    */
-  [[nodiscard]] vector<string> getColNames() const;
+  [[nodiscard]] const vector<string>& getColNames() const;
 
   /**
    * @return index of specified column
@@ -122,7 +122,7 @@ class IntermediateTable {
   [[nodiscard]] bool isTableEmpty() const;
   [[nodiscard]] bool isTableWildcard() const;
   [[nodiscard]] bool isTableEmptyAndNotWildcard() const;
-  [[nodiscard]] TableDataType getTableData() const;
+  [[nodiscard]] const TableDataType& getTableData() const;
   void printTable() const;
 
   friend class IntermediateTableFactory;

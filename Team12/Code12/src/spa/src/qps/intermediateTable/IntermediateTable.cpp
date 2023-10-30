@@ -49,7 +49,7 @@ vector<vector<string>> IntermediateTable::getDataAsStrings() const {
   return res;
 }
 
-TableDataType IntermediateTable::getTableData() const {
+const TableDataType &IntermediateTable::getTableData() const {
   return this->tableData;
 }
 
@@ -109,7 +109,9 @@ unordered_set<string> IntermediateTable::getColumns(
   return res;
 }
 
-vector<string> IntermediateTable::getColNames() const { return this->colNames; }
+const vector<string> &IntermediateTable::getColNames() const {
+  return colNames;
+}
 
 int IntermediateTable::getColIndex(const string &colName) const {
   if (!isColExists(colName)) {
@@ -201,7 +203,7 @@ void IntermediateTable::printTable() const {
   }
   std::cout << colNamesToPrint << std::endl;
 
-  for (auto &row : this->getTableData()) {
+  for (const auto &row : this->getTableData()) {
     string rowDataToPrint;
     for (auto &col : row) {
       rowDataToPrint += col.getAttribute(AttrRefEnum::DEFAULT) + "," +
