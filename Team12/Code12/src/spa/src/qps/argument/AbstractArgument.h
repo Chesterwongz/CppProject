@@ -20,6 +20,5 @@ class AbstractArgument {
   virtual bool isWildcard();
   virtual bool isPatternExp();
   virtual ~AbstractArgument() = default;
-  virtual unique_ptr<AbstractArgument> clone() = 0;
   virtual bool operator==(const AbstractArgument& other) const = 0;
 };

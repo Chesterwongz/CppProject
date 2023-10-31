@@ -10,10 +10,6 @@ QPSStringUtils::ArgumentType Wildcard::getArgumentType() {
 
 bool Wildcard::isWildcard() { return true; }
 
-unique_ptr<AbstractArgument> Wildcard::clone() {
-  return std::make_unique<Wildcard>(*this);
-}
-
 bool Wildcard::operator==(const AbstractArgument& other) const {
   const auto* otherWildcard = dynamic_cast<const Wildcard*>(&other);
   return otherWildcard;

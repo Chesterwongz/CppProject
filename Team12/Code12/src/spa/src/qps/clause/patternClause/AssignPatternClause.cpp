@@ -6,9 +6,9 @@ vector<unique_ptr<AbstractArgument>> AssignPatternClause::getAllArguments() {
   
   vector<unique_ptr<AbstractArgument>> argVector;
 
-  argVector.push_back(synonym->clone());
-  argVector.push_back(firstArg->clone());
-  argVector.push_back(secondArg->clone());
+  argVector.push_back(std::move(synonym));
+  argVector.push_back(std::move(firstArg));
+  argVector.push_back(std::move(secondArg));
 
   return argVector;
 }

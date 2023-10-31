@@ -18,6 +18,5 @@ class Integer : public AbstractArgument {
   const string& getValue() override;
   QPSStringUtils::ArgumentType getArgumentType() override;
   bool isInteger() override;
-  unique_ptr<AbstractArgument> clone() override;
   bool operator==(const AbstractArgument& other) const override;
 };
