@@ -1,6 +1,6 @@
 ====== 1 - Modifies SemanticError (constant, stmt) ======
 stmt stmt; constant constant;
-Select stmt such that Modifies(stmt, constant)
+Select stmt such that Modifies(constant, stmt)
 SemanticError
 1000
 ====== 2 - Modifies SemanticError (constant, assign) ======
@@ -70,7 +70,7 @@ SemanticError
 1000
 ====== 16 - Modifies SemanticError (procedure, stmt) ======
 stmt stmt; procedure procedure;
-Select stmt such that Modifies(stmt, procedure)
+Select stmt such that Modifies(procedure, stmt)
 SemanticError
 1000
 ===== 17 - Modifies SemanticError (procedure, assign) ======
@@ -351,5 +351,85 @@ SemanticError
 ====== 72 - Modifies SemanticError first arg wildcard ======
 print print1, print2;
 Select print1 such that Modifies(_, print2)
+SemanticError
+1000
+====== 73 - Modifies SemanticError (stmt, constant) ======
+stmt stmt; constant constant;
+Select stmt such that Modifies(stmt, constant)
+SemanticError
+1000
+====== 74 - Modifies SemanticError (assign, constant) ======
+stmt stmt; assign assign; constant constant;
+Select stmt such that Modifies(assign, constant)
+SemanticError
+1000
+====== 75 - Modifies SemanticError (while, constant) ======
+stmt stmt; while while; constant constant;
+Select stmt such that Modifies(while, constant)
+SemanticError
+1000
+====== 76 - Modifies SemanticError (if, constant) ======
+stmt stmt; if if; constant constant;
+Select stmt such that Modifies(if, constant)
+SemanticError
+1000
+====== 77 - Modifies SemanticError (call, constant) ======
+stmt stmt; call call; constant constant;
+Select stmt such that Modifies(call, constant)
+SemanticError
+1000
+====== 78 - Modifies SemanticError (read, constant) ======
+stmt stmt; read read; constant constant;
+Select stmt such that Modifies(read, constant)
+SemanticError
+1000
+====== 79 - Modifies SemanticError (print, constant) ======
+stmt stmt; print print; constant constant;
+Select stmt such that Modifies(print, constant)
+SemanticError
+1000
+====== 80 - Modifies SemanticError (stmt, procedure) ======
+stmt stmt; procedure procedure;
+Select stmt such that Modifies(stmt, procedure)
+SemanticError
+1000
+====== 81 - Modifies SemanticError (assign, procedure) ======
+stmt stmt; assign assign; procedure procedure;
+Select stmt such that Modifies(assign, procedure)
+SemanticError
+1000
+====== 82 - Modifies SemanticError (while, procedure) ======
+stmt stmt; while while; procedure procedure;
+Select stmt such that Modifies(while, procedure)
+SemanticError
+1000
+====== 83 - Modifies SemanticError (if, procedure) ======
+stmt stmt; if if; procedure procedure;
+Select stmt such that Modifies(if, procedure)
+SemanticError
+1000
+====== 84 - Modifies SemanticError (call, procedure) ======
+stmt stmt; call call; procedure procedure;
+Select stmt such that Modifies(call, procedure)
+SemanticError
+1000
+====== 85 - Modifies SemanticError (read, procedure) ======
+stmt stmt; read read; procedure procedure;
+Select stmt such that Modifies(read, procedure)
+SemanticError
+1000
+====== 86 - Modifies SemanticError (print, procedure) ======
+stmt stmt; print print; procedure procedure;
+Select stmt such that Modifies(print, procedure)
+SemanticError
+1000
+====== 87 - Modifies SemanticError (constant, variable) ======
+stmt stmt; variable variable; constant constant;
+Select stmt such that Modifies(constant, variable)
+SemanticError
+1000
+====== 88 - Modifies SemanticError (variable, variable) ======
+stmt stmt; variable variable;
+Select stmt such that Modifies(variable, variable)
 SemanticError
 1000

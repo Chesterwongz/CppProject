@@ -1,0 +1,135 @@
+======= 1 - Select procedure value ======
+procedure procedure;
+Select procedure.value
+SemanticError
+5000
+======= 2 - Select variable value ======
+variable variable;
+Select variable.value
+SemanticError
+5000
+======= 3 - Select stmt value ======
+stmt stmt;
+Select stmt.value
+SemanticError
+5000
+======= 4 - Select call value ======
+call call;
+Select call.value
+SemanticError
+5000
+======= 5 - Select read value ======
+read read;
+Select read.value
+SemanticError
+5000
+======= 6 - Select print value ======
+print print;
+Select print.value
+SemanticError
+5000
+======= 7 - Select while value ======
+while while;
+Select while.value
+SemanticError
+5000
+======= 8 - Select if value ======
+if if;
+Select if.value
+SemanticError
+5000
+======= 9 - Select assign value ======
+assign assign;
+Select assign.value
+SemanticError
+5000
+======= 10 - Select procedure stmt# ======
+procedure procedure;
+Select procedure.stmt#
+SemanticError
+5000
+======= 11 - Select variable stmt# ======
+variable variable;
+Select variable.stmt#
+SemanticError
+5000
+======= 12 - Select constant stmt# ======
+constant constant;
+Select constant.stmt#
+SemanticError
+5000
+======= 13 - Select variable procName ======
+variable variable;
+Select variable.procName
+SemanticError
+5000
+======= 14 - Select constant procName ======
+constant constant;
+Select constant.procName
+SemanticError
+5000
+======= 15 - Select stmt procName ======
+stmt stmt;
+Select stmt.procName
+SemanticError
+5000
+======= 16 - Select read procName ======
+read read;
+Select read.procName
+SemanticError
+5000
+======= 17 - Select print procName ======
+print print;
+Select print.procName
+SemanticError
+5000
+======= 18 - Select if procName ======
+if if;
+Select if.procName
+SemanticError
+5000
+======= 19 - Select while procName ======
+while while;
+Select while.procName
+SemanticError
+5000
+======= 20 - Select assign procName ======
+assign assign;
+Select assign.procName
+SemanticError
+5000
+======= 21 - Select procedure varName ======
+procedure procedure;
+Select procedure.varName
+SemanticError
+5000
+======= 22 - Select constant varName ======
+constant constant;
+Select constant.varName
+SemanticError
+5000
+======= 23 - Select stmt varName ======
+stmt stmt;
+Select stmt.varName
+SemanticError
+5000
+======= 24 - Select call varName ======
+call call;
+Select call.varName
+SemanticError
+5000
+======= 25 - Select if varName ======
+if if;
+Select if.varName
+SemanticError
+5000
+======= 26 - Select while varName ======
+while while;
+Select while.varName
+SemanticError
+5000
+======= 27 - Select assign varName ======
+assign assign;
+Select assign.varName
+SemanticError
+5000

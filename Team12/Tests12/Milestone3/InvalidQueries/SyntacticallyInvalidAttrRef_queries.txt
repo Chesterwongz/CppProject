@@ -1,0 +1,40 @@
+====== 1 - procName typo ======
+procedure procedure;
+Select procedure.procNme
+SyntaxError
+5000
+====== 2 - varName typo ======
+variable variable;
+Select variable.vaName
+SyntaxError
+5000
+====== 3 - stmt# typo ======
+stmt stmt;
+Select stmt.stmt*
+SyntaxError
+5000
+====== 4 - value typo ======
+constant constant;
+Select constant.val
+SyntaxError
+5000
+====== 5 - case sensitive procName ======
+procedure procedure;
+Select procedure.procname
+SyntaxError
+5000
+====== 6 - case sensitive varName ======
+variable variable;
+Select variable.varname
+SyntaxError
+5000
+====== 7 - case sensitive stmt# ======
+stmt stmt;
+Select stmt.Stmt#
+SyntaxError
+5000
+====== 8 - case sensitive value ======
+constant constant;
+Select constant.Value
+SyntaxError
+5000

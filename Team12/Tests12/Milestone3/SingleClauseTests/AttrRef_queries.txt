@@ -1,0 +1,65 @@
+====== 1 - Select procedure.procName ======
+procedure procedure
+Select procedure.procName
+p, q
+5000
+====== 2 - Select call.procName ======
+call call
+Select call.procName
+q
+5000
+====== 3 - Select variable.varName ======
+variable variable
+Select variable.varName
+x, y, a, b, p, q, n
+5000
+====== 4 - Select read.varName ======
+read read
+Select read.varName
+x, n
+5000
+====== 5 - Select print.varName ======
+print print
+Select print.varName
+y, p, q, b
+5000
+====== 6 - Select constant.value ======
+constant constant
+Select constant.value
+0, 1, 2
+5000
+====== 7 - Select stmt.stmt# ======
+stmt stmt
+Select stmt.stmt#
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+====== 8 - Select read.stmt# ======
+read read
+Select read.stmt#
+1, 11
+5000
+====== 9 - Select print.stmt# ======
+print print;
+Select print.stmt#
+2, 6, 7, 9
+5000
+====== 10 - Select call.stmt# ======
+call call
+Select call.stmt#
+4
+5000
+====== 11 - Select while.stmt# ======
+while while
+Select while.stmt#
+8
+5000
+====== 12 - Select if.stmt# ======
+if if
+Select if.stmt#
+5
+5000
+====== 13 - Select assign.stmt# ======
+assign assign
+Select assign.stmt#
+3, 10
+5000
