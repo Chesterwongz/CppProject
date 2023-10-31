@@ -55,7 +55,7 @@ IntermediateTable IntermediateTableUtils::getCrossProduct(
                                                           std::move(resData));
 }
 
-IntermediateTable IntermediateTableUtils::getInnerJoin(
+IntermediateTable IntermediateTableUtils::getNaturalJoin(
     const pair<vector<int>, vector<int>>& sharedColumnIndexes,
     const IntermediateTable& t1, const IntermediateTable& t2) {
   TableDataType resData;

@@ -22,8 +22,8 @@ pair<vector<int>, vector<int>> getSharedColIndexes(
 IntermediateTable getCrossProduct(const IntermediateTable& table1,
                                   const IntermediateTable& table2);
 
-IntermediateTable getInnerJoin(
-    const pair<vector<int>, vector<int>>& sharedColumns,
+IntermediateTable getNaturalJoin(
+    const pair<vector<int>, vector<int>>& sharedColumnIndexes,
     const IntermediateTable& t1, const IntermediateTable& t2);
 
 IntermediateTable getInnerJoinOn(const IntermediateTable& t1,

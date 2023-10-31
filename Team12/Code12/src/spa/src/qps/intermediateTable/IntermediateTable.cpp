@@ -161,8 +161,8 @@ IntermediateTable IntermediateTable::join(const IntermediateTable &otherTable) {
   // Cross if no shared columns, inner join if shared columns exists
   return noSharedColumns
              ? IntermediateTableUtils::getCrossProduct(*this, otherTable)
-             : IntermediateTableUtils::getInnerJoin(sharedColumnIndexes, *this,
-                                                    otherTable);
+             : IntermediateTableUtils::getNaturalJoin(sharedColumnIndexes,
+                                                      *this, otherTable);
 }
 
 IntermediateTable IntermediateTable::join(
