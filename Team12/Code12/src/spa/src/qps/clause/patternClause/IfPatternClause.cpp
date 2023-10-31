@@ -1,6 +1,7 @@
 #include "IfPatternClause.h"
 
 #include <memory>
+#include <vector>
 
 #include "qps/patternEvaluator/ifEvaluator/IfEvaluator.h"
 

@@ -1,9 +1,10 @@
 #include "AssignPatternClause.h"
 
+#include <vector>
+
 #include "qps/patternEvaluator/assignEvaluator/AssignEvaluator.h"
 
 vector<unique_ptr<AbstractArgument>> AssignPatternClause::getAllArguments() {
-  
   vector<unique_ptr<AbstractArgument>> argVector;
 
   argVector.push_back(std::move(synonym));

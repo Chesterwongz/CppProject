@@ -1,6 +1,7 @@
 #include "WhilePatternClause.h"
 
 #include <memory>
+#include <vector>
 
 #include "qps/patternEvaluator/whileEvaluator/WhileEvaluator.h"
 

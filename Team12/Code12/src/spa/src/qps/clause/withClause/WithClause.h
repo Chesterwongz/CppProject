@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "qps/argument/AbstractArgument.h"
 #include "qps/clause/Clause.h"

@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_set>
 #include <utility>
+#include <vector>
 
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"

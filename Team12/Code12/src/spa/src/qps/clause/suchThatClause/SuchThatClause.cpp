@@ -1,5 +1,7 @@
 #include "SuchThatClause.h"
 
+#include <vector>
+
 #include "qps/abstraction/AbstractionFactory.h"
 #include "qps/abstraction/BaseAbstraction.h"
 #include "qps/argument/AbstractArgument.h"

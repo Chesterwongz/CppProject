@@ -1,6 +1,8 @@
 #pragma once
+
 #include <functional>
 #include <unordered_map>
+#include <vector>
 
 #include "qps/clause/clauseDecorator/ClauseDecorator.h"
 
@@ -24,17 +26,17 @@ class NotDecorator : public ClauseDecorator {
   unordered_map<Entity, NotDecoratorFunc> notDecoratorFuncMap = {
       {ASSIGN_ENTITY,
         [this](PKBReader& pkb) { return getAllAssignStmts(pkb); }},
-      {IF_ENTITY, 
+      {IF_ENTITY,
         [this](PKBReader& pkb) { return getAllIfStmts(pkb); }},
-      {WHILE_ENTITY, 
+      {WHILE_ENTITY,
         [this](PKBReader& pkb) { return getAllWhileStmts(pkb); }},
-      {STMT_ENTITY, 
+      {STMT_ENTITY,
         [this](PKBReader& pkb) { return getAllStmts(pkb); }},
-      {READ_ENTITY, 
+      {READ_ENTITY,
         [this](PKBReader& pkb) { return getAllReadStmts(pkb); }},
-      {PRINT_ENTITY, 
+      {PRINT_ENTITY,
         [this](PKBReader& pkb) { return getAllPrintStmts(pkb); }},
-      {CALL_ENTITY, 
+      {CALL_ENTITY,
         [this](PKBReader& pkb) { return getAllCallStmts(pkb); }},
       {VARIABLE_ENTITY,
         [this](PKBReader& pkb) { return getAllVariables(pkb); }},
