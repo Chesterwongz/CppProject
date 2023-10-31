@@ -96,8 +96,7 @@ IntermediateTable IntermediateTableUtils::getInnerJoin(
   }
 
   vector<string> resColNames = IntermediateTableUtils::getJoinColNames(
-      t1.getColNames(), t2.getColNames(),
-      {t2SharedColIndexes.begin(), t2SharedColIndexes.end()});
+      t1.getColNames(), t2.getColNames(), t2SharedColIndexesSet);
   return IntermediateTableFactory::buildIntermediateTable(resColNames,
                                                           std::move(resData));
 }
