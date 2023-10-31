@@ -113,3 +113,103 @@ constant c;
 Select c such that Affects (c, c)
 SemanticError
 1000
+====== 24 - BOOLEAN Affects (13, s) (+) ======
+stmt s;
+Select BOOLEAN such that Affects (13, s)
+TRUE
+1000
+====== 25 - BOOLEAN Affects (14, s) (-) ======
+stmt s;
+Select BOOLEAN such that Affects (14, s)
+FALSE
+1000
+====== 26 - BOOLEAN Affects (s, 19) (+) ======
+stmt s;
+Select BOOLEAN such that Affects (s, 19)
+TRUE
+1000
+====== 27 - BOOLEAN Affects (s, 15) (-) ======
+stmt s;
+Select BOOLEAN such that Affects (s, 15)
+FALSE
+1000
+====== 28 - BOOLEAN Affects (4, 9) (+) ======
+assign a;
+Select BOOLEAN such that Affects (4, 9)
+TRUE
+1000
+====== 29 - BOOLEAN Affects (5, 10) (-) ======
+assign a;
+Select BOOLEAN such that Affects (5, 10)
+FALSE
+1000
+====== 30 - Not Affects (s, 19) (+) ======
+stmt s;
+Select s such that not Affects (s, 19)
+1,2,3,4,5,6,8,9,10,12,13,14,15,16,19,20,21,22,23,24,25,26
+1000
+====== 31 - Not Affects (a, 19) (+) ======
+assign a;
+Select a such that not Affects (a, 19)
+3,4,9,12,13,15,16,19,21,22
+1000
+====== 32 - Not Affects (7, s) (+) ======
+stmt s;
+Select s such that not Affects (7, s)
+1,2,3,4,5,6,8,9,10,12,14,15,16,18,20,21,22,23,24,25,26
+1000
+====== 33 - Not Affects (7, a) (+) ======
+assign a;
+Select a such that not Affects (7, a)
+3,4,9,12,15,16,18,21,22
+1000
+====== 34 - Not Affects (7, w) (+) ======
+while w;
+Select w such that not Affects (7, w)
+6
+1000
+====== 35 - Not Affects (ifs, 19) (+) ======
+if ifs;
+Select ifs such that not Affects (ifs, 19)
+10,14
+1000
+====== 36 - Not Affects (_, _) (+) ======
+stmt s;
+Select s such that not Affects (_,_)
+none
+1000
+====== 20 - Affects (s, r) (-) ======
+stmt s; read r;
+Select r such that not Affects (s, r)
+1,2
+1000
+====== 37 - Not Affects (_, s) (+) ======
+stmt s;
+Select s such that not Affects (_,s)
+1,2,3,4,5,6,8,10,14,15,20,21,23,24,25,26
+1000
+====== 38 - Not Affects (s, _) (+) ======
+stmt s;
+Select s such that not Affects (s,_)
+1,2,3,5,6,8,10,14,19,20,22,23,24,25,26
+1000
+====== 39 - Not Affects (s, _) (+) ======
+stmt s;
+Select not s such that Affects (s,_)
+SyntaxError
+1000
+====== 40 - Not Affects (c, c) (-) ======
+constant c;
+Select c such that not Affects (c, c)
+SemanticError
+1000
+====== 18 - Affects (s, w) (-) ======
+stmt s; while w;
+Select <s, w> such that not Affects (s, w)
+1 6, 2 6, 3 6, 4 6, 5 6, 6 6, 7 6, 8 6, 9 6, 10 6, 11 6, 12 6, 13 6, 14 6, 15 6, 16 6, 17 6, 18 6, 19 6, 20 6, 21 6, 22 6, 23 6, 24 6, 25 6, 26 6
+1000
+====== 14 - Not Affects (r,ifs) (+) ======
+read r; if ifs;
+Select <r, ifs> such that not Affects (r,ifs)
+1 10, 1 14, 2 10, 2 14
+1000
