@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <iostream>
+#include <algorithm>
 #include <stdexcept>
 
 #include "IntermediateTableUtils.h"
@@ -189,23 +190,13 @@ IntermediateTable IntermediateTable::join(
 
 IntermediateTable IntermediateTable::getDifference(const IntermediateTable& otherTable) {
   if (otherTable.isTableWildcard()) {
-    // ANY - WILDCARD = emptytable
+    // ANY - WILDCARD = EMPTY
     return IntermediateTable::makeEmptyTable();
   }
 
-  if (otherTable.isTableEmpty()) {
-    // ANY - EMPTY = ANY
-    return *this;
-  }
-
-  if (this->isTableWildcard()) {
-    // WILDCARD - ANY = ANY?
-    // not sure abt this tbh (houten)
-    return otherTable;
-  }
-
-  if (this->isTableEmpty()) {
+  if (this->isTableEmpty() || otherTable.isTableEmpty()) {
     // EMPTY - ANY = EMPTY
+    // ANY - EMPTY = ANY
     return *this;
   }
     
@@ -219,16 +210,13 @@ IntermediateTable IntermediateTable::getDifference(const IntermediateTable& othe
   TableDataType newTableData;
 
   TableDataType otherTableData = otherTable.getTableData();
+  
+  std::sort(tableData.begin(), tableData.end());
+  std::sort(otherTableData.begin(), otherTableData.end());
 
-  for (TableRowType thisRowData : tableData) {
-    auto it =
-        std::find(otherTableData.begin(), otherTableData.end(), thisRowData);
-
-    if (it == otherTableData.end()) {
-      // thisRowData does not exist in otherTableData
-      newTableData.push_back(thisRowData);
-    }
-  }
+  std::set_difference(tableData.begin(), tableData.end(),
+                      otherTableData.begin(), otherTableData.end(),
+                      std::back_inserter(newTableData));
 
   IntermediateTable newTable = IntermediateTable(colNames, newTableData);
 

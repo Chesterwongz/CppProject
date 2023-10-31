@@ -232,7 +232,7 @@ TEST_CASE("IntermediateTable - getDifference : WILDCARD - ANY") {
 
   IntermediateTable resultTable = wildcardTable.getDifference(randomTable);
 
-  REQUIRE(resultTable.getTableData() == randomData);
+  REQUIRE(resultTable.isTableEmpty());
 }
 
 TEST_CASE("IntermediateTable - getDifference : ANY - ANY") {

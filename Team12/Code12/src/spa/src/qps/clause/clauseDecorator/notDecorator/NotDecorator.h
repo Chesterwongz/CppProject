@@ -48,7 +48,7 @@ class NotDecorator : public ClauseDecorator {
       : ClauseDecorator(std::move(wrapeeClause)) {}
 
   IntermediateTable evaluate(PKBReader& pkb) override;
-  IntermediateTable generateBiggerTable(
+  IntermediateTable generateMinuend(
       PKBReader& pkb, vector<unique_ptr<AbstractArgument>>& wrapeeClauseArgs);
   bool isEquals(const Clause& other) override;
 };

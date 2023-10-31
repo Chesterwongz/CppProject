@@ -8,14 +8,14 @@ IntermediateTable NotDecorator::evaluate(PKBReader& pkb) {
   vector<unique_ptr<AbstractArgument>> wrapeeClauseArgs =
       wrapeeClause->getAllArguments();
 
-  IntermediateTable biggerTable = generateBiggerTable(pkb, wrapeeClauseArgs);
+  IntermediateTable biggerTable = generateMinuend(pkb, wrapeeClauseArgs);
 
   IntermediateTable notResult = biggerTable.getDifference(wrapeeClauseResult);
 
   return notResult;
 }
 
-IntermediateTable NotDecorator::generateBiggerTable(
+IntermediateTable NotDecorator::generateMinuend(
     PKBReader& pkb, vector<unique_ptr<AbstractArgument>>& wrapeeClauseArgs) {
 
   IntermediateTable biggerTable =
