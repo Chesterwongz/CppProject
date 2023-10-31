@@ -31,7 +31,7 @@ void TestWrapper::parse(std::string filename) {
     std::cout << error.what() << std::endl;
     exit(1);
   } catch (...) {
-    exit(2);
+    exit(1);
   }
 }
 

@@ -8,7 +8,7 @@ DesignExtractor::DesignExtractor(PKBWriter& pkbWriter) : pkbWriter(pkbWriter) {
   extractors.emplace_back(std::make_unique<ModifiesExtractor>(pkbWriter));
   extractors.emplace_back(std::make_unique<EntityExtractor>(pkbWriter));
   extractors.emplace_back(std::make_unique<PatternExtractor>(pkbWriter));
-  extractors.emplace_back(std::make_unique<CFGExtractor>(pkbWriter));
+  extractors.emplace_back(std::make_unique<NextExtractor>(pkbWriter));
 }
 
 void DesignExtractor::extract(TNode& node) {
