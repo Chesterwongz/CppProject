@@ -3,6 +3,8 @@
 #include <functional>
 #include <unordered_map>
 #include <vector>
+#include <memory>
+#include <utility>
 
 #include "qps/clause/clauseDecorator/ClauseDecorator.h"
 

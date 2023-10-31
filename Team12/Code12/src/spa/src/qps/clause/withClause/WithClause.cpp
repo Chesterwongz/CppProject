@@ -17,8 +17,8 @@ vector<unique_ptr<AbstractArgument>> WithClause::getAllArguments() {
 
 IntermediateTable WithClause::evaluate(PKBReader& pkb) {
   unique_ptr<WithEvaluator> withEvaluator =
-      WithEvaluatorFactory::createWithEvaluator(*(this->firstArg), *(this->secondArg),
-                                                pkb);
+      WithEvaluatorFactory::createWithEvaluator(*(this->firstArg),
+                                                *(this->secondArg), pkb);
 
   IntermediateTable pkbResult = withEvaluator->evaluate();
 
