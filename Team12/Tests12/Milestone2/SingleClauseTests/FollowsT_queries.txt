@@ -1,0 +1,60 @@
+====== 1 - not FollowsT (_, _) ======
+stmt s;
+Select s such that not Follows*(_, _)
+none
+1000
+====== 2 - not FollowsT (_, ident) ======
+stmt s;
+Select s such that not Follows*(_, 7)
+1, 2, 3, 4, 5, 6, 7, 8, 9
+1000
+====== 3 - not FollowsT (_, s) ======
+stmt s;
+Select s such that not Follows*(_, s)
+1, 3, 4, 7
+1000
+====== 4 - not FollowsT (s, _) ======
+stmt s;
+Select s such that not Follows*(s, _)
+5, 6, 7, 9
+1000
+====== 5 - not FollowsT (s, ident) ======
+stmt s;
+Select s such that not Follows*(s, 9)
+3, 4, 5, 6, 7, 9
+1000
+====== 6 - not FollowsT (s, s) - same syn ======
+stmt s;
+Select s such that not Follows*(s, s)
+1, 2, 3, 4, 5, 6, 7, 8, 9
+1000
+====== 7 - not FollowsT (s1, s2) - different syn ======
+stmt s1, s2;
+Select s1 such that not Follows*(s1, s2)
+1, 2, 3, 4, 5, 6, 7, 8, 9
+1000
+====== 8 - not FollowsT (ident, _) ======
+stmt s;
+Select s such that not Follows*(6, _)
+1, 2, 3, 4, 5, 6, 7, 8, 9
+1000
+====== 9 - not FollowsT (ident, _) - no results ======
+stmt s;
+Select s such that not Follows*(1, _)
+none
+1000
+====== 10 - not FollowsT (ident, ident) ======
+stmt s;
+Select s such that not Follows*(1, 6)
+1, 2, 3, 4, 5, 6, 7, 8, 9
+1000
+====== 11 - not FollowsT (ident, ident) - no results ======
+stmt s;
+Select s such that not Follows*(1, 9)
+none
+1000
+====== 12 - not FollowsT (ident, s) ======
+stmt s;
+Select s such that not Follows*(1, s)
+1, 3, 4, 5, 6, 7
+1000
