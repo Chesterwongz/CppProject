@@ -25,7 +25,10 @@ bool AssignPatternClause::isEquals(const Clause& other) {
 }
 
 set<string> AssignPatternClause::getClauseSynonyms() {
-  return ClauseUtil::getSynonymArgValues(firstArg, secondArg);
+  set<string> clauseSynonyms =
+      ClauseUtil::getSynonymArgValues(firstArg, secondArg);
+  clauseSynonyms.insert(synonym->getValue());
+  return clauseSynonyms;
 }
 
 string AssignPatternClause::getKey() {
