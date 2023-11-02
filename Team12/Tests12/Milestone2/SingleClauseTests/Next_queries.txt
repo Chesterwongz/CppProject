@@ -88,3 +88,73 @@ stmt s;
 Select s such that Next( Next,_ )
 SemanticError
 1000
+====== 19 - Not Next (_,_) (+) ======
+stmt Next;
+Select Next such that not Next (_,_)
+none
+1000
+====== 20 - Not Next (stmt,_) (+) ======
+stmt stmt;
+Select stmt such that not Next (stmt ,_)
+8, 9
+1000
+====== 21 - Not Next (_,stmt) (+) ======
+stmt Select;
+Select Select such that not Next (_,Select)
+1, 9
+1000
+====== 22 - Not Next (stmt1,stmt1) (+) ======
+stmt s;
+Select s such that not Next (s,s)
+1,2,3,4,5,6,7,8,9
+1000
+====== 23 - Not Next (2, stmt) (+) ======
+stmt Next;
+Select Next such that not Next   ( 2,Next )
+1,2,4,5,7,8,9
+1000
+====== 24 - Not Next (stmt, 3) (+) ======
+stmt s;
+Select s such that not Next   ( s,3 )
+1,3,5,6,7,8,9
+1000
+====== 25 - Not Next (2, _) (+) ======
+stmt s;
+Select s such that not Next(2,_)
+none
+1000
+====== 26 - Not Next (5, 9) (+) ======
+stmt s;
+Select s such that not Next(5,9)
+1,2,3,4,5,6,7,8,9
+1000
+====== 27 - Not Next (_, 9) (+) ======
+stmt s;
+Select s such that not Next   ( _,1 )
+1,2,3,4,5,6,7,8,9
+1000
+====== 28 - Not Next (_, 9) (-) ======
+stmt s;
+Select not s such that Next   ( _,1 )
+SyntaxError
+1000
+====== 29 - Not Next* (2, _) (+) ======
+stmt s;
+Select s such that not Next*(2,_)
+none
+5000
+====== 30 - Not Next* (5, 9) (+) ======
+stmt s;
+Select s such that not Next*(5,9)
+1,2,3,4,5,6,7,8,9
+5000
+====== 31 - Not Next* (3, 6) (+) ======
+stmt s;
+Select s such that not Next*(1,4)
+none
+5000
+====== 32 - Not Next* (_, 9) (-) ======
+stmt s;
+Select s such that not Next*   ( _,1 )
+1,2,3,4,5,6,7,8,9
+5000
