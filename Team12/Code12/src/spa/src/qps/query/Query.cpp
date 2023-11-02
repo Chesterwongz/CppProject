@@ -28,3 +28,11 @@ bool Query::operator==(const Query& other) {
 
   return true;
 }
+
+set<string> Query::getSelectedSynonyms() {
+  return this->selectClause->getClauseSynonyms();
+}
+
+unordered_set<string> Query::getQueryResult(IntermediateTable& finalTable) {
+  return this->selectClause->getQueryResult(finalTable);
+}

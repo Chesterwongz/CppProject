@@ -21,13 +21,16 @@ class Query {
   unique_ptr<BaseSelectClause> selectClause = {};
   ClauseUtil::ClauseList clauses = {};
 
-
  public:
   void addClause(unique_ptr<Clause> clause);
 
   void setSynonymToQuery(SynonymsToSelect selectSynonyms);
 
   IntermediateTable evalSelectClause(PKBReader& pkb);
+
+  set<string> getSelectedSynonyms();
+
+  unordered_set<string> getQueryResult(IntermediateTable& finalTable);
 
   bool operator==(const Query& other);
 
