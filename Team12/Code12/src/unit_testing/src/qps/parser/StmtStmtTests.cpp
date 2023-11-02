@@ -10,7 +10,7 @@
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/tokenizer/token/PQLToken.h"
 #include "qps/query/Query.h"
-#include <qps/clause/clauseDecorator/notDecorator/NotDecorator.h>
+#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
 
 TEST_CASE("Valid Follows(SYNONYM, SYNONYM)") {
   string d1 = "hello";

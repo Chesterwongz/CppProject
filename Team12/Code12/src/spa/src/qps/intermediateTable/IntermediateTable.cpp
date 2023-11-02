@@ -1,8 +1,8 @@
 #include "IntermediateTable.h"
 
+#include <algorithm>
 #include <cassert>
 #include <iostream>
-#include <algorithm>
 #include <stdexcept>
 
 #include "IntermediateTableUtils.h"
@@ -188,7 +188,8 @@ IntermediateTable IntermediateTable::join(
                                                 joinColOther);
 }
 
-IntermediateTable IntermediateTable::getDifference(const IntermediateTable& otherTable) {
+IntermediateTable IntermediateTable::getDifference(
+    const IntermediateTable &otherTable) {
   if (otherTable.isTableWildcard()) {
     // ANY - WILDCARD = EMPTY
     return IntermediateTable::makeEmptyTable();
@@ -199,18 +200,18 @@ IntermediateTable IntermediateTable::getDifference(const IntermediateTable& othe
     // ANY - EMPTY = ANY
     return *this;
   }
-    
+
   // must have same number of cols
   assert(colNames.size() == otherTable.getColNames().size());
   for (int i = 0; i < colNames.size(); i++) {
     // both tables cols must be the same
     assert(colNames[i] == otherTable.getColNames()[i]);
-  } 
+  }
 
   TableDataType newTableData;
 
   TableDataType otherTableData = otherTable.getTableData();
-  
+
   std::sort(tableData.begin(), tableData.end());
   std::sort(otherTableData.begin(), otherTableData.end());
 

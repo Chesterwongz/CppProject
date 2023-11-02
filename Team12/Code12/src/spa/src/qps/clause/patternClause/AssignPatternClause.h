@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_set>
 #include <utility>
+#include <vector>
 
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"
@@ -17,7 +18,7 @@ class AssignPatternClause : public Clause {
   unique_ptr<AbstractArgument> synonym;
   unique_ptr<AbstractArgument> firstArg;
   unique_ptr<AbstractArgument> secondArg;
-  bool isPartialMatch;  
+  bool isPartialMatch;
 
  public:
   explicit AssignPatternClause(unique_ptr<AbstractArgument> synonym,
@@ -32,5 +33,4 @@ class AssignPatternClause : public Clause {
   IntermediateTable evaluate(PKBReader& pkb) override;
   vector<unique_ptr<AbstractArgument>> getAllArguments() override;
   bool isEquals(const Clause& other) override;
-  
 };

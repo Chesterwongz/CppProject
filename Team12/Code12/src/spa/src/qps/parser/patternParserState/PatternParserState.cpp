@@ -72,8 +72,9 @@ void PatternParserState::createPatternClause() {
       return;
     }
     if (synEntity == WHILE_ENTITY && nonFirstArgs[0]->isWildcard()) {
-      unique_ptr<WhilePatternClause> whilePatternClause = std::make_unique<WhilePatternClause>(
-          std::move(syn), std::move(firstArg));
+      unique_ptr<WhilePatternClause> whilePatternClause =
+          std::make_unique<WhilePatternClause>(std::move(syn),
+                                               std::move(firstArg));
       if (isNegated) {
         parserContext.addClause(
             std::make_unique<NotDecorator>(std::move(whilePatternClause)));

@@ -1,5 +1,10 @@
 #include "NotDecorator.h"
 
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 
 IntermediateTable NotDecorator::evaluate(PKBReader& pkb) {
@@ -17,7 +22,6 @@ IntermediateTable NotDecorator::evaluate(PKBReader& pkb) {
 
 IntermediateTable NotDecorator::generateMinuend(
     PKBReader& pkb, vector<unique_ptr<AbstractArgument>>& wrapeeClauseArgs) {
-
   IntermediateTable biggerTable =
       IntermediateTableFactory::buildWildcardIntermediateTable();
 
@@ -30,8 +34,8 @@ IntermediateTable NotDecorator::generateMinuend(
       continue;
     }
 
-    unique_ptr<SynonymArg> wrapeeClauseSynArg =
-        unique_ptr<SynonymArg>(dynamic_cast<SynonymArg*>(wrapeeClauseArg.release()));
+    unique_ptr<SynonymArg> wrapeeClauseSynArg = unique_ptr<SynonymArg>(
+        dynamic_cast<SynonymArg*>(wrapeeClauseArg.release()));
 
     vector<SynonymRes> synonymResObjsOfEntityType =
         notDecoratorFuncMap[wrapeeClauseSynArg->getEntityType()](pkb);
@@ -46,7 +50,7 @@ IntermediateTable NotDecorator::generateMinuend(
   return biggerTable;
 }
 
-bool NotDecorator::isEquals(const Clause& other) { 
+bool NotDecorator::isEquals(const Clause& other) {
   const auto* otherDecorator = dynamic_cast<const NotDecorator*>(&other);
 
   if (!otherDecorator) return false;
@@ -95,8 +99,7 @@ vector<SynonymRes> NotDecorator::getAllIfStmts(PKBReader& pkb) {
   vector<SynonymRes> ifStmtSynonymResVec;
 
   for (string stmtNum : allIfStmts) {
-    ifStmtSynonymResVec.push_back(
-        SynonymResFactory::buildStmtSynonym(stmtNum));
+    ifStmtSynonymResVec.push_back(SynonymResFactory::buildStmtSynonym(stmtNum));
   }
   return ifStmtSynonymResVec;
 }
@@ -165,8 +168,7 @@ vector<SynonymRes> NotDecorator::getAllProcedures(PKBReader& pkb) {
   vector<SynonymRes> procSynonymResVec;
 
   for (string procName : allprocs) {
-    procSynonymResVec.push_back(
-        SynonymResFactory::buildProcSynonym(procName));
+    procSynonymResVec.push_back(SynonymResFactory::buildProcSynonym(procName));
   }
 
   return procSynonymResVec;
@@ -178,8 +180,7 @@ vector<SynonymRes> NotDecorator::getAllVariables(PKBReader& pkb) {
   vector<SynonymRes> varSynonymResVec;
 
   for (string varName : allVars) {
-    varSynonymResVec.push_back(
-        SynonymResFactory::buildVarSynonym(varName));
+    varSynonymResVec.push_back(SynonymResFactory::buildVarSynonym(varName));
   }
 
   return varSynonymResVec;

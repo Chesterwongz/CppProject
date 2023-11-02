@@ -4,6 +4,7 @@
 #include <set>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "qps/argument/AbstractArgument.h"
 #include "qps/clause/Clause.h"
