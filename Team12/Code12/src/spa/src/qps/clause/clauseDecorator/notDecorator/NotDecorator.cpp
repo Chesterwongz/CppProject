@@ -22,7 +22,7 @@ IntermediateTable NotDecorator::evaluate(PKBReader& pkb) {
 
 IntermediateTable NotDecorator::generateMinuend(
     PKBReader& pkb, vector<unique_ptr<AbstractArgument>>& wrapeeClauseArgs) {
-  IntermediateTable biggerTable =
+  IntermediateTable minuend =
       IntermediateTableFactory::buildWildcardIntermediateTable();
 
   for (int i = 0; i < wrapeeClauseArgs.size(); i++) {
@@ -44,10 +44,10 @@ IntermediateTable NotDecorator::generateMinuend(
         IntermediateTableFactory::buildSingleColTable(
             wrapeeClauseSynArg->getValue(), synonymResObjsOfEntityType);
 
-    biggerTable = biggerTable.join(tableOfEntityType);
+    minuend = minuend.join(tableOfEntityType);
   }
 
-  return biggerTable;
+  return minuend;
 }
 
 bool NotDecorator::isEquals(const Clause& other) {
