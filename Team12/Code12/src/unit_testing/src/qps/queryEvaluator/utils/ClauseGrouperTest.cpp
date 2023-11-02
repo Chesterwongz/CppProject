@@ -24,7 +24,7 @@ TEST_CASE("ClauseGrouper - no_shared_synonyms") {
 
   unique_ptr<IClauseGrouper> grouper = std::make_unique<ClauseGrouper>(clauses);
   ClauseGroupQueue actualGroups = grouper->groupClauses();
-  std::priority_queue<ClauseGroup> actualGroupsQueue = actualGroups.getQueue();
+  std::queue<ClauseGroup> actualGroupsQueue = actualGroups.getQueue();
 
   REQUIRE(actualGroupsQueue.size() == 4);
 }
@@ -48,7 +48,7 @@ TEST_CASE("ClauseGrouper - shared_synonyms_1_group") {
 
   unique_ptr<IClauseGrouper> grouper = std::make_unique<ClauseGrouper>(clauses);
   ClauseGroupQueue actualGroups = grouper->groupClauses();
-  std::priority_queue<ClauseGroup> actualGroupsQueue = actualGroups.getQueue();
+  std::queue<ClauseGroup> actualGroupsQueue = actualGroups.getQueue();
 
   REQUIRE(actualGroupsQueue.size() == 1);
 }
@@ -72,7 +72,7 @@ TEST_CASE("ClauseGrouper - shared_synonyms_3_group") {
 
   unique_ptr<IClauseGrouper> grouper = std::make_unique<ClauseGrouper>(clauses);
   ClauseGroupQueue actualGroups = grouper->groupClauses();
-  std::priority_queue<ClauseGroup> actualGroupsQueue = actualGroups.getQueue();
+  std::queue<ClauseGroup> actualGroupsQueue = actualGroups.getQueue();
 
   REQUIRE(actualGroupsQueue.size() == 3);
 }
@@ -81,7 +81,7 @@ TEST_CASE("ClauseGrouper - shared_synonyms_no_group") {
   ClauseUtil::ClauseList clauses {};
   unique_ptr<IClauseGrouper> grouper = std::make_unique<ClauseGrouper>(clauses);
   ClauseGroupQueue actualGroups = grouper->groupClauses();
-  std::priority_queue<ClauseGroup> actualGroupsQueue = actualGroups.getQueue();
+  std::queue<ClauseGroup> actualGroupsQueue = actualGroups.getQueue();
 
   REQUIRE(actualGroupsQueue.empty());
 }

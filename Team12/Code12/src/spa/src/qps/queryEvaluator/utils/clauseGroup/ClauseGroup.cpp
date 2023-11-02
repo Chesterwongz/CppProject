@@ -2,15 +2,11 @@
 
 ClauseGroup::ClauseGroup(ClauseUtil::ClauseRefList& clauseList) {
   for (unique_ptr<Clause>& clause : clauseList) {
-    // todo(yq) update group score after each clause is added
-    // this->score += clause->getScore();
     this->clauseRefList.emplace_back(clause);
   }
 }
 
 ClauseGroup::ClauseGroup(unique_ptr<Clause>& clause) {
-  // todo(yq) update group score for single clause added
-  // this->score += clause->getScore();
   this->clauseRefList.emplace_back(clause);
 }
 

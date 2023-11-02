@@ -12,7 +12,7 @@ using std::vector, std::unique_ptr;
 
 class ClauseGroupQueue {
  private:
-  std::priority_queue<ClauseGroup> clauseGroupQueue;
+  std::queue<ClauseGroup> clauseGroupQueue;
 
  public:
   void addClauseGroup(const ClauseGroup& clause);
@@ -20,12 +20,5 @@ class ClauseGroupQueue {
   /**
    * for testing usage only
    */
-  std::priority_queue<ClauseGroup>& getQueue();
+  std::queue<ClauseGroup>& getQueue();
 };
-
-/**
- * for min heap implementation
- */
-bool operator<(const ClauseGroup &thisGroup,
-               const ClauseGroup &otherGroup);
-
