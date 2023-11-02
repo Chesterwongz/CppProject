@@ -28,4 +28,6 @@ class BaseSelectClause : public Clause {
       IntermediateTable &intermediateTable) = 0;
 
   void addSynonymsInOtherClause(const set<string>& synonyms);
+
+  string getKey() override;
 };

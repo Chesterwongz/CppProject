@@ -9,8 +9,7 @@ IntermediateTable AssignPatternClause::evaluate(PKBReader& pkbReader) {
   unique_ptr<PatternEvaluator> evaluatorPtr;
 
   evaluatorPtr = std::make_unique<AssignEvaluator>(
-      std::move(firstArg), std::move(secondArg), pkbReader, isPartialMatch,
-      synonymValue);
+      firstArg, secondArg, pkbReader, isPartialMatch, synonymValue);
 
   return evaluatorPtr->evaluate();
 }
@@ -29,3 +28,7 @@ set<string> AssignPatternClause::getClauseSynonyms() {
   return ClauseUtil::getSynonymArgValues(firstArg, secondArg);
 }
 
+string AssignPatternClause::getKey() {
+  return ASSIGN_ENTITY + '|' + synonym->getValue() + '|' +
+         firstArg->getValue() + '|' + secondArg->getValue();
+}

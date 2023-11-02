@@ -33,4 +33,5 @@ class AssignPatternClause : public Clause {
   IntermediateTable evaluate(PKBReader& pkb) override;
   bool isEquals(const Clause& other) override;
   set<string> getClauseSynonyms() override;
+  string getKey() override;
 };

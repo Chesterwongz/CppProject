@@ -10,8 +10,8 @@ IntermediateTable WhilePatternClause::evaluate(PKBReader& pkbReader) {
 
   unique_ptr<PatternEvaluator> evaluatorPtr;
 
-  evaluatorPtr = std::make_unique<WhileEvaluator>(std::move(firstArg),
-                                                  pkbReader, synonymValue);
+  evaluatorPtr =
+      std::make_unique<WhileEvaluator>(firstArg, pkbReader, synonymValue);
 
   return evaluatorPtr->evaluate();
 }
@@ -26,4 +26,9 @@ bool WhilePatternClause::isEquals(const Clause& other) {
 
 set<string> WhilePatternClause::getClauseSynonyms() {
   return ClauseUtil::getSynonymArgValues(synonym, firstArg);
+}
+
+string WhilePatternClause::getKey() {
+  return WHILE_ENTITY + '|' + synonym->getValue() + '|' + firstArg->getValue();
+  ;
 }

@@ -34,3 +34,8 @@ bool SuchThatClause::isEquals(const Clause& other) {
 set<string> SuchThatClause::getClauseSynonyms() {
   return ClauseUtil::getSynonymArgValues(this->firstArg, this->secondArg);
 }
+
+string SuchThatClause::getKey() {
+  return AbstractionEnumToStringMap.at(this->relationship) + "|" +
+         this->firstArg->getValue() + "|" + this->secondArg->getValue();
+}

@@ -13,7 +13,8 @@ class ClauseGroup {
  private:
   TableQueue tableQueue;
   ClauseUtil::ClauseRefList clauseRefList;
-  int score{};
+  int score {};
+  unordered_set<string> evaluatedClauses {};
 
   void evaluateClauseToTables(PKBReader& pkb);
 

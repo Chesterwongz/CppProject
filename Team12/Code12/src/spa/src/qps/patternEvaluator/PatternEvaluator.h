@@ -20,7 +20,7 @@ class PatternEvaluator {
   string synonymValue;
 
  public:
-  explicit PatternEvaluator(unique_ptr<AbstractArgument> firstArg,
+  explicit PatternEvaluator(unique_ptr<AbstractArgument>& firstArg,
                             PKBReader& pkbReader, string synonymValue)
       : firstArg(std::move(firstArg)),
         pkbReader(pkbReader),

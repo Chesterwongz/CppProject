@@ -15,6 +15,7 @@ class MockClause : public Clause {
       IntermediateTableFactory::buildWildcardIntermediateTable();
   bool mockIsEquals = false;
   set<string> mockClauseSynonyms = {};
+  string mockKey {};
 
  public:
   explicit MockClause(vector<string> synonyms) {
@@ -22,15 +23,11 @@ class MockClause : public Clause {
     mockClauseSynonyms = synonymSet;
   }
 
-  IntermediateTable evaluate(PKBReader& pkb) override {
-      return mockEvaluate;
-  }
+  IntermediateTable evaluate(PKBReader& pkb) override { return mockEvaluate; }
 
-  bool isEquals(const Clause& other) override {
-      return mockIsEquals;
-  }
+  bool isEquals(const Clause& other) override { return mockIsEquals; }
 
-  set<string> getClauseSynonyms() override {
-      return mockClauseSynonyms;
-  }
+  set<string> getClauseSynonyms() override { return mockClauseSynonyms; }
+
+  string getKey() override { return mockKey; }
 };

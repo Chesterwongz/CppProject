@@ -10,8 +10,8 @@ IntermediateTable IfPatternClause::evaluate(PKBReader& pkbReader) {
 
   unique_ptr<PatternEvaluator> evaluatorPtr;
 
-  evaluatorPtr = std::make_unique<IfEvaluator>(std::move(firstArg), pkbReader,
-                                               synonymValue);
+  evaluatorPtr =
+      std::make_unique<IfEvaluator>(firstArg, pkbReader, synonymValue);
 
   return evaluatorPtr->evaluate();
 }
@@ -26,4 +26,9 @@ bool IfPatternClause::isEquals(const Clause& other) {
 
 set<string> IfPatternClause::getClauseSynonyms() {
   return ClauseUtil::getSynonymArgValues(synonym, firstArg);
+}
+
+string IfPatternClause::getKey() {
+  return IF_ENTITY + '|' + synonym->getValue() + '|' + firstArg->getValue();
+  ;
 }

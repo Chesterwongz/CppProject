@@ -14,11 +14,11 @@ TEST_CASE("test_ifEvaluator_processArgs_synonymFirstArg") {
   SynonymArg patternSynonym = SynonymArg(ifSynonymValue, IF_ENTITY);
   SynonymArg variableSynonym = SynonymArg("test", VARIABLE_ENTITY);
 
-  unique_ptr<SynonymArg> variableSynonymPtr =
+  unique_ptr<AbstractArgument> variableSynonymPtr =
       make_unique<SynonymArg>(variableSynonym.getValue(), VARIABLE_ENTITY);
 
   IfEvaluator ifEvaluator =
-      IfEvaluator(std::move(variableSynonymPtr), ifMockPKBReader,
+      IfEvaluator(variableSynonymPtr, ifMockPKBReader,
                   patternSynonym.getValue());
 
   vector<pair<string, string>> pkbResult = ifEvaluator.evaluateArguments();
@@ -33,11 +33,11 @@ TEST_CASE("test_ifEvaluator_processArgs_identFirstArg") {
   SynonymArg patternSynonym = SynonymArg(ifSynonymValue, IF_ENTITY);
   Ident patternFirstArg = Ident("a");
 
-  unique_ptr<Ident> patternFirstArgPtr =
+  unique_ptr<AbstractArgument> patternFirstArgPtr =
       make_unique<Ident>(patternFirstArg.getValue());
 
   IfEvaluator ifEvaluator =
-      IfEvaluator(std::move(patternFirstArgPtr), ifMockPKBReader,
+      IfEvaluator(patternFirstArgPtr, ifMockPKBReader,
                   patternSynonym.getValue());
 
   vector<pair<string, string>> pkbResult = ifEvaluator.evaluateArguments();
@@ -53,9 +53,9 @@ TEST_CASE("test_ifEvaluator_processArgs_wildcardFirstArg") {
   // if woof; select woof pattern woof (_, _ , _ );
   SynonymArg patternSynonym = SynonymArg(ifSynonymValue, IF_ENTITY);
 
-  unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> wildcardPtr = make_unique<Wildcard>();
 
-  IfEvaluator ifEvaluator = IfEvaluator(std::move(wildcardPtr), ifMockPKBReader,
+  IfEvaluator ifEvaluator = IfEvaluator(wildcardPtr, ifMockPKBReader,
                                         patternSynonym.getValue());
 
   vector<pair<string, string>> pkbResult = ifEvaluator.evaluateArguments();
@@ -70,11 +70,11 @@ TEST_CASE("test_ifEvaluator_evaluate_synonymFirstArg") {
   SynonymArg patternSynonym = SynonymArg(ifSynonymValue, IF_ENTITY);
   SynonymArg variableSynonym = SynonymArg("test", VARIABLE_ENTITY);
 
-  unique_ptr<SynonymArg> variableSynonymPtr =
+  unique_ptr<AbstractArgument> variableSynonymPtr =
       make_unique<SynonymArg>(variableSynonym.getValue(), VARIABLE_ENTITY);
 
   IfEvaluator ifEvaluator =
-      IfEvaluator(std::move(variableSynonymPtr), ifMockPKBReader,
+      IfEvaluator(variableSynonymPtr, ifMockPKBReader,
                   patternSynonym.getValue());
 
   IntermediateTable actualTable = ifEvaluator.evaluate();
@@ -101,11 +101,11 @@ TEST_CASE("test_ifEvaluator_evaluate_identFirstArg") {
   SynonymArg patternSynonym = SynonymArg(ifSynonymValue, IF_ENTITY);
   Ident patternFirstArg = Ident("a");
 
-  unique_ptr<Ident> patternFirstArgPtr =
+  unique_ptr<AbstractArgument> patternFirstArgPtr =
       make_unique<Ident>(patternFirstArg.getValue());
 
   IfEvaluator ifEvaluator =
-      IfEvaluator(std::move(patternFirstArgPtr), ifMockPKBReader,
+      IfEvaluator(patternFirstArgPtr, ifMockPKBReader,
                   patternSynonym.getValue());
 
   IntermediateTable actualTable = ifEvaluator.evaluate();
@@ -129,9 +129,9 @@ TEST_CASE("test_ifEvaluator_evaluate_wildcardFirstArg") {
   // if woof; variable test; select woof pattern woof (test, _ , _ );
   SynonymArg patternSynonym = SynonymArg(ifSynonymValue, IF_ENTITY);
 
-  unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
+  unique_ptr<AbstractArgument> wildcardPtr = make_unique<Wildcard>();
 
-  IfEvaluator ifEvaluator = IfEvaluator(std::move(wildcardPtr), ifMockPKBReader,
+  IfEvaluator ifEvaluator = IfEvaluator(wildcardPtr, ifMockPKBReader,
                                         patternSynonym.getValue());
 
   IntermediateTable actualTable = ifEvaluator.evaluate();

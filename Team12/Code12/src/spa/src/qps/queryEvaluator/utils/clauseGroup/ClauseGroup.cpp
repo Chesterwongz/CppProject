@@ -16,7 +16,13 @@ ClauseGroup::ClauseGroup(unique_ptr<Clause>& clause) {
 
 void ClauseGroup::evaluateClauseToTables(PKBReader& pkb) {
   for (const unique_ptr<Clause>& clause : this->clauseRefList) {
-    tableQueue.addTable(clause->evaluate(pkb));
+    string clauseKey = clause->getKey();
+    if (this->evaluatedClauses.find(clauseKey) != this->evaluatedClauses.end()) {
+      // ignore clauses we evaluated before
+      continue;
+    }
+    this->tableQueue.addTable(clause->evaluate(pkb));
+    this->evaluatedClauses.insert(clauseKey);
   }
 }
 

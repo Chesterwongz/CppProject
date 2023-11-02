@@ -26,3 +26,7 @@ bool WithClause::isEquals(const Clause& other) {
 set<string> WithClause::getClauseSynonyms() {
   return {firstArg->getValue(), secondArg->getValue()};
 }
+string WithClause::getKey() {
+  return WITH_KEYWORD + "|" + firstArg->getValue() + "|" +
+         secondArg->getValue();
+}
