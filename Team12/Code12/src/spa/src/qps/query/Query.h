@@ -3,7 +3,9 @@
 #include <algorithm>
 #include <memory>
 #include <queue>
+#include <set>
 #include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -14,7 +16,7 @@
 #include "qps/clause/selectClause/SelectClauseFactory.h"
 #include "qps/clause/utils/ClauseUtil.h"
 
-using std::vector, std::unique_ptr, std::string;
+using std::vector, std::unique_ptr, std::string, std::set, std::unordered_set;
 
 class Query {
  private:

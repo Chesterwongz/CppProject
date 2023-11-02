@@ -100,6 +100,7 @@ unordered_set<string> IntermediateTable::getColumns(
       string synonymValue = synonym->getValue();
       AttrRef attrRef = synonym->getAttrRef();
       int colIndex = this->colNameToIndexMap.at(synonymValue);
+      std::cout << attrRef << std::endl;
       assert(this->tableData.at(rowIndex).at(colIndex).isAttrExists(attrRef));
       row += (row.empty() ? "" : " ") +
              this->tableData.at(rowIndex).at(colIndex).getAttribute(attrRef);
@@ -206,11 +207,11 @@ void IntermediateTable::printTable() const {
   for (const auto &row : this->getTableData()) {
     string rowDataToPrint;
     for (auto &col : row) {
-      rowDataToPrint += col.getAttribute(AttrRefEnum::DEFAULT) + "," +
-                        col.getAttribute(AttrRefEnum::VALUE_ENUM) + "," +
-                        col.getAttribute(AttrRefEnum::VAR_NAME_ENUM) + "," +
-                        col.getAttribute(AttrRefEnum::STMT_NUM_ENUM) + "," +
-                        col.getAttribute(AttrRefEnum::PROC_NAME_ENUM) + " | ";
+      rowDataToPrint += col.getAttribute(ATTR_REF_DEFAULT) + "," +
+                        col.getAttribute(ATTR_REF_VALUE) + "," +
+                        col.getAttribute(ATTR_REF_VAR_NAME) + "," +
+                        col.getAttribute(ATTR_REF_STMT_NUMBER) + "," +
+                        col.getAttribute(ATTR_REF_PROC_NAME) + " | ";
     }
     std::cout << rowDataToPrint << std::endl;
   }

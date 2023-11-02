@@ -48,11 +48,13 @@ inline const string CALLS_STAR_ABSTRACTION = "Calls*";
 
 inline const string WITH_KEYWORD = "with";
 
-inline const string ATTR_REF_PROC_NAME = "procName";
-inline const string ATTR_REF_VAR_NAME = "varName";
-inline const string ATTR_REF_VALUE = "value";
-inline const string ATTR_REF_STMT_NUMBER = "stmt#";
-inline const string ATTR_REF_INVALID;
+inline const AttrRef ATTR_REF_PROC_NAME = "procName";
+inline const AttrRef ATTR_REF_VAR_NAME = "varName";
+inline const AttrRef ATTR_REF_VALUE = "value";
+inline const AttrRef ATTR_REF_STMT_NUMBER = "stmt#";
+inline const AttrRef ATTR_REF_DEFAULT =
+    "";  // for synonyms without attrRef specified
+inline const AttrRef ATTR_REF_INVALID = "invalid";
 
 inline const string WILDCARD_KEYWORD = "_";
 inline const string INVALID_STATEMENT_NUMBER = "-1";
