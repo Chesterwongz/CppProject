@@ -3,12 +3,14 @@
 #include <algorithm>
 #include <memory>
 #include <queue>
+#include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "qps/queryEvaluator/utils/clauseGroup/ClauseGroup.h"
 
-using std::vector, std::unique_ptr;
+using std::vector, std::unique_ptr, std::set, std::string;
 
 class ClauseGroupQueue {
  private:

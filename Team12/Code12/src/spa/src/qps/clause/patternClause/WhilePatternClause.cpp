@@ -30,5 +30,4 @@ set<string> WhilePatternClause::getClauseSynonyms() {
 
 string WhilePatternClause::getKey() {
   return WHILE_ENTITY + '|' + synonym->getValue() + '|' + firstArg->getValue();
-  ;
 }

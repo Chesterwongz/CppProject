@@ -30,5 +30,4 @@ set<string> IfPatternClause::getClauseSynonyms() {
 
 string IfPatternClause::getKey() {
   return IF_ENTITY + '|' + synonym->getValue() + '|' + firstArg->getValue();
-  ;
 }

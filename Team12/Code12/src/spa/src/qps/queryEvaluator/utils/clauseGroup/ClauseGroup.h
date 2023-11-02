@@ -2,13 +2,16 @@
 
 #include <algorithm>
 #include <memory>
+#include <set>
+#include <string>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "qps/queryEvaluator/utils/tableQueue/TableQueue.h"
 
-using std::vector, std::unique_ptr, std::reference_wrapper, std::unordered_set;
+using std::vector, std::unique_ptr, std::reference_wrapper, std::unordered_set,
+    std::set;
 
 class ClauseGroup {
  private:
