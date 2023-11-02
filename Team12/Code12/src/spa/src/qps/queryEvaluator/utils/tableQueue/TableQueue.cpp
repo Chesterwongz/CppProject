@@ -16,6 +16,11 @@ IntermediateTable TableQueue::getJoinResult() {
     this->tableQueue.pop();
     IntermediateTable secondSmallest = this->tableQueue.top();
     this->tableQueue.pop();
+    // if any table is empty, stop evaluation and return empty table
+    if (smallest.isTableEmptyAndNotWildcard() ||
+        secondSmallest.isTableEmptyAndNotWildcard()) {
+      return IntermediateTableFactory::buildEmptyIntermediateTable();
+    }
     this->tableQueue.push(smallest.join(secondSmallest));
   }
   IntermediateTable final = tableQueue.top();

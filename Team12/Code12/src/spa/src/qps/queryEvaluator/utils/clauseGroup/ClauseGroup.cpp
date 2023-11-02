@@ -13,12 +13,20 @@ ClauseGroup::ClauseGroup(unique_ptr<Clause>& clause) {
 void ClauseGroup::evaluateClauseToTables(PKBReader& pkb) {
   for (const unique_ptr<Clause>& clause : this->clauseRefList) {
     string clauseKey = clause->getKey();
-    if (this->evaluatedClauses.find(clauseKey) != this->evaluatedClauses.end()) {
+    if (this->evaluatedClauses.find(clauseKey) !=
+        this->evaluatedClauses.end()) {
       // ignore clauses we evaluated before
       continue;
     }
-    this->tableQueue.addTable(clause->evaluate(pkb));
+    IntermediateTable clauseRes = clause->evaluate(pkb);
+    bool isEmpty = clauseRes.isTableEmptyAndNotWildcard();
+    this->tableQueue.addTable(std::move(clauseRes));
     this->evaluatedClauses.insert(clauseKey);
+
+    if (isEmpty) {
+      // stop evaluation if we get empty table
+      break;
+    }
   }
 }
 

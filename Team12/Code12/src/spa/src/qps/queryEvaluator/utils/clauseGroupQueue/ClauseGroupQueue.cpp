@@ -8,7 +8,14 @@ IntermediateTable ClauseGroupQueue::evaluate(PKBReader& pkb) {
   TableQueue tableQueue {};
   while (!this->clauseGroupQueue.empty()) {
     ClauseGroup clauseGroup = this->clauseGroupQueue.front();
-    tableQueue.addTable(clauseGroup.evaluate(pkb));
+    IntermediateTable clauseGroupRes = clauseGroup.evaluate(pkb);
+
+    if (clauseGroupRes.isTableEmptyAndNotWildcard()) {
+      // stop evaluation if we get empty table
+      return clauseGroupRes;
+    }
+
+    tableQueue.addTable(std::move(clauseGroupRes));
     this->clauseGroupQueue.pop();
   }
   return tableQueue.getJoinResult();
