@@ -3,16 +3,16 @@
 #include <string>
 
 #include "pkb/interfaces/writers/IUsesWriter.h"
-#include "pkb/storage/relation_storage/UsesPStore.h"
-#include "pkb/storage/relation_storage/UsesSStore.h"
+#include "pkb/storage/relation_storage/RelationStore.h"
 
 class UsesWriter : public IUsesWriter {
  private:
-  UsesSStore& usesStore;
-  UsesPStore& usesPStore;
+  RelationStore<int, std::string>& usesStore;
+  RelationStore<std::string, std::string>& usesPStore;
 
  protected:
-  UsesWriter(UsesSStore& usesStore, UsesPStore& usesPStore)
+  UsesWriter(RelationStore<int, std::string>& usesStore,
+             RelationStore<std::string, std::string>& usesPStore)
       : usesStore(usesStore), usesPStore(usesPStore) {}
 
  public:

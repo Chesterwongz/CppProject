@@ -1,14 +1,14 @@
 #pragma once
 
 #include "pkb/interfaces/writers/IFollowsWriter.h"
-#include "pkb/storage/relation_storage/FollowsStore.h"
+#include "pkb/storage/relation_storage/RelationTStore.h"
 
 class FollowsWriter : public IFollowsWriter {
  private:
-  FollowsStore& followsStore;
+  RelationTStore<int>& followsStore;
 
  protected:
-  explicit FollowsWriter(FollowsStore& followsStore)
+  explicit FollowsWriter(RelationTStore<int>& followsStore)
       : followsStore(followsStore) {}
 
  public:

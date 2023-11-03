@@ -11,20 +11,20 @@
 #include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/IAffectsReader.h"
 #include "pkb/storage/entity_storage/StmtStore.h"
-#include "pkb/storage/relation_storage/ModifiesSStore.h"
 #include "pkb/storage/relation_storage/NextStore.h"
-#include "pkb/storage/relation_storage/UsesSStore.h"
+#include "pkb/storage/relation_storage/RelationStore.h"
 
 class AffectsReader : public IAffectsReader {
  private:
-  ModifiesSStore& modifiesSStore;
+  RelationStore<int, std::string>& modifiesSStore;
   NextStore& nextStore;
   StmtStore& stmtStore;
-  UsesSStore& usesSStore;
+  RelationStore<int, std::string>& usesSStore;
 
  public:
-  explicit AffectsReader(ModifiesSStore& modifiesSStore, NextStore& nextStore,
-                         StmtStore& stmtStore, UsesSStore& usesSStore)
+  explicit AffectsReader(RelationStore<int, std::string>& modifiesSStore,
+                         NextStore& nextStore, StmtStore& stmtStore,
+                         RelationStore<int, std::string>& usesSStore)
       : modifiesSStore(modifiesSStore),
         nextStore(nextStore),
         stmtStore(stmtStore),

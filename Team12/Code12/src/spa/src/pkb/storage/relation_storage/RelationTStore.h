@@ -18,8 +18,6 @@ class RelationTStore : public RelationStore<T, T> {
   // An unordered set of the direct ancestors of T. I.e., T <-* T
   std::unordered_map<T, std::unordered_set<T>> transitiveAncestorMap;
 
-  RelationTStore() = default;
-
   void addRelationT(T from, T to) {
     transitiveSuccessorMap[from].insert(to);
     transitiveAncestorMap[to].insert(from);

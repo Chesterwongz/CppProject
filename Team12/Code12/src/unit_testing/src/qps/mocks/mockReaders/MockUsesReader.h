@@ -11,8 +11,6 @@
 
 #include "BaseMockReader.h"
 #include "pkb/facade/PKBReader.h"
-#include "pkb/storage/relation_storage/UsesPStore.h"
-#include "pkb/storage/relation_storage/UsesSStore.h"
 
 using std::vector, std::set, std::string, std::pair;
 

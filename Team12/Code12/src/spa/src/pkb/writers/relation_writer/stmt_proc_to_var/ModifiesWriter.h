@@ -3,16 +3,16 @@
 #include <string>
 
 #include "pkb/interfaces/writers/IModifiesWriter.h"
-#include "pkb/storage/relation_storage/ModifiesPStore.h"
-#include "pkb/storage/relation_storage/ModifiesSStore.h"
+#include "pkb/storage/relation_storage/RelationStore.h"
 
 class ModifiesWriter : public IModifiesWriter {
  private:
-  ModifiesSStore& modifiesStore;
-  ModifiesPStore& modifiesPStore;
+  RelationStore<int, std::string>& modifiesStore;
+  RelationStore<std::string, std::string>& modifiesPStore;
 
  protected:
-  ModifiesWriter(ModifiesSStore& modifiesStore, ModifiesPStore& modifiesPStore)
+  ModifiesWriter(RelationStore<int, std::string>& modifiesStore,
+                 RelationStore<std::string, std::string>& modifiesPStore)
       : modifiesStore(modifiesStore), modifiesPStore(modifiesPStore) {}
 
  public:

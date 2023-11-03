@@ -9,15 +9,15 @@
 #include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/IFollowsReader.h"
 #include "pkb/storage/entity_storage/StmtStore.h"
-#include "pkb/storage/relation_storage/FollowsStore.h"
+#include "pkb/storage/relation_storage/RelationTStore.h"
 
 class FollowsReader : public IFollowsReader {
  private:
-  FollowsStore& followsStore;
+  RelationTStore<int>& followsStore;
   StmtStore& stmtStore;
 
  protected:
-  explicit FollowsReader(FollowsStore& storage, StmtStore& stmtStorage)
+  explicit FollowsReader(RelationTStore<int>& storage, StmtStore& stmtStorage)
       : followsStore(storage), stmtStore(stmtStorage) {}
 
  public:

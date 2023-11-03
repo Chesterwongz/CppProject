@@ -1,14 +1,15 @@
 #pragma once
 
 #include "pkb/interfaces/writers/IParentWriter.h"
-#include "pkb/storage/relation_storage/ParentStore.h"
+#include "pkb/storage/relation_storage/RelationTStore.h"
 
 class ParentWriter : public IParentWriter {
  private:
-  ParentStore& parentStore;
+  RelationTStore<int>& parentStore;
 
  protected:
-  explicit ParentWriter(ParentStore& parentStore) : parentStore(parentStore) {}
+  explicit ParentWriter(RelationTStore<int>& parentStore)
+      : parentStore(parentStore) {}
 
  public:
   void addParent(int parent, int child) override;

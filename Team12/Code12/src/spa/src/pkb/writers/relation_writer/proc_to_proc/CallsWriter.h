@@ -3,16 +3,17 @@
 #include <string>
 
 #include "pkb/interfaces/writers/ICallsWriter.h"
-#include "pkb/storage/relation_storage/CallsSStore.h"
-#include "pkb/storage/relation_storage/CallsStore.h"
+#include "pkb/storage/relation_storage/RelationStore.h"
+#include "pkb/storage/relation_storage/RelationTStore.h"
 
 class CallsWriter : public ICallsWriter {
  private:
-  CallsStore& callsStore;
-  CallsSStore& callsStmtStore;
+  RelationTStore<std::string>& callsStore;
+  RelationStore<int, std::string>& callsStmtStore;
 
  protected:
-  explicit CallsWriter(CallsStore& callsStore, CallsSStore& callsStmtStore)
+  explicit CallsWriter(RelationTStore<std::string>& callsStore,
+                       RelationStore<int, std::string>& callsStmtStore)
       : callsStore(callsStore), callsStmtStore(callsStmtStore) {}
 
  public:
