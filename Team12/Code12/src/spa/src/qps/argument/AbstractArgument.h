@@ -5,7 +5,7 @@
 #include "common/utils/StringUtils.h"
 #include "qps/common/QPSStringUtils.h"
 
-using std::string, std::unique_ptr;
+using std::string
 
 class AbstractArgument {
  public:
