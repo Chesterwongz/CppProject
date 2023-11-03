@@ -8,20 +8,18 @@
 #include "common/StmtTypes.h"
 #include "common/utils/CollectionUtils.h"
 #include "pkb/storage/entity_storage/StmtStore.h"
-#include "pkb/storage/relation_storage/RelationStore.h"
+#include "pkb/storage/relation_storage/RelationTStore.h"
 
-class StmtToStmtDirectReader {
+class StmtToStmtReader {
  private:
-  RelationStore<int, int>& relationStore;
+  RelationTStore<int>& store;
   StmtStore& stmtStore;
 
- protected:
-  explicit StmtToStmtDirectReader(RelationStore<int, int>& relationStore,
-                                  StmtStore& stmtStore)
-      : relationStore(relationStore), stmtStore(stmtStore) {}
-
  public:
-  std::vector<std::string> getDirectS1ByS2(int stmt2, StmtType stmtType1);
+  explicit StmtToStmtReader(RelationTStore<int>& store, StmtStore& stmtStore)
+      : store(store), stmtStore(stmtStore) {}
+
+  std::vector<std::string> getDirectS1ByS2(int s2, StmtType stmtType1);
 
   std::vector<std::string> getDirectS2ByS1(int stmt1, StmtType stmtType2);
 
@@ -32,12 +30,12 @@ class StmtToStmtDirectReader {
 
   // ================================ FollowsT ================================
 
-  std::vector<std::string> getFollowsStar(int stmt, StmtType stmtType);
+  std::vector<std::string> getTransitiveS1ByS2(int s2, StmtType stmtType1);
 
-  std::vector<std::string> getFollowedStar(int stmt, StmtType stmtType);
+  std::vector<std::string> getTransitiveS2ByS1(int s1, StmtType stmtType2);
 
-  bool isFollowsStar(int stmt1, int stmt2);
+  bool hasTransitiveRelation(int s1, int s2);
 
-  std::vector<std::pair<std::string, std::string>> getFollowsStarPairs(
+  std::vector<std::pair<std::string, std::string>> getTransitiveS1AndS2Pairs(
       StmtType stmtType1, StmtType stmtType2);
 };

@@ -1,10 +1,10 @@
 #pragma once
 
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "StmtToStmtReader.h"
 #include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/IParentReader.h"
 #include "pkb/storage/entity_storage/StmtStore.h"
@@ -12,12 +12,11 @@
 
 class ParentReader : public IParentReader {
  private:
-  RelationTStore<int>& parentStore;
-  StmtStore& stmtStore;
+  StmtToStmtReader reader;
 
  protected:
   explicit ParentReader(RelationTStore<int>& parentStore, StmtStore& stmtStore)
-      : parentStore(parentStore), stmtStore(stmtStore) {}
+      : reader(parentStore, stmtStore) {}
 
  public:
   std::vector<std::string> getImmediateChildrenOf(int stmt,

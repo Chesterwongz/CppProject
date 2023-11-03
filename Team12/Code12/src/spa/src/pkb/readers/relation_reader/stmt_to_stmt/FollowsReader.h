@@ -4,8 +4,7 @@
 #include <utility>
 #include <vector>
 
-#include "common/Constants.h"
-#include "common/StmtTypes.h"
+#include "StmtToStmtReader.h"
 #include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/IFollowsReader.h"
 #include "pkb/storage/entity_storage/StmtStore.h"
@@ -13,12 +12,11 @@
 
 class FollowsReader : public IFollowsReader {
  private:
-  RelationTStore<int>& followsStore;
-  StmtStore& stmtStore;
+  StmtToStmtReader reader;
 
  protected:
-  explicit FollowsReader(RelationTStore<int>& storage, StmtStore& stmtStorage)
-      : followsStore(storage), stmtStore(stmtStorage) {}
+  explicit FollowsReader(RelationTStore<int>& store, StmtStore& stmtStorage)
+      : reader(store, stmtStorage) {}
 
  public:
   std::vector<std::string> getFollowing(int stmt, StmtType stmtType) override;
