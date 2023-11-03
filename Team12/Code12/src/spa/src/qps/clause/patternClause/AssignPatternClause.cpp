@@ -4,12 +4,12 @@
 
 #include "qps/patternEvaluator/assignEvaluator/AssignEvaluator.h"
 
-vector<unique_ptr<AbstractArgument>> AssignPatternClause::getAllArguments() {
-  vector<unique_ptr<AbstractArgument>> argVector;
+vector<AbstractArgument*> AssignPatternClause::getAllArguments() {
+  vector<AbstractArgument*> argVector;
 
-  argVector.push_back(std::move(synonym));
-  argVector.push_back(std::move(firstArg));
-  argVector.push_back(std::move(secondArg));
+  argVector.push_back(synonym.get());
+  argVector.push_back(firstArg.get());
+  argVector.push_back(secondArg.get());
 
   return argVector;
 }

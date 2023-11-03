@@ -5,11 +5,11 @@
 
 #include "qps/patternEvaluator/ifEvaluator/IfEvaluator.h"
 
-vector<unique_ptr<AbstractArgument>> IfPatternClause::getAllArguments() {
-  vector<unique_ptr<AbstractArgument>> argVector;
+vector<AbstractArgument*> IfPatternClause::getAllArguments() {
+  vector<AbstractArgument*> argVector;
 
-  argVector.push_back(std::move(synonym));
-  argVector.push_back(std::move(firstArg));
+  argVector.push_back(synonym.get());
+  argVector.push_back(firstArg.get());
 
   return argVector;
 }

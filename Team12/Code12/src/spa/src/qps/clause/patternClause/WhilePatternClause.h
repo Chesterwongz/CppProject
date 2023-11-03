@@ -24,6 +24,6 @@ class WhilePatternClause : public Clause {
       : synonym(std::move(synonym)), firstArg(std::move(firstArg)) {}
 
   IntermediateTable evaluate(PKBReader& pkb) override;
-  vector<unique_ptr<AbstractArgument>> getAllArguments() override;
+  vector<AbstractArgument*> getAllArguments() override;
   bool isEquals(const Clause& other) override;
 };

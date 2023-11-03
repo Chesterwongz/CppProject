@@ -6,11 +6,11 @@
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 #include "qps/withEvaluator/WithEvaluatorFactory/WithEvaluatorFactory.h"
 
-vector<unique_ptr<AbstractArgument>> WithClause::getAllArguments() {
-  vector<unique_ptr<AbstractArgument>> argVector;
+vector<AbstractArgument*> WithClause::getAllArguments() {
+  vector<AbstractArgument*> argVector;
 
-  argVector.push_back(std::move(firstArg));
-  argVector.push_back(std::move(secondArg));
+  argVector.push_back(firstArg.get());
+  argVector.push_back(secondArg.get());
 
   return argVector;
 }

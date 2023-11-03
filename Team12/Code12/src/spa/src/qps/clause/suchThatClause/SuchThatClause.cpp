@@ -6,11 +6,11 @@
 #include "qps/abstraction/BaseAbstraction.h"
 #include "qps/argument/AbstractArgument.h"
 
-vector<unique_ptr<AbstractArgument>> SuchThatClause::getAllArguments() {
-  vector<unique_ptr<AbstractArgument>> argVector;
+vector<AbstractArgument*> SuchThatClause::getAllArguments() {
+  vector<AbstractArgument*> argVector;
 
-  argVector.push_back(std::move(firstArg));
-  argVector.push_back(std::move(secondArg));
+  argVector.push_back(firstArg.get());
+  argVector.push_back(secondArg.get());
 
   return argVector;
 }

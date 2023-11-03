@@ -23,6 +23,6 @@ class SuchThatClause : public Clause {
                           unique_ptr<AbstractArgument> firstArg,
                           unique_ptr<AbstractArgument> secondArg);
   IntermediateTable evaluate(PKBReader& pkb) override;
-  vector<unique_ptr<AbstractArgument>> getAllArguments() override;
+  vector<AbstractArgument*> getAllArguments() override;
   bool isEquals(const Clause& other) override;
 };

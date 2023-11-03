@@ -31,6 +31,6 @@ class AssignPatternClause : public Clause {
         isPartialMatch(isPartialMatch) {}
 
   IntermediateTable evaluate(PKBReader& pkb) override;
-  vector<unique_ptr<AbstractArgument>> getAllArguments() override;
+  vector<AbstractArgument*> getAllArguments() override;
   bool isEquals(const Clause& other) override;
 };

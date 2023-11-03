@@ -3,6 +3,6 @@
 #include <vector>
 
 
-vector<unique_ptr<AbstractArgument>> ClauseDecorator::getAllArguments() {
+vector<AbstractArgument*> ClauseDecorator::getAllArguments() {
   return wrapeeClause->getAllArguments();
 }

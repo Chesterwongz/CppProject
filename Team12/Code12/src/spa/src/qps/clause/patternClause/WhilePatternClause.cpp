@@ -5,11 +5,11 @@
 
 #include "qps/patternEvaluator/whileEvaluator/WhileEvaluator.h"
 
-vector<unique_ptr<AbstractArgument>> WhilePatternClause::getAllArguments() {
-  vector<unique_ptr<AbstractArgument>> argVector;
+vector<AbstractArgument*> WhilePatternClause::getAllArguments() {
+  vector<AbstractArgument*> argVector;
 
-  argVector.push_back(std::move(synonym));
-  argVector.push_back(std::move(firstArg));
+  argVector.push_back(synonym.get());
+  argVector.push_back(firstArg.get());
 
   return argVector;
 }
