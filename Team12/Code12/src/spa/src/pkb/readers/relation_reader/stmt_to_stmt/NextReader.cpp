@@ -43,7 +43,7 @@ std::vector<std::pair<std::string, std::string>> NextReader::getNextPairs(
   auto stmtFilters =
       stmtStore.getStmtStmtFilterPredicates(stmtType1, stmtType2);
 
-  const auto& rawRes = nextStore.getDirectRelations();
+  const auto& rawRes = nextStore.getDirectSuccessorMap();
 
   return CollectionUtils::intIntMapSetToStrPairVector(rawRes, stmtFilters);
 }

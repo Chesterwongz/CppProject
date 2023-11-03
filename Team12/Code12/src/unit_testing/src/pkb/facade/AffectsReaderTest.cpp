@@ -1,10 +1,10 @@
-#include <unordered_set>
 #include <catch.hpp>
+#include <unordered_set>
 
 #include "../../common/utils/HelperFunctions.h"
-#include "pkb/readers/relation_reader/stmt_to_stmt/AffectsReader.h"
+#include "pkb/readers/relation_reader/stmt_to_stmt/AffectsReaderFacade.h"
 
-TEST_CASE("AffectsReader Tests 1") {
+TEST_CASE("AffectsReaderFacade Tests 1") {
   ModifiesSStore modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
@@ -63,8 +63,8 @@ TEST_CASE("AffectsReader Tests 1") {
   nextStore.addRelation(11, 12);
 
   SECTION("AffectsPairs") {
-    AffectsReader affectsReader(modifiesSStore, nextStore, stmtStore,
-                                usesSStore);
+    AffectsReaderFacade affectsReader(<#initializer #>, modifiesSStore, nextStore,
+                                stmtStore, usesSStore, <#initializer #>);
     std::vector<std::pair<std::string, std::string>> result =
         affectsReader.getAffectsPairs();
     REQUIRE(compareVectorContents(
@@ -113,7 +113,7 @@ TEST_CASE("AffectsReader Tests 1") {
   }
 }
 
-TEST_CASE("AffectsReader Tests 2 - Code 7") {
+TEST_CASE("AffectsReaderFacade Tests 2 - Code 7") {
   ModifiesSStore modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
@@ -141,8 +141,8 @@ TEST_CASE("AffectsReader Tests 2 - Code 7") {
   nextStore.addRelation(4, 5);
 
   SECTION("AffectsPairs") {
-    AffectsReader affectsReader(modifiesSStore, nextStore, stmtStore,
-                                usesSStore);
+    AffectsReaderFacade affectsReader(<#initializer #>, modifiesSStore, nextStore,
+                                stmtStore, usesSStore, <#initializer #>);
     std::vector<std::pair<std::string, std::string>> result =
         affectsReader.getAffectsPairs();
     REQUIRE(compareVectorContents(
@@ -159,7 +159,7 @@ TEST_CASE("AffectsReader Tests 2 - Code 7") {
   }
 }
 
-TEST_CASE("AffectsReader Tests 3 - Code 8") {
+TEST_CASE("AffectsReaderFacade Tests 3 - Code 8") {
   ModifiesSStore modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
@@ -181,8 +181,8 @@ TEST_CASE("AffectsReader Tests 3 - Code 8") {
   nextStore.addRelation(2, 3);
 
   SECTION("AffectsPairs") {
-    AffectsReader affectsReader(modifiesSStore, nextStore, stmtStore,
-                                usesSStore);
+    AffectsReaderFacade affectsReader(<#initializer #>, modifiesSStore, nextStore,
+                                stmtStore, usesSStore, <#initializer #>);
     std::vector<std::pair<std::string, std::string>> result =
         affectsReader.getAffectsPairs();
     REQUIRE(compareVectorContents(
@@ -200,7 +200,7 @@ TEST_CASE("AffectsReader Tests 3 - Code 8") {
   }
 }
 
-TEST_CASE("AffectsReader Tests 4 - Code 9") {
+TEST_CASE("AffectsReaderFacade Tests 4 - Code 9") {
   ModifiesSStore modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
@@ -255,8 +255,8 @@ TEST_CASE("AffectsReader Tests 4 - Code 9") {
   nextStore.addRelation(10, 11);
 
   SECTION("AffectsPairs") {
-    AffectsReader affectsReader(modifiesSStore, nextStore, stmtStore,
-                                usesSStore);
+    AffectsReaderFacade affectsReader(<#initializer #>, modifiesSStore, nextStore,
+                                stmtStore, usesSStore, <#initializer #>);
     std::vector<std::pair<std::string, std::string>> result =
         affectsReader.getAffectsPairs();
     REQUIRE(compareVectorContents(
@@ -278,7 +278,7 @@ TEST_CASE("AffectsReader Tests 4 - Code 9") {
   }
 }
 
-TEST_CASE("AffectsReader Tests 5 - Code 10") {
+TEST_CASE("AffectsReaderFacade Tests 5 - Code 10") {
   ModifiesSStore modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
@@ -312,8 +312,8 @@ TEST_CASE("AffectsReader Tests 5 - Code 10") {
   nextStore.addRelation(4, 6);
 
   SECTION("AffectsPairs") {
-    AffectsReader affectsReader(modifiesSStore, nextStore, stmtStore,
-                                usesSStore);
+    AffectsReaderFacade affectsReader(<#initializer #>, modifiesSStore, nextStore,
+                                stmtStore, usesSStore, <#initializer #>);
     std::vector<std::pair<std::string, std::string>> result =
         affectsReader.getAffectsPairs();
     REQUIRE(compareVectorContents(
@@ -324,7 +324,7 @@ TEST_CASE("AffectsReader Tests 5 - Code 10") {
   }
 }
 
-TEST_CASE("AffectsReader Tests 6 - Code 11") {
+TEST_CASE("AffectsReaderFacade Tests 6 - Code 11") {
   ModifiesSStore modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
@@ -345,8 +345,8 @@ TEST_CASE("AffectsReader Tests 6 - Code 11") {
   nextStore.addRelation(2, 3);
 
   SECTION("AffectsPairs") {
-    AffectsReader affectsReader(modifiesSStore, nextStore, stmtStore,
-                                usesSStore);
+    AffectsReaderFacade affectsReader(<#initializer #>, modifiesSStore, nextStore,
+                                stmtStore, usesSStore, <#initializer #>);
     std::vector<std::pair<std::string, std::string>> result =
         affectsReader.getAffectsPairs();
     REQUIRE(compareVectorContents(
@@ -357,7 +357,7 @@ TEST_CASE("AffectsReader Tests 6 - Code 11") {
   }
 }
 
-TEST_CASE("AffectsReader Tests 7 - Autotester") {
+TEST_CASE("AffectsReaderFacade Tests 7 - Autotester") {
   ModifiesSStore modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
@@ -461,8 +461,8 @@ TEST_CASE("AffectsReader Tests 7 - Autotester") {
   nextStore.addRelation(21, 22);
 
   SECTION("AffectsPairs") {
-    AffectsReader affectsReader(modifiesSStore, nextStore, stmtStore,
-                                usesSStore);
+    AffectsReaderFacade affectsReader(<#initializer #>, modifiesSStore, nextStore,
+                                stmtStore, usesSStore, <#initializer #>);
     std::vector<std::pair<std::string, std::string>> result =
         affectsReader.getAffectsPairs();
     std::vector<std::pair<std::string, std::string>> expectedResults = {

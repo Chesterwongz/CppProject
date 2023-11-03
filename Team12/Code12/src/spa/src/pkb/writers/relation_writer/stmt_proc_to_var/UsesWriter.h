@@ -3,8 +3,8 @@
 #include <string>
 
 #include "pkb/interfaces/writers/IUsesWriter.h"
-#include "pkb/storage/UsesPStore.h"
-#include "pkb/storage/UsesSStore.h"
+#include "pkb/storage/relation_storage/UsesPStore.h"
+#include "pkb/storage/relation_storage/UsesSStore.h"
 
 class UsesWriter : public IUsesWriter {
  private:

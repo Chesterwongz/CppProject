@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pkb/interfaces/writers/IParentWriter.h"
-#include "pkb/storage/ParentStore.h"
+#include "pkb/storage/relation_storage/ParentStore.h"
 
 class ParentWriter : public IParentWriter {
  private:

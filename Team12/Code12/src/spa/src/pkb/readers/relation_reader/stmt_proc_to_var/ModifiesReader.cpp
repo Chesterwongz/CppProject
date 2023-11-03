@@ -37,7 +37,7 @@ ModifiesReader::getModifiesStmtPairs(StmtType stmtType) {
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
 
-  const auto& rawRes = modifiesSStore.getDirectRelations();
+  const auto& rawRes = modifiesSStore.getDirectSuccessorMap();
 
   return CollectionUtils::intStrMapSetToStrPairVector(rawRes, stmtFilter);
 }
@@ -67,6 +67,6 @@ bool ModifiesReader::isVariableModifiedByProc(const string& procName,
 }
 std::vector<std::pair<std::string, std::string>>
 ModifiesReader::getModifiesProcPairs() {
-  const auto& rawRes = modifiesPStore.getDirectRelations();
+  const auto& rawRes = modifiesPStore.getDirectSuccessorMap();
   return CollectionUtils::mapSetToPairVector<std::string, std::string>(rawRes);
 }

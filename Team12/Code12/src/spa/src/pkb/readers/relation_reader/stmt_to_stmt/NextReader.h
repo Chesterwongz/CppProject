@@ -1,5 +1,5 @@
 #pragma once
-#include <set>
+
 #include <string>
 #include <unordered_set>
 #include <utility>
@@ -9,8 +9,8 @@
 #include "common/utils/CollectionUtils.h"
 #include "common/utils/StringUtils.h"
 #include "pkb/interfaces/readers/INextReader.h"
-#include "pkb/storage/NextStore.h"
-#include "pkb/storage/StmtStore.h"
+#include "pkb/storage/relation_storage/NextStore.h"
+#include "pkb/storage/entity_storage/StmtStore.h"
 
 class NextReader : public INextReader {
  private:

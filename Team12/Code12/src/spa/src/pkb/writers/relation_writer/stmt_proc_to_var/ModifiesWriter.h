@@ -3,8 +3,8 @@
 #include <string>
 
 #include "pkb/interfaces/writers/IModifiesWriter.h"
-#include "pkb/storage/ModifiesPStore.h"
-#include "pkb/storage/ModifiesSStore.h"
+#include "pkb/storage/relation_storage/ModifiesPStore.h"
+#include "pkb/storage/relation_storage/ModifiesSStore.h"
 
 class ModifiesWriter : public IModifiesWriter {
  private:

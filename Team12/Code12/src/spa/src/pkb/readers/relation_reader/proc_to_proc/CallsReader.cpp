@@ -35,7 +35,7 @@ std::vector<std::string> CallsReader::getCalleeProcsStar(
 }
 
 std::vector<std::pair<std::string, std::string>> CallsReader::getCallPairs() {
-  const auto& rawRes = callsStore.getDirectRelations();
+  const auto& rawRes = callsStore.getDirectSuccessorMap();
   return CollectionUtils::mapSetToPairVector<std::string, std::string>(rawRes);
 }
 

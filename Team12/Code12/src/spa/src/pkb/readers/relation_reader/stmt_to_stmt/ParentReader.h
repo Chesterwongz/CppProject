@@ -7,8 +7,8 @@
 
 #include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/IParentReader.h"
-#include "pkb/storage/ParentStore.h"
-#include "pkb/storage/StmtStore.h"
+#include "pkb/storage/entity_storage/StmtStore.h"
+#include "pkb/storage/relation_storage/ParentStore.h"
 
 class ParentReader : public IParentReader {
  private:

@@ -42,7 +42,7 @@ ParentReader::getParentChildPairs(StmtType stmtType1, StmtType stmtType2) {
   auto stmtFilters =
       stmtStore.getStmtStmtFilterPredicates(stmtType1, stmtType2);
 
-  const auto& rawRes = parentStore.getDirectRelations();
+  const auto& rawRes = parentStore.getDirectSuccessorMap();
 
   return CollectionUtils::intIntMapSetToStrPairVector(rawRes, stmtFilters);
 }

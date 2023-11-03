@@ -7,9 +7,9 @@
 
 #include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/IModifiesReader.h"
-#include "pkb/storage/ModifiesPStore.h"
-#include "pkb/storage/ModifiesSStore.h"
-#include "pkb/storage/StmtStore.h"
+#include "pkb/storage/entity_storage/StmtStore.h"
+#include "pkb/storage/relation_storage/ModifiesPStore.h"
+#include "pkb/storage/relation_storage/ModifiesSStore.h"
 
 using std::unordered_set, std::string;
 

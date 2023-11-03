@@ -3,8 +3,8 @@
 #include <string>
 
 #include "pkb/interfaces/writers/ICallsWriter.h"
-#include "pkb/storage/CallsSStore.h"
-#include "pkb/storage/CallsStore.h"
+#include "pkb/storage/relation_storage/CallsSStore.h"
+#include "pkb/storage/relation_storage/CallsStore.h"
 
 class CallsWriter : public ICallsWriter {
  private:

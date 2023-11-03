@@ -6,7 +6,7 @@
 
 #include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/ICallsReader.h"
-#include "pkb/storage/CallsStore.h"
+#include "pkb/storage/relation_storage/CallsStore.h"
 #include "pkb/utils/PredicateUtils.h"
 
 class CallsReader : public ICallsReader {

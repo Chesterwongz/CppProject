@@ -10,10 +10,10 @@
 #include "common/Constants.h"
 #include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/IAffectsReader.h"
-#include "pkb/storage/ModifiesSStore.h"
-#include "pkb/storage/NextStore.h"
-#include "pkb/storage/StmtStore.h"
-#include "pkb/storage/UsesSStore.h"
+#include "pkb/storage/entity_storage/StmtStore.h"
+#include "pkb/storage/relation_storage/ModifiesSStore.h"
+#include "pkb/storage/relation_storage/NextStore.h"
+#include "pkb/storage/relation_storage/UsesSStore.h"
 
 class AffectsReader : public IAffectsReader {
  private:

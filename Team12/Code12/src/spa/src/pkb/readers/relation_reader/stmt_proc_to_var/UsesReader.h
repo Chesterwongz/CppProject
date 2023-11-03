@@ -7,9 +7,9 @@
 
 #include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/IUsesReader.h"
-#include "pkb/storage/StmtStore.h"
-#include "pkb/storage/UsesPStore.h"
-#include "pkb/storage/UsesSStore.h"
+#include "pkb/storage/entity_storage/StmtStore.h"
+#include "pkb/storage/relation_storage/UsesPStore.h"
+#include "pkb/storage/relation_storage/UsesSStore.h"
 
 class UsesReader : public IUsesReader {
  private:

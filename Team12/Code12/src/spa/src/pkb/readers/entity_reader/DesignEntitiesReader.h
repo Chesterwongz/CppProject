@@ -8,11 +8,11 @@
 #include "common/utils/CollectionUtils.h"
 #include "common/utils/StringUtils.h"
 #include "pkb/interfaces/readers/IDesignEntitiesReader.h"
-#include "pkb/storage/CallsSStore.h"
-#include "pkb/storage/EntityStore.h"
-#include "pkb/storage/ModifiesSStore.h"
-#include "pkb/storage/StmtStore.h"
-#include "pkb/storage/UsesSStore.h"
+#include "pkb/storage/entity_storage/EntityStore.h"
+#include "pkb/storage/entity_storage/StmtStore.h"
+#include "pkb/storage/relation_storage/CallsSStore.h"
+#include "pkb/storage/relation_storage/ModifiesSStore.h"
+#include "pkb/storage/relation_storage/UsesSStore.h"
 
 class DesignEntitiesReader : public IDesignEntitiesReader {
  private:

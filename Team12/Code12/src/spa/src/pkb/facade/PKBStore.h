@@ -1,18 +1,18 @@
 #pragma once
 
-#include "pkb/storage/CallsSStore.h"
-#include "pkb/storage/CallsStore.h"
-#include "pkb/storage/EntityStore.h"
-#include "pkb/storage/FollowsStore.h"
-#include "pkb/storage/ModifiesPStore.h"
-#include "pkb/storage/ModifiesSStore.h"
-#include "pkb/storage/NextStore.h"
-#include "pkb/storage/ParentStore.h"
-#include "pkb/storage/RelationTStore.h"
-#include "pkb/storage/StmtStore.h"
-#include "pkb/storage/UsesPStore.h"
-#include "pkb/storage/UsesSStore.h"
+#include "pkb/storage/entity_storage/EntityStore.h"
+#include "pkb/storage/entity_storage/StmtStore.h"
 #include "pkb/storage/pattern_storage/PatternStorage.h"
+#include "pkb/storage/relation_storage/CallsSStore.h"
+#include "pkb/storage/relation_storage/CallsStore.h"
+#include "pkb/storage/relation_storage/FollowsStore.h"
+#include "pkb/storage/relation_storage/ModifiesPStore.h"
+#include "pkb/storage/relation_storage/ModifiesSStore.h"
+#include "pkb/storage/relation_storage/NextStore.h"
+#include "pkb/storage/relation_storage/ParentStore.h"
+#include "pkb/storage/relation_storage/RelationTStore.h"
+#include "pkb/storage/relation_storage/UsesPStore.h"
+#include "pkb/storage/relation_storage/UsesSStore.h"
 
 class PKBStore {
  private:

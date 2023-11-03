@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cassert>
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -10,8 +8,8 @@
 #include "common/StmtTypes.h"
 #include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/IFollowsReader.h"
-#include "pkb/storage/FollowsStore.h"
-#include "pkb/storage/StmtStore.h"
+#include "pkb/storage/entity_storage/StmtStore.h"
+#include "pkb/storage/relation_storage/FollowsStore.h"
 
 class FollowsReader : public IFollowsReader {
  private:

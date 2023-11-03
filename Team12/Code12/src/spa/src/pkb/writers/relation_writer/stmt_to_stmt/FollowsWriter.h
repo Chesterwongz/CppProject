@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pkb/interfaces/writers/IFollowsWriter.h"
-#include "pkb/storage/FollowsStore.h"
+#include "pkb/storage/relation_storage/FollowsStore.h"
 
 class FollowsWriter : public IFollowsWriter {
  private:

@@ -36,7 +36,7 @@ std::vector<std::pair<std::string, std::string>> UsesReader::getUsesStmtPairs(
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType1);
 
-  const auto& rawRes = usesSStore.getDirectRelations();
+  const auto& rawRes = usesSStore.getDirectSuccessorMap();
 
   return CollectionUtils::intStrMapSetToStrPairVector(rawRes, stmtFilter);
 }
@@ -67,6 +67,6 @@ bool UsesReader::isVariableUsedByProc(const std::string& procName,
 
 std::vector<std::pair<std::string, std::string>>
 UsesReader::getUsesProcPairs() {
-  const auto& rawRes = usesPStore.getDirectRelations();
+  const auto& rawRes = usesPStore.getDirectSuccessorMap();
   return CollectionUtils::mapSetToPairVector<std::string, std::string>(rawRes);
 }
