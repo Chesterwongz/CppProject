@@ -1,7 +1,19 @@
 #include "AssignPatternClause.h"
 
+#include <vector>
+
 #include "qps/clause/utils/ClauseUtil.h"
 #include "qps/patternEvaluator/assignEvaluator/AssignEvaluator.h"
+
+vector<const AbstractArgument*> AssignPatternClause::getAllArguments() {
+  vector<const AbstractArgument*> argVector;
+
+  argVector.push_back(synonym.get());
+  argVector.push_back(firstArg.get());
+  argVector.push_back(secondArg.get());
+
+  return argVector;
+}
 
 IntermediateTable AssignPatternClause::evaluate(PKBReader& pkbReader) {
   string synonymValue = synonym->getValue();
@@ -9,7 +21,8 @@ IntermediateTable AssignPatternClause::evaluate(PKBReader& pkbReader) {
   unique_ptr<PatternEvaluator> evaluatorPtr;
 
   evaluatorPtr = std::make_unique<AssignEvaluator>(
-      firstArg, secondArg, pkbReader, isPartialMatch, synonymValue);
+      *(this->firstArg), *(this->secondArg), pkbReader, isPartialMatch,
+      synonymValue);
 
   return evaluatorPtr->evaluate();
 }

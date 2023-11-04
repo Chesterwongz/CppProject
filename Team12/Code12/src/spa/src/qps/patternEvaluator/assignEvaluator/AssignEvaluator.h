@@ -9,12 +9,12 @@
 
 class AssignEvaluator : public PatternEvaluator {
  protected:
-  unique_ptr<AbstractArgument>& secondArg;
+  AbstractArgument& secondArg;
   bool isPartialMatch;
 
  public:
-  explicit AssignEvaluator(unique_ptr<AbstractArgument>& firstArg,
-                           unique_ptr<AbstractArgument>& secondArg,
+  explicit AssignEvaluator(AbstractArgument& firstArg,
+                           AbstractArgument& secondArg,
                            PKBReader& pkbReader, bool isPartialMatch,
                            string synonymValue)
       : PatternEvaluator(firstArg, pkbReader,

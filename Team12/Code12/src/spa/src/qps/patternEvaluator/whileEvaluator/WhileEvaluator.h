@@ -9,7 +9,7 @@
 
 class WhileEvaluator : public PatternEvaluator {
  public:
-  explicit WhileEvaluator(unique_ptr<AbstractArgument>& firstArg,
+  explicit WhileEvaluator(AbstractArgument& firstArg,
                           PKBReader& pkbReader, string synonymValue)
       : PatternEvaluator(firstArg, pkbReader,
                          std::move(synonymValue)) {}

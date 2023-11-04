@@ -27,6 +27,8 @@ class BaseSelectClause : public Clause {
   virtual unordered_set<string> getQueryResult(
       IntermediateTable &intermediateTable) = 0;
 
+  vector<const AbstractArgument*> getAllArguments() override;
+
   void addSynonymsInOtherClause(const set<string>& synonyms);
 
   string getKey() override;

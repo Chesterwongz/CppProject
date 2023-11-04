@@ -209,13 +209,13 @@ Select r with r.varName = "notAmazing"
 none
 1000
 ====== 43 - with read.varName - select different read ======
-read r;
-Select r with r.varName = "q"
-18
+read r1, r2;
+Select r1 with r2.varName = "q"
+18, 23
 1000
 ====== 44 - with read.varName - select different read, no results ======
-read r;
-Select r with r.varName = "q1"
+read r1, r2;
+Select r1 with r2.varName = "q1"
 none
 1000
 ====== 45 - with print.stmt# ======
@@ -348,8 +348,243 @@ stmt s;
 Select s with "samesame" = "samesamebutdifferent"
 none
 1000
-====== 70 - with ident = integer - no results ======
+====== 70 - with ident = integer - semantic error ======
 stmt s;
 Select s with "samesame" = 100
+SemanticError
+1000
+====== 71 - with not assign.stmt# ======
+assign a;
+Select a with not a.stmt# = 5
+3, 6, 7, 8, 9, 10, 12, 14, 15, 17, 19, 24
+1000
+====== 72 - with not assign.stmt# - select different assign ======
+assign a1, a2;
+Select a1 with not a2.stmt# = 5
+3, 5, 6, 7, 8, 9, 10, 12, 14, 15, 17, 19, 24 
+1000
+====== 73 - with not if.stmt# ======
+if i;
+Select i with not i.stmt# = 1
+13
+1000
+====== 74 - with not if.stmt# - select different if ======
+if i1, i2;
+Select i1 with not i2.stmt# = 13
+1, 13
+1000
+====== 75 - with not while.stmt# ======
+while w;
+Select w with not w.stmt# = 2
+11
+1000
+====== 76 - with while.stmt# - select different while ======
+while w1, w2;
+Select w1 with not w2.stmt# = 11
+2, 11
+1000
+====== 77 - with stmt.stmt# ======
+stmt s;
+Select s with not s.stmt# = 15
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24
+1000
+====== 78 - with not stmt.stmt# - select different stmt ======
+stmt s1, s2;
+Select s1 with not s2.stmt# = 1
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
+1000
+====== 79 - with not constant.value ======
+constant const;
+Select const with not const.value = 100
+0, 1, 2, 3, 200
+1000
+====== 80 - with not constant.value - select different const ======
+constant const1, const2;
+Select const1 with not const2.value = 1
+0, 1, 2, 3, 100, 200
+1000
+====== 81 - with not procedure.procName ======
+procedure p;
+Select p with not p.procName = "WithSource1"
+WithSource2, WithSource3
+1000
+====== 82 - with not procedure.procName - select different procedure ======
+procedure p1, p2;
+Select p1 with not p2.procName = "WithSource2"
+WithSource1, WithSource2, WithSource3
+1000
+====== 83 - with not variable.varName ======
+variable v;
+Select v with not v.varName = "x"
+i, p, q, y, z, lalala, lololol, wow, amazing, hihi, hello, WithSource1
+1000
+====== 84 - with not variable.varName - select different var ======
+variable v1, v2;
+Select v1 with not v2.varName = "lalala"
+i, p, q, x, y, z, lalala, lololol, wow, amazing, hihi, hello, WithSource1
+1000
+====== 85 - with not call.stmt# ======
+call c;
+Select c with not c.stmt# = 16
+21
+1000
+====== 86 - with not call.stmt# - select different call ======
+call c1, c2;
+Select c1 with not c2.stmt# = 16
+16, 21
+1000
+====== 87 - with not call.procName ======
+call c;
+Select c with not c.procName = "WithSource3"
+16
+1000
+====== 88 - with not call.procName - select different call ======
+call c1, c2;
+Select c1 with not c2.procName = "WithSource1"
+16, 21
+1000
+====== 89 - with not call.procName - select c.procName ======
+call c1, c2;
+Select c1.procName with not c2.procName = "WithSource1"
+WithSource1, WithSource3
+1000
+====== 90 - with not read.stmtNum ======
+read r;
+Select r with not r.stmt# = 23
+18
+1000
+====== 91 - with not read.stmtNum - select different read ======
+read r1, r2;
+Select r1 with not r2.stmt# = 18
+18, 23
+1000
+====== 92 - with not read.varName ======
+read r;
+Select r with not r.varName = "amazing"
+18
+1000
+====== 93 - with not read.varName - select different read ======
+read r1, r2;
+Select r1 with not r2.varName = "q"
+18, 23
+1000
+====== 94 - with not read.stmtNum ======
+read r;
+Select r.varName with not r.stmt# = 23
+q
+1000
+====== 95 - with not print.stmt# ======
+print pn;
+Select pn with not pn.stmt# = 4
+20, 22
+1000
+====== 96 - with not print.stmt# - select different print ======
+print pn1, pn2;
+Select pn1 with not pn2.stmt# = 22
+4, 20, 22
+1000
+====== 97 - with not print.varName ======
+print pn;
+Select pn with not pn.varName = "wow"
+4, 20
+1000
+====== 98 - with not print.varName - select different print ======
+print pn1, pn2;
+Select pn1 with not pn2.varName = "p"
+4, 20, 22
+1000
+====== 99 - with not assign.varName - SemanticError ======
+assign a;
+Select a with not a.varName = "x"
+SemanticError
+1000
+====== 100 - with not if.procName - SemanticError ======
+if i;
+Select i with not i.procName = "WithSource1"
+SemanticError
+1000
+====== 101 - with not while.varName - SemanticError ======
+while w;
+Select w with not w.varName = "hihi"
+SemanticError
+1000
+====== 102 - with not call.value - SemanticError ======
+call c;
+Select c with not c.value = 1
+SemanticError
+1000
+====== 103 - with not print.procName - SemanticError ======
+print pn;
+Select pn with not pn.procName = "wow"
+SemanticError
+1000
+====== 104 - with not read.procName - SemanticError ======
+read r;
+Select r with not r.procName = "amazing"
+SemanticError
+1000
+====== 105 - with not stmt.varName - SemanticError ======
+stmt s;
+Select s with not s.varName = "z"
+SemanticError
+1000
+====== 106 - with not constant.stmt# - SemanticError ======
+constant const;
+Select const with not const.stmt# = 3
+SemanticError
+1000
+====== 107 - with not procedure.varName - SemanticError ======
+procedure p;
+Select p with not p.varName = "x"
+SemanticError
+1000
+====== 108 - with not variable.stmt# - SemanticError ======
+variable v;
+Select v with not v.stmt# = 6
+SemanticError
+1000
+====== 109 - with not assign.stmt# = assign.stmt# - joinOnSameColNameAndAttr ======
+assign a; procedure p;
+Select p with not a.stmt# = a.stmt#
+none
+1000
+====== 110 - with not assign.stmt# = assign.stmt# - joinOnDifferentColNameButSameAttr ======
+assign a1, a2;
+Select a1 with not a1.stmt# = a2.stmt#
+3, 5, 6, 7, 8, 9, 10, 12, 14, 15, 17, 19, 24 
+1000
+====== 111 - with not var.varName = p.procName - joinOnDifferentColNameAndDifferentAttr ======
+variable v; procedure p;
+Select v with not v.varName = p.procName
+i, p, q, x, y, z, lalala, lololol, wow, amazing, hihi, hello, WithSource1
+1000
+====== 112 - with call.procName = c.stmt# - joinOnSameColNameButDifferentAttr ======
+call c; stmt s;
+Select s with not c.procName = c.stmt#
+SemanticError
+1000
+====== 113 - with not integer = integer no results ======
+stmt s;
+Select s with not 3 = 3
+none
+1000
+====== 114 - with not integer = integer ======
+stmt s;
+Select s with not 3 = 4
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
+1000
+====== 115 - with not ident = ident - no results ======
+stmt s;
+Select s with not "samesame" = "samesame"
+none
+1000
+====== 116 - with not ident = ident ======
+stmt s;
+Select s with not "samesame" = "samesamebutdifferent"
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
+1000
+====== 117 - with not ident = integer - semantic error ======
+stmt s;
+Select s with not "samesame" = 100
 SemanticError
 1000

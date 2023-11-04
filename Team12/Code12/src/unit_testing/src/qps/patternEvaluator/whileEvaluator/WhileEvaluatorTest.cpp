@@ -14,12 +14,8 @@ TEST_CASE("test_whileEvaluator_processArgs_synonymFirstArg") {
   SynonymArg patternSynonym = SynonymArg(whileSynonymValue, WHILE_ENTITY);
   SynonymArg variableSynonym = SynonymArg("test", VARIABLE_ENTITY);
 
-  unique_ptr<AbstractArgument> variableSynonymPtr =
-      make_unique<SynonymArg>(variableSynonym.getValue(), VARIABLE_ENTITY);
-
-  WhileEvaluator whileEvaluator =
-      WhileEvaluator(variableSynonymPtr, whileMockPKBReader,
-                     patternSynonym.getValue());
+  WhileEvaluator whileEvaluator = WhileEvaluator(
+      variableSynonym, whileMockPKBReader, patternSynonym.getValue());
 
   vector<pair<string, string>> pkbResult = whileEvaluator.evaluateArguments();
 
@@ -33,12 +29,8 @@ TEST_CASE("test_whileEvaluator_processArgs_identFirstArg") {
   SynonymArg patternSynonym = SynonymArg(whileSynonymValue, WHILE_ENTITY);
   Ident patternFirstArg = Ident("a");
 
-  unique_ptr<AbstractArgument> patternFirstArgPtr =
-      make_unique<Ident>(patternFirstArg.getValue());
-
-  WhileEvaluator whileEvaluator =
-      WhileEvaluator(patternFirstArgPtr, whileMockPKBReader,
-                     patternSynonym.getValue());
+  WhileEvaluator whileEvaluator = WhileEvaluator(
+      patternFirstArg, whileMockPKBReader, patternSynonym.getValue());
 
   vector<pair<string, string>> pkbResult = whileEvaluator.evaluateArguments();
 
@@ -53,10 +45,10 @@ TEST_CASE("test_whileEvaluator_processArgs_wildcardFirstArg") {
   // if woof; select woof pattern woof (_, _ , _ );
   SynonymArg patternSynonym = SynonymArg(whileSynonymValue, WHILE_ENTITY);
 
-  unique_ptr<AbstractArgument> wildcardPtr = make_unique<Wildcard>();
+  Wildcard wildcard = Wildcard();
 
-  WhileEvaluator whileEvaluator = WhileEvaluator(
-      wildcardPtr, whileMockPKBReader, patternSynonym.getValue());
+  WhileEvaluator whileEvaluator =
+      WhileEvaluator(wildcard, whileMockPKBReader, patternSynonym.getValue());
 
   vector<pair<string, string>> pkbResult = whileEvaluator.evaluateArguments();
 
@@ -70,12 +62,8 @@ TEST_CASE("test_whileEvaluator_evaluate_synonymFirstArg") {
   SynonymArg patternSynonym = SynonymArg(whileSynonymValue, WHILE_ENTITY);
   SynonymArg variableSynonym = SynonymArg("test", VARIABLE_ENTITY);
 
-  unique_ptr<AbstractArgument> variableSynonymPtr =
-      make_unique<SynonymArg>(variableSynonym.getValue(), VARIABLE_ENTITY);
-
-  WhileEvaluator whileEvaluator =
-      WhileEvaluator(variableSynonymPtr, whileMockPKBReader,
-                     patternSynonym.getValue());
+  WhileEvaluator whileEvaluator = WhileEvaluator(
+      variableSynonym, whileMockPKBReader, patternSynonym.getValue());
 
   IntermediateTable actualTable = whileEvaluator.evaluate();
 
@@ -101,12 +89,8 @@ TEST_CASE("test_whileEvaluator_evaluate_identFirstArg") {
   SynonymArg patternSynonym = SynonymArg(whileSynonymValue, WHILE_ENTITY);
   Ident patternFirstArg = Ident("a");
 
-  unique_ptr<AbstractArgument> patternFirstArgPtr =
-      make_unique<Ident>(patternFirstArg.getValue());
-
-  WhileEvaluator whileEvaluator =
-      WhileEvaluator(patternFirstArgPtr, whileMockPKBReader,
-                     patternSynonym.getValue());
+  WhileEvaluator whileEvaluator = WhileEvaluator(
+      patternFirstArg, whileMockPKBReader, patternSynonym.getValue());
 
   IntermediateTable actualTable = whileEvaluator.evaluate();
 
@@ -129,10 +113,10 @@ TEST_CASE("test_whileEvaluator_evaluate_wildcardFirstArg") {
   // if woof; variable test; select woof pattern woof (test, _ , _ );
   SynonymArg patternSynonym = SynonymArg(whileSynonymValue, WHILE_ENTITY);
 
-  unique_ptr<AbstractArgument> wildcardPtr = make_unique<Wildcard>();
+  Wildcard wildcard = Wildcard();
 
-  WhileEvaluator whileEvaluator = WhileEvaluator(
-      wildcardPtr, whileMockPKBReader, patternSynonym.getValue());
+  WhileEvaluator whileEvaluator =
+      WhileEvaluator(wildcard, whileMockPKBReader, patternSynonym.getValue());
 
   IntermediateTable actualTable = whileEvaluator.evaluate();
 

@@ -1,5 +1,6 @@
 #include "IntermediateTable.h"
 
+#include <algorithm>
 #include <cassert>
 #include <iostream>
 #include <stdexcept>
@@ -190,6 +191,42 @@ IntermediateTable IntermediateTable::join(
   }
   return IntermediateTableUtils::getInnerJoinOn(*this, otherTable, joinColThis,
                                                 joinColOther);
+}
+
+IntermediateTable IntermediateTable::getDifference(
+    const IntermediateTable &otherTable) {
+  if (otherTable.isTableWildcard()) {
+    // ANY - WILDCARD = EMPTY
+    return IntermediateTable::makeEmptyTable();
+  }
+
+  if (this->isTableEmpty() || otherTable.isTableEmpty()) {
+    // EMPTY - ANY = EMPTY
+    // ANY - EMPTY = ANY
+    return *this;
+  }
+
+  // must have same number of cols
+  assert(colNames.size() == otherTable.getColNames().size());
+  for (int i = 0; i < colNames.size(); i++) {
+    // both tables cols must be the same
+    assert(colNames[i] == otherTable.getColNames()[i]);
+  }
+
+  TableDataType newTableData;
+
+  TableDataType otherTableData = otherTable.getTableData();
+
+  std::sort(tableData.begin(), tableData.end());
+  std::sort(otherTableData.begin(), otherTableData.end());
+
+  std::set_difference(tableData.begin(), tableData.end(),
+                      otherTableData.begin(), otherTableData.end(),
+                      std::back_inserter(newTableData));
+
+  IntermediateTable newTable = IntermediateTable(colNames, newTableData);
+
+  return newTable;
 }
 
 void IntermediateTable::printTable() const {

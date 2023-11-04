@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_set>
 #include <utility>
+#include <vector>
 
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"
@@ -24,6 +25,7 @@ class IfPatternClause : public Clause {
       : synonym(std::move(synonym)), firstArg(std::move(firstArg)) {}
 
   IntermediateTable evaluate(PKBReader& pkb) override;
+  vector<const AbstractArgument*> getAllArguments() override;
   bool isEquals(const Clause& other) override;
   set<string> getClauseSynonyms() override;
   string getKey() override;

@@ -1,0 +1,13 @@
+procedure CallsSource1 {
+	line1 = 1;
+	call CallsSource2;
+}
+
+procedure CallsSource2 {
+	line3 = 3;
+	call CallsSource3;
+}
+
+procedure CallsSource3 {
+	line5 = 5;
+}

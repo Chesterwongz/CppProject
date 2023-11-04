@@ -2,6 +2,7 @@
 
 #include "qps/clause/withClause/WithClause.h"
 #include "qps/parser/clauseTransitionParserState/ClauseTransitionParserState.h"
+#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
 
 PredictiveMap WithParserState::predictiveMap = {
     {PQL_WITH_TOKEN,
@@ -26,6 +27,22 @@ void WithParserState::checkSameTypeComparison() {
   assert(argumentTypes.size() == expectedNumberOfArgs);
   if (argumentTypes[FIRST_ARG] != argumentTypes[SECOND_ARG]) {
     parserContext.setSemanticallyInvalid();
+  }
+}
+
+void WithParserState::processNameToken(PQLToken& curr) {
+  auto next = parserContext.peekNextToken();
+  bool isNotToken = curr.getValue() == NOT_KEYWORD && next.has_value() &&
+                    (next->getType() == PQL_NAME_TOKEN ||
+                     next->getType() == PQL_LITERAL_REF_TOKEN ||
+                     next->getType() == PQL_INTEGER_TOKEN);
+  if (isNotToken) {
+    curr.updateTokenType(PQL_NOT_TOKEN);
+  } else {
+    BaseParserState::processNameToken(curr);
+    if (!parserContext.checkSynonymExists(curr.getValue())) {
+      parserContext.setSemanticallyInvalid();
+    }
   }
 }
 
@@ -61,8 +78,14 @@ void WithParserState::handleToken() {
         break;
     }
     if (arguments.size() == expectedNumberOfArgs) {
-      parserContext.addClause(std::make_unique<WithClause>(
-          std::move(arguments[0]), std::move(arguments[1])));
+      unique_ptr<WithClause> withClause = std::make_unique<WithClause>(
+          std::move(arguments[0]), std::move(arguments[1]));
+      if (isNegated) {
+        parserContext.addClause(
+            std::make_unique<NotDecorator>(std::move(withClause)));
+      } else {
+        parserContext.addClause(std::move(withClause));
+      }
       checkSameTypeComparison();
       ClauseTransitionParserState::setClauseTransitionState(parserContext);
       return;

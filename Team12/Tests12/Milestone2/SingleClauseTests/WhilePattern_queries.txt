@@ -48,3 +48,48 @@ while w; assign a;
 Select w pattern w(_, "hello")
 SemanticError
 1000
+====== 11 - not while (_,_) ======
+while while;
+Select while pattern not while(_, _)
+1, 11
+1000
+====== 12 - not while (_,_) different while synonyms ======
+while w1, w2;
+Select w1 pattern not w2(_, _)
+1, 2, 4, 6, 9, 11, 12
+1000
+====== 13 - not while (var,_) ======
+while w; variable v;
+Select w pattern not w(v, _)
+1, 2, 4, 6, 9, 11, 12
+1000
+====== 14 - not while (var,_) different while synonyms ======
+while w1, w2; variable d;
+Select w1 pattern not w2(d, _)
+1, 2, 4, 6, 9, 11, 12
+1000
+====== 15 - not while (ident,_) ======
+while w;
+Select w pattern not w("oi", _)
+1, 2, 4, 6, 11
+1000
+====== 16 - not while (ident,_) different while synonyms ======
+while w1, w2;
+Select w1 pattern not w2("hoho", _)
+1, 2, 4, 6, 9, 11, 12
+1000
+====== 17 - not while (assignStmt,_) semantic error ======
+while w; assign a;
+Select w pattern not w(a, _)
+SemanticError
+1000
+====== 18 - not while (_,randomSyn) syntax error ======
+while w; assign a;
+Select w pattern not w(_, a)
+SyntaxError
+1000
+====== 19 - not while (_,randomIdent) syntax error ======
+while w; assign a;
+Select w pattern not w(_, "hello")
+SemanticError
+1000

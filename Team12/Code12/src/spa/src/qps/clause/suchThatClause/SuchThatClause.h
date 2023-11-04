@@ -4,6 +4,7 @@
 #include <set>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "qps/argument/AbstractArgument.h"
 #include "qps/clause/Clause.h"
@@ -22,6 +23,7 @@ class SuchThatClause : public Clause {
                           unique_ptr<AbstractArgument> firstArg,
                           unique_ptr<AbstractArgument> secondArg);
   IntermediateTable evaluate(PKBReader& pkb) override;
+  vector<const AbstractArgument*> getAllArguments() override;
   bool isEquals(const Clause& other) override;
   set<string> getClauseSynonyms() override;
   string getKey() override;

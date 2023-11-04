@@ -6,8 +6,8 @@
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 
 IntermediateTable SingleSynWithEvaluator::evaluate() {
-  Entity synonymEntity = synonymArg->getEntityType();
-  string synonymValue = synonymArg->getValue();
+  Entity synonymEntity = synonymArg.getEntityType();
+  string synonymValue = synonymArg.getValue();
 
   vector<std::reference_wrapper<SynonymRes>> synonymPKBResult =
       withEvaluatorFuncMap[synonymEntity]();
@@ -23,9 +23,9 @@ IntermediateTable SingleSynWithEvaluator::evaluate() {
 }
 
 IntermediateTable SingleSynWithEvaluator::getCallValueArgResult() {
-  string attrRefValue = valueArg->getValue();
-  AttrRef attrRef = synonymArg->getAttrRef();
-  string synonymValue = synonymArg->getValue();
+  string attrRefValue = valueArg.getValue();
+  AttrRef attrRef = synonymArg.getAttrRef();
+  string synonymValue = synonymArg.getValue();
 
   vector<std::reference_wrapper<SynonymRes>> callSynonymResObjs;
 
@@ -53,9 +53,9 @@ IntermediateTable SingleSynWithEvaluator::getCallValueArgResult() {
 }
 
 IntermediateTable SingleSynWithEvaluator::getReadValueArgResult() {
-  string attrRefValue = valueArg->getValue();
-  AttrRef attrRef = synonymArg->getAttrRef();
-  string synonymValue = synonymArg->getValue();
+  string attrRefValue = valueArg.getValue();
+  AttrRef attrRef = synonymArg.getAttrRef();
+  string synonymValue = synonymArg.getValue();
 
   vector<std::reference_wrapper<SynonymRes>> readSynonymResObjs;
 
@@ -83,9 +83,9 @@ IntermediateTable SingleSynWithEvaluator::getReadValueArgResult() {
 }
 
 IntermediateTable SingleSynWithEvaluator::getPrintValueArgResult() {
-  string attrRefValue = valueArg->getValue();
-  AttrRef attrRef = synonymArg->getAttrRef();
-  string synonymValue = synonymArg->getValue();
+  string attrRefValue = valueArg.getValue();
+  AttrRef attrRef = synonymArg.getAttrRef();
+  string synonymValue = synonymArg.getValue();
 
   vector<std::reference_wrapper<SynonymRes>> printSynonymResObjs;
 
@@ -113,8 +113,8 @@ IntermediateTable SingleSynWithEvaluator::getPrintValueArgResult() {
 }
 
 IntermediateTable SingleSynWithEvaluator::getStmtValueArgResult() {
-  string attrRefValue = valueArg->getValue();
-  string synonymValue = synonymArg->getValue();
+  string attrRefValue = valueArg.getValue();
+  string synonymValue = synonymArg.getValue();
 
   vector<std::reference_wrapper<SynonymRes>> stmtSynonymResObjs = {
       SynonymResFactory::buildStmtSynonym(attrRefValue)};
@@ -126,8 +126,8 @@ IntermediateTable SingleSynWithEvaluator::getStmtValueArgResult() {
 }
 
 IntermediateTable SingleSynWithEvaluator::getVarValueArgResult() {
-  string attrRefValue = valueArg->getValue();
-  string synonymValue = synonymArg->getValue();
+  string attrRefValue = valueArg.getValue();
+  string synonymValue = synonymArg.getValue();
 
   vector<std::reference_wrapper<SynonymRes>> varSynonymResObjs = {
       SynonymResFactory::buildVarSynonym(attrRefValue)};
@@ -139,8 +139,8 @@ IntermediateTable SingleSynWithEvaluator::getVarValueArgResult() {
 }
 
 IntermediateTable SingleSynWithEvaluator::getConstantValueArgResult() {
-  string attrRefValue = valueArg->getValue();
-  string synonymValue = synonymArg->getValue();
+  string attrRefValue = valueArg.getValue();
+  string synonymValue = synonymArg.getValue();
 
   vector<std::reference_wrapper<SynonymRes>> constSynonymResObjs = {
       SynonymResFactory::buildConstantSynonym(attrRefValue)};
@@ -152,8 +152,8 @@ IntermediateTable SingleSynWithEvaluator::getConstantValueArgResult() {
 }
 
 IntermediateTable SingleSynWithEvaluator::getProcValueArgResult() {
-  string attrRefValue = valueArg->getValue();
-  string synonymValue = synonymArg->getValue();
+  string attrRefValue = valueArg.getValue();
+  string synonymValue = synonymArg.getValue();
 
   vector<std::reference_wrapper<SynonymRes>> procSynonymResObjs = {
       SynonymResFactory::buildProcSynonym(attrRefValue)};

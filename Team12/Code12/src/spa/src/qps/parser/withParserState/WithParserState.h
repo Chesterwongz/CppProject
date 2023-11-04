@@ -20,6 +20,9 @@ class WithParserState : public BaseParserState {
   vector<ArgumentType> argumentTypes;
   void checkSameTypeComparison();
 
+ protected:
+  void processNameToken(PQLToken& curr) override;
+
  public:
   explicit WithParserState(PQLParserContext& parserContext, PQLTokenType prev);
   void handleToken() override;

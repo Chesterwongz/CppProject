@@ -9,7 +9,7 @@
 
 class IfEvaluator : public PatternEvaluator {
  public:
-  explicit IfEvaluator(unique_ptr<AbstractArgument>& firstArg,
+  explicit IfEvaluator(AbstractArgument& firstArg,
                        PKBReader& pkbReader, string synonymValue)
       : PatternEvaluator(firstArg, pkbReader,
                          std::move(synonymValue)) {}
