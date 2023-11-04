@@ -8,8 +8,8 @@
 
 IntermediateTable WithClause::evaluate(PKBReader& pkb) {
   unique_ptr<WithEvaluator> withEvaluator =
-      WithEvaluatorFactory::createWithEvaluator(move(firstArg), move(secondArg),
-                                                pkb);
+      WithEvaluatorFactory::createWithEvaluator(std::move(firstArg),
+                                                std::move(secondArg), pkb);
 
   IntermediateTable pkbResult = withEvaluator->evaluate();
 
@@ -22,4 +22,7 @@ bool WithClause::isEquals(const Clause& other) {
 
   return *firstArg == *(otherClause->firstArg) &&
          *secondArg == *(otherClause->secondArg);
+}
+set<string> WithClause::getClauseSynonyms() {
+  return {firstArg->getValue(), secondArg->getValue()};
 }

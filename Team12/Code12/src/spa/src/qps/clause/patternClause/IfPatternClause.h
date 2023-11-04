@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <set>
 #include <string>
 #include <unordered_set>
 #include <utility>
@@ -24,4 +25,5 @@ class IfPatternClause : public Clause {
 
   IntermediateTable evaluate(PKBReader& pkb) override;
   bool isEquals(const Clause& other) override;
+  set<string> getClauseSynonyms() override;
 };

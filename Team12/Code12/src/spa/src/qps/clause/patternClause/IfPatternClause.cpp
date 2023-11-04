@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "qps/clause/utils/ClauseUtil.h"
 #include "qps/patternEvaluator/ifEvaluator/IfEvaluator.h"
 
 IntermediateTable IfPatternClause::evaluate(PKBReader& pkbReader) {
@@ -21,4 +22,8 @@ bool IfPatternClause::isEquals(const Clause& other) {
 
   return *firstArg == *(otherPattern->firstArg) &&
          *synonym == *otherPattern->synonym;
+}
+
+set<string> IfPatternClause::getClauseSynonyms() {
+  return ClauseUtil::getSynonymArgValues(synonym, firstArg);
 }
