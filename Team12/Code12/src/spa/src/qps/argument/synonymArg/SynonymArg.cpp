@@ -16,7 +16,7 @@ QPSStringUtils::ArgumentType SynonymArg::getArgumentType() {
   return argumentType;
 }
 
-bool SynonymArg::isSynonym() { return true; }
+bool SynonymArg::isSynonym() const { return true; }
 
 bool SynonymArg::isStmtSynonym() {
   return STATEMENT_ENTITIES.find(entityType) != STATEMENT_ENTITIES.end();

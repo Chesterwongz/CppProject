@@ -6,15 +6,15 @@
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 
 IntermediateTable DoubleSynWithEvaluator::evaluate() {
-  string firstSynonymValue = firstSynonymArg->getValue();
-  Entity firstEntityType = firstSynonymArg->getEntityType();
-  AttrRef firstAttrRef = firstSynonymArg->getAttrRef();
+  string firstSynonymValue = firstSynonymArg.getValue();
+  Entity firstEntityType = firstSynonymArg.getEntityType();
+  AttrRef firstAttrRef = firstSynonymArg.getAttrRef();
   pair<string, AttrRef> firstColNameAttrRefPair = {firstSynonymValue,
                                                    firstAttrRef};
 
-  string secondSynonymValue = secondSynonymArg->getValue();
-  Entity secondEntityType = secondSynonymArg->getEntityType();
-  AttrRef secondAttrRef = secondSynonymArg->getAttrRef();
+  string secondSynonymValue = secondSynonymArg.getValue();
+  Entity secondEntityType = secondSynonymArg.getEntityType();
+  AttrRef secondAttrRef = secondSynonymArg.getAttrRef();
   pair<string, AttrRef> secondColNameAttrRefPair = {secondSynonymValue,
                                                     secondAttrRef};
 

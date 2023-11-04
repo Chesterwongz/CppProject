@@ -1,0 +1,32 @@
+procedure Parent {    
+    read line1;
+    if (line2 > line2) then{
+        while((line3 <= line3)&& ( line3 == line3)){
+            read line4;
+            print line5;
+            if (line6 > line6) then{
+                if ((line7 * 7 == (line7 + 7)%7)||(! ( line7/line7 != line7/line7+7)))then{
+                  assign8 = line8;
+                  assign9 = line9 * 9 + (9) * (line9 / line9);
+                } else {
+                    while(line10 < line10){
+                        while((line11 < line11)&& ( line11 == line11)){
+                            print line12;
+                        }
+                    }
+                }
+            } else {
+                if (line13 > line13) then{
+                    while((line14) < (line14)){
+                      read line15;
+                    }
+                } else {
+                    assign16 = line16/16;
+                }
+            }
+        }
+    } else {
+        print line17;
+    }
+    assign18 = line18;
+}

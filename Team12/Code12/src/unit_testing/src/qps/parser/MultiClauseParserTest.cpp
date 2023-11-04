@@ -11,6 +11,7 @@
 #include "qps/clause/suchThatClause/SuchThatClause.h"
 #include "qps/parser/tokenizer/token/PQLToken.h"
 #include "qps/query/Query.h"
+#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
 
 TEST_CASE("Wiki Example - only such that clauses") {
   string syn1 = "a";
@@ -304,7 +305,10 @@ TEST_CASE("Valid pattern not a and not if") {
       std::make_unique<AssignPatternClause>(std::move(outerSyn1),
                                             std::move(firstArg1),
                                             std::move(secondArg1), false);
-  expected.addClause(std::move(patternClause1));
+  unique_ptr<NotDecorator> notPatternClause1 =
+      std::make_unique<NotDecorator>(std::move(patternClause1));
+
+  expected.addClause(std::move(notPatternClause1));
 
   // pattern a2 ("x", _"x"_)
   unique_ptr<SynonymArg> outerSyn2 =
@@ -315,16 +319,22 @@ TEST_CASE("Valid pattern not a and not if") {
       std::make_unique<AssignPatternClause>(std::move(outerSyn2),
                                             std::move(firstArg2),
                                             std::move(secondArg2), true);
-  expected.addClause(std::move(patternClause2));
+  unique_ptr<NotDecorator> notPatternClause2 =
+      std::make_unique<NotDecorator>(std::move(patternClause2));
+
+  expected.addClause(std::move(notPatternClause2));
 
   // Follows (a1, a2)
   unique_ptr<SynonymArg> firstArg3 =
       std::make_unique<SynonymArg>(ass1, ASSIGN_ENTITY);
   unique_ptr<SynonymArg> secondArg3 =
       std::make_unique<SynonymArg>(ass2, ASSIGN_ENTITY);
-  unique_ptr<SuchThatClause> suchThatClause1 = std::make_unique<SuchThatClause>(
+  unique_ptr<SuchThatClause> suchThatClause3 = std::make_unique<SuchThatClause>(
       FOLLOWS_ENUM, std::move(firstArg3), std::move(secondArg3));
-  expected.addClause(std::move(suchThatClause1));
+  unique_ptr<NotDecorator> notSuchThatClause1 =
+      std::make_unique<NotDecorator>(std::move(suchThatClause3));
+
+  expected.addClause(std::move(notSuchThatClause1));
 
   // Parent* (w1, a2)
   unique_ptr<SynonymArg> firstArg4 =
@@ -333,7 +343,10 @@ TEST_CASE("Valid pattern not a and not if") {
       std::make_unique<SynonymArg>(ass2, ASSIGN_ENTITY);
   unique_ptr<SuchThatClause> suchThatClause4 = std::make_unique<SuchThatClause>(
       PARENTS_STAR_ENUM, std::move(firstArg4), std::move(secondArg4));
-  expected.addClause(std::move(suchThatClause4));
+  unique_ptr<NotDecorator> notSuchThatClause4 =
+      std::make_unique<NotDecorator>(std::move(suchThatClause4));
+
+  expected.addClause(std::move(notSuchThatClause4));
 
   // Parent* (w1, w2)
   unique_ptr<SynonymArg> firstArg5 =
@@ -342,7 +355,10 @@ TEST_CASE("Valid pattern not a and not if") {
       std::make_unique<SynonymArg>(while2, WHILE_ENTITY);
   unique_ptr<SuchThatClause> suchThatClause5 = std::make_unique<SuchThatClause>(
       PARENTS_STAR_ENUM, std::move(firstArg5), std::move(secondArg5));
-  expected.addClause(std::move(suchThatClause5));
+  unique_ptr<NotDecorator> notSuchThatClause5 =
+      std::make_unique<NotDecorator>(std::move(suchThatClause5));
+
+  expected.addClause(std::move(notSuchThatClause5));
 
   bool res = *query == expected;
   REQUIRE(res);

@@ -1,0 +1,70 @@
+====== 1 - Parent (_, _) ======
+stmt s;
+Select s such that not Parent(_, _)
+none
+1000
+====== 2 - Parent (_, ident) ======
+stmt s;
+Select s such that not Parent(_, 1)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+1000
+====== 3 - Parent (_, ident) - no results ======
+stmt s;
+Select s such that not Parent(_, 3)
+none
+1000
+====== 4 - Parent (_, var) - no results ======
+stmt s;
+Select s such that not Parent(_, s)
+1, 2, 18
+1000
+====== 5 - Parent (ident, _) ======
+stmt s;
+Select s such that not Parent(12, _)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+1000
+====== 6 - Parent (ident, _) - no results ======
+stmt s;
+Select s such that not Parent(7, _)
+none
+1000
+====== 7 - Parent (ident, ident) ======
+stmt s;
+Select s such that not Parent(3, 7)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+1000
+====== 8 - Parent (ident, ident) - no results ======
+stmt s;
+Select s such that not Parent(10, 11)
+none
+1000
+====== 9 - Parent (ident, var) ======
+stmt s;
+Select s such that not Parent(13, s)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 17, 18
+1000
+====== 10 - Parent (var, _) ======
+stmt s;
+Select s such that not Parent(s, _)
+1, 4, 5, 8, 9, 12, 15, 16, 17, 18
+1000
+====== 11 - Parent (var, ident) ======
+stmt s;
+Select s such that not Parent(s, 9)
+1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+1000
+====== 12 - Parent (var, var) - same var ======
+stmt s;
+Select s such that not Parent(s, s)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+1000
+====== 13 - Parent (var, var) - different var, same type ======
+stmt s1, s2;
+Select s1 such that not Parent(s1, s2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+1000
+====== 14 - Parent (var, var) - different var, different type ======
+stmt s; assign a;
+Select s such that not Parent(s, a)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+1000
