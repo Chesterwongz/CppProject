@@ -101,8 +101,9 @@ IntermediateTable ProcToProcAbstraction::handleFirstArgIdent() {
 
   vector<string> possibleSecondProcs =
       getSecondProcInAbstraction(firstArgProcName);
-  vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
-      possibleSecondProcs, PROCEDURE_ENTITY, this->pkb);
+  vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes =
+      SynResConversionUtils::toSynonymRes(possibleSecondProcs, PROCEDURE_ENTITY,
+                                          this->pkb);
 
   return IntermediateTableFactory::buildSingleColTable(secondArgProcSynonym,
                                                        resultAsSynonymRes);
@@ -117,8 +118,9 @@ IntermediateTable ProcToProcAbstraction::handleSecondArgIdent() {
 
   vector<string> possibleFirstProcs =
       getFirstProcInAbstraction(secondArgProcName);
-  vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
-      possibleFirstProcs, PROCEDURE_ENTITY, this->pkb);
+  vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes =
+      SynResConversionUtils::toSynonymRes(possibleFirstProcs, PROCEDURE_ENTITY,
+                                          this->pkb);
 
   return IntermediateTableFactory::buildSingleColTable(firstArgSynonym,
                                                        resultAsSynonymRes);

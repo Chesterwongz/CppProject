@@ -68,7 +68,7 @@ IntermediateTable IntermediateTableUtils::getNaturalJoin(
     string key;
     for (const int idx : t2SharedColIndexes) {
       // use delimiter to differentiate values
-      key += t2Row.at(idx).toString() + "|";
+      key += t2Row.at(idx).get().toString() + "|";
     }
     t2Mapping[key].emplace_back(t2Row);
   }
@@ -78,12 +78,13 @@ IntermediateTable IntermediateTableUtils::getNaturalJoin(
   for (const TableRowType& t1Row : t1.getTableData()) {
     string key;
     for (const int idx : t1SharedColIndexes) {
-      key += t1Row.at(idx).toString() + "|";
+      key += t1Row.at(idx).get().toString() + "|";
     }
     if (t2Mapping.find(key) == t2Mapping.end()) continue;
 
     for (const TableRowType& t2Row : t2Mapping[key]) {
-      vector<SynonymRes> resRow(t1Row.begin(), t1Row.end());
+      vector<std::reference_wrapper<SynonymRes>> resRow(t1Row.begin(),
+                                                        t1Row.end());
 
       for (size_t i = 0; i < t2Row.size(); i++) {
         if (t2SharedColIndexesSet.count(i) == 0) {
@@ -128,15 +129,16 @@ IntermediateTable IntermediateTableUtils::getInnerJoinOn(
   // Use a hashmap to optimize lookup
   unordered_map<string, vector<TableRowType>> t2Mapping;
   for (const TableRowType& t2Row : t2.getTableData()) {
-    string key = t2Row.at(t2JoinColIndex).getAttribute(t2AttrRef);
+    string key = t2Row.at(t2JoinColIndex).get().getAttribute(t2AttrRef);
     t2Mapping[key].push_back(t2Row);
   }
 
   for (const TableRowType& t1Row : t1.getTableData()) {
-    string key = t1Row.at(t1JoinColIndex).getAttribute(t1AttrRef);
+    string key = t1Row.at(t1JoinColIndex).get().getAttribute(t1AttrRef);
     if (t2Mapping.find(key) == t2Mapping.end()) continue;
     for (const TableRowType& t2Row : t2Mapping[key]) {
-      vector<SynonymRes> resRow(t1Row.begin(), t1Row.end());
+      vector<std::reference_wrapper<SynonymRes>> resRow(t1Row.begin(),
+                                                        t1Row.end());
 
       for (size_t i = 0; i < t2Row.size(); ++i) {
         if (t1ColName != t2ColName || i != t2JoinColIndex) {

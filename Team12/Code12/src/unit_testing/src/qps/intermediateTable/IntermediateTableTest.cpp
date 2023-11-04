@@ -11,20 +11,20 @@ IntermediateTable DOUBLE_COLUMN_TABLE_FROM_PAIR_1 =
                                                      PAIR_DATA);
 
 IntermediateTable DOUBLE_COLUMN_TABLE_FROM_VECTORS_1 =
-    IntermediateTableFactory::buildIntermediateTable(DOUBLE_COL_NAME_VECTOR,
-                                                     DOUBLE_COL_VECTOR_DATA);
+    IntermediateTableFactory::buildIntermediateTable(
+        DOUBLE_COL_NAME_VECTOR, convertToSynonymResCol(DOUBLE_COL_VECTOR_DATA));
 
 IntermediateTable DOUBLE_COLUMN_TABLE_FROM_VECTORS_2 =
-    IntermediateTableFactory::buildIntermediateTable(doubleColNameVector2,
-                                                     DOUBLE_COL_VECTOR_DATA_2);
+    IntermediateTableFactory::buildIntermediateTable(
+        doubleColNameVector2, convertToSynonymResCol(DOUBLE_COL_VECTOR_DATA_2));
 
 IntermediateTable MULTI_COLUMN_TABLE_1 =
-    IntermediateTableFactory::buildIntermediateTable(MULTI_COL_NAME_VECTOR_1,
-                                                     MULTI_COL_DATA_1);
+    IntermediateTableFactory::buildIntermediateTable(
+        MULTI_COL_NAME_VECTOR_1, convertToSynonymResCol(MULTI_COL_DATA_1));
 
 IntermediateTable MULTI_COLUMN_TABLE_2 =
-    IntermediateTableFactory::buildIntermediateTable(MULTI_COL_NAME_VECTOR_2,
-                                                     MULTI_COL_DATA_2);
+    IntermediateTableFactory::buildIntermediateTable(
+        MULTI_COL_NAME_VECTOR_2, convertToSynonymResCol(MULTI_COL_DATA_2));
 
 TEST_CASE("IntermediateTable - constructors + getDataAsStrings") {
   REQUIRE(isVectorsSameAsPairs(

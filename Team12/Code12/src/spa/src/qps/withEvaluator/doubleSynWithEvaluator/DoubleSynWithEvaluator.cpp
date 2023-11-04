@@ -18,15 +18,17 @@ IntermediateTable DoubleSynWithEvaluator::evaluate() {
   pair<string, AttrRef> secondColNameAttrRefPair = {secondSynonymValue,
                                                     secondAttrRef};
 
-  vector<SynonymRes> firstPKBResult = withEvaluatorFuncMap[firstEntityType]();
+  vector<std::reference_wrapper<SynonymRes>> firstPKBResult =
+      withEvaluatorFuncMap[firstEntityType]();
   IntermediateTable firstResult = IntermediateTableFactory::buildSingleColTable(
       firstSynonymValue, firstPKBResult);
 
-  vector<SynonymRes> secondPKBResult = withEvaluatorFuncMap[secondEntityType]();
+  vector<std::reference_wrapper<SynonymRes>> secondPKBResult =
+      withEvaluatorFuncMap[secondEntityType]();
   IntermediateTable secondResult =
       IntermediateTableFactory::buildSingleColTable(secondSynonymValue,
                                                     secondPKBResult);
 
   return firstResult.join(secondResult, firstColNameAttrRefPair,
-                             secondColNameAttrRefPair);
+                          secondColNameAttrRefPair);
 }

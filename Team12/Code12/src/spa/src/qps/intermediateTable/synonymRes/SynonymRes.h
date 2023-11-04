@@ -3,10 +3,13 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "qps/common/Keywords.h"
+#include "SynonymResUtils.h"
 
-using std::string, std::unordered_map, std::unique_ptr;
+using std::string, std::unordered_map, std::unique_ptr, std::unordered_set,
+    std::hash;
 
 class SynonymRes {
  private:
@@ -19,7 +22,13 @@ class SynonymRes {
    * - Variable  -> varName
    */
   unordered_map<AttrRef, string> attributeMap = {};
+
   explicit SynonymRes(unordered_map<AttrRef, string> attributeMap);
+
+  // map synonym value to SynonymRes set
+  static inline unordered_map<string, SynonymRes>
+      SYNONYM_RES_POOL {};
+
   friend class SynonymResFactory;
 
  public:
