@@ -1,6 +1,6 @@
-#include <catch.hpp>
 #include <utility>
 #include <vector>
+#include <catch.hpp>
 
 #include "common/AliasTypes.h"
 #include "common/utils/CollectionUtils.h"

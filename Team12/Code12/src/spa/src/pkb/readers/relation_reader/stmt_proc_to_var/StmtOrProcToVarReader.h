@@ -39,7 +39,8 @@ class StmtOrProcToVarReader {
 
   std::vector<std::string> getProcByVar(const std::string& varName);
 
-  bool hasDirectRelation(const std::string& procName, const std::string& varName);
+  bool hasDirectRelation(const std::string& procName,
+                         const std::string& varName);
 
   std::vector<std::pair<std::string, std::string>> getProcVarPairs();
 };
