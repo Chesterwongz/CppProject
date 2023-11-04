@@ -6,8 +6,8 @@
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 #include "qps/withEvaluator/WithEvaluatorFactory/WithEvaluatorFactory.h"
 
-vector<AbstractArgument*> WithClause::getAllArguments() {
-  vector<AbstractArgument*> argVector;
+vector<const AbstractArgument*> WithClause::getAllArguments() {
+  vector<const AbstractArgument*> argVector;
 
   argVector.push_back(firstArg.get());
   argVector.push_back(secondArg.get());

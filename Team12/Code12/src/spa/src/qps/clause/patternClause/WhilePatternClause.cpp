@@ -5,8 +5,8 @@
 
 #include "qps/patternEvaluator/whileEvaluator/WhileEvaluator.h"
 
-vector<AbstractArgument*> WhilePatternClause::getAllArguments() {
-  vector<AbstractArgument*> argVector;
+vector<const AbstractArgument*> WhilePatternClause::getAllArguments() {
+  vector<const AbstractArgument*> argVector;
 
   argVector.push_back(synonym.get());
   argVector.push_back(firstArg.get());

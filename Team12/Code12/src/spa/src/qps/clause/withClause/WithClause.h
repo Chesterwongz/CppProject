@@ -27,5 +27,5 @@ class WithClause : public Clause {
 
   IntermediateTable evaluate(PKBReader& pkb) override;
   bool isEquals(const Clause& other) override;
-  vector<AbstractArgument*> getAllArguments() override;
+  vector<const AbstractArgument*> getAllArguments() override;
 };

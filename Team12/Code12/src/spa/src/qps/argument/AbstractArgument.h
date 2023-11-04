@@ -13,7 +13,7 @@ class AbstractArgument {
   virtual QPSStringUtils::ArgumentType getArgumentType() = 0;
   virtual bool isIdent();
   virtual bool isInteger();
-  virtual bool isSynonym();
+  virtual bool isSynonym() const;
   virtual bool isStmtSynonym();
   virtual bool isVarSynonym();
   virtual bool isProcSynonym();

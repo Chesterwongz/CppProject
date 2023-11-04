@@ -16,5 +16,5 @@ class ClauseDecorator : public Clause {
   explicit ClauseDecorator(unique_ptr<Clause> wrapeeClause)
       : wrapeeClause(std::move(wrapeeClause)) {}
 
-  vector<AbstractArgument*> getAllArguments() override;
+  vector<const AbstractArgument*> getAllArguments() override;
 };

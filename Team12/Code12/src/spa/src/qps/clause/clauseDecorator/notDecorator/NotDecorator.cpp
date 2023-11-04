@@ -10,7 +10,7 @@
 IntermediateTable NotDecorator::evaluate(PKBReader& pkb) {
   IntermediateTable wrapeeClauseResult = wrapeeClause->evaluate(pkb);
 
-  vector<AbstractArgument*> wrapeeClauseArgs =
+  vector<const AbstractArgument*> wrapeeClauseArgs =
       wrapeeClause->getAllArguments();
 
   IntermediateTable minuend = generateMinuend(pkb, wrapeeClauseArgs);
@@ -21,19 +21,20 @@ IntermediateTable NotDecorator::evaluate(PKBReader& pkb) {
 }
 
 IntermediateTable NotDecorator::generateMinuend(
-    PKBReader& pkb, vector<AbstractArgument*>& wrapeeClauseArgs) {
+    PKBReader& pkb, vector<const AbstractArgument*>& wrapeeClauseArgs) {
   IntermediateTable minuend =
       IntermediateTableFactory::buildWildcardIntermediateTable();
 
   for (int i = 0; i < wrapeeClauseArgs.size(); i++) {
-    AbstractArgument* wrapeeClauseArg = wrapeeClauseArgs[i];
+    const AbstractArgument* wrapeeClauseArg = wrapeeClauseArgs[i];
 
     if (!wrapeeClauseArg->isSynonym()) {
       // not synonym, ignore
       continue;
     }
 
-    SynonymArg* wrapeeClauseSynArg = static_cast<SynonymArg*>(wrapeeClauseArg);
+    SynonymArg* wrapeeClauseSynArg = dynamic_cast<SynonymArg*>(
+        const_cast<AbstractArgument*>(wrapeeClauseArg));
 
     vector<SynonymRes> synonymResObjsOfEntityType =
         notDecoratorFuncMap[wrapeeClauseSynArg->getEntityType()](pkb);
