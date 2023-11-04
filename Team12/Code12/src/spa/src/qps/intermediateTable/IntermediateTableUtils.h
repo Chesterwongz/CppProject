@@ -13,6 +13,8 @@
 using std::sort, std::string, std::vector;
 
 namespace IntermediateTableUtils {
+const string TABLE_KEY_DELIMITER = "|";
+
 vector<string> getSharedColNames(const IntermediateTable& table1,
                                  const IntermediateTable& table2);
 
@@ -39,4 +41,6 @@ static TableRowType concatRow(const TableRowType& row1,
                               const TableRowType& row2);
 
 const int INVALID_COL_INDEX = -1;
+
+string getRowKey(const TableRowType& row);
 }  // namespace IntermediateTableUtils

@@ -48,8 +48,8 @@ inline const string CALLS_STAR_ABSTRACTION = "Calls*";
 
 inline const string WITH_KEYWORD = "with";
 
-inline const AttrRef ATTR_REF_DEFAULT =
-    "";  // for synonyms without attrRef specified
+inline const AttrRef
+    ATTR_REF_DEFAULT;  // for synonyms without attrRef specified
 inline const AttrRef ATTR_REF_PROC_NAME = "procName";
 inline const AttrRef ATTR_REF_STMT_NUMBER = "stmt#";
 inline const AttrRef ATTR_REF_VAR_NAME = "varName";

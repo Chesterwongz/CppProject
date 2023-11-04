@@ -47,6 +47,7 @@ set<string> SuchThatClause::getClauseSynonyms() {
 }
 
 string SuchThatClause::getKey() {
-  return AbstractionEnumToStringMap.at(this->relationship) + "|" +
-         this->firstArg->getValue() + "|" + this->secondArg->getValue();
+  return AbstractionEnumToStringMap.at(this->relationship) +
+         ClauseUtil::KEY_DELIMITER + this->firstArg->getValue() +
+         ClauseUtil::KEY_DELIMITER + this->secondArg->getValue();
 }

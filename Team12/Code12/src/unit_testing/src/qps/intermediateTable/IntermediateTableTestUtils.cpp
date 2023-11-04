@@ -1,7 +1,5 @@
 #include "IntermediateTableTestUtils.h"
 
-#include <iostream>
-
 bool isVectorSameAsPair(vector<string> vector1,
                         const pair<string, string>& pair1) {
   if (vector1.size() != 2) {
@@ -17,17 +15,14 @@ bool isVectorsSameAsPairs(vector<vector<string>> vectors,
   }
   for (int i = 0; i < vectors.size(); i++) {
     if (!isVectorSameAsPair(vectors.at(i), pairs.at(i))) {
-      std::cout << "row " << i << " incorrect" << std::endl;
       return false;
     }
   }
-  std::cout << "vectors matches pairs" << std::endl;
   return true;
 }
 
-vector<vector<std::reference_wrapper<SynonymRes>>> convertToSynonymResCol(
-    const vector<string>& stringData) {
-  vector<vector<std::reference_wrapper<SynonymRes>>> res {};
+TableDataType convertToSynonymResCol(const vector<string>& stringData) {
+  TableDataType res {};
   res.reserve(stringData.size());
   for (const auto& stringDatum : stringData) {
     vector<std::reference_wrapper<SynonymRes>> datum = {
@@ -37,9 +32,8 @@ vector<vector<std::reference_wrapper<SynonymRes>>> convertToSynonymResCol(
   return res;
 }
 
-vector<vector<std::reference_wrapper<SynonymRes>>> convertToSynonymResCol(
-    const vector<vector<string>>& stringData) {
-  vector<vector<std::reference_wrapper<SynonymRes>>> res {};
+TableDataType convertToSynonymResCol(const vector<vector<string>>& stringData) {
+  TableDataType res {};
   res.reserve(stringData.size());
   for (const auto& datumRow : stringData) {
     vector<std::reference_wrapper<SynonymRes>> row {};
@@ -51,8 +45,7 @@ vector<vector<std::reference_wrapper<SynonymRes>>> convertToSynonymResCol(
   return res;
 }
 
-bool isTableDataSame(TableDataType data1,
-                                   TableDataType data2) {
+bool isTableDataSame(TableDataType data1, TableDataType data2) {
   if (data1.empty() && data2.empty()) {
     return true;
   }

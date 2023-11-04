@@ -20,8 +20,8 @@ IntermediateTable WhilePatternClause::evaluate(PKBReader& pkbReader) {
 
   unique_ptr<PatternEvaluator> evaluatorPtr;
 
-  evaluatorPtr = std::make_unique<WhileEvaluator>(*(this->firstArg),
-                                                  pkbReader, synonymValue);
+  evaluatorPtr = std::make_unique<WhileEvaluator>(*(this->firstArg), pkbReader,
+                                                  synonymValue);
 
   return evaluatorPtr->evaluate();
 }
@@ -39,5 +39,6 @@ set<string> WhilePatternClause::getClauseSynonyms() {
 }
 
 string WhilePatternClause::getKey() {
-  return WHILE_ENTITY + '|' + synonym->getValue() + '|' + firstArg->getValue();
+  return WHILE_ENTITY + ClauseUtil::KEY_DELIMITER + synonym->getValue() +
+         ClauseUtil::KEY_DELIMITER + firstArg->getValue();
 }

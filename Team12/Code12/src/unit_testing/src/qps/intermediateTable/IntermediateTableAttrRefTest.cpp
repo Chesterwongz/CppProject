@@ -97,10 +97,8 @@ TEST_CASE(
 TEST_CASE("IntermediateTable - join_cross - SynonymRes") {
   IntermediateTable crossTable =
       DOUBLE_COLUMN_SYNONYM_RES_TABLE_1.join(DOUBLE_COLUMN_SYNONYM_RES_TABLE_2);
-  vector<vector<std::reference_wrapper<SynonymRes>>> expected =
-      DOUBLE_COL_SYNONYM_RES_DATA_CROSS;
-  vector<vector<std::reference_wrapper<SynonymRes>>> actual =
-      crossTable.getTableData();
+  TableDataType expected = DOUBLE_COL_SYNONYM_RES_DATA_CROSS;
+  const TableDataType& actual = crossTable.getTableData();
 
   REQUIRE(expected.size() == actual.size());
   REQUIRE(isTableDataSame(expected, actual));
@@ -109,21 +107,21 @@ TEST_CASE("IntermediateTable - join_cross - SynonymRes") {
 TEST_CASE("IntermediateTable - join_inner_join - SynonymRes") {
   IntermediateTable joinTable =
       MULTI_COLUMN_SYNONYM_RES_TABLE_1.join(MULTI_COLUMN_SYNONYM_RES_TABLE_2);
-    REQUIRE(isTableDataSame(joinTable.getTableData(),
-    MULTI_COL_SYNONYM_RES_DATA_INNER_JOIN));
+  REQUIRE(isTableDataSame(joinTable.getTableData(),
+                          MULTI_COL_SYNONYM_RES_DATA_INNER_JOIN));
 }
 
 TEST_CASE("IntermediateTable - join_inner_join_on - SynonymRes") {
   IntermediateTable joinTable = DOUBLE_COLUMN_SYNONYM_RES_TABLE_1.join(
       DOUBLE_COLUMN_SYNONYM_RES_TABLE_3, {"calls", ATTR_REF_PROC_NAME},
       {"print", ATTR_REF_VAR_NAME});
-  vector<vector<std::reference_wrapper<SynonymRes>>> expected = {
+  TableDataType expected = {
       {MOCK_CONSTANT_SYN_1, MOCK_PRINT_SYN_1, MOCK_CONSTANT_SYN_2,
        MOCK_PRINT_SYN_2},
       {MOCK_CONSTANT_SYN_2, MOCK_PRINT_SYN_2, MOCK_CONSTANT_SYN_2,
        MOCK_PRINT_SYN_2},
   };
-    REQUIRE(isTableDataSame(joinTable.getTableData(), expected));
+  REQUIRE(isTableDataSame(joinTable.getTableData(), expected));
 }
 
 TEST_CASE("IntermediateTable - join - any_x_empty - SynonymRes") {
@@ -160,15 +158,15 @@ TEST_CASE("IntermediateTable - join - any_x_wildcard - SynonymRes") {
   IntermediateTable dataJoinWildcardTable =
       MULTI_COLUMN_SYNONYM_RES_TABLE_1.join(WILDCARD_TABLE);
   REQUIRE(dataJoinWildcardTable.isTableWildcard() == false);
-    REQUIRE(isTableDataSame(dataJoinWildcardTable.getTableData(),
-    MULTI_COL_SYNONYM_RES_DATA_1));
+  REQUIRE(isTableDataSame(dataJoinWildcardTable.getTableData(),
+                          MULTI_COL_SYNONYM_RES_DATA_1));
 
   // WILDCARD X DATA
   IntermediateTable wildcardJoinDataTable =
       WILDCARD_TABLE.join(MULTI_COLUMN_SYNONYM_RES_TABLE_1);
   REQUIRE(wildcardJoinDataTable.isTableWildcard() == false);
-    REQUIRE(isTableDataSame(wildcardJoinDataTable.getTableData(),
-    MULTI_COL_SYNONYM_RES_DATA_1));
+  REQUIRE(isTableDataSame(wildcardJoinDataTable.getTableData(),
+                          MULTI_COL_SYNONYM_RES_DATA_1));
 
   // WILDCARD X WILDCARD
   IntermediateTable wildcardJoinWildcardTable =

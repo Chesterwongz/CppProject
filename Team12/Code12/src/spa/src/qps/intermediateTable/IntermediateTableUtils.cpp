@@ -68,7 +68,7 @@ IntermediateTable IntermediateTableUtils::getNaturalJoin(
     string key;
     for (const int idx : t2SharedColIndexes) {
       // use delimiter to differentiate values
-      key += t2Row.at(idx).get().toString() + "|";
+      key += t2Row.at(idx).get().toString() + TABLE_KEY_DELIMITER;
     }
     t2Mapping[key].emplace_back(t2Row);
   }
@@ -78,7 +78,7 @@ IntermediateTable IntermediateTableUtils::getNaturalJoin(
   for (const TableRowType& t1Row : t1.getTableData()) {
     string key;
     for (const int idx : t1SharedColIndexes) {
-      key += t1Row.at(idx).get().toString() + "|";
+      key += t1Row.at(idx).get().toString() + TABLE_KEY_DELIMITER;
     }
     if (t2Mapping.find(key) == t2Mapping.end()) continue;
 
@@ -185,4 +185,12 @@ TableRowType IntermediateTableUtils::concatRow(const TableRowType& row1,
   rowCopy.insert(rowCopy.end(), row1.begin(), row1.end());
   rowCopy.insert(rowCopy.end(), row2.begin(), row2.end());
   return rowCopy;
+}
+
+string IntermediateTableUtils::getRowKey(const TableRowType& row) {
+  string key;
+  for (const std::reference_wrapper<SynonymRes> syn : row) {
+    key += syn.get().toString() + IntermediateTableUtils::TABLE_KEY_DELIMITER;
+  }
+  return key;
 }

@@ -13,6 +13,7 @@ using std::string, std::set, std::vector;
 class MockClause : public Clause {
   IntermediateTable mockEvaluate =
       IntermediateTableFactory::buildWildcardIntermediateTable();
+  vector<const AbstractArgument*> mockAllArguments {};
   bool mockIsEquals = false;
   set<string> mockClauseSynonyms = {};
   string mockKey {};
@@ -24,6 +25,10 @@ class MockClause : public Clause {
   }
 
   IntermediateTable evaluate(PKBReader& pkb) override { return mockEvaluate; }
+
+  vector<const AbstractArgument*> getAllArguments() override {
+    return mockAllArguments;
+  };
 
   bool isEquals(const Clause& other) override { return mockIsEquals; }
 

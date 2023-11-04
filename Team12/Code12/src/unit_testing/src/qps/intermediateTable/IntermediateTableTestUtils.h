@@ -14,8 +14,6 @@ bool isVectorSameAsPair(vector<string> vector1,
 bool isVectorsSameAsPairs(vector<vector<string>> vectors,
                           vector<pair<string, string>> pairs);
 
-vector<vector<std::reference_wrapper<SynonymRes>>> convertToSynonymResCol(
-    const vector<vector<string>>& stringData);
+TableDataType convertToSynonymResCol(const vector<vector<string>>& stringData);
 
-bool isTableDataSame(TableDataType data1,
-                                   TableDataType data2);
+bool isTableDataSame(TableDataType data1, TableDataType data2);

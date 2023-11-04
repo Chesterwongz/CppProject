@@ -13,7 +13,7 @@ IntermediateTable SingleSynWithEvaluator::evaluate() {
       withEvaluatorFuncMap[synonymEntity]();
   IntermediateTable synonymResult =
       IntermediateTableFactory::buildSingleColTable(
-          synonymValue, std::move(synonymPKBResult));
+          synonymValue, synonymPKBResult);
 
   IntermediateTable valueArgResult = valueArgResultFuncMap[synonymEntity]();
 
@@ -47,7 +47,7 @@ IntermediateTable SingleSynWithEvaluator::getCallValueArgResult() {
   }
 
   IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
-      synonymValue, std::move(callSynonymResObjs));
+      synonymValue, callSynonymResObjs);
 
   return result;
 }
@@ -77,7 +77,7 @@ IntermediateTable SingleSynWithEvaluator::getReadValueArgResult() {
   }
 
   IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
-      synonymValue, std::move(readSynonymResObjs));
+      synonymValue, readSynonymResObjs);
 
   return result;
 }
@@ -107,7 +107,7 @@ IntermediateTable SingleSynWithEvaluator::getPrintValueArgResult() {
   }
 
   IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
-      synonymValue, std::move(printSynonymResObjs));
+      synonymValue, printSynonymResObjs);
 
   return result;
 }
@@ -120,7 +120,7 @@ IntermediateTable SingleSynWithEvaluator::getStmtValueArgResult() {
       SynonymResFactory::buildStmtSynonym(attrRefValue)};
 
   IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
-      synonymValue, std::move(stmtSynonymResObjs));
+      synonymValue, stmtSynonymResObjs);
 
   return result;
 }
@@ -133,7 +133,7 @@ IntermediateTable SingleSynWithEvaluator::getVarValueArgResult() {
       SynonymResFactory::buildVarSynonym(attrRefValue)};
 
   IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
-      synonymValue, std::move(varSynonymResObjs));
+      synonymValue, varSynonymResObjs);
 
   return result;
 }
@@ -146,7 +146,7 @@ IntermediateTable SingleSynWithEvaluator::getConstantValueArgResult() {
       SynonymResFactory::buildConstantSynonym(attrRefValue)};
 
   IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
-      synonymValue, std::move(constSynonymResObjs));
+      synonymValue, constSynonymResObjs);
 
   return result;
 }
@@ -159,7 +159,7 @@ IntermediateTable SingleSynWithEvaluator::getProcValueArgResult() {
       SynonymResFactory::buildProcSynonym(attrRefValue)};
 
   IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
-      synonymValue, std::move(procSynonymResObjs));
+      synonymValue, procSynonymResObjs);
 
   return result;
 }

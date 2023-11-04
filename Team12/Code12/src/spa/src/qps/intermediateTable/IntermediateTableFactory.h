@@ -52,8 +52,8 @@ class IntermediateTableFactory {
     vector<string> columnNames = {colName};
     TableDataType dataColumn = {};
     dataColumn.reserve(data.size());
-    for (const std::reference_wrapper<SynonymRes> datum : data) {
-      TableRowType row {std::move(datum)};
+    for (std::reference_wrapper<SynonymRes> datum : data) {
+      TableRowType row {datum};
       dataColumn.emplace_back(std::move(row));
     }
     return IntermediateTable(columnNames, std::move(dataColumn));

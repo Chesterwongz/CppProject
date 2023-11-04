@@ -1,6 +1,5 @@
 #include "WithEvaluator.h"
 
-#include <string>
 #include <vector>
 
 #include "qps/clause/utils/ClauseConstants.h"
@@ -107,9 +106,9 @@ WithEvaluator::evaluatePrintEntity() {
 }
 
 vector<std::reference_wrapper<SynonymRes>>
-WithEvaluator::buildStmtSynonymResVector(vector<string> stmtNums) {
+WithEvaluator::buildStmtSynonymResVector(const vector<string>& stmtNums) {
   vector<std::reference_wrapper<SynonymRes>> stmtSynonymResObjs;
-
+  stmtSynonymResObjs.reserve(stmtNums.size());
   for (const string& stmtNum : stmtNums) {
     stmtSynonymResObjs.emplace_back(
         SynonymResFactory::buildStmtSynonym(stmtNum));
@@ -119,9 +118,10 @@ WithEvaluator::buildStmtSynonymResVector(vector<string> stmtNums) {
 }
 
 vector<std::reference_wrapper<SynonymRes>>
-WithEvaluator::buildConstantSynonymResVector(vector<string> constantVals) {
+WithEvaluator::buildConstantSynonymResVector(
+    const vector<string>& constantVals) {
   vector<std::reference_wrapper<SynonymRes>> constSynonymResObjs;
-
+  constSynonymResObjs.reserve(constantVals.size());
   for (const string& constantVal : constantVals) {
     constSynonymResObjs.emplace_back(
         SynonymResFactory::buildConstantSynonym(constantVal));
@@ -131,9 +131,9 @@ WithEvaluator::buildConstantSynonymResVector(vector<string> constantVals) {
 }
 
 vector<std::reference_wrapper<SynonymRes>>
-WithEvaluator::buildProcSynonymResVector(vector<string> procNames) {
+WithEvaluator::buildProcSynonymResVector(const vector<string>& procNames) {
   vector<std::reference_wrapper<SynonymRes>> procSynonymResObjs;
-
+  procSynonymResObjs.reserve(procNames.size());
   for (const string& procName : procNames) {
     procSynonymResObjs.emplace_back(
         SynonymResFactory::buildProcSynonym(procName));
@@ -143,9 +143,9 @@ WithEvaluator::buildProcSynonymResVector(vector<string> procNames) {
 }
 
 vector<std::reference_wrapper<SynonymRes>>
-WithEvaluator::buildVarSynonymResVector(vector<string> varNames) {
+WithEvaluator::buildVarSynonymResVector(const vector<string>& varNames) {
   vector<std::reference_wrapper<SynonymRes>> varSynonymResObjs;
-
+  varSynonymResObjs.reserve(varNames.size());
   for (const string& varName : varNames) {
     varSynonymResObjs.emplace_back(SynonymResFactory::buildVarSynonym(varName));
   }
@@ -155,11 +155,11 @@ WithEvaluator::buildVarSynonymResVector(vector<string> varNames) {
 
 vector<std::reference_wrapper<SynonymRes>>
 WithEvaluator::buildCallSynonymResVector(
-    vector<pair<string, string>> callProcNamePairs) {
+    const vector<pair<string, string>>& callProcNamePairs) {
   vector<std::reference_wrapper<SynonymRes>> callSynonymResObjs;
-
-  for (pair<string, string> callProcNamePair : callProcNamePairs) {
-    callSynonymResObjs.push_back(SynonymResFactory::buildCallsSynonym(
+  callSynonymResObjs.reserve(callProcNamePairs.size());
+  for (const pair<string, string>& callProcNamePair : callProcNamePairs) {
+    callSynonymResObjs.emplace_back(SynonymResFactory::buildCallsSynonym(
         callProcNamePair.first, callProcNamePair.second));
   }
 
@@ -168,9 +168,10 @@ WithEvaluator::buildCallSynonymResVector(
 
 vector<std::reference_wrapper<SynonymRes>>
 WithEvaluator::buildReadSynonymResVector(
-    vector<pair<string, string>> readVarNamePairs) {
+    const vector<pair<string, string>>& readVarNamePairs) {
   vector<std::reference_wrapper<SynonymRes>> readSynonymResObjs;
 
+  readSynonymResObjs.reserve(readVarNamePairs.size());
   for (const auto& [firstVar, secondVar] : readVarNamePairs) {
     readSynonymResObjs.emplace_back(
         SynonymResFactory::buildReadSynonym(firstVar, secondVar));
@@ -181,9 +182,10 @@ WithEvaluator::buildReadSynonymResVector(
 
 vector<std::reference_wrapper<SynonymRes>>
 WithEvaluator::buildPrintSynonymResVector(
-    vector<pair<string, string>> printVarNamePairs) {
+    const vector<pair<string, string>>& printVarNamePairs) {
   vector<std::reference_wrapper<SynonymRes>> printSynonymResObjs;
 
+  printSynonymResObjs.reserve(printVarNamePairs.size());
   for (const auto& [firstVar, secondVar] : printVarNamePairs) {
     printSynonymResObjs.emplace_back(
         SynonymResFactory::buildReadSynonym(firstVar, secondVar));

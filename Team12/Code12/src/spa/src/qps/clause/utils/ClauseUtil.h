@@ -17,6 +17,7 @@ using std::string, std::unordered_map, std::set, std::reference_wrapper,
 class Clause;
 namespace ClauseUtil {
 typedef vector<unique_ptr<Clause>> ClauseList;
+
 typedef vector<reference_wrapper<unique_ptr<Clause>>> ClauseRefList;
 
 static Entity getArgEntity(AbstractArgument& arg) {
@@ -25,6 +26,7 @@ static Entity getArgEntity(AbstractArgument& arg) {
   }
   return INVALID_ENTITY;
 }
+
 static set<string> getSynonymArgValues(unique_ptr<AbstractArgument>& arg1,
                                        unique_ptr<AbstractArgument>& arg2) {
   set<string> res = {};
@@ -36,4 +38,6 @@ static set<string> getSynonymArgValues(unique_ptr<AbstractArgument>& arg1,
   }
   return res;
 }
+
+const string KEY_DELIMITER = "|";
 }  // namespace ClauseUtil

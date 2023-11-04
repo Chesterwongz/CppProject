@@ -40,8 +40,8 @@ bool SynonymRes::operator!=(const SynonymRes& other) const {
 }
 
 bool SynonymRes::operator<(const SynonymRes& other) const {
-  assert(this->isAttrExists(AttrRefEnum::DEFAULT));
-  assert(other.isAttrExists(AttrRefEnum::DEFAULT));
-  return this->attributeMap.at(AttrRefEnum::DEFAULT) <
-         other.attributeMap.at(AttrRefEnum::DEFAULT);
+  assert(this->isAttrExists(ATTR_REF_DEFAULT));
+  assert(other.isAttrExists(ATTR_REF_DEFAULT));
+  return this->attributeMap.at(ATTR_REF_DEFAULT) <
+         other.attributeMap.at(ATTR_REF_DEFAULT);
 }

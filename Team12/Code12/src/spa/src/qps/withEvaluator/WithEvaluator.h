@@ -34,20 +34,20 @@ class WithEvaluator {
   virtual vector<std::reference_wrapper<SynonymRes>> evaluateReadEntity();
   virtual vector<std::reference_wrapper<SynonymRes>> evaluatePrintEntity();
 
-  vector<std::reference_wrapper<SynonymRes>> buildStmtSynonymResVector(
-      vector<string> stmtNums);
-  vector<std::reference_wrapper<SynonymRes>> buildConstantSynonymResVector(
-      vector<string> constantVals);
-  vector<std::reference_wrapper<SynonymRes>> buildProcSynonymResVector(
-      vector<string> procNames);
-  vector<std::reference_wrapper<SynonymRes>> buildVarSynonymResVector(
-      vector<string> procNames);
-  vector<std::reference_wrapper<SynonymRes>> buildCallSynonymResVector(
-      vector<pair<string, string>> callProcNamePairs);
-  vector<std::reference_wrapper<SynonymRes>> buildReadSynonymResVector(
-      vector<pair<string, string>> readVarNamePairs);
-  vector<std::reference_wrapper<SynonymRes>> buildPrintSynonymResVector(
-      vector<pair<string, string>> printVarNamePairs);
+  static vector<std::reference_wrapper<SynonymRes>> buildStmtSynonymResVector(
+      const vector<string>& stmtNums);
+  static vector<std::reference_wrapper<SynonymRes>>
+  buildConstantSynonymResVector(const vector<string>& constantVals);
+  static vector<std::reference_wrapper<SynonymRes>> buildProcSynonymResVector(
+      const vector<string>& procNames);
+  static vector<std::reference_wrapper<SynonymRes>> buildVarSynonymResVector(
+      const vector<string>& procNames);
+  static vector<std::reference_wrapper<SynonymRes>> buildCallSynonymResVector(
+      const vector<pair<string, string>>& callProcNamePairs);
+  static vector<std::reference_wrapper<SynonymRes>> buildReadSynonymResVector(
+      const vector<pair<string, string>>& readVarNamePairs);
+  static vector<std::reference_wrapper<SynonymRes>> buildPrintSynonymResVector(
+      const vector<pair<string, string>>& printVarNamePairs);
 
   unordered_map<Entity, WithEvaluatorFunc> withEvaluatorFuncMap = {
       {ASSIGN_ENTITY, [this]() { return evaluateAssignEntity(); }},

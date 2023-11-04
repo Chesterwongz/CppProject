@@ -213,20 +213,24 @@ IntermediateTable IntermediateTable::getDifference(
     assert(colNames[i] == otherTable.getColNames()[i]);
   }
 
-  TableDataType newTableData;
-
   TableDataType otherTableData = otherTable.getTableData();
+  unordered_map<string, vector<TableRowType>> t2Mapping;
+  for (const TableRowType &otherTableRow : otherTableData) {
+    t2Mapping[IntermediateTableUtils::getRowKey(otherTableRow)].emplace_back(
+        otherTableRow);
+  }
 
-  std::sort(tableData.begin(), tableData.end());
-  std::sort(otherTableData.begin(), otherTableData.end());
+  TableDataType newTableData;
+  for (TableRowType &row : this->tableData) {
+    if (t2Mapping.find(IntermediateTableUtils::getRowKey(row)) !=
+        t2Mapping.end()) {
+      continue;
+    } else {
+      newTableData.emplace_back(std::move(row));
+    }
+  }
 
-  std::set_difference(tableData.begin(), tableData.end(),
-                      otherTableData.begin(), otherTableData.end(),
-                      std::back_inserter(newTableData));
-
-  IntermediateTable newTable = IntermediateTable(colNames, newTableData);
-
-  return newTable;
+  return IntermediateTable(colNames, newTableData);
 }
 
 void IntermediateTable::printTable() const {
@@ -238,7 +242,7 @@ void IntermediateTable::printTable() const {
 
   string colNamesToPrint;
   for (auto &colName : this->getColNames()) {
-    colNamesToPrint += colName + " | ";
+    colNamesToPrint += colName + IntermediateTableUtils::TABLE_KEY_DELIMITER;
   }
   std::cout << colNamesToPrint << std::endl;
 
@@ -249,7 +253,8 @@ void IntermediateTable::printTable() const {
                         col.get().getAttribute(ATTR_REF_VALUE) + "," +
                         col.get().getAttribute(ATTR_REF_VAR_NAME) + "," +
                         col.get().getAttribute(ATTR_REF_STMT_NUMBER) + "," +
-                        col.get().getAttribute(ATTR_REF_PROC_NAME) + " | ";
+                        col.get().getAttribute(ATTR_REF_PROC_NAME) +
+                        IntermediateTableUtils::TABLE_KEY_DELIMITER;
     }
     std::cout << rowDataToPrint << std::endl;
   }

@@ -69,10 +69,10 @@ TEST_CASE("Valid with not attrRef = INTEGER") {
                                 PQLToken(PQL_INTEGER_TOKEN, "5")};
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(std::move(tokenList));
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(ass1, ASSIGN_ENTITY);
@@ -99,10 +99,10 @@ TEST_CASE("Valid with not INTEGER = attrRef") {
                                 PQLToken(PQL_NAME_TOKEN, ATTR_REF_STMT_NUMBER)};
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(std::move(tokenList));
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(ass1, ASSIGN_ENTITY);
@@ -129,10 +129,10 @@ TEST_CASE("Valid with not LITERAL_REF = attrRef") {
                                 PQLToken(PQL_NAME_TOKEN, ATTR_REF_PROC_NAME)};
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(std::move(tokenList));
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(ass1, ASSIGN_ENTITY);
@@ -157,10 +157,10 @@ TEST_CASE("Valid with not LITERAL_REF = LITERAL_REF") {
                                 PQLToken(PQL_LITERAL_REF_TOKEN, ass1)};
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(std::move(tokenList));
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(ass1, ASSIGN_ENTITY);
