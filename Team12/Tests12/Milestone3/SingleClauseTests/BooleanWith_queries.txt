@@ -76,7 +76,7 @@ FALSE
 ------ 16 - compare procedure procName and procedure procName ------
 procedure procedure1, procedure2;
 Select BOOLEAN with procedure1.procName = procedure2.procName
-FALSE
+TRUE
 5000
 ------ 17 - compare procedure procName and call procName ------
 procedure procedure; call call;
@@ -290,7 +290,7 @@ FALSE
 5000
 ------ 59 - compare assign stmt# and call stmt# ------
 assign assign; call call;
-Select BOOLEAN with assign.stmt# = call
+Select BOOLEAN with assign.stmt# = call.stmt#
 FALSE
 5000
 ------ 60 - compare call stmt# and assign stmt# ------
