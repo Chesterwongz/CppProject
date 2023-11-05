@@ -5,7 +5,6 @@ input_dir="$script_dir"
 output_dir="$script_dir/output"
 rm -r "$output_dir"
 mkdir -p "$output_dir"
-cp "$script_dir/analysis.xsl" "$output_dir"
 
 # Change to the directory containing the script, if not found, exit with err
 cd "$script_dir" || exit 1
