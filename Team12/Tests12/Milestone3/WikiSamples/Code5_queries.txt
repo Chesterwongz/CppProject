@@ -18,9 +18,9 @@ stmt s1, s2;
 Select BOOLEAN such that Follows*(5,10)
 TRUE
 5000
------- 5 - Follows(1, 14) ------
+------ 5 - Follows*(1, 14) ------
 stmt s1, s2;
-Select BOOLEAN such that Follows(1,14)
+Select BOOLEAN such that Follows*(1,14)
 TRUE
 5000
 ------ 6 - Follows(5, 6) ------
