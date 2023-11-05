@@ -53,8 +53,63 @@ if if; stmt s;
 Select if pattern if(_, _, s)
 SyntaxError
 1000
-====== 11 - if (_,_,randomIdent) syntax error ======
+====== 12 - if (_,_,randomIdent) syntax error ======
 if if;
 Select if pattern if(_, _, "rip")
+SyntaxError
+1000
+====== 13 - not if (_,_,_) ======
+if if;
+Select if pattern not if(_, _, _)
+1
+1000
+====== 14 - not if (_,_,_) differnt if synonym ======
+if if1, if2;
+Select if1 pattern not if2(_, _, _)
+1, 4, 8
+1000
+====== 15 - not if (var,_,_) ======
+if if; variable v;
+Select if pattern not if(v, _, _)
+1, 4, 8
+1000
+====== 16 - not if (var,_,_) different if synonym ======
+if if1, if2; variable d;
+Select if1 pattern not if2(d, _, _)
+1, 4, 8
+1000
+====== 17 - not if (ident,_,_) ======
+if if;
+Select if pattern not if("oi", _, _)
+1, 4
+1000
+====== 18 - not if (ident,_,_) different if synonym ======
+if if1, if2;
+Select if1 pattern not if2("hoho", _, _)
+1, 4, 8
+1000
+====== 19 - not if (assignStmt,_,_) semantic error ======
+if if; assign a;
+Select if pattern not if(a, _, _)
+SemanticError
+1000
+====== 20 - not if (_,randomSyn,_) syntax error ======
+if if; assign a;
+Select if pattern not if(_, a, _)
+SyntaxError
+1000
+====== 21 - not if (_,randomIdent,_) syntax error ======
+if if;
+Select if pattern not if(_, "oi", _)
+SyntaxError
+1000
+====== 22 - not if (_,_,randomSyn) syntax error ======
+if if; stmt s;
+Select if pattern not if(_, _, s)
+SyntaxError
+1000
+====== 23 - not if (_,_,randomIdent) syntax error ======
+if if;
+Select if pattern not if(_, _, "rip")
 SyntaxError
 1000

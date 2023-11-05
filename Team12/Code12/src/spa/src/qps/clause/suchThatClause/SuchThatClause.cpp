@@ -1,8 +1,19 @@
 #include "SuchThatClause.h"
 
+#include <vector>
+
 #include "qps/abstraction/AbstractionFactory.h"
 #include "qps/abstraction/BaseAbstraction.h"
 #include "qps/argument/AbstractArgument.h"
+
+vector<const AbstractArgument*> SuchThatClause::getAllArguments() {
+  vector<const AbstractArgument*> argVector;
+
+  argVector.push_back(firstArg.get());
+  argVector.push_back(secondArg.get());
+
+  return argVector;
+}
 
 SuchThatClause::SuchThatClause(Abstraction relationship,
                                unique_ptr<AbstractArgument> firstArg,

@@ -1,0 +1,60 @@
+====== 1 - CallsT (_, _) ======
+procedure p;
+Select p such that not Calls*(_, _)
+none
+1000
+====== 2 - CallsT (_, ident) ======
+procedure p;
+Select p such that not Calls*(_, "CallsSource1")
+CallsSource1, CallsSource2, CallsSource3
+1000
+====== 3 - CallsT (_, ident) - no results ======
+procedure p;
+Select p such that not Calls*(_, "CallsSource3")
+none
+1000
+====== 4 - CallsT (_, var) ======
+procedure p;
+Select p such that not Calls*(_, p)
+CallsSource1
+1000
+====== 5 - CallsT (ident, _) ======
+procedure p;
+Select p such that not Calls*("CallsSource3", _)
+CallsSource1, CallsSource2, CallsSource3
+1000
+====== 6 - CallsT (ident, _) - no results ======
+procedure p;
+Select p such that not Calls*("CallsSource2", _)
+none
+1000
+====== 7 - CallsT (ident, ident) ======
+procedure p;
+Select p such that not Calls*("CallsSource1", "CallsSource4")
+CallsSource1, CallsSource2, CallsSource3
+1000
+====== 8 - CallsT (ident, var) ======
+procedure p;
+Select p such that not Calls*("CallsSource3", p)
+CallsSource1, CallsSource2, CallsSource3
+1000
+====== 9 - CallsT (var, _) ======
+procedure p;
+Select p such that not Calls*(p, _)
+CallsSource3
+1000
+====== 10 - CallsT (var, ident) ======
+procedure p;
+Select p such that not Calls*(p, "CallsSource3")
+CallsSource3
+1000
+====== 11 - CallsT (var, var) - same var ======
+procedure p;
+Select p such that not Calls*(p, p)
+CallsSource1, CallsSource2, CallsSource3
+1000
+====== 12 - Calls (var, var) - different var, same type ======
+procedure p1, p2;
+Select p1 such that not Calls(p1, p2)
+CallsSource1, CallsSource2, CallsSource3
+1000

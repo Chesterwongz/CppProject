@@ -101,6 +101,17 @@ class IntermediateTable {
                          const pair<string, AttrRef>& joinColOther);
 
   /**
+   * add by Houten   
+   * Gets the difference between thisTable and otherTable.
+   * cannot get difference if there cols that dont match
+   * cannot get difference if cols are in different orders
+   * Any table - WILDCARD TABLE = EMPTY TABLE
+   * Any table - EMPTY TABLE = Any table
+   * @param otherTable
+   */
+  IntermediateTable getDifference(const IntermediateTable &otherTable);
+
+  /**
    * @return vector of all column names
    */
   [[nodiscard]] vector<string> getColNames() const;

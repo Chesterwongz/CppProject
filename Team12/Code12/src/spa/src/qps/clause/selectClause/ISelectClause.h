@@ -21,4 +21,5 @@ class ISelectClause : public Clause {
       : synonymsToSelect(std::move(synonymsToSelect)) {}
   virtual unordered_set<string> getQueryResult(
       IntermediateTable &intermediateTable) = 0;
+  vector<const AbstractArgument*> getAllArguments() override;
 };

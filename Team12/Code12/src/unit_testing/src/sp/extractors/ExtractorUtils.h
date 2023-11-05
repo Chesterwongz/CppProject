@@ -19,6 +19,7 @@
 #include "sp/ast/statements/WhileNode.h"
 #include "sp/exceptions/SpParsingFailedException.h"
 #include "sp/extractors/DesignExtractor.h"
+#include "sp/extractors/next/NextExtractor.h"
 #include "sp/parser/condexprparser/CondExprParser.h"
 #include "sp/parser/toplevelparsers/ProgramParser.h"
 

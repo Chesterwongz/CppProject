@@ -2,6 +2,7 @@
 
 #include "qps/clause/withClause/WithClause.h"
 #include "qps/parser/clauseTransitionParserState/ClauseTransitionParserState.h"
+#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
 
 PredictiveMap WithParserState::predictiveMap = {
     {PQL_WITH_TOKEN,
@@ -77,8 +78,14 @@ void WithParserState::handleToken() {
         break;
     }
     if (arguments.size() == expectedNumberOfArgs) {
-      parserContext.addClause(std::make_unique<WithClause>(
-          std::move(arguments[0]), std::move(arguments[1])));
+      unique_ptr<WithClause> withClause = std::make_unique<WithClause>(
+          std::move(arguments[0]), std::move(arguments[1]));
+      if (isNegated) {
+        parserContext.addClause(
+            std::make_unique<NotDecorator>(std::move(withClause)));
+      } else {
+        parserContext.addClause(std::move(withClause));
+      }
       checkSameTypeComparison();
       ClauseTransitionParserState::setClauseTransitionState(parserContext);
       return;

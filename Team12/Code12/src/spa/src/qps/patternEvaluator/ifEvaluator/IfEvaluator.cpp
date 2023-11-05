@@ -5,9 +5,9 @@
 #include "qps/common/Keywords.h"
 
 vector<pair<string, string>> IfEvaluator::evaluateArguments() {
-  string firstArgValue = firstArg->getValue();
+  string firstArgValue = firstArg.getValue();
 
-  bool isFirstArgSynonym = firstArg->isSynonym();
+  bool isFirstArgSynonym = firstArg.isSynonym();
 
   vector<pair<string, string>> pkbResult;
 

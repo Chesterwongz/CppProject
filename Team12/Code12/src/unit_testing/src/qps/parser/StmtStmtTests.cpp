@@ -10,6 +10,7 @@
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/tokenizer/token/PQLToken.h"
 #include "qps/query/Query.h"
+#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
 
 TEST_CASE("Valid Follows(SYNONYM, SYNONYM)") {
   string d1 = "hello";
@@ -670,7 +671,10 @@ TEST_CASE("Valid not Follows(SYNONYM, SYNONYM)") {
       std::make_unique<SynonymArg>(d2, ASSIGN_ENTITY);
   unique_ptr<SuchThatClause> suchThatClause = std::make_unique<SuchThatClause>(
       FOLLOWS_ENUM, std::move(firstArg), std::move(secondArg));
-  expected.addClause(std::move(suchThatClause));
+  unique_ptr<NotDecorator> notSuchThatClause =
+      std::make_unique<NotDecorator>(std::move(suchThatClause));
+
+  expected.addClause(std::move(notSuchThatClause));
 
   bool res = *query == expected;
   REQUIRE(res);

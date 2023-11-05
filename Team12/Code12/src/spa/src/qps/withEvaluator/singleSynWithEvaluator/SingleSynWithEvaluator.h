@@ -20,8 +20,8 @@ typedef function<IntermediateTable()> EntityValueFunc;
 
 class SingleSynWithEvaluator : public WithEvaluator {
  protected:
-  unique_ptr<SynonymArg> synonymArg;
-  unique_ptr<AbstractArgument> valueArg;
+  SynonymArg& synonymArg;
+  AbstractArgument& valueArg;
 
   IntermediateTable getCallValueArgResult();
   IntermediateTable getReadValueArgResult();
@@ -44,12 +44,12 @@ class SingleSynWithEvaluator : public WithEvaluator {
       {PROCEDURE_ENTITY, [this]() { return getProcValueArgResult(); }}};
 
  public:
-  explicit SingleSynWithEvaluator(unique_ptr<SynonymArg> firstArg,
-                                  unique_ptr<AbstractArgument> secondArg,
+  explicit SingleSynWithEvaluator(SynonymArg& firstArg,
+                                  AbstractArgument& secondArg,
                                   PKBReader& pkbReader)
       : WithEvaluator(pkbReader),
-        synonymArg(std::move(firstArg)),
-        valueArg(std::move(secondArg)) {}
+        synonymArg(firstArg),
+        valueArg(secondArg) {}
 
   IntermediateTable evaluate() override;
 };

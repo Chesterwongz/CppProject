@@ -44,6 +44,7 @@ class SynonymRes {
 
   bool operator==(const SynonymRes& other) const;
   bool operator!=(const SynonymRes& other) const;
+  bool operator<(const SynonymRes& other) const;
 };
 
 namespace SynonymResUtils {

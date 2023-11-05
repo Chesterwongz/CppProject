@@ -3,7 +3,7 @@
 script_dir="$(dirname "$0")"
 input_dir="$script_dir/Milestone3"
 output_dir="$script_dir/output"
-rm -r "$output_dir"  # remove the output directory if it exists
+rm -r "$output_dir"
 mkdir -p "$output_dir"
 cp "$script_dir/analysis.xsl" "$output_dir"
 

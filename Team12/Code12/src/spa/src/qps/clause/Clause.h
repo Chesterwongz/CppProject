@@ -18,5 +18,6 @@ class Clause {
  public:
   virtual IntermediateTable evaluate(PKBReader& pkb) = 0;
   virtual ~Clause() = default;
+  virtual vector<const AbstractArgument*> getAllArguments() = 0;
   virtual bool isEquals(const Clause& other) = 0;
 };
