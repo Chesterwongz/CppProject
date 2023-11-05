@@ -1,7 +1,7 @@
 #!/bin/bash
 
 script_dir="$(dirname "$0")"
-input_dir="$script_dir/Milestone3"
+input_dir="$script_dir/Milestone3/WikiSamples"
 output_dir="$script_dir/output"
 rm -r "$output_dir"
 mkdir -p "$output_dir"

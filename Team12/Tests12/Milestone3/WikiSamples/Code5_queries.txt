@@ -1,0 +1,265 @@
+------ 1 - Follows(1, 2) ------
+stmt s1, s2;
+Select BOOLEAN such that Follows(1,2)
+TRUE
+5000
+------ 2 - Follows(4, 5) ------
+stmt s1, s2;
+Select BOOLEAN such that Follows(4,5)
+TRUE
+5000
+------ 3 - Follows(5, 10) ------
+stmt s1, s2;
+Select BOOLEAN such that Follows(5,10)
+TRUE
+5000
+------ 4 - Follows*(5, 10) ------
+stmt s1, s2;
+Select BOOLEAN such that Follows*(5,10)
+TRUE
+5000
+------ 5 - Follows(1, 14) ------
+stmt s1, s2;
+Select BOOLEAN such that Follows(1,14)
+TRUE
+5000
+------ 6 - Follows(5, 6) ------
+stmt s1, s2;
+Select BOOLEAN such that Follows(5,6)
+FALSE
+5000
+------ 7 - Follows(9, 10) ------
+stmt s1, s2;
+Select BOOLEAN such that Follows(9,10)
+FALSE
+5000
+------ 8 - Follows(11, 12) ------
+stmt s1, s2;
+Select BOOLEAN such that Follows(11,12)
+FALSE
+5000
+------ 9 - Follows*(12, 14) ------
+stmt s1, s2;
+Select BOOLEAN such that Follows*(12,14)
+FALSE
+5000
+------ 10 - Parent(5, 7) ------
+stmt s1, s2;
+Select BOOLEAN such that Parent(5,7)
+TRUE
+5000
+------ 11 - Parent(5, 8) ------
+stmt s1, s2;
+Select BOOLEAN such that Parent(5,8)
+TRUE
+5000
+------ 12 - Parent(10, 11) ------
+stmt s1, s2;
+Select BOOLEAN such that Parent(10,11)
+TRUE
+5000
+------ 13 - Parent(10, 13) ------
+stmt s1, s2;
+Select BOOLEAN such that Parent(10,13)
+TRUE
+5000
+------ 14 - Parent*(5, 7) ------
+stmt s1, s2;
+Select BOOLEAN such that Parent*(5,7)
+TRUE
+5000
+------ 15 - Parent*(10, 13) ------
+stmt s1, s2;
+Select BOOLEAN such that Parent*(10,13)
+TRUE
+5000
+------ 16 - Parent(2, 3) ------
+stmt s1, s2;
+Select BOOLEAN such that Parent(2,3)
+FALSE
+5000
+------ 17 - Parent(4, 7) ------
+stmt s1, s2;
+Select BOOLEAN such that Parent(4,7)
+FALSE
+5000
+------ 18 - Parent(9, 5) ------
+stmt s1, s2;
+Select BOOLEAN such that Parent(9,5)
+FALSE
+5000
+------ 19 - Parent*(10, 14) ------
+stmt s1, s2;
+Select BOOLEAN such that Parent*(10,14)
+FALSE
+5000
+------ 20 - Uses(7, 'x') ------
+stmt s; variable v;
+Select BOOLEAN such that Uses(7, "x")
+TRUE
+5000
+------ 21 - Uses(10, 'count') ------
+stmt s; variable v;
+Select BOOLEAN such that Uses(10, "count")
+TRUE
+5000
+------ 22 - Uses(10, 'cenX') ------
+stmt s; variable v;
+Select BOOLEAN such that Uses(10, "cenX")
+TRUE
+5000
+------ 23 - Uses('main', 'cenX') ------
+procedure p; variable v;
+Select BOOLEAN such that Uses("main", "cenX")
+TRUE
+5000
+------ 24 - Uses('main', 'flag') ------
+procedure p; variable v;
+Select BOOLEAN such that Uses("main", "flag")
+TRUE
+5000
+------ 25 - Uses ('computeCentroid', 'x') ------
+procedure p; variable v;
+Select BOOLEAN such that Uses ("computeCentroid", "x")
+TRUE
+5000
+------ 26 - Uses (3, 'count') ------
+stmt s; variable v;
+Select BOOLEAN such that Uses (3, "count")
+FALSE
+5000
+------ 27 - Uses (10, 'flag') ------
+stmt s; variable v;
+Select BOOLEAN such that Uses (10, "flag")
+FALSE
+5000
+------ 28 - Uses (9, 'y') ------
+stmt s; variable v;
+Select BOOLEAN such that Uses (9, "y")
+FALSE
+5000
+------ 29 - Modifies (1, 'count') ------
+stmt s; variable v;
+Select BOOLEAN such that Modifies (1, "count")
+TRUE
+5000
+------ 30 - Modifies (7, 'cenX') ------
+stmt s; variable v;
+Select BOOLEAN such that Modifies (7, "cenX")
+TRUE
+5000
+------ 31 - Modifies (9, 'x') ------
+stmt s; variable v;
+Select BOOLEAN such that Modifies (9, "x")
+TRUE
+5000
+------ 32 - Modifies (10, 'flag') ------
+stmt s; variable v;
+Select BOOLEAN such that Modifies (10, "flag")
+TRUE
+5000
+------ 33 - Modifies (5, 'x') ------
+stmt s; variable v;
+Select BOOLEAN such that Modifies (5, "x")
+TRUE
+5000
+------ 34 - Modifies ('main', 'y') ------
+procedure p; variable v;
+Select BOOLEAN such that Modifies ("main", "y")
+TRUE
+5000
+------ 35 - Modifies (5, 'flag') ------
+stmt s; variable v;
+Select BOOLEAN such that Modifies (5, "flag")
+FALSE
+5000
+------ 36 - Modifies ('printResults', 'normSq') ------
+procedure p; variable v;
+Select BOOLEAN such that Modifies ("printResults", "normSq")
+FALSE
+5000
+------ 37 - Select proc ------
+procedure p;
+Select p
+main, readPoint, printResults, computeCentroid
+5000
+------ 38 - Select var ------
+variable v;
+Select v
+x, y, count, cenX, cenY, flag, normSq
+5000
+------ 39 - Select Follows* (6, s) ------
+stmt s;
+Select s such that Follows* (6, s)
+7, 8, 9
+5000
+------ 40 - Select Modifies (6, v) ------
+variable v;
+Select v such that Modifies (6, v)
+count
+5000
+------ 41 - Select Uses (14, v) ------
+variable v;
+Select v such that Uses (14, v)
+cenX, cenY
+5000
+------ 42 - Select Modifies (p, 'x') ------
+variable v; procedure p;
+Select p such that  Modifies (p, "x")
+main, computeCentroid, readPoint
+5000
+------ 43 - Select Parent* (w, a) ------
+assign a; while w;
+Select a such that Parent* (w, a)
+6, 7, 8
+5000
+------ 44 - Select Parent (s, 7) ------
+stmt s;
+Select s such that Parent (s, 7)
+5
+5000
+------ 45 - Select a ( _ , 'count + 1') ------
+assign a;
+Select a pattern a ( _ , "count + 1")
+6
+5000
+------ 46 - Assign pattern ( 'normSq' , _'cenX * cenX'_) ------
+assign a;
+Select a pattern a ( "normSq" , _"cenX * cenX"_)
+14
+5000
+------ 47 - Assign pattern ( 'normSq' , _'cenX * cenX'_) ------
+assign newa;
+Select newa pattern newa ( "normSq" , _"cenX * cenX"_)
+14
+5000
+------ 48 - while loops with assignment to variable 'count' ------
+assign a; while w;
+Select w such that Parent* (w, a) pattern a ("count", _)
+5
+5000
+------ 49 - assignments that use and modify the same variable ------
+assign a; variable v;
+Select a such that Uses (a, v) pattern a (v, _)
+6, 7, 8, 12, 13
+5000
+------ 50 - assignments that use and modify the variable 'x' ------
+assign a;
+Select a pattern a ("x", _) such that Uses (a, "x")
+none
+5000
+------ 51 - assignments that use and modify the variable 'x' ------
+assign a;
+Select a such that Uses (a, "x") pattern a ("x", _)
+none
+5000
+------ 52 - assignments that are nested directly or indirectly in a while loop and modify the variable 'count' ------
+assign a; while w;
+Select a such that Parent* (w, a) pattern a ("count", _)
+6
+5000
+------ 53 - assignments that are nested directly or indirectly in a while loop and modify the variable 'count' ------
+assign a; while w;
+Select a pattern a ("count", _) such that Parent* (w, a)
+6
+5000

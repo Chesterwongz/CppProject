@@ -1,0 +1,355 @@
+------ Q1. What are the procedures in the program call another procedure? ------
+procedure p, q;
+Select p such that Calls (p, _)
+First, Second
+5000
+------ Q1. What are the procedures in the program call another procedure? ------
+procedure p, q;
+Select p.procName such that Calls (p, q)
+First, Second
+5000
+------ Q2: Which procedures directly call procedure 'Third' and modify the variable 'i'? ------
+procedure p, q;
+Select p such that Calls (p, q) with q.procName = "Third" such that Modifies (p, "i")
+Second
+5000
+------ Q2: Which procedures directly call procedure 'Third' and modify the variable 'i'? ------
+procedure p;
+Select p such that Calls (p, "Third") and Modifies (p, "i")
+Second
+5000
+----- Q3: Which procedures call procedure 'Third' directly or indirectly? ------
+procedure p;
+Select p such that Calls* (p, "Third")
+First, Second
+5000
+------ Q4: Which procedures are called from 'Second' in a while loop? ------
+procedure p; call c; while w;
+Select p such that Calls ("Second", p) and Parent (w, c) with c.procName = p.procName
+Third
+5000
+------ Q5: Is there an execution path from statement 2 to statement 9? ------
+
+Select BOOLEAN such that Next* (2, 9)
+TRUE
+5000
+------ Q6: Is there an execution path from statement 2 to statement 9 that passes through statement 8? ------
+
+Select BOOLEAN such that Next* (2, 8) and Next* (8, 9)
+FALSE
+5000
+------ Q7: Find assignments to variable 'x' located in a loop, that can be reached (in terms of control flow) from statement 1. ------
+assign a; while w;
+Select a pattern a ("x", _) such that Parent* (w, a) and Next* (1, a)
+4
+5000
+------ Q7: Find assignments to variable 'x' located in a loop, that can be reached (in terms of control flow) from statement 1. ------
+assign a; while w;
+Select a such that Modifies (a, "x") and Parent* (w, a) and Next* (1, a)
+4
+5000
+------ Q8: Which statements can be executed between statement 5 and statement 12? ------
+stmt s;
+Select s such that Next* (5, s) and Next* (s, 12)
+3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+------ Q9: Which assignments directly affect value computed at assignment 10? ------
+assign a;
+Select a such that Affects (a, 10)
+ans omitted
+5000
+------ Q10. Which are the pair of assignments that affect each other? ------
+assign a1, a2;
+Select <a1, a2> such that Affects (a1, a2)
+
+5000
+------ Q10. Which are the pair of assignments that affect each other? ------
+assign a1, a2;
+Select <a1.stmt#, a2> such that Affects (a1, a2)
+
+5000
+------ Q11. Find all pairs of procedures p and q such that p calls q. ------
+procedure p, q;
+Select <p, q> such that Calls (p, q)
+First Second, Second Third
+5000
+------ Q12. Find all statements whose statement number is equal to some constant. ------
+stmt s; constant c;
+Select s with s.stmt# = c.value
+
+5000
+------ Q13. Find procedures whose name is the same as the name of some variable. ------
+procedure p; variable v;
+Select p with p.procName = v.varName
+
+5000
+------ Q14. Find statements that is followed by statement 10. ------
+stmt s, s1;
+Select s.stmt# such that Follows* (s, s1) with s1.stmt#=10
+
+5000
+------ Q15. Find three while loops nested one in another. ------
+while w1, w2, w3;
+Select <w1, w2, w3> such that Parent* (w1, w2) and Parent* (w2, w3)
+
+5000
+------ Q16. Find all assignments with variable 'x' at the left-hand side located in some while loop, and that can be reached (in terms of control flow) from statement 60. ------
+assign a; while w; stmt s;
+Select a such that Parent* (w, a) and Next* (60, s) pattern a("x", _) with a.stmt# = s.stmt#
+
+5000
+------ Q17. Find all while statements with 'x' as a control variable. ------
+while w;
+Select w pattern w ("x", _)
+
+5000
+------ Q18. Find assignment statements where variable x appears on the left hand side. ------
+assign a;
+Select a pattern a ("x", _)
+
+5000
+------ Q19. Find assignments with expression x*y+z on the right hand side. ------
+assign a;
+Select a pattern a (_, "x * y + z")
+
+5000
+------ Q20. Find assignments in which x*y+z is a sub-expression of the expression on the right hand side. ------
+assign a;
+Select a pattern a (_, _"x * y + z"_)
+
+5000
+------ Q21. Find all assignments to variable 'x' such that value of 'x' is subsequently re‑assigned recursively in an assignment statement that is nested inside two loops. ------
+assign a1, a2; while w1, w2;
+Select a2 pattern a1 ("x", _) and a2 ("x", _"x"_) such that Affects (a1, a2) and Parent* (w2, a2) and Parent* (w1, w2)
+
+5000
+------ Q22. Is the value 12 equals to 12? ------
+
+Select BOOLEAN with 12 = 12
+TRUE
+5000
+------ Q23. Is statement 12 an assignment? ------
+assign a;
+Select BOOLEAN with a.stmt# = 12
+
+5000
+------ Q24. If statement 12 is an assignment statement, find all the assignment statements. ------
+assign a, a1;
+Select a1 with a.stmt# = 12
+
+5000
+------ Q24. If statement 12 is an assignment statement, find all the assignment statements. ------
+assign a, a1;
+Select a1 with a.stmt# = 12
+
+5000
+------ Q25. If procedure 'Second' calls procedure 'Third', find all the combinations of an assignment-while statement pairs. ------
+assign a; while w;
+Select <a, w> such that Calls ("Second", "Third")
+
+5000
+------ Q26. If there exist an assignment that modifies the variable 'y', find all the combinations of two-procedures pair. ------
+procedure p, q; assign a;
+Select <p, q> such that Modifies (a, "y")
+
+5000
+------ Q27. Is there a procedure that calls some other procedure in the program? ------
+
+Select BOOLEAN such that Calls (_,_)
+
+5000
+------ Calls ('First', 'Second') ------
+
+Select BOOLEAN such that Calls ("First", "Second")
+TRUE
+5000
+------ Calls ('Second', 'Third') ------
+
+Select BOOLEAN such that Calls ("Second", "Third")
+TRUE
+5000
+------ Calls* ('First', 'Second') ------
+
+Select BOOLEAN such that Calls* ("First", "Second")
+TRUE
+5000
+------ Calls* ('First', 'Third') ------
+
+Select BOOLEAN such that Calls* ("First", "Third")
+TRUE
+5000
+------ Calls ('First', 'Third') ------
+
+Select BOOLEAN such that Calls ("First", "Third")
+FALSE
+5000
+------ Calls ('Second', 'First') ------
+
+Select BOOLEAN such that Calls ("Second", "First")
+FALSE
+5000
+------ Calls* ('Second', 'First') ------
+
+Select BOOLEAN such that Calls* ("Second", "First")
+FALSE
+5000
+------ Next (2, 3) ------
+
+Select BOOLEAN such that Next (2, 3)
+TRUE
+5000
+------ Next (3, 4) ------
+
+Select BOOLEAN such that Next (3, 4)
+TRUE
+5000
+------ Next (3, 7) ------
+
+Select BOOLEAN such that Next (3, 7)
+TRUE
+5000
+------ Next (5, 6) ------
+
+Select BOOLEAN such that Next (5, 6)
+TRUE
+5000
+------ Next (7, 9) ------
+
+Select BOOLEAN such that Next (7, 9)
+TRUE
+5000
+------ Next (8, 10) ------
+
+Select BOOLEAN such that Next (8, 10)
+TRUE
+5000
+------ Next* (1, 2) ------
+
+Select BOOLEAN such that Next* (1, 2)
+TRUE
+5000
+------ Next* (1, 3) ------
+
+Select BOOLEAN such that Next* (1, 3)
+TRUE
+5000
+------ Next* (2, 5) ------
+
+Select BOOLEAN such that Next* (2, 5)
+TRUE
+5000
+------ Next* (4, 3) ------
+
+Select BOOLEAN such that Next* (4, 3)
+TRUE
+5000
+------ Next* (5, 5) ------
+
+Select BOOLEAN such that Next* (5, 5)
+TRUE
+5000
+------ Next* (5, 8) ------
+
+Select BOOLEAN such that Next* (5, 8)
+TRUE
+5000
+------ Next* (5, 12) ------
+
+Select BOOLEAN such that Next* (5, 12)
+TRUE
+5000
+------ Next (6, 4) ------
+
+Select BOOLEAN such that Next (6, 4)
+FALSE
+5000
+------ Next (7, 10) ------
+
+Select BOOLEAN such that Next (7, 10)
+FALSE
+5000
+------ Next (8, 9) ------
+
+Select BOOLEAN such that Next (8, 9)
+FALSE
+5000
+------ Next* (8, 9) ------
+
+Select BOOLEAN such that Next* (8, 9)
+FALSE
+5000
+------ Next* (5, 2) ------
+
+Select BOOLEAN such that Next* (5, 2)
+FALSE
+5000
+------ Affects (2, 6) ------
+
+Select BOOLEAN such that Affects (2, 6)
+TRUE
+5000
+------ Affects (4, 8) ------
+
+Select BOOLEAN such that Affects (4, 8)
+TRUE
+5000
+------ Affects (4, 10) ------
+
+Select BOOLEAN such that Affects (4, 10)
+TRUE
+5000
+------ Affects (6, 6) ------
+
+Select BOOLEAN such that Affects (6, 6)
+TRUE
+5000
+------ Affects (1, 4) ------
+
+Select BOOLEAN such that Affects (1, 4)
+FALSE
+5000
+------ Affects (1, 8) ------
+
+Select BOOLEAN such that Affects (1, 8)
+FALSE
+5000
+------ Affects (1, 10) ------
+
+Select BOOLEAN such that Affects (1, 10)
+FALSE
+5000
+------ Affects (1, 12) ------
+
+Select BOOLEAN such that Affects (1, 12)
+FALSE
+5000
+------ Affects (2, 10) ------
+
+Select BOOLEAN such that Affects (2, 10)
+FALSE
+5000
+------ Affects (9, 10) ------
+
+Select BOOLEAN such that Affects (9, 10)
+FALSE
+5000
+------ Affects (9, 11) ------
+
+Select BOOLEAN such that Affects (9, 11)
+FALSE
+5000
+------ Affects (9, 12) ------
+
+Select BOOLEAN such that Affects (9, 12)
+FALSE
+5000
+------ Affects (2, 3) ------
+
+Select BOOLEAN such that Affects (2, 3)
+FALSE
+5000
+------ Affects (9, 6) ------
+
+Select BOOLEAN such that Affects (9, 6)
+FALSE
+5000
