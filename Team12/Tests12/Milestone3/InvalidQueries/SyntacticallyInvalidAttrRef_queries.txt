@@ -38,3 +38,8 @@ constant constant;
 Select constant.Value
 SyntaxError
 5000
+------ 9 - invalid integer as stmt# ------
+stmt s;
+Select BOOLEAN with s.stmt#=1and s.stmt#=s.stmt#
+SyntaxError
+5000

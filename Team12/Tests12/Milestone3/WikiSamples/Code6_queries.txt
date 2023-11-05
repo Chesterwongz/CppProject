@@ -283,6 +283,11 @@ FALSE
 Select BOOLEAN such that Next* (5, 2)
 FALSE
 5000
+------ Next*(s, s) ------
+stmt s;
+Select s such that Next* (s, s)
+3, 4, 5, 6
+5000
 ------ Affects (2, 6) ------
 
 Select BOOLEAN such that Affects (2, 6)
