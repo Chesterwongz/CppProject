@@ -56,17 +56,17 @@ Select s such that Next* (5, s) and Next* (s, 12)
 ------ Q9: Which assignments directly affect value computed at assignment 10? ------
 assign a;
 Select a such that Affects (a, 10)
-ans omitted
+1, 2, 4, 6, 8, 9
 5000
 ------ Q10. Which are the pair of assignments that affect each other? ------
 assign a1, a2;
 Select <a1, a2> such that Affects (a1, a2)
-
+1 10,1 12,1 4,1 8,10 11,10 12,11 12,13 14,2 10,2 6,4 10,4 12,4 4,4 8,6 10,6 6,8 10,8 12,9 10
 5000
 ------ Q10. Which are the pair of assignments that affect each other? ------
 assign a1, a2;
 Select <a1.stmt#, a2> such that Affects (a1, a2)
-
+1 10,1 12,1 4,1 8,10 11,10 12,11 12,13 14,2 10,2 6,4 10,4 12,4 4,4 8,6 10,6 6,8 10,8 12,9 10
 5000
 ------ Q11. Find all pairs of procedures p and q such that p calls q. ------
 procedure p, q;
@@ -76,52 +76,52 @@ First Second, Second Third
 ------ Q12. Find all statements whose statement number is equal to some constant. ------
 stmt s; constant c;
 Select s with s.stmt# = c.value
-
+1,2,5
 5000
 ------ Q13. Find procedures whose name is the same as the name of some variable. ------
 procedure p; variable v;
 Select p with p.procName = v.varName
-
+none
 5000
 ------ Q14. Find statements that is followed by statement 10. ------
 stmt s, s1;
 Select s.stmt# such that Follows* (s, s1) with s1.stmt#=10
-
+1,2,3,7
 5000
 ------ Q15. Find three while loops nested one in another. ------
 while w1, w2, w3;
 Select <w1, w2, w3> such that Parent* (w1, w2) and Parent* (w2, w3)
-
+none
 5000
 ------ Q16. Find all assignments with variable 'x' at the left-hand side located in some while loop, and that can be reached (in terms of control flow) from statement 60. ------
 assign a; while w; stmt s;
 Select a such that Parent* (w, a) and Next* (60, s) pattern a("x", _) with a.stmt# = s.stmt#
-
+none
 5000
 ------ Q17. Find all while statements with 'x' as a control variable. ------
 while w;
 Select w pattern w ("x", _)
-
+none
 5000
 ------ Q18. Find assignment statements where variable x appears on the left hand side. ------
 assign a;
 Select a pattern a ("x", _)
-
+1,12,4,8
 5000
 ------ Q19. Find assignments with expression x*y+z on the right hand side. ------
 assign a;
 Select a pattern a (_, "x * y + z")
-
+12
 5000
 ------ Q20. Find assignments in which x*y+z is a sub-expression of the expression on the right hand side. ------
 assign a;
 Select a pattern a (_, _"x * y + z"_)
-
+12
 5000
 ------ Q21. Find all assignments to variable 'x' such that value of 'x' is subsequently re‑assigned recursively in an assignment statement that is nested inside two loops. ------
 assign a1, a2; while w1, w2;
 Select a2 pattern a1 ("x", _) and a2 ("x", _"x"_) such that Affects (a1, a2) and Parent* (w2, a2) and Parent* (w1, w2)
-
+none
 5000
 ------ Q22. Is the value 12 equals to 12? ------
 
@@ -131,32 +131,32 @@ TRUE
 ------ Q23. Is statement 12 an assignment? ------
 assign a;
 Select BOOLEAN with a.stmt# = 12
-
+TRUE
 5000
 ------ Q24. If statement 12 is an assignment statement, find all the assignment statements. ------
 assign a, a1;
 Select a1 with a.stmt# = 12
-
+1,10,11,12,13,14,2,4,6,8,9
 5000
 ------ Q24. If statement 12 is an assignment statement, find all the assignment statements. ------
 assign a, a1;
 Select a1 with a.stmt# = 12
-
+1, 2, 4, 6, 8, 9, 10, 11, 12, 13, 14
 5000
 ------ Q25. If procedure 'Second' calls procedure 'Third', find all the combinations of an assignment-while statement pairs. ------
 assign a; while w;
 Select <a, w> such that Calls ("Second", "Third")
-
+1 3,10 3,11 3,12 3,13 3,14 3,2 3,4 3,6 3,8 3,9 3
 5000
 ------ Q26. If there exist an assignment that modifies the variable 'y', find all the combinations of two-procedures pair. ------
 procedure p, q; assign a;
 Select <p, q> such that Modifies (a, "y")
-
+First First, First Second, First Third, Second First, Second Second, Second Third, Third First, Third Second, Third Third
 5000
 ------ Q27. Is there a procedure that calls some other procedure in the program? ------
 
 Select BOOLEAN such that Calls (_,_)
-
+TRUE
 5000
 ------ Calls ('First', 'Second') ------
 
@@ -352,4 +352,44 @@ FALSE
 
 Select BOOLEAN such that Affects (9, 6)
 FALSE
+5000
+------ Negation Q1 ------
+
+Select BOOLEAN such that not Calls ("First", "Second")
+FALSE
+5000
+------ Negation Q2 ------
+constant c;
+Select c with not 5 = 10
+0, 1, 2, 5
+5000
+------ Negation Q3 ------
+procedure p;
+Select p such that not Calls* (p, "Third")
+Third
+5000
+------ Negation Q4 ------
+while w;
+Select w pattern not w("y", _)
+3
+5000
+------ Negation Q5 ------
+assign a;
+Select a with not 10 = a.stmt#
+1, 2, 4, 6, 8, 9, 11, 12, 13, 14
+5000
+------ Negation Q6 ------
+procedure p, q;
+Select p such that not Calls* (p, q)
+First, Second, Third
+5000
+------ Negation Q7 ------
+while w; variable v;
+Select <w, v> pattern not w(v, _)
+3 v, 3 x, 3 y, 3 z
+5000
+------ Negation Q8 ------
+while w; constant c;
+Select c with not c.value = w.stmt#
+0, 1, 2, 5
 5000
