@@ -131,7 +131,7 @@ IntermediateTable StmtToStmtAbstraction::handleBothArgsInteger() {
   string firstArgStmtNumberString = this->firstArgValue;
   string secondArgStmtNumberString = this->secondArgValue;
 
-  if (firstArgStmtNumberString == secondArgStmtNumberString) {
+  if (!isSelfReferencePossible() && firstArgStmtNumberString == secondArgStmtNumberString) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
 
