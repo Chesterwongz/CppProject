@@ -1,204 +1,204 @@
-====== 1 - compare procedure procName and constant value ======
+------ 1 - compare procedure procName and constant value ------
 procedure procedure; constant constant;
 Select BOOLEAN with procedure.procName = constant.value
 SemanticError
 5000
-====== 2 - compare call procName and constant value ======
+------ 2 - compare call procName and constant value ------
 call call; constant constant;
 Select BOOLEAN with call.procName = constant.value
 SemanticError
 5000
-====== 3 - compare variable varName and constant value ======
+------ 3 - compare variable varName and constant value ------
 variable variable; constant constant;
 Select BOOLEAN with variable.varName = constant.value
 SemanticError
 5000
-====== 4 - compare read varName and constant value ======
+------ 4 - compare read varName and constant value ------
 read read; constant constant;
 Select BOOLEAN with read.varName = constant.value
 SemanticError
 5000
-====== 5 - compare print varName and constant value ======
+------ 5 - compare print varName and constant value ------
 print print; constant constant;
 Select BOOLEAN with print.varName = constant.value
 SemanticError
 5000
-====== 6 - compare procedure procName and stmt stmt# ======
+------ 6 - compare procedure procName and stmt stmt# ------
 procedure procedure; stmt stmt;
 Select BOOLEAN with procedure.procName = stmt.stmt#
 SemanticError
 5000
-====== 7 - compare call procName and stmt stmt# ======
+------ 7 - compare call procName and stmt stmt# ------
 call call; stmt stmt;
 Select BOOLEAN with call.procName = stmt.stmt#
 SemanticError
 5000
-====== 8 - compare variable varName and stmt stmt# ======
+------ 8 - compare variable varName and stmt stmt# ------
 variable variable; stmt stmt;
 Select BOOLEAN with variable.varName = stmt.stmt#
 SemanticError
 5000
-====== 9 - compare read varName and stmt stmt# ======
+------ 9 - compare read varName and stmt stmt# ------
 read read; stmt stmt;
 Select BOOLEAN with read.varName = stmt.stmt#
 SemanticError
 5000
-====== 10 - compare print varName and stmt stmt# ======
+------ 10 - compare print varName and stmt stmt# ------
 print print; stmt stmt;
 Select BOOLEAN with print.varName = stmt.stmt#
 SemanticError
 5000
-====== 11 - compare procedure procName and assign stmt# ======
+------ 11 - compare procedure procName and assign stmt# ------
 procedure procedure; assign assign;
 Select BOOLEAN with procedure.procName = assign.stmt#
 SemanticError
 5000
-====== 12 - compare call procName and assign stmt# ======
+------ 12 - compare call procName and assign stmt# ------
 call call; assign assign;
 Select BOOLEAN with call.procName = assign.stmt#
 SemanticError
 5000
-====== 13 - compare variable varName and assign stmt# ======
+------ 13 - compare variable varName and assign stmt# ------
 variable variable; assign assign;
 Select BOOLEAN with variable.varName = assign.stmt#
 SemanticError
 5000
-====== 14 - compare read varName and assign stmt# ======
+------ 14 - compare read varName and assign stmt# ------
 read read; assign assign;
 Select BOOLEAN with read.varName = assign.stmt#
 SemanticError
 5000
-====== 15 - compare print varName and assign stmt# ======
+------ 15 - compare print varName and assign stmt# ------
 print print; assign assign;
 Select BOOLEAN with print.varName = assign.stmt#
 SemanticError
 5000
-====== 16 - compare procedure procName and read stmt# ======
+------ 16 - compare procedure procName and read stmt# ------
 procedure procedure; read read;
 Select BOOLEAN with procedure.procName = read.stmt#
 SemanticError
 5000
-====== 17 - compare call procName and read stmt# ======
+------ 17 - compare call procName and read stmt# ------
 call call; read read;
 Select BOOLEAN with call.procName = read.stmt#
 SemanticError
 5000
-====== 18 - compare variable varName and read stmt# ======
+------ 18 - compare variable varName and read stmt# ------
 variable variable; read read;
 Select BOOLEAN with variable.varName = read.stmt#
 SemanticError
 5000
-====== 19 - compare read varName and read stmt# ======
+------ 19 - compare read varName and read stmt# ------
 read read; read read;
 Select BOOLEAN with read.varName = read.stmt#
 SemanticError
 5000
-====== 20 - compare print varName and read stmt# ======
+------ 20 - compare print varName and read stmt# ------
 print print; read read;
 Select BOOLEAN with print.varName = read.stmt#
 SemanticError
 5000
-====== 21 - compare procedure procName and print stmt# ======
+------ 21 - compare procedure procName and print stmt# ------
 procedure procedure; print print;
 Select BOOLEAN with procedure.procName = print.stmt#
 SemanticError
 5000
-====== 22 - compare call procName and print stmt# ======
+------ 22 - compare call procName and print stmt# ------
 call call; print print;
 Select BOOLEAN with call.procName = print.stmt#
 SemanticError
 5000
-====== 23 - compare variable varName and print stmt# ======
+------ 23 - compare variable varName and print stmt# ------
 variable variable; print print;
 Select BOOLEAN with variable.varName = print.stmt#
 SemanticError
 5000
-====== 24 - compare read varName and print stmt# ======
+------ 24 - compare read varName and print stmt# ------
 read read; print print;
 Select BOOLEAN with read.varName = print.stmt#
 SemanticError
 5000
-====== 25 - compare print varName and print stmt# ======
+------ 25 - compare print varName and print stmt# ------
 print print; print print;
 Select BOOLEAN with print.varName = print.stmt#
 SemanticError
 5000
-====== 26 - compare procedure procName and call stmt# ======
+------ 26 - compare procedure procName and call stmt# ------
 procedure procedure; call call;
 Select BOOLEAN with procedure.procName = call.stmt#
 SemanticError
 5000
-====== 27 - compare call procName and call stmt# ======
+------ 27 - compare call procName and call stmt# ------
 call call; call call;
 Select BOOLEAN with call.procName = call.stmt#
 SemanticError
 5000
-====== 28 - compare variable varName and call stmt# ======
+------ 28 - compare variable varName and call stmt# ------
 variable variable; call call;
 Select BOOLEAN with variable.varName = call.stmt#
 SemanticError
 5000
-====== 29 - compare read varName and call stmt# ======
+------ 29 - compare read varName and call stmt# ------
 read read; call call;
 Select BOOLEAN with read.varName = call.stmt#
 SemanticError
 5000
-====== 30 - compare print varName and call stmt# ======
+------ 30 - compare print varName and call stmt# ------
 print print; call call;
 Select BOOLEAN with print.varName = call.stmt#
 SemanticError
 5000
-====== 31 - compare procedure procName and while stmt# ======
+------ 31 - compare procedure procName and while stmt# ------
 procedure procedure; while while;
 Select BOOLEAN with procedure.procName = while.stmt#
 SemanticError
 5000
-====== 32 - compare call procName and while stmt# ======
+------ 32 - compare call procName and while stmt# ------
 call call; while while;
 Select BOOLEAN with call.procName = while.stmt#
 SemanticError
 5000
-====== 33 - compare variable varName and while stmt# ======
+------ 33 - compare variable varName and while stmt# ------
 variable variable; while while;
 Select BOOLEAN with variable.varName = while.stmt#
 SemanticError
 5000
-====== 34 - compare read varName and while stmt# ======
+------ 34 - compare read varName and while stmt# ------
 read read; while while;
 Select BOOLEAN with read.varName = while.stmt#
 SemanticError
 5000
-====== 35 - compare print varName and while stmt# ======
+------ 35 - compare print varName and while stmt# ------
 print print; while while;
 Select BOOLEAN with print.varName = while.stmt#
 SemanticError
 5000
-====== 36 - compare procedure procName and if stmt# ======
+------ 36 - compare procedure procName and if stmt# ------
 procedure procedure; if if;
 Select BOOLEAN with procedure.procName = if.stmt#
 SemanticError
 5000
-====== 37 - compare call procName and if stmt# ======
+------ 37 - compare call procName and if stmt# ------
 call call; if if;
 Select BOOLEAN with call.procName = if.stmt#
 SemanticError
 5000
-====== 38 - compare variable varName and if stmt# ======
+------ 38 - compare variable varName and if stmt# ------
 variable variable; if if;
 Select BOOLEAN with variable.varName = if.stmt#
 SemanticError
 5000
-====== 39 - compare read varName and if stmt# ======
+------ 39 - compare read varName and if stmt# ------
 read read; if if;
 Select BOOLEAN with read.varName = if.stmt#
 SemanticError
 5000
-====== 40 - compare print varName and if stmt# ======
+------ 40 - compare print varName and if stmt# ------
 print print; if if;
 Select BOOLEAN with print.varName = if.stmt#
 SemanticError
 5000
-====== 41 - with while varName ======
+------ 41 - with while varName ------
 while while1, while2;
 Select BOOLEAN with while1.varName = while2.varName
 SemanticError

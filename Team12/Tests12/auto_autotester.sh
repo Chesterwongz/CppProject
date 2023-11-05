@@ -1,8 +1,11 @@
 #!/bin/bash
 
 script_dir="$(dirname "$0")"
+input_dir="$script_dir/Milestone3"
 output_dir="$script_dir/output"
+rm -r "$output_dir"  # remove the output directory if it exists
 mkdir -p "$output_dir"
+cp "$script_dir/analysis.xsl" "$output_dir"
 
 # Change to the directory containing the script, if not found, exit with err
 cd "$script_dir" || exit 1
@@ -36,7 +39,7 @@ while read -r source_file; do
     else
         echo "[WARN] Query file for $source_file not found!"
     fi
-done < <(find ./ -type f -iname '*_source.txt')
+done < <(find "$input_dir" -type f -iname '*_source.txt')
 
 # 2. Check if any of the out.xml files contain '<failed>'
 # Using find to recursively locate *_out.xml files
