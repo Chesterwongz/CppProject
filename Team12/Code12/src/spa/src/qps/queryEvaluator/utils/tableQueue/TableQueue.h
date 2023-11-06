@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <memory>
 #include <queue>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -11,7 +12,7 @@
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 #include "qps/query/Query.h"
 
-using std::vector, std::unique_ptr;
+using std::vector, std::unique_ptr, std::string;
 
 class TableQueue {
  private:

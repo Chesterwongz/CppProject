@@ -31,7 +31,26 @@ IntermediateTable TableQueue::getJoinResult() {
 /**
  * for min heap implementation
  */
-bool operator<(const IntermediateTable &thisTable,
-               const IntermediateTable &otherTable) {
+bool operator<(const IntermediateTable& thisTable,
+               const IntermediateTable& otherTable) {
+  if (thisTable.getRowCount() == 0) return true;
+  if (otherTable.getRowCount() == 0) return false;
+
+  const vector<string>& thisColNames = thisTable.getColNames();
+  const vector<string>& otherColNames = otherTable.getColNames();
+  bool isCurrLexicoSmaller =
+      std::lexicographical_compare(thisColNames.begin(), thisColNames.end(),
+                                   otherColNames.begin(), otherColNames.end());
+  if (isCurrLexicoSmaller) {
+    return true;
+  }
+
+  bool isCurrLexicoLarger =
+      std::lexicographical_compare(otherColNames.begin(), otherColNames.end(),
+                                   thisColNames.begin(), thisColNames.end());
+  if (isCurrLexicoLarger) {
+    return false;
+  }
+  // If column names are the same, then sort by row count in descending order
   return thisTable.getRowCount() > otherTable.getRowCount();
 }
