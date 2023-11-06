@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "qps/clause/utils/ClauseUtil.h"
 #include "qps/patternEvaluator/assignEvaluator/AssignEvaluator.h"
 
 vector<const AbstractArgument*> AssignPatternClause::getAllArguments() {
@@ -34,4 +35,17 @@ bool AssignPatternClause::isEquals(const Clause& other) {
          *secondArg == *(otherPattern->secondArg) &&
          isPartialMatch == otherPattern->isPartialMatch &&
          *synonym == *otherPattern->synonym;
+}
+
+set<string> AssignPatternClause::getClauseSynonyms() {
+  set<string> clauseSynonyms =
+      ClauseUtil::getSynonymArgValues(firstArg, secondArg);
+  clauseSynonyms.insert(synonym->getValue());
+  return clauseSynonyms;
+}
+
+string AssignPatternClause::getKey() {
+  return ASSIGN_ENTITY + ClauseUtil::KEY_DELIMITER + synonym->getValue() +
+         ClauseUtil::KEY_DELIMITER + firstArg->getValue() +
+         ClauseUtil::KEY_DELIMITER + secondArg->getValue();
 }

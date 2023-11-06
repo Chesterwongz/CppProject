@@ -12,12 +12,14 @@
 #include "qps/parser/PQLParserContext.h"
 #include "qps/parser/declarativeParserState/DeclarativeParserState.h"
 #include "qps/parser/tokenizer/token/PQLToken.h"
+#include "qps/queryEvaluator/QueryEvaluator.h"
 
 using std::string, std::vector, std::unique_ptr, std::unordered_set;
 
 class QPS {
  private:
   PKBReader& pkb;
+  QueryEvaluator queryEvaluator;
   static void setupParser(PQLParserContext& pc);
 
  public:

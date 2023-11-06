@@ -8,14 +8,14 @@
 #include <utility>
 #include <vector>
 
-#include "qps/common/Keywords.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/common/Keywords.h"
 #include "qps/intermediateTable/synonymRes/SynonymRes.h"
 
 using std::pair, std::unordered_map, std::unordered_set, std::string,
-    std::vector, std::set, std::unique_ptr;
+    std::vector, std::set, std::unique_ptr, std::reference_wrapper;
 
-typedef vector<SynonymRes> TableRowType;
+typedef vector<std::reference_wrapper<SynonymRes>> TableRowType;
 typedef vector<TableRowType> TableDataType;
 
 class IntermediateTable {
@@ -97,8 +97,8 @@ class IntermediateTable {
    * @param joinColOther other table's colName and AttrRef pair
    */
   IntermediateTable join(const IntermediateTable &otherTable,
-                         const pair<string, AttrRef>& joinColThis,
-                         const pair<string, AttrRef>& joinColOther);
+                         const pair<string, AttrRef> &joinColThis,
+                         const pair<string, AttrRef> &joinColOther);
 
   /**
    * add by Houten   
@@ -114,7 +114,7 @@ class IntermediateTable {
   /**
    * @return vector of all column names
    */
-  [[nodiscard]] vector<string> getColNames() const;
+  [[nodiscard]] const vector<string> &getColNames() const;
 
   /**
    * @return index of specified column
@@ -133,7 +133,7 @@ class IntermediateTable {
   [[nodiscard]] bool isTableEmpty() const;
   [[nodiscard]] bool isTableWildcard() const;
   [[nodiscard]] bool isTableEmptyAndNotWildcard() const;
-  [[nodiscard]] TableDataType getTableData() const;
+  [[nodiscard]] const TableDataType &getTableData() const;
   void printTable() const;
 
   friend class IntermediateTableFactory;

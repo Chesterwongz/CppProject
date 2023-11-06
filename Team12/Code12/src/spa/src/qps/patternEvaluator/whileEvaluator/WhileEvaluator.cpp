@@ -9,10 +9,6 @@ vector<pair<string, string>> WhileEvaluator::evaluateArguments() {
 
   bool isFirstArgSynonym = firstArg.isSynonym();
 
-  vector<pair<string, string>> pkbResult;
-
   return pkbReader.getWhilePattern(isFirstArgSynonym ? WILDCARD_KEYWORD
                                                      : firstArgValue);
-
-  return pkbResult;
 }

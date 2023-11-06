@@ -31,10 +31,10 @@ TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_MATCH)") {
   };
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>("newa", ASSIGN_ENTITY);
@@ -77,10 +77,10 @@ TEST_CASE("Valid Pattern a (LITERAL_REF, PARTIAL_EXPR_MATCH)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>("newa", ASSIGN_ENTITY);
@@ -129,10 +129,10 @@ TEST_CASE("Valid Pattern a (SYNONYM, PARTIAL_MATCH)") {
   };
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
@@ -182,10 +182,10 @@ TEST_CASE("Valid Pattern a (_, PARTIAL_MATCH)") {
   };
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
@@ -232,10 +232,10 @@ TEST_CASE("Valid Pattern a (SYNONYM, EXACT_MATCH)") {
   };
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);
@@ -284,7 +284,7 @@ TEST_CASE("Invalid Pattern a (SYNONYM, LEFT_PARTIAL_MATCH)") {
   };
 
   REQUIRE_THROWS_WITH(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH);
 }
 
@@ -306,7 +306,7 @@ TEST_CASE("Invalid Pattern a (LITERAL_REF, RIGHT_PARTIAL_MATCH)") {
   };
 
   REQUIRE_THROWS_WITH(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       "Error occurred during tokenization, invalid token: _");
 }
 
@@ -333,7 +333,7 @@ TEST_CASE("Invalid Pattern a (SYNONYM, PARTIAL_MATCH) - non variable synonym") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+  REQUIRE_THROWS_AS(parseToQuery(tokenList),
                     QPSSemanticError);
 }
 
@@ -362,7 +362,7 @@ TEST_CASE(
   };
 
   REQUIRE_THROWS_MATCHES(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       QPSSyntaxError,
       Catch::Message("Error occurred during tokenization, invalid token: x"));
 }
@@ -390,7 +390,7 @@ TEST_CASE("Invalid Pattern a (LITERAL_REF_, PARTIAL_MATCH) - invalid 1st arg") {
   };
 
   REQUIRE_THROWS_MATCHES(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       QPSSyntaxError,
       Catch::Message("Error occurred during tokenization, invalid token: _"));
 }
@@ -417,7 +417,7 @@ TEST_CASE("Invalid Pattern a (SYNONYM, EXACT_EXPR_MATCH) - invalid expr") {
   };
 
   REQUIRE_THROWS_MATCHES(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       QPSSyntaxError, Catch::Message(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH));
 }
 
@@ -445,7 +445,7 @@ TEST_CASE(
   };
 
   REQUIRE_THROWS_MATCHES(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       QPSSyntaxError, Catch::Message(QPS_SYNTAX_ERR_INVALID_PATTERN_MATCH));
 }
 
@@ -467,7 +467,7 @@ TEST_CASE("Invalid Pattern a (SYNONYM, - incomplete query") {
                                 PQLToken(PQL_COMMA_TOKEN, ",")};
 
   REQUIRE_THROWS_MATCHES(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       QPSSyntaxError, Catch::Message(QPS_TOKENIZATION_ERR_INCOMPLETE_QUERY));
 }
 
@@ -496,10 +496,10 @@ TEST_CASE("Valid Pattern not a (_, PARTIAL_MATCH)") {
   };
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(a1, ASSIGN_ENTITY);

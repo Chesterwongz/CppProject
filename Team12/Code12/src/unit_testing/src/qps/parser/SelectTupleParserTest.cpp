@@ -28,5 +28,5 @@ TEST_CASE("Valid Select<a,b,c>") {
                                 PQLToken(PQL_RIGHT_ANGLE_TOKEN, ">")};
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 }

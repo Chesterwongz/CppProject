@@ -112,12 +112,12 @@ IntermediateTable StmtToStmtAbstraction::handleSynonymOrWildcardArgs() {
   vector<pair<string, string>> stmtStmtPairs =
       getAllPairs(firstStmtType, secondStmtType);
 
-
   if (isSelfReferencePossible() &&
       firstArgStmtSynonym == secondArgStmtSynonym) {
     vector<string> filteredRes = filterSelfRefPairs(stmtStmtPairs);
-    vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
-        filteredRes, ClauseUtil::getArgEntity(this->firstArg), this->pkb);
+    vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes =
+        SynResConversionUtils::toSynonymRes(
+            filteredRes, ClauseUtil::getArgEntity(this->firstArg), this->pkb);
     return IntermediateTableFactory::buildSingleColTable(firstArgStmtSynonym,
                                                          resultAsSynonymRes);
   }
@@ -163,7 +163,7 @@ IntermediateTable StmtToStmtAbstraction::handleFirstArgInteger() {
   vector<string> results = getSecondStmt(firstArgStmtNumber, secondArgStmtType);
 
   Entity secondArgEntity = ClauseUtil::getArgEntity(this->secondArg);
-  vector<SynonymRes> resultAsSynonymRes =
+  vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes =
       SynResConversionUtils::toSynonymRes(results, secondArgEntity, this->pkb);
 
   return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
@@ -182,7 +182,7 @@ IntermediateTable StmtToStmtAbstraction::handleSecondArgInteger() {
   vector<string> results = getFirstStmt(secondArgStmtNumber, firstArgStmtType);
 
   Entity firstArgEntity = ClauseUtil::getArgEntity(this->firstArg);
-  vector<SynonymRes> resultAsSynonymRes =
+  vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes =
       SynResConversionUtils::toSynonymRes(results, firstArgEntity, this->pkb);
 
   return IntermediateTableFactory::buildSingleColTable(firstArgStmtSynonym,

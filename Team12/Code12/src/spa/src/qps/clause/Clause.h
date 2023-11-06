@@ -3,7 +3,6 @@
 #include <memory>
 #include <set>
 #include <string>
-#include <unordered_set>
 #include <vector>
 
 #include "pkb/facade/PKBReader.h"
@@ -12,7 +11,7 @@
 
 typedef vector<std::unique_ptr<AbstractArgument>> ArgumentList;
 
-using std::string, std::set, std::map, std::pair, std::vector;
+using std::string, std::set, std::vector;
 
 class Clause {
  public:
@@ -20,4 +19,6 @@ class Clause {
   virtual ~Clause() = default;
   virtual vector<const AbstractArgument*> getAllArguments() = 0;
   virtual bool isEquals(const Clause& other) = 0;
+  virtual set<string> getClauseSynonyms() = 0;
+  virtual string getKey() = 0;
 };

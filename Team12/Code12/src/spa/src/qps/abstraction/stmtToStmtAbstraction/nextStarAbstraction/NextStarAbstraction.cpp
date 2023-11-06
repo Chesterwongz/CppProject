@@ -25,5 +25,3 @@ vector<string> NextStarAbstraction::getSecondStmt(int firstStmtNumber,
 bool NextStarAbstraction::isStmtRelatedToStmt(int stmtNum1, int stmtNum2) {
   return pkb.isNextT(stmtNum1, stmtNum2);
 }
-
-// todo(yq): handle same synonym queries

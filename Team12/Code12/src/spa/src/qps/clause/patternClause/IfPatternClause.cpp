@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "qps/clause/utils/ClauseUtil.h"
 #include "qps/patternEvaluator/ifEvaluator/IfEvaluator.h"
 
 vector<const AbstractArgument*> IfPatternClause::getAllArguments() {
@@ -19,8 +20,8 @@ IntermediateTable IfPatternClause::evaluate(PKBReader& pkbReader) {
 
   unique_ptr<PatternEvaluator> evaluatorPtr;
 
-  evaluatorPtr = std::make_unique<IfEvaluator>(*(this->firstArg), pkbReader,
-                                               synonymValue);
+  evaluatorPtr =
+      std::make_unique<IfEvaluator>(*(this->firstArg), pkbReader, synonymValue);
 
   return evaluatorPtr->evaluate();
 }
@@ -31,4 +32,13 @@ bool IfPatternClause::isEquals(const Clause& other) {
 
   return *firstArg == *(otherPattern->firstArg) &&
          *synonym == *otherPattern->synonym;
+}
+
+set<string> IfPatternClause::getClauseSynonyms() {
+  return ClauseUtil::getSynonymArgValues(synonym, firstArg);
+}
+
+string IfPatternClause::getKey() {
+  return IF_ENTITY + ClauseUtil::KEY_DELIMITER + synonym->getValue() +
+         ClauseUtil::KEY_DELIMITER + firstArg->getValue();
 }

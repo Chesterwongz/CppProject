@@ -35,10 +35,10 @@ TEST_CASE("Valid Uses(SYNONYM, SYNONYM)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -80,10 +80,10 @@ TEST_CASE("Valid Uses(SYNONYM, _)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -124,10 +124,10 @@ TEST_CASE("Valid Uses(SYNONYM, LITERAL_REF)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -170,10 +170,10 @@ TEST_CASE("Valid Uses(INTEGER, SYNONYM)") {
   };
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -215,10 +215,10 @@ TEST_CASE("Valid Uses(INTEGER, _)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -259,10 +259,10 @@ TEST_CASE("Valid Uses(INTEGER, LITERAL_REF)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -303,10 +303,10 @@ TEST_CASE("Valid Uses(LITERAL_REF, SYNONYM)") {
   };
 
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -347,10 +347,10 @@ TEST_CASE("Valid Uses(LITERAL_REF, _)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -390,10 +390,10 @@ TEST_CASE("Valid Uses(LITERAL_REF, LITERAL_REF)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);
@@ -434,7 +434,7 @@ TEST_CASE("Invalid Uses(LITERAL_EXPR, LITERAL_REF)") {
   };
 
   REQUIRE_THROWS_MATCHES(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       QPSSyntaxError,
       Catch::Message("Error occurred during tokenization, invalid token: 2"));
 }
@@ -461,7 +461,7 @@ TEST_CASE("Invalid Uses(_, SYNONYM) - Wildcard cannot be first arg") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+  REQUIRE_THROWS_AS(parseToQuery(tokenList),
                     QPSSemanticError);
 }
 
@@ -488,7 +488,7 @@ TEST_CASE("Invalid Uses(INTEGER, SYNONYM) - invalid synonym type") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+  REQUIRE_THROWS_AS(parseToQuery(tokenList),
                     QPSSemanticError);
 }
 
@@ -514,7 +514,7 @@ TEST_CASE("Invalid Modifies(SYNONYM, SYNONYM) - both var arg") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+  REQUIRE_THROWS_AS(parseToQuery(tokenList),
                     QPSSemanticError);
 }
 
@@ -541,7 +541,7 @@ TEST_CASE("Invalid Modifies(SYNONYM, SYNONYM) - first const arg") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+  REQUIRE_THROWS_AS(parseToQuery(tokenList),
                     QPSSemanticError);
 }
 
@@ -562,10 +562,10 @@ TEST_CASE("Valid Modifies(INTEGER, SYNONYM)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>("v", VARIABLE_ENTITY);
@@ -607,10 +607,10 @@ TEST_CASE("Valid not Uses(SYNONYM, SYNONYM)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   // expected query object
-  Query expected(dummyQpsParserPkbReader);
+  Query expected{};
 
   unique_ptr<SynonymArg> synonymArg =
       std::make_unique<SynonymArg>(d1, STMT_ENTITY);

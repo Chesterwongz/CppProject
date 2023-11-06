@@ -1,5 +1,6 @@
 #include <catch.hpp>
 
+#include "IntermediateTableTestUtils.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 #include "qps/intermediateTable/IntermediateTableUtils.h"
 #include "testData/SynonymResTestData.h"
@@ -25,14 +26,14 @@ IntermediateTable MULTI_COLUMN_SYNONYM_RES_TABLE_2 =
         SYNONYM_RES_MULTI_COL_NAME_2, MULTI_COL_SYNONYM_RES_DATA_2);
 
 TEST_CASE("IntermediateTable - constructors + getTableData") {
-  REQUIRE(DOUBLE_COLUMN_SYNONYM_RES_TABLE_1.getTableData() ==
-          DOUBLE_COL_SYNONYM_RES_DATA);
-  REQUIRE(DOUBLE_COLUMN_SYNONYM_RES_TABLE_2.getTableData() ==
-          DOUBLE_COL_SYNONYM_RES_DATA_2);
-  REQUIRE(DOUBLE_COLUMN_SYNONYM_RES_TABLE_1.getTableData() ==
-          DOUBLE_COL_SYNONYM_RES_DATA);
-  REQUIRE(DOUBLE_COLUMN_SYNONYM_RES_TABLE_2.getTableData() ==
-          DOUBLE_COL_SYNONYM_RES_DATA_2);
+  REQUIRE(isTableDataSame(DOUBLE_COLUMN_SYNONYM_RES_TABLE_1.getTableData(),
+                          DOUBLE_COL_SYNONYM_RES_DATA));
+  REQUIRE(isTableDataSame(DOUBLE_COLUMN_SYNONYM_RES_TABLE_2.getTableData(),
+                          DOUBLE_COL_SYNONYM_RES_DATA_2));
+  REQUIRE(isTableDataSame(DOUBLE_COLUMN_SYNONYM_RES_TABLE_1.getTableData(),
+                          DOUBLE_COL_SYNONYM_RES_DATA));
+  REQUIRE(isTableDataSame(DOUBLE_COLUMN_SYNONYM_RES_TABLE_2.getTableData(),
+                          DOUBLE_COL_SYNONYM_RES_DATA_2));
 }
 
 TEST_CASE("IntermediateTable - getColumns - SynonymRes") {
@@ -96,33 +97,31 @@ TEST_CASE(
 TEST_CASE("IntermediateTable - join_cross - SynonymRes") {
   IntermediateTable crossTable =
       DOUBLE_COLUMN_SYNONYM_RES_TABLE_1.join(DOUBLE_COLUMN_SYNONYM_RES_TABLE_2);
-  vector<vector<SynonymRes>> expected = DOUBLE_COL_SYNONYM_RES_DATA_CROSS;
-  vector<vector<SynonymRes>> actual = crossTable.getTableData();
+  TableDataType expected = DOUBLE_COL_SYNONYM_RES_DATA_CROSS;
+  const TableDataType& actual = crossTable.getTableData();
 
   REQUIRE(expected.size() == actual.size());
-  for (const auto &row : expected) {
-    REQUIRE(std::count(actual.begin(), actual.end(), row) == 1);
-  }
+  REQUIRE(isTableDataSame(expected, actual));
 }
 
 TEST_CASE("IntermediateTable - join_inner_join - SynonymRes") {
   IntermediateTable joinTable =
       MULTI_COLUMN_SYNONYM_RES_TABLE_1.join(MULTI_COLUMN_SYNONYM_RES_TABLE_2);
-  REQUIRE(joinTable.getTableData() == MULTI_COL_SYNONYM_RES_DATA_INNER_JOIN);
+  REQUIRE(isTableDataSame(joinTable.getTableData(),
+                          MULTI_COL_SYNONYM_RES_DATA_INNER_JOIN));
 }
 
 TEST_CASE("IntermediateTable - join_inner_join_on - SynonymRes") {
   IntermediateTable joinTable = DOUBLE_COLUMN_SYNONYM_RES_TABLE_1.join(
       DOUBLE_COLUMN_SYNONYM_RES_TABLE_3, {"calls", ATTR_REF_PROC_NAME},
       {"print", ATTR_REF_VAR_NAME});
-  joinTable.printTable();
-  vector<vector<SynonymRes>> expected = {
+  TableDataType expected = {
       {MOCK_CONSTANT_SYN_1, MOCK_PRINT_SYN_1, MOCK_CONSTANT_SYN_2,
        MOCK_PRINT_SYN_2},
       {MOCK_CONSTANT_SYN_2, MOCK_PRINT_SYN_2, MOCK_CONSTANT_SYN_2,
        MOCK_PRINT_SYN_2},
   };
-  REQUIRE(joinTable.getTableData() == expected);
+  REQUIRE(isTableDataSame(joinTable.getTableData(), expected));
 }
 
 TEST_CASE("IntermediateTable - join - any_x_empty - SynonymRes") {
@@ -159,13 +158,15 @@ TEST_CASE("IntermediateTable - join - any_x_wildcard - SynonymRes") {
   IntermediateTable dataJoinWildcardTable =
       MULTI_COLUMN_SYNONYM_RES_TABLE_1.join(WILDCARD_TABLE);
   REQUIRE(dataJoinWildcardTable.isTableWildcard() == false);
-  REQUIRE(dataJoinWildcardTable.getTableData() == MULTI_COL_SYNONYM_RES_DATA_1);
+  REQUIRE(isTableDataSame(dataJoinWildcardTable.getTableData(),
+                          MULTI_COL_SYNONYM_RES_DATA_1));
 
   // WILDCARD X DATA
   IntermediateTable wildcardJoinDataTable =
       WILDCARD_TABLE.join(MULTI_COLUMN_SYNONYM_RES_TABLE_1);
   REQUIRE(wildcardJoinDataTable.isTableWildcard() == false);
-  REQUIRE(wildcardJoinDataTable.getTableData() == MULTI_COL_SYNONYM_RES_DATA_1);
+  REQUIRE(isTableDataSame(wildcardJoinDataTable.getTableData(),
+                          MULTI_COL_SYNONYM_RES_DATA_1));
 
   // WILDCARD X WILDCARD
   IntermediateTable wildcardJoinWildcardTable =

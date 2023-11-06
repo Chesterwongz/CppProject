@@ -5,6 +5,7 @@
 #include "qps/abstraction/AbstractionFactory.h"
 #include "qps/abstraction/BaseAbstraction.h"
 #include "qps/argument/AbstractArgument.h"
+#include "qps/clause/utils/ClauseUtil.h"
 
 vector<const AbstractArgument*> SuchThatClause::getAllArguments() {
   vector<const AbstractArgument*> argVector;
@@ -40,4 +41,13 @@ bool SuchThatClause::isEquals(const Clause& other) {
   return relationship == otherSuchThat->relationship &&
          *firstArg == *otherSuchThat->firstArg &&
          *secondArg == *otherSuchThat->secondArg;
+}
+set<string> SuchThatClause::getClauseSynonyms() {
+  return ClauseUtil::getSynonymArgValues(this->firstArg, this->secondArg);
+}
+
+string SuchThatClause::getKey() {
+  return AbstractionEnumToStringMap.at(this->relationship) +
+         ClauseUtil::KEY_DELIMITER + this->firstArg->getValue() +
+         ClauseUtil::KEY_DELIMITER + this->secondArg->getValue();
 }

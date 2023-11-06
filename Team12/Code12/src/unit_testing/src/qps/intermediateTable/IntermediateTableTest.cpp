@@ -1,4 +1,3 @@
-#include <iostream>
 #include <catch.hpp>
 
 #include "IntermediateTableTestUtils.h"
@@ -11,27 +10,26 @@ IntermediateTable DOUBLE_COLUMN_TABLE_FROM_PAIR_1 =
                                                      PAIR_DATA);
 
 IntermediateTable DOUBLE_COLUMN_TABLE_FROM_VECTORS_1 =
-    IntermediateTableFactory::buildIntermediateTable(DOUBLE_COL_NAME_VECTOR,
-                                                     DOUBLE_COL_VECTOR_DATA);
+    IntermediateTableFactory::buildIntermediateTable(
+        DOUBLE_COL_NAME_VECTOR, convertToSynonymResCol(DOUBLE_COL_VECTOR_DATA));
 
 IntermediateTable DOUBLE_COLUMN_TABLE_FROM_VECTORS_2 =
-    IntermediateTableFactory::buildIntermediateTable(doubleColNameVector2,
-                                                     DOUBLE_COL_VECTOR_DATA_2);
+    IntermediateTableFactory::buildIntermediateTable(
+        doubleColNameVector2, convertToSynonymResCol(DOUBLE_COL_VECTOR_DATA_2));
 
 IntermediateTable MULTI_COLUMN_TABLE_1 =
-    IntermediateTableFactory::buildIntermediateTable(MULTI_COL_NAME_VECTOR_1,
-                                                     MULTI_COL_DATA_1);
+    IntermediateTableFactory::buildIntermediateTable(
+        MULTI_COL_NAME_VECTOR_1, convertToSynonymResCol(MULTI_COL_DATA_1));
 
 IntermediateTable MULTI_COLUMN_TABLE_2 =
-    IntermediateTableFactory::buildIntermediateTable(MULTI_COL_NAME_VECTOR_2,
-                                                     MULTI_COL_DATA_2);
+    IntermediateTableFactory::buildIntermediateTable(
+        MULTI_COL_NAME_VECTOR_2, convertToSynonymResCol(MULTI_COL_DATA_2));
 
 TEST_CASE("IntermediateTable - constructors + getDataAsStrings") {
   REQUIRE(isVectorsSameAsPairs(
       DOUBLE_COLUMN_TABLE_FROM_PAIR_1.getDataAsStrings(), PAIR_DATA));
   REQUIRE(isVectorsSameAsPairs(
       DOUBLE_COLUMN_TABLE_FROM_VECTORS_1.getDataAsStrings(), PAIR_DATA));
-  std::cout << "expect \"row 0 incorrect\":" << std::endl;
   REQUIRE(isVectorsSameAsPairs(
               DOUBLE_COLUMN_TABLE_FROM_VECTORS_2.getDataAsStrings(),
               PAIR_DATA) == false);
@@ -199,7 +197,7 @@ TEST_CASE("IntermediateTable - getDifference : ANY - EMPTY") {
 
   IntermediateTable resultTable = randomTable.getDifference(emptyTable);
 
-  REQUIRE(resultTable.getTableData() == randomData);
+  REQUIRE(isTableDataSame(resultTable.getTableData(), randomData));
 }
 
 TEST_CASE("IntermediateTable - getDifference : EMPTY - ANY") {
@@ -260,5 +258,5 @@ TEST_CASE("IntermediateTable - getDifference : ANY - ANY") {
   TableDataType expectedData = {{SynonymResFactory::buildDefaultSynonym("1"),
                                  SynonymResFactory::buildDefaultSynonym("2")}};
 
-  REQUIRE(resultTable.getTableData() == expectedData);
+  REQUIRE(isTableDataSame(resultTable.getTableData(), expectedData));
 }

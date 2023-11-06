@@ -42,8 +42,8 @@ TEST_CASE(
     "IntermediateTableFactory - buildIntermediateTable - "
     "vectors_without_wildcard") {
   IntermediateTable tableFromVectors =
-      IntermediateTableFactory::buildIntermediateTable(MULTI_COL_NAME_VECTOR_1,
-                                                       MULTI_COL_DATA_1);
+      IntermediateTableFactory::buildIntermediateTable(
+          MULTI_COL_NAME_VECTOR_1, convertToSynonymResCol(MULTI_COL_DATA_1));
   REQUIRE(tableFromVectors.getDataAsStrings() == MULTI_COL_DATA_1);
   REQUIRE(tableFromVectors.isTableEmpty() == false);
   REQUIRE(tableFromVectors.isTableEmptyAndNotWildcard() == false);
@@ -55,7 +55,8 @@ TEST_CASE(
     "vectors_with_wildcard") {
   IntermediateTable tableFromVectorsWithWildcard =
       IntermediateTableFactory::buildIntermediateTable(
-          MULTI_COL_NAME_VECTOR_WITH_WILDCARD, MULTI_COL_DATA_1);
+          MULTI_COL_NAME_VECTOR_WITH_WILDCARD,
+          convertToSynonymResCol(MULTI_COL_DATA_1));
   REQUIRE(tableFromVectorsWithWildcard.getDataAsStrings() ==
           MULTI_COL_DATA_1_WILDCARD);
   REQUIRE(tableFromVectorsWithWildcard.isTableEmpty() == false);
@@ -69,7 +70,8 @@ TEST_CASE(
     "from_synonymRes_vs_from_string") {
   IntermediateTable tableFromString =
       IntermediateTableFactory::buildIntermediateTable(
-          MULTI_COL_NAME_VECTOR_WITH_WILDCARD, MULTI_COL_DATA_1);
+          MULTI_COL_NAME_VECTOR_WITH_WILDCARD,
+          convertToSynonymResCol(MULTI_COL_DATA_1));
   IntermediateTable tableFromSynonymRes =
       IntermediateTableFactory::buildIntermediateTable(
           MULTI_COL_NAME_VECTOR_WITH_WILDCARD,
@@ -77,69 +79,31 @@ TEST_CASE(
 
   REQUIRE(tableFromString.getDataAsStrings() ==
           tableFromSynonymRes.getDataAsStrings());
-  REQUIRE(tableFromString.getTableData() == tableFromSynonymRes.getTableData());
+  REQUIRE(isTableDataSame(tableFromString.getTableData(),
+                          tableFromSynonymRes.getTableData()));
   REQUIRE(tableFromString.getColNames() == tableFromSynonymRes.getColNames());
-}
-
-TEST_CASE("IntermediateTableFactory - buildSingleColTable - from_strings") {
-  IntermediateTable table =
-      IntermediateTableFactory::buildSingleColTable(COL_NAME_3, COL_3);
-  REQUIRE(table.getDataAsStrings() == COL_3_2D);
-  REQUIRE(table.isTableEmpty() == false);
-  REQUIRE(table.isTableEmptyAndNotWildcard() == false);
-  REQUIRE(table.isTableWildcard() == false);
-  REQUIRE(table.getDataAsStrings().at(0).size() == 1);
-
-  // to check that the synonyms produced from strings are correct
-  IntermediateTable table2 =
-      IntermediateTableFactory::buildSingleColTable(COL_NAME_1, COL_1);
-  REQUIRE(table2.getDataAsStrings() == COL_1_2D);
-  REQUIRE(table2.getTableData() == convertToSynonymResCol(COL_1));
-  REQUIRE_FALSE(table2.isTableWildcard());
-  REQUIRE_FALSE(table2.isTableEmptyAndNotWildcard());
 }
 
 TEST_CASE("IntermediateTableFactory - buildSingleColTable - from_synonymRes") {
   IntermediateTable table = IntermediateTableFactory::buildSingleColTable(
       COL_NAME_1, MOCK_PRINT_SYNONYM_RES_VECTOR);
   REQUIRE(table.getDataAsStrings() == MOCK_SYNONYM_RES_VALUES_VECTOR_2D);
-  REQUIRE(table.getTableData() == MOCK_PRINT_SYNONYM_RES_VECTOR_2D);
+  REQUIRE(
+      isTableDataSame(table.getTableData(), MOCK_PRINT_SYNONYM_RES_VECTOR_2D));
   REQUIRE_FALSE(table.isTableWildcard());
   REQUIRE_FALSE(table.isTableEmptyAndNotWildcard());
 }
 
 TEST_CASE("IntermediateTableFactory - buildSingleColTable - wildcard") {
-  IntermediateTable table =
-      IntermediateTableFactory::buildSingleColTable(WILDCARD_KEYWORD, COL_3);
+  IntermediateTable table = IntermediateTableFactory::buildSingleColTable(
+      WILDCARD_KEYWORD, MOCK_PRINT_SYNONYM_RES_VECTOR);
   REQUIRE(table.isTableWildcard());
-}
-
-TEST_CASE(
-    "IntermediateTableFactory - buildIntermediateTable - single_col_from_set") {
-  IntermediateTable table =
-      IntermediateTableFactory::buildIntermediateTable(COL_NAME_4, COL_4_SET);
-  for (auto &row : table.getDataAsStrings()) {
-    REQUIRE(count(COL_4_2D.begin(), COL_4_2D.end(), row) == 1);
-  }
-  REQUIRE(table.isTableEmptyAndNotWildcard() == false);
-  REQUIRE(table.isTableWildcard() == false);
-  REQUIRE(table.getColNames().size() == 1);
-  REQUIRE(table.getColNames().at(0) == COL_NAME_4);
-}
-
-TEST_CASE(
-    "IntermediateTableFactory - buildIntermediateTable - "
-    "single_col_from_set_wildcard") {
-  IntermediateTable tableFromVectorsWithWildcard =
-      IntermediateTableFactory::buildIntermediateTable(WILDCARD_KEYWORD,
-                                                       COL_4_SET);
-  REQUIRE(tableFromVectorsWithWildcard.isTableWildcard());
 }
 
 TEST_CASE("IntermediateTableFactory - buildIntermediateTable - singleton") {
   IntermediateTable singletonTable =
-      IntermediateTableFactory::buildIntermediateTable(COL_NAME_3,
-                                                       COL_SINGLETON);
+      IntermediateTableFactory::buildIntermediateTable(
+          COL_NAME_3, SynonymResFactory::buildDefaultSynonym(COL_SINGLETON));
   REQUIRE(singletonTable.getDataAsStrings() == COL_SINGLETON_2D);
   REQUIRE(singletonTable.isTableEmpty() == false);
   REQUIRE(singletonTable.isTableEmptyAndNotWildcard() == false);
@@ -151,8 +115,9 @@ TEST_CASE("IntermediateTableFactory - buildIntermediateTable - singleton") {
 TEST_CASE(
     "IntermediateTableFactory - buildIntermediateTable - singleton wildcard") {
   IntermediateTable tableFromVectorsWithWildcard =
-      IntermediateTableFactory::buildIntermediateTable(WILDCARD_KEYWORD,
-                                                       COL_SINGLETON);
+      IntermediateTableFactory::buildIntermediateTable(
+          WILDCARD_KEYWORD,
+          SynonymResFactory::buildDefaultSynonym(COL_SINGLETON));
   REQUIRE(tableFromVectorsWithWildcard.isTableWildcard());
 }
 

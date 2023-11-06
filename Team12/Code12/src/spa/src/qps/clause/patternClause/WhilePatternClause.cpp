@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "qps/clause/utils/ClauseUtil.h"
 #include "qps/patternEvaluator/whileEvaluator/WhileEvaluator.h"
 
 vector<const AbstractArgument*> WhilePatternClause::getAllArguments() {
@@ -19,8 +20,8 @@ IntermediateTable WhilePatternClause::evaluate(PKBReader& pkbReader) {
 
   unique_ptr<PatternEvaluator> evaluatorPtr;
 
-  evaluatorPtr = std::make_unique<WhileEvaluator>(*(this->firstArg),
-                                                  pkbReader, synonymValue);
+  evaluatorPtr = std::make_unique<WhileEvaluator>(*(this->firstArg), pkbReader,
+                                                  synonymValue);
 
   return evaluatorPtr->evaluate();
 }
@@ -31,4 +32,13 @@ bool WhilePatternClause::isEquals(const Clause& other) {
 
   return *firstArg == *(otherPattern->firstArg) &&
          *synonym == *otherPattern->synonym;
+}
+
+set<string> WhilePatternClause::getClauseSynonyms() {
+  return ClauseUtil::getSynonymArgValues(synonym, firstArg);
+}
+
+string WhilePatternClause::getKey() {
+  return WHILE_ENTITY + ClauseUtil::KEY_DELIMITER + synonym->getValue() +
+         ClauseUtil::KEY_DELIMITER + firstArg->getValue();
 }

@@ -9,7 +9,7 @@
 
 TEST_CASE("SelectClause - evaluate") {
   BaseMockReader mockPKB = BaseMockReader();
-  unique_ptr<ISelectClause> selectClause =
+  unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause({});
   IntermediateTable result = selectClause->evaluate(mockPKB);
   REQUIRE(result.isTableWildcard());
@@ -17,7 +17,7 @@ TEST_CASE("SelectClause - evaluate") {
 
 TEST_CASE("SelectClause - getQuery - empty") {
   BaseMockReader mockPKB = BaseMockReader();
-  unique_ptr<ISelectClause> selectClause =
+  unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause({});
 
   IntermediateTable emptyTable =
@@ -28,7 +28,7 @@ TEST_CASE("SelectClause - getQuery - empty") {
 
 TEST_CASE("SelectClause - getQuery - wildcard") {
   BaseMockReader mockPKB = BaseMockReader();
-  unique_ptr<ISelectClause> selectClause =
+  unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause({});
 
   IntermediateTable table =
@@ -39,7 +39,7 @@ TEST_CASE("SelectClause - getQuery - wildcard") {
 
 TEST_CASE("SelectClause - getQuery - with_data") {
   BaseMockReader mockPKB = BaseMockReader();
-  unique_ptr<ISelectClause> selectClause =
+  unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause({});
 
   IntermediateTable table =
