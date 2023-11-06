@@ -63,7 +63,7 @@ vector<std::reference_wrapper<SynonymRes>> NotDecorator::getStmtSynonyms(
         SynonymResFactory::buildStmtSynonym(stmtNum));
   }
   return stmtSynonymResVec;
-};
+}
 
 vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllStmts(
     PKBReader& pkb) {
