@@ -116,7 +116,7 @@ IntermediateTable StmtToStmtAbstraction::handleSynonymOrWildcardArgs() {
   if (isSelfReferencePossible() &&
       firstArgStmtSynonym == secondArgStmtSynonym) {
     vector<string> filteredRes = filterSelfRefPairs(stmtStmtPairs);
-    vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+    vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
         filteredRes, ClauseUtil::getArgEntity(this->firstArg), this->pkb);
     return IntermediateTableFactory::buildSingleColTable(firstArgStmtSynonym,
                                                          resultAsSynonymRes);
