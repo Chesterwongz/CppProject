@@ -230,7 +230,8 @@ IntermediateTable IntermediateTable::getDifference(
     }
   }
 
-  return IntermediateTable(colNames, newTableData);
+  return newTableData.empty() ? IntermediateTable(false)
+                              : IntermediateTable(colNames, newTableData);
 }
 
 void IntermediateTable::printTable() const {
