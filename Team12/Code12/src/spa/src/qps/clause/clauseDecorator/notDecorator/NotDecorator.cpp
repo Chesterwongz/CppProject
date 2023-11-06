@@ -1,6 +1,5 @@
 #include "NotDecorator.h"
 
-#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
@@ -55,56 +54,39 @@ bool NotDecorator::isEquals(const Clause& other) {
   return wrapeeClause->isEquals(*otherDecorator->wrapeeClause);
 }
 
-vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllStmts(
-    PKBReader& pkb) {
-  vector<string> allStmts = pkb.getAllStmtsOf(StmtType::STMT);
-
+vector<std::reference_wrapper<SynonymRes>> NotDecorator::getStmtSynonyms(
+    vector<std::string>& stmts) {
   vector<std::reference_wrapper<SynonymRes>> stmtSynonymResVec {};
-  stmtSynonymResVec.reserve(allStmts.size());
-  for (const string& stmtNum : allStmts) {
+  stmtSynonymResVec.reserve(stmts.size());
+  for (const string& stmtNum : stmts) {
     stmtSynonymResVec.emplace_back(
         SynonymResFactory::buildStmtSynonym(stmtNum));
   }
   return stmtSynonymResVec;
+};
+
+vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllStmts(
+    PKBReader& pkb) {
+  vector<string> allStmts = pkb.getAllStmtsOf(StmtType::STMT);
+  return getStmtSynonyms(allStmts);
 }
 
 vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllAssignStmts(
     PKBReader& pkb) {
   vector<string> allAssignStmts = pkb.getAllStmtsOf(StmtType::ASSIGN);
-
-  vector<std::reference_wrapper<SynonymRes>> assignStmtSynonymResVec {};
-  assignStmtSynonymResVec.reserve(allAssignStmts.size());
-  for (const string& stmtNum : allAssignStmts) {
-    assignStmtSynonymResVec.emplace_back(
-        SynonymResFactory::buildStmtSynonym(stmtNum));
-  }
-  return assignStmtSynonymResVec;
+  return getStmtSynonyms(allAssignStmts);
 }
 
 vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllWhileStmts(
     PKBReader& pkb) {
   vector<string> allWhileStmts = pkb.getAllStmtsOf(StmtType::WHILE);
-
-  vector<std::reference_wrapper<SynonymRes>> whileStmtSynonymResVec {};
-  whileStmtSynonymResVec.reserve(allWhileStmts.size());
-  for (const string& stmtNum : allWhileStmts) {
-    whileStmtSynonymResVec.emplace_back(
-        SynonymResFactory::buildStmtSynonym(stmtNum));
-  }
-  return whileStmtSynonymResVec;
+  return getStmtSynonyms(allWhileStmts);
 }
 
 vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllIfStmts(
     PKBReader& pkb) {
   vector<string> allIfStmts = pkb.getAllStmtsOf(StmtType::IF);
-
-  vector<std::reference_wrapper<SynonymRes>> ifStmtSynonymResVec {};
-  ifStmtSynonymResVec.reserve(allIfStmts.size());
-  for (const string& stmtNum : allIfStmts) {
-    ifStmtSynonymResVec.emplace_back(
-        SynonymResFactory::buildStmtSynonym(stmtNum));
-  }
-  return ifStmtSynonymResVec;
+  return getStmtSynonyms(allIfStmts);
 }
 
 vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllPrintStmts(

@@ -14,6 +14,10 @@ typedef function<vector<std::reference_wrapper<SynonymRes>>(PKBReader& pkb)>
     NotDecoratorFunc;
 
 class NotDecorator : public ClauseDecorator {
+ private:
+  static vector<std::reference_wrapper<SynonymRes>> getStmtSynonyms(
+      vector<string>& stmts);
+
  protected:
   vector<std::reference_wrapper<SynonymRes>> getAllStmts(PKBReader& pkb);
   vector<std::reference_wrapper<SynonymRes>> getAllAssignStmts(PKBReader& pkb);
