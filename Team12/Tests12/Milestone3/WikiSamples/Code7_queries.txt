@@ -1,0 +1,5 @@
+------ Affects(1,5) ------
+
+Select BOOLEAN such that Affects(1, 5)
+TRUE
+5000

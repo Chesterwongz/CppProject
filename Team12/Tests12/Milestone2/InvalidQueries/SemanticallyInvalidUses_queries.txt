@@ -353,3 +353,83 @@ print print1, print2;
 Select print1 such that Uses(_, print2)
 SemanticError
 1000
+====== 73 - Uses SemanticError (stmt, constant) ======
+stmt stmt; constant constant;
+Select stmt such that Uses(stmt, constant)
+SemanticError
+1000
+====== 74 - Uses SemanticError (assign, constant) ======
+stmt stmt; assign assign; constant constant;
+Select stmt such that Uses(assign, constant)
+SemanticError
+1000
+====== 75 - Uses SemanticError (while, constant) ======
+stmt stmt; while while; constant constant;
+Select stmt such that Uses(while, constant)
+SemanticError
+1000
+====== 76 - Uses SemanticError (if, constant) ======
+stmt stmt; if if; constant constant;
+Select stmt such that Uses(if, constant)
+SemanticError
+1000
+====== 77 - Uses SemanticError (call, constant) ======
+stmt stmt; call call; constant constant;
+Select stmt such that Uses(call, constant)
+SemanticError
+1000
+====== 78 - Uses SemanticError (read, constant) ======
+stmt stmt; read read; constant constant;
+Select stmt such that Uses(read, constant)
+SemanticError
+1000
+====== 79 - Uses SemanticError (print, constant) ======
+stmt stmt; print print; constant constant;
+Select stmt such that Uses(print, constant)
+SemanticError
+1000
+====== 80 - Uses SemanticError (stmt, procedure) ======
+stmt stmt; procedure procedure;
+Select stmt such that Uses(stmt, procedure)
+SemanticError
+1000
+====== 81 - Uses SemanticError (assign, procedure) ======
+stmt stmt; assign assign; procedure procedure;
+Select stmt such that Uses(assign, procedure)
+SemanticError
+1000
+====== 82 - Uses SemanticError (while, procedure) ======
+stmt stmt; while while; procedure procedure;
+Select stmt such that Uses(while, procedure)
+SemanticError
+1000
+====== 83 - Uses SemanticError (if, procedure) ======
+stmt stmt; if if; procedure procedure;
+Select stmt such that Uses(if, procedure)
+SemanticError
+1000
+====== 84 - Uses SemanticError (call, procedure) ======
+stmt stmt; call call; procedure procedure;
+Select stmt such that Uses(call, procedure)
+SemanticError
+1000
+====== 85 - Uses SemanticError (read, procedure) ======
+stmt stmt; read read; procedure procedure;
+Select stmt such that Uses(read, procedure)
+SemanticError
+1000
+====== 86 - Uses SemanticError (print, procedure) ======
+stmt stmt; print print; procedure procedure;
+Select stmt such that Uses(print, procedure)
+SemanticError
+1000
+====== 87 - Uses SemanticError (constant, variable) ======
+stmt stmt; variable variable; constant constant;
+Select stmt such that Uses(constant, variable)
+SemanticError
+1000
+====== 88 - Uses SemanticError (variable, variable) ======
+stmt stmt; variable variable; 
+Select stmt such that Uses(variable, variable)
+SemanticError
+1000

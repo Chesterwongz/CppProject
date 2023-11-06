@@ -1,0 +1,34 @@
+procedure Alpha {
+  read w;
+  m = 5 + w;
+  call Beta;
+}
+procedure Beta {
+  if (m > 10) then {
+      n = m - 5;
+      call Gamma;
+  } else {
+      call Delta;
+      n = m + 5; }
+  print n;
+}
+procedure Gamma {
+  o = n + 2;
+  call Epsilon;
+}
+procedure Delta {
+  p = n * 3;
+}
+procedure Epsilon {
+  read q;
+  r = o - q;
+  call Zeta;
+}
+procedure Zeta {
+  print r;
+  call Eta;
+}
+procedure Eta {
+  read s;
+  t = r + s;
+};

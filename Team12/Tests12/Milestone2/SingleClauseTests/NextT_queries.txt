@@ -1,0 +1,165 @@
+------ 1 - Next* (_,_) (+) ------
+stmt Next;
+Select Next such that Next* (_,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9
+5000
+------ 2 - Next* (stmt,_) (+) ------
+stmt stmt;
+Select stmt such that Next* (stmt ,_)
+1, 2, 3, 4, 5, 6, 7
+5000
+------ 3 - Next* (_,stmt) (+) ------
+stmt Select;
+Select Select such that Next* (_,Select)
+2, 3, 4, 5, 6, 7, 8
+5000
+------ 4 - Next* (stmt1,stmt1) (-) ------
+stmt s, S;
+Select s such that Next* (s,s)
+3,4
+5000
+------ 5 - Next* (stmt1,stmt2) (+) ------
+stmt s, S;
+Select s such that Next* (s,S)
+1, 2, 3, 4, 5, 6, 7
+5000
+------ 6 - Next* (1, stmt) (+) ------
+if Next;
+Select Next such that Next*   ( 1,Next )
+2
+5000
+------ 7 - Next* (2, stmt) (+) ------
+stmt Next;
+Select Next such that Next*   ( 2,Next )
+3, 4, 5, 6, 7, 8
+5000
+------ 8 - Next* (4, stmt) (+) ------
+stmt Next;
+Select Next such that Next*   ( 4,Next )
+3, 4, 5, 8
+5000
+------ 9 - Next* (stmt, 3) (+) ------
+stmt if;
+Select if such that Next*   ( if,3 )
+1, 2, 3, 4
+5000
+------ 10 - Next* (4, 3) (+) ------
+procedure p;
+Select p such that Next*   ( 4,3 )
+Next, Potato
+5000
+------ 11 - Next* (4, 5) (+) ------
+procedure p;
+Select p such that Next*   ( 4,5 )
+Next, Potato
+5000
+------ 12 - Next* (2, _) (+) ------
+stmt s;
+Select s such that Next*(2,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9
+5000
+------ 13 - Next* (5, 9) (+) ------
+stmt s;
+Select s such that Next*(5,9)
+none
+5000
+------ 14 - Next* (_, 9) (-) ------
+stmt s;
+Select s such that Next*   ( _,9 )
+none
+5000
+------ 15 - Next* (_, print) (-) ------
+print p;
+Select p such that Next*( _,p)
+4
+5000
+------ 16 - Next* (print, _) (-) ------
+print pn;
+Select pn such that Next* ( pn,_)
+4
+5000
+------ 17 - Next* (stmt,assign) (+) ------
+stmt s;assign a;
+Select a such that Next*( s,a )
+7, 8
+5000
+------ 18 - Next* (proc,_) (+) ------
+stmt s;
+Select s such that Next*( Next,_ )
+SemanticError
+5000
+------ 19 - Not Next* (_,_) (+) ------
+stmt Next;
+Select Next such that not Next* (_,_)
+none
+5000
+------ 20 - Not Next* (stmt,_) (+) ------
+stmt stmt;
+Select stmt such that not Next* (stmt ,_)
+8, 9
+5000
+------ 21 - Not Next* (_,stmt) (+) ------
+stmt Select;
+Select Select such that not Next* (_,Select)
+1, 9
+5000
+------ 22 - Not Next* (stmt1,stmt1) (+) ------
+stmt s;
+Select s such that not Next* (s,s)
+1,2,5,6,7,8,9
+5000
+------ 23 - Not Next* (2, stmt) (+) ------
+stmt Next;
+Select Next such that not Next*   ( 2,Next )
+1,2,9
+5000
+------ 24 - Not Next* (stmt, 3) (+) ------
+stmt s;
+Select s such that not Next*   ( s,3 )
+5,6,7,8,9
+5000
+------ 25 - Not Next* (2, _) (+) ------
+stmt s;
+Select s such that not Next*(2,_)
+none
+5000
+------ 26 - Not Next* (5, 9) (+) ------
+stmt s;
+Select s such that not Next*(5,9)
+1,2,3,4,5,6,7,8,9
+5000
+------ 27 - Not Next* (_, 9) (+) ------
+stmt s;
+Select s such that not Next*   ( _,9 )
+1,2,3,4,5,6,7,8,9
+5000
+------ 28 - Not Next* (_, 9) (-) ------
+stmt s;
+Select not s such that Next*   ( _,9 )
+SyntaxError
+5000
+------ 29 - Not Next* (2, _) (+) ------
+stmt s;
+Select s such that not Next*(2,_)
+none
+5000
+------ 30 - Not Next* (5, 9) (+) ------
+stmt s;
+Select s such that not Next*(5,9)
+1,2,3,4,5,6,7,8,9
+5000
+------ 31 - Not Next* (1, 4) (+) ------
+stmt s;
+Select s such that not Next*(1,4)
+none
+5000
+------ 32 - Not Next* (_, 1) (-) ------
+stmt s;
+Select s such that not Next*   ( _,1 )
+1,2,3,4,5,6,7,8,9
+5000
+------ 33 - Next* (4, 6) (-) ------
+procedure p;
+Select p such that Next*   ( 4,6 )
+none
+5000

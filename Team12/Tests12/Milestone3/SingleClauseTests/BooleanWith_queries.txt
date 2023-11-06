@@ -1,0 +1,445 @@
+------ 1 - compare constant value and constant value ------
+constant constant1, constant2;
+Select BOOLEAN with constant1.value = constant2.value
+TRUE
+5000
+------ 2 - compare constant value and stmt stmt# ------
+constant constant; stmt stmt;
+Select BOOLEAN with constant.value = stmt.stmt#
+TRUE
+5000
+------ 3 - compare stmt stmt# and constant value ------
+stmt stmt; constant constant;
+Select BOOLEAN with stmt.stmt# = constant.value
+TRUE
+5000
+------ 4 - compare constant value and assign stmt# ------
+constant constant; assign assign;
+Select BOOLEAN with constant.value = assign.stmt#
+TRUE
+5000
+------ 5 - compare assign stmt# and constant value ------
+assign assign; constant constant;
+Select BOOLEAN with assign.stmt# = constant.value
+TRUE
+5000
+------ 6 - compare constant value and print stmt# ------
+constant constant; print print;
+Select BOOLEAN with constant.value = print.stmt#
+FALSE
+5000
+------ 7 - compare print stmt# and constant value ------
+print print; constant constant;
+Select BOOLEAN with print.stmt# = constant.value
+FALSE
+5000
+------ 8 - compare constant value and read stmt# ------
+constant constant; read read;
+Select BOOLEAN with constant.value = read.stmt#
+FALSE
+5000
+------ 9 - compare read stmt# and constant value ------
+read read; constant constant;
+Select BOOLEAN with read.stmt# = constant.value
+FALSE
+5000
+------ 10 - compare constant value and call stmt# ------
+constant constant; call call;
+Select BOOLEAN with constant.value = call.stmt#
+FALSE
+5000
+------ 11 - compare call stmt# and constant value ------
+call call; constant constant;
+Select BOOLEAN with call.stmt# = constant.value
+FALSE
+5000
+------ 12 - compare constant value and while stmt# ------
+constant constant; while while;
+Select BOOLEAN with constant.value = while.stmt#
+FALSE
+5000
+------ 13 - compare while stmt# and constant value ------
+while while; constant constant;
+Select BOOLEAN with while.stmt# = constant.value
+FALSE
+5000
+------ 14 - compare constant value and if stmt# ------
+constant constant; if if;
+Select BOOLEAN with constant.value = if.stmt#
+FALSE
+5000
+------ 15 - compare if stmt# and constant value ------
+if if; constant constant;
+Select BOOLEAN with if.stmt# = constant.value
+FALSE
+5000
+------ 16 - compare procedure procName and procedure procName ------
+procedure procedure1, procedure2;
+Select BOOLEAN with procedure1.procName = procedure2.procName
+TRUE
+5000
+------ 17 - compare procedure procName and call procName ------
+procedure procedure; call call;
+Select BOOLEAN with procedure.procName = call.procName
+FALSE
+5000
+------ 18 - compare call procName and procedure procName ------
+call call; procedure procedure;
+Select BOOLEAN with call.procName = procedure.procName
+FALSE
+5000
+------ 19 - compare procedure procName and variable varName ------
+procedure procedure; variable variable;
+Select BOOLEAN with procedure.procName = variable.varName
+TRUE
+5000
+------ 20 - compare variable varName and procedure procName ------
+variable variable; procedure procedure;
+Select BOOLEAN with variable.varName = procedure.procName
+TRUE
+5000
+------ 21 - compare procedure procName and read varName ------
+procedure procedure; read read;
+Select BOOLEAN with procedure.procName = read.varName
+FALSE
+5000
+------ 22 - compare read varName and procedure procName ------
+read read; procedure procedure;
+Select BOOLEAN with read.varName = procedure.procName
+FALSE
+5000
+------ 23 - compare procedure procName and print varName ------
+procedure procedure; print print;
+Select BOOLEAN with procedure.procName = print.varName
+TRUE
+5000
+------ 24 - compare print varName and procedure procName ------
+print print; procedure procedure;
+Select BOOLEAN with print.varName = procedure.procName
+TRUE
+5000
+------ 25 - compare call procName and call procName ------
+call call1, call2;
+Select BOOLEAN with call1.procName = call2.procName
+FALSE
+5000
+------ 26 - compare call procName and variable varName ------
+call call; variable variable;
+Select BOOLEAN with call.procName = variable.varName
+FALSE
+5000
+------ 27 - compare variable varName and call procName ------
+variable variable; call call;
+Select BOOLEAN with variable.varName = call.procName
+FALSE
+5000
+------ 28 - compare call procName and read varName ------
+call call; read read;
+Select BOOLEAN with call.procName = read.varName
+FALSE
+5000
+------ 29 - compare read varName and call procName ------
+read read; call call;
+Select BOOLEAN with read.varName = call.procName
+FALSE
+5000
+------ 30 - compare call procName and print varName ------
+call call; print print;
+Select BOOLEAN with call.procName = print.varName
+FALSE
+5000
+------ 31 - compare print varName and call procName ------
+print print; call call;
+Select BOOLEAN with print.varName = call.procName
+FALSE
+5000
+------ 32 - compare variable varName and variable varName ------
+variable variable1, variable2;
+Select BOOLEAN with variable1.varName = variable2.varName
+TRUE
+5000
+------ 33 - compare variable varName and read varName ------
+variable variable; read read;
+Select BOOLEAN with variable.varName = read.varName
+FALSE
+5000
+------ 34 - compare read varName and variable varName ------
+read read; variable variable;
+Select BOOLEAN with read.varName = variable.varName
+FALSE
+5000
+------ 35 - compare variable varName and print varName ------
+variable variable; print print;
+Select BOOLEAN with variable.varName = print.varName
+TRUE
+5000
+------ 36 - compare print varName and variable varName ------
+print print; variable variable;
+Select BOOLEAN with print.varName = variable.varName
+TRUE
+5000
+------ 37 - compare read varName and read varName ------
+read read1, read2;
+Select BOOLEAN with read1.varName = read2.varName
+FALSE
+5000
+------ 38 - compare read varName and print varName ------
+read read; print print;
+Select BOOLEAN with read.varName = print.varName
+FALSE
+5000
+------ 39 - compare print varName and read varName ------
+print print; read read;
+Select BOOLEAN with print.varName = read.varName
+FALSE
+5000
+------ 40 - compare print varName and print varName ------
+print print1, print2;
+Select BOOLEAN with print1.varName = print2.varName
+TRUE
+5000
+------ 41 compare stmt stmt# and stmt stmt# ------
+stmt stmt1, stmt2;
+Select BOOLEAN with stmt1.stmt# = stmt2.stmt#
+TRUE
+5000
+------ 42 - compare stmt stmt# and assign stmt# ------
+stmt stmt; assign assign;
+Select BOOLEAN with stmt.stmt# = assign.stmt#
+TRUE
+5000
+------ 43 - compare assign stmt# and stmt stmt# ------
+assign assign; stmt stmt;
+Select BOOLEAN with assign.stmt# = stmt.stmt#
+TRUE
+5000
+------ 44 - compare stmt stmt# and print stmt# ------
+stmt stmt; print print;
+Select BOOLEAN with stmt.stmt# = print.stmt#
+TRUE
+5000
+------ 45 - compare print stmt# and stmt stmt# ------
+print print; stmt stmt;
+Select BOOLEAN with print.stmt# = stmt.stmt#
+TRUE
+5000
+------ 46 - compare stmt stmt# and read stmt# ------
+stmt stmt; read read;
+Select BOOLEAN with stmt.stmt# = read.stmt#
+FALSE
+5000
+------ 47 - compare read stmt# and stmt stmt# ------
+read read; stmt stmt;
+Select BOOLEAN with read.stmt# = stmt.stmt#
+FALSE
+5000
+------ 48 - compare stmt stmt# and call stmt# ------
+stmt stmt; call call;
+Select BOOLEAN with stmt.stmt# = call.stmt#
+FALSE
+5000
+------ 49 - compare call stmt# and stmt stmt# ------
+call call; stmt stmt;
+Select BOOLEAN with call.stmt# = stmt.stmt#
+FALSE
+5000
+------ 50 - compare stmt stmt# and while stmt# ------
+stmt stmt; while while;
+Select BOOLEAN with stmt.stmt# = while.stmt#
+FALSE
+5000
+------ 51 - compare while stmt# and stmt stmt# ------
+while while; stmt stmt;
+Select BOOLEAN with while.stmt# = stmt.stmt#
+FALSE
+5000
+------ 52 - compare stmt stmt# and if stmt# ------
+stmt stmt; if if;
+Select BOOLEAN with stmt.stmt# = if.stmt#
+FALSE
+5000
+------ 53 - compare if stmt# and stmt stmt# ------
+if if; stmt stmt;
+Select BOOLEAN with if.stmt# = stmt.stmt#
+FALSE
+5000
+------ 54 - compare assign stmt# and assign stmt# ------
+assign assign1, assign2;
+Select BOOLEAN with assign1.stmt# = assign2.stmt#
+TRUE
+5000
+------ 55 - compare assign stmt# and print stmt# ------
+assign assign; print print;
+Select BOOLEAN with assign.stmt# = print.stmt#
+FALSE
+5000
+------ 56 - compare print stmt# and assign stmt# ------
+print print; assign assign;
+Select BOOLEAN with print.stmt# = assign.stmt#
+FALSE
+5000
+------ 57 - compare assign stmt# and read stmt# ------
+assign assign; read read;
+Select BOOLEAN with assign.stmt# = read.stmt#
+FALSE
+5000
+------ 58 - compare read stmt# and assign stmt# ------
+read read; assign assign;
+Select BOOLEAN with read.stmt# = assign.stmt#
+FALSE
+5000
+------ 59 - compare assign stmt# and call stmt# ------
+assign assign; call call;
+Select BOOLEAN with assign.stmt# = call.stmt#
+FALSE
+5000
+------ 60 - compare call stmt# and assign stmt# ------
+call call; assign assign;
+Select BOOLEAN with call.stmt# = assign.stmt#
+FALSE
+5000
+------ 61 - compare assign stmt# and while stmt# ------
+assign assign; while while;
+Select BOOLEAN with assign.stmt# = while.stmt#
+FALSE
+5000
+------ 62 - compare while stmt# and assign stmt# ------
+while while; assign assign;
+Select BOOLEAN with while.stmt# = assign.stmt#
+FALSE
+5000
+------ 63 - compare assign stmt# and if stmt# ------
+assign assign; if if;
+Select BOOLEAN with assign.stmt# = if.stmt#
+FALSE
+5000
+------ 64 - compare if stmt# and assign stmt# ------
+if if; assign assign;
+Select BOOLEAN with if.stmt# = assign.stmt#
+FALSE
+5000
+------ 65 - compare print stmt# and print stmt# ------
+print print1, print2;
+Select BOOLEAN with print1.stmt# = print2.stmt#
+TRUE
+5000
+------ 66 - compare print stmt# and read stmt# ------
+print print; read read;
+Select BOOLEAN with print.stmt# = read.stmt#
+FALSE
+5000
+------ 67 - compare read stmt# and print stmt# ------
+read read; print print;
+Select BOOLEAN with read.stmt# = print.stmt#
+FALSE
+5000
+------ 68 - compare print stmt# and call stmt# ------
+print print; call call;
+Select BOOLEAN with print.stmt# = call.stmt#
+FALSE
+5000
+------ 69 - compare call stmt# and print stmt# ------
+call call; print print;
+Select BOOLEAN with call.stmt# = print.stmt#
+FALSE
+5000
+------ 70 - compare print stmt# and while stmt# ------
+print print; while while;
+Select BOOLEAN with print.stmt# = while.stmt#
+FALSE
+5000
+------ 71 - compare while stmt# and print stmt# ------
+while while; print print;
+Select BOOLEAN with while.stmt# = print.stmt#
+FALSE
+5000
+------ 72 - compare print stmt# and if stmt# ------
+print print; if if;
+Select BOOLEAN with print.stmt# = if.stmt#
+FALSE
+5000
+------ 73 - compare if stmt# and print stmt# ------
+if if; print print;
+Select BOOLEAN with if.stmt# = print.stmt#
+FALSE
+5000
+------ 74 - compare read stmt# and read stmt# ------
+read read1, read2;
+Select BOOLEAN with read1.stmt# = read2.stmt#
+FALSE
+5000
+------ 75 - compare read stmt# and call stmt# ------
+read read; call call;
+Select BOOLEAN with read.stmt# = call.stmt#
+FALSE
+5000
+------ 76 - compare call stmt# and read stmt# ------
+call call; read read;
+Select BOOLEAN with call.stmt# = read.stmt#
+FALSE
+5000
+------ 77 - compare read stmt# and while stmt# ------
+read read; while while;
+Select BOOLEAN with read.stmt# = while.stmt#
+FALSE
+5000
+------ 78 - compare while stmt# and read stmt# ------
+while while; read read;
+Select BOOLEAN with while.stmt# = read.stmt#
+FALSE
+5000
+------ 79 - compare read stmt# and if stmt# ------
+read read; if if;
+Select BOOLEAN with read.stmt# = if.stmt#
+FALSE
+5000
+------ 80 - compare if stmt# and read stmt# ------
+if if; read read;
+Select BOOLEAN with if.stmt# = read.stmt#
+FALSE
+5000
+------ 81 - compare call stmt# and call stmt# ------
+call call1, call2;
+Select BOOLEAN with call1.stmt# = call2.stmt#
+FALSE
+5000
+------ 82 - compare call stmt# and while stmt# ------
+call call; while while;
+Select BOOLEAN with call.stmt# = while.stmt#
+FALSE
+5000
+------ 83 - compare while stmt# and call stmt# ------
+while while; call call;
+Select BOOLEAN with while.stmt# = call.stmt#
+FALSE
+5000
+------ 84 - compare call stmt# and if stmt# ------
+call call; if if;
+Select BOOLEAN with call.stmt# = if.stmt#
+FALSE
+5000
+------ 85 - compare if stmt# and call stmt# ------
+if if; call call;
+Select BOOLEAN with if.stmt# = call.stmt#
+FALSE
+5000
+------ 86 - compare while stmt# and while stmt# ------
+while while1, while2;
+Select BOOLEAN with while1.stmt# = while2.stmt#
+FALSE
+5000
+------ 87 - compare while stmt# and if stmt# ------
+while while; if if;
+Select BOOLEAN with while.stmt# = if.stmt#
+FALSE
+5000
+------ 88 - compare if stmt# and while stmt# ------
+if if; while while;
+Select BOOLEAN with if.stmt# = while.stmt#
+FALSE
+5000
+------ 89 - compare if stmt# and if stmt# ------
+if if1, if2;
+Select BOOLEAN with if1.stmt# = if2.stmt#
+FALSE
+5000
