@@ -1,0 +1,155 @@
+------ 1 - <s1.stmt#, s1.stmt#> ------
+stmt s1;
+Select <s1.stmt#, s1.stmt#> with s1.stmt# = 1
+1 1
+5000
+------ 2 - <s1.stmt#, s2.stmt#> ------
+stmt s1, s2;
+Select <s1.stmt#, s2.stmt#> with s1.stmt# = 1
+1 26,1 25,1 24,1 23,1 22,1 21,1 20,1 19,1 18,1 17,1 16,1 15,1 14,1 13,1 12,1 11,1 10,1 9,1 8,1 7,1 6,1 5,1 4,1 3,1 2,1 1
+5000
+------ 3 - <s1.stmt#, s2.stmt#> ------
+stmt s1, s2;
+Select <s1.stmt#, s2.stmt#> with s1.stmt# = 1 and s2.stmt# = 4
+1 4
+5000
+------ 4 - <s1.stmt#, s2.stmt#> ------
+stmt s1,s2;
+Select <s1.stmt#, s2.stmt#> with s1.stmt# = s2.stmt#
+26 26,25 25,24 24,23 23,22 22,21 21,20 20,19 19,18 18,17 17,16 16,15 15,14 14,13 13,12 12,11 11,10 10,9 9,8 8,7 7,6 6,5 5,4 4,3 3,2 2,1 1
+5000
+------ 5 - <print.stmt#, print.varName> ------
+print print;
+Select <print.stmt#, print.varName> with print.stmt# = 24
+24 x
+5000
+------ 6 - <print.stmt#, print.varName> ------
+print print;
+Select <print.stmt#, print.varName> with print.varName = "x"
+24 x
+5000
+------ 7 - <print.stmt#, print.varName> ------
+print print;
+Select <print.stmt#, print.varName> with print.varName = "x" with print.stmt# = 24
+24 x
+5000
+------ 8 - <r.stmt#, r.varName> ------
+read r;
+Select <r.stmt#, r.varName> with r.stmt# = 2
+2 b
+5000
+------ 9 - <r.stmt#, r.varName> ------
+read r;
+Select <r.stmt#, r.varName> with r.varName = "x"
+1 x
+5000
+------ 10 - <r.stmt#, r.varName> ------
+read r;
+Select <r.stmt#, r.varName> with r.varName = "x" and r.stmt# = 2
+none
+5000
+------ 11 - <s.stmt#, v.varName> ------
+stmt s; variable v;
+Select <s.stmt#, v.varName> with v.varName = "i"
+26 i,25 i,24 i,23 i,22 i,21 i,20 i,19 i,18 i,17 i,16 i,15 i,14 i,13 i,12 i,11 i,10 i,9 i,8 i,7 i,6 i,5 i,4 i,3 i,2 i,1 i
+5000
+------ 12 - <c.stmt#, c.procName> ------
+call c;
+Select <c.stmt#, c.procName> with c.procName = "initialize"
+none
+5000
+------ 13 - <c.stmt#,p.procName> ------
+procedure p;call c;
+Select <c.stmt#,p.procName> with c.procName = p.procName
+8 SubProcess,20 PrintResults,5 Initialize
+5000
+------ 14 - <p.procName, c.stmt#> ------
+procedure p;call c;
+Select <p.procName, c.stmt#> with c.procName = p.procName
+SubProcess 8,PrintResults 20,Initialize 5
+5000
+------ 15 ------
+procedure p;call c;
+Select <p.procName, c.stmt#, c.procName> with c.procName = p.procName with c.procName = "SubProcess"
+SubProcess 8 SubProcess
+5000
+------ 16 ------
+assign a1, a2;
+Select <a1.stmt#, a2.stmt#> with a1.stmt# = a2.stmt# with a1.stmt# = 4
+4 4
+5000
+------ 17 -------
+constant c1, c2;
+Select <c1.value, c2.value> with c1.value = 0
+0 1,0 2,0 5,0 0
+5000
+------ 18 -------
+constant c1, c2;
+Select <c1.value,c1.value> with c1.value = c2.value with c2.value = 1
+1 1
+5000
+------ 19 -------
+if i; while w;
+Select <i.stmt#,w.stmt#> with i.stmt# = w.stmt# with i.stmt# = 10
+none
+5000
+------ 20 -------
+stmt s1, s2;
+Select <s1.stmt#, s2.stmt#> such that Next(s1, s2) with s1.stmt# = s2.stmt#
+none
+5000
+------ 21 -------
+stmt s1, s2;
+Select <s1.stmt#, s2.stmt#> such that Parent*(s1, s2) with s1.stmt# = 7
+none
+5000
+------ 22 -------
+stmt s; read r;
+Select <r.stmt#, s.stmt#, r.stmt#> such that Next*(r, s) with r.varName = "b"
+none
+5000
+------ 23 -------
+while w;
+Select w.stmt# pattern w(_,_)
+6
+5000
+------ 24 -------
+if ifs;
+Select ifs.stmt# pattern ifs(_,_, _)
+10, 14
+5000
+------ 25 -------
+assign a;
+Select a.stmt# pattern a(_,_)
+3,4,15,9,7,18,12,13,19,16,21,17,11,22
+5000
+------ 26 -------
+stmt s; read r;
+Select <r.varName, s.stmt#> with r.varName = "x" such that Next*(r, s) with r.varName = "b"
+none
+5000
+------ 27 -------
+print p1, p2;
+Select <p1.varName, p2.stmt#> such that Follows*(p1, p2) with p2.varName = "z"
+x 26,y 26
+5000
+------ 28 -------
+if i; stmt s;
+Select <i.stmt#, s.stmt#> such that Next(i, s) with s.stmt# = s.stmt# with i.stmt# = i.stmt#
+10 11,14 15,10 13,14 16
+5000
+------ 29 -------
+if i; print p;
+Select <p.varName, i.stmt#> such that Next(i, p) with p.stmt# = i.stmt#
+none
+5000
+------ 30 -------
+if i; print p;
+Select <i.stmt#, p.stmt#, p.varName> such that Next*(i, p) with p.stmt# = 25
+none
+5000
+------ 31 -------
+assign a; print p;
+Select <a.stmt#, p.varName> such that Next*(a, p) with a.stmt# = 21
+21 v
+5000

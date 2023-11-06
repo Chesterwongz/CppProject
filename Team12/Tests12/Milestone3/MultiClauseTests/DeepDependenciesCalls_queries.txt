@@ -1,0 +1,985 @@
+------ 1 - Uses(s, v) ------
+stmt s; variable v;
+Select <s, v> such that Uses(s, v)
+3 m,3 o,3 r,3 s,4 s,3 q,5 m,6 q,6 o,7 n,9 n,11 s,4 o,14 q,4 m,4 q,14 o,12 n,4 r,17 s,6 n,2 w,6 r,8 m,3 n,11 o,11 r,15 s,17 r,16 r,15 r,4 n,19 s,6 s,10 n,11 q,19 r
+5000
+------ 2 - Uses(p, v) ------
+procedure p; variable v;
+Select <p, v> such that Uses(p, v)
+Alpha o,Eta s,Alpha r,Beta o,Eta r,Epsilon q,Beta n,Epsilon s,Alpha n,Zeta r,Beta m,Beta s,Alpha m,Gamma r,Gamma q,Beta r,Gamma s,Gamma n,Beta q,Alpha s,Alpha q,Epsilon r,Delta n,Zeta s,Alpha w,Gamma o,Epsilon o
+5000
+------ 3 - Uses(s, v) ------
+assign a; variable v;
+Select <a, v> such that Uses(a, v)
+2 w,10 n,19 s,8 m,19 r,14 q,12 n,5 m,14 o
+5000
+------ 4 - Uses(w, v) ------
+while w; variable v;
+Select <w, v> such that Uses(w, v)
+none
+5000
+------ 5 - Uses(i, v) ------
+if i; variable v;
+Select <i, v> such that Uses(i, v)
+4 m,4 o,4 r,4 q,4 n,4 s
+5000
+------ 6 - Uses(c, v) ------
+call c; variable v;
+Select <c, v> such that Uses(c, v)
+3 m,3 o,3 r,3 n,3 s,6 n,6 q,6 r,17 r,6 s,11 q,6 o,3 q,17 s,11 r,11 o,11 s,15 s,7 n,15 r
+5000
+------ 7 - Uses(s, _) ------
+stmt s;
+Select s such that Uses(s, _)
+2,3,4,5,6,7,9,10,11,12,15,16,17,14,8,19
+5000
+------ 8 - Uses(p, _) ------
+procedure p;
+Select p such that Uses(p, _)
+Alpha,Eta,Epsilon,Beta,Gamma,Delta,Zeta
+5000
+------ 9 - Uses(a, _) ------
+assign a;
+Select a such that Uses(a, _)
+2,12,5,10,8,19,14
+5000
+------ 10 - Uses(w, _) ------
+while w;
+Select w such that Uses(w, _)
+none
+5000
+------ 11 - Uses(i, _) ------
+if i;
+Select i such that Uses(i, _)
+4
+5000
+------ 12 - Uses(c, _) ------
+call c;
+Select c such that Uses(c, _)
+3,17,6,11,7,15
+5000
+------ 13 - Uses(_, v) ------
+variable v;
+Select v such that Uses(_, v)
+SemanticError
+5000
+------ 14 - Uses(_, _) ------
+
+Select BOOLEAN such that Uses(_, _)
+SemanticError
+5000
+------ 15 - Modifies(s, v) ------
+stmt s; variable v;
+Select <s, v> such that Modifies(s, v)
+3 n,3 s,3 t,3 o,3 p,4 o,4 q,4 t,4 n,6 o,4 p,2 m,6 q,6 t,10 o,6 r,7 p,8 n,19 t,6 s,11 q,14 r,15 s,4 r,17 s,3 r,5 n,18 s,11 t,11 s,12 p,13 q,4 s,17 t,11 r,1 w,3 q,15 t
+5000
+------ 16 - Modifies(p, v) ------
+procedure p; variable v;
+Select <p, v> such that Modifies(p, v)
+Alpha o,Alpha n,Alpha m,Alpha t,Alpha p,Epsilon q,Alpha r,Eta s,Beta n,Epsilon s,Alpha s,Beta s,Beta r,Beta q,Beta t,Beta p,Gamma s,Eta t,Gamma q,Gamma r,Alpha w,Gamma o,Epsilon t,Delta p,Zeta s,Gamma t,Beta o,Alpha q,Epsilon r,Zeta t
+5000
+------ 17 - Modifies(s, v) ------
+assign a; variable v;
+Select <a, v> such that Modifies(a, v)
+2 m,12 p,5 n,14 r,19 t,10 o,8 n
+5000
+------ 18 - Modifies(w, v) ------
+while w; variable v;
+Select <w, v> such that Modifies(w, v)
+none
+5000
+------ 19 - Modifies(i, v) ------
+if i; variable v;
+Select <i, v> such that Modifies(i, v)
+4 r,4 t,4 s,4 q,4 n,4 o,4 p
+5000
+------ 20 - Modifies(c, v) ------
+call c; variable v;
+Select <c, v> such that Modifies(c, v)
+3 n,3 s,3 t,3 r,3 o,3 p,6 o,6 q,3 q,17 s,6 t,6 s,11 q,17 t,11 t,11 s,6 r,7 p,15 t,11 r,15 s
+5000
+------ 21 - Modifies(s, _) ------
+stmt s;
+Select s such that Modifies(s, _)
+1,2,3,4,5,6,10,11,12,13,15,17,7,18,14,8,19
+5000
+------ 22 - Modifies(p, _) ------
+procedure p;
+Select p such that Modifies(p, _)
+Alpha,Eta,Epsilon,Beta,Gamma,Delta,Zeta
+5000
+------ 23 - Modifies(a, _) ------
+assign a;
+Select a such that Modifies(a, _)
+2,12,5,10,8,19,14
+5000
+------ 24 - Modifies(w, _) ------
+while w;
+Select w such that Modifies(w, _)
+none
+5000
+------ 25 - Modifies(i, _) ------
+if i;
+Select i such that Modifies(i, _)
+4
+5000
+------ 26 - Modifies(c, _) ------
+call c;
+Select c such that Modifies(c, _)
+3,17,6,11,7,15
+5000
+------ 27 - Modifies(_, v) ------
+variable v;
+Select v such that Modifies(_, v)
+SemanticError
+5000
+------ 28 - Modifies(_, _) ------
+
+Select BOOLEAN such that Modifies(_, _)
+SemanticError
+5000
+------ 29 - Next(s, s) ------
+stmt s;
+Select <s, s> such that Next(s, s)
+none
+5000
+------ 30 - Next(s, a) ------
+stmt s; assign a;
+Select <s, a> such that Next(s, a)
+1 2,13 14,18 19,4 5,7 8
+5000
+------ 31 - Next(s, w) ------
+stmt s; while w;
+Select <s, w> such that Next(s, w)
+none
+5000
+------ 32 - Next(s, i) ------
+stmt s; if i;
+Select <s, i> such that Next(s, i)
+none
+5000
+------ 33 - Next(s, c) ------
+stmt s; call c;
+Select <s, c> such that Next(s, c)
+2 3,14 15,10 11,16 17,4 7,5 6
+5000
+------ 34 - Next(s, s1) ------
+stmt s, s1;
+Select <s, s1> such that Next(s, s1)
+1 2,13 14,4 7,5 6,2 3,18 19,14 15,4 5,8 9,10 11,16 17,6 9,7 8
+5000
+------ 35 - Next(a, s) ------
+assign a; stmt s;
+Select <a, s> such that Next(a, s)
+2 3,14 15,8 9,10 11,5 6
+5000
+------ 36 - Next(a, a) ------
+assign a;
+Select <a, a> such that Next(a, a)
+none
+5000
+------ 37 - Next(a, w) ------
+assign a; while w;
+Select <a, w> such that Next(a, w)
+none
+5000
+------ 38 - Next(a, i) ------
+assign a; if i;
+Select <a, i> such that Next(a, i)
+none
+5000
+------ 39 - Next(a, c) ------
+assign a; call c;
+Select <a, c> such that Next(a, c)
+2 3,14 15,10 11,5 6
+5000
+------ 40 - Next*(s, s) ------
+stmt s;
+Select <s, s> such that Next*(s, s)
+none
+5000
+------ 41 - Next*(s, a) ------
+stmt s; assign a;
+Select <s, a> such that Next*(s, a)
+1 2,13 14,18 19,4 5,4 8,7 8
+5000
+------ 42 - Next*(s, w) ------
+stmt s; while w;
+Select <s, w> such that Next*(s, w)
+none
+5000
+------ 43 - Next*(s, i) ------
+stmt s; if i;
+Select <s, i> such that Next*(s, i)
+none
+5000
+------ 44 - Next*(s, c) ------
+stmt s; call c;
+Select <s, c> such that Next*(s, c)
+1 3,13 15,4 6,2 3,14 15,10 11,16 17,4 7,5 6
+5000
+------ 45 - Next*(s, s1) ------
+stmt s, s1;
+Select <s, s1> such that Next*(s, s1)
+1 2,13 14,4 7,5 6,1 3,13 15,4 6,4 9,2 3,18 19,14 15,4 5,8 9,10 11,16 17,4 8,5 9,6 9,7 8,7 9
+5000
+------ 46 - Next*(a, s) ------
+assign a; stmt s;
+Select <a, s> such that Next*(a, s)
+5 6,5 9,8 9,14 15,2 3,10 11
+5000
+------ 47 - Next*(a, a) ------
+assign a;
+Select <a, a> such that Next*(a, a)
+none
+5000
+------ 48 - Next*(a, w) ------
+assign a; while w;
+Select <a, w> such that Next*(a, w)
+none
+5000
+------ 49 - Next*(a, i) ------
+assign a; if i;
+Select <a, i> such that Next*(a, i)
+none
+5000
+------ 50 - Next*(a, c) ------
+assign a; call c;
+Select <a, c> such that Next*(a, c)
+2 3,14 15,10 11,5 6
+5000
+------ 51 - Next*(w, s) ------
+while w; stmt s;
+Select <w, s> such that Next*(w, s)
+none
+5000
+------ 52 - Next*(w, a) ------
+while w; assign a;
+Select <w, a> such that Next*(w, a)
+none
+5000
+------ 53 - Next*(w, w) ------
+while w;
+Select <w, w> such that Next*(w, w)
+none
+5000
+------ 54 - Next*(w, i) ------
+while w; if i;
+Select <w, i> such that Next*(w, i)
+none
+5000
+------ 55 - Next*(w, c) ------
+while w; call c;
+Select <w, c> such that Next*(w, c)
+none
+5000
+------ 56 - Next*(w, s1) ------
+while w; stmt s1;
+Select <w, s1> such that Next*(w, s1)
+none
+5000
+------ 57 - Next*(i, s) ------
+if i; stmt s;
+Select <i, s> such that Next*(i, s)
+4 5,4 7,4 9,4 8,4 6
+5000
+------ 58 - Next*(i, a) ------
+if i; assign a;
+Select <i, a> such that Next*(i, a)
+4 5,4 8
+5000
+------ 59 - Next*(i, w) ------
+if i; while w;
+Select <i, w> such that Next*(i, w)
+none
+5000
+------ 60 - Next*(i, i) ------
+if i;
+Select <i, i> such that Next*(i, i)
+none
+5000
+------ 61 - Next*(i, c) ------
+if i; call c;
+Select <i, c> such that Next*(i, c)
+4 7,4 6
+5000
+------ 62 - Next*(i, s1) ------
+if i; stmt s1;
+Select <i, s1> such that Next*(i, s1)
+4 5,4 7,4 9,4 8,4 6
+5000
+------ 63 - Next*(c, s) ------
+call c; stmt s;
+Select <c, s> such that Next*(c, s)
+6 9,7 8,7 9
+5000
+------ 64 - Next*(c, a) ------
+call c; assign a;
+Select <c, a> such that Next*(c, a)
+7 8
+5000
+------ 65 - Next*(c, w) ------
+call c; while w;
+Select <c, w> such that Next*(c, w)
+none
+5000
+------ 66 - Next*(c, i) ------
+call c; if i;
+Select <c, i> such that Next*(c, i)
+none
+5000
+------ 67 - Next*(c, c) ------
+call c;
+Select <c, c> such that Next*(c, c)
+none
+5000
+------ 68 - Calls(p, p) ------
+procedure p;
+Select <p, p> such that Calls(p, p)
+none
+5000
+------ 69 - Calls(p, p1) ------
+procedure p, p1;
+Select <p, p1> such that Calls(p, p1)
+Alpha Beta,Epsilon Zeta,Beta Gamma,Gamma Epsilon,Beta Delta,Zeta Eta
+5000
+------ 70 - Calls(p, _) ------
+procedure p;
+Select p such that Calls(p, _)
+Beta,Gamma,Alpha,Epsilon,Zeta
+5000
+------ 71 - Calls(_, p) ------
+procedure p;
+Select p such that Calls(_, p)
+Eta,Epsilon,Beta,Gamma,Delta,Zeta
+5000
+------ 72 - Calls(_, _) ------
+
+Select BOOLEAN such that Calls(_, _)
+TRUE
+5000
+------ 73 - Calls*(p, p) ------
+procedure p;
+Select <p, p> such that Calls*(p, p)
+none
+5000
+------ 74 - Calls*(p, p1) ------
+procedure p, p1;
+Select <p, p1> such that Calls*(p, p1)
+Alpha Beta,Alpha Zeta,Alpha Epsilon,Alpha Gamma,Alpha Eta,Zeta Eta,Epsilon Eta,Epsilon Zeta,Beta Epsilon,Beta Zeta,Beta Delta,Alpha Delta,Beta Gamma,Beta Eta,Gamma Eta,Gamma Epsilon,Gamma Zeta
+5000
+------ 75 - Calls*(p, _) ------
+procedure p;
+Select p such that Calls*(p, _)
+Beta,Gamma,Alpha,Epsilon,Zeta
+5000
+------ 76 - Calls*(_, p) ------
+procedure p;
+Select p such that Calls*(_, p)
+Eta,Epsilon,Beta,Gamma,Delta,Zeta
+5000
+------ 77 - Calls*(_, _) ------
+
+Select BOOLEAN such that Calls*(_, _)
+TRUE
+5000
+------ 78 - Affects(a, a) ------
+assign a;
+Select <a, a> such that Affects(a, a)
+none
+5000
+------ 79 - Affects(a, a1) ------
+assign a, a1;
+Select <a, a1> such that Affects(a, a1)
+none
+5000
+------ 80 - Affects(a, _) ------
+assign a;
+Select a such that Affects(a, _)
+none
+5000
+------ 81 - Affects(_, a) ------
+assign a;
+Select a such that Affects(_, a)
+none
+5000
+------ 82 - Affects(_, _) ------
+
+Select BOOLEAN such that Affects(_, _)
+FALSE
+5000
+------ 83 - Uses and Calls ------
+procedure p, p1; variable v;
+Select <p, v, p1> such that Uses(p, v) and Calls(p, p1)
+Alpha o Beta,Alpha r Beta,Alpha n Beta,Alpha m Beta,Alpha s Beta,Alpha q Beta,Alpha w Beta,Epsilon q Zeta,Epsilon s Zeta,Epsilon r Zeta,Epsilon o Zeta,Gamma r Epsilon,Gamma q Epsilon,Gamma s Epsilon,Gamma n Epsilon,Gamma o Epsilon,Beta o Gamma,Beta n Gamma,Beta m Gamma,Beta s Gamma,Beta r Gamma,Beta q Gamma,Beta o Delta,Beta n Delta,Beta m Delta,Beta s Delta,Beta r Delta,Beta q Delta,Zeta r Eta,Zeta s Eta
+5000
+------ 84 - Uses and Calls* ------
+procedure p, p1; variable v;
+Select <p, v, p1> such that Uses(p, v) and Calls*(p, p1)
+Zeta r Eta,Zeta s Eta,Epsilon q Eta,Epsilon s Eta,Epsilon r Eta,Epsilon o Eta,Epsilon q Zeta,Epsilon s Zeta,Epsilon r Zeta,Epsilon o Zeta,Alpha o Beta,Alpha r Beta,Alpha n Beta,Alpha m Beta,Alpha s Beta,Alpha q Beta,Alpha w Beta,Alpha o Zeta,Alpha r Zeta,Alpha n Zeta,Alpha m Zeta,Alpha s Zeta,Alpha q Zeta,Alpha w Zeta,Alpha o Epsilon,Alpha r Epsilon,Alpha n Epsilon,Alpha m Epsilon,Alpha s Epsilon,Alpha q Epsilon,Alpha w Epsilon,Alpha o Gamma,Alpha r Gamma,Alpha n Gamma,Alpha m Gamma,Alpha s Gamma,Alpha q Gamma,Alpha w Gamma,Alpha o Eta,Alpha r Eta,Alpha n Eta,Alpha m Eta,Alpha s Eta,Alpha q Eta,Alpha w Eta,Alpha o Delta,Alpha r Delta,Alpha n Delta,Alpha m Delta,Alpha s Delta,Alpha q Delta,Alpha w Delta,Beta o Epsilon,Beta n Epsilon,Beta m Epsilon,Beta s Epsilon,Beta r Epsilon,Beta q Epsilon,Beta o Zeta,Beta n Zeta,Beta m Zeta,Beta s Zeta,Beta r Zeta,Beta q Zeta,Beta o Delta,Beta n Delta,Beta m Delta,Beta s Delta,Beta r Delta,Beta q Delta,Beta o Gamma,Beta n Gamma,Beta m Gamma,Beta s Gamma,Beta r Gamma,Beta q Gamma,Beta o Eta,Beta n Eta,Beta m Eta,Beta s Eta,Beta r Eta,Beta q Eta,Gamma r Eta,Gamma q Eta,Gamma s Eta,Gamma n Eta,Gamma o Eta,Gamma r Epsilon,Gamma q Epsilon,Gamma s Epsilon,Gamma n Epsilon,Gamma o Epsilon,Gamma r Zeta,Gamma q Zeta,Gamma s Zeta,Gamma n Zeta,Gamma o Zeta
+5000
+------ 85 - Uses and Next ------
+stmt s; variable v;
+Select <s, v> such that Uses(s, v) and Next(s, _)
+7 n,2 w,14 q,14 o,4 s,4 o,4 m,4 q,4 r,4 n,5 m,6 q,6 o,6 n,6 r,6 s,8 m,10 n,16 r
+5000
+------ 86 - Uses and Next* ------
+stmt s; variable v;
+Select <s, v> such that Uses(s, v) and Next*(s, _)
+7 n,2 w,14 q,14 o,4 s,4 o,4 m,4 q,4 r,4 n,5 m,6 q,6 o,6 n,6 r,6 s,8 m,10 n,16 r
+5000
+------ 87 - Modifies and Calls ------
+procedure p, p1; variable v;
+Select <p, v, p1> such that Modifies(p, v) and Calls(p, p1)
+Alpha o Beta,Alpha n Beta,Alpha m Beta,Alpha t Beta,Alpha p Beta,Alpha r Beta,Alpha s Beta,Alpha w Beta,Alpha q Beta,Epsilon q Zeta,Epsilon s Zeta,Epsilon t Zeta,Epsilon r Zeta,Gamma s Epsilon,Gamma q Epsilon,Gamma r Epsilon,Gamma o Epsilon,Gamma t Epsilon,Beta n Gamma,Beta s Gamma,Beta r Gamma,Beta q Gamma,Beta t Gamma,Beta p Gamma,Beta o Gamma,Beta n Delta,Beta s Delta,Beta r Delta,Beta q Delta,Beta t Delta,Beta p Delta,Beta o Delta,Zeta s Eta,Zeta t Eta
+5000
+------ 88 - Modifies and Calls* ------
+procedure p, p1; variable v;
+Select <p, v, p1> such that Modifies(p, v) and Calls*(p, p1)
+Zeta s Eta,Zeta t Eta,Epsilon q Eta,Epsilon s Eta,Epsilon t Eta,Epsilon r Eta,Epsilon q Zeta,Epsilon s Zeta,Epsilon t Zeta,Epsilon r Zeta,Alpha o Beta,Alpha n Beta,Alpha m Beta,Alpha t Beta,Alpha p Beta,Alpha r Beta,Alpha s Beta,Alpha w Beta,Alpha q Beta,Alpha o Zeta,Alpha n Zeta,Alpha m Zeta,Alpha t Zeta,Alpha p Zeta,Alpha r Zeta,Alpha s Zeta,Alpha w Zeta,Alpha q Zeta,Alpha o Epsilon,Alpha n Epsilon,Alpha m Epsilon,Alpha t Epsilon,Alpha p Epsilon,Alpha r Epsilon,Alpha s Epsilon,Alpha w Epsilon,Alpha q Epsilon,Alpha o Gamma,Alpha n Gamma,Alpha m Gamma,Alpha t Gamma,Alpha p Gamma,Alpha r Gamma,Alpha s Gamma,Alpha w Gamma,Alpha q Gamma,Alpha o Eta,Alpha n Eta,Alpha m Eta,Alpha t Eta,Alpha p Eta,Alpha r Eta,Alpha s Eta,Alpha w Eta,Alpha q Eta,Alpha o Delta,Alpha n Delta,Alpha m Delta,Alpha t Delta,Alpha p Delta,Alpha r Delta,Alpha s Delta,Alpha w Delta,Alpha q Delta,Beta n Epsilon,Beta s Epsilon,Beta r Epsilon,Beta q Epsilon,Beta t Epsilon,Beta p Epsilon,Beta o Epsilon,Beta n Zeta,Beta s Zeta,Beta r Zeta,Beta q Zeta,Beta t Zeta,Beta p Zeta,Beta o Zeta,Beta n Delta,Beta s Delta,Beta r Delta,Beta q Delta,Beta t Delta,Beta p Delta,Beta o Delta,Beta n Gamma,Beta s Gamma,Beta r Gamma,Beta q Gamma,Beta t Gamma,Beta p Gamma,Beta o Gamma,Beta n Eta,Beta s Eta,Beta r Eta,Beta q Eta,Beta t Eta,Beta p Eta,Beta o Eta,Gamma s Eta,Gamma q Eta,Gamma r Eta,Gamma o Eta,Gamma t Eta,Gamma s Epsilon,Gamma q Epsilon,Gamma r Epsilon,Gamma o Epsilon,Gamma t Epsilon,Gamma s Zeta,Gamma q Zeta,Gamma r Zeta,Gamma o Zeta,Gamma t Zeta
+5000
+------ 89 - Modifies and Next ------
+stmt s; variable v;
+Select <s, v> such that Modifies(s, v) and Next(s, _)
+1 w,18 s,7 p,13 q,2 m,14 r,4 o,4 q,4 t,4 n,4 p,4 r,4 s,5 n,6 o,6 q,6 t,6 r,6 s,8 n,10 o
+5000
+------ 90 - Modifies and Next* ------
+stmt s; variable v;
+Select <s, v> such that Modifies(s, v) and Next*(s, _)
+1 w,18 s,7 p,13 q,2 m,14 r,4 o,4 q,4 t,4 n,4 p,4 r,4 s,5 n,6 o,6 q,6 t,6 r,6 s,8 n,10 o
+5000
+------ 91 - Calls and Uses ------
+procedure p; variable v;
+Select <p, v> such that Calls(p, _) and Uses(p, v)
+Beta o,Beta n,Beta m,Beta s,Beta r,Beta q,Gamma r,Gamma q,Gamma s,Gamma n,Gamma o,Alpha o,Alpha r,Alpha n,Alpha m,Alpha s,Alpha q,Alpha w,Epsilon q,Epsilon s,Epsilon r,Epsilon o,Zeta r,Zeta s
+5000
+------ 92 - Calls* and Modifies ------
+procedure p; variable v;
+Select <p, v> such that Calls*(_, p) and Modifies(p, v)
+Eta s,Eta t,Epsilon q,Epsilon s,Epsilon t,Epsilon r,Beta n,Beta s,Beta r,Beta q,Beta t,Beta p,Beta o,Gamma s,Gamma q,Gamma r,Gamma o,Gamma t,Delta p,Zeta s,Zeta t
+5000
+------ 93 - Uses(s, v) and Modifies(s, v) ------
+stmt s; variable v;
+Select <s, v> such that Uses(s, v) and Modifies(s, v)
+3 o,3 r,3 s,4 s,3 q,6 q,6 o,11 s,4 o,4 q,4 r,17 s,6 r,3 n,11 r,15 s,4 n,6 s,11 q
+5000
+------ 94 - Uses(p, v) and Next* ------
+procedure p; variable v; stmt s;
+Select <p, v, s> such that Uses(p, v) and Next*(s, _)
+Alpha o 1,Eta s 1,Alpha r 1,Beta o 1,Eta r 1,Epsilon q 1,Beta n 1,Epsilon s 1,Alpha n 1,Zeta r 1,Beta m 1,Beta s 1,Alpha m 1,Gamma r 1,Gamma q 1,Beta r 1,Gamma s 1,Gamma n 1,Beta q 1,Alpha s 1,Alpha q 1,Epsilon r 1,Delta n 1,Zeta s 1,Alpha w 1,Gamma o 1,Epsilon o 1,Alpha o 18,Eta s 18,Alpha r 18,Beta o 18,Eta r 18,Epsilon q 18,Beta n 18,Epsilon s 18,Alpha n 18,Zeta r 18,Beta m 18,Beta s 18,Alpha m 18,Gamma r 18,Gamma q 18,Beta r 18,Gamma s 18,Gamma n 18,Beta q 18,Alpha s 18,Alpha q 18,Epsilon r 18,Delta n 18,Zeta s 18,Alpha w 18,Gamma o 18,Epsilon o 18,Alpha o 7,Eta s 7,Alpha r 7,Beta o 7,Eta r 7,Epsilon q 7,Beta n 7,Epsilon s 7,Alpha n 7,Zeta r 7,Beta m 7,Beta s 7,Alpha m 7,Gamma r 7,Gamma q 7,Beta r 7,Gamma s 7,Gamma n 7,Beta q 7,Alpha s 7,Alpha q 7,Epsilon r 7,Delta n 7,Zeta s 7,Alpha w 7,Gamma o 7,Epsilon o 7,Alpha o 13,Eta s 13,Alpha r 13,Beta o 13,Eta r 13,Epsilon q 13,Beta n 13,Epsilon s 13,Alpha n 13,Zeta r 13,Beta m 13,Beta s 13,Alpha m 13,Gamma r 13,Gamma q 13,Beta r 13,Gamma s 13,Gamma n 13,Beta q 13,Alpha s 13,Alpha q 13,Epsilon r 13,Delta n 13,Zeta s 13,Alpha w 13,Gamma o 13,Epsilon o 13,Alpha o 2,Eta s 2,Alpha r 2,Beta o 2,Eta r 2,Epsilon q 2,Beta n 2,Epsilon s 2,Alpha n 2,Zeta r 2,Beta m 2,Beta s 2,Alpha m 2,Gamma r 2,Gamma q 2,Beta r 2,Gamma s 2,Gamma n 2,Beta q 2,Alpha s 2,Alpha q 2,Epsilon r 2,Delta n 2,Zeta s 2,Alpha w 2,Gamma o 2,Epsilon o 2,Alpha o 14,Eta s 14,Alpha r 14,Beta o 14,Eta r 14,Epsilon q 14,Beta n 14,Epsilon s 14,Alpha n 14,Zeta r 14,Beta m 14,Beta s 14,Alpha m 14,Gamma r 14,Gamma q 14,Beta r 14,Gamma s 14,Gamma n 14,Beta q 14,Alpha s 14,Alpha q 14,Epsilon r 14,Delta n 14,Zeta s 14,Alpha w 14,Gamma o 14,Epsilon o 14,Alpha o 4,Eta s 4,Alpha r 4,Beta o 4,Eta r 4,Epsilon q 4,Beta n 4,Epsilon s 4,Alpha n 4,Zeta r 4,Beta m 4,Beta s 4,Alpha m 4,Gamma r 4,Gamma q 4,Beta r 4,Gamma s 4,Gamma n 4,Beta q 4,Alpha s 4,Alpha q 4,Epsilon r 4,Delta n 4,Zeta s 4,Alpha w 4,Gamma o 4,Epsilon o 4,Alpha o 5,Eta s 5,Alpha r 5,Beta o 5,Eta r 5,Epsilon q 5,Beta n 5,Epsilon s 5,Alpha n 5,Zeta r 5,Beta m 5,Beta s 5,Alpha m 5,Gamma r 5,Gamma q 5,Beta r 5,Gamma s 5,Gamma n 5,Beta q 5,Alpha s 5,Alpha q 5,Epsilon r 5,Delta n 5,Zeta s 5,Alpha w 5,Gamma o 5,Epsilon o 5,Alpha o 6,Eta s 6,Alpha r 6,Beta o 6,Eta r 6,Epsilon q 6,Beta n 6,Epsilon s 6,Alpha n 6,Zeta r 6,Beta m 6,Beta s 6,Alpha m 6,Gamma r 6,Gamma q 6,Beta r 6,Gamma s 6,Gamma n 6,Beta q 6,Alpha s 6,Alpha q 6,Epsilon r 6,Delta n 6,Zeta s 6,Alpha w 6,Gamma o 6,Epsilon o 6,Alpha o 8,Eta s 8,Alpha r 8,Beta o 8,Eta r 8,Epsilon q 8,Beta n 8,Epsilon s 8,Alpha n 8,Zeta r 8,Beta m 8,Beta s 8,Alpha m 8,Gamma r 8,Gamma q 8,Beta r 8,Gamma s 8,Gamma n 8,Beta q 8,Alpha s 8,Alpha q 8,Epsilon r 8,Delta n 8,Zeta s 8,Alpha w 8,Gamma o 8,Epsilon o 8,Alpha o 10,Eta s 10,Alpha r 10,Beta o 10,Eta r 10,Epsilon q 10,Beta n 10,Epsilon s 10,Alpha n 10,Zeta r 10,Beta m 10,Beta s 10,Alpha m 10,Gamma r 10,Gamma q 10,Beta r 10,Gamma s 10,Gamma n 10,Beta q 10,Alpha s 10,Alpha q 10,Epsilon r 10,Delta n 10,Zeta s 10,Alpha w 10,Gamma o 10,Epsilon o 10,Alpha o 16,Eta s 16,Alpha r 16,Beta o 16,Eta r 16,Epsilon q 16,Beta n 16,Epsilon s 16,Alpha n 16,Zeta r 16,Beta m 16,Beta s 16,Alpha m 16,Gamma r 16,Gamma q 16,Beta r 16,Gamma s 16,Gamma n 16,Beta q 16,Alpha s 16,Alpha q 16,Epsilon r 16,Delta n 16,Zeta s 16,Alpha w 16,Gamma o 16,Epsilon o 16
+5000
+------ 95 - Calls and Next ------
+procedure p; stmt s;
+Select <p, s> such that Calls(p, _) and Next(s, _)
+Beta 1,Gamma 1,Alpha 1,Epsilon 1,Zeta 1,Beta 18,Gamma 18,Alpha 18,Epsilon 18,Zeta 18,Beta 7,Gamma 7,Alpha 7,Epsilon 7,Zeta 7,Beta 13,Gamma 13,Alpha 13,Epsilon 13,Zeta 13,Beta 2,Gamma 2,Alpha 2,Epsilon 2,Zeta 2,Beta 14,Gamma 14,Alpha 14,Epsilon 14,Zeta 14,Beta 4,Gamma 4,Alpha 4,Epsilon 4,Zeta 4,Beta 5,Gamma 5,Alpha 5,Epsilon 5,Zeta 5,Beta 6,Gamma 6,Alpha 6,Epsilon 6,Zeta 6,Beta 8,Gamma 8,Alpha 8,Epsilon 8,Zeta 8,Beta 10,Gamma 10,Alpha 10,Epsilon 10,Zeta 10,Beta 16,Gamma 16,Alpha 16,Epsilon 16,Zeta 16
+5000
+------ 96 - Calls* and Next* ------
+procedure p; stmt s;
+Select <p, s> such that Calls*(_, p) and Next*(s, _)
+Eta 1,Epsilon 1,Beta 1,Gamma 1,Delta 1,Zeta 1,Eta 18,Epsilon 18,Beta 18,Gamma 18,Delta 18,Zeta 18,Eta 7,Epsilon 7,Beta 7,Gamma 7,Delta 7,Zeta 7,Eta 13,Epsilon 13,Beta 13,Gamma 13,Delta 13,Zeta 13,Eta 2,Epsilon 2,Beta 2,Gamma 2,Delta 2,Zeta 2,Eta 14,Epsilon 14,Beta 14,Gamma 14,Delta 14,Zeta 14,Eta 4,Epsilon 4,Beta 4,Gamma 4,Delta 4,Zeta 4,Eta 5,Epsilon 5,Beta 5,Gamma 5,Delta 5,Zeta 5,Eta 6,Epsilon 6,Beta 6,Gamma 6,Delta 6,Zeta 6,Eta 8,Epsilon 8,Beta 8,Gamma 8,Delta 8,Zeta 8,Eta 10,Epsilon 10,Beta 10,Gamma 10,Delta 10,Zeta 10,Eta 16,Epsilon 16,Beta 16,Gamma 16,Delta 16,Zeta 16
+5000
+------ 97 - Modifies(p, v) and Affects ------
+procedure p; variable v; assign a;
+Select <p, v, a> such that Modifies(p, v) and Affects(a, _)
+none
+5000
+------ 98 - Modifies(s, v) and Affects ------
+stmt s; variable v; assign a;
+Select <s, v, a> such that Modifies(s, v) and Affects(a, _)
+none
+5000
+------ 99 - Uses and Affects ------
+variable v; assign a;
+Select <v, a> such that Uses(a, v) and Affects(a, _)
+none
+5000
+------ 100 - Uses and Affects ------
+variable v; assign a;
+Select <v, a> such that Uses(a, v) and Affects(_, a)
+none
+5000
+------ 101 - Calls* and Modifies and Next* ------
+procedure p; variable v; stmt s;
+Select <p, v, s> such that Calls*(_, p) and Modifies(p, v) and Next*(s, _)
+Eta s 1,Eta t 1,Epsilon q 1,Epsilon s 1,Epsilon t 1,Epsilon r 1,Beta n 1,Beta s 1,Beta r 1,Beta q 1,Beta t 1,Beta p 1,Beta o 1,Gamma s 1,Gamma q 1,Gamma r 1,Gamma o 1,Gamma t 1,Delta p 1,Zeta s 1,Zeta t 1,Eta s 18,Eta t 18,Epsilon q 18,Epsilon s 18,Epsilon t 18,Epsilon r 18,Beta n 18,Beta s 18,Beta r 18,Beta q 18,Beta t 18,Beta p 18,Beta o 18,Gamma s 18,Gamma q 18,Gamma r 18,Gamma o 18,Gamma t 18,Delta p 18,Zeta s 18,Zeta t 18,Eta s 7,Eta t 7,Epsilon q 7,Epsilon s 7,Epsilon t 7,Epsilon r 7,Beta n 7,Beta s 7,Beta r 7,Beta q 7,Beta t 7,Beta p 7,Beta o 7,Gamma s 7,Gamma q 7,Gamma r 7,Gamma o 7,Gamma t 7,Delta p 7,Zeta s 7,Zeta t 7,Eta s 13,Eta t 13,Epsilon q 13,Epsilon s 13,Epsilon t 13,Epsilon r 13,Beta n 13,Beta s 13,Beta r 13,Beta q 13,Beta t 13,Beta p 13,Beta o 13,Gamma s 13,Gamma q 13,Gamma r 13,Gamma o 13,Gamma t 13,Delta p 13,Zeta s 13,Zeta t 13,Eta s 2,Eta t 2,Epsilon q 2,Epsilon s 2,Epsilon t 2,Epsilon r 2,Beta n 2,Beta s 2,Beta r 2,Beta q 2,Beta t 2,Beta p 2,Beta o 2,Gamma s 2,Gamma q 2,Gamma r 2,Gamma o 2,Gamma t 2,Delta p 2,Zeta s 2,Zeta t 2,Eta s 14,Eta t 14,Epsilon q 14,Epsilon s 14,Epsilon t 14,Epsilon r 14,Beta n 14,Beta s 14,Beta r 14,Beta q 14,Beta t 14,Beta p 14,Beta o 14,Gamma s 14,Gamma q 14,Gamma r 14,Gamma o 14,Gamma t 14,Delta p 14,Zeta s 14,Zeta t 14,Eta s 4,Eta t 4,Epsilon q 4,Epsilon s 4,Epsilon t 4,Epsilon r 4,Beta n 4,Beta s 4,Beta r 4,Beta q 4,Beta t 4,Beta p 4,Beta o 4,Gamma s 4,Gamma q 4,Gamma r 4,Gamma o 4,Gamma t 4,Delta p 4,Zeta s 4,Zeta t 4,Eta s 5,Eta t 5,Epsilon q 5,Epsilon s 5,Epsilon t 5,Epsilon r 5,Beta n 5,Beta s 5,Beta r 5,Beta q 5,Beta t 5,Beta p 5,Beta o 5,Gamma s 5,Gamma q 5,Gamma r 5,Gamma o 5,Gamma t 5,Delta p 5,Zeta s 5,Zeta t 5,Eta s 6,Eta t 6,Epsilon q 6,Epsilon s 6,Epsilon t 6,Epsilon r 6,Beta n 6,Beta s 6,Beta r 6,Beta q 6,Beta t 6,Beta p 6,Beta o 6,Gamma s 6,Gamma q 6,Gamma r 6,Gamma o 6,Gamma t 6,Delta p 6,Zeta s 6,Zeta t 6,Eta s 8,Eta t 8,Epsilon q 8,Epsilon s 8,Epsilon t 8,Epsilon r 8,Beta n 8,Beta s 8,Beta r 8,Beta q 8,Beta t 8,Beta p 8,Beta o 8,Gamma s 8,Gamma q 8,Gamma r 8,Gamma o 8,Gamma t 8,Delta p 8,Zeta s 8,Zeta t 8,Eta s 10,Eta t 10,Epsilon q 10,Epsilon s 10,Epsilon t 10,Epsilon r 10,Beta n 10,Beta s 10,Beta r 10,Beta q 10,Beta t 10,Beta p 10,Beta o 10,Gamma s 10,Gamma q 10,Gamma r 10,Gamma o 10,Gamma t 10,Delta p 10,Zeta s 10,Zeta t 10,Eta s 16,Eta t 16,Epsilon q 16,Epsilon s 16,Epsilon t 16,Epsilon r 16,Beta n 16,Beta s 16,Beta r 16,Beta q 16,Beta t 16,Beta p 16,Beta o 16,Gamma s 16,Gamma q 16,Gamma r 16,Gamma o 16,Gamma t 16,Delta p 16,Zeta s 16,Zeta t 16
+5000
+------ 102 - Modifies and Uses and Calls ------
+procedure p; variable v;
+Select <p, v> such that Modifies(p, v) and Uses(p, v) and Calls(_, p)
+Eta s,Epsilon q,Epsilon s,Epsilon r,Beta o,Beta n,Beta s,Beta r,Beta q,Gamma r,Gamma q,Gamma s,Gamma o,Zeta s
+5000
+------ 103 - Next* and Uses and Modifies ------
+stmt s; variable v;
+Select <s, v> such that Next*(s, _) and Uses(s, v) and Modifies(s, v)
+4 s,4 o,4 q,4 r,4 n,6 q,6 o,6 r,6 s
+5000
+------ 104 - Affects and Calls ------
+assign a; procedure p;
+Select <a, p> such that Affects(_, a) and Calls(p, _)
+none
+5000
+------ 105 - Affects and Calls* ------
+assign a; procedure p;
+Select <a, p> such that Affects(a, _) and Calls*(_, p)
+none
+5000
+------ 106 - Affects and Modifies ------
+assign a; variable v; stmt s;
+Select <a, v> such that Affects(_, a) and Modifies(s, v)
+none
+5000
+------ 107 - Affects and Uses ------
+assign a; variable v; stmt s;
+Select <a, v> such that Affects(a, _) and Uses(s, v)
+none
+5000
+------ 108 - Affects and Uses and Modifies ------
+assign a; variable v; stmt s;
+Select <a, v> such that Affects(a, _) and Uses(s, v) and Modifies(s, v)
+none
+5000
+------ 109 - Affects and Uses and Modifies ------
+assign a; variable v; stmt s;
+Select <a, v> such that Affects(_, a) and Uses(s, v) and Modifies(s, v)
+none
+5000
+------ 110 - Affects and Uses and Modifies and Calls* ------
+assign a; variable v; procedure p; stmt s;
+Select <a, v, p> such that Affects(_, a) and Uses(s, v) and Modifies(s, v) and Calls*(_, p)
+none
+5000
+------ 111 - Affects and Uses and Modifies and Calls ------
+assign a; variable v; procedure p; stmt s;
+Select <a, v, p> such that Affects(_, a) and Uses(s, v) and Modifies(s, v) and Calls(_, p)
+none
+5000
+------ 112 - Affects and Uses and Modifies and Calls* ------
+assign a; variable v; procedure p; stmt s;
+Select <a, v, p> such that Affects(a, _) and Uses(s, v) and Modifies(s, v) and Calls*(_, p)
+none
+5000
+------ 113 - Affects and Uses and Modifies and Calls ------
+assign a; variable v; procedure p; stmt s;
+Select <a, v, p> such that Affects(a, _) and Uses(s, v) and Modifies(s, v) and Calls(_, p)
+none
+5000
+------ 114 - Affects and Uses and Modifies and Calls and Next* ------
+assign a; variable v; procedure p; stmt s;
+Select <a, v, p, s> such that Affects(_, a) and Uses(s, v) and Modifies(s, v) and Calls(_, p) and Next*(s, _)
+none
+5000
+------ 115 - Affects and Uses and Modifies and Calls and Next* ------
+assign a; variable v; procedure p; stmt s;
+Select <a, v, p, s> such that Affects(a, _) and Uses(s, v) and Modifies(s, v) and Calls(_, p) and Next*(s, _)
+none
+5000
+------ 116 - Affects and Uses and Modifies and Calls and Next ------
+assign a; variable v; procedure p; stmt s;
+Select <a, v, p, s> such that Affects(_, a) and Uses(s, v) and Modifies(s, v) and Calls(_, p) and Next(s, _)
+none
+5000
+------ 117 - Affects and Uses and Modifies and Calls and Next ------
+assign a; variable v; procedure p; stmt s;
+Select <a, v, p, s> such that Affects(a, _) and Uses(s, v) and Modifies(s, v) and Calls(_, p) and Next(s, _)
+none
+5000
+------ 118 - Affects and Uses and Modifies and Calls* and Next* ------
+assign a; variable v; procedure p; stmt s;
+Select <a, v, p, s> such that Affects(_, a) and Uses(s, v) and Modifies(s, v) and Calls*(_, p) and Next*(s, _)
+none
+5000
+------ 119 - Affects and Uses and Modifies and Calls* and Next* ------
+assign a; variable v; procedure p; stmt s;
+Select <a, v, p, s> such that Affects(a, _) and Uses(s, v) and Modifies(s, v) and Calls*(_, p) and Next*(s, _)
+none
+5000
+------ 120 - Affects and Uses and Modifies and Calls* and Next ------
+assign a; variable v; procedure p; stmt s;
+Select <a, v, p, s> such that Affects(_, a) and Uses(s, v) and Modifies(s, v) and Calls*(_, p) and Next(s, _)
+none
+5000
+------ 121 - Affects and Uses and Modifies and Calls* and Next ------
+assign a; variable v; procedure p; stmt s;
+Select <a, v, p, s> such that Affects(a, _) and Uses(s, v) and Modifies(s, v) and Calls*(_, p) and Next(s, _)
+none
+5000
+------ 122 - Affects and Uses and Modifies and Calls and Next ------
+assign a; variable v; procedure p; stmt s;
+Select <a, v, p, s> such that Affects(_, a) and Uses(s, v) and Modifies(s, v) and Calls(_, p) and Next(s, _)
+none
+5000
+------ 123 - Affects and Uses and Modifies and Calls and Next ------
+assign a; variable v; procedure p; stmt s;
+Select <a, v, p, s> such that Affects(a, _) and Uses(s, v) and Modifies(s, v) and Calls(_, p) and Next(s, _)
+none
+5000
+------ 124 - Affects and Uses and Modifies and Calls ------
+assign a, a1; variable v1; procedure p, p1; stmt s;
+Select <a, v1, p1> such that Affects(a, a1) and Uses(s, v1) and Modifies(s, v1) and Calls(p1, p)
+none
+5000
+------ 125 - Affects and Uses and Modifies and Calls* ------
+assign a, a1; variable v1; procedure p, p1; stmt s;
+Select <a, v1, p1> such that Affects(a1, a) and Uses(s, v1) and Modifies(a1, v1) and Calls*(p1, p)
+none
+5000
+------ 126 - Affects and Uses and Modifies and Calls ------
+assign a, a1; variable v, v1; procedure p, p1; stmt s;
+Select <a, v1, p1> such that Affects(a, a1) and Uses(s, v) and Modifies(a1, v1) and Calls(p1, p)
+none
+5000
+------ 127 - Affects and Uses and Modifies and Calls* ------
+assign a, a1; variable v, v1; procedure p, p1; stmt s;
+Select <a, v1, p1> such that Affects(a1, a) and Uses(s, v) and Modifies(a1, v1) and Calls*(p1, p)
+none
+5000
+------ 128 - Affects and Uses(s1, v1) and Modifies and Calls ------
+assign a, a1; variable v, v1; procedure p, p1; stmt s1;
+Select <a, s1, v1> such that Affects(a, a1) and Uses(s1, v1) and Modifies(s1, v1) and Calls(p, p1)
+none
+5000
+------ 129 - Affects and Uses(p1, v1) and Modifies and Calls* ------
+assign a, a1; variable v1; procedure p, p1; stmt s;
+Select <a, p1, v1> such that Affects(a1, a) and Uses(p1, v1) and Modifies(p1, v1) and Calls*(p1, p)
+none
+5000
+------ 130 - Affects and Uses and Modifies(s1, v1) and Calls ------
+assign a, a1; variable v, v1; procedure p, p1; stmt s, s1;
+Select <a, s1, v1, p> such that Affects(a, a1) and Uses(s, v) and Modifies(s1, v1) and Calls(p, p1)
+none
+5000
+------ 131 - Affects and Uses and Modifies(p1, v1) and Calls* ------
+assign a, a1; variable v, v1; procedure p, p1; stmt s;
+Select <a, p1, v1> such that Affects(a1, a) and Uses(s, v) and Modifies(p1, v1) and Calls*(p, p1)
+none
+5000
+------ 132 - Affects and Uses and Modifies and Calls and Next(s1, s2) ------
+assign a, a1; variable v, v1; procedure p, p1; stmt s, s1, s2;
+Select <a, v1, p, s1, s2> such that Affects(a, a1) and Uses(s, v) and Modifies(a1, v1) and Calls(p, p1) and Next(s1, s2)
+none
+5000
+------ 133 - Affects and Uses and Modifies and Calls* and Next*(s1, s2) ------
+assign a, a1; variable v, v1; procedure p, p1; stmt s, s1, s2;
+Select <a, v1, p, s1, s2> such that Affects(a1, a) and Uses(s, v) and Modifies(a1, v1) and Calls*(p1, p) and Next*(s1, s2)
+none
+5000
+------ 134 - Affects and Uses and Modifies and Calls and Next ------
+assign a, a1; variable v, v1; procedure p, p1; stmt s, s1, s2;
+Select <a, v1, p, s1> such that Affects(a, a1) and Uses(s, v) and Modifies(a1, v1) and Calls(p1, p) and Next(s1, s2)
+none
+5000
+------ 135 - Affects and Uses and Modifies and Calls* and Next ------
+assign a, a1; variable v, v1; procedure p, p1; stmt s, s1, s2;
+Select <a, v1, p, s1> such that Affects(a1, a) and Uses(s, v) and Modifies(a1, v1) and Calls*(p, p1) and Next(s1, s2)
+none
+5000
+------ 136 - Parent(s, s) ------
+stmt s;
+Select <s, s> such that Parent(s, s)
+none
+5000
+------ 137 - Parent(s, a) ------
+stmt s; assign a;
+Select <s, a> such that Parent(s, a)
+4 5,4 8
+5000
+------ 138 - Parent(s, w) ------
+stmt s; while w;
+Select <s, w> such that Parent(s, w)
+none
+5000
+------ 139 - Parent(s, i) ------
+stmt s; if i;
+Select <s, i> such that Parent(s, i)
+none
+5000
+------ 140 - Parent(s, c) ------
+stmt s; call c;
+Select <s, c> such that Parent(s, c)
+4 6,4 7
+5000
+------ 141 - Parent(s, s1) ------
+stmt s, s1;
+Select <s, s1> such that Parent(s, s1)
+4 5,4 7,4 6,4 8
+5000
+------ 142 - Parent(a, s) ------
+assign a; stmt s;
+Select <a, s> such that Parent(a, s)
+none
+5000
+------ 143 - Parent(a, a) ------
+assign a;
+Select <a, a> such that Parent(a, a)
+none
+5000
+------ 144 - Parent(a, w) ------
+assign a; while w;
+Select <a, w> such that Parent(a, w)
+none
+5000
+------ 145 - Parent(a, i) ------
+assign a; if i;
+Select <a, i> such that Parent(a, i)
+none
+5000
+------ 146 - Parent(a, c) ------
+assign a; call c;
+Select <a, c> such that Parent(a, c)
+none
+5000
+------ 147 - Parent*(s, s) ------
+stmt s;
+Select <s, s> such that Parent*(s, s)
+none
+5000
+------ 148 - Parent*(s, a) ------
+stmt s; assign a;
+Select <s, a> such that Parent*(s, a)
+4 5,4 8
+5000
+------ 149 - Parent*(s, w) ------
+stmt s; while w;
+Select <s, w> such that Parent*(s, w)
+
+5000
+------ 150 - Parent*(s, i) ------
+stmt s; if i;
+Select <s, i> such that Parent*(s, i)
+none
+5000
+------ 151 - Parent*(s, c) ------
+stmt s; call c;
+Select <s, c> such that Parent*(s, c)
+4 6,4 7
+5000
+------ 152 - Parent*(s, s1) ------
+stmt s, s1;
+Select <s, s1> such that Parent*(s, s1)
+4 5,4 6,4 7,4 8
+5000
+------ 153 - Parent*(a, s) ------
+assign a; stmt s;
+Select <a, s> such that Parent*(a, s)
+none
+5000
+------ 154 - Parent*(a, a) ------
+assign a;
+Select <a, a> such that Parent*(a, a)
+none
+5000
+------ 155 - Parent*(a, w) ------
+assign a; while w;
+Select <a, w> such that Parent*(a, w)
+none
+5000
+------ 156 - Parent*(a, i) ------
+assign a; if i;
+Select <a, i> such that Parent*(a, i)
+none
+5000
+------ 157 - Parent*(a, c) ------
+assign a; call c;
+Select <a, c> such that Parent*(a, c)
+none
+5000
+------ 158 - Parent*(w, s) ------
+while w; stmt s;
+Select <w, s> such that Parent*(w, s)
+none
+5000
+------ 159 - Parent*(w, a) ------
+while w; assign a;
+Select <w, a> such that Parent*(w, a)
+none
+5000
+------ 160 - Parent*(w, w) ------
+while w;
+Select <w, w> such that Parent*(w, w)
+none
+5000
+------ 161 - Parent*(w, i) ------
+while w; if i;
+Select <w, i> such that Parent*(w, i)
+none
+5000
+------ 162 - Parent*(w, c) ------
+while w; call c;
+Select <w, c> such that Parent*(w, c)
+none
+5000
+------ 163 - Parent*(w, s1) ------
+while w; stmt s1;
+Select <w, s1> such that Parent*(w, s1)
+none
+5000
+------ 164 - Parent*(i, s) ------
+if i; stmt s;
+Select <i, s> such that Parent*(i, s)
+4 5,4 6,4 7,4 8
+5000
+------ 165 - Parent*(i, a) ------
+if i; assign a;
+Select <i, a> such that Parent*(i, a)
+4 5,4 8
+5000
+------ 166 - Parent*(i, w) ------
+if i; while w;
+Select <i, w> such that Parent*(i, w)
+none
+5000
+------ 167 - Parent*(i, i) ------
+if i;
+Select <i, i> such that Parent*(i, i)
+none
+5000
+------ 168 - Parent*(i, c) ------
+if i; call c;
+Select <i, c> such that Parent*(i, c)
+4 6,4 7
+5000
+------ 169 - Parent*(i, s1) ------
+if i; stmt s1;
+Select <i, s1> such that Parent*(i, s1)
+4 5,4 6,4 7,4 8
+5000
+------ 170 - Parent*(c, s) ------
+call c; stmt s;
+Select <c, s> such that Parent*(c, s)
+none
+5000
+------ 171 - Parent*(c, a) ------
+call c; assign a;
+Select <c, a> such that Parent*(c, a)
+none
+5000
+------ 172 - Parent*(c, w) ------
+call c; while w;
+Select <c, w> such that Parent*(c, w)
+none
+5000
+------ 173 - Parent*(c, i) ------
+call c; if i;
+Select <c, i> such that Parent*(c, i)
+none
+5000
+------ 174 - Parent*(c, c) ------
+call c;
+Select <c, c> such that Parent*(c, c)
+none
+5000
+------ 175 - Parent*(c, s1) ------
+call c; stmt s1;
+Select <c, s1> such that Parent*(c, s1)
+none
+5000
+------ 176 - Parent(_, s) ------
+stmt s;
+Select s such that Parent(_, s)
+5,6,7,8
+5000
+------ 177 - Parent(_, a) ------
+assign a;
+Select a such that Parent(_, a)
+5,8
+5000
+------ 178 - Parent(_, w) ------
+while w;
+Select w such that Parent(_, w)
+none
+5000
+------ 179 - Parent(_, i) ------
+if i;
+Select i such that Parent(_, i)
+none
+5000
+------ 180 - Parent(_, c) ------
+call c;
+Select c such that Parent(_, c)
+6,7
+5000
+------ 181 - Parent(s, _) ------
+stmt s;
+Select s such that Parent(s, _)
+4
+5000
+------ 182 - Parent(a, _) ------
+assign a;
+Select a such that Parent(a, _)
+none
+5000
+------ 183 - Parent(w, _) ------
+while w;
+Select w such that Parent(w, _)
+none
+5000
+------ 184 - Parent(i, _) ------
+if i;
+Select i such that Parent(i, _)
+4
+5000
+------ 185 - Parent(c, _) ------
+call c;
+Select c such that Parent(c, _)
+none
+5000
+------ 186 - Parent(_, _) ------
+
+Select BOOLEAN such that Parent(_, _)
+TRUE
+5000
+------ 187 - Parent*(s, _) ------
+stmt s;
+Select s such that Parent*(s, _)
+4
+5000
+------ 188 - Parent*(a, _) ------
+assign a;
+Select a such that Parent*(a, _)
+none
+5000
+------ 189 - Parent*(w, _) ------
+while w;
+Select w such that Parent*(w, _)
+none
+5000
+------ 190 - Parent*(i, _) ------
+if i;
+Select i such that Parent*(i, _)
+4
+5000
+------ 191 - Parent*(c, _) ------
+call c;
+Select c such that Parent*(c, _)
+none
+5000
+------ 192 - Parent*(_, _) ------
+
+Select BOOLEAN such that Parent*(_, _)
+TRUE
+5000
+------ 193 - Parent(_, s1) ------
+stmt s1;
+Select s1 such that Parent(_, s1)
+5,6,7,8
+5000
+------ 194 - Parent(_, a1) ------
+assign a1;
+Select a1 such that Parent(_, a1)
+5,8
+5000
+------ 195 - Parent(_, w1) ------
+while w1;
+Select w1 such that Parent(_, w1)
+none
+5000
+------ 196 - Parent(_, i1) ------
+if i1;
+Select i1 such that Parent(_, i1)
+none
+5000
+------ 197 - Parent(_, c1) ------
+call c1;
+Select c1 such that Parent(_, c1)
+6,7
+5000
