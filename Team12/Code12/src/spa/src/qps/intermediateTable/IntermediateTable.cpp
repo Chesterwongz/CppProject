@@ -33,7 +33,7 @@ IntermediateTable IntermediateTable::makeEmptyTable() {
 
 int IntermediateTable::createNewCol(const string &newColName) {
   this->colNameToIndexMap[newColName] = this->currentColCount;
-  this->colNames.emplace_back((newColName));
+  this->colNames.emplace_back(newColName);
   return this->currentColCount++;
 }
 
