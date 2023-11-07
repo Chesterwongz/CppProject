@@ -88,7 +88,6 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
       uniqueRows.insert(rowStr);
       dataWithoutWildcardColumns.emplace_back(std::move(row));
     }
-
   }
   return IntermediateTable(columnNamesWithoutWildcard,
                            std::move(dataWithoutWildcardColumns));
