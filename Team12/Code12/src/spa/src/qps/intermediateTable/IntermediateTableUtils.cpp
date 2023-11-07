@@ -69,12 +69,11 @@ IntermediateTable IntermediateTableUtils::getNaturalJoin(
   unordered_map<string, unordered_set<string>> t2MappingCheckDup;
   for (const TableRowType& t2Row : t2.getTableData()) {
     string key, rowStr;
-    for (size_t i = 0; i < t2Row.size(); i++) {
-      string curr = t2Row.at(i).get().toString() + TABLE_KEY_DELIMITER;
-      rowStr += curr;
-      if (t2SharedColIndexesSet.count(i)) {
-        key += curr;
-      }
+    for (auto i : t2Row) {
+      rowStr += i.get().toString() + TABLE_KEY_DELIMITER;
+    }
+    for (const int idx : t2SharedColIndexes) {
+      key += t2Row.at(idx).get().toString() + TABLE_KEY_DELIMITER;
     }
 
     if (t2MappingCheckDup[key].find(rowStr) == t2MappingCheckDup[key].end()) {
