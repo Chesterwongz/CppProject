@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cassert>
 #include <functional>
 #include <set>
 #include <string>
@@ -7,6 +8,7 @@
 #include <vector>
 
 #include "IntermediateTable.h"
+#include "IntermediateTableUtils.h"
 #include "qps/common/Keywords.h"
 #include "qps/intermediateTable/synonymRes/SynonymResFactory.h"
 

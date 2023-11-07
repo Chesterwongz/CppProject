@@ -44,19 +44,10 @@ IntermediateTable IntermediateTableUtils::getCrossProduct(
       table1.getColNames(), table2.getColNames(), {});
 
   TableDataType resData;
-  unordered_set<string> rowStrs;
   resData.reserve(table1.getRowCount() * table2.getRowCount());
   for (const TableRowType& row1 : table1.getTableData()) {
     for (const TableRowType& row2 : table2.getTableData()) {
-      TableRowType temp = concatRow(row1, row2);
-      string rowStr;
-      for (auto i : temp) {
-        rowStr += i.get().toString() + TABLE_KEY_DELIMITER;
-      }
-      if (rowStrs.count(rowStr) == 0) {
-        rowStrs.insert(std::move(rowStr));
-        resData.emplace_back(std::move(temp));
-      }
+      resData.emplace_back(concatRow(row1, row2));
     }
   }
 
@@ -75,20 +66,12 @@ IntermediateTable IntermediateTableUtils::getNaturalJoin(
   // Key: concatenated values of shared columns,
   // Value: list of rows with that key
   unordered_map<string, vector<TableRowType>> t2Mapping;
-  unordered_map<string, unordered_set<string>> t2MappingCheckDup;
   for (const TableRowType& t2Row : t2.getTableData()) {
-    string key, rowStr;
-    for (auto i : t2Row) {
-      rowStr += i.get().toString() + TABLE_KEY_DELIMITER;
-    }
+    string key;
     for (const int idx : t2SharedColIndexes) {
       key += t2Row.at(idx).get().toString() + TABLE_KEY_DELIMITER;
     }
-
-    if (t2MappingCheckDup[key].find(rowStr) == t2MappingCheckDup[key].end()) {
-      t2MappingCheckDup[key].insert(rowStr);
-      t2Mapping[key].emplace_back(t2Row);
-    }
+    t2Mapping[key].emplace_back(t2Row);
   }
 
   for (const TableRowType& t1Row : t1.getTableData()) {

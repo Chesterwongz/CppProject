@@ -1,7 +1,5 @@
 #include "IntermediateTableFactory.h"
 
-#include <cassert>
-
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const string &firstColName, const string &secondColName,
     const vector<pair<std::string, std::string>> &data) {
@@ -75,14 +73,22 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
 
   TableDataType dataWithoutWildcardColumns = {};
   dataWithoutWildcardColumns.reserve(data.size());
+  unordered_set<string> uniqueRows;
 
-  for (int rowIndex = 0; rowIndex < data.size(); rowIndex++) {
+  for (auto &rowIndex : data) {
     TableRowType row {};
+    string rowStr;
     row.reserve(nonWildcardColIdx.size());
     for (const size_t &colIndex : nonWildcardColIdx) {
-      row.emplace_back(std::move(data.at(rowIndex).at(colIndex)));
+      row.emplace_back(rowIndex.at(colIndex));
+      rowStr += rowIndex.at(colIndex).get().toString() +
+                IntermediateTableUtils::TABLE_KEY_DELIMITER;
     }
-    dataWithoutWildcardColumns.emplace_back(std::move(row));
+    if (uniqueRows.count(rowStr) == 0) {
+      uniqueRows.insert(rowStr);
+      dataWithoutWildcardColumns.emplace_back(std::move(row));
+    }
+
   }
   return IntermediateTable(columnNamesWithoutWildcard,
                            std::move(dataWithoutWildcardColumns));
