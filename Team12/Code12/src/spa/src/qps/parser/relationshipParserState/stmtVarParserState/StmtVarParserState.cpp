@@ -63,7 +63,8 @@ void StmtVarParserState::handleToken() {
         isInBracket = false;
         suchThatClause = createSuchThatClause(
             getAbstractionType(abstraction, stmtVarKeywordToAbstraction));
-        BaseParserState::addEvaluableClause(std::move(suchThatClause), isNegated);
+        BaseParserState::addEvaluableClause(std::move(suchThatClause),
+                                            isNegated);
 
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
 
