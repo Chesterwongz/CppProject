@@ -38,7 +38,7 @@ void ProcProcParserState::handleToken() {
   while (curr.has_value()) {
     PQLToken token = curr.value();
 
-    unique_ptr<SuchThatClause> suchThatClause;
+    unique_ptr<Clause> suchThatClause;
 
     switch (token.getType()) {
       case PQL_OPEN_BRACKET_TOKEN:
@@ -49,12 +49,8 @@ void ProcProcParserState::handleToken() {
         suchThatClause = createSuchThatClause(
             getAbstractionType(abstraction, procProcKeywordToAbstraction));
 
-        if (isNegated) {
-          parserContext.addClause(
-              std::make_unique<NotDecorator>(std::move(suchThatClause)));
-        } else {
-          parserContext.addClause(std::move(suchThatClause));
-        }
+        BaseParserState::addEvaluableClause(std::move(suchThatClause),
+                                            isNegated);
 
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;

@@ -26,7 +26,7 @@ IntermediateTable WhilePatternClause::evaluate(PKBReader& pkbReader) {
   return evaluatorPtr->evaluate();
 }
 
-bool WhilePatternClause::isEquals(const Clause& other) {
+bool WhilePatternClause::isEquals(const IClause& other) {
   const auto* otherPattern = dynamic_cast<const WhilePatternClause*>(&other);
   if (!otherPattern) return false;
 

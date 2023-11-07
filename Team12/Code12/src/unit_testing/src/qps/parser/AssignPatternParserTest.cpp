@@ -518,7 +518,7 @@ TEST_CASE("Valid Pattern not a (_, PARTIAL_MATCH)") {
   unique_ptr<NotDecorator> notPatternClause =
       std::make_unique<NotDecorator>(std::move(patternClause));
 
-  expected.addClause(std::move(notPatternClause));
+  expected.addNotClause(std::move(notPatternClause));
 
   bool res = *query == expected;
   REQUIRE(res);

@@ -627,7 +627,7 @@ TEST_CASE("Valid not Uses(SYNONYM, SYNONYM)") {
   unique_ptr<NotDecorator> notSuchThatClause =
       std::make_unique<NotDecorator>(std::move(suchThatClause));
 
-  expected.addClause(std::move(notSuchThatClause));
+  expected.addNotClause(std::move(notSuchThatClause));
 
   bool res = *query == expected;
   REQUIRE(res);
