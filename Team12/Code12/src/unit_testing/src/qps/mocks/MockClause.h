@@ -30,7 +30,7 @@ class MockClause : public Clause {
     return mockAllArguments;
   };
 
-  bool isEquals(const Clause& other) override { return mockIsEquals; }
+  bool isEquals(const IClause& other) override { return mockIsEquals; }
 
   set<string> getClauseSynonyms() override { return mockClauseSynonyms; }
 

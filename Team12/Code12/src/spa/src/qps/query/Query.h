@@ -12,6 +12,7 @@
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/clause/Clause.h"
+#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
 #include "qps/clause/selectClause/BaseSelectClause.h"
 #include "qps/clause/selectClause/SelectClauseFactory.h"
 #include "qps/clause/utils/ClauseUtil.h"
@@ -22,8 +23,11 @@ class Query {
  private:
   unique_ptr<BaseSelectClause> selectClause = {};
   ClauseUtil::ClauseList clauses = {};
+  ClauseUtil::NotClauseList notClauses = {};
 
  public:
+  void addNotClause(unique_ptr<NotDecorator> notClause);
+
   void addClause(unique_ptr<Clause> clause);
 
   void setSynonymToQuery(SynonymsToSelect selectSynonyms);

@@ -7,18 +7,17 @@
 #include <vector>
 
 #include "qps/clause/Clause.h"
+#include "qps/clause/IClause.h"
 
 using std::unique_ptr, std::vector, std::string, std::set;
 
-class ClauseDecorator : public Clause {
+class ClauseDecorator : public IClause {
  protected:
   unique_ptr<Clause> wrapeeClause;
 
  public:
   explicit ClauseDecorator(unique_ptr<Clause> wrapeeClause)
       : wrapeeClause(std::move(wrapeeClause)) {}
-
-  vector<const AbstractArgument*> getAllArguments() override;
 
   set<string> getClauseSynonyms() override;
 

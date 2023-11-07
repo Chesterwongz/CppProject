@@ -1,7 +1,6 @@
 #include "NotDecorator.h"
 
 #include <string>
-#include <utility>
 #include <vector>
 
 #include "qps/intermediateTable/IntermediateTableFactory.h"
@@ -46,7 +45,7 @@ IntermediateTable NotDecorator::generateMinuend(
   return minuend;
 }
 
-bool NotDecorator::isEquals(const Clause& other) {
+bool NotDecorator::isEquals(const IClause& other) {
   const auto* otherDecorator = dynamic_cast<const NotDecorator*>(&other);
 
   if (!otherDecorator) return false;

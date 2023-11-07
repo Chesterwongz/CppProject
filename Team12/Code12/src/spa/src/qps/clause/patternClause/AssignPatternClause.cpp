@@ -27,7 +27,7 @@ IntermediateTable AssignPatternClause::evaluate(PKBReader& pkbReader) {
   return evaluatorPtr->evaluate();
 }
 
-bool AssignPatternClause::isEquals(const Clause& other) {
+bool AssignPatternClause::isEquals(const IClause& other) {
   const auto* otherPattern = dynamic_cast<const AssignPatternClause*>(&other);
   if (!otherPattern) return false;
 

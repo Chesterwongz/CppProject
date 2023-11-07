@@ -54,5 +54,5 @@ class NotDecorator : public ClauseDecorator {
   IntermediateTable evaluate(PKBReader& pkb) override;
   IntermediateTable generateMinuend(
       PKBReader& pkb, vector<const AbstractArgument*>& wrapeeClauseArgs);
-  bool isEquals(const Clause& other) override;
+  bool isEquals(const IClause& other) override;
 };

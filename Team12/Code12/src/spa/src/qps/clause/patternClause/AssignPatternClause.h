@@ -33,7 +33,7 @@ class AssignPatternClause : public Clause {
 
   IntermediateTable evaluate(PKBReader& pkb) override;
   vector<const AbstractArgument*> getAllArguments() override;
-  bool isEquals(const Clause& other) override;
+  bool isEquals(const IClause& other) override;
   set<string> getClauseSynonyms() override;
   string getKey() override;
 };

@@ -20,6 +20,7 @@ class BaseParserState : public IParserState {
   PQLTokenType prev;
   void processNameToken(PQLToken& curr) override;
   void processAttrRef(unique_ptr<SynonymArg>& synArg);
+  void addEvaluableClause(unique_ptr<Clause> clause, bool isNegated);
 
   explicit BaseParserState(PQLParserContext& parserContext, PQLTokenType prev);
   ~BaseParserState() override = default;
