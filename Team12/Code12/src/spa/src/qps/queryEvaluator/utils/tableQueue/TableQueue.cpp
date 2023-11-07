@@ -8,60 +8,47 @@ IntermediateTable TableQueue::getJoinResult() {
   if (this->tableQueue.empty()) {
     return IntermediateTableFactory::buildWildcardIntermediateTable();
   }
-  std::vector<IntermediateTable> sortedTables;
-  while (!tableQueue.empty()) {
-    sortedTables.emplace_back(tableQueue.top());
-    tableQueue.pop();
-  }
-
   IntermediateTable finalTable =
       IntermediateTableFactory::buildWildcardIntermediateTable();
-  while (!sortedTables.empty() && sortedTables.back().getRowCount() == 0) {
-    IntermediateTable& curr = sortedTables.back();
-    if (curr.isTableEmptyAndNotWildcard()) {
+  std::vector<IntermediateTable> sortedTables;
+  while (!tableQueue.empty()) {
+    if (tableQueue.top().isTableEmptyAndNotWildcard()) {
       return IntermediateTableFactory::buildEmptyIntermediateTable();
     }
-    finalTable = finalTable.join(curr);
-    sortedTables.pop_back();
+    if (finalTable.getRowCount() == 0) {
+      finalTable = finalTable.join(tableQueue.top());
+    } else {
+      sortedTables.emplace_back(tableQueue.top());
+    }
+    tableQueue.pop();
   }
 
   std::unordered_map<string, vector<std::reference_wrapper<IntermediateTable>>>
       columnToTablesMap;
-  std::unordered_set<IntermediateTable*> joinedTables;
   for (auto& table : sortedTables) {
     for (const auto& colName : table.getColNames()) {
       columnToTablesMap[colName].emplace_back(table);
     }
   }
+
+  std::unordered_set<IntermediateTable*> joinedTables;
   while (!sortedTables.empty()) {
-    if (finalTable.isTableEmpty()) {
-      finalTable = sortedTables.back();
-      joinedTables.insert(&finalTable);
-      sortedTables.pop_back();
-      continue;
-    }
     // Find all tables that share columns with finalTable and join them.
-    vector<string> colNames = finalTable.getColNames();
-    for (const auto& colName : colNames) {
+    for (const auto& colName : finalTable.getColNames()) {
       auto& tablesWithCol = columnToTablesMap[colName];
       for (IntermediateTable& otherTable : tablesWithCol) {
-        if (joinedTables.count(&otherTable)) continue;
+        if (otherTable.isTableEmpty()) continue;
 
         finalTable = finalTable.join(otherTable);
-        joinedTables.insert(&otherTable);
-
-        // Update the column mapping for the joined table.
-//        for (const auto& newColName : otherTable.getColNames()) {
-//          columnToTablesMap[newColName].emplace_back(finalTable);
-//        }
+        otherTable = IntermediateTableFactory::buildEmptyIntermediateTable();
       }
     }
 
     // Remove joined tables from the sorted list.
     sortedTables.erase(
         std::remove_if(sortedTables.begin(), sortedTables.end(),
-                       [&joinedTables](IntermediateTable& table) {
-                         return joinedTables.count(&table) > 0;
+                       [](IntermediateTable& table) {
+                         return table.isTableEmpty();
                        }),
         sortedTables.end());
   }
@@ -113,5 +100,5 @@ bool operator<(const IntermediateTable& thisTable,
   //    return false;
   //  }
   // If column names are the same, then sort by row count in descending order
-  return thisTable.getRowCount() < otherTable.getRowCount();
+  return thisTable.getRowCount() > otherTable.getRowCount();
 }
