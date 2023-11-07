@@ -41,7 +41,7 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
 
 IntermediateTable IntermediateTableFactory::buildIntermediateTable(
     const string &colName, std::reference_wrapper<SynonymRes> value) {
-  vector<std::reference_wrapper<SynonymRes>> dataCol = {std::move(value)};
+  vector<std::reference_wrapper<SynonymRes>> dataCol = {value};
   return IntermediateTableFactory::buildSingleColTable(colName, dataCol);
 }
 
@@ -54,7 +54,7 @@ IntermediateTable IntermediateTableFactory::buildIntermediateTable(
   for (size_t i = 0; i < colNames.size(); i++) {
     if (colNames.at(i) != WILDCARD_KEYWORD) {
       nonWildcardColIdx.emplace_back(i);
-      columnNamesWithoutWildcard.emplace_back(std::move(colNames.at(i)));
+      columnNamesWithoutWildcard.emplace_back(colNames.at(i));
     }
   }
   if (nonWildcardColIdx.size() == colNames.size()) {
