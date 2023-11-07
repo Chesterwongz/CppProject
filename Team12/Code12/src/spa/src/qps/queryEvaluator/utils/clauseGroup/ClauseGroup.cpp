@@ -13,9 +13,7 @@ ClauseGroup::ClauseGroup(unique_ptr<Clause>& clause) {
   this->clauseRefList.emplace_back(clause);
 }
 
-void ClauseGroup::evaluateClauseToTables(PKBReader& pkb,
-                                         set<string>& selectedSynonyms) {
-  bool hasSelectedSynonyms = this->hasSelectedSynonyms(selectedSynonyms);
+void ClauseGroup::evaluateClauseToTables(PKBReader& pkb) {
   for (const unique_ptr<Clause>& clause : this->clauseRefList) {
     string clauseKey = clause->getKey();
     if (this->evaluatedClauses.find(clauseKey) !=
@@ -25,13 +23,7 @@ void ClauseGroup::evaluateClauseToTables(PKBReader& pkb,
     }
     IntermediateTable clauseRes = clause->evaluate(pkb);
     bool isEmpty = clauseRes.isTableEmptyAndNotWildcard();
-    if (hasSelectedSynonyms || isEmpty) {
-      this->tableQueue.addTable(std::move(clauseRes));
-    }
-    // if no selected synonyms in group, then we can treat
-    // results as wildcard or empty tables
-    // since TableQueue is treated as wildcard table if it is empty,
-    // we do not need to insert anything if table is wildcard
+    this->tableQueue.addTable(std::move(clauseRes));
     if (isEmpty) {
       // stop evaluation if we get empty table
       break;
@@ -42,8 +34,19 @@ void ClauseGroup::evaluateClauseToTables(PKBReader& pkb,
 
 IntermediateTable ClauseGroup::evaluate(PKBReader& pkb,
                                         set<string>& selectedSynonyms) {
-  this->evaluateClauseToTables(pkb, selectedSynonyms);
-  return this->tableQueue.getJoinResult();
+  this->evaluateClauseToTables(pkb);
+  IntermediateTable joinResult = this->tableQueue.getJoinResult();
+
+  bool hasSelectedSynonyms = this->hasSelectedSynonyms(selectedSynonyms);
+  if (hasSelectedSynonyms) {
+    return joinResult;
+  } else {
+    // if ClauseGroup does not involve selected synonym,
+    // only need to return Wildcard or Empty table
+    return joinResult.isTableEmptyAndNotWildcard()
+               ? joinResult
+               : IntermediateTableFactory::buildWildcardIntermediateTable();
+  }
 }
 
 bool ClauseGroup::hasSelectedSynonyms(set<string>& selectedSynonyms) {

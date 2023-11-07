@@ -21,7 +21,7 @@ class ClauseGroup {
   unordered_set<string> synonymsSet {};
 
   bool hasSelectedSynonyms(set<string>& selectedSynonyms);
-  void evaluateClauseToTables(PKBReader& pkb, set<string>& selectedSynonyms);
+  void evaluateClauseToTables(PKBReader& pkb);
 
  public:
   explicit ClauseGroup(ClauseUtil::ClauseRefList& clauseList);
