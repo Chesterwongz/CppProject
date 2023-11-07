@@ -19,14 +19,3 @@ string BaseSelectClause::getKey() {
   }
   return key;
 }
-
-vector<const AbstractArgument*> BaseSelectClause::getAllArguments() {
-  vector<const AbstractArgument*> argVector;
-
-  argVector.reserve(synonymsToSelect.size());
-  for (const auto& i : synonymsToSelect) {
-    argVector.push_back(i.get());
-  }
-
-  return argVector;
-}

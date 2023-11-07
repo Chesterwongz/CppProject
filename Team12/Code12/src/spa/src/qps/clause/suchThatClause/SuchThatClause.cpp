@@ -34,7 +34,7 @@ IntermediateTable SuchThatClause::evaluate(PKBReader& pkb) {
   return executableAbstraction->evaluate();
 }
 
-bool SuchThatClause::isEquals(const Clause& other) {
+bool SuchThatClause::isEquals(const IClause& other) {
   const auto* otherSuchThat = dynamic_cast<const SuchThatClause*>(&other);
   if (!otherSuchThat) return false;
 

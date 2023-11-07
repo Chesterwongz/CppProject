@@ -52,7 +52,7 @@ IntermediateTable SelectTupleClause::getAllPossibleValues(
                                                        resultAsSynonymRes);
 }
 
-bool SelectTupleClause::isEquals(const Clause &other) {
+bool SelectTupleClause::isEquals(const IClause& other) {
   const auto *otherSelect = dynamic_cast<const SelectTupleClause *>(&other);
   if (!otherSelect) return false;
 

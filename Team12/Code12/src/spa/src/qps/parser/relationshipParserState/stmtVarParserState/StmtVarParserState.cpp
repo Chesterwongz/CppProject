@@ -50,7 +50,7 @@ void StmtVarParserState::checkIsValidWildcard() {
 void StmtVarParserState::handleToken() {
   auto curr = parserContext.eatExpectedToken(prev, predictiveMap);
 
-  unique_ptr<SuchThatClause> suchThatClause;
+  unique_ptr<Clause> suchThatClause;
 
   while (curr.has_value()) {
     PQLToken token = curr.value();
@@ -61,18 +61,13 @@ void StmtVarParserState::handleToken() {
         break;
       case PQL_CLOSE_BRACKET_TOKEN:
         isInBracket = false;
-
         suchThatClause = createSuchThatClause(
             getAbstractionType(abstraction, stmtVarKeywordToAbstraction));
-
-        if (isNegated) {
-          parserContext.addClause(
-              std::make_unique<NotDecorator>(std::move(suchThatClause)));
-        } else {
-          parserContext.addClause(std::move(suchThatClause));
-        }
+        BaseParserState::addEvaluableClause(std::move(suchThatClause),
+                                            isNegated);
 
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
+
         return;
       case PQL_SYNONYM_TOKEN:
         arguments.push_back(std::make_unique<SynonymArg>(

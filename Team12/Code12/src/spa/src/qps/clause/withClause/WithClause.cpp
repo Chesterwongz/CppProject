@@ -4,7 +4,7 @@
 
 #include "qps/clause/utils/ClauseConstants.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
-#include "qps/withEvaluator/WithEvaluatorFactory/WithEvaluatorFactory.h"
+#include "qps/withEvaluator/withEvaluatorFactory/WithEvaluatorFactory.h"
 
 vector<const AbstractArgument*> WithClause::getAllArguments() {
   vector<const AbstractArgument*> argVector;
@@ -25,7 +25,7 @@ IntermediateTable WithClause::evaluate(PKBReader& pkb) {
   return pkbResult;
 }
 
-bool WithClause::isEquals(const Clause& other) {
+bool WithClause::isEquals(const IClause& other) {
   const auto* otherClause = dynamic_cast<const WithClause*>(&other);
   if (!otherClause) return false;
 

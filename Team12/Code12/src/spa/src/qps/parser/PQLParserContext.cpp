@@ -18,9 +18,7 @@ void PQLParserContext::addToContext(string entity, const string& synonym) {
   if (!isSuccess) isSemanticallyValid = false;
 }
 
-void PQLParserContext::addSelectClause() {
-  this->query->setSynonymToQuery({});
-}
+void PQLParserContext::addSelectClause() { this->query->setSynonymToQuery({}); }
 
 void PQLParserContext::addSelectClause(unique_ptr<SynonymArg> synonym) {
   SynonymsToSelect synonymVector = {};
@@ -43,6 +41,10 @@ string PQLParserContext::getValidSynonymType(const string& synonym) {
 
 bool PQLParserContext::checkSynonymExists(const std::string& synonym) {
   return context->checkIfSynonymExists(synonym);
+}
+
+void PQLParserContext::addNotClause(unique_ptr<NotDecorator> notClause) {
+  query->addNotClause(std::move(notClause));
 }
 
 void PQLParserContext::addClause(unique_ptr<Clause> clause) {

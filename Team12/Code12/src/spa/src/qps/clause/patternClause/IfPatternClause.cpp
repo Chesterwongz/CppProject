@@ -26,7 +26,7 @@ IntermediateTable IfPatternClause::evaluate(PKBReader& pkbReader) {
   return evaluatorPtr->evaluate();
 }
 
-bool IfPatternClause::isEquals(const Clause& other) {
+bool IfPatternClause::isEquals(const IClause& other) {
   const auto* otherPattern = dynamic_cast<const IfPatternClause*>(&other);
   if (!otherPattern) return false;
 

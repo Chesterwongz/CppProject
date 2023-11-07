@@ -308,7 +308,7 @@ TEST_CASE("Valid pattern not a and not if") {
   unique_ptr<NotDecorator> notPatternClause1 =
       std::make_unique<NotDecorator>(std::move(patternClause1));
 
-  expected.addClause(std::move(notPatternClause1));
+  expected.addNotClause(std::move(notPatternClause1));
 
   // pattern a2 ("x", _"x"_)
   unique_ptr<SynonymArg> outerSyn2 =
@@ -322,7 +322,7 @@ TEST_CASE("Valid pattern not a and not if") {
   unique_ptr<NotDecorator> notPatternClause2 =
       std::make_unique<NotDecorator>(std::move(patternClause2));
 
-  expected.addClause(std::move(notPatternClause2));
+  expected.addNotClause(std::move(notPatternClause2));
 
   // Follows (a1, a2)
   unique_ptr<SynonymArg> firstArg3 =
@@ -334,7 +334,7 @@ TEST_CASE("Valid pattern not a and not if") {
   unique_ptr<NotDecorator> notSuchThatClause1 =
       std::make_unique<NotDecorator>(std::move(suchThatClause3));
 
-  expected.addClause(std::move(notSuchThatClause1));
+  expected.addNotClause(std::move(notSuchThatClause1));
 
   // Parent* (w1, a2)
   unique_ptr<SynonymArg> firstArg4 =
@@ -346,7 +346,7 @@ TEST_CASE("Valid pattern not a and not if") {
   unique_ptr<NotDecorator> notSuchThatClause4 =
       std::make_unique<NotDecorator>(std::move(suchThatClause4));
 
-  expected.addClause(std::move(notSuchThatClause4));
+  expected.addNotClause(std::move(notSuchThatClause4));
 
   // Parent* (w1, w2)
   unique_ptr<SynonymArg> firstArg5 =
@@ -358,7 +358,7 @@ TEST_CASE("Valid pattern not a and not if") {
   unique_ptr<NotDecorator> notSuchThatClause5 =
       std::make_unique<NotDecorator>(std::move(suchThatClause5));
 
-  expected.addClause(std::move(notSuchThatClause5));
+  expected.addNotClause(std::move(notSuchThatClause5));
 
   bool res = *query == expected;
   REQUIRE(res);

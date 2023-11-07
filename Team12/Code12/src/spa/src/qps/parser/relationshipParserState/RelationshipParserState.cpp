@@ -25,7 +25,7 @@ void RelationshipParserState::processNameToken(PQLToken &curr) {
       PQLParserUtils::getTokenTypeFromKeyword(curr.getValue()));
 }
 
-unique_ptr<SuchThatClause> RelationshipParserState::createSuchThatClause(
+unique_ptr<Clause> RelationshipParserState::createSuchThatClause(
     Abstraction abstractionEnum) {
   if (arguments.size() != expectedNumberOfArgs) {
     throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT);

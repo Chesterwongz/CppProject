@@ -58,41 +58,28 @@ void PatternParserState::createPatternClause() {
   string synEntity = syn->getEntityType();
   if (parsedPatternState == ASSIGN_WHILE_PATTERN) {
     if (synEntity == ASSIGN_ENTITY) {
-      unique_ptr<AssignPatternClause> assignPatternClause =
+      unique_ptr<Clause> assignPatternClause =
           std::make_unique<AssignPatternClause>(
               std::move(syn), std::move(firstArg), std::move(nonFirstArgs[0]),
               isPartialMatch);
 
-      if (isNegated) {
-        parserContext.addClause(
-            std::make_unique<NotDecorator>(std::move(assignPatternClause)));
-        return;
-      }
-      parserContext.addClause(std::move(assignPatternClause));
+      BaseParserState::addEvaluableClause(std::move(assignPatternClause),
+                                          isNegated);
       return;
     }
     if (synEntity == WHILE_ENTITY && nonFirstArgs[0]->isWildcard()) {
-      unique_ptr<WhilePatternClause> whilePatternClause =
+      unique_ptr<Clause> whilePatternClause =
           std::make_unique<WhilePatternClause>(std::move(syn),
                                                std::move(firstArg));
-      if (isNegated) {
-        parserContext.addClause(
-            std::make_unique<NotDecorator>(std::move(whilePatternClause)));
-        return;
-      }
-      parserContext.addClause(std::move(whilePatternClause));
+      BaseParserState::addEvaluableClause(std::move(whilePatternClause),
+                                          isNegated);
       return;
     }
   } else if (parsedPatternState == IF_PATTERN && synEntity == IF_ENTITY) {
-    unique_ptr<IfPatternClause> ifPatternClause =
+    unique_ptr<Clause> ifPatternClause =
         std::make_unique<IfPatternClause>(std::move(syn), std::move(firstArg));
 
-    if (isNegated) {
-      parserContext.addClause(
-          std::make_unique<NotDecorator>(std::move(ifPatternClause)));
-      return;
-    }
-    parserContext.addClause(std::move(ifPatternClause));
+    BaseParserState::addEvaluableClause(std::move(ifPatternClause), isNegated);
     return;
   }
   parserContext.setSemanticallyInvalid();
