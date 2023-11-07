@@ -44,10 +44,19 @@ IntermediateTable IntermediateTableUtils::getCrossProduct(
       table1.getColNames(), table2.getColNames(), {});
 
   TableDataType resData;
+  unordered_set<string> rowStrs;
   resData.reserve(table1.getRowCount() * table2.getRowCount());
   for (const TableRowType& row1 : table1.getTableData()) {
     for (const TableRowType& row2 : table2.getTableData()) {
-      resData.emplace_back(concatRow(row1, row2));
+      TableRowType temp = concatRow(row1, row2);
+      string rowStr;
+      for (auto i : temp) {
+        rowStr += i.get().toString() + TABLE_KEY_DELIMITER;
+      }
+      if (rowStrs.count(rowStr) == 0) {
+        rowStrs.insert(std::move(rowStr));
+        resData.emplace_back(std::move(temp));
+      }
     }
   }
 

@@ -158,14 +158,14 @@ IntermediateTable IntermediateTable::join(const IntermediateTable &otherTable) {
 
   pair<vector<int>, vector<int>> sharedColumnIndexes =
       IntermediateTableUtils::getSharedColIndexes(*this, otherTable);
-  bool noSharedColumns =
-      sharedColumnIndexes.first.empty() && sharedColumnIndexes.second.empty();
+  bool hasSharedColumns = !(sharedColumnIndexes.first.empty() &&
+                            sharedColumnIndexes.second.empty());
 
   // Cross if no shared columns, inner join if shared columns exists
-  return noSharedColumns
-             ? IntermediateTableUtils::getCrossProduct(*this, otherTable)
-             : IntermediateTableUtils::getNaturalJoin(sharedColumnIndexes,
-                                                      *this, otherTable);
+  return hasSharedColumns
+             ? IntermediateTableUtils::getNaturalJoin(sharedColumnIndexes,
+                                                      *this, otherTable)
+             : IntermediateTableUtils::getCrossProduct(*this, otherTable);
 }
 
 IntermediateTable IntermediateTable::join(
