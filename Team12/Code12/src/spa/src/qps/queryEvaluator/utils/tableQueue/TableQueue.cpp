@@ -33,8 +33,8 @@ IntermediateTable TableQueue::getJoinResult() {
  */
 bool operator<(const IntermediateTable& thisTable,
                const IntermediateTable& otherTable) {
-  if (thisTable.getRowCount() == 0) return false;
-  if (otherTable.getRowCount() == 0) return true;
+  if (thisTable.getRowCount() <= TableQueue::THRESHOLD) return false;
+  if (otherTable.getRowCount() <= TableQueue::THRESHOLD) return true;
 
   const vector<string>& thisColNames = thisTable.getColNames();
   const vector<string>& otherColNames = otherTable.getColNames();

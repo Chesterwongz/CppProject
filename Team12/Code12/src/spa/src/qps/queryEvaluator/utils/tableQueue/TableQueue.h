@@ -19,6 +19,7 @@ class TableQueue {
   std::priority_queue<IntermediateTable> tableQueue;
 
  public:
+  static const uint8_t THRESHOLD = 1;
   void addTable(IntermediateTable table);
 
   IntermediateTable getJoinResult();
