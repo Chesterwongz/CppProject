@@ -68,20 +68,14 @@ bool AffectsReader::isAffects(int firstStmtNum, int secondStmtNum) {
     return false;
   }
 
-  // (REMOVE LATER) if the relation exists in cache, return true
   if (affectsCache.hasDirectRelation(firstStmtNum, secondStmtNum)) {
     return affectsCache.hasDirectRelation(firstStmtNum, secondStmtNum);
   }
 
-  // (REMOVE LATER) if cache is completed and relation doesnt exist, return
-  // false
   if (affectsCache.getIsComplete() &&
       !affectsCache.hasDirectRelation(firstStmtNum, secondStmtNum)) {
     return affectsCache.hasDirectRelation(firstStmtNum, secondStmtNum);
   }
-
-  // (REMOVE LATER) if relation doesnt exist, and cache is not complete, manual
-  // check
 
   std::vector<std::vector<int>> paths =
       pathsFromTo(firstStmtNum, secondStmtNum);
@@ -185,8 +179,6 @@ std::vector<std::string> AffectsReader::getAffects(int firstStmtNum,
     return result;
   }
 
-  // (REMOVE LATER) if cache is not empty, and stmtNum exists in map, return its
-  // successors
   if (!affectsCache.getDirectRelations().empty() &&
       affectsCache.getDirectRelations().find(firstStmtNum) !=
           affectsCache.getDirectRelations().end()) {
@@ -216,7 +208,6 @@ std::vector<std::string> AffectsReader::getAffectedBy(int secondStmtNum,
     return result;
   }
 
-  // (REMOVE LATER) if cache is not empty, and stmtNum exists in map
   if (!affectsCache.getDirectRelations().empty() &&
       affectsCache.getDirectBackwardRelations().find(secondStmtNum) !=
           affectsCache.getDirectBackwardRelations().end()) {
