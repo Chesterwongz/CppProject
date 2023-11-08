@@ -10,6 +10,7 @@
 #include "common/Constants.h"
 #include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/IAffectsReader.h"
+#include "pkb/storage/AffectsCache.h"
 #include "pkb/storage/ModifiesSStore.h"
 #include "pkb/storage/NextStore.h"
 #include "pkb/storage/StmtStore.h"
@@ -17,15 +18,18 @@
 
 class AffectsReader : public IAffectsReader {
  private:
+  AffectsCache& affectsCache;
   ModifiesSStore& modifiesSStore;
   NextStore& nextStore;
   StmtStore& stmtStore;
   UsesSStore& usesSStore;
 
  public:
-  explicit AffectsReader(ModifiesSStore& modifiesSStore, NextStore& nextStore,
+  explicit AffectsReader(AffectsCache& affectsCache,
+                         ModifiesSStore& modifiesSStore, NextStore& nextStore,
                          StmtStore& stmtStore, UsesSStore& usesSStore)
-      : modifiesSStore(modifiesSStore),
+      : affectsCache(affectsCache),
+        modifiesSStore(modifiesSStore),
         nextStore(nextStore),
         stmtStore(stmtStore),
         usesSStore(usesSStore) {}
@@ -43,4 +47,18 @@ class AffectsReader : public IAffectsReader {
       int originalStmt, int currentStmt, const std::string& variable,
       std::unordered_set<std::string>& done,
       std::vector<std::pair<std::string, std::string>>& result);
+
+  bool isVarModifiedAlongPath(int s1, int s2, const std::string& v);
+
+  bool isVarModifiedAlongPathHelper(int currentStmtNum, int targetStmtNum,
+                                    const std::string& v,
+                                    std::unordered_set<int>& visited);
+
+  std::vector<std::vector<int>> pathsFromTo(int sourceStmt, int targetStmt);
+
+  void dfs(int current, int target, std::vector<int>& currentPath,
+           std::vector<std::vector<int>>& paths,
+           std::unordered_set<int>& visited);
+
+  bool isCallReadAssign(int statementNumber);
 };

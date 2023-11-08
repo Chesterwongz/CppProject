@@ -1,5 +1,6 @@
 #pragma once
 
+#include "pkb/storage/AffectsCache.h"
 #include "pkb/storage/CallsSStore.h"
 #include "pkb/storage/CallsStore.h"
 #include "pkb/storage/EntityStore.h"
@@ -16,6 +17,7 @@
 
 class PKBStore {
  private:
+  AffectsCache affectsCache;
   FollowsStore followsStore;
   ParentStore parentStore;
   NextStore nextStore;
@@ -34,6 +36,7 @@ class PKBStore {
   PatternStorage patternStore;
 
  public:
+  [[nodiscard]] AffectsCache& getAffectsCache();
   [[nodiscard]] FollowsStore& getFollowsStore();
   [[nodiscard]] ParentStore& getParentStore();
   [[nodiscard]] NextStore& getNextStore();

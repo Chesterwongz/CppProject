@@ -51,5 +51,10 @@ class RelationStore {
     return directSuccessorMap;
   }
 
+  [[nodiscard]] const std::unordered_map<B, std::unordered_set<A>>&
+  getDirectBackwardRelations() const {
+    return directAncestorMap;
+  }
+
   virtual void clearCache() {}
 };

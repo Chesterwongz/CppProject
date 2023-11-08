@@ -10,6 +10,7 @@
 #include "pkb/readers/relation_reader/stmt_to_stmt/FollowsReader.h"
 #include "pkb/readers/relation_reader/stmt_to_stmt/NextReader.h"
 #include "pkb/readers/relation_reader/stmt_to_stmt/ParentReader.h"
+#include "pkb/storage/AffectsCache.h"
 #include "pkb/storage/CallsStore.h"
 #include "pkb/storage/ModifiesPStore.h"
 #include "pkb/storage/ModifiesSStore.h"
@@ -29,13 +30,16 @@ class PKBReader : public AffectsReader,
                   public PatternReader,
                   public UsesReader,
                   public CallsReader {
+  AffectsCache& affectsCache;
   NextStore& nextStore;
 
  public:
   explicit PKBReader(PKBStore& store)
-      : nextStore(store.getNextStore()),
-        AffectsReader(store.getModifiesStore(), store.getNextStore(),
-                      store.getStmtStore(), store.getUsesStore()),
+      : affectsCache(store.getAffectsCache()),
+        nextStore(store.getNextStore()),
+        AffectsReader(store.getAffectsCache(), store.getModifiesStore(),
+                      store.getNextStore(), store.getStmtStore(),
+                      store.getUsesStore()),
         DesignEntitiesReader(store.getCallsStmtStore(), store.getEntityStore(),
                              store.getModifiesStore(), store.getStmtStore(),
                              store.getUsesStore()),
