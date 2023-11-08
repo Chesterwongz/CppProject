@@ -9,11 +9,11 @@
 #include "RelationTStore.h"
 
 class AffectsCache : public RelationStore<int, int> {
-private:
-	bool isComplete = false;
+ private:
+  bool isComplete = false;
 
-public:
-	void clearCache() override;
-	void setIsComplete();
-	bool getIsComplete();
+ public:
+  void clearCache() override;
+  void setIsComplete();
+  bool getIsComplete();
 };
