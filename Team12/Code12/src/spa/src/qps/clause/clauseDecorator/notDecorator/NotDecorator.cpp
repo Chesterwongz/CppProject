@@ -7,6 +7,8 @@
 #include "qps/intermediateTable/synonymRes/SynonymResFactory.h"
 
 IntermediateTable NotDecorator::evaluate(PKBReader& pkb) {
+  assert(hasTableBeenSet);
+
   IntermediateTable wrapeeClauseResult = wrapeeClause->evaluate(pkb);
 
   vector<const AbstractArgument*> wrapeeClauseArgs =
@@ -33,14 +35,22 @@ IntermediateTable NotDecorator::generateMinuend(
     SynonymArg* wrapeeClauseSynArg = dynamic_cast<SynonymArg*>(
         const_cast<AbstractArgument*>(wrapeeClauseArg));
 
-    vector<std::reference_wrapper<SynonymRes>> synonymResObjsOfEntityType =
-        notDecoratorFuncMap[wrapeeClauseSynArg->getEntityType()](pkb);
+    string synonymVal = wrapeeClauseSynArg->getValue();
 
-    IntermediateTable tableOfEntityType =
-        IntermediateTableFactory::buildSingleColTable(
-            wrapeeClauseSynArg->getValue(), synonymResObjsOfEntityType);
+    if (currentTable.isColExists(synonymVal)) {
+      // no need to query PKB, treat existing data in current table as 'universe'
+      IntermediateTable existingColData = currentTable.getSingleColData(synonymVal);
+      minuend.join(existingColData);
+    } else {
+      // since synonymVal doesnt exist yet, no choice but to query pkb
+      vector<std::reference_wrapper<SynonymRes>> synonymResObjsOfEntityType =
+          notDecoratorFuncMap[wrapeeClauseSynArg->getEntityType()](pkb);
 
-    minuend = minuend.join(tableOfEntityType);
+      IntermediateTable tableOfEntityType =
+          IntermediateTableFactory::buildSingleColTable(
+              wrapeeClauseSynArg->getValue(), synonymResObjsOfEntityType);
+      minuend = minuend.join(tableOfEntityType);
+    }   
   }
 
   return minuend;
@@ -165,4 +175,9 @@ vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllVariables(
   }
 
   return varSynonymResVec;
+}
+
+void NotDecorator::setCurrentTable(IntermediateTable& currentTable) {
+  this->currentTable = currentTable;
+  this->hasTableBeenSet = true;
 }

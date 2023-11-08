@@ -13,6 +13,7 @@ unordered_set<string> QueryEvaluator::evaluate(unique_ptr<Query>& query) {
 
   // TODO(Houten): Get the cols from final table to eval
   for (unique_ptr<NotDecorator>& notClause : query->notClauses) {
+    notClause->setCurrentTable(clauseResults);
     IntermediateTable res = notClause->evaluate(pkb);
     clauseResults = clauseResults.join(res);
   }

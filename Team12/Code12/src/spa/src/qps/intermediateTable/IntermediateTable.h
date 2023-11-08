@@ -101,7 +101,7 @@ class IntermediateTable {
                          const pair<string, AttrRef> &joinColOther);
 
   /**
-   * add by Houten   
+   * added by Houten   
    * Gets the difference between thisTable and otherTable.
    * cannot get difference if there cols that dont match
    * cannot get difference if cols are in different orders
@@ -110,6 +110,14 @@ class IntermediateTable {
    * @param otherTable
    */
   IntermediateTable getDifference(const IntermediateTable &otherTable);
+
+  /**
+   * added by Houten
+   * Gets the col data of the specified col in the form of a singleColTable
+   * @param otherTable
+   * @return singleColTable of specifed colName if it exists, otherwise emptyTable
+   */
+  IntermediateTable getSingleColData(const string &colName);
 
   /**
    * @return vector of all column names
