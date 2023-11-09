@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "SynonymRes.h"
 #include "SynonymResUtils.h"

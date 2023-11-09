@@ -38,8 +38,10 @@ IntermediateTable NotDecorator::generateMinuend(
     string synonymVal = wrapeeClauseSynArg->getValue();
 
     if (currentTable.isColExists(synonymVal)) {
-      // no need to query PKB, treat existing data in current table as 'universe'
-      IntermediateTable existingColData = currentTable.getSingleColData(synonymVal);
+      // no need to query PKB, treat existing data in current table as
+      // 'universe'
+      IntermediateTable existingColData =
+          currentTable.getSingleColData(synonymVal);
       minuend.join(existingColData);
     } else {
       // since synonymVal doesnt exist yet, no choice but to query pkb
@@ -50,7 +52,7 @@ IntermediateTable NotDecorator::generateMinuend(
           IntermediateTableFactory::buildSingleColTable(
               wrapeeClauseSynArg->getValue(), synonymResObjsOfEntityType);
       minuend = minuend.join(tableOfEntityType);
-    }   
+    }
   }
 
   return minuend;

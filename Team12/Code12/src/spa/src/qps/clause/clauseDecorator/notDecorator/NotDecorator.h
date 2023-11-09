@@ -17,7 +17,8 @@ typedef function<vector<std::reference_wrapper<SynonymRes>>(PKBReader& pkb)>
 
 class NotDecorator : public ClauseDecorator {
  private:
-  IntermediateTable currentTable = IntermediateTableFactory::buildEmptyIntermediateTable();
+  IntermediateTable currentTable =
+      IntermediateTableFactory::buildEmptyIntermediateTable();
   bool hasTableBeenSet = false;
 
  protected:

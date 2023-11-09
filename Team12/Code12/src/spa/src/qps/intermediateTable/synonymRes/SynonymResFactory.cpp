@@ -1,5 +1,7 @@
 #include "SynonymResFactory.h"
 
+#include <vector>
+
 SynonymRes& SynonymResFactory::getSynonymResRef(
     unordered_map<AttrRef, string> attrRefMap) {
   string key = SynonymResUtils::buildKey(attrRefMap);
