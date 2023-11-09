@@ -60,6 +60,8 @@ IntermediateTable IntermediateTableUtils::getNaturalJoin(
     const IntermediateTable& t1, const IntermediateTable& t2) {
   TableDataType resData;
   auto& [t1SharedColIndexes, t2SharedColIndexes] = sharedColumnIndexes;
+  unordered_set<size_t> t2SharedColIndexesSet = {t2SharedColIndexes.begin(),
+                                                 t2SharedColIndexes.end()};
   // Use a hashmap to optimize lookup
   // Key: concatenated values of shared columns,
   // Value: list of rows with that key
@@ -67,14 +69,11 @@ IntermediateTable IntermediateTableUtils::getNaturalJoin(
   for (const TableRowType& t2Row : t2.getTableData()) {
     string key;
     for (const int idx : t2SharedColIndexes) {
-      // use delimiter to differentiate values
       key += t2Row.at(idx).get().toString() + TABLE_KEY_DELIMITER;
     }
     t2Mapping[key].emplace_back(t2Row);
   }
 
-  unordered_set<size_t> t2SharedColIndexesSet = {t2SharedColIndexes.begin(),
-                                                 t2SharedColIndexes.end()};
   for (const TableRowType& t1Row : t1.getTableData()) {
     string key;
     for (const int idx : t1SharedColIndexes) {

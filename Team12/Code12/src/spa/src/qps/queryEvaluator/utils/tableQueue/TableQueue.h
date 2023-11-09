@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <memory>
 #include <queue>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -11,13 +12,14 @@
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 #include "qps/query/Query.h"
 
-using std::vector, std::unique_ptr;
+using std::vector, std::unique_ptr, std::string;
 
 class TableQueue {
  private:
   std::priority_queue<IntermediateTable> tableQueue;
 
  public:
+  static const uint8_t THRESHOLD = 1;
   void addTable(IntermediateTable table);
 
   IntermediateTable getJoinResult();

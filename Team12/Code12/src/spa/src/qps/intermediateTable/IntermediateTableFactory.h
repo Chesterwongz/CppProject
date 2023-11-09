@@ -1,16 +1,19 @@
 #pragma once
 
+#include <cassert>
 #include <functional>
 #include <set>
 #include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "IntermediateTable.h"
+#include "IntermediateTableUtils.h"
 #include "qps/common/Keywords.h"
 #include "qps/intermediateTable/synonymRes/SynonymResFactory.h"
 
-using std::set;
+using std::unordered_set, std::string;
 
 class IntermediateTableFactory {
  private:
