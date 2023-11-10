@@ -11,7 +11,6 @@ unordered_set<string> QueryEvaluator::evaluate(unique_ptr<Query>& query) {
   IntermediateTable clauseResults =
       groups.evaluate(this->pkb, query->getSelectedSynonyms());
 
-  // TODO(Houten): Get the cols from final table to eval
   for (unique_ptr<NotDecorator>& notClause : query->notClauses) {
     notClause->setCurrentTable(clauseResults);
     IntermediateTable res = notClause->evaluate(pkb);
