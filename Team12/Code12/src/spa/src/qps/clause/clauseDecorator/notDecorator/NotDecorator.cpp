@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "qps/intermediateTable/IntermediateTableFactory.h"
+#include "qps/intermediateTable/synonymRes/SynonymResFactory.h"
 
 IntermediateTable NotDecorator::evaluate(PKBReader& pkb) {
   IntermediateTable wrapeeClauseResult = wrapeeClause->evaluate(pkb);
@@ -32,14 +33,24 @@ IntermediateTable NotDecorator::generateMinuend(
     SynonymArg* wrapeeClauseSynArg = dynamic_cast<SynonymArg*>(
         const_cast<AbstractArgument*>(wrapeeClauseArg));
 
-    vector<std::reference_wrapper<SynonymRes>> synonymResObjsOfEntityType =
-        notDecoratorFuncMap[wrapeeClauseSynArg->getEntityType()](pkb);
+    string synonymVal = wrapeeClauseSynArg->getValue();
 
-    IntermediateTable tableOfEntityType =
-        IntermediateTableFactory::buildSingleColTable(
-            wrapeeClauseSynArg->getValue(), synonymResObjsOfEntityType);
+    if (currentTable.isColExists(synonymVal)) {
+      // no need to query PKB, treat existing data in current table as
+      // 'universe'
+      IntermediateTable existingColData =
+          currentTable.getSingleColData(synonymVal);
+      minuend.join(existingColData);
+    } else {
+      // since synonymVal doesnt exist yet, no choice but to query pkb
+      vector<std::reference_wrapper<SynonymRes>> synonymResObjsOfEntityType =
+          notDecoratorFuncMap[wrapeeClauseSynArg->getEntityType()](pkb);
 
-    minuend = minuend.join(tableOfEntityType);
+      IntermediateTable tableOfEntityType =
+          IntermediateTableFactory::buildSingleColTable(
+              wrapeeClauseSynArg->getValue(), synonymResObjsOfEntityType);
+      minuend = minuend.join(tableOfEntityType);
+    }
   }
 
   return minuend;
@@ -53,39 +64,28 @@ bool NotDecorator::isEquals(const IClause& other) {
   return wrapeeClause->isEquals(*otherDecorator->wrapeeClause);
 }
 
-vector<std::reference_wrapper<SynonymRes>> NotDecorator::getStmtSynonyms(
-    vector<std::string>& stmts) {
-  vector<std::reference_wrapper<SynonymRes>> stmtSynonymResVec {};
-  stmtSynonymResVec.reserve(stmts.size());
-  for (const string& stmtNum : stmts) {
-    stmtSynonymResVec.emplace_back(
-        SynonymResFactory::buildStmtSynonym(stmtNum));
-  }
-  return stmtSynonymResVec;
-}
-
 vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllStmts(
     PKBReader& pkb) {
   vector<string> allStmts = pkb.getAllStmtsOf(StmtType::STMT);
-  return getStmtSynonyms(allStmts);
+  return SynonymResFactory::buildStmtSynonymResVector(allStmts);
 }
 
 vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllAssignStmts(
     PKBReader& pkb) {
   vector<string> allAssignStmts = pkb.getAllStmtsOf(StmtType::ASSIGN);
-  return getStmtSynonyms(allAssignStmts);
+  return SynonymResFactory::buildStmtSynonymResVector(allAssignStmts);
 }
 
 vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllWhileStmts(
     PKBReader& pkb) {
   vector<string> allWhileStmts = pkb.getAllStmtsOf(StmtType::WHILE);
-  return getStmtSynonyms(allWhileStmts);
+  return SynonymResFactory::buildStmtSynonymResVector(allWhileStmts);
 }
 
 vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllIfStmts(
     PKBReader& pkb) {
   vector<string> allIfStmts = pkb.getAllStmtsOf(StmtType::IF);
-  return getStmtSynonyms(allIfStmts);
+  return SynonymResFactory::buildStmtSynonymResVector(allIfStmts);
 }
 
 vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllPrintStmts(
@@ -175,4 +175,8 @@ vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllVariables(
   }
 
   return varSynonymResVec;
+}
+
+void NotDecorator::setCurrentTable(IntermediateTable& currentTable) {
+  this->currentTable = currentTable;
 }
