@@ -7,7 +7,6 @@
 #include "qps/intermediateTable/synonymRes/SynonymResFactory.h"
 
 IntermediateTable NotDecorator::evaluate(PKBReader& pkb) {
-
   IntermediateTable wrapeeClauseResult = wrapeeClause->evaluate(pkb);
 
   vector<const AbstractArgument*> wrapeeClauseArgs =
