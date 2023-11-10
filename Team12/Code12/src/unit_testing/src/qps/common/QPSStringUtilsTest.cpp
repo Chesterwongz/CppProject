@@ -5,8 +5,8 @@
 
 string validAlphabeticSynonym = "sdfksjdnkjfn";
 string validAlphanumericSynonym = "rnj324jn2k43";
-string validAlphabeticIdent = "\"fkjdgn\"";
-string validAlphanumericIdent = "\"j1nkn4j2n\"";
+string validAlphabeticIdent = "fkjdgn";
+string validAlphanumericIdent = "j1nkn4j2n";
 string validInteger = "234872";
 
 TEST_CASE("test_isSynonym_allAlphabet_true") {
@@ -80,14 +80,7 @@ TEST_CASE("test_isIdent_containsSymbol_false") {
 }
 
 TEST_CASE("test_isIdent_allNumbers_false") {
-  string testIdent = "\"34234\"";
-  bool result = QPSStringUtils::isIdent(testIdent);
-
-  REQUIRE(result == false);
-}
-
-TEST_CASE("test_isIdent_no_'\"'_false") {
-  string testIdent = validAlphanumericSynonym;
+  string testIdent = "34234";
   bool result = QPSStringUtils::isIdent(testIdent);
 
   REQUIRE(result == false);
@@ -152,62 +145,6 @@ TEST_CASE("test_isInteger_withSymbols_false") {
 TEST_CASE("test_isInteger_negativeInteger_false") {
   string testInteger = "-" + validInteger;
   bool result = QPSStringUtils::isInteger(testInteger);
-
-  REQUIRE(result == false);
-}
-
-TEST_CASE("test_isEntRef_validSynonym_true") {
-  string testEntRef = validAlphanumericSynonym;
-  bool result = QPSStringUtils::isEntRef(testEntRef);
-
-  REQUIRE(result);
-}
-
-TEST_CASE("test_isEntRef_validIdent_true") {
-  string testEntRef = validAlphanumericIdent;
-  bool result = QPSStringUtils::isEntRef(testEntRef);
-
-  REQUIRE(result);
-}
-
-TEST_CASE("test_isEntRef_wildcard_true") {
-  string testEntRef = WILDCARD_KEYWORD;
-  bool result = QPSStringUtils::isEntRef(testEntRef);
-
-  REQUIRE(result);
-}
-
-TEST_CASE("test_isEntRef_validInteger_false") {
-  string testEntRef = validInteger;
-  bool result = QPSStringUtils::isEntRef(testEntRef);
-
-  REQUIRE(result == false);
-}
-
-TEST_CASE("test_isStmtRef_validSynonym_true") {
-  string testStmtRef = validAlphabeticSynonym;
-  bool result = QPSStringUtils::isStmtRef(testStmtRef);
-
-  REQUIRE(result);
-}
-
-TEST_CASE("test_isStmtRef_validInteger_true") {
-  string testEntRef = validInteger;
-  bool result = QPSStringUtils::isStmtRef(testEntRef);
-
-  REQUIRE(result);
-}
-
-TEST_CASE("test_isStmtRef_wildcard_true") {
-  string testEntRef = WILDCARD_KEYWORD;
-  bool result = QPSStringUtils::isStmtRef(testEntRef);
-
-  REQUIRE(result);
-}
-
-TEST_CASE("test_isStmtRef_validIdent_false") {
-  string testEntRef = validAlphanumericIdent;
-  bool result = QPSStringUtils::isStmtRef(testEntRef);
 
   REQUIRE(result == false);
 }

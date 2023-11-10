@@ -7,28 +7,16 @@ using std::string;
 map<char, int> QPSStringUtils::precedence = {
     {'(', 0}, {')', 0}, {'+', 1}, {'-', 1}, {'*', 2}, {'/', 2}, {'%', 2}};
 
-bool QPSStringUtils::isSynonym(string data) {
-  std::regex synonymPattern("^[A-Za-z][A-Za-z0-9]*$");
-  return std::regex_match(data, synonymPattern);
+bool QPSStringUtils::isSynonym(const string& data) {
+  return std::isalpha(data[0]) &&
+         std::all_of(data.begin(), data.end(),
+                     [](unsigned char ch) { return std::isalnum(ch); });
 }
 
-bool QPSStringUtils::isStmtRef(string data) {
-  return isSynonym(data) || isWildcard(data) || isInteger(data);
-}
-
-bool QPSStringUtils::isEntRef(string data) {
-  return isSynonym(data) || isWildcard(data) || isIdent(data);
-}
-
-bool QPSStringUtils::isIdent(string data) {
-  std::regex identQuotePattern("\"[A-Za-z]([A-Za-z0-9])*\"");
-
-  return std::regex_match(data, identQuotePattern);
-}
-
-bool QPSStringUtils::isIdentValue(const std::string& data) {
-  std::regex identPattern("[A-Za-z]([A-Za-z0-9])*");
-  return std::regex_match(data, identPattern);
+bool QPSStringUtils::isIdent(const string& data) {
+  return std::isalpha(data[0]) &&
+         std::all_of(data.begin(), data.end(),
+                     [](unsigned char ch) { return std::isalnum(ch); });
 }
 
 bool QPSStringUtils::isWildcard(string data) {
