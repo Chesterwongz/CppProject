@@ -234,6 +234,23 @@ IntermediateTable IntermediateTable::getDifference(
                               : IntermediateTable(colNames, newTableData);
 }
 
+IntermediateTable IntermediateTable::getSingleColData(const string& colName) {
+  if (!this->isColExists(colName)) {
+    return makeEmptyTable();
+  }
+
+  int colIndex = this->getColIndex(colName);
+
+  TableDataType colData;
+  colData.reserve(this->tableData.size());
+
+  for (const TableRowType row : this->tableData) {
+    colData.push_back({row.at(colIndex)});
+  }
+
+  return IntermediateTable({colName}, std::move(colData));
+}
+
 void IntermediateTable::printTable() const {
   std::cout << "table: " << std::endl;
   if (this->isWildcard || this->isEmpty) {

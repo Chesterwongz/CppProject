@@ -11,14 +11,15 @@
 using std::string, std::set, std::vector;
 
 class MockClause : public Clause {
+ public:
+  vector<const AbstractArgument*> mockAllArguments {};
   IntermediateTable mockEvaluate =
       IntermediateTableFactory::buildWildcardIntermediateTable();
-  vector<const AbstractArgument*> mockAllArguments {};
+
   bool mockIsEquals = false;
   set<string> mockClauseSynonyms = {};
   string mockKey {};
 
- public:
   explicit MockClause(vector<string> synonyms) {
     set<string> synonymSet(synonyms.begin(), synonyms.end());
     mockClauseSynonyms = synonymSet;
