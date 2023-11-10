@@ -1,11 +1,11 @@
 #include <memory>
 #include <catch.hpp>
 
-#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
 #include "../../mocks/MockClause.h"
 #include "../../mocks/mockReaders/MockDesignEntitiesReader.h"
-#include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/ident/Ident.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
 #include "qps/common/Keywords.h"
 
 TEST_CASE("test_notDecorator_evaluate_0_synonym") {
@@ -29,8 +29,9 @@ TEST_CASE("test_notDecorator_evaluate_0_synonym") {
   mockClause->mockEvaluate = wrapeeClauseResult;
 
   NotDecorator notDecorator = NotDecorator(std::move(mockClause));
-  notDecorator.setCurrentTable(
-      IntermediateTableFactory::buildWildcardIntermediateTable());
+  IntermediateTable intermediateTable =
+      IntermediateTableFactory::buildWildcardIntermediateTable();
+  notDecorator.setCurrentTable(intermediateTable);
 
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
@@ -50,8 +51,7 @@ TEST_CASE("test_notDecorator_evaluate_1_synonym") {
   SynonymArg syn1 = SynonymArg(synonymVal, ASSIGN_ENTITY);
   Ident ident1 = Ident(identVal);
 
-  unique_ptr<MockClause> mockClause =
-      std::make_unique<MockClause>(synonymVec);
+  unique_ptr<MockClause> mockClause = std::make_unique<MockClause>(synonymVec);
 
   IntermediateTable wrapeeClauseResult =
       IntermediateTableFactory::buildSingleColTable(
@@ -63,8 +63,9 @@ TEST_CASE("test_notDecorator_evaluate_1_synonym") {
   mockClause->mockEvaluate = wrapeeClauseResult;
 
   NotDecorator notDecorator = NotDecorator(std::move(mockClause));
-  notDecorator.setCurrentTable(
-      IntermediateTableFactory::buildWildcardIntermediateTable());
+  IntermediateTable intermediateTable =
+      IntermediateTableFactory::buildWildcardIntermediateTable();
+  notDecorator.setCurrentTable(intermediateTable);
 
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
@@ -106,8 +107,9 @@ TEST_CASE("test_notDecorator_evaluate_2_synonym") {
   mockClause->mockEvaluate = wrapeeClauseResult;
 
   NotDecorator notDecorator = NotDecorator(std::move(mockClause));
-  notDecorator.setCurrentTable(
-      IntermediateTableFactory::buildWildcardIntermediateTable());
+  IntermediateTable intermediateTable =
+      IntermediateTableFactory::buildWildcardIntermediateTable();
+  notDecorator.setCurrentTable(intermediateTable);
 
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
