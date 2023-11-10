@@ -24,15 +24,25 @@ bool QPSStringUtils::isWildcard(string data) {
 }
 
 bool QPSStringUtils::isInteger(string data) {
-  string integerRegex;
+  if (data.empty()) {
+    return false; // Empty string is not an integer
+  }
 
   if (data.size() == 1) {
-    integerRegex = "[0-9]";
-  } else {
-    integerRegex = "[1-9][0-9]+";
+    return data[0] >= '0' && data[0] <= '9'; // Single character must be a digit
   }
-  std::regex integerPattern(integerRegex);
-  return std::regex_match(data, integerPattern);
+
+  if (data[0] == '0') {
+    return false; // Numbers longer than one digit should not start with '0'
+  }
+
+  for (char ch : data) {
+    if (ch < '0' || ch > '9') {
+      return false; // All characters must be digits
+    }
+  }
+
+  return true;
 }
 
 // used chatgpt for the algo, just changed variable names
