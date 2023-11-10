@@ -19,7 +19,6 @@ class NotDecorator : public ClauseDecorator {
  private:
   IntermediateTable currentTable =
       IntermediateTableFactory::buildEmptyIntermediateTable();
-  bool hasTableBeenSet = false;
 
  protected:
   vector<std::reference_wrapper<SynonymRes>> getAllStmts(PKBReader& pkb);

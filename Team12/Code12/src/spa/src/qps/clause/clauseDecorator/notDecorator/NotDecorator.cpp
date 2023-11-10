@@ -7,7 +7,6 @@
 #include "qps/intermediateTable/synonymRes/SynonymResFactory.h"
 
 IntermediateTable NotDecorator::evaluate(PKBReader& pkb) {
-  assert(hasTableBeenSet);
 
   IntermediateTable wrapeeClauseResult = wrapeeClause->evaluate(pkb);
 
@@ -181,5 +180,4 @@ vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllVariables(
 
 void NotDecorator::setCurrentTable(IntermediateTable& currentTable) {
   this->currentTable = currentTable;
-  this->hasTableBeenSet = true;
 }
