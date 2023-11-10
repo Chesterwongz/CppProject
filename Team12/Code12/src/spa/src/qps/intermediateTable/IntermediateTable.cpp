@@ -242,12 +242,13 @@ IntermediateTable IntermediateTable::getSingleColData(const string& colName) {
   int colIndex = this->getColIndex(colName);
 
   TableDataType colData;
+  colData.reserve(this->tableData.size());
 
-  for (TableRowType row : this->tableData) {
+  for (const TableRowType row : this->tableData) {
     colData.push_back({row.at(colIndex)});
   }
 
-  return IntermediateTable({colName}, colData);
+  return IntermediateTable({colName}, std::move(colData));
 }
 
 void IntermediateTable::printTable() const {
