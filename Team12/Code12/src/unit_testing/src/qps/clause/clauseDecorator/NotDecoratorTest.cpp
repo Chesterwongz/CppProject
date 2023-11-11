@@ -1,11 +1,11 @@
 #include <memory>
 #include <catch.hpp>
 
-#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
 #include "../../mocks/MockClause.h"
 #include "../../mocks/mockReaders/MockDesignEntitiesReader.h"
-#include "qps/argument/synonymArg/SynonymArg.h"
 #include "qps/argument/ident/Ident.h"
+#include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
 #include "qps/common/Keywords.h"
 
 TEST_CASE("test_notDecorator_evaluate_0_synonym") {
@@ -50,8 +50,7 @@ TEST_CASE("test_notDecorator_evaluate_1_synonym") {
   SynonymArg syn1 = SynonymArg(synonymVal, ASSIGN_ENTITY);
   Ident ident1 = Ident(identVal);
 
-  unique_ptr<MockClause> mockClause =
-      std::make_unique<MockClause>(synonymVec);
+  unique_ptr<MockClause> mockClause = std::make_unique<MockClause>(synonymVec);
 
   IntermediateTable wrapeeClauseResult =
       IntermediateTableFactory::buildSingleColTable(
@@ -156,7 +155,7 @@ TEST_CASE("test_notDecorator_evaluate_1_synonym_withExistingTable") {
                        SynonymResFactory::buildStmtSynonym("4")});
 
   notDecorator.setCurrentTable(currentTable);
-  
+
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
   IntermediateTable actualTable = notDecorator.evaluate(mockPkbReader);
