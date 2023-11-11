@@ -2,8 +2,9 @@
 
 // (1, v)
 std::vector<std::string> StmtOrProcToVarReader::getVarByStmt(int stmt) {
-  return ReaderUtils::readStrStore(!relationSStore.hasDirectSuccessors(stmt),
-                                   relationSStore.getDirectSuccessors(stmt));
+  return ReaderUtils::readStrStore(
+      !relationSStore.hasDirectSuccessors(stmt),
+      [stmt, this]() { return relationSStore.getDirectSuccessors(stmt); });
 }
 
 // (s, "name")
@@ -44,14 +45,17 @@ StmtOrProcToVarReader::getStmtVarPairs(StmtType stmtType1) {
 std::vector<std::string> StmtOrProcToVarReader::getVarByProc(
     const std::string& procName) {
   return ReaderUtils::readStrStore(
-      !relationPStore.hasDirectSuccessors(procName),
-      relationPStore.getDirectSuccessors(procName));
+      !relationPStore.hasDirectSuccessors(procName), [procName, this]() {
+        return relationPStore.getDirectSuccessors(procName);
+      });
 }
 
 std::vector<std::string> StmtOrProcToVarReader::getProcByVar(
     const std::string& varName) {
-  return ReaderUtils::readStrStore(!relationPStore.hasDirectAncestors(varName),
-                                   relationPStore.getDirectAncestors(varName));
+  return ReaderUtils::readStrStore(
+      !relationPStore.hasDirectSuccessors(varName), [varName, this]() {
+        return relationPStore.getDirectSuccessors(varName);
+      });
 }
 
 bool StmtOrProcToVarReader::hasDirectRelation(const std::string& procName,
