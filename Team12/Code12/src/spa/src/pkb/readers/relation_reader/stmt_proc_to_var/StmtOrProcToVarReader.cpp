@@ -43,8 +43,9 @@ StmtOrProcToVarReader::getStmtVarPairs(StmtType stmtType1) {
 
 std::vector<std::string> StmtOrProcToVarReader::getVarByProc(
     const std::string& procName) {
-  return ReaderUtils::readStrStore(!relationPStore.hasDirectSuccessors(procName),
-                                   relationPStore.getDirectSuccessors(procName));
+  return ReaderUtils::readStrStore(
+      !relationPStore.hasDirectSuccessors(procName),
+      relationPStore.getDirectSuccessors(procName));
 }
 
 std::vector<std::string> StmtOrProcToVarReader::getProcByVar(
