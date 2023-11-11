@@ -40,7 +40,7 @@ IntermediateTable NotDecorator::generateMinuend(
       // 'universe'
       IntermediateTable existingColData =
           currentTable.getSingleColData(synonymVal);
-      minuend.join(existingColData);
+      minuend = minuend.join(existingColData);
     } else {
       // since synonymVal doesnt exist yet, no choice but to query pkb
       vector<std::reference_wrapper<SynonymRes>> synonymResObjsOfEntityType =
