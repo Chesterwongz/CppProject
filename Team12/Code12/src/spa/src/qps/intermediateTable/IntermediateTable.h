@@ -86,7 +86,7 @@ class IntermediateTable {
    * @param intermediateTable separate table to be joined into
    *                          this table
    */
-  IntermediateTable join(const IntermediateTable &otherTable);
+  IntermediateTable join(IntermediateTable &otherTable);
 
   /**
    * Join on specific column.
@@ -96,7 +96,7 @@ class IntermediateTable {
    * @param joinColThis  this table's colName and AttrRef pair
    * @param joinColOther other table's colName and AttrRef pair
    */
-  IntermediateTable join(const IntermediateTable &otherTable,
+  IntermediateTable join(IntermediateTable &otherTable,
                          const pair<string, AttrRef> &joinColThis,
                          const pair<string, AttrRef> &joinColOther);
 

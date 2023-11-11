@@ -137,10 +137,10 @@ bool IntermediateTable::isTableEmptyAndNotWildcard() const {
   return !this->isTableWildcard() && this->isTableEmpty();
 }
 
-IntermediateTable IntermediateTable::join(const IntermediateTable &otherTable) {
+IntermediateTable IntermediateTable::join(IntermediateTable &otherTable) {
   if (this->isTableWildcard() && otherTable.isTableWildcard()) {
     // WILDCARD x WILDCARD = WILDCARD
-    return otherTable;
+    return std::move(otherTable);
   }
   if (this->isTableEmptyAndNotWildcard() ||
       otherTable.isTableEmptyAndNotWildcard()) {
@@ -149,11 +149,11 @@ IntermediateTable IntermediateTable::join(const IntermediateTable &otherTable) {
   }
   if (this->isTableWildcard() && !otherTable.isTableWildcard()) {
     // WILDCARD X TABLE_2 = TABLE_2
-    return otherTable;
+    return std::move(otherTable);
   }
   if (!this->isTableWildcard() && otherTable.isTableWildcard()) {
     // TABLE_1 x WILDCARD = TABLE_1
-    return *this;
+    return std::move(*this);
   }
 
   pair<vector<int>, vector<int>> sharedColumnIndexes =
@@ -169,12 +169,12 @@ IntermediateTable IntermediateTable::join(const IntermediateTable &otherTable) {
 }
 
 IntermediateTable IntermediateTable::join(
-    const IntermediateTable &otherTable,
+    IntermediateTable &otherTable,
     const pair<string, AttrRef> &joinColThis,
     const pair<string, AttrRef> &joinColOther) {
   if (this->isTableWildcard() && otherTable.isTableWildcard()) {
     // WILDCARD x WILDCARD = WILDCARD
-    return otherTable;
+    return std::move(otherTable);
   }
   if (this->isTableEmptyAndNotWildcard() ||
       otherTable.isTableEmptyAndNotWildcard()) {
@@ -183,11 +183,11 @@ IntermediateTable IntermediateTable::join(
   }
   if (this->isTableWildcard() && !otherTable.isTableWildcard()) {
     // WILDCARD X TABLE_2 = TABLE_2
-    return otherTable;
+    return std::move(otherTable);
   }
   if (!this->isTableWildcard() && otherTable.isTableWildcard()) {
     // TABLE_1 x WILDCARD = TABLE_1
-    return *this;
+    return std::move(*this);
   }
   return IntermediateTableUtils::getInnerJoinOn(*this, otherTable, joinColThis,
                                                 joinColOther);
