@@ -7,6 +7,7 @@
 #include "common/utils/CollectionUtils.h"
 #include "pkb/storage/relation_storage/RelationTStore.h"
 #include "pkb/utils/PredicateUtils.h"
+#include "pkb/utils/ReaderUtils.h"
 
 class ProcToProcReader {
  private:

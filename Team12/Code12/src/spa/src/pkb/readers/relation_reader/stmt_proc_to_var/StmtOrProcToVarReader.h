@@ -9,6 +9,7 @@
 #include "pkb/interfaces/readers/IUsesReader.h"
 #include "pkb/storage/entity_storage/StmtStore.h"
 #include "pkb/storage/relation_storage/RelationStore.h"
+#include "pkb/utils/ReaderUtils.h"
 
 class StmtOrProcToVarReader {
  private:

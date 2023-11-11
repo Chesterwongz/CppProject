@@ -2,38 +2,26 @@
 
 std::vector<std::string> ProcToProcReader::getDirectP1ByP2(
     const std::string& proc2) {
-  if (!store.hasDirectAncestors(proc2)) {
-    return {};
-  }
-  const auto& rawRes = store.getDirectAncestors(proc2);
-  return {rawRes.begin(), rawRes.end()};
+  return ReaderUtils::readStrStore(!store.hasDirectAncestors(proc2),
+                                   store.getDirectAncestors(proc2));
 }
 
 std::vector<std::string> ProcToProcReader::getTransitiveP1ByP2(
     const std::string& proc2) {
-  if (!store.hasAncestorsT(proc2)) {
-    return {};
-  }
-  const auto& rawRes = store.getAncestorsT(proc2);
-  return {rawRes.begin(), rawRes.end()};
+  return ReaderUtils::readStrStore(!store.hasAncestorsT(proc2),
+                                   store.getAncestorsT(proc2));
 }
 
 std::vector<std::string> ProcToProcReader::getDirectP2ByP1(
     const std::string& proc1) {
-  if (!store.hasDirectSuccessors(proc1)) {
-    return {};
-  }
-  const auto& rawRes = store.getDirectSuccessors(proc1);
-  return {rawRes.begin(), rawRes.end()};
+  return ReaderUtils::readStrStore(!store.hasDirectSuccessors(proc1),
+                                   store.getDirectSuccessors(proc1));
 }
 
 std::vector<std::string> ProcToProcReader::getTransitiveP2ByP1(
     const std::string& proc1) {
-  if (!store.hasSuccessorsT(proc1)) {
-    return {};
-  }
-  const auto& rawRes = store.getSuccessorsT(proc1);
-  return {rawRes.begin(), rawRes.end()};
+  return ReaderUtils::readStrStore(!store.hasSuccessorsT(proc1),
+                                   store.getSuccessorsT(proc1));
 }
 
 std::vector<std::pair<std::string, std::string>>
