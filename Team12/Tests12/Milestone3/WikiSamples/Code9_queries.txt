@@ -1,0 +1,15 @@
+------ Affects(1, 5) ------
+
+Select BOOLEAN such that Affects(1,5)
+FALSE
+5000
+------- Affects(2, 5) ------
+
+Select BOOLEAN such that Affects(2,5)
+FALSE
+5000
+------ Affects(3, 6) ------
+
+Select BOOLEAN such that Affects(3,10)
+FALSE
+5000

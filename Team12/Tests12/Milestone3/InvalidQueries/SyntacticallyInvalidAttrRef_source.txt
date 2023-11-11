@@ -1,0 +1,11 @@
+procedure p { read x;
+    print y;
+    a = 1;
+    call q;
+    if (a == 0) then {
+        print p;
+    } else { print q; }
+    while (b > 0) {
+        print b;
+        b = b - 2;}}
+procedure q { read n;}

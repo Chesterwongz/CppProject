@@ -15,9 +15,6 @@
 
 class PQLParserContext {
  private:
-  // TODO(Koon Hwee): After Select Clause is implemented,
-  //  PQLParserContext should not be a decorator, should
-  //  directly return Query object
   unique_ptr<Query>& query;
   unique_ptr<SynonymContext> context;
   unique_ptr<PQLTokenStream> tokenStream;
@@ -41,6 +38,7 @@ class PQLParserContext {
   bool checkSynonymExists(const string& synonym);
 
   //  Build clause - handling of query object
+  void addNotClause(unique_ptr<NotDecorator> notClause);
   void addClause(unique_ptr<Clause> clause);
   void setSemanticallyInvalid();
 

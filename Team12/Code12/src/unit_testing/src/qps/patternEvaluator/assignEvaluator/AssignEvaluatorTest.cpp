@@ -17,15 +17,9 @@ TEST_CASE("test_AssignEvaluator_processArgs_synonymFirstArg") {
   SynonymArg variableSynonym = SynonymArg("test", VARIABLE_ENTITY);
   PatternExp patternExp = PatternExp("x");
 
-  unique_ptr<SynonymArg> variableSynonymPtr =
-      make_unique<SynonymArg>(variableSynonym.getValue(), VARIABLE_ENTITY);
-  unique_ptr<PatternExp> patternExpPtr =
-      make_unique<PatternExp>(patternExp.getValue());
-
   AssignEvaluator assignEvaluator =
-      AssignEvaluator(std::move(variableSynonymPtr), std::move(patternExpPtr),
-                      assignMockPKBReader, assignIsPartialMatchFalse,
-                      selectedSynonym.getValue());
+      AssignEvaluator(variableSynonym, patternExp, assignMockPKBReader,
+                      assignIsPartialMatchFalse, selectedSynonym.getValue());
 
   vector<pair<string, string>> pkbResult = assignEvaluator.evaluateArguments();
 
@@ -43,15 +37,9 @@ TEST_CASE("test_AssignEvaluator_processArgs_identFirstArg") {
   Ident patternFirstArg = Ident("a");
   PatternExp patternExp = PatternExp("x");
 
-  unique_ptr<Ident> patternFirstArgPtr =
-      make_unique<Ident>(patternFirstArg.getValue());
-  unique_ptr<PatternExp> patternExpPtr =
-      make_unique<PatternExp>(patternExp.getValue());
-
   AssignEvaluator assignEvaluator =
-      AssignEvaluator(std::move(patternFirstArgPtr), std::move(patternExpPtr),
-                      assignMockPKBReader, assignIsPartialMatchFalse,
-                      selectedSynonym.getValue());
+      AssignEvaluator(patternFirstArg, patternExp, assignMockPKBReader,
+                      assignIsPartialMatchFalse, selectedSynonym.getValue());
 
   vector<pair<string, string>> pkbResult = assignEvaluator.evaluateArguments();
 
@@ -68,14 +56,11 @@ TEST_CASE("test_AssignEvaluator_processArgs_wildcardFirstArg") {
   // assign meow; select meow pattern meow (_, "x");
   SynonymArg selectedSynonym = SynonymArg(assignSynonymValue, ASSIGN_ENTITY);
   PatternExp patternExp = PatternExp("x");
+  Wildcard wildcard = Wildcard();
 
-  unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
-  unique_ptr<PatternExp> patternExpPtr =
-      make_unique<PatternExp>(patternExp.getValue());
-
-  AssignEvaluator assignEvaluator = AssignEvaluator(
-      std::move(wildcardPtr), std::move(patternExpPtr), assignMockPKBReader,
-      assignIsPartialMatchFalse, selectedSynonym.getValue());
+  AssignEvaluator assignEvaluator =
+      AssignEvaluator(wildcard, patternExp, assignMockPKBReader,
+                      assignIsPartialMatchFalse, selectedSynonym.getValue());
 
   vector<pair<string, string>> pkbResult = assignEvaluator.evaluateArguments();
 
@@ -93,15 +78,9 @@ TEST_CASE("test_AssignEvaluator_evaluate_synonymFirstArg") {
   SynonymArg variableSynonym = SynonymArg("test", VARIABLE_ENTITY);
   PatternExp patternExp = PatternExp("x");
 
-  unique_ptr<SynonymArg> variableSynonymPtr =
-      make_unique<SynonymArg>(variableSynonym.getValue(), VARIABLE_ENTITY);
-  unique_ptr<PatternExp> patternExpPtr =
-      make_unique<PatternExp>(patternExp.getValue());
-
   AssignEvaluator assignEvaluator =
-      AssignEvaluator(std::move(variableSynonymPtr), std::move(patternExpPtr),
-                      assignMockPKBReader, assignIsPartialMatchFalse,
-                      selectedSynonym.getValue());
+      AssignEvaluator(variableSynonym, patternExp, assignMockPKBReader,
+                      assignIsPartialMatchFalse, selectedSynonym.getValue());
 
   IntermediateTable actualTable = assignEvaluator.evaluate();
 
@@ -131,15 +110,9 @@ TEST_CASE("test_AssignEvaluator_evaluate_identFirstArg") {
   Ident patternFirstArg = Ident("a");
   PatternExp patternExp = PatternExp("x");
 
-  unique_ptr<Ident> patternFirstArgPtr =
-      make_unique<Ident>(patternFirstArg.getValue());
-  unique_ptr<PatternExp> patternExpPtr =
-      make_unique<PatternExp>(patternExp.getValue());
-
   AssignEvaluator assignEvaluator =
-      AssignEvaluator(std::move(patternFirstArgPtr), std::move(patternExpPtr),
-                      assignMockPKBReader, assignIsPartialMatchFalse,
-                      selectedSynonym.getValue());
+      AssignEvaluator(patternFirstArg, patternExp, assignMockPKBReader,
+                      assignIsPartialMatchFalse, selectedSynonym.getValue());
 
   IntermediateTable actualTable = assignEvaluator.evaluate();
 
@@ -165,14 +138,11 @@ TEST_CASE("test_AssignEvaluator_evaluate_wildcardFirstArg") {
   // assign meow; select meow pattern meow (_, "x");
   SynonymArg selectedSynonym = SynonymArg(assignSynonymValue, ASSIGN_ENTITY);
   PatternExp patternExp = PatternExp("x");
+  Wildcard wildcard = Wildcard();
 
-  unique_ptr<Wildcard> wildcardPtr = make_unique<Wildcard>();
-  unique_ptr<PatternExp> patternExpPtr =
-      make_unique<PatternExp>(patternExp.getValue());
-
-  AssignEvaluator assignEvaluator = AssignEvaluator(
-      std::move(wildcardPtr), std::move(patternExpPtr), assignMockPKBReader,
-      assignIsPartialMatchFalse, selectedSynonym.getValue());
+  AssignEvaluator assignEvaluator =
+      AssignEvaluator(wildcard, patternExp, assignMockPKBReader,
+                      assignIsPartialMatchFalse, selectedSynonym.getValue());
 
   IntermediateTable actualTable = assignEvaluator.evaluate();
 

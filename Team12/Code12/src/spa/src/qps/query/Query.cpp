@@ -1,16 +1,16 @@
 #include "Query.h"
 
-#include <cassert>
-
-#include "../intermediateTable/IntermediateTableFactory.h"
-#include "qps/clause/selectClause/BaseSelectClause.h"
-#include "qps/clause/selectClause/SelectClauseFactory.h"
-#include "qps/clause/selectClause/selectTupleClause/SelectTupleClause.h"
-#include "qps/exceptions/QPSInvalidQueryException.h"
-
-Query::Query(PKBReader &pkb) : pkb(pkb) {}
+void Query::addNotClause(unique_ptr<NotDecorator> notClause) {
+  assert(
+      this->selectClause);  // selectClause already added with setSynonymToQuery
+  this->selectClause->addSynonymsInOtherClause(notClause->getClauseSynonyms());
+  this->notClauses.push_back(std::move(notClause));
+}
 
 void Query::addClause(unique_ptr<Clause> clause) {
+  assert(
+      this->selectClause);  // selectClause already added with setSynonymToQuery
+  this->selectClause->addSynonymsInOtherClause(clause->getClauseSynonyms());
   this->clauses.push_back(std::move(clause));
 }
 
@@ -19,40 +19,19 @@ void Query::setSynonymToQuery(SynonymsToSelect selectSynonyms) {
       SelectClauseFactory::createSelectClause(std::move(selectSynonyms));
 }
 
-unordered_set<string> Query::evaluate() {
-  // todo 1: query optimisation
-  // if at least 1 of selected synonyms exist in table or if table is wildcard,
-  // join and return else if cols not exist and not empty, return all select
-  // columns else return empty
-
-  // todo 2: abstract out evaluation to evaluator
-  IntermediateTable currIntermediateTable =
-      IntermediateTableFactory::buildWildcardIntermediateTable();
-
-  // iteratively join results of each clause
-  for (unique_ptr<Clause> &clause : clauses) {
-    selectClause->addSynonymsInOtherClause(clause->getClauseSynonyms());
-    IntermediateTable clauseResult = clause->evaluate(pkb);
-    currIntermediateTable = currIntermediateTable.join(clauseResult);
-    if (currIntermediateTable.isTableEmptyAndNotWildcard()) {
-      // do not continue evaluating once we have an empty table
-      break;
-    }
-  }
-
-  assert(selectClause);
-  bool hasRowsInTable = !currIntermediateTable.isTableEmptyAndNotWildcard();
-  if (hasRowsInTable) {
-    currIntermediateTable =
-        currIntermediateTable.join(selectClause->evaluate(pkb));
-  }
-
-  return selectClause->getQueryResult(currIntermediateTable);
+IntermediateTable Query::evalSelectClause(PKBReader& pkb) {
+  return this->selectClause->evaluate(pkb);
 }
 
-bool Query::operator==(const Query &other) {
+bool Query::operator==(const Query& other) {
   if (selectClause && !this->selectClause->isEquals(*other.selectClause))
     return false;
+
+  for (int i = 0; i < this->notClauses.size(); i++) {
+    if (!notClauses.at(i)->isEquals(*(other.notClauses.at(i)))) {
+      return false;
+    }
+  }
 
   for (int i = 0; i < this->clauses.size(); i++) {
     if (!clauses.at(i)->isEquals(*(other.clauses.at(i)))) {
@@ -61,4 +40,12 @@ bool Query::operator==(const Query &other) {
   }
 
   return true;
+}
+
+set<string> Query::getSelectedSynonyms() {
+  return this->selectClause->getClauseSynonyms();
+}
+
+unordered_set<string> Query::getQueryResult(IntermediateTable& finalTable) {
+  return this->selectClause->getQueryResult(finalTable);
 }

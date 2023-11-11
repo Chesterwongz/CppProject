@@ -10,7 +10,8 @@
 
 class StmtToStmtAbstraction : public BaseAbstraction {
  private:
-  void filterSelfRefPairs(vector<pair<string, string>>& stmtPairs);
+  static vector<string> filterSelfRefPairs(
+      vector<pair<string, string>>& stmtPairs);
   virtual bool isSelfReferencePossible();
   bool isFirstSynonymInvalid() override;
   bool isSecondSynonymInvalid() override;

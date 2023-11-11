@@ -1,5 +1,7 @@
 #include "PatternParserState.h"
 
+#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
+
 PredictiveMap PatternParserState::predictiveMap = {
     {PQL_PATTERN_TOKEN, {PQL_SYNONYM_TOKEN, PQL_NOT_TOKEN}},
     {PQL_NOT_TOKEN, {PQL_SYNONYM_TOKEN}},
@@ -56,19 +58,28 @@ void PatternParserState::createPatternClause() {
   string synEntity = syn->getEntityType();
   if (parsedPatternState == ASSIGN_WHILE_PATTERN) {
     if (synEntity == ASSIGN_ENTITY) {
-      parserContext.addClause(std::make_unique<AssignPatternClause>(
-          std::move(syn), std::move(firstArg), std::move(nonFirstArgs[0]),
-          isPartialMatch));
+      unique_ptr<Clause> assignPatternClause =
+          std::make_unique<AssignPatternClause>(
+              std::move(syn), std::move(firstArg), std::move(nonFirstArgs[0]),
+              isPartialMatch);
+
+      BaseParserState::addEvaluableClause(std::move(assignPatternClause),
+                                          isNegated);
       return;
     }
     if (synEntity == WHILE_ENTITY && nonFirstArgs[0]->isWildcard()) {
-      parserContext.addClause(std::make_unique<WhilePatternClause>(
-          std::move(syn), std::move(firstArg)));
+      unique_ptr<Clause> whilePatternClause =
+          std::make_unique<WhilePatternClause>(std::move(syn),
+                                               std::move(firstArg));
+      BaseParserState::addEvaluableClause(std::move(whilePatternClause),
+                                          isNegated);
       return;
     }
   } else if (parsedPatternState == IF_PATTERN && synEntity == IF_ENTITY) {
-    parserContext.addClause(std::make_unique<IfPatternClause>(
-        std::move(syn), std::move(firstArg)));
+    unique_ptr<Clause> ifPatternClause =
+        std::make_unique<IfPatternClause>(std::move(syn), std::move(firstArg));
+
+    BaseParserState::addEvaluableClause(std::move(ifPatternClause), isNegated);
     return;
   }
   parserContext.setSemanticallyInvalid();

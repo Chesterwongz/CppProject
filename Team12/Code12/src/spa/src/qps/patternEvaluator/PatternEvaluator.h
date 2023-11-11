@@ -15,14 +15,14 @@ using std::string, std::vector, std::unique_ptr, std::set, std::pair;
 
 class PatternEvaluator {
  protected:
-  unique_ptr<AbstractArgument> firstArg;
+  AbstractArgument& firstArg;
   PKBReader& pkbReader;
   string synonymValue;
 
  public:
-  explicit PatternEvaluator(unique_ptr<AbstractArgument> firstArg,
+  explicit PatternEvaluator(AbstractArgument& firstArg,
                             PKBReader& pkbReader, string synonymValue)
-      : firstArg(std::move(firstArg)),
+      : firstArg(firstArg),
         pkbReader(pkbReader),
         synonymValue(std::move(synonymValue)) {}
 

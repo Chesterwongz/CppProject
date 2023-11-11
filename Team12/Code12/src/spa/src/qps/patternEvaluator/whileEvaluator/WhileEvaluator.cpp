@@ -5,14 +5,10 @@
 #include "qps/common/Keywords.h"
 
 vector<pair<string, string>> WhileEvaluator::evaluateArguments() {
-  string firstArgValue = firstArg->getValue();
+  string firstArgValue = firstArg.getValue();
 
-  bool isFirstArgSynonym = firstArg->isSynonym();
-
-  vector<pair<string, string>> pkbResult;
+  bool isFirstArgSynonym = firstArg.isSynonym();
 
   return pkbReader.getWhilePattern(isFirstArgSynonym ? WILDCARD_KEYWORD
                                                      : firstArgValue);
-
-  return pkbResult;
 }

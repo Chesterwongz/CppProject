@@ -32,7 +32,7 @@ class SynonymArg : public AbstractArgument {
   void setAttrRef(AttrRef ref);
   const AttrRef& getAttrRef();
   QPSStringUtils::ArgumentType getArgumentType() override;
-  bool isSynonym() override;
+  bool isSynonym() const override;
   bool isStmtSynonym() override;
   bool isVarSynonym() override;
   bool isProcSynonym() override;

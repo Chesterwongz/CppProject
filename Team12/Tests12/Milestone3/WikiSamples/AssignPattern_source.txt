@@ -1,0 +1,4 @@
+procedure simple {
+    x = v + x * y + z * t;
+    x = (((v) + ((x) * (y))) + ((z) * (t)));
+}

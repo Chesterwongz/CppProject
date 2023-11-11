@@ -1,5 +1,6 @@
 #include "IntermediateTable.h"
 
+#include <algorithm>
 #include <cassert>
 #include <iostream>
 #include <stdexcept>
@@ -49,7 +50,7 @@ vector<vector<string>> IntermediateTable::getDataAsStrings() const {
   return res;
 }
 
-TableDataType IntermediateTable::getTableData() const {
+const TableDataType &IntermediateTable::getTableData() const {
   return this->tableData;
 }
 
@@ -72,7 +73,7 @@ unordered_set<string> IntermediateTable::getColumns(
     for (const string &colName : colNameVector) {
       int colIndex = this->colNameToIndexMap.at(colName);
       row += (row.empty() ? "" : " ") +
-             this->tableData.at(rowIndex).at(colIndex).toString();
+             this->tableData.at(rowIndex).at(colIndex).get().toString();
     }
     res.insert(row);
   }
@@ -85,11 +86,12 @@ unordered_set<string> IntermediateTable::getColumns(
     return {};
   }
 
-  for (const auto &synonym : selectSynonyms) {
-    // return empty if any column requested does not exist
-    if (!this->isColExists(synonym->getValue())) {
-      return {};
-    }
+  // return empty if any column requested does not exist
+  if (std::any_of(selectSynonyms.begin(), selectSynonyms.end(),
+                  [this](const auto &synonym) {
+                    return !this->isColExists(synonym->getValue());
+                  })) {
+    return {};
   }
 
   unordered_set<string> res = {};
@@ -99,16 +101,20 @@ unordered_set<string> IntermediateTable::getColumns(
       string synonymValue = synonym->getValue();
       AttrRef attrRef = synonym->getAttrRef();
       int colIndex = this->colNameToIndexMap.at(synonymValue);
-      assert(this->tableData.at(rowIndex).at(colIndex).isAttrExists(attrRef));
-      row += (row.empty() ? "" : " ") +
-             this->tableData.at(rowIndex).at(colIndex).getAttribute(attrRef);
+      assert(this->tableData.at(rowIndex).at(colIndex).get().isAttrExists(
+          attrRef));
+      row +=
+          (row.empty() ? "" : " ") +
+          this->tableData.at(rowIndex).at(colIndex).get().getAttribute(attrRef);
     }
-    res.insert(row);
+    res.insert(std::move(row));
   }
   return res;
 }
 
-vector<string> IntermediateTable::getColNames() const { return this->colNames; }
+const vector<string> &IntermediateTable::getColNames() const {
+  return colNames;
+}
 
 int IntermediateTable::getColIndex(const string &colName) const {
   if (!isColExists(colName)) {
@@ -152,14 +158,14 @@ IntermediateTable IntermediateTable::join(const IntermediateTable &otherTable) {
 
   pair<vector<int>, vector<int>> sharedColumnIndexes =
       IntermediateTableUtils::getSharedColIndexes(*this, otherTable);
-  bool noSharedColumns =
-      sharedColumnIndexes.first.empty() && sharedColumnIndexes.second.empty();
+  bool hasSharedColumns = !(sharedColumnIndexes.first.empty() &&
+                            sharedColumnIndexes.second.empty());
 
   // Cross if no shared columns, inner join if shared columns exists
-  return noSharedColumns
-             ? IntermediateTableUtils::getCrossProduct(*this, otherTable)
-             : IntermediateTableUtils::getInnerJoin(sharedColumnIndexes, *this,
-                                                    otherTable);
+  return hasSharedColumns
+             ? IntermediateTableUtils::getNaturalJoin(sharedColumnIndexes,
+                                                      *this, otherTable)
+             : IntermediateTableUtils::getCrossProduct(*this, otherTable);
 }
 
 IntermediateTable IntermediateTable::join(
@@ -187,6 +193,64 @@ IntermediateTable IntermediateTable::join(
                                                 joinColOther);
 }
 
+IntermediateTable IntermediateTable::getDifference(
+    const IntermediateTable &otherTable) {
+  if (otherTable.isTableWildcard()) {
+    // ANY - WILDCARD = EMPTY
+    return IntermediateTable::makeEmptyTable();
+  }
+
+  if (this->isTableEmpty() || otherTable.isTableEmpty()) {
+    // EMPTY - ANY = EMPTY
+    // ANY - EMPTY = ANY
+    return *this;
+  }
+
+  // must have same number of cols
+  assert(colNames.size() == otherTable.getColNames().size());
+  for (int i = 0; i < colNames.size(); i++) {
+    // both tables cols must be the same
+    assert(colNames[i] == otherTable.getColNames()[i]);
+  }
+
+  TableDataType otherTableData = otherTable.getTableData();
+  unordered_map<string, vector<TableRowType>> t2Mapping;
+  for (const TableRowType &otherTableRow : otherTableData) {
+    t2Mapping[IntermediateTableUtils::getRowKey(otherTableRow)].emplace_back(
+        otherTableRow);
+  }
+
+  TableDataType newTableData;
+  for (TableRowType &row : this->tableData) {
+    if (t2Mapping.find(IntermediateTableUtils::getRowKey(row)) !=
+        t2Mapping.end()) {
+      continue;
+    } else {
+      newTableData.emplace_back(std::move(row));
+    }
+  }
+
+  return newTableData.empty() ? IntermediateTable(false)
+                              : IntermediateTable(colNames, newTableData);
+}
+
+IntermediateTable IntermediateTable::getSingleColData(const string& colName) {
+  if (!this->isColExists(colName)) {
+    return makeEmptyTable();
+  }
+
+  int colIndex = this->getColIndex(colName);
+
+  TableDataType colData;
+  colData.reserve(this->tableData.size());
+
+  for (const TableRowType row : this->tableData) {
+    colData.push_back({row.at(colIndex)});
+  }
+
+  return IntermediateTable({colName}, std::move(colData));
+}
+
 void IntermediateTable::printTable() const {
   std::cout << "table: " << std::endl;
   if (this->isWildcard || this->isEmpty) {
@@ -196,18 +260,19 @@ void IntermediateTable::printTable() const {
 
   string colNamesToPrint;
   for (auto &colName : this->getColNames()) {
-    colNamesToPrint += colName + " | ";
+    colNamesToPrint += colName + IntermediateTableUtils::TABLE_KEY_DELIMITER;
   }
   std::cout << colNamesToPrint << std::endl;
 
-  for (auto &row : this->getTableData()) {
+  for (const auto &row : this->getTableData()) {
     string rowDataToPrint;
     for (auto &col : row) {
-      rowDataToPrint += col.getAttribute(AttrRefEnum::DEFAULT) + "," +
-                        col.getAttribute(AttrRefEnum::VALUE_ENUM) + "," +
-                        col.getAttribute(AttrRefEnum::VAR_NAME_ENUM) + "," +
-                        col.getAttribute(AttrRefEnum::STMT_NUM_ENUM) + "," +
-                        col.getAttribute(AttrRefEnum::PROC_NAME_ENUM) + " | ";
+      rowDataToPrint += col.get().getAttribute(ATTR_REF_DEFAULT) + "," +
+                        col.get().getAttribute(ATTR_REF_VALUE) + "," +
+                        col.get().getAttribute(ATTR_REF_VAR_NAME) + "," +
+                        col.get().getAttribute(ATTR_REF_STMT_NUMBER) + "," +
+                        col.get().getAttribute(ATTR_REF_PROC_NAME) +
+                        IntermediateTableUtils::TABLE_KEY_DELIMITER;
     }
     std::cout << rowDataToPrint << std::endl;
   }

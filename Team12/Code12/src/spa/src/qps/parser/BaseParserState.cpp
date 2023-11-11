@@ -22,6 +22,17 @@ string BaseParserState::getValidAttrRef(const std::string &synonym,
   return ATTR_REF_INVALID;
 }
 
+void BaseParserState::addEvaluableClause(unique_ptr<Clause> clause,
+                                         bool isNegated) {
+  if (isNegated) {
+    unique_ptr<NotDecorator> notClause =
+        std::make_unique<NotDecorator>(std::move(clause));
+    parserContext.addNotClause(std::move(notClause));
+  } else {
+    parserContext.addClause(std::move(clause));
+  }
+}
+
 void BaseParserState::processAttrRef(unique_ptr<SynonymArg> &synArg) {
   // must be a syn to enter here; peek will be peeking the next token after syn
   auto next = parserContext.peekNextToken();

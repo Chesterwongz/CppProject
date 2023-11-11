@@ -1,0 +1,95 @@
+------ 1 ------
+assign a;
+Select a pattern a ( _ , "v + x * y + z * t")
+1, 2
+5000
+------ 2 ------
+assign a;
+Select a pattern a ( _ , "v")
+none
+5000
+------ 3 ------
+assign a;
+Select a pattern a ( _ , _"v"_)
+1, 2
+5000
+------ 4 ------
+assign a;
+Select a pattern a ( _ , _"x*y"_)
+1, 2
+5000
+------ 5 ------
+assign a;
+Select a pattern a ( _ , _"v+x"_)
+none
+5000
+------ 6 ------
+assign a;
+Select a pattern a ( _ , _"v+x*y"_)
+1, 2
+5000
+------ 7 ------
+assign a;
+Select a pattern a ( _ , _"y+z*t"_)
+none
+5000
+------ 8 ------
+assign a;
+Select a pattern a ( _ , _"x * y + z * t"_)
+none
+5000
+------ 9 ------
+assign a;
+Select a pattern a ( _ , _"v + x * y + z * t"_)
+1, 2
+5000
+------ 10 - single var x ------
+assign a;
+Select a pattern a ( _ , _"x"_)
+1, 2
+5000
+------ 11 - single var y ------
+assign a;
+Select a pattern a ( _ , _"y"_)
+1, 2
+5000
+------ 12 - single var z ------
+assign a;
+Select a pattern a ( _ , _"z"_)
+1, 2
+5000
+------ 13 - single var t ------
+assign a;
+Select a pattern a ( _ , _"t"_)
+1, 2
+5000
+------ 14 - single var v ------
+assign a;
+Select a pattern a ( _ , _"v"_)
+1, 2
+5000
+------ 15 - two operands x*y ------
+assign a;
+Select a pattern a ( _ , _"x*y"_)
+1, 2
+5000
+------ 16 - two operands x*z ------
+assign a;
+Select a pattern a ( _ , _"x*z"_)
+none
+5000
+------ 17 - two operands z*t ------
+assign a;
+Select a pattern a ( _ , _"z*t"_)
+1, 2
+5000
+------ 18 - three operands v+x*y ------
+assign a;
+Select a pattern a ( _ , _"v+x*y"_)
+1, 2
+5000
+------ 19 - three operands v+x*z ------
+assign a;
+Select a pattern a ( _ , _"v+x*z"_)
+none
+5000

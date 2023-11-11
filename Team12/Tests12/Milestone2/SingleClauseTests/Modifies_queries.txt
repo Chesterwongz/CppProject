@@ -173,3 +173,108 @@ call c;
 Select c such that Modifies(6, "sthRandom")
 none
 1000
+====== 36 - not Modifies (assign, _) ======
+assign a;
+Select a such that not Modifies(a, _)
+none
+1000
+====== 37 - not Modifies (assign, var) ======
+assign a; variable v;
+Select a such that not Modifies(a, v)
+2, 4, 5, 7, 9, 13, 15, 16, 17, 18, 19, 20, 23
+1000
+====== 38 - not Modifies (assign, ident) ======
+assign a;
+Select a such that not Modifies(a, "special1")
+2, 4, 5, 7, 13, 15, 16, 17, 18, 19, 20, 23
+1000
+====== 39 - not Modifies (read, _) ======
+read r;
+Select r such that not Modifies(r, _)
+none
+1000
+====== 40 - not Modifies (read, var) ======
+read r; variable v;
+Select r such that not Modifies(r, v)
+8
+1000
+====== 41 - not Modifies (read, ident) ======
+read r;
+Select r such that not Modifies(r, "hello")
+8
+1000
+====== 42 - not Modifies (stmt, _) ======
+stmt s;
+Select s such that not Modifies(s, _)
+10, 14, 21, 22
+1000
+====== 43 - not Modifies (stmt, v) ======
+stmt s; variable v;
+Select s such that not Modifies(s, v)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
+1000
+====== 44 - not Modifies (stmt, ident) ======
+stmt s;
+Select s such that not Modifies(s, "special2")
+2, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23
+1000
+====== 45 - not Modifies (if, _) ======
+if i;
+Select i such that not Modifies(i, _)
+none
+1000
+====== 46 - not Modifies (if, v) ======
+if i; variable v;
+Select i such that not Modifies(i, v)
+3, 11
+1000
+====== 47 - not Modifies (if, ident) ======
+if i;
+Select i such that not Modifies(i, "special2")
+11
+1000
+====== 48 - not Modifies (while, _) ======
+while w;
+Select w such that not Modifies(w, _)
+none
+1000
+====== 49 - not Modifies (while, v) ======
+while w; variable v;
+Select w such that not Modifies(w, v)
+1, 12
+1000
+====== 50 - not Modifies (while, ident) ======
+while w;
+Select w such that not Modifies(w, "special2")
+12
+1000
+====== 51 - not Modifies (call, _) ======
+call c;
+Select c such that not Modifies(c, _)
+22
+1000
+====== 52 - not Modifies (call, v) ======
+call c; variable v;
+Select c such that not Modifies(c, v)
+6, 22, 24
+1000
+====== 53 - not Modifies (call, ident) ======
+call c;
+Select c such that not Modifies(c, "special5")
+6, 22, 24
+1000
+====== 54 - not Modifies (proc, _) ======
+procedure p;
+Select p such that not Modifies(p, _)
+ModifiesForProcsAndCalls3, ModifiesForProcsAndCalls4
+1000
+====== 55 - not Modifies (proc, var) ======
+procedure p; variable v;
+Select p such that not Modifies(p, v)
+ModifiesForProcsAndCalls1, ModifiesForProcsAndCalls2, ModifiesForProcsAndCalls3, ModifiesForProcsAndCalls4, ModifiesForProcsAndCalls5
+1000
+====== 56 - not Modifies (proc, ident) ======
+procedure p;
+Select p such that not Modifies(p, "special2")
+ModifiesForProcsAndCalls3, ModifiesForProcsAndCalls4
+1000

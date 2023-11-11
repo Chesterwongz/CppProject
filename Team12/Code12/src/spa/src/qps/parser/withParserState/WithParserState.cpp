@@ -77,9 +77,10 @@ void WithParserState::handleToken() {
         break;
     }
     if (arguments.size() == expectedNumberOfArgs) {
-      parserContext.addClause(std::make_unique<WithClause>(
-          std::move(arguments[0]), std::move(arguments[1])));
+      unique_ptr<WithClause> withClause = std::make_unique<WithClause>(
+          std::move(arguments[0]), std::move(arguments[1]));
       checkSameTypeComparison();
+      BaseParserState::addEvaluableClause(std::move(withClause), isNegated);
       ClauseTransitionParserState::setClauseTransitionState(parserContext);
       return;
     }

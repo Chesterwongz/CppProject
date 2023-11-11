@@ -8,14 +8,14 @@
 #include <utility>
 #include <vector>
 
-#include "qps/common/Keywords.h"
 #include "qps/argument/synonymArg/SynonymArg.h"
+#include "qps/common/Keywords.h"
 #include "qps/intermediateTable/synonymRes/SynonymRes.h"
 
 using std::pair, std::unordered_map, std::unordered_set, std::string,
-    std::vector, std::set, std::unique_ptr;
+    std::vector, std::set, std::unique_ptr, std::reference_wrapper;
 
-typedef vector<SynonymRes> TableRowType;
+typedef vector<std::reference_wrapper<SynonymRes>> TableRowType;
 typedef vector<TableRowType> TableDataType;
 
 class IntermediateTable {
@@ -97,13 +97,32 @@ class IntermediateTable {
    * @param joinColOther other table's colName and AttrRef pair
    */
   IntermediateTable join(const IntermediateTable &otherTable,
-                         const pair<string, AttrRef>& joinColThis,
-                         const pair<string, AttrRef>& joinColOther);
+                         const pair<string, AttrRef> &joinColThis,
+                         const pair<string, AttrRef> &joinColOther);
+
+  /**
+   * added by Houten   
+   * Gets the difference between thisTable and otherTable.
+   * cannot get difference if there cols that dont match
+   * cannot get difference if cols are in different orders
+   * Any table - WILDCARD TABLE = EMPTY TABLE
+   * Any table - EMPTY TABLE = Any table
+   * @param otherTable
+   */
+  IntermediateTable getDifference(const IntermediateTable &otherTable);
+
+  /**
+   * added by Houten
+   * Gets the col data of the specified col in the form of a singleColTable
+   * @param otherTable
+   * @return singleColTable of specifed colName if it exists, otherwise emptyTable
+   */
+  IntermediateTable getSingleColData(const string &colName);
 
   /**
    * @return vector of all column names
    */
-  [[nodiscard]] vector<string> getColNames() const;
+  [[nodiscard]] const vector<string> &getColNames() const;
 
   /**
    * @return index of specified column
@@ -122,7 +141,7 @@ class IntermediateTable {
   [[nodiscard]] bool isTableEmpty() const;
   [[nodiscard]] bool isTableWildcard() const;
   [[nodiscard]] bool isTableEmptyAndNotWildcard() const;
-  [[nodiscard]] TableDataType getTableData() const;
+  [[nodiscard]] const TableDataType &getTableData() const;
   void printTable() const;
 
   friend class IntermediateTableFactory;

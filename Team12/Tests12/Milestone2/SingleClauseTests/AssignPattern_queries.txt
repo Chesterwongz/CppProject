@@ -108,3 +108,53 @@ assign a; variable v;
 Select a pattern a(v,"a + 1")
 7
 1000
+====== 23 - not Assign pattern (_, partial) ======
+assign a;
+Select a pattern not a(_, _"1 + 2 + 3"_)
+2, 4, 5, 7, 8
+1000
+====== 24 - not Assign pattern (ident, partial) ======
+assign a;
+Select a pattern not a("line2", _"c * d / e"_)
+1, 4, 5, 7, 8
+1000
+====== 25 - not Assign pattern (synonym, partial) select v ======
+assign a; variable v;
+Select v pattern not a(v,_"2 + 3"_)
+a, b, c, d, e, f, line1, line2, line3, line4, line5, line6, line7, line8
+1000
+====== 26 - not Assign pattern (synonym, partial with op) select a ======
+assign a; variable v;
+Select a pattern not a(v,_"2 + 3"_)
+1, 2, 4, 5, 7, 8
+1000
+====== 27 - not Assign pattern (_, exact) ======
+assign a;
+Select a pattern not a(_, "a+ b-c *d/ e%f")
+1, 4, 5, 7, 8
+1000
+====== 28 - not Assign pattern (_, exact) select different assign ======
+assign a1, a2;
+Select a1 pattern not a2(_, "1")
+1, 2, 4, 5, 7, 8
+1000
+====== 29 - not Assign pattern (ident, exact) ======
+assign a;
+Select a pattern not a("line1", "1 + 2 + 3 + 4")
+2, 4, 5, 7, 8
+1000
+====== 30 - not Assign pattern (ident, exact) select different assign ======
+assign a1, a2;
+Select a1 pattern not a2("line5", "a")
+1, 2, 4, 5, 7, 8
+1000
+====== 31 - Assign pattern (synonym, exact) select v ======
+assign a; variable v;
+Select v pattern  not a(v, "1")
+a, b, c, d, e, f, line1, line2, line3, line4, line5, line6, line7, line8
+1000
+====== 32 - Assign pattern (synonym, exact) select a ======
+assign a; variable v;
+Select a pattern not a(v,"a + 1")
+1, 2, 4, 5, 7, 8
+1000
