@@ -20,7 +20,7 @@ std::vector<std::pair<std::string, std::string>> NextReader::getNextPairs(
 }
 
 bool NextReader::hasNext() {
-  return stmtStore.hasStmt() && !nextStore.getDirectRelations().empty();
+  return !nextStore.getDirectRelations().empty();
 }
 
 // =================================== NextT ===================================
@@ -45,5 +45,5 @@ std::vector<std::pair<std::string, std::string>> NextReader::getNextTPairs(
 }
 
 bool NextReader::hasNextT() {
-  return stmtStore.hasStmt() && !nextStore.getRelationsT().empty();
+  return !nextStore.getRelationsT().empty();
 }
