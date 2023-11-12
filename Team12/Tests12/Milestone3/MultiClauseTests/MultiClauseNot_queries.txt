@@ -1348,3 +1348,13 @@ stmt s; if i; variable v; while w; procedure p;
 Select i pattern not i("i", _, _) with i.stmt# = 10
 10
 5000
+------ 269 - whilePattern and not with ------
+stmt s1, s2; variable v; while w;
+Select w pattern w("i", _) with not w.stmt# = 6
+none
+5000
+------ 270 - not whilePattern and with ------
+stmt s; variable v; while w; procedure p;
+Select w pattern not w("i", _) with w.stmt# = 6
+none
+5000
