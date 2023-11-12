@@ -47,24 +47,15 @@ std::vector<std::pair<std::string, std::string>>
 PatternStorage::getAssignPattern(
     const std::string& variableName, const std::string& rpn,
     std::function<bool(const std::string&, const std::string&)> matchFunction) {
-  std::vector<std::pair<std::string, std::string>> result;
-
   if ((variableName == WILDCARD_KEYWORD) && (rpn == WILDCARD_KEYWORD)) {
-    result = getAllAssignStatements();
+    return getAllAssignStatements();
   } else if (variableName == WILDCARD_KEYWORD) {
-    for (const auto& entry : statementPatternStorage) {
-      result = processEntryWithWildcardVariable(rpn, matchFunction);
-    }
+    return processEntryWithWildcardVariable(rpn, matchFunction);
   } else if (rpn == WILDCARD_KEYWORD) {
-    result = getAllAssignStatementsWithVariable(variableName);
+    return getAllAssignStatementsWithVariable(variableName);
   } else {
-    for (const auto& entry : statementPatternStorage) {
-      result =
-          processEntryWithoutWildcardVariable(rpn, variableName, matchFunction);
-    }
+    return processEntryWithoutWildcardVariable(rpn, variableName, matchFunction);
   }
-
-  return result;
 }
 
 std::vector<std::pair<std::string, std::string>>
