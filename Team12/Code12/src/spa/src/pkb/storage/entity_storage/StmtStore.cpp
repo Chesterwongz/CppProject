@@ -10,6 +10,8 @@ bool StmtStore::hasStmt(int stmt, StmtType stmtType) const {
          stmtTypeToStmtMap.at(stmtType).count(stmt);
 }
 
+bool StmtStore::hasStmt() const { return !stmtTypeToStmtMap.empty(); }
+
 bool StmtStore::hasStmtType(StmtType stmtType) const {
   return stmtTypeToStmtMap.count(stmtType);
 }

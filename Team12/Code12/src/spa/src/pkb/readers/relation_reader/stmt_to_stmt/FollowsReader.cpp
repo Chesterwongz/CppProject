@@ -19,6 +19,14 @@ std::vector<std::pair<std::string, std::string>> FollowsReader::getFollowsPairs(
   return reader.getDirectS1AndS2Pairs(stmtType1, stmtType2);
 }
 
+bool FollowsReader::hasFollows() {
+  if (!stmtStore.hasStmtType(StmtType::STMT) ||
+      !stmtStore.hasStmtType(StmtType::STMT)) {
+    return false;
+  }
+  return !followsStore.getDirectRelations().empty();
+}
+
 // ================================= FollowsT =================================
 
 std::vector<std::string> FollowsReader::getFollowsStar(int stmt,
@@ -38,4 +46,12 @@ bool FollowsReader::isFollowsStar(int stmt1, int stmt2) {
 std::vector<std::pair<std::string, std::string>>
 FollowsReader::getFollowsStarPairs(StmtType stmtType1, StmtType stmtType2) {
   return reader.getTransitiveS1AndS2Pairs(stmtType1, stmtType2);
+}
+
+bool FollowsReader::hasFollowsT() {
+  if (!stmtStore.hasStmtType(StmtType::STMT) ||
+      !stmtStore.hasStmtType(StmtType::STMT)) {
+    return false;
+  }
+  return !followsStore.getRelationsT().empty();
 }

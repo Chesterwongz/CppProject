@@ -35,3 +35,11 @@ bool CallsReader::hasCallsT(const std::string& proc1,
                             const std::string& proc2) {
   return reader.hasTransitiveRelation(proc1, proc2);
 }
+
+bool CallsReader::hasCalls() {
+  return !callsStore.getDirectRelations().empty();
+}
+
+bool CallsReader::hasCallsT() {
+  return !callsStore.getRelationsT().empty();
+}

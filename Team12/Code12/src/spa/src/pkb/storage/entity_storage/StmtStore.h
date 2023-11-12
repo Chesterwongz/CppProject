@@ -21,6 +21,8 @@ class StmtStore {
   [[nodiscard]] const std::unordered_set<int>& getAllStmtsOf(
       StmtType stmtType) const;
 
+  [[nodiscard]] bool hasStmt() const;
+
   [[nodiscard]] bool hasStmt(int stmt, StmtType stmtType) const;
 
   [[nodiscard]] bool hasStmtType(StmtType stmtType) const;
