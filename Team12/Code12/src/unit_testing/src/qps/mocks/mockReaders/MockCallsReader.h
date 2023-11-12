@@ -62,11 +62,7 @@ class MockCallsReader : public BaseMockReader {
     return mockHasCallsT;
   }
 
-  bool hasCalls() override {
-    return !mockCallPairs.empty();
-  }
+  bool hasCalls() override { return !mockCallPairs.empty(); }
 
-  bool hasCallsT() override {
-    return !mockCallsStarPairs.empty();
-  }
+  bool hasCallsT() override { return !mockCallsStarPairs.empty(); }
 };

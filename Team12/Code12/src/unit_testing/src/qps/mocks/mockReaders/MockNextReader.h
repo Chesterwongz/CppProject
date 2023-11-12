@@ -66,12 +66,8 @@ class MockNextReader : public BaseMockReader {
                                StmtType secondStmtType) override {
     return mockGetNextTStmts;
   }
-  
-  bool hasNext() override {
-    return !mockGetNextPairs.empty();
-  }
-  
-  bool hasNextT() override {
-    return !mockGetNextTPairs.empty();
-  }
+
+  bool hasNext() override { return !mockGetNextPairs.empty(); }
+
+  bool hasNextT() override { return !mockGetNextTPairs.empty(); }
 };

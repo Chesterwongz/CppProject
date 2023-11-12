@@ -35,7 +35,5 @@ class MockAffectsReader : public BaseMockReader {
     return mockIsAffects;
   }
 
-  bool hasAffects() override {
-    return !mockAffectsPairs.empty();
-  }
+  bool hasAffects() override { return !mockAffectsPairs.empty(); }
 };
