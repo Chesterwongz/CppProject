@@ -2,16 +2,12 @@
 
 PQLToken PQLTokenHandler::tokenize(char nextCh, InputStream &inputStream) {
   if (StringUtils::isAlpha(nextCh)) {  // NameTokenizer
-
     return processNameToken(inputStream);
   } else if (StringUtils::isDigit(nextCh)) {  // IntegerTokenizer
-
     return processIntegerToken(inputStream);
   } else if (nextCh == pqlDelim::kQuoteChar) {  // LiteralTokenizer
-
     return processLiteralToken(inputStream);
   } else if (PQLParserUtils::isDelimiter(nextCh)) {  // DelimiterTokenizer
-
     return processDelimiterToken(nextCh, inputStream);
   } else {
     throw CommonSyntaxError(std::string(1, nextCh));

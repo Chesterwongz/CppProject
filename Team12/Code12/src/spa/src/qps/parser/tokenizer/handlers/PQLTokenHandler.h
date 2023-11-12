@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+#include <string>
+
 #include "common/exceptions/CommonSyntaxError.h"
 #include "common/tokenizer/ITokenHandler.h"
 #include "common/utils/StringUtils.h"

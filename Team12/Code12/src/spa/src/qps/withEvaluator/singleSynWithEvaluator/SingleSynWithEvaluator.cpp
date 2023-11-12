@@ -18,7 +18,8 @@ IntermediateTable SingleSynWithEvaluator::evaluate() {
   return synonymResult;
 }
 
-vector<std::reference_wrapper<SynonymRes>> SingleSynWithEvaluator::evaluateStmtTypes(StmtType stmtType) {
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateStmtTypes(StmtType stmtType) {
   string attrRefValue = valueArg.getValue();
   AttrRef attrRef = synonymArg.getAttrRef();
   string synonymValue = synonymArg.getValue();
@@ -27,7 +28,8 @@ vector<std::reference_wrapper<SynonymRes>> SingleSynWithEvaluator::evaluateStmtT
   vector<string> filtered;
 
   std::copy_if(std::begin(stmtsOfStmtType), std::end(stmtsOfStmtType),
-               std::back_inserter(filtered), [&attrRefValue](const string& stmtNo) -> bool {
+               std::back_inserter(filtered),
+               [&attrRefValue](const string& stmtNo) -> bool {
                  return stmtNo == attrRefValue;
                });
 
@@ -40,119 +42,131 @@ vector<std::reference_wrapper<SynonymRes>> SingleSynWithEvaluator::evaluateStmtT
 
 vector<std::reference_wrapper<SynonymRes>>
 SingleSynWithEvaluator::evaluateStmtEntity() {
-    return std::move(evaluateStmtTypes(StmtType::STMT));
+  return std::move(evaluateStmtTypes(StmtType::STMT));
 }
 
-vector<std::reference_wrapper<SynonymRes>> SingleSynWithEvaluator::evaluateAssignEntity() {
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateAssignEntity() {
   return std::move(evaluateStmtTypes(StmtType::ASSIGN));
 }
 
-vector<std::reference_wrapper<SynonymRes>> SingleSynWithEvaluator::evaluateIfEntity() {
-    return std::move(evaluateStmtTypes(StmtType::IF));
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateIfEntity() {
+  return std::move(evaluateStmtTypes(StmtType::IF));
 }
 
-vector<std::reference_wrapper<SynonymRes>> SingleSynWithEvaluator::evaluateWhileEntity() {
-    return std::move(evaluateStmtTypes(StmtType::WHILE));
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateWhileEntity() {
+  return std::move(evaluateStmtTypes(StmtType::WHILE));
 }
 
-vector<std::reference_wrapper<SynonymRes>> SingleSynWithEvaluator::evaluateConstantEntity() {
-    string attrRefValue = valueArg.getValue();
-    string synonymValue = synonymArg.getValue();
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateConstantEntity() {
+  string attrRefValue = valueArg.getValue();
+  string synonymValue = synonymArg.getValue();
 
-    bool doesConstExists = pkbReader.isValidConstant(attrRefValue);
+  bool doesConstExists = pkbReader.isValidConstant(attrRefValue);
 
-    vector<std::reference_wrapper<SynonymRes>> constSynonymResObject = {};
-    if (doesConstExists) {
-      constSynonymResObject.emplace_back(SynonymResFactory::buildConstantSynonym(attrRefValue));
-    }
+  vector<std::reference_wrapper<SynonymRes>> constSynonymResObject = {};
+  if (doesConstExists) {
+    constSynonymResObject.emplace_back(
+        SynonymResFactory::buildConstantSynonym(attrRefValue));
+  }
 
-    return std::move(constSynonymResObject);
+  return std::move(constSynonymResObject);
 }
 
-vector<std::reference_wrapper<SynonymRes>> SingleSynWithEvaluator::evaluateProcEntity() {
-    string attrRefValue = valueArg.getValue();
-    AttrRef attrRef = synonymArg.getAttrRef();
-    string synonymValue = synonymArg.getValue();
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateProcEntity() {
+  string attrRefValue = valueArg.getValue();
+  AttrRef attrRef = synonymArg.getAttrRef();
+  string synonymValue = synonymArg.getValue();
 
-    bool doesProcExists = pkbReader.isValidProc(attrRefValue);
-    vector<std::reference_wrapper<SynonymRes>> procSynonymResObjs = {};
-    if (doesProcExists) {
-      procSynonymResObjs.emplace_back(SynonymResFactory::buildProcSynonym(attrRefValue));
-    }
+  bool doesProcExists = pkbReader.isValidProc(attrRefValue);
+  vector<std::reference_wrapper<SynonymRes>> procSynonymResObjs = {};
+  if (doesProcExists) {
+    procSynonymResObjs.emplace_back(
+        SynonymResFactory::buildProcSynonym(attrRefValue));
+  }
 
-    return std::move(procSynonymResObjs);
+  return std::move(procSynonymResObjs);
 }
 
-vector<std::reference_wrapper<SynonymRes>> SingleSynWithEvaluator::evaluateVarEntity() {
-    string attrRefValue = valueArg.getValue();
-    AttrRef attrRef = synonymArg.getAttrRef();
-    string synonymValue = synonymArg.getValue();
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateVarEntity() {
+  string attrRefValue = valueArg.getValue();
+  AttrRef attrRef = synonymArg.getAttrRef();
+  string synonymValue = synonymArg.getValue();
 
-    bool doesVarExists = pkbReader.isValidVariable(attrRefValue);
-    vector<std::reference_wrapper<SynonymRes>> varSynonymResObjs = {};
+  bool doesVarExists = pkbReader.isValidVariable(attrRefValue);
+  vector<std::reference_wrapper<SynonymRes>> varSynonymResObjs = {};
 
-    if (doesVarExists) {
-      varSynonymResObjs.emplace_back(SynonymResFactory::buildVarSynonym(attrRefValue));
-    }
+  if (doesVarExists) {
+    varSynonymResObjs.emplace_back(
+        SynonymResFactory::buildVarSynonym(attrRefValue));
+  }
 
-    return std::move(varSynonymResObjs);
+  return std::move(varSynonymResObjs);
 }
 
-vector<std::reference_wrapper<SynonymRes>> SingleSynWithEvaluator::evaluateCallEntity() {
-    string attrRefValue = valueArg.getValue();
-    AttrRef attrRef = synonymArg.getAttrRef();
-    string synonymValue = synonymArg.getValue();
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateCallEntity() {
+  string attrRefValue = valueArg.getValue();
+  AttrRef attrRef = synonymArg.getAttrRef();
+  string synonymValue = synonymArg.getValue();
 
-    vector<std::reference_wrapper<SynonymRes>> callSynonymResObjs;
+  vector<std::reference_wrapper<SynonymRes>> callSynonymResObjs;
 
-    if (attrRef == ATTR_REF_STMT_NUMBER) {
-      vector<string> procCalledBy =
-          pkbReader.getProcCalledBy(std::stoi(attrRefValue));
-      for (const string& procName : procCalledBy) {
-        callSynonymResObjs.emplace_back(
-            SynonymResFactory::buildCallsSynonym(attrRefValue, procName));
-      }
+  if (attrRef == ATTR_REF_STMT_NUMBER) {
+    vector<string> procCalledBy =
+        pkbReader.getProcCalledBy(std::stoi(attrRefValue));
+    for (const string& procName : procCalledBy) {
+      callSynonymResObjs.emplace_back(
+          SynonymResFactory::buildCallsSynonym(attrRefValue, procName));
     }
+  }
 
-    if (attrRef == ATTR_REF_PROC_NAME) {
-      vector<string> stmtsThatCall = pkbReader.getStmtsThatCall(attrRefValue);
-      for (const string& stmtNum : stmtsThatCall) {
-        callSynonymResObjs.emplace_back(
-            SynonymResFactory::buildCallsSynonym(stmtNum, attrRefValue));
-      }
+  if (attrRef == ATTR_REF_PROC_NAME) {
+    vector<string> stmtsThatCall = pkbReader.getStmtsThatCall(attrRefValue);
+    for (const string& stmtNum : stmtsThatCall) {
+      callSynonymResObjs.emplace_back(
+          SynonymResFactory::buildCallsSynonym(stmtNum, attrRefValue));
     }
+  }
 
-    return std::move(callSynonymResObjs);
+  return std::move(callSynonymResObjs);
 }
 
-vector<std::reference_wrapper<SynonymRes>> SingleSynWithEvaluator::evaluateReadEntity() {
-    string attrRefValue = valueArg.getValue();
-    AttrRef attrRef = synonymArg.getAttrRef();
-    string synonymValue = synonymArg.getValue();
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateReadEntity() {
+  string attrRefValue = valueArg.getValue();
+  AttrRef attrRef = synonymArg.getAttrRef();
+  string synonymValue = synonymArg.getValue();
 
-    vector<std::reference_wrapper<SynonymRes>> readSynonymResObjs;
+  vector<std::reference_wrapper<SynonymRes>> readSynonymResObjs;
 
-    if (attrRef == ATTR_REF_STMT_NUMBER) {
-      vector<string> varReadBy =
-          pkbReader.getVariableReadBy(std::stoi(attrRefValue));
-      for (const string& varName : varReadBy) {
-        readSynonymResObjs.emplace_back(
-            SynonymResFactory::buildReadSynonym(attrRefValue, varName));
-      }
+  if (attrRef == ATTR_REF_STMT_NUMBER) {
+    vector<string> varReadBy =
+        pkbReader.getVariableReadBy(std::stoi(attrRefValue));
+    for (const string& varName : varReadBy) {
+      readSynonymResObjs.emplace_back(
+          SynonymResFactory::buildReadSynonym(attrRefValue, varName));
     }
+  }
 
-    if (attrRef == ATTR_REF_VAR_NAME) {
-      vector<string> stmtsThatRead = pkbReader.getStmtsThatRead(attrRefValue);
-      for (const string& stmtNum : stmtsThatRead) {
-        readSynonymResObjs.emplace_back(
-            SynonymResFactory::buildReadSynonym(stmtNum, attrRefValue));
-      }
+  if (attrRef == ATTR_REF_VAR_NAME) {
+    vector<string> stmtsThatRead = pkbReader.getStmtsThatRead(attrRefValue);
+    for (const string& stmtNum : stmtsThatRead) {
+      readSynonymResObjs.emplace_back(
+          SynonymResFactory::buildReadSynonym(stmtNum, attrRefValue));
     }
+  }
 
-    return std::move(readSynonymResObjs);
+  return std::move(readSynonymResObjs);
 }
 
-vector<std::reference_wrapper<SynonymRes>> SingleSynWithEvaluator::evaluatePrintEntity() {
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluatePrintEntity() {
   string attrRefValue = valueArg.getValue();
   AttrRef attrRef = synonymArg.getAttrRef();
   string synonymValue = synonymArg.getValue();

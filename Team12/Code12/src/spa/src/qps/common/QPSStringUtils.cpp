@@ -25,20 +25,21 @@ bool QPSStringUtils::isWildcard(string data) {
 
 bool QPSStringUtils::isInteger(string data) {
   if (data.empty()) {
-    return false; // Empty string is not an integer
+    return false;  // Empty string is not an integer
   }
 
   if (data.size() == 1) {
-    return data[0] >= '0' && data[0] <= '9'; // Single character must be a digit
+    return data[0] >= '0' &&
+           data[0] <= '9';  // Single character must be a digit
   }
 
   if (data[0] == '0') {
-    return false; // Numbers longer than one digit should not start with '0'
+    return false;  // Numbers longer than one digit should not start with '0'
   }
 
   for (char ch : data) {
     if (ch < '0' || ch > '9') {
-      return false; // All characters must be digits
+      return false;  // All characters must be digits
     }
   }
 

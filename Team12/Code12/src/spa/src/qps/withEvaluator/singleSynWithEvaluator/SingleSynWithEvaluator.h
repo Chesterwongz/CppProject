@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"
@@ -15,8 +16,6 @@
 
 using std::unique_ptr, std::string, std::move, std::pair, std::make_pair,
     std::function, std::make_unique;
-
-typedef function<IntermediateTable()> EntityValueFunc;
 
 class SingleSynWithEvaluator : public WithEvaluator {
  protected:
@@ -34,14 +33,14 @@ class SingleSynWithEvaluator : public WithEvaluator {
   vector<std::reference_wrapper<SynonymRes>> evaluateReadEntity() override;
   vector<std::reference_wrapper<SynonymRes>> evaluatePrintEntity() override;
 
-  vector<std::reference_wrapper<SynonymRes>> evaluateStmtTypes(StmtType stmtType);
+  vector<std::reference_wrapper<SynonymRes>> evaluateStmtTypes(
+      StmtType stmtType);
+
  public:
   explicit SingleSynWithEvaluator(SynonymArg& firstArg,
                                   AbstractArgument& secondArg,
                                   PKBReader& pkbReader)
-      : WithEvaluator(pkbReader),
-        synonymArg(firstArg),
-        valueArg(secondArg) {}
+      : WithEvaluator(pkbReader), synonymArg(firstArg), valueArg(secondArg) {}
 
   IntermediateTable evaluate() override;
 };
