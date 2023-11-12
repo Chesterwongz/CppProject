@@ -10,6 +10,7 @@
 
 #include "qps/argument/AbstractArgument.h"
 #include "qps/clause/Clause.h"
+#include "qps/clause/utils/ClauseUtil.h"
 #include "qps/common/Keywords.h"
 #include "qps/intermediateTable/IntermediateTable.h"
 
@@ -27,8 +28,8 @@ class WithClause : public Clause {
       : firstArg(std::move(firstArg)), secondArg(std::move(secondArg)) {}
 
   IntermediateTable evaluate(PKBReader& pkb) override;
-  bool isEquals(const IClause& other) override;
+  bool isEquals(const BaseClause& other) override;
   vector<const AbstractArgument*> getAllArguments() override;
   set<string> getClauseSynonyms() override;
-  string getKey() override;
+  ClauseKey getKey() override;
 };

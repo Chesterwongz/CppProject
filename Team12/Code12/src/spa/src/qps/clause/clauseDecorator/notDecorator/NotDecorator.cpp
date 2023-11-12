@@ -56,7 +56,7 @@ IntermediateTable NotDecorator::generateMinuend(
   return minuend;
 }
 
-bool NotDecorator::isEquals(const IClause& other) {
+bool NotDecorator::isEquals(const BaseClause& other) {
   const auto* otherDecorator = dynamic_cast<const NotDecorator*>(&other);
 
   if (!otherDecorator) return false;
@@ -179,4 +179,8 @@ vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllVariables(
 
 void NotDecorator::setCurrentTable(const IntermediateTable& currentTable) {
   this->currentTable = currentTable;
+}
+
+ClauseKey NotDecorator::getKey() {
+  return NOT_KEYWORD + wrapeeClause->getKey();
 }

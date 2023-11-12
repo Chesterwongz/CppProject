@@ -9,19 +9,22 @@ unordered_set<string> QueryEvaluator::evaluate(unique_ptr<Query>& query) {
   // group and evaluate non-select clauses
   ClauseGroupQueue groups = grouper->groupClauses();
   IntermediateTable clauseResults =
-      groups.evaluate(this->pkb, query->getSelectedSynonyms());
+      groups.evaluate(this->pkb, this->cache, query->getSelectedSynonyms());
 
   for (unique_ptr<NotDecorator>& notClause : query->notClauses) {
     notClause->setCurrentTable(clauseResults);
-    IntermediateTable res = notClause->evaluate(pkb);
+    IntermediateTable res = notClause->BaseClause::evaluate(pkb, cache);
     clauseResults = clauseResults.join(res);
   }
 
   // evaluate select clause
-  IntermediateTable finalTable =
-      clauseResults.join(query->evalSelectClause(this->pkb));
-
+  IntermediateTable selectClauseRes =
+      query->evalSelectClause(this->pkb, this->cache);
+  IntermediateTable finalTable = clauseResults.join(selectClauseRes);
 
   this->pkb.clearCache();
-  return query->getQueryResult(finalTable);
+  unordered_set<string> finalRes = query->getQueryResult(finalTable);
+  this->cache.clearCache();
+
+  return finalRes;
 }

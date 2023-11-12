@@ -18,7 +18,8 @@ class ClauseGroupQueue {
 
  public:
   void addClauseGroup(const ClauseGroup& clause);
-  IntermediateTable evaluate(PKBReader& pkb, set<string> selectedSynonyms);
+  IntermediateTable evaluate(PKBReader& pkb, ClauseCache& cache,
+                             const set<string>& selectedSynonyms);
   /**
    * for testing usage only
    */

@@ -20,11 +20,12 @@ class ClauseGroup {
   unordered_set<string> evaluatedClauses {};
   unordered_set<string> synonymsSet {};
 
-  bool hasSelectedSynonyms(set<string>& selectedSynonyms);
-  void evaluateClauseToTables(PKBReader& pkb);
+  bool hasSelectedSynonyms(const set<string>& selectedSynonyms);
+  void evaluateClauseToTables(PKBReader& pkb, ClauseCache& cache);
 
  public:
   explicit ClauseGroup(ClauseUtil::ClauseRefList& clauseList);
   explicit ClauseGroup(unique_ptr<Clause>& clause);
-  IntermediateTable evaluate(PKBReader& pkb, set<string>& selectedSynonyms);
+  IntermediateTable evaluate(PKBReader& pkb, ClauseCache& cache,
+                             const set<string>& selectedSynonyms);
 };

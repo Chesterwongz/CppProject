@@ -4,4 +4,6 @@ set<string> ClauseDecorator::getClauseSynonyms() {
   return wrapeeClause->getClauseSynonyms();
 }
 
-string ClauseDecorator::getKey() { return wrapeeClause->getKey(); }
+ClauseKey ClauseDecorator::getKey() {
+  return wrapeeClause->getKey();
+}

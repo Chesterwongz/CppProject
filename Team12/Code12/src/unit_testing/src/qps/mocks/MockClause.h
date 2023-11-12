@@ -31,9 +31,9 @@ class MockClause : public Clause {
     return mockAllArguments;
   };
 
-  bool isEquals(const IClause& other) override { return mockIsEquals; }
+  bool isEquals(const BaseClause& other) override { return mockIsEquals; }
 
   set<string> getClauseSynonyms() override { return mockClauseSynonyms; }
 
-  string getKey() override { return mockKey; }
+  ClauseKey getKey() override { return mockKey; }
 };

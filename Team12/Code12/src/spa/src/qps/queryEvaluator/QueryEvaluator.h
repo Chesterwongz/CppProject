@@ -21,6 +21,7 @@ using std::vector, std::unique_ptr, std::string;
 class QueryEvaluator {
  private:
   PKBReader& pkb;
+  ClauseCache cache;
 
  public:
   explicit QueryEvaluator(PKBReader& pkb);

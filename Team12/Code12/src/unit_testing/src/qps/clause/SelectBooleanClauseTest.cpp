@@ -11,7 +11,8 @@ TEST_CASE("SelectClause - evaluate") {
   BaseMockReader mockPKB = BaseMockReader();
   unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause({});
-  IntermediateTable result = selectClause->evaluate(mockPKB);
+  ClauseCache cache = ClauseCache{};
+  IntermediateTable result = selectClause->evaluate(mockPKB, cache);
   REQUIRE(result.isTableWildcard());
 }
 

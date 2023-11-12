@@ -13,7 +13,7 @@ ClauseGroup::ClauseGroup(unique_ptr<Clause>& clause) {
   this->clauseRefList.emplace_back(clause);
 }
 
-void ClauseGroup::evaluateClauseToTables(PKBReader& pkb) {
+void ClauseGroup::evaluateClauseToTables(PKBReader& pkb, ClauseCache& cache) {
   for (const unique_ptr<Clause>& clause : this->clauseRefList) {
     string clauseKey = clause->getKey();
     if (this->evaluatedClauses.find(clauseKey) !=
@@ -21,7 +21,7 @@ void ClauseGroup::evaluateClauseToTables(PKBReader& pkb) {
       // ignore clauses we evaluated before
       continue;
     }
-    IntermediateTable clauseRes = clause->evaluate(pkb);
+    IntermediateTable clauseRes = clause->evaluate(pkb, cache);
     bool isEmpty = clauseRes.isTableEmptyAndNotWildcard();
     this->tableQueue.addTable(std::move(clauseRes));
     if (isEmpty) {
@@ -32,9 +32,9 @@ void ClauseGroup::evaluateClauseToTables(PKBReader& pkb) {
   }
 }
 
-IntermediateTable ClauseGroup::evaluate(PKBReader& pkb,
-                                        set<string>& selectedSynonyms) {
-  this->evaluateClauseToTables(pkb);
+IntermediateTable ClauseGroup::evaluate(PKBReader& pkb, ClauseCache& cache,
+                                        const set<string>& selectedSynonyms) {
+  this->evaluateClauseToTables(pkb, cache);
   IntermediateTable joinResult = this->tableQueue.getJoinResult();
 
   bool hasSelectedSynonyms = this->hasSelectedSynonyms(selectedSynonyms);
@@ -49,7 +49,7 @@ IntermediateTable ClauseGroup::evaluate(PKBReader& pkb,
   }
 }
 
-bool ClauseGroup::hasSelectedSynonyms(set<string>& selectedSynonyms) {
+bool ClauseGroup::hasSelectedSynonyms(const set<string>& selectedSynonyms) {
   return std::any_of(selectedSynonyms.begin(), selectedSynonyms.end(),
                      [this](const string& syn) {
                        return this->synonymsSet.find(syn) !=

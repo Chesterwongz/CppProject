@@ -25,7 +25,7 @@ IntermediateTable WithClause::evaluate(PKBReader& pkb) {
   return pkbResult;
 }
 
-bool WithClause::isEquals(const IClause& other) {
+bool WithClause::isEquals(const BaseClause& other) {
   const auto* otherClause = dynamic_cast<const WithClause*>(&other);
   if (!otherClause) return false;
 
@@ -36,6 +36,6 @@ set<string> WithClause::getClauseSynonyms() {
   return {firstArg->getValue(), secondArg->getValue()};
 }
 string WithClause::getKey() {
-  return WITH_KEYWORD + "|" + firstArg->getValue() + "|" +
-         secondArg->getValue();
+  return WITH_KEYWORD + ClauseUtil::KEY_DELIMITER + firstArg->getValue() +
+         ClauseUtil::KEY_DELIMITER + secondArg->getValue();
 }
