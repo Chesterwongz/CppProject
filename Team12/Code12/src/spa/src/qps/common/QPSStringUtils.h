@@ -21,7 +21,7 @@ class QPSStringUtils {
 
   enum ArgumentType { IDENT, SYNONYM, WILDCARD, INTEGER, PATTERNEXP };
 
-  inline const static std::unordered_map<QPSStringUtils::ArgumentType, string>
+  static inline const std::unordered_map<QPSStringUtils::ArgumentType, string>
       ArgTypeToKeyMap = {
           {QPSStringUtils::ArgumentType::IDENT, "IDENT"},
           {QPSStringUtils::ArgumentType::SYNONYM, "SYNONYM"},

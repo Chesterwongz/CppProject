@@ -8,7 +8,7 @@
 using std::string;
 
 class AbstractArgument {
-  inline const static string ARG_KEY_DELIMITER = "|";
+  static inline const string ARG_KEY_DELIMITER = "|";
 
  public:
   virtual const string& getValue() = 0;
