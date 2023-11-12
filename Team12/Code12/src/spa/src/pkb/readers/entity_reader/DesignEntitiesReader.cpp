@@ -114,7 +114,7 @@ std::vector<std::string> DesignEntitiesReader::getVariablePrintedBy(
 
 std::vector<std::pair<std::string, std::string>>
 DesignEntitiesReader::getAllStmtProcCallsPairs() {
-  const auto& rawRes = callsSStore.getDirectRelations();
+  const auto& rawRes = callsSStore.getDirectSuccessorMap();
   return CollectionUtils::intStrMapSetToStrPairVector(rawRes);
 }
 

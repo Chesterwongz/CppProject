@@ -1,26 +1,23 @@
 #pragma once
 
 #include <string>
-#include <unordered_set>
 #include <utility>
 #include <vector>
 
-#include "common/utils/CollectionUtils.h"
+#include "StmtOrProcToVarReader.h"
 #include "pkb/interfaces/readers/IUsesReader.h"
-#include "pkb/storage/StmtStore.h"
-#include "pkb/storage/UsesPStore.h"
-#include "pkb/storage/UsesSStore.h"
+#include "pkb/storage/entity_storage/StmtStore.h"
+#include "pkb/storage/relation_storage/RelationStore.h"
 
 class UsesReader : public IUsesReader {
  private:
-  UsesSStore& usesSStore;
-  UsesPStore& usesPStore;
-  StmtStore& stmtStore;
+  StmtOrProcToVarReader reader;
 
  protected:
-  explicit UsesReader(UsesSStore& usesStore, UsesPStore& usesPStore,
+  explicit UsesReader(RelationStore<int, std::string>& usesStore,
+                      RelationStore<std::string, std::string>& usesPStore,
                       StmtStore& stmtStore)
-      : usesSStore(usesStore), usesPStore(usesPStore), stmtStore(stmtStore) {}
+      : reader(usesStore, usesPStore, stmtStore) {}
 
  public:
   std::vector<std::string> getVariablesUsedBy(int stmt) override;

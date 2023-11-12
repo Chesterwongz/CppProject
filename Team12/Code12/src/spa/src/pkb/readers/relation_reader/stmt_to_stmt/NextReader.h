@@ -1,25 +1,22 @@
 #pragma once
-#include <set>
+
 #include <string>
-#include <unordered_set>
 #include <utility>
 #include <vector>
 
-#include "common/Constants.h"
+#include "StmtToStmtReader.h"
 #include "common/utils/CollectionUtils.h"
-#include "common/utils/StringUtils.h"
 #include "pkb/interfaces/readers/INextReader.h"
-#include "pkb/storage/NextStore.h"
-#include "pkb/storage/StmtStore.h"
+#include "pkb/storage/entity_storage/StmtStore.h"
+#include "pkb/storage/relation_storage/NextStore.h"
 
 class NextReader : public INextReader {
  private:
-  NextStore& nextStore;
-  StmtStore& stmtStore;
+  StmtToStmtReader reader;
 
  public:
   NextReader(NextStore& nextStore, StmtStore& stmtStore)
-      : nextStore(nextStore), stmtStore(stmtStore) {}
+      : reader(nextStore, stmtStore) {}
 
   std::vector<std::pair<std::string, std::string>> getNextPairs(
       StmtType stmtType1, StmtType stmtType2) override;

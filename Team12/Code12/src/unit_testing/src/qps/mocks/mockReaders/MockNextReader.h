@@ -12,7 +12,7 @@
 #include "BaseMockReader.h"
 #include "pkb/facade/PKBReader.h"
 #include "pkb/facade/PKBStore.h"
-#include "pkb/storage/NextStore.h"
+#include "pkb/storage/relation_storage/NextStore.h"
 
 using std::vector, std::set, std::string, std::pair;
 

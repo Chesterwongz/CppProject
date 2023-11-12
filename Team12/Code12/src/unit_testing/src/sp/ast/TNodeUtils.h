@@ -21,10 +21,6 @@
 
 using std::unique_ptr, std::make_unique, std::string;
 
-unique_ptr<ProgramNode> makeProgramNode();
-
-unique_ptr<ProcNode> makeProcNode(const string& procName);
-
 unique_ptr<ReadNode> makeReadNode(int lineNum, const string& varName);
 
 unique_ptr<PrintNode> makePrintNode(int lineNum, const string& varName);

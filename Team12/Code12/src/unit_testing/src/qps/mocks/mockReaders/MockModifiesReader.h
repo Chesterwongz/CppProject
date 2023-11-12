@@ -10,8 +10,6 @@
 #include <vector>
 
 #include "BaseMockReader.h"
-#include "pkb/storage/ModifiesPStore.h"
-#include "pkb/storage/ModifiesSStore.h"
 
 using std::vector, std::set, std::string, std::pair;
 

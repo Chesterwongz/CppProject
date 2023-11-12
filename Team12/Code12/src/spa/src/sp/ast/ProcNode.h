@@ -12,5 +12,4 @@ class ProcNode : public TNode {
       : TNode(TNodeType::TNODE_PROCEDURE, std::move(name)) {}
   void accept(Extractor& e) const override;
   void cleanup(Extractor& e) const override;
-  [[nodiscard]] int getProcStart() const;
 };

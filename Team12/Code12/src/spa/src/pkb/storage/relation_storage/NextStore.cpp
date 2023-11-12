@@ -13,6 +13,7 @@ void NextStore::computeAncestorsT(int to) {
 }
 
 void NextStore::computeAllRelationsT() {
+  if (isFullyCached) return;
   std::vector<int> graphVector;
   graphVector.reserve(directSuccessorMap.size());
   for (const auto& [v, _] : this->directSuccessorMap) {
@@ -24,9 +25,11 @@ void NextStore::computeAllRelationsT() {
   for (const auto& v : graphVector) {
     computeSuccessorsT(v);
   }
+  isFullyCached = true;
 }
 
 void NextStore::clearCache() {
   transitiveAncestorMap.clear();
   transitiveSuccessorMap.clear();
+  isFullyCached = false;
 }
