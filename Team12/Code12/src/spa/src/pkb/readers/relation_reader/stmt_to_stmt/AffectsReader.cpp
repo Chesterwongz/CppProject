@@ -77,96 +77,10 @@ bool AffectsReader::isAffects(int firstStmtNum, int secondStmtNum) {
     return affectsCache.hasDirectRelation(firstStmtNum, secondStmtNum);
   }
 
-  std::vector<std::vector<int>> paths =
-      pathsFromTo(firstStmtNum, secondStmtNum);
-
-  std::unordered_set<std::string> usedVariables =
-      usesSStore.getDirectSuccessors(secondStmtNum);
-
-  if (!paths.empty()) {
-    std::unordered_set<std::string> modifiedVars =
-        modifiesSStore.getDirectSuccessors(firstStmtNum);
-
-    for (const std::string& var : usedVariables) {
-      if (!modifiedVars.count(var)) {
-        continue;
-      }
-      bool isChanged = true;
-
-      for (const std::vector<int>& path : paths) {
-        bool isValidType = false;
-        bool isVarModified = false;
-
-        for (int stmt : path) {
-          if (modifiesSStore.hasDirectSuccessors(stmt)) {
-            isValidType = isCallReadAssign(stmt);
-            if (modifiesSStore.getDirectSuccessors(stmt).count(var) &&
-                isValidType) {
-              isVarModified = true;
-              break;
-            }
-          }
-        }
-
-        if (!isVarModified) {
-          isChanged = false;
-          break;
-        }
-      }
-
-      if (!isChanged) {
-        affectsCache.addRelation(firstStmtNum, secondStmtNum);
-        return true;
-      }
-    }
-
-    return false;
-  } else {
-    return (nextStore.hasDirectRelation(firstStmtNum, secondStmtNum) &&
-            stmtStore.hasStmt(firstStmtNum, StmtType::ASSIGN) &&
-            stmtStore.hasStmt(secondStmtNum, StmtType::ASSIGN) &&
-            usedVariables.count(
-                *modifiesSStore.getDirectSuccessors(firstStmtNum).begin()));
-  }
-}
-
-std::vector<std::vector<int>> AffectsReader::pathsFromTo(int start,
-                                                         int target) {
-  std::vector<std::vector<int>> paths;
-  std::vector<int> currentPath;
-  std::unordered_set<int> visited;
-
-  std::unordered_set<int> successors = nextStore.getDirectSuccessors(start);
-  for (int successor : successors) {
-    dfs(successor, target, currentPath, paths, visited);
-  }
-
-  return paths;
-}
-
-void AffectsReader::dfs(int current, int target, std::vector<int>& currentPath,
-                        std::vector<std::vector<int>>& paths,
-                        std::unordered_set<int>& visited) {
-  visited.insert(current);
-  currentPath.push_back(current);
-
-  if (current == target) {
-    paths.push_back(
-        std::vector<int>(currentPath.begin(), currentPath.end() - 1));
-  } else {
-    if (nextStore.hasDirectSuccessors(current)) {
-      std::unordered_set<int> successors =
-          nextStore.getDirectSuccessors(current);
-      for (int successor : successors) {
-        if (visited.find(successor) == visited.end()) {
-          dfs(successor, target, currentPath, paths, visited);
-        }
-      }
-    }
-  }
-
-  visited.erase(current);
-  currentPath.pop_back();
+  std::vector<std::string> affectingStmts =
+      getAffects(firstStmtNum, StmtType::ASSIGN);
+  return std::find(affectingStmts.begin(), affectingStmts.end(),
+                   std::to_string(secondStmtNum)) != affectingStmts.end();
 }
 
 std::vector<std::string> AffectsReader::getAffects(int firstStmtNum,

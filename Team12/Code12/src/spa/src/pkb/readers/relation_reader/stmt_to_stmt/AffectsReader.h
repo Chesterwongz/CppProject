@@ -54,11 +54,5 @@ class AffectsReader : public IAffectsReader {
                                     const std::string& v,
                                     std::unordered_set<int>& visited);
 
-  std::vector<std::vector<int>> pathsFromTo(int sourceStmt, int targetStmt);
-
-  void dfs(int current, int target, std::vector<int>& currentPath,
-           std::vector<std::vector<int>>& paths,
-           std::unordered_set<int>& visited);
-
   bool isCallReadAssign(int statementNumber);
 };
