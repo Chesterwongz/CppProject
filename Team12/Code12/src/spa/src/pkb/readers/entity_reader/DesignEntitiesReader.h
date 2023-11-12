@@ -8,24 +8,24 @@
 #include "common/utils/CollectionUtils.h"
 #include "common/utils/StringUtils.h"
 #include "pkb/interfaces/readers/IDesignEntitiesReader.h"
-#include "pkb/storage/CallsSStore.h"
-#include "pkb/storage/EntityStore.h"
-#include "pkb/storage/ModifiesSStore.h"
-#include "pkb/storage/StmtStore.h"
-#include "pkb/storage/UsesSStore.h"
+#include "pkb/storage/entity_storage/EntityStore.h"
+#include "pkb/storage/entity_storage/StmtStore.h"
+#include "pkb/storage/relation_storage/RelationStore.h"
 
 class DesignEntitiesReader : public IDesignEntitiesReader {
  private:
-  CallsSStore& callsSStore;
+  RelationStore<int, std::string>& callsSStore;
+  RelationStore<int, std::string>& modifiesSStore;
+  RelationStore<int, std::string>& usesSStore;
   EntityStore& entityStore;
-  ModifiesSStore& modifiesSStore;
   StmtStore& stmtStore;
-  UsesSStore& usesSStore;
 
  protected:
-  DesignEntitiesReader(CallsSStore& callsSStore, EntityStore& entityStore,
-                       ModifiesSStore& modifiesSStore, StmtStore& stmtStore,
-                       UsesSStore& usesSStore)
+  DesignEntitiesReader(RelationStore<int, std::string>& callsSStore,
+                       EntityStore& entityStore,
+                       RelationStore<int, std::string>& modifiesSStore,
+                       StmtStore& stmtStore,
+                       RelationStore<int, std::string>& usesSStore)
       : callsSStore(callsSStore),
         entityStore(entityStore),
         modifiesSStore(modifiesSStore),

@@ -1,24 +1,22 @@
 #pragma once
 
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "StmtToStmtReader.h"
 #include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/IParentReader.h"
-#include "pkb/storage/ParentStore.h"
-#include "pkb/storage/StmtStore.h"
+#include "pkb/storage/entity_storage/StmtStore.h"
+#include "pkb/storage/relation_storage/RelationTStore.h"
 
 class ParentReader : public IParentReader {
  private:
-  ParentStore& parentStore;
-  StmtStore& stmtStore;
+  StmtToStmtReader reader;
 
  protected:
-  explicit ParentReader(ParentStore& parent_storage,
-                        StmtStore& statement_storage)
-      : parentStore(parent_storage), stmtStore(statement_storage) {}
+  explicit ParentReader(RelationTStore<int>& parentStore, StmtStore& stmtStore)
+      : reader(parentStore, stmtStore) {}
 
  public:
   std::vector<std::string> getImmediateChildrenOf(int stmt,

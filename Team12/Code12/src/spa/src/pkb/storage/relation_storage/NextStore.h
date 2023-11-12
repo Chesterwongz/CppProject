@@ -9,6 +9,7 @@
 
 class NextStore : public RelationTStore<int> {
  protected:
+  bool isFullyCached = false;
   void precomputeRelationT(int from, int to) override;
   void computeSuccessorsT(int from) override;
   void computeAncestorsT(int to) override;

@@ -5,26 +5,23 @@
 #include <utility>
 #include <vector>
 
-#include "common/utils/CollectionUtils.h"
+#include "StmtOrProcToVarReader.h"
 #include "pkb/interfaces/readers/IModifiesReader.h"
-#include "pkb/storage/ModifiesPStore.h"
-#include "pkb/storage/ModifiesSStore.h"
-#include "pkb/storage/StmtStore.h"
+#include "pkb/storage/entity_storage/StmtStore.h"
+#include "pkb/storage/relation_storage/RelationStore.h"
 
 using std::unordered_set, std::string;
 
 class ModifiesReader : public IModifiesReader {
  private:
-  ModifiesSStore& modifiesSStore;
-  ModifiesPStore& modifiesPStore;
-  StmtStore& stmtStore;
+  StmtOrProcToVarReader reader;
 
  protected:
-  explicit ModifiesReader(ModifiesSStore& modifiesStore,
-                          ModifiesPStore& modifiesPStore, StmtStore& stmtStore)
-      : modifiesSStore(modifiesStore),
-        modifiesPStore(modifiesPStore),
-        stmtStore(stmtStore) {}
+  explicit ModifiesReader(
+      RelationStore<int, std::string>& modifiesStore,
+      RelationStore<std::string, std::string>& modifiesPStore,
+      StmtStore& stmtStore)
+      : reader(modifiesStore, modifiesPStore, stmtStore) {}
 
  public:
   std::vector<std::string> getVariablesModifiedBy(int stmtNum) override;

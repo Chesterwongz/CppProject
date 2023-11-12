@@ -18,8 +18,6 @@ class RelationTStore : public RelationStore<T, T> {
   // An unordered set of the direct ancestors of T. I.e., T <-* T
   std::unordered_map<T, std::unordered_set<T>> transitiveAncestorMap;
 
-  RelationTStore() = default;
-
   void addRelationT(T from, T to) {
     transitiveSuccessorMap[from].insert(to);
     transitiveAncestorMap[to].insert(from);
@@ -42,6 +40,7 @@ class RelationTStore : public RelationStore<T, T> {
     if (transitiveMap.count(key) || !directMap.count(key)) {
       return;  // nothing to compute.
     }
+
     std::unordered_set<T> visitedSet;
     std::stack<T> toVisit;
     for (const auto& directNbrs : directMap.at(key)) {
@@ -65,9 +64,7 @@ class RelationTStore : public RelationStore<T, T> {
         }
       }
     }
-    if (!visitedSet.empty()) {
-      transitiveMap[key] = std::move(visitedSet);
-    }
+    transitiveMap[key] = std::move(visitedSet);
   }
 
   virtual void computeAncestorsT(T to) {}

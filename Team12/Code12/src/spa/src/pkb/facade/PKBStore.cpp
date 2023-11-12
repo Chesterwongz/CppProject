@@ -1,22 +1,30 @@
 #include "PKBStore.h"
 
-FollowsStore& PKBStore::getFollowsStore() { return followsStore; }
+RelationTStore<int>& PKBStore::getFollowsStore() { return followsStore; }
 
-ParentStore& PKBStore::getParentStore() { return parentStore; }
+RelationTStore<int>& PKBStore::getParentStore() { return parentStore; }
 
 NextStore& PKBStore::getNextStore() { return nextStore; }
 
-ModifiesSStore& PKBStore::getModifiesStore() { return modifiesStore; }
+RelationStore<int, std::string>& PKBStore::getModifiesStore() {
+  return modifiesStore;
+}
 
-ModifiesPStore& PKBStore::getModifiesProcStore() { return modifiesProcStore; }
+RelationStore<std::string, std::string>& PKBStore::getModifiesProcStore() {
+  return modifiesProcStore;
+}
 
-UsesSStore& PKBStore::getUsesStore() { return usesStore; }
+RelationStore<int, std::string>& PKBStore::getUsesStore() { return usesStore; }
 
-UsesPStore& PKBStore::getUsesProcStore() { return usesProcStore; }
+RelationStore<std::string, std::string>& PKBStore::getUsesProcStore() {
+  return usesProcStore;
+}
 
-CallsStore& PKBStore::getCallsStore() { return callsStore; }
+RelationTStore<std::string>& PKBStore::getCallsStore() { return callsStore; }
 
-CallsSStore& PKBStore::getCallsStmtStore() { return callsStmtStore; }
+RelationStore<int, std::string>& PKBStore::getCallsStmtStore() {
+  return callsStmtStore;
+}
 
 StmtStore& PKBStore::getStmtStore() { return stmtStore; }
 

@@ -5,7 +5,7 @@
 #include "common/AliasTypes.h"
 #include "common/utils/CollectionUtils.h"
 #include "common/utils/PairUtils.h"
-#include "pkb/storage/NextStore.h"
+#include "pkb/storage/relation_storage/NextStore.h"
 
 using std::vector, std::pair;
 
@@ -123,12 +123,12 @@ TEST_CASE("NextStore - 1 proc") {
     REQUIRE(!storage.hasRelationT(8, 8));
   }
 
-  SECTION("getDirectRelations") {
+  SECTION("getDirectSuccessorMap") {
     std::unordered_set<pair<int, int>, PairUtils::PairHash> expected =
         getExpectedNextPairs(nextStmts);
     vector<pair<int, int>> actual =
         CollectionUtils::mapSetToPairVector<int, int>(
-            storage.getDirectRelations());
+            storage.getDirectSuccessorMap());
     std::unordered_set<pair<int, int>, PairUtils::PairHash> actualSet(
         actual.begin(), actual.end());
     REQUIRE(actualSet == expected);
@@ -213,7 +213,7 @@ TEST_CASE("NextStore - multiple procs") {
         getExpectedNextPairs(nextStmts);
     vector<pair<int, int>> actual =
         CollectionUtils::mapSetToPairVector<int, int>(
-            storage.getDirectRelations());
+            storage.getDirectSuccessorMap());
     std::unordered_set<pair<int, int>, PairUtils::PairHash> actualSet(
         actual.begin(), actual.end());
     REQUIRE(actualSet == expected);

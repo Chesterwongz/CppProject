@@ -10,15 +10,7 @@
 #include "pkb/readers/relation_reader/stmt_to_stmt/FollowsReader.h"
 #include "pkb/readers/relation_reader/stmt_to_stmt/NextReader.h"
 #include "pkb/readers/relation_reader/stmt_to_stmt/ParentReader.h"
-#include "pkb/storage/CallsStore.h"
-#include "pkb/storage/ModifiesPStore.h"
-#include "pkb/storage/ModifiesSStore.h"
-#include "pkb/storage/NextStore.h"
-#include "pkb/storage/ParentStore.h"
-#include "pkb/storage/RelationTStore.h"
-#include "pkb/storage/StmtStore.h"
-#include "pkb/storage/UsesPStore.h"
-#include "pkb/storage/UsesSStore.h"
+#include "pkb/storage/relation_storage/NextStore.h"
 
 class PKBReader : public AffectsReader,
                   public DesignEntitiesReader,

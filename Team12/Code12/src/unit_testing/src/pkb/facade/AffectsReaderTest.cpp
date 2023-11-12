@@ -1,3 +1,4 @@
+#include <string>
 #include <unordered_set>
 #include <catch.hpp>
 
@@ -5,10 +6,10 @@
 #include "pkb/readers/relation_reader/stmt_to_stmt/AffectsReader.h"
 
 TEST_CASE("AffectsReader Tests 1") {
-  ModifiesSStore modifiesSStore;
+  RelationStore<int, std::string> modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
-  UsesSStore usesSStore;
+  RelationStore<int, std::string> usesSStore;
 
   stmtStore.addStmt(1, StmtType::ASSIGN);
   stmtStore.addStmt(2, StmtType::ASSIGN);
@@ -114,10 +115,10 @@ TEST_CASE("AffectsReader Tests 1") {
 }
 
 TEST_CASE("AffectsReader Tests 2 - Code 7") {
-  ModifiesSStore modifiesSStore;
+  RelationStore<int, std::string> modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
-  UsesSStore usesSStore;
+  RelationStore<int, std::string> usesSStore;
 
   stmtStore.addStmt(1, StmtType::ASSIGN);
   stmtStore.addStmt(2, StmtType::IF);
@@ -160,10 +161,10 @@ TEST_CASE("AffectsReader Tests 2 - Code 7") {
 }
 
 TEST_CASE("AffectsReader Tests 3 - Code 8") {
-  ModifiesSStore modifiesSStore;
+  RelationStore<int, std::string> modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
-  UsesSStore usesSStore;
+  RelationStore<int, std::string> usesSStore;
 
   stmtStore.addStmt(1, StmtType::ASSIGN);
   stmtStore.addStmt(2, StmtType::CALL);
@@ -201,10 +202,10 @@ TEST_CASE("AffectsReader Tests 3 - Code 8") {
 }
 
 TEST_CASE("AffectsReader Tests 4 - Code 9") {
-  ModifiesSStore modifiesSStore;
+  RelationStore<int, std::string> modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
-  UsesSStore usesSStore;
+  RelationStore<int, std::string> usesSStore;
 
   stmtStore.addStmt(1, StmtType::ASSIGN);
   stmtStore.addStmt(2, StmtType::ASSIGN);
@@ -279,10 +280,10 @@ TEST_CASE("AffectsReader Tests 4 - Code 9") {
 }
 
 TEST_CASE("AffectsReader Tests 5 - Code 10") {
-  ModifiesSStore modifiesSStore;
+  RelationStore<int, std::string> modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
-  UsesSStore usesSStore;
+  RelationStore<int, std::string> usesSStore;
 
   stmtStore.addStmt(1, StmtType::ASSIGN);
   stmtStore.addStmt(2, StmtType::CALL);
@@ -325,10 +326,10 @@ TEST_CASE("AffectsReader Tests 5 - Code 10") {
 }
 
 TEST_CASE("AffectsReader Tests 6 - Code 11") {
-  ModifiesSStore modifiesSStore;
+  RelationStore<int, std::string> modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
-  UsesSStore usesSStore;
+  RelationStore<int, std::string> usesSStore;
 
   stmtStore.addStmt(1, StmtType::ASSIGN);
   stmtStore.addStmt(2, StmtType::READ);
@@ -358,10 +359,10 @@ TEST_CASE("AffectsReader Tests 6 - Code 11") {
 }
 
 TEST_CASE("AffectsReader Tests 7 - Autotester") {
-  ModifiesSStore modifiesSStore;
+  RelationStore<int, std::string> modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
-  UsesSStore usesSStore;
+  RelationStore<int, std::string> usesSStore;
 
   stmtStore.addStmt(1, StmtType::READ);
   stmtStore.addStmt(2, StmtType::READ);
