@@ -1148,3 +1148,63 @@ stmt s; assign a; variable v; while w; procedure p;
 Select p such that not Calls*(p, _) with p.procName = "MultiClauseNot4"
 MultiClauseNot4
 5000
+------ 229 - next and not next* ------
+stmt s1, s2; variable v;
+Select s1 such that Next(s1, s2) such that not Next*(s1, s1) 
+1, 3, 4, 5, 14, 15, 16, 17, 18, 19, 21, 22, 24, 25
+5000
+------ 230 - not next and next* ------
+stmt s; assign a; procedure p;
+Select s such that not Next(s, _) such that Next*(s, a) 
+none
+5000
+------ 231 - next and not affects ------
+stmt s1, s2; variable v;
+Select s1 such that Next(s1, s2) such that not Affects(s1, s1) 
+1, 3, 4, 5, 6, 8, 10, 11, 13, 14, 15, 16, 17, 18, 19, 21, 22, 24, 25
+5000
+------ 232 - not next and affeects ------
+stmt s; assign a; procedure p;
+Select s such that not Next(s, _) such that Affects(s, a) 
+none
+5000
+------ 233 - next and not assignPattern ------
+stmt s1, s2; assign a; variable v;
+Select s1 such that Next(s1, s2) pattern not a(v, "5") 
+1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 24, 25
+5000
+------ 234 - not next and assignPattern ------
+stmt s; assign a; variable v; procedure p;
+Select s such that not Next(s, _) pattern a(v, "5") 
+2, 20, 23, 26
+5000
+------ 235 - next and not ifPattern ------
+stmt s1, s2; variable v; if i; procedure p1, p2;
+Select s1 such that Next(s1, s2) pattern not i("i", _, _) 
+1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 24, 25
+5000
+------ 236 - not next and ifPattern ------
+stmt s; assign a; variable v; if i; procedure p;
+Select s such that not Next(s, _) pattern i("y", _, _) 
+2, 20, 23, 26
+5000
+----- 237 - next and not whilePattern ------
+stmt s1, s2; variable v; while w;
+Select s1 such that Next(s1, s2) pattern not w("i", _) 
+none
+5000
+------ 238 - not next and whilePattern ------
+stmt s; assign a; variable v; while w; procedure p;
+Select s such that not Next(s, _) pattern w("i", _) 
+2, 20, 23, 26
+5000
+------ 239 - next and not with ------
+stmt s1, s2; variable v; procedure p1, p2;
+Select s1 such that Next(s1, s2) with not s2.stmt# = 2
+3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 24, 25
+5000
+------ 240 - not next and with ------
+stmt s; assign a; variable v; while w; procedure p;
+Select s such that not Next(s, _) with s.stmt# = 2
+2
+5000
