@@ -126,3 +126,46 @@ TEST_CASE("test_notDecorator_evaluate_2_synonym") {
 
   REQUIRE(actualData == expectedData);
 }
+
+TEST_CASE("test_notDecorator_evaluate_1_synonym_withExistingTable") {
+  // Uses(AssignSyn, ident)
+
+  string synonymVal = "yo";
+  string identVal = "hi";
+
+  vector<string> synonymVec = {synonymVal};
+
+  SynonymArg syn1 = SynonymArg(synonymVal, ASSIGN_ENTITY);
+  Ident ident1 = Ident(identVal);
+
+  unique_ptr<MockClause> mockClause = std::make_unique<MockClause>(synonymVec);
+
+  IntermediateTable wrapeeClauseResult =
+      IntermediateTableFactory::buildSingleColTable(
+          synonymVal, {SynonymResFactory::buildStmtSynonym("1"),
+                       SynonymResFactory::buildStmtSynonym("2")});
+
+  mockClause->mockAllArguments = {&syn1, &ident1};
+
+  mockClause->mockEvaluate = wrapeeClauseResult;
+
+  NotDecorator notDecorator = NotDecorator(std::move(mockClause));
+  IntermediateTable currentTable =
+      IntermediateTableFactory::buildSingleColTable(
+          synonymVal, {SynonymResFactory::buildStmtSynonym("1"),
+                       SynonymResFactory::buildStmtSynonym("2"),
+                       SynonymResFactory::buildStmtSynonym("3"),
+                       SynonymResFactory::buildStmtSynonym("4")});
+
+  notDecorator.setCurrentTable(currentTable);
+
+  MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
+
+  IntermediateTable actualTable = notDecorator.evaluate(mockPkbReader);
+
+  vector<vector<string>> actualData = actualTable.getDataAsStrings();
+
+  vector<vector<string>> expectedData = {{"3"}, {"4"}};
+
+  REQUIRE(actualData == expectedData);
+}
