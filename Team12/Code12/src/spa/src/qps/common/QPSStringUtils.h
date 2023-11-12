@@ -23,9 +23,9 @@ class QPSStringUtils {
   static bool isSynonym(const string& data);
   static bool isIdent(const string& data);
   static bool isWildcard(const string& data);
-  static bool isInteger(const string data);
-  static bool isNameTokenChar(const char ch);
-  static bool isNotQuoteEnd(const char ch);
+  static bool isInteger(string data);
+  static bool isNameTokenChar(char ch);
+  static bool isNotQuoteEnd(char ch);
   static void trimString(string& s);
   static string convertToRPN(const string& exp);
 
