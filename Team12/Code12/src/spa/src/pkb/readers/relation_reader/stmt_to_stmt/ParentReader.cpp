@@ -20,7 +20,7 @@ ParentReader::getParentChildPairs(StmtType stmtType1, StmtType stmtType2) {
 }
 
 bool ParentReader::hasParents() {
-  return !parentStore.getDirectRelations().empty();
+  return reader.hasDirectS1AndS2Pairs();
 }
 
 // ================================== ParentT ==================================
@@ -45,5 +45,5 @@ ParentReader::getParentChildStarPairs(StmtType stmtType1, StmtType stmtType2) {
 }
 
 bool ParentReader::hasParentsT() {
-  return !parentStore.getRelationsT().empty();
+  return reader.hasDirectS1AndS2Pairs();
 }

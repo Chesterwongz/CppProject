@@ -20,7 +20,7 @@ std::vector<std::pair<std::string, std::string>> FollowsReader::getFollowsPairs(
 }
 
 bool FollowsReader::hasFollows() {
-  return !followsStore.getDirectRelations().empty();
+  return reader.hasDirectS1AndS2Pairs();
 }
 
 // ================================= FollowsT =================================
@@ -45,5 +45,5 @@ FollowsReader::getFollowsStarPairs(StmtType stmtType1, StmtType stmtType2) {
 }
 
 bool FollowsReader::hasFollowsT() {
-  return !followsStore.getRelationsT().empty();
+  return reader.hasTransitiveS1AndS2Pairs();
 }

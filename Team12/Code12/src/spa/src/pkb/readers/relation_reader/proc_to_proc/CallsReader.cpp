@@ -37,9 +37,9 @@ bool CallsReader::hasCallsT(const std::string& proc1,
 }
 
 bool CallsReader::hasCalls() {
-  return !callsStore.getDirectRelations().empty();
+  return reader.hasDirectP1AndP2Pairs();
 }
 
 bool CallsReader::hasCallsT() {
-  return !callsStore.getRelationsT().empty();
+  return reader.hasTransitiveP1AndP2Pairs();
 }

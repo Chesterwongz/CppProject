@@ -19,7 +19,7 @@ std::vector<std::pair<std::string, std::string>> NextReader::getNextPairs(
   return reader.getDirectS1AndS2Pairs(stmtType1, stmtType2);
 }
 
-bool NextReader::hasNext() { return !nextStore.getDirectRelations().empty(); }
+bool NextReader::hasNext() { return reader.hasDirectS1AndS2Pairs(); }
 
 // =================================== NextT ===================================
 
