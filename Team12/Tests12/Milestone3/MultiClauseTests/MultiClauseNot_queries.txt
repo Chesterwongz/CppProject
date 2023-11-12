@@ -698,3 +698,113 @@ stmt s; assign a; variable v; while w;
 Select s such that not Uses(s, "x") with s.stmt# = 8
 8
 5000
+------ 141 - uses(proc) and not modifies(stmt) ------
+stmt s; variable v; procedure p;
+Select p such that Uses(p, v) such that not Modifies(s, "x") 
+MultiClauseNot2, MultiClauseNot3, MultiClauseNot4
+5000
+------ 142 - not uses(proc) and modifies(stmt) ------
+stmt s; assign a; variable v; procedure p;
+Select p such that not Uses(p, "x") such that Modifies(s, v) 
+MultiClauseNot1, MultiClauseNot3
+5000
+------ 143- uses(proc) and not modifies(proc) ------
+stmt s; variable v; procedure p;
+Select p such that Uses(p, v) such that not Modifies(p, "x") 
+MultiClauseNot3, MultiClauseNot4
+5000
+------ 144 - not uses(proc) and modifies(proc) ------
+stmt s; assign a; variable v; procedure p;
+Select p such that not Uses(p, "x") such that Modifies(p, v) 
+MultiClauseNot1, MultiClauseNot3
+5000
+------ 145 - uses(proc) and not calls ------
+stmt s; variable v; procedure p;
+Select p such that Uses(p, v) such that not Calls(p, "MultiClauseNot1") 
+MultiClauseNot3, MultiClauseNot4
+5000
+------ 146 - not uses(proc) and calls ------
+stmt s; assign a; procedure p;
+Select p such that not Uses(p, "x") such that Calls(p, "MultiClauseNot1") 
+none
+5000
+------ 147 - uses(proc) and not calls* ------
+stmt s; variable v; procedure p;
+Select p such that Uses(p, v) such that not Calls*(p, "MultiClauseNot1") 
+MultiClauseNot3, MultiClauseNot4
+5000
+------ 148 - not uses(proc) and calls* ------
+stmt s; assign a; procedure p;
+Select p such that not Uses(p, "x") such that Calls*(p, "MultiClauseNot1") 
+none
+5000
+------ 149 - uses(proc) and not next ------
+stmt s; variable v; procedure p;
+Select p such that Uses(p, v) such that not Next(s, s) 
+MultiClauseNot2, MultiClauseNot3, MultiClauseNot4
+5000
+------ 150 - not uses(proc) and next ------
+stmt s; assign a; procedure p;
+Select p such that not Uses(p, "x") such that Next(s, a) 
+MultiClauseNot1, MultiClauseNot3
+5000
+------ 151 - uses(proc) and not next* ------
+stmt s; variable v; procedure p;
+Select p such that Uses(p, v) such that not Next*(s, s) 
+MultiClauseNot2, MultiClauseNot3, MultiClauseNot4
+5000
+------ 152 - not uses(proc) and next* ------
+stmt s; assign a; procedure p;
+Select p such that not Uses(p, "x") such that Next*(s, a) 
+MultiClauseNot1, MultiClauseNot3
+5000
+------ 153 - Uses(proc) and not affects ------
+stmt s; variable v; procedure p;
+Select p such that Uses(p, v) such that not Affects(s, s) 
+MultiClauseNot2, MultiClauseNot3, MultiClauseNot4
+5000
+------ 154 - not Uses(proc) and affects ------
+stmt s; assign a; procedure p;
+Select p such that not Uses(p, "x") such that Affects(s, a) 
+MultiClauseNot1, MultiClauseNot3
+5000
+------ 155 - uses(proc) and not assignPattern ------
+stmt s; assign a; variable v; procedure p;
+Select p such that Uses(p, v) pattern not a(v, "5") 
+MultiClauseNot2, MultiClauseNot3, MultiClauseNot4
+5000
+------ 156 - not uses(proc) and assignPattern ------
+stmt s; assign a; variable v; procedure p;
+Select p such that not Uses(p, "x") pattern a(v, "adsnkfjn") 
+none
+5000
+------ 157 - uses(proc) and not ifPattern ------
+stmt s; variable v; if i; procedure p;
+Select p such that Uses(p, v) pattern not i("i", _, _) 
+MultiClauseNot2, MultiClauseNot3, MultiClauseNot4
+5000
+------ 158 - not uses(proc) and ifPattern ------
+stmt s; assign a; variable v; if i; procedure p;
+Select p such that not Uses(p, "x") pattern i("y", _, _) 
+MultiClauseNot1, MultiClauseNot3
+5000
+------ 159 - uses(proc) and not whilePattern ------
+stmt s; variable v; while w; procedure p;
+Select p such that Uses(p, v) pattern not w("i", _) 
+none
+5000
+------ 160 - not uses(proc) and whilePattern ------
+stmt s; assign a; variable v; while w; procedure p;
+Select p such that not Uses(p, "x") pattern w("i", _) 
+MultiClauseNot1, MultiClauseNot3
+5000
+------ 161 - uses(proc) and not with ------
+stmt s; variable v; procedure p;
+Select p such that Uses(p, v) with not p.procName = "MultiClauseNot4"
+MultiClauseNot2, MultiClauseNot3
+5000
+------ 160 - not uses(proc) and with ------
+stmt s; assign a; variable v; while w; procedure p;
+Select p such that not Uses(p, "x") with p.procName = "MultiClauseNot1"
+MultiClauseNot1
+5000
