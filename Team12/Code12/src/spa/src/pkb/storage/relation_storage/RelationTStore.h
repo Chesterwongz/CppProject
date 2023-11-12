@@ -37,12 +37,8 @@ class RelationTStore : public RelationStore<T, T> {
   void computeRelationT(
       T key, std::unordered_map<T, std::unordered_set<T>>& directMap,
       std::unordered_map<T, std::unordered_set<T>>& transitiveMap) {
-    if (transitiveMap.count(key)) {
+    if (transitiveMap.count(key) || !directMap.count(key)) {
       return;  // nothing to compute.
-    }
-    if (!directMap.count(key)) {
-      transitiveMap[key] = {};
-      return;
     }
 
     std::unordered_set<T> visitedSet;
@@ -83,8 +79,7 @@ class RelationTStore : public RelationStore<T, T> {
 
   [[nodiscard]] bool hasSuccessorsT(T from) {
     computeSuccessorsT(from);
-    return transitiveSuccessorMap.count(from) &&
-           !transitiveSuccessorMap.at(from).empty();
+    return transitiveSuccessorMap.count(from);
   }
 
   [[nodiscard]] const std::unordered_set<T>& getSuccessorsT(T from) const {
@@ -93,8 +88,7 @@ class RelationTStore : public RelationStore<T, T> {
 
   [[nodiscard]] bool hasAncestorsT(T to) {
     computeAncestorsT(to);
-    return transitiveAncestorMap.count(to) &&
-           !transitiveAncestorMap.at(to).empty();
+    return transitiveAncestorMap.count(to);
   }
 
   [[nodiscard]] const std::unordered_set<T>& getAncestorsT(T to) const {
