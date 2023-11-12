@@ -244,7 +244,7 @@ IntermediateTable IntermediateTable::getSingleColData(const string& colName) {
   TableDataType colData;
   colData.reserve(this->tableData.size());
 
-  for (const TableRowType row : this->tableData) {
+  for (const TableRowType& row : this->tableData) {
     colData.push_back({row.at(colIndex)});
   }
 

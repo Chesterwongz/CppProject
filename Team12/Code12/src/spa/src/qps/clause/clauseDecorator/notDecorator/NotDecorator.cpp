@@ -177,6 +177,6 @@ vector<std::reference_wrapper<SynonymRes>> NotDecorator::getAllVariables(
   return varSynonymResVec;
 }
 
-void NotDecorator::setCurrentTable(IntermediateTable& currentTable) {
+void NotDecorator::setCurrentTable(const IntermediateTable& currentTable) {
   this->currentTable = currentTable;
 }
