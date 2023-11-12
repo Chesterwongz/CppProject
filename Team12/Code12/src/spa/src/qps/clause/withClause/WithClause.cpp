@@ -36,6 +36,6 @@ set<string> WithClause::getClauseSynonyms() {
   return {firstArg->getValue(), secondArg->getValue()};
 }
 string WithClause::getKey() {
-  return WITH_KEYWORD + ClauseUtil::KEY_DELIMITER + firstArg->getValue() +
-         ClauseUtil::KEY_DELIMITER + secondArg->getValue();
+  return WITH_KEYWORD + ClauseUtil::KEY_DELIMITER + firstArg->getArgKey() +
+         ClauseUtil::KEY_DELIMITER + secondArg->getArgKey();
 }

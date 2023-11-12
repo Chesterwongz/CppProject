@@ -6,6 +6,7 @@
 #include <regex>
 #include <stack>
 #include <string>
+#include <unordered_map>
 #include <utility>
 
 #include "common/utils/StringUtils.h"
@@ -19,6 +20,15 @@ class QPSStringUtils {
   static constexpr char kHash = '#';
 
   enum ArgumentType { IDENT, SYNONYM, WILDCARD, INTEGER, PATTERNEXP };
+
+  inline const static std::unordered_map<QPSStringUtils::ArgumentType, string>
+      ArgTypeToKeyMap = {
+          {QPSStringUtils::ArgumentType::IDENT, "IDENT"},
+          {QPSStringUtils::ArgumentType::SYNONYM, "SYNONYM"},
+          {QPSStringUtils::ArgumentType::WILDCARD, "WILDCARD"},
+          {QPSStringUtils::ArgumentType::INTEGER, "INTEGER"},
+          {QPSStringUtils::ArgumentType::PATTERNEXP, "PATTERNEXP"},
+  };
 
   static bool isSynonym(const string& data);
   static bool isIdent(const string& data);

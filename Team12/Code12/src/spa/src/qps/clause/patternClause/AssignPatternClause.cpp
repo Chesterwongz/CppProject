@@ -45,7 +45,7 @@ set<string> AssignPatternClause::getClauseSynonyms() {
 }
 
 ClauseKey AssignPatternClause::getKey() {
-  return ASSIGN_ENTITY + ClauseUtil::KEY_DELIMITER + synonym->getValue() +
-         ClauseUtil::KEY_DELIMITER + firstArg->getValue() +
-         ClauseUtil::KEY_DELIMITER + secondArg->getValue();
+  return ASSIGN_ENTITY + ClauseUtil::KEY_DELIMITER + synonym->getArgKey() +
+         ClauseUtil::KEY_DELIMITER + firstArg->getArgKey() +
+         ClauseUtil::KEY_DELIMITER + secondArg->getArgKey();
 }

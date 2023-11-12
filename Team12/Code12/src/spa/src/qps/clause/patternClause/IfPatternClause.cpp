@@ -39,6 +39,6 @@ set<string> IfPatternClause::getClauseSynonyms() {
 }
 
 ClauseKey IfPatternClause::getKey() {
-  return IF_ENTITY + ClauseUtil::KEY_DELIMITER + synonym->getValue() +
-         ClauseUtil::KEY_DELIMITER + firstArg->getValue();
+  return IF_ENTITY + ClauseUtil::KEY_DELIMITER + synonym->getArgKey() +
+         ClauseUtil::KEY_DELIMITER + firstArg->getArgKey();
 }

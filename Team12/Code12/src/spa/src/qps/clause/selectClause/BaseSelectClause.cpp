@@ -15,7 +15,7 @@ void BaseSelectClause::addSynonymsInOtherClause(const set<string>& synonyms) {
 ClauseKey BaseSelectClause::getKey() {
   ClauseKey key = SELECT_KEYWORD + ClauseUtil::KEY_DELIMITER;
   for (const unique_ptr<SynonymArg>& syn : synonymsToSelect) {
-    key += syn->getValue() + ClauseUtil::KEY_DELIMITER;
+    key += syn->getArgKey() + ClauseUtil::KEY_DELIMITER;
   }
   return key;
 }

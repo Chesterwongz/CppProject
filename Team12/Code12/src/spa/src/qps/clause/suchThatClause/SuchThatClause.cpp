@@ -48,6 +48,6 @@ set<string> SuchThatClause::getClauseSynonyms() {
 
 ClauseKey SuchThatClause::getKey() {
   return AbstractionEnumToStringMap.at(this->relationship) +
-         ClauseUtil::KEY_DELIMITER + this->firstArg->getValue() +
-         ClauseUtil::KEY_DELIMITER + this->secondArg->getValue();
+         ClauseUtil::KEY_DELIMITER + this->firstArg->getArgKey() +
+         ClauseUtil::KEY_DELIMITER + this->secondArg->getArgKey();
 }

@@ -39,6 +39,6 @@ set<string> WhilePatternClause::getClauseSynonyms() {
 }
 
 ClauseKey WhilePatternClause::getKey() {
-  return WHILE_ENTITY + ClauseUtil::KEY_DELIMITER + synonym->getValue() +
-         ClauseUtil::KEY_DELIMITER + firstArg->getValue();
+  return WHILE_ENTITY + ClauseUtil::KEY_DELIMITER + synonym->getArgKey() +
+         ClauseUtil::KEY_DELIMITER + firstArg->getArgKey();
 }
