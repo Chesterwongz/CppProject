@@ -1258,3 +1258,44 @@ stmt s; assign a; variable v; while w; procedure p;
 Select s such that not Next*(s, _) with s.stmt# = 2
 2
 5000
+------ 251 - affects and not assignPattern ------
+stmt s1, s2; assign a; variable v;
+Select s1 such that Affects(s1, s2) pattern not a(v, "5") 
+4, 7, 9, 11, 12, 13, 15, 16, 17, 18, 21
+5000
+------ 252 - not affects and assignPattern ------
+stmt s; assign a; variable v; procedure p;
+Select s such that not Affects(s, _) pattern a(v, "5") 
+1, 2, 3, 5, 6, 8, 10, 14, 19, 20, 22, 23, 24, 25, 26
+5000
+------ 253 - affects and not ifPattern ------
+stmt s1, s2; variable v; if i; procedure p1, p2;
+Select s1 such that Affects(s1, s2) pattern not i("i", _, _) 
+4, 7, 9, 11, 12, 13, 15, 16, 17, 18, 21
+5000
+------ 254 - not affects and ifPattern ------
+stmt s; assign a; variable v; if i; procedure p;
+Select s such that not Affects(s, _) pattern i("y", _, _) 
+1, 2, 3, 5, 6, 8, 10, 14, 19, 20, 22, 23, 24, 25, 26
+5000
+------ 255 - affects and not whilePattern ------
+stmt s1, s2; variable v; while w;
+Select s1 such that Affects(s1, s2) pattern not w("i", _) 
+none
+5000
+------ 256 - not affects and whilePattern ------
+stmt s; assign a; variable v; while w; procedure p;
+Select s such that not Affects(s, _) pattern w("i", _) 
+1, 2, 3, 5, 6, 8, 10, 14, 19, 20, 22, 23, 24, 25, 26
+5000
+------ 257 - affects and not with ------
+stmt s1, s2; variable v; procedure p1, p2;
+Select s1 such that Affects(s1, s2) with not s2.stmt# = 9
+4, 7, 9, 11, 12, 13, 15, 16, 17, 18, 21
+5000
+------ 258 - not affects and with ------
+stmt s; assign a; variable v; while w; procedure p;
+Select s such that not Affects(s, _) with s.stmt# = 2
+2
+5000
+
