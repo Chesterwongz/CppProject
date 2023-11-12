@@ -19,7 +19,7 @@ bool QPSStringUtils::isIdent(const string& data) {
                      [](unsigned char ch) { return std::isalnum(ch); });
 }
 
-bool QPSStringUtils::isWildcard(string data) {
+bool QPSStringUtils::isWildcard(const string& data) {
   return data == WILDCARD_KEYWORD;
 }
 
@@ -32,21 +32,13 @@ bool QPSStringUtils::isInteger(string data) {
     return std::isdigit(data[0]);
   }
 
-  if (data[0] == '0') {
-    return false;  // Numbers longer than one digit should not start with '0'
-  }
-
-  for (char ch : data) {
-    if (!std::isdigit(ch)) {
-      return false;  // All characters must be digits
-    }
-  }
-
-  return true;
+  return data[0] != '0' && std::all_of(data.begin(), data.end(), [](char ch) {
+           return std::isdigit(ch);
+         });
 }
 
 // used chatgpt for the algo, just changed variable names
-string QPSStringUtils::convertToRPN(string exp) {
+string QPSStringUtils::convertToRPN(const string& exp) {
   // shunting yard algo
 
   std::string rpnResult = " ";

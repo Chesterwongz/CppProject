@@ -1139,7 +1139,7 @@ TEST_CASE(
 TEST_CASE(
     "SP-PKB-QPS ../../Tests12/Milestone2/SingleClauseTests/With_queries.txt - "
     "73") {
-  string query = "Select BOOLEAN with \"x z\" = \"y\"";
+  string query = R"(Select BOOLEAN with "x z" = "y")";
   SourceProcessor sp;
   PKB pkb;
   sp.processContent(source, pkb.getWriter());
