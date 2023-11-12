@@ -1298,4 +1298,33 @@ stmt s; assign a; variable v; while w; procedure p;
 Select s such that not Affects(s, _) with s.stmt# = 2
 2
 5000
-
+------ 259 - assignPattern and not ifPattern ------
+stmt s1, s2; variable v; if i; assign a;
+Select a pattern a(v, "5") and not i("i", _, _) 
+4, 21
+5000
+------ 260 - not assignPattern and ifPattern ------
+stmt s; assign a; variable v; if i; procedure p;
+Select a pattern not a("x", _) and i("y", _, _) 
+4, 9, 12, 13, 15, 16, 17, 18, 21, 22
+5000
+------ 261 - assignPattern and not whilePattern ------
+stmt s1, s2; variable v; while w; assign a;
+Select a pattern a(v, "5") and not w("i", _) 
+none
+5000
+------ 262 - not assignPattern and whilePattern ------
+stmt s; assign a; variable v; while w; procedure p;
+Select a pattern not a("x", _) and w("i", _) 
+4, 9, 12, 13, 15, 16, 17, 18, 21, 22
+5000
+------ 263 - affects and not with ------
+stmt s1, s2; variable v; assign a;
+Select a pattern a(v, "5") with not a.stmt# = 4
+21
+5000
+------ 264 - not affects and with ------
+stmt s; assign a; variable v; while w; procedure p;
+Select a pattern not a("x", _) with a.stmt# = 4
+4
+5000
