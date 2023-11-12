@@ -190,12 +190,12 @@ bool HelperFunctions::validateNext(PKBReader& reader, const vector<int>& stmts,
                                    const IntToStrVecMap& expectedNextMap) {
   return validateWithMap<int, int>(
       reader, stmts, expectedNextMap,
-      [](PKBReader& r, int s) { return r.getNextStmts(s, StmtType::STMT); });
+      [](PKBReader& r, int s) { return r.getNextStmts(StmtType::STMT, s); });
 }
 
 bool HelperFunctions::validateNextT(PKBReader& reader, const vector<int>& stmts,
                                     const IntToStrVecMap& expectedNextTMap) {
   return validateWithMap<int, int>(
       reader, stmts, expectedNextTMap,
-      [](PKBReader& r, int s) { return r.getNextTStmts(s, StmtType::STMT); });
+      [](PKBReader& r, int s) { return r.getNextTStmts(StmtType::STMT, s); });
 }

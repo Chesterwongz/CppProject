@@ -47,7 +47,21 @@ IntermediateTable StmtToStmtAbstraction ::evaluateSynonymInteger() {
 
 // Abstraction (StmtSynonym, _)
 IntermediateTable StmtToStmtAbstraction ::evaluateSynonymWildcard() {
-  return handleSynonymOrWildcardArgs();
+  if (isFirstSynonymInvalid()) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
+
+  string firstArgStmtSynonym = this->firstArgValue;
+  StmtType firstArgStmtType = this->getFirstArgStmtType();
+
+  vector<string> results = getFirstStmt(firstArgStmtType, common::DEFAULT_STMT_NUM);
+
+  Entity firstArgEntity = ClauseUtil::getArgEntity(this->firstArg);
+  vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes =
+      SynResConversionUtils::toSynonymRes(results, firstArgEntity, this->pkb);
+
+  return IntermediateTableFactory::buildSingleColTable(firstArgStmtSynonym,
+                                                       resultAsSynonymRes);
 }
 
 // Abstraction (StmtNumber, StmtSynonym)
@@ -160,7 +174,7 @@ IntermediateTable StmtToStmtAbstraction::handleFirstArgInteger() {
   StmtType secondArgStmtType = this->getSecondArgStmtType();
   string secondStmtSynonym = this->secondArgValue;
 
-  vector<string> results = getSecondStmt(firstArgStmtNumber, secondArgStmtType);
+  vector<string> results = getSecondStmt(secondArgStmtType, firstArgStmtNumber);
 
   Entity secondArgEntity = ClauseUtil::getArgEntity(this->secondArg);
   vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes =
@@ -179,7 +193,7 @@ IntermediateTable StmtToStmtAbstraction::handleSecondArgInteger() {
   StmtType firstArgStmtType = this->getFirstArgStmtType();
   int secondArgStmtNumber = stoi(this->secondArgValue);
 
-  vector<string> results = getFirstStmt(secondArgStmtNumber, firstArgStmtType);
+  vector<string> results = getFirstStmt(firstArgStmtType, secondArgStmtNumber);
 
   Entity firstArgEntity = ClauseUtil::getArgEntity(this->firstArg);
   vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes =

@@ -34,10 +34,8 @@ class AffectsReader : public IAffectsReader {
 
   bool isAffects(int firstStmtNum, int secondStmtNum) override;
 
-  std::vector<std::string> getAffects(int firstStmtNum,
-                                      StmtType stmtType) override;
-  std::vector<std::string> getAffectedBy(int secondStmtNum,
-                                         StmtType stmtType) override;
+  std::vector<std::string> getAffects(StmtType type2, int s1) override;
+  std::vector<std::string> getAffectedBy(StmtType type1, int s2) override;
 
   void findAffectsPairs(
       int originalStmt, int currentStmt, const std::string& variable,

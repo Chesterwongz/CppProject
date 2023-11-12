@@ -25,11 +25,15 @@ class RelationTStore : public RelationStore<T, T> {
 
   virtual void precomputeRelationT(T from, T to) {
     addRelationT(from, to);
-    for (const auto& s : transitiveAncestorMap[from]) {
-      addRelationT(s, to);
+    if (transitiveAncestorMap.count(from)) {
+      for (const auto& s : transitiveAncestorMap.at(from)) {
+        addRelationT(s, to);
+      }
     }
-    for (const auto& t : transitiveSuccessorMap[to]) {
-      addRelationT(from, t);
+    if (transitiveSuccessorMap.count(to)) {
+      for (const auto& t : transitiveSuccessorMap.at(to)) {
+        addRelationT(from, t);
+      }
     }
   }
 
@@ -64,7 +68,9 @@ class RelationTStore : public RelationStore<T, T> {
         }
       }
     }
-    transitiveMap[key] = std::move(visitedSet);
+    if (!visitedSet.empty()) {
+      transitiveMap[key] = std::move(visitedSet);
+    }
   }
 
   virtual void computeAncestorsT(T to) {}
@@ -86,6 +92,16 @@ class RelationTStore : public RelationStore<T, T> {
     return transitiveSuccessorMap.at(from);
   }
 
+  [[nodiscard]] std::unordered_set<T> getSuccessorsT() {
+    computeAllRelationsT();
+    std::unordered_set<T> result;
+    result.reserve(transitiveAncestorMap.size());
+    std::transform(transitiveAncestorMap.begin(), transitiveAncestorMap.end(),
+                   std::inserter(result, result.end()),
+                   [](const auto& pair) { return pair.first; });
+    return result;
+  }
+
   [[nodiscard]] bool hasAncestorsT(T to) {
     computeAncestorsT(to);
     return transitiveAncestorMap.count(to);
@@ -94,6 +110,18 @@ class RelationTStore : public RelationStore<T, T> {
   [[nodiscard]] const std::unordered_set<T>& getAncestorsT(T to) const {
     return transitiveAncestorMap.at(to);
   }
+
+
+[[nodiscard]] std::unordered_set<T> getAncestorsT() {
+  computeAllRelationsT();
+  std::unordered_set<T> result;
+  result.reserve(transitiveSuccessorMap.size());
+  std::transform(transitiveSuccessorMap.begin(), transitiveSuccessorMap.end(),
+                 std::inserter(result, result.end()),
+                 [](const auto& pair) { return pair.first; });
+  return result;
+}
+
 
   [[nodiscard]] bool hasRelationT(T from, T to) {
     return hasSuccessorsT(from) && transitiveSuccessorMap.at(from).count(to);

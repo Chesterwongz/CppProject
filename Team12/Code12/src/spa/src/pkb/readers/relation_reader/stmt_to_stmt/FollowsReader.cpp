@@ -1,13 +1,11 @@
 #include "FollowsReader.h"
 
-std::vector<std::string> FollowsReader::getFollowing(int stmt,
-                                                     StmtType stmtType) {
-  return reader.getDirectS2ByS1(stmt, stmtType);
+std::vector<std::string> FollowsReader::getFollowing(StmtType stmtType, int stmt = common::DEFAULT_STMT_NUM) {
+  return reader.getDirectS2ByS1(stmtType, stmt);
 }
 
-std::vector<std::string> FollowsReader::getFollowed(int stmt,
-                                                    StmtType stmtType) {
-  return reader.getDirectS1ByS2(stmt, stmtType);
+std::vector<std::string> FollowsReader::getFollowed(StmtType stmtType, int stmt = common::DEFAULT_STMT_NUM) {
+  return reader.getDirectS1ByS2(stmtType, stmt);
 }
 
 bool FollowsReader::isFollows(int stmt1, int stmt2) {
@@ -21,14 +19,12 @@ std::vector<std::pair<std::string, std::string>> FollowsReader::getFollowsPairs(
 
 // ================================= FollowsT =================================
 
-std::vector<std::string> FollowsReader::getFollowsStar(int stmt,
-                                                       StmtType stmtType) {
-  return reader.getTransitiveS2ByS1(stmt, stmtType);
+std::vector<std::string> FollowsReader::getFollowsStar(StmtType stmtType, int stmt = common::DEFAULT_STMT_NUM) {
+  return reader.getTransitiveS2ByS1(stmtType, stmt);
 }
 
-std::vector<std::string> FollowsReader::getFollowedStar(int stmt,
-                                                        StmtType stmtType) {
-  return reader.getTransitiveS1ByS2(stmt, stmtType);
+std::vector<std::string> FollowsReader::getFollowedStar(StmtType stmtType, int stmt = common::DEFAULT_STMT_NUM) {
+  return reader.getTransitiveS1ByS2(stmtType, stmt);
 }
 
 bool FollowsReader::isFollowsStar(int stmt1, int stmt2) {

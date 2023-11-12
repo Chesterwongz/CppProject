@@ -19,9 +19,9 @@ class FollowsReader : public IFollowsReader {
       : reader(store, stmtStorage) {}
 
  public:
-  std::vector<std::string> getFollowing(int stmt, StmtType stmtType) override;
+  std::vector<std::string> getFollowing(StmtType stmtType, int stmt) override;
 
-  std::vector<std::string> getFollowed(int stmt, StmtType stmtType) override;
+  std::vector<std::string> getFollowed(StmtType stmtType, int stmt) override;
 
   bool isFollows(int stmt1, int stmt2) override;
 
@@ -30,10 +30,9 @@ class FollowsReader : public IFollowsReader {
 
   // ================================ FollowsT ================================
 
-  std::vector<std::string> getFollowsStar(int stmt, StmtType stmtType) override;
+  std::vector<std::string> getFollowsStar(StmtType stmtType, int stmt) override;
 
-  std::vector<std::string> getFollowedStar(int stmt,
-                                           StmtType stmtType) override;
+  std::vector<std::string> getFollowedStar(StmtType stmtType, int stmt) override;
 
   bool isFollowsStar(int stmt1, int stmt2) override;
 

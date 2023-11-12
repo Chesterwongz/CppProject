@@ -32,20 +32,18 @@ vector<pair<string, string>> AffectsAbstraction::getAllPairs(
   return pkb.getAffectsPairs();
 }
 
-vector<string> AffectsAbstraction::getFirstStmt(int secondStmtNumber,
-                                                StmtType firstStmtType) {
+vector<string> AffectsAbstraction::getFirstStmt(StmtType firstStmtType, int s2) {
   if (isInvalidStmtType(firstStmtType)) {
     return {};
   }
-  return pkb.getAffectedBy(secondStmtNumber, firstStmtType);
+  return pkb.getAffectedBy(firstStmtType, s2);
 }
 
-vector<string> AffectsAbstraction::getSecondStmt(int firstStmtNumber,
-                                                 StmtType secondStmtType) {
+vector<string> AffectsAbstraction::getSecondStmt(StmtType secondStmtType, int s1) {
   if (isInvalidStmtType(secondStmtType)) {
     return {};
   }
-  return pkb.getAffects(firstStmtNumber, secondStmtType);
+  return pkb.getAffects(secondStmtType, s1);
 }
 
 bool AffectsAbstraction::isStmtRelatedToStmt(int stmtNum1, int stmtNum2) {

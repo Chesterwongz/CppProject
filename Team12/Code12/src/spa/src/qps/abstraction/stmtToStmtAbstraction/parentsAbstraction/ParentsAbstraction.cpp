@@ -22,15 +22,14 @@ vector<pair<string, string>> ParentsAbstraction::getAllPairs(
   return pkb.getParentChildPairs(firstStmtType, secondStmtType);
 }
 
-vector<string> ParentsAbstraction::getFirstStmt(int secondStmtNumber,
-                                                StmtType firstStmtType) {
-  return pkb.getImmediateParentOf(secondStmtNumber, firstStmtType);
+vector<string> ParentsAbstraction::getFirstStmt(StmtType firstStmtType, int s2) {
+  return pkb.getImmediateParentOf(firstStmtType, s2);
 }
 
-vector<string> ParentsAbstraction::getSecondStmt(int firstStmtNumber,
-                                                 StmtType secondStmtType) {
-  return pkb.getImmediateChildrenOf(firstStmtNumber, secondStmtType);
+vector<string> ParentsAbstraction::getSecondStmt(StmtType secondStmtType, int s1) {
+  return pkb.getImmediateChildrenOf(secondStmtType, s1);
 }
+
 
 bool ParentsAbstraction::isStmtRelatedToStmt(int stmtNum1, int stmtNum2) {
   return pkb.isParent(stmtNum1, stmtNum2);

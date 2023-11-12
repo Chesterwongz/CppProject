@@ -11,14 +11,12 @@ vector<pair<string, string>> FollowsStarAbstraction::getAllPairs(
   return pkb.getFollowsStarPairs(firstStmtType, secondStmtType);
 }
 
-vector<string> FollowsStarAbstraction::getFirstStmt(int secondStmtNumber,
-                                                    StmtType firstStmtType) {
-  return pkb.getFollowedStar(secondStmtNumber, firstStmtType);
+vector<string> FollowsStarAbstraction::getFirstStmt(StmtType firstStmtType, int s2) {
+  return pkb.getFollowedStar(firstStmtType, s2);
 }
 
-vector<string> FollowsStarAbstraction::getSecondStmt(int firstStmtNumber,
-                                                     StmtType secondStmtType) {
-  return pkb.getFollowsStar(firstStmtNumber, secondStmtType);
+vector<string> FollowsStarAbstraction::getSecondStmt(StmtType secondStmtType, int s1) {
+  return pkb.getFollowsStar(secondStmtType, s1);
 }
 
 bool FollowsStarAbstraction::isStmtRelatedToStmt(int stmtNum1, int stmtNum2) {

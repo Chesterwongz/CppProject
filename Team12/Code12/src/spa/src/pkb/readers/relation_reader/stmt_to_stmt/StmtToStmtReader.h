@@ -19,9 +19,9 @@ class StmtToStmtReader {
   explicit StmtToStmtReader(RelationTStore<int>& store, StmtStore& stmtStore)
       : store(store), stmtStore(stmtStore) {}
 
-  std::vector<std::string> getDirectS1ByS2(int s2, StmtType stmtType1);
+  std::vector<std::string> getDirectS1ByS2(StmtType stmtType1, int s2);
 
-  std::vector<std::string> getDirectS2ByS1(int stmt1, StmtType stmtType2);
+  std::vector<std::string> getDirectS2ByS1(StmtType stmtType2, int s1);
 
   bool hasDirectRelation(int stmt1, int stmt2);
 
@@ -30,9 +30,9 @@ class StmtToStmtReader {
 
   // ================================ FollowsT ================================
 
-  std::vector<std::string> getTransitiveS1ByS2(int s2, StmtType stmtType1);
+  std::vector<std::string> getTransitiveS1ByS2(StmtType stmtType1, int s2);
 
-  std::vector<std::string> getTransitiveS2ByS1(int s1, StmtType stmtType2);
+  std::vector<std::string> getTransitiveS2ByS1(StmtType stmtType2, int s1);
 
   bool hasTransitiveRelation(int s1, int s2);
 

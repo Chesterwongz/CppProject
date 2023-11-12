@@ -17,13 +17,9 @@ class INextReader {
   virtual bool isNext(int firstStmtNum, int secondStmtNum) = 0;
   virtual bool isNextT(int firstStmtNum, int secondStmtNum) = 0;
 
-  virtual std::vector<std::string> getPrevStmts(int secondStmtNum,
-                                                StmtType firstStmtType) = 0;
-  virtual std::vector<std::string> getPrevTStmts(int secondStmtNum,
-                                                 StmtType firstStmtType) = 0;
+  virtual std::vector<std::string> getPrevStmts(StmtType type1, int s2) = 0;
+  virtual std::vector<std::string> getPrevTStmts(StmtType type1, int s2) = 0;
 
-  virtual std::vector<std::string> getNextStmts(int firstStmtNum,
-                                                StmtType secondStmtType) = 0;
-  virtual std::vector<std::string> getNextTStmts(int firstStmtNum,
-                                                 StmtType secondStmtType) = 0;
+  virtual std::vector<std::string> getNextStmts(StmtType type2, int s1) = 0;
+  virtual std::vector<std::string> getNextTStmts(StmtType type2, int s1) = 0;
 };

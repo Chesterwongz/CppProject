@@ -1,29 +1,38 @@
 #include "StmtToStmtReader.h"
 
-std::vector<std::string> StmtToStmtReader::getDirectS2ByS1(int stmt1,
-                                                           StmtType stmtType2) {
-  if (!stmtStore.hasStmtType(stmtType2) || !store.hasDirectSuccessors(stmt1)) {
+std::vector<std::string> StmtToStmtReader::getDirectS2ByS1(
+    StmtType stmtType2, int stmt1 = common::DEFAULT_STMT_NUM) {
+  if (!stmtStore.hasStmtType(stmtType2) ||
+      (stmt1 != common::DEFAULT_STMT_NUM &&
+       !store.hasDirectSuccessors(stmt1))) {
     return {};
   }
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType2);
-
-  const auto& rawRes = store.getDirectSuccessors(stmt1);
-
+  std::unordered_set<int> rawRes;
+  if (stmt1 == common::DEFAULT_STMT_NUM) {
+    rawRes = store.getDirectSuccessors();
+  } else {
+    rawRes = store.getDirectSuccessors(stmt1);
+  }
   return CollectionUtils::transformSetUToVectorV<int, std::string>(
       rawRes, CollectionUtils::intToStrMapper, stmtFilter);
 }
 
-std::vector<std::string> StmtToStmtReader::getDirectS1ByS2(int s2,
-                                                           StmtType stmtType1) {
-  if (!stmtStore.hasStmtType(stmtType1) || !store.hasDirectAncestors(s2)) {
+std::vector<std::string> StmtToStmtReader::getDirectS1ByS2(
+    StmtType stmtType1, int s2 = common::DEFAULT_STMT_NUM) {
+  if (!stmtStore.hasStmtType(stmtType1) ||
+      (s2 != common::DEFAULT_STMT_NUM && !store.hasDirectAncestors(s2))) {
     return {};
   }
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType1);
-
-  auto rawRes = store.getDirectAncestors(s2);
-
+  std::unordered_set<int> rawRes;
+  if (s2 == common::DEFAULT_STMT_NUM) {
+    rawRes = store.getDirectAncestors();
+  } else {
+    rawRes = store.getDirectAncestors(s2);
+  }
   return CollectionUtils::transformSetUToVectorV<int, std::string>(
       rawRes, CollectionUtils::intToStrMapper, stmtFilter);
 }
@@ -50,28 +59,35 @@ StmtToStmtReader::getDirectS1AndS2Pairs(StmtType stmtType1,
 // ================================= FollowsT =================================
 
 std::vector<std::string> StmtToStmtReader::getTransitiveS1ByS2(
-    int s2, StmtType stmtType1) {
-  if (!stmtStore.hasStmtType(stmtType1) || !store.hasAncestorsT(s2)) {
+    StmtType stmtType1, int s2 = common::DEFAULT_STMT_NUM) {
+  if (!stmtStore.hasStmtType(stmtType1) ||
+      (s2 != common::DEFAULT_STMT_NUM && !store.hasAncestorsT(s2))) {
     return {};
   }
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType1);
-
-  const auto& rawRes = store.getAncestorsT(s2);
-
+  std::unordered_set<int> rawRes;
+  if (s2 == common::DEFAULT_STMT_NUM) {
+    rawRes = store.getDirectAncestors();
+  } else {
+    rawRes = store.getAncestorsT(s2);
+  }
   return CollectionUtils::intSetToStrVector(rawRes, stmtFilter);
 }
 
 std::vector<std::string> StmtToStmtReader::getTransitiveS2ByS1(
-    int s1, StmtType stmtType2) {
+    StmtType stmtType2, int s1 = common::DEFAULT_STMT_NUM) {
   if (!stmtStore.hasStmtType(stmtType2) || !store.hasSuccessorsT(s1)) {
     return {};
   }
 
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType2);
-
-  const auto& rawRes = store.getSuccessorsT(s1);
-
+  std::unordered_set<int> rawRes;
+  if (s1 == common::DEFAULT_STMT_NUM) {
+    rawRes = store.getSuccessorsT();
+  } else {
+    rawRes = store.getSuccessorsT(s1);
+  }
   return CollectionUtils::intSetToStrVector(rawRes, stmtFilter);
 }
 
