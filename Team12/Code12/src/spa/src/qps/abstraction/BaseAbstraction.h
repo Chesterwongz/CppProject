@@ -19,6 +19,9 @@ class BaseAbstraction {
  private:
   virtual bool isFirstSynonymInvalid() = 0;
   virtual bool isSecondSynonymInvalid() = 0;
+  static ClauseSignature getClauseAbstractionSignature(
+      const Abstraction& abstraction, AbstractArgument& firstArg,
+      AbstractArgument& secondArg);
 
  protected:
   PKBReader& pkb;
@@ -33,6 +36,8 @@ class BaseAbstraction {
 
   StmtType getFirstArgStmtType();
   StmtType getSecondArgStmtType();
+
+  ClauseSignature signature;
 
  public:
   virtual ~BaseAbstraction() = default;

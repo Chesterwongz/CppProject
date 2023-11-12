@@ -25,6 +25,6 @@ unordered_set<string> QueryEvaluator::evaluate(unique_ptr<Query>& query) {
   this->pkb.clearCache();
   unordered_set<string> finalRes = query->getQueryResult(finalTable);
   this->cache.clearCache();
-
+  SynResConversionUtils::clearSynResCache();
   return finalRes;
 }

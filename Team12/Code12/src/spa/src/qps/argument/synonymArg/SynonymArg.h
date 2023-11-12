@@ -37,6 +37,7 @@ class SynonymArg : public AbstractArgument {
   bool isVarSynonym() override;
   bool isProcSynonym() override;
   bool operator==(const AbstractArgument& other) const override;
+  string getArgSignature() override;
 };
 
 typedef vector<unique_ptr<SynonymArg>> SynonymsToSelect;

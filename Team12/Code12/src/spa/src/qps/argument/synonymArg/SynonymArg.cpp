@@ -34,3 +34,8 @@ bool SynonymArg::operator==(const AbstractArgument& other) const {
          this->entityType == otherSynonym->entityType &&
          this->attrRef == otherSynonym->attrRef;
 }
+
+string SynonymArg::getArgSignature() {
+  return this->getEntityType() + AbstractArgument::ARG_KEY_DELIMITER +
+         QPSStringUtils::ArgTypeToKeyMap.at(this->getArgumentType());
+}
