@@ -17,7 +17,6 @@ class CollectionUtils {
 
  public:
   static const size_t FIRST_ELEM = 0;
-  static const size_t SECOND_ELEM = 1;
 
   template <typename T>
   static vector<T> intersectVectors(vector<T> vector1, vector<T> vector2) {
@@ -84,7 +83,7 @@ class CollectionUtils {
       const std::unordered_map<int, std::unordered_set<int>>& mapSet) {
     std::vector<std::pair<std::string, std::string>> res;
     for (const auto& [a, setB] : mapSet) {
-      res.reserve(setB.size());
+      res.reserve(res.size() + setB.size());
       for (const auto& b : setB) {
         res.emplace_back(intToStrMapper(a), intToStrMapper(b));
       }
@@ -100,7 +99,7 @@ class CollectionUtils {
     std::vector<std::pair<std::string, std::string>> res;
     for (const auto& [a, setB] : mapSet) {
       if (!filterPair.first(a)) continue;
-      res.reserve(setB.size());
+      res.reserve(res.size() + setB.size());
       for (const auto& b : setB) {
         if (!filterPair.second(b)) continue;
         res.emplace_back(intToStrMapper(a), intToStrMapper(b));
