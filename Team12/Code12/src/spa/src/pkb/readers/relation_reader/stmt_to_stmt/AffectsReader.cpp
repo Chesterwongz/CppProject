@@ -11,7 +11,7 @@ AffectsReader::getAffectsPairs() {
 
   std::vector<std::pair<std::string, std::string>> result;
 
-  const auto assignStmts = stmtStore.getAllStmtsOf(StmtType::ASSIGN);
+  const auto& assignStmts = stmtStore.getAllStmtsOf(StmtType::ASSIGN);
 
   for (const auto& assign : assignStmts) {
     if (!modifiesSStore.hasDirectSuccessors(assign)) continue;
@@ -69,12 +69,12 @@ bool AffectsReader::isAffects(int firstStmtNum, int secondStmtNum) {
   }
 
   if (affectsCache.hasDirectRelation(firstStmtNum, secondStmtNum)) {
-    return affectsCache.hasDirectRelation(firstStmtNum, secondStmtNum);
+    return true;
   }
 
   if (affectsCache.getIsComplete() &&
       !affectsCache.hasDirectRelation(firstStmtNum, secondStmtNum)) {
-    return affectsCache.hasDirectRelation(firstStmtNum, secondStmtNum);
+    return false;
   }
 
   std::vector<std::string> affectingStmts =
@@ -93,19 +93,19 @@ std::vector<std::string> AffectsReader::getAffects(int firstStmtNum,
     return result;
   }
 
-  if (!affectsCache.getDirectRelations().empty() &&
-      affectsCache.getDirectRelations().find(firstStmtNum) !=
-          affectsCache.getDirectRelations().end()) {
+  if (affectsCache.getIsComplete() &&
+      affectsCache.getDirectRelations().count(firstStmtNum)) {
     auto stmtFilter = stmtStore.getStmtFilterPredicate(StmtType::ASSIGN);
     return CollectionUtils::intSetToStrVector(
         affectsCache.getDirectSuccessors(firstStmtNum), stmtFilter);
   }
 
-  std::string v = *modifiesSStore.getDirectSuccessors(firstStmtNum).begin();
+  const std::string& v =
+      *modifiesSStore.getDirectSuccessors(firstStmtNum).begin();
 
   findAffectsPairs(firstStmtNum, firstStmtNum, v, done, resultPairs);
 
-  for (auto pair : resultPairs) {
+  for (const auto& pair : resultPairs) {
     result.emplace_back(pair.second);
     affectsCache.addRelation(stoi(pair.first), stoi(pair.second));
   }
@@ -122,9 +122,8 @@ std::vector<std::string> AffectsReader::getAffectedBy(int secondStmtNum,
     return result;
   }
 
-  if (!affectsCache.getDirectRelations().empty() &&
-      affectsCache.getDirectBackwardRelations().find(secondStmtNum) !=
-          affectsCache.getDirectBackwardRelations().end()) {
+  if (affectsCache.getIsComplete() &&
+      affectsCache.getDirectBackwardRelations().count(secondStmtNum)) {
     auto stmtFilter = stmtStore.getStmtFilterPredicate(StmtType::ASSIGN);
     return CollectionUtils::intSetToStrVector(
         affectsCache.getDirectAncestors(secondStmtNum), stmtFilter);
@@ -133,7 +132,7 @@ std::vector<std::string> AffectsReader::getAffectedBy(int secondStmtNum,
   if (usesSStore.hasDirectSuccessors(secondStmtNum)) {
     usedVariables = usesSStore.getDirectSuccessors(secondStmtNum);
     std::unordered_set<int> allModifyingStmts;
-    for (std::string var : usedVariables) {
+    for (const std::string& var : usedVariables) {
       if (modifiesSStore.hasDirectAncestors(var)) {
         std::unordered_set<int> modifyingStmts =
             modifiesSStore.getDirectAncestors(var);
