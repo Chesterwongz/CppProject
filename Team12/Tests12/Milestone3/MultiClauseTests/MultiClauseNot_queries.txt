@@ -1043,7 +1043,7 @@ stmt s; assign a; variable v; procedure p1, p2;
 Select p1 such that Calls(p1, p2) pattern not a(v, "5") 
 MultiClauseNot2
 5000
------- 208 - not callsand assignPattern ------
+------ 208 - not calls and assignPattern ------
 stmt s; assign a; variable v; procedure p;
 Select p such that not Calls(p, _) pattern a(v, "5") 
 MultiClauseNot1, MultiClauseNot3, MultiClauseNot4
@@ -1076,5 +1076,75 @@ MultiClauseNot1, MultiClauseNot3
 ------ 214 - not calls and with ------
 stmt s; assign a; variable v; while w; procedure p;
 Select p such that not Calls(p, _) with p.procName = "MultiClauseNot4"
+MultiClauseNot4
+5000
+------ 215 - calls* and not next ------
+stmt s; variable v; procedure p1, p2;
+Select p1 such that Calls*(p1, p2) such that not Next(s, s) 
+MultiClauseNot2
+5000
+------ 216 - not calls* and next ------
+stmt s; assign a; procedure p;
+Select p such that not Calls*(p, _) such that Next(s, a) 
+MultiClauseNot1, MultiClauseNot3, MultiClauseNot4
+5000
+------ 217 - calls* and not next* ------
+stmt s; variable v; procedure p1, p2;
+Select p1 such that Calls*(p1, p2) such that not Next*(s, s) 
+MultiClauseNot2
+5000
+------ 218 - not calls* and next* ------
+stmt s; assign a; procedure p;
+Select p such that not Calls*(p, _) such that Next*(s, a) 
+MultiClauseNot1, MultiClauseNot3, MultiClauseNot4
+5000
+------ 219 - calls* and not affects ------
+stmt s; variable v; procedure p1, p2;
+Select p1 such that Calls*(p1, p2) such that not Affects(s, s) 
+MultiClauseNot2
+5000
+------ 220 - not calls* and affects ------
+stmt s; assign a; procedure p;
+Select p such that not Calls*(p, _) such that Affects(s, a) 
+MultiClauseNot1, MultiClauseNot3, MultiClauseNot4
+5000
+------ 221 - calls* and not assignPattern ------
+stmt s; assign a; variable v; procedure p1, p2;
+Select p1 such that Calls*(p1, p2) pattern not a(v, "5") 
+MultiClauseNot2
+5000
+------ 222 - not calls* and assignPattern ------
+stmt s; assign a; variable v; procedure p;
+Select p such that not Calls*(p, _) pattern a(v, "5") 
+MultiClauseNot1, MultiClauseNot3, MultiClauseNot4
+5000
+------ 223 - calls* and not ifPattern ------
+stmt s; variable v; if i; procedure p1, p2;
+Select p1 such that Calls*(p1, p2) pattern not i("i", _, _) 
+MultiClauseNot2
+5000
+------ 224 - not calls* and ifPattern ------
+stmt s; assign a; variable v; if i; procedure p;
+Select p such that not Calls*(p, _) pattern i("y", _, _) 
+MultiClauseNot1, MultiClauseNot3, MultiClauseNot4
+5000
+------ 225 - calls* and not whilePattern ------
+stmt s; variable v; while w; procedure p1, p2;
+Select p1 such that Calls*(p1, p2) pattern not w("i", _) 
+none
+5000
+------ 226 - not calls* and whilePattern ------
+stmt s; assign a; variable v; while w; procedure p;
+Select p such that not Calls*(p, _) pattern w("i", _) 
+MultiClauseNot1, MultiClauseNot3, MultiClauseNot4
+5000
+------ 227 - calls* and not with ------
+stmt s; variable v; procedure p1, p2;
+Select p2 such that Calls*(p1, p2) with not p2.procName = "MultiClauseNot4"
+MultiClauseNot1, MultiClauseNot3
+5000
+------ 228 - not calls* and with ------
+stmt s; assign a; variable v; while w; procedure p;
+Select p such that not Calls*(p, _) with p.procName = "MultiClauseNot4"
 MultiClauseNot4
 5000
