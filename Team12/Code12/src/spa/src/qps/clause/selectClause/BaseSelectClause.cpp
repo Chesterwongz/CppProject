@@ -7,6 +7,8 @@
 
 using std::unique_ptr;
 
+bool BaseSelectClause::isDisableCaching() { return true; }
+
 void BaseSelectClause::addSynonymsInOtherClause(const set<string>& synonyms) {
   for (const auto& syn : synonyms) {
     synonymsInOtherClauses.insert(syn);

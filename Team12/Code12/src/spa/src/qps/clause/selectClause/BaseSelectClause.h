@@ -19,6 +19,7 @@ class BaseSelectClause : public BaseClause {
  protected:
   SynonymsToSelect synonymsToSelect;
   set<string> synonymsInOtherClauses;
+  bool isDisableCaching() override;
 
  public:
   explicit BaseSelectClause(SynonymsToSelect synonymsToSelect)

@@ -14,6 +14,7 @@
 class BaseClause {
  protected:
   virtual IntermediateTable evaluate(PKBReader& pkbReader) = 0;
+  virtual bool isDisableCaching();
   friend class NotDecorator;
 
  public:
