@@ -43,9 +43,12 @@ PQLToken PQLTokenHandler::processLiteralToken(InputStream &inputStream) {
   }
   QPSStringUtils::trimString(literal);
 
-  PQLTokenType type = QPSStringUtils::isIdent(literal)
-                          ? PQLTokenType::PQL_LITERAL_REF_TOKEN
-                          : PQLTokenType::PQL_LITERAL_REF_TOKEN;
+  PQLTokenType type;
+  if (QPSStringUtils::isIdent(literal)) {
+    type = PQLTokenType::PQL_LITERAL_REF_TOKEN;
+  } else {
+    type = PQLTokenType::PQL_LITERAL_EXPRESSION_TOKEN;
+  }
   return {type, literal};
 }
 

@@ -13,10 +13,10 @@
 
 class PQLTokenHandler : public ITokenHandler<PQLToken> {
  private:
-  PQLToken processNameToken(InputStream& inputStream);
-  PQLToken processIntegerToken(InputStream& inputStream);
-  PQLToken processLiteralToken(InputStream& inputStream);
-  PQLToken processDelimiterToken(char nextCh, InputStream& inputStream);
+  static PQLToken processNameToken(InputStream& inputStream);
+  static PQLToken processIntegerToken(InputStream& inputStream);
+  static PQLToken processLiteralToken(InputStream& inputStream);
+  static PQLToken processDelimiterToken(char nextCh, InputStream& inputStream);
 
  public:
   PQLToken tokenize(char nextCh, InputStream& inputStream) override;

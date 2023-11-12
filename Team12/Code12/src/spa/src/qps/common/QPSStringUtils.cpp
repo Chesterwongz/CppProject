@@ -29,8 +29,7 @@ bool QPSStringUtils::isInteger(string data) {
   }
 
   if (data.size() == 1) {
-    return data[0] >= '0' &&
-           data[0] <= '9';  // Single character must be a digit
+    return std::isdigit(data[0]);
   }
 
   if (data[0] == '0') {
@@ -38,7 +37,7 @@ bool QPSStringUtils::isInteger(string data) {
   }
 
   for (char ch : data) {
-    if (ch < '0' || ch > '9') {
+    if (!std::isdigit(ch)) {
       return false;  // All characters must be digits
     }
   }
