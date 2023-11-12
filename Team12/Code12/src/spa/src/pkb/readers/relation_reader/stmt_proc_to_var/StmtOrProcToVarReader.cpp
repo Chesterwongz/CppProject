@@ -53,8 +53,8 @@ std::vector<std::string> StmtOrProcToVarReader::getVarByProc(
 std::vector<std::string> StmtOrProcToVarReader::getProcByVar(
     const std::string& varName) {
   return ReaderUtils::readStrStore(
-      !relationPStore.hasDirectSuccessors(varName), [varName, this]() {
-        return relationPStore.getDirectSuccessors(varName);
+      !relationPStore.hasDirectAncestors(varName), [varName, this]() {
+        return relationPStore.getDirectAncestors(varName);
       });
 }
 
