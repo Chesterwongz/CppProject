@@ -908,3 +908,93 @@ stmt s; assign a; variable v; while w;
 Select s such that not Modifies(s, "x") with s.stmt# = 8
 8
 5000
+------ 181 - modifies(proc) and not calls ------
+stmt s; variable v; procedure p;
+Select p such that Modifies(p, v) such that not Calls(p, "MultiClauseNot1") 
+MultiClauseNot1, MultiClauseNot3
+5000
+------ 182 - not modifies(proc) and calls ------
+stmt s; assign a; procedure p;
+Select p such that not Modifies(p, "x") such that Calls(p, "MultiClauseNot1") 
+none
+5000
+------ 183 - modifies(proc) and not calls* ------
+stmt s; variable v; procedure p;
+Select p such that Modifies(p, v) such that not Calls*(p, "MultiClauseNot1") 
+MultiClauseNot1, MultiClauseNot3
+5000
+------ 184 - not modifies(proc) and calls* ------
+stmt s; assign a; procedure p;
+Select p such that not Modifies(p, "x") such that Calls*(p, "MultiClauseNot1") 
+none
+5000
+------ 185 - modifies(proc) and not next ------
+stmt s; variable v; procedure p;
+Select p such that Modifies(p, v) such that not Next(s, s) 
+MultiClauseNot1, MultiClauseNot2, MultiClauseNot3
+5000
+------ 186 - not modifies(proc) and next ------
+stmt s; assign a; procedure p;
+Select p such that not Modifies(p, "x") such that Next(s, a) 
+MultiClauseNot3, MultiClauseNot4
+5000
+------ 187 - modifies(proc) and not next* ------
+stmt s; variable v; procedure p;
+Select p such that Modifies(p, v) such that not Next*(s, s) 
+MultiClauseNot1, MultiClauseNot2, MultiClauseNot3
+5000
+------ 188 - not modifies(proc) and next* ------
+stmt s; assign a; procedure p;
+Select p such that not Modifies(p, "x") such that Next*(s, a) 
+MultiClauseNot3, MultiClauseNot4
+5000
+------ 189 - modifies(proc) and not affects ------
+stmt s; variable v; procedure p;
+Select p such that Modifies(p, v) such that not Affects(s, s) 
+MultiClauseNot1, MultiClauseNot2, MultiClauseNot3
+5000
+------ 190 - not modifies(proc) and affects ------
+stmt s; assign a; procedure p;
+Select p such that not Modifies(p, "x") such that Affects(s, a) 
+MultiClauseNot3, MultiClauseNot4
+5000
+------ 191 - modifies(proc) and not assignPattern ------
+stmt s; assign a; variable v; procedure p;
+Select p such that Modifies(p, v) pattern not a(v, "5") 
+MultiClauseNot1, MultiClauseNot2, MultiClauseNot3
+5000
+------ 192 - not modifies(proc) and assignPattern ------
+stmt s; assign a; variable v; procedure p;
+Select p such that not Modifies(p, "x") pattern a(v, "adsnkfjn") 
+none
+5000
+------ 193 - modifies(proc) and not ifPattern ------
+stmt s; variable v; if i; procedure p;
+Select p such that Modifies(p, v) pattern not i("i", _, _) 
+MultiClauseNot1, MultiClauseNot2, MultiClauseNot3
+5000
+------ 194 - not modifies(proc) and ifPattern ------
+stmt s; assign a; variable v; if i; procedure p;
+Select p such that not Modifies(p, "x") pattern i("y", _, _) 
+MultiClauseNot3, MultiClauseNot4
+5000
+------ 195 - modifies(proc) and not whilePattern ------
+stmt s; variable v; while w; procedure p;
+Select p such that Modifies(p, v) pattern not w("i", _) 
+none
+5000
+------ 196 - not modifies(proc) and whilePattern ------
+stmt s; assign a; variable v; while w; procedure p;
+Select p such that not Modifies(p, "x") pattern w("i", _) 
+MultiClauseNot3, MultiClauseNot4
+5000
+------ 197 - modifies(proc) and not with ------
+stmt s; variable v; procedure p;
+Select p such that Modifies(p, v) with not p.procName = "MultiClauseNot4"
+MultiClauseNot1, MultiClauseNot2, MultiClauseNot3
+5000
+------ 198 - not modifies(proc) and with ------
+stmt s; assign a; variable v; while w; procedure p;
+Select p such that not Modifies(p, "x") with p.procName = "MultiClauseNot1"
+none
+5000
