@@ -158,14 +158,14 @@ IntermediateTable IntermediateTable::join(const IntermediateTable &otherTable) {
 
   pair<vector<int>, vector<int>> sharedColumnIndexes =
       IntermediateTableUtils::getSharedColIndexes(*this, otherTable);
-  bool noSharedColumns =
-      sharedColumnIndexes.first.empty() && sharedColumnIndexes.second.empty();
+  bool hasSharedColumns = !(sharedColumnIndexes.first.empty() &&
+                            sharedColumnIndexes.second.empty());
 
   // Cross if no shared columns, inner join if shared columns exists
-  return noSharedColumns
-             ? IntermediateTableUtils::getCrossProduct(*this, otherTable)
-             : IntermediateTableUtils::getNaturalJoin(sharedColumnIndexes,
-                                                      *this, otherTable);
+  return hasSharedColumns
+             ? IntermediateTableUtils::getNaturalJoin(sharedColumnIndexes,
+                                                      *this, otherTable)
+             : IntermediateTableUtils::getCrossProduct(*this, otherTable);
 }
 
 IntermediateTable IntermediateTable::join(
@@ -232,6 +232,23 @@ IntermediateTable IntermediateTable::getDifference(
 
   return newTableData.empty() ? IntermediateTable(false)
                               : IntermediateTable(colNames, newTableData);
+}
+
+IntermediateTable IntermediateTable::getSingleColData(const string& colName) {
+  if (!this->isColExists(colName)) {
+    return makeEmptyTable();
+  }
+
+  int colIndex = this->getColIndex(colName);
+
+  TableDataType colData;
+  colData.reserve(this->tableData.size());
+
+  for (const TableRowType row : this->tableData) {
+    colData.push_back({row.at(colIndex)});
+  }
+
+  return IntermediateTable({colName}, std::move(colData));
 }
 
 void IntermediateTable::printTable() const {

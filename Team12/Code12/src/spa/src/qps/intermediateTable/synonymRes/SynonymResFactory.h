@@ -4,11 +4,12 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "SynonymRes.h"
 #include "SynonymResUtils.h"
 
-using std::string, std::unordered_map, std::unique_ptr;
+using std::string, std::unordered_map, std::unique_ptr, std::pair;
 
 class SynonymResFactory {
  private:
@@ -34,4 +35,25 @@ class SynonymResFactory {
   static SynonymRes& buildStmtSynonym(const string& stmtNumber);
 
   static SynonymRes& buildVarSynonym(const string& varName);
+
+  static vector<std::reference_wrapper<SynonymRes>> buildStmtSynonymResVector(
+      const vector<string>& stmtNums);
+
+  static vector<std::reference_wrapper<SynonymRes>>
+  buildConstantSynonymResVector(const vector<string>& stmtNums);
+
+  static vector<std::reference_wrapper<SynonymRes>> buildProcSynonymResVector(
+      const vector<string>& stmtNums);
+
+  static vector<std::reference_wrapper<SynonymRes>> buildVarSynonymResVector(
+      const vector<string>& stmtNums);
+
+  static vector<std::reference_wrapper<SynonymRes>> buildCallSynonymResVector(
+      const vector<pair<string, string>>& callProcNamePairs);
+
+  static vector<std::reference_wrapper<SynonymRes>> buildReadSynonymResVector(
+      const vector<pair<string, string>>& callProcNamePairs);
+
+  static vector<std::reference_wrapper<SynonymRes>> buildPrintSynonymResVector(
+      const vector<pair<string, string>>& callProcNamePairs);
 };

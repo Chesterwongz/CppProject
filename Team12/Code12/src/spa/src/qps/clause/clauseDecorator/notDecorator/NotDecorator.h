@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "qps/clause/clauseDecorator/ClauseDecorator.h"
+#include "qps/intermediateTable/IntermediateTableFactory.h"
 
 using std::function;
 
@@ -16,8 +17,8 @@ typedef function<vector<std::reference_wrapper<SynonymRes>>(PKBReader& pkb)>
 
 class NotDecorator : public ClauseDecorator {
  private:
-  static vector<std::reference_wrapper<SynonymRes>> getStmtSynonyms(
-      vector<string>& stmts);
+  IntermediateTable currentTable =
+      IntermediateTableFactory::buildEmptyIntermediateTable();
 
  protected:
   vector<std::reference_wrapper<SynonymRes>> getAllStmts(PKBReader& pkb);
@@ -54,5 +55,6 @@ class NotDecorator : public ClauseDecorator {
   IntermediateTable evaluate(PKBReader& pkb) override;
   IntermediateTable generateMinuend(
       PKBReader& pkb, vector<const AbstractArgument*>& wrapeeClauseArgs);
+  void setCurrentTable(IntermediateTable& currentTable);
   bool isEquals(const IClause& other) override;
 };
