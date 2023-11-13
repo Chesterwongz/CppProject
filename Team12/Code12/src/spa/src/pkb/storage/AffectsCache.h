@@ -6,7 +6,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "RelationTStore.h"
+#include "pkb/storage/relation_storage/RelationTStore.h"
 
 class AffectsCache : public RelationStore<int, int> {
  private:

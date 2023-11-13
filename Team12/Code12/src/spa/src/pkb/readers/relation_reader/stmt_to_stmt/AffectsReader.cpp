@@ -6,7 +6,7 @@ AffectsReader::getAffectsPairs() {
     auto stmtFilters = stmtStore.getStmtStmtFilterPredicates(StmtType::ASSIGN,
                                                              StmtType::ASSIGN);
     return CollectionUtils::intIntMapSetToStrPairVector(
-        affectsCache.getDirectRelations(), stmtFilters);
+        affectsCache.getDirectSuccessorMap(), stmtFilters);
   }
 
   std::vector<std::pair<std::string, std::string>> result;
@@ -94,7 +94,7 @@ std::vector<std::string> AffectsReader::getAffects(int firstStmtNum,
   }
 
   if (affectsCache.getIsComplete() &&
-      affectsCache.getDirectRelations().count(firstStmtNum)) {
+      affectsCache.getDirectSuccessorMap().count(firstStmtNum)) {
     auto stmtFilter = stmtStore.getStmtFilterPredicate(StmtType::ASSIGN);
     return CollectionUtils::intSetToStrVector(
         affectsCache.getDirectSuccessors(firstStmtNum), stmtFilter);
@@ -123,7 +123,7 @@ std::vector<std::string> AffectsReader::getAffectedBy(int secondStmtNum,
   }
 
   if (affectsCache.getIsComplete() &&
-      affectsCache.getDirectBackwardRelations().count(secondStmtNum)) {
+      affectsCache.getDirectAncestorMap().count(secondStmtNum)) {
     auto stmtFilter = stmtStore.getStmtFilterPredicate(StmtType::ASSIGN);
     return CollectionUtils::intSetToStrVector(
         affectsCache.getDirectAncestors(secondStmtNum), stmtFilter);
