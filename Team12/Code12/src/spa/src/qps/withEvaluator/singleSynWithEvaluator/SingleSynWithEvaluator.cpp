@@ -37,7 +37,7 @@ SingleSynWithEvaluator::evaluateStmtTypes(StmtType stmtType) {
   vector<std::reference_wrapper<SynonymRes>> stmtSynonymResObjs =
       SynonymResFactory::buildStmtSynonymResVector(filtered);
 
-  return std::move(stmtSynonymResObjs);
+  return stmtSynonymResObjs;
 }
 
 vector<std::reference_wrapper<SynonymRes>>
@@ -73,7 +73,7 @@ SingleSynWithEvaluator::evaluateConstantEntity() {
         SynonymResFactory::buildConstantSynonym(attrRefValue));
   }
 
-  return std::move(constSynonymResObject);
+  return constSynonymResObject;
 }
 
 vector<std::reference_wrapper<SynonymRes>>
@@ -89,7 +89,7 @@ SingleSynWithEvaluator::evaluateProcEntity() {
         SynonymResFactory::buildProcSynonym(attrRefValue));
   }
 
-  return std::move(procSynonymResObjs);
+  return procSynonymResObjs;
 }
 
 vector<std::reference_wrapper<SynonymRes>>
@@ -106,7 +106,7 @@ SingleSynWithEvaluator::evaluateVarEntity() {
         SynonymResFactory::buildVarSynonym(attrRefValue));
   }
 
-  return std::move(varSynonymResObjs);
+  return varSynonymResObjs;
 }
 
 vector<std::reference_wrapper<SynonymRes>>
@@ -134,7 +134,7 @@ SingleSynWithEvaluator::evaluateCallEntity() {
     }
   }
 
-  return std::move(callSynonymResObjs);
+  return callSynonymResObjs;
 }
 
 vector<std::reference_wrapper<SynonymRes>>
@@ -162,7 +162,7 @@ SingleSynWithEvaluator::evaluateReadEntity() {
     }
   }
 
-  return std::move(readSynonymResObjs);
+  return readSynonymResObjs;
 }
 
 vector<std::reference_wrapper<SynonymRes>>
@@ -190,5 +190,5 @@ SingleSynWithEvaluator::evaluatePrintEntity() {
     }
   }
 
-  return std::move(printSynonymResObjs);
+  return printSynonymResObjs;
 }
