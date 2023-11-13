@@ -10,7 +10,7 @@ IntermediateTable SingleSynWithEvaluator::evaluate() {
   string synonymValue = synonymArg.getValue();
 
   vector<std::reference_wrapper<SynonymRes>> synonymPKBResult =
-      withEvaluatorFuncMap[synonymEntity]();
+      singleSynWithEvaluatorFuncMap[synonymEntity]();
   IntermediateTable synonymResult =
       IntermediateTableFactory::buildSingleColTable(synonymValue,
                                                     synonymPKBResult);

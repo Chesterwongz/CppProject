@@ -19,11 +19,13 @@
 
 using std::vector, std::unique_ptr, std::string, std::set, std::unordered_set;
 
+typedef vector<unique_ptr<NotDecorator>> NotClauseList;
+
 class Query {
  private:
   unique_ptr<BaseSelectClause> selectClause = {};
   ClauseUtil::ClauseList clauses = {};
-  ClauseUtil::NotClauseList notClauses = {};
+  NotClauseList notClauses = {};
 
  public:
   void addNotClause(unique_ptr<NotDecorator> notClause);
