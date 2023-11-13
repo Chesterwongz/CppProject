@@ -15,6 +15,7 @@
 #include "qps/clause/selectClause/selectTupleClause/SelectTupleClause.h"
 #include "qps/clause/suchThatClause/SuchThatClause.h"
 #include "qps/clause/withClause/WithClause.h"
+#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
 
 using std::unique_ptr;
 

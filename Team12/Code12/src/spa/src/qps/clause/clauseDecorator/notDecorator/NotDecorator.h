@@ -9,6 +9,7 @@
 
 #include "qps/clause/clauseDecorator/ClauseDecorator.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
+#include "qps/clause/utils/ClauseUtil.h"
 
 using std::function;
 
@@ -21,32 +22,27 @@ class NotDecorator : public ClauseDecorator {
       IntermediateTableFactory::buildEmptyIntermediateTable();
 
  protected:
-  vector<std::reference_wrapper<SynonymRes>> getAllStmts(PKBReader& pkb);
-  vector<std::reference_wrapper<SynonymRes>> getAllAssignStmts(PKBReader& pkb);
-  vector<std::reference_wrapper<SynonymRes>> getAllWhileStmts(PKBReader& pkb);
-  vector<std::reference_wrapper<SynonymRes>> getAllIfStmts(PKBReader& pkb);
-  vector<std::reference_wrapper<SynonymRes>> getAllPrintStmts(PKBReader& pkb);
-  vector<std::reference_wrapper<SynonymRes>> getAllReadStmts(PKBReader& pkb);
-  vector<std::reference_wrapper<SynonymRes>> getAllCallStmts(PKBReader& pkb);
-  vector<std::reference_wrapper<SynonymRes>> getAllConstants(PKBReader& pkb);
-  vector<std::reference_wrapper<SynonymRes>> getAllProcedures(PKBReader& pkb);
-  vector<std::reference_wrapper<SynonymRes>> getAllVariables(PKBReader& pkb);
-
   unordered_map<Entity, NotDecoratorFunc> notDecoratorFuncMap = {
       {ASSIGN_ENTITY,
-       [this](PKBReader& pkb) { return getAllAssignStmts(pkb); }},
-      {IF_ENTITY, [this](PKBReader& pkb) { return getAllIfStmts(pkb); }},
-      {WHILE_ENTITY, [this](PKBReader& pkb) { return getAllWhileStmts(pkb); }},
-      {STMT_ENTITY, [this](PKBReader& pkb) { return getAllStmts(pkb); }},
-      {READ_ENTITY, [this](PKBReader& pkb) { return getAllReadStmts(pkb); }},
-      {PRINT_ENTITY, [this](PKBReader& pkb) { return getAllPrintStmts(pkb); }},
-      {CALL_ENTITY, [this](PKBReader& pkb) { return getAllCallStmts(pkb); }},
+       [this](PKBReader& pkb) { return ClauseUtil::getAllAssignStmts(pkb); }},
+      {IF_ENTITY,
+       [this](PKBReader& pkb) { return ClauseUtil::getAllIfStmts(pkb); }},
+      {WHILE_ENTITY,
+       [this](PKBReader& pkb) { return ClauseUtil::getAllWhileStmts(pkb); }},
+      {STMT_ENTITY,
+       [this](PKBReader& pkb) { return ClauseUtil::getAllStmts(pkb); }},
+      {READ_ENTITY,
+       [this](PKBReader& pkb) { return ClauseUtil::getAllReadStmts(pkb); }},
+      {PRINT_ENTITY,
+       [this](PKBReader& pkb) { return ClauseUtil::getAllPrintStmts(pkb); }},
+      {CALL_ENTITY,
+       [this](PKBReader& pkb) { return ClauseUtil::getAllCallStmts(pkb); }},
       {VARIABLE_ENTITY,
-       [this](PKBReader& pkb) { return getAllVariables(pkb); }},
+       [this](PKBReader& pkb) { return ClauseUtil::getAllVariables(pkb); }},
       {PROCEDURE_ENTITY,
-       [this](PKBReader& pkb) { return getAllProcedures(pkb); }},
+       [this](PKBReader& pkb) { return ClauseUtil::getAllProcedures(pkb); }},
       {CONSTANT_ENTITY,
-       [this](PKBReader& pkb) { return getAllConstants(pkb); }}};
+       [this](PKBReader& pkb) { return ClauseUtil::getAllConstants(pkb); }}};
 
  public:
   explicit NotDecorator(unique_ptr<Clause> wrapeeClause)

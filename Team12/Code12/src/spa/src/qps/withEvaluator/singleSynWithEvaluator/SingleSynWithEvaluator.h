@@ -17,24 +17,39 @@
 using std::unique_ptr, std::string, std::move, std::pair, std::make_pair,
     std::function, std::make_unique;
 
+typedef function<vector<std::reference_wrapper<SynonymRes>>()>
+    SingleSynWithEvaluatorFunc;
+
 class SingleSynWithEvaluator : public WithEvaluator {
  protected:
   SynonymArg& synonymArg;
   AbstractArgument& valueArg;
 
-  vector<std::reference_wrapper<SynonymRes>> evaluateStmtEntity() override;
-  vector<std::reference_wrapper<SynonymRes>> evaluateAssignEntity() override;
-  vector<std::reference_wrapper<SynonymRes>> evaluateIfEntity() override;
-  vector<std::reference_wrapper<SynonymRes>> evaluateWhileEntity() override;
-  vector<std::reference_wrapper<SynonymRes>> evaluateConstantEntity() override;
-  vector<std::reference_wrapper<SynonymRes>> evaluateProcEntity() override;
-  vector<std::reference_wrapper<SynonymRes>> evaluateVarEntity() override;
-  vector<std::reference_wrapper<SynonymRes>> evaluateCallEntity() override;
-  vector<std::reference_wrapper<SynonymRes>> evaluateReadEntity() override;
-  vector<std::reference_wrapper<SynonymRes>> evaluatePrintEntity() override;
+  vector<std::reference_wrapper<SynonymRes>> evaluateStmtEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluateAssignEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluateIfEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluateWhileEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluateConstantEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluateProcEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluateVarEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluateCallEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluateReadEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluatePrintEntity();
 
   vector<std::reference_wrapper<SynonymRes>> evaluateStmtTypes(
       StmtType stmtType);
+
+  unordered_map<Entity, SingleSynWithEvaluatorFunc> singleSynWithEvaluatorFuncMap = {
+      {ASSIGN_ENTITY, [this]() { return evaluateAssignEntity(); }},
+      {IF_ENTITY, [this]() { return evaluateIfEntity(); }},
+      {WHILE_ENTITY, [this]() { return evaluateWhileEntity(); }},
+      {STMT_ENTITY, [this]() { return evaluateStmtEntity(); }},
+      {READ_ENTITY, [this]() { return evaluateReadEntity(); }},
+      {PRINT_ENTITY, [this]() { return evaluatePrintEntity(); }},
+      {CALL_ENTITY, [this]() { return evaluateCallEntity(); }},
+      {VARIABLE_ENTITY, [this]() { return evaluateVarEntity(); }},
+      {PROCEDURE_ENTITY, [this]() { return evaluateProcEntity(); }},
+      {CONSTANT_ENTITY, [this]() { return evaluateConstantEntity(); }}};
 
  public:
   explicit SingleSynWithEvaluator(SynonymArg& firstArg,
