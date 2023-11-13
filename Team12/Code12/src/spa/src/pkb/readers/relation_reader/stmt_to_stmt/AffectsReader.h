@@ -10,22 +10,26 @@
 #include "common/Constants.h"
 #include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/IAffectsReader.h"
+#include "pkb/storage/AffectsCache.h"
 #include "pkb/storage/entity_storage/StmtStore.h"
 #include "pkb/storage/relation_storage/NextStore.h"
 #include "pkb/storage/relation_storage/RelationStore.h"
 
 class AffectsReader : public IAffectsReader {
  private:
+  AffectsCache& affectsCache;
   RelationStore<int, std::string>& modifiesSStore;
   NextStore& nextStore;
   StmtStore& stmtStore;
   RelationStore<int, std::string>& usesSStore;
 
  public:
-  explicit AffectsReader(RelationStore<int, std::string>& modifiesSStore,
+  explicit AffectsReader(AffectsCache& affectsCache,
+                         RelationStore<int, std::string>& modifiesSStore,
                          NextStore& nextStore, StmtStore& stmtStore,
                          RelationStore<int, std::string>& usesSStore)
-      : modifiesSStore(modifiesSStore),
+      : affectsCache(affectsCache),
+        modifiesSStore(modifiesSStore),
         nextStore(nextStore),
         stmtStore(stmtStore),
         usesSStore(usesSStore) {}
@@ -43,6 +47,8 @@ class AffectsReader : public IAffectsReader {
       int originalStmt, int currentStmt, const std::string& variable,
       std::unordered_set<std::string>& done,
       std::vector<std::pair<std::string, std::string>>& result);
+
+  bool isCallReadAssign(int statementNumber);
 
   bool hasAffects() override;
 };
