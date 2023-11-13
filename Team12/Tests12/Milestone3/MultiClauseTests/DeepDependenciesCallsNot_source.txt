@@ -14,21 +14,7 @@ procedure Beta {
 }
 procedure Gamma {
   o = n + 2;
-  call Epsilon;
 }
 procedure Delta {
   p = n * 3;
-}
-procedure Epsilon {
-  read q;
-  r = o - q;
-  call Zeta;
-}
-procedure Zeta {
-  print r;
-  call Eta;
-}
-procedure Eta {
-  read s;
-  t = r + s;
 }
