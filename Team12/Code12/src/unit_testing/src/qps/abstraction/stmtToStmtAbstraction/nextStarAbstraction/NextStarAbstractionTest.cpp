@@ -126,7 +126,7 @@ TEST_CASE("NextStarAbstraction - Next*(Integer, Synonym)_no_next") {
 
 TEST_CASE("NextStarAbstraction - Next*(Integer, Wildcard)") {
   MockNextReader mockReader = MockNextReader();
-  mockReader.mockGetNextTStmts = MOCK_NEXT_STAR_SECOND_STMTS;
+  mockReader.mockIsNextT = true;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
@@ -202,7 +202,7 @@ TEST_CASE("NextStarAbstraction - Next*(Wildcard, Synonym)") {
 
 TEST_CASE("NextStarAbstraction - Next*(Wildcard, Integer)") {
   MockNextReader mockReader = MockNextReader();
-  mockReader.mockGetPrevTStmts = MOCK_NEXT_STAR_FIRST_STMTS;
+  mockReader.mockIsNextT = true;
   unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);

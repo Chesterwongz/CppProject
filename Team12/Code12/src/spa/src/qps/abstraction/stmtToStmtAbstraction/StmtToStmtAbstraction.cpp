@@ -33,10 +33,6 @@ bool StmtToStmtAbstraction::isSecondSynonymInvalid() {
 
 // Abstraction (StmtSynonym, StmtSynonym)
 IntermediateTable StmtToStmtAbstraction ::evaluateSynonymSynonym() {
-  if (!isSelfReferencePossible() &&
-      this->firstArgValue == this->secondArgValue) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
   return handleSynonymOrWildcardArgs();
 }
 
@@ -57,22 +53,22 @@ IntermediateTable StmtToStmtAbstraction ::evaluateIntegerSynonym() {
 
 // Abstraction (StmtNumber, StmtNumber)
 IntermediateTable StmtToStmtAbstraction ::evaluateIntegerInteger() {
-  return handleBothArgsInteger();
+  return handleBothArgsInteger(stoi(firstArgValue), stoi(secondArgValue));
 }
 
 // Abstraction (StmtNumber, _)
 IntermediateTable StmtToStmtAbstraction ::evaluateIntegerWildcard() {
-  return handleFirstArgInteger(stoi(firstArgValue));
+  return handleBothArgsInteger(stoi(firstArgValue), common::WILDCARD_STMT_NUM);
 }
 
 // Abstraction (_, StmtSynonym)
 IntermediateTable StmtToStmtAbstraction ::evaluateWildcardSynonym() {
-    return handleFirstArgInteger(common::WILDCARD_STMT_NUM);
+  return handleFirstArgInteger(common::WILDCARD_STMT_NUM);
 }
 
 // Abstraction (_, StmtNumber)
 IntermediateTable StmtToStmtAbstraction ::evaluateWildcardInteger() {
-  return handleSecondArgInteger(stoi(secondArgValue));
+  return handleBothArgsInteger(common::WILDCARD_STMT_NUM, stoi(secondArgValue));
 }
 
 // Abstraction (_, _)
@@ -83,12 +79,13 @@ IntermediateTable StmtToStmtAbstraction ::evaluateWildcardWildcard() {
 }
 
 IntermediateTable StmtToStmtAbstraction::handleSynonymOrWildcardArgs() {
-  if (isFirstSynonymInvalid() || isSecondSynonymInvalid()) {
+  const string& firstArgStmtSynonym = this->firstArgValue;
+  const string& secondArgStmtSynonym = this->secondArgValue;
+  if (isFirstSynonymInvalid() || isSecondSynonymInvalid() ||
+      (!isSelfReferencePossible() &&
+       firstArgStmtSynonym == secondArgStmtSynonym)) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
-
-  string firstArgStmtSynonym = this->firstArgValue;
-  string secondArgStmtSynonym = this->secondArgValue;
 
   StmtType firstStmtType = this->getFirstArgStmtType();
   StmtType secondStmtType = this->getSecondArgStmtType();
@@ -117,19 +114,12 @@ IntermediateTable StmtToStmtAbstraction::handleSynonymOrWildcardArgs() {
                                                           resultAsSynonymRes);
 }
 
-IntermediateTable StmtToStmtAbstraction::handleBothArgsInteger() {
-  string firstArgStmtNumberString = this->firstArgValue;
-  string secondArgStmtNumberString = this->secondArgValue;
-
-  if (!isSelfReferencePossible() &&
-      firstArgStmtNumberString == secondArgStmtNumberString) {
+IntermediateTable StmtToStmtAbstraction::handleBothArgsInteger(int s1, int s2) {
+  if (!isSelfReferencePossible() && s1 == s2) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
 
-  int firstArgStmtNumber = stoi(firstArgStmtNumberString);
-  int secondArgStmtNumber = stoi(secondArgStmtNumberString);
-
-  bool isValid = isStmtRelatedToStmt(firstArgStmtNumber, secondArgStmtNumber);
+  bool isValid = isStmtRelatedToStmt(s1, s2);
 
   return isValid ? IntermediateTableFactory::buildWildcardIntermediateTable()
                  : IntermediateTableFactory::buildEmptyIntermediateTable();
@@ -158,7 +148,7 @@ IntermediateTable StmtToStmtAbstraction::handleSecondArgInteger(int stmt) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
 
-  string firstArgStmtSynonym = this->firstArgValue;
+  const string& firstArgStmtSynonym = this->firstArgValue;
   StmtType firstArgStmtType = this->getFirstArgStmtType();
 
   vector<string> results = getFirstStmt(stmt, firstArgStmtType);

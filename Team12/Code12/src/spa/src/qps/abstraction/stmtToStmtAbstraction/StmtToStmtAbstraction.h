@@ -25,7 +25,7 @@ class StmtToStmtAbstraction : public BaseAbstraction {
   /**
    * For handling cases where both args are stmtNumbers
    */
-  IntermediateTable handleBothArgsInteger();
+  IntermediateTable handleBothArgsInteger(int s1, int s2);
 
   /**
    * For handling cases where only first arg is stmtNumber

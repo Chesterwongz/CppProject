@@ -59,7 +59,11 @@ bool AffectsReader::isAffects(int firstStmtNum, int secondStmtNum) {
   std::string secondStmtStr = std::to_string(secondStmtNum);
 
   for (const auto& pair : affectsPairs) {
-    if (pair.first == firstStmtStr && pair.second == secondStmtStr) {
+    if ((firstStmtNum == common::WILDCARD_STMT_NUM &&
+         pair.second == secondStmtStr) ||
+        (pair.first == firstStmtStr &&
+         secondStmtNum == common::WILDCARD_STMT_NUM) ||
+        (pair.first == firstStmtStr && pair.second == secondStmtStr)) {
       return true;
     }
   }

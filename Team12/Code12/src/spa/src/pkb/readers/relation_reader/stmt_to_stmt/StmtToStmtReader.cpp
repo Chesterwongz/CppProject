@@ -36,8 +36,14 @@ std::vector<std::string> StmtToStmtReader::getDirectS1ByS2(int s2,
       rawRes, CollectionUtils::intToStrMapper, stmtFilter);
 }
 
-bool StmtToStmtReader::hasDirectRelation(int s1, int stmt2) {
-  return store.hasDirectRelation(s1, stmt2);
+bool StmtToStmtReader::hasDirectRelation(int s1, int s2) {
+  if (s1 == common::WILDCARD_STMT_NUM) {
+    return store.hasDirectAncestors(s2);
+  } else if (s2 == common::WILDCARD_STMT_NUM) {
+    return store.hasDirectSuccessors(s1);
+  } else {
+    return store.hasDirectRelation(s1, s2);
+  }
 }
 
 std::vector<std::pair<std::string, std::string>>
@@ -94,7 +100,13 @@ std::vector<std::string> StmtToStmtReader::getTransitiveS2ByS1(int s1,
 }
 
 bool StmtToStmtReader::hasTransitiveRelation(int s1, int s2) {
-  return store.hasRelationT(s1, s2);
+  if (s1 == common::WILDCARD_STMT_NUM) {
+    return store.hasAncestorsT(s2);
+  } else if (s2 == common::WILDCARD_STMT_NUM) {
+    return store.hasSuccessorsT(s1);
+  } else {
+    return store.hasRelationT(s1, s2);
+  }
 }
 
 std::vector<std::pair<std::string, std::string>>
