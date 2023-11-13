@@ -29,11 +29,29 @@ class MockUsesReader : public BaseMockReader {
 
   vector<string> getStatementsUsing(const string& variableName,
                                     StmtType statementType) override {
-    return mockStatementsUsing;
+    if (variableName == common::WILDCARD_VAR) {
+      vector<string> res;
+      res.reserve(mockAllUsedVariables.size());
+      for (auto& pair : mockAllUsedVariables) {
+        res.push_back(pair.first);
+      }
+      return res;
+    } else {
+      return mockStatementsUsing;
+    }
   }
 
   vector<string> getProcUsing(const std::string& variableName) override {
-    return mockProcUsing;
+    if (variableName == common::WILDCARD_VAR) {
+      vector<string> res;
+      res.reserve(mockUsesProcPairs.size());
+      for (auto& pair : mockUsesProcPairs) {
+        res.push_back(pair.first);
+      }
+      return res;
+    } else {
+      return mockProcUsing;
+    }
   }
 
   std::vector<std::string> getVariablesUsedBy(int statementNumber) override {

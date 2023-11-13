@@ -86,7 +86,7 @@ std::vector<std::string> StmtToStmtReader::getTransitiveS2ByS1(int s1,
   auto stmtFilter = stmtStore.getStmtFilterPredicate(type2);
   std::unordered_set<int> rawRes;
   if (s1 == common::WILDCARD_STMT_NUM) {
-    rawRes = store.getSuccessorsT();
+    rawRes = store.getDirectSuccessors();
   } else {
     rawRes = store.getSuccessorsT(s1);
   }

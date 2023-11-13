@@ -3,20 +3,30 @@
 // (1, v)
 std::vector<std::string> StmtOrProcToVarReader::getVarByStmt(int stmt) {
   return ReaderUtils::readStrStore(
-      !relationSStore.hasDirectSuccessors(stmt),
-      [stmt, this]() { return relationSStore.getDirectSuccessors(stmt); });
+      stmt != common::WILDCARD_STMT_NUM &&
+          !relationSStore.hasDirectSuccessors(stmt),
+      [stmt, this]() {
+        return stmt == common::WILDCARD_STMT_NUM
+                   ? relationSStore.getDirectSuccessors()
+                   : relationSStore.getDirectSuccessors(stmt);
+      });
 }
 
 // (s, "name")
 std::vector<std::string> StmtOrProcToVarReader::getStmtByVar(
     const std::string& varName, StmtType stmtType) {
   if (!stmtStore.hasStmtType(stmtType) ||
-      !relationSStore.hasDirectAncestors(varName)) {
+      (varName != common::WILDCARD_VAR &&
+       !relationSStore.hasDirectAncestors(varName))) {
     return {};
   }
   auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
-
-  const auto& rawRes = relationSStore.getDirectAncestors(varName);
+  std::unordered_set<int> rawRes;
+  if (varName == common::WILDCARD_VAR) {
+    rawRes = relationSStore.getDirectAncestors();
+  } else {
+    rawRes = relationSStore.getDirectAncestors(varName);
+  }
 
   return CollectionUtils::transformSetUToVectorV<int, std::string>(
       rawRes, CollectionUtils::intToStrMapper, stmtFilter);
@@ -45,16 +55,24 @@ StmtOrProcToVarReader::getStmtVarPairs(StmtType stmtType1) {
 std::vector<std::string> StmtOrProcToVarReader::getVarByProc(
     const std::string& procName) {
   return ReaderUtils::readStrStore(
-      !relationPStore.hasDirectSuccessors(procName), [procName, this]() {
-        return relationPStore.getDirectSuccessors(procName);
+      procName != common::WILDCARD_PROC &&
+          !relationPStore.hasDirectSuccessors(procName),
+      [procName, this]() {
+        return procName == common::WILDCARD_PROC
+                   ? relationPStore.getDirectSuccessors()
+                   : relationPStore.getDirectSuccessors(procName);
       });
 }
 
 std::vector<std::string> StmtOrProcToVarReader::getProcByVar(
     const std::string& varName) {
   return ReaderUtils::readStrStore(
-      !relationPStore.hasDirectAncestors(varName), [varName, this]() {
-        return relationPStore.getDirectAncestors(varName);
+      varName != common::WILDCARD_VAR &&
+          !relationPStore.hasDirectAncestors(varName),
+      [varName, this]() {
+        return varName == common::WILDCARD_VAR
+                   ? relationPStore.getDirectAncestors()
+                   : relationPStore.getDirectAncestors(varName);
       });
 }
 

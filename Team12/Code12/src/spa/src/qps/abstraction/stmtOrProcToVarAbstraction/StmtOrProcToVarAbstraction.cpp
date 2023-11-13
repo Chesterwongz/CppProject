@@ -30,21 +30,25 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymSynonym() {
 
 // Abstraction (StatementOrProcSynonym, VarIdentifier)
 IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymIdent() {
+  return handleSecondArgVarIdent(secondArgValue);
+}
+
+IntermediateTable StmtOrProcToVarAbstraction::handleSecondArgVarIdent(
+    const std::string& secondVarName) {
   if (isFirstSynonymInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
   string firstArgSynonym = this->firstArgValue;
   bool isFirstArgProcedure = this->firstArg.isProcSynonym();
-  string secondArgVarName = this->secondArgValue;
 
   vector<string> possibleValuesOfSynonym;
   // Abstraction(procSynonym, *) and Abstraction(stmtSynonym, *) has diff APIs
   if (isFirstArgProcedure) {
-    possibleValuesOfSynonym = getProcsRelatedToVar(secondArgVarName);
+    possibleValuesOfSynonym = getProcsRelatedToVar(secondVarName);
   } else {
     StmtType firstArgStmtType = getFirstArgStmtType();
     possibleValuesOfSynonym =
-        getStmtsRelatedToVar(secondArgVarName, firstArgStmtType);
+        getStmtsRelatedToVar(secondVarName, firstArgStmtType);
   }
 
   vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes =
@@ -58,7 +62,7 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymIdent() {
 
 // Abstraction (StatementOrProcSynonym, _)
 IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymWildcard() {
-  return handleSynonymOrWildcardArgs();
+  return handleSecondArgVarIdent(common::WILDCARD_VAR);
 }
 
 // Abstraction (StatementNumber, VarSynonym)
