@@ -67,6 +67,13 @@ void PKBWriter::addModifiesForCallStmts(
                            addModifiesFunc);
 }
 
+void PKBWriter::computeAllRelationsT() {
+  followsStore.computeAllRelationsT();
+  parentStore.computeAllRelationsT();
+  callsPStore.computeAllRelationsT();
+  setIndirectCallsRelationship();
+}
+
 void PKBWriter::setIndirectCallsProcRelationships() {
   for (const auto& [caller, callees] : callsPStore.getRelationsT()) {
     addUsesForCallsProc(caller, callees);

@@ -18,25 +18,7 @@ class RelationTStore : public RelationStore<T, T> {
 
   // An unordered set of the direct ancestors of T. I.e., T <-* T
   std::unordered_map<T, std::unordered_set<T>> transitiveAncestorMap;
-
-  void addRelationT(T from, T to) {
-    transitiveSuccessorMap[from].insert(to);
-    transitiveAncestorMap[to].insert(from);
-  }
-
-  virtual void precomputeRelationT(T from, T to) {
-    addRelationT(from, to);
-    if (transitiveAncestorMap.count(from)) {
-      for (const auto& s : transitiveAncestorMap.at(from)) {
-        addRelationT(s, to);
-      }
-    }
-    if (transitiveSuccessorMap.count(to)) {
-      for (const auto& t : transitiveSuccessorMap.at(to)) {
-        addRelationT(from, t);
-      }
-    }
-  }
+  bool isPrecomputed = false;
 
   // DFS to compute transitive closure of vertex
   void computeRelationT(
@@ -74,14 +56,9 @@ class RelationTStore : public RelationStore<T, T> {
     }
   }
 
-  virtual void computeAncestorsT(T to) {}
-  virtual void computeSuccessorsT(T from) {}
-  virtual void computeAllRelationsT() {}
-
  public:
   void addRelation(T from, T to) override {
     RelationStore<T, T>::addRelation(from, to);
-    precomputeRelationT(from, to);
   }
 
   [[nodiscard]] bool hasSuccessorsT(T from) {
@@ -130,5 +107,36 @@ class RelationTStore : public RelationStore<T, T> {
   getRelationsT() {
     computeAllRelationsT();
     return transitiveSuccessorMap;
+  }
+
+  void computeSuccessorsT(T from) {
+    this->computeRelationT(from, this->directSuccessorMap,
+                           this->transitiveSuccessorMap);
+  }
+
+  void computeAncestorsT(T to) {
+    this->computeRelationT(to, this->directAncestorMap,
+                           this->transitiveAncestorMap);
+  }
+
+  void computeAllRelationsT() {
+    if (isPrecomputed) return;
+    std::vector<T> graphVector;
+    graphVector.reserve(this->directSuccessorMap.size());
+    for (const auto& [v, _] : this->directSuccessorMap) {
+      graphVector.push_back(v);
+    }
+    // Optimization
+    std::sort(graphVector.begin(), graphVector.end(),
+              std::greater<>());  // Sort in descending order
+    for (const auto& v : graphVector) {
+      computeSuccessorsT(v);
+    }
+    for (const auto& [a, successors] : transitiveSuccessorMap) {
+      for (const auto& s : successors) {
+        transitiveAncestorMap[s].insert(a);
+      }
+    }
+    isPrecomputed = true;
   }
 };
