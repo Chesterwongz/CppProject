@@ -154,9 +154,9 @@ std::vector<std::string> AffectsReader::getAffectedBy(int secondStmtNum,
 }
 
 bool AffectsReader::isCallReadAssign(int statementNumber) {
-    return stmtStore.hasStmt(statementNumber, StmtType::ASSIGN) ||
-        stmtStore.hasStmt(statementNumber, StmtType::READ) ||
-        stmtStore.hasStmt(statementNumber, StmtType::CALL);
+  return stmtStore.hasStmt(statementNumber, StmtType::ASSIGN) ||
+         stmtStore.hasStmt(statementNumber, StmtType::READ) ||
+         stmtStore.hasStmt(statementNumber, StmtType::CALL);
 }
 
 bool AffectsReader::hasAffects() {
@@ -170,7 +170,9 @@ bool AffectsReader::hasAffects() {
     std::string v = *modifiesSStore.getDirectSuccessors(assign).begin();
 
     findAffectsPairs(assign, assign, v, done, result);
-    if (!result.empty()) { return true; }
+    if (!result.empty()) {
+      return true;
+    }
   }
 
   return !result.empty();
