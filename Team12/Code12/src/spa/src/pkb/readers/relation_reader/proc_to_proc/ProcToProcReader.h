@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 
+#include "common/Constants.h"
 #include "common/utils/CollectionUtils.h"
 #include "pkb/storage/relation_storage/RelationTStore.h"
 #include "pkb/utils/PredicateUtils.h"
@@ -31,9 +32,11 @@ class ProcToProcReader {
 
   // Calls(p1, p2)
   std::vector<std::pair<std::string, std::string>> getDirectP1AndP2Pairs();
+  bool hasDirectP1AndP2Pairs();
 
   // Calls*(p1, p2)
   std::vector<std::pair<std::string, std::string>> getTransitiveP1AndP2Pairs();
+  bool hasTransitiveP1AndP2Pairs();
 
   bool hasDirectRelation(const std::string& proc1, const std::string& proc2);
 

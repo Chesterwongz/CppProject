@@ -24,4 +24,7 @@ class BaseParserState : public IParserState {
 
   explicit BaseParserState(PQLParserContext& parserContext, PQLTokenType prev);
   ~BaseParserState() override = default;
+
+ public:
+  bool isTerminable() override;
 };

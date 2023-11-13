@@ -2,6 +2,7 @@
 
 #include <string>
 #include <utility>
+#include <unordered_set>
 #include <vector>
 
 #include "common/Constants.h"
@@ -21,12 +22,14 @@ class StmtToStmtReader {
 
   std::vector<std::string> getDirectS1ByS2(int s2, StmtType stmtType1);
 
-  std::vector<std::string> getDirectS2ByS1(int stmt1, StmtType stmtType2);
+  std::vector<std::string> getDirectS2ByS1(int s1, StmtType stmtType2);
 
   bool hasDirectRelation(int stmt1, int stmt2);
 
   std::vector<std::pair<std::string, std::string>> getDirectS1AndS2Pairs(
       StmtType stmtType1, StmtType stmtType2);
+
+  bool hasDirectS1AndS2Pairs();
 
   // ================================ FollowsT ================================
 
@@ -38,4 +41,6 @@ class StmtToStmtReader {
 
   std::vector<std::pair<std::string, std::string>> getTransitiveS1AndS2Pairs(
       StmtType stmtType1, StmtType stmtType2);
+
+  bool hasTransitiveS1AndS2Pairs();
 };

@@ -442,7 +442,7 @@ TEST_CASE("ModifiesAbstraction - Modifies(ProcName, Ident)_not_modified") {
 
 TEST_CASE("ModifiesAbstraction - Modifies(ProcName, Wildcard)") {
   MockModifiesReader mockReader = MockModifiesReader();
-  mockReader.mockVarsModifiedByProc = MOCK_MODIFIED_FOR_PROCS;
+  mockReader.mockIsVariableModifiedByProc = true;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();

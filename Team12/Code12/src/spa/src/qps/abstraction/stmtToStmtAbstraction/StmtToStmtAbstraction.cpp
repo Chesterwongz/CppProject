@@ -33,78 +33,59 @@ bool StmtToStmtAbstraction::isSecondSynonymInvalid() {
 
 // Abstraction (StmtSynonym, StmtSynonym)
 IntermediateTable StmtToStmtAbstraction ::evaluateSynonymSynonym() {
-  if (!isSelfReferencePossible() &&
-      this->firstArgValue == this->secondArgValue) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
   return handleSynonymOrWildcardArgs();
 }
 
 // Abstraction (StmtSynonym, StmtNumber)
 IntermediateTable StmtToStmtAbstraction ::evaluateSynonymInteger() {
-  return handleSecondArgInteger();
+  return handleSecondArgInteger(stoi(secondArgValue));
 }
 
 // Abstraction (StmtSynonym, _)
 IntermediateTable StmtToStmtAbstraction ::evaluateSynonymWildcard() {
-  return handleSynonymOrWildcardArgs();
+  return handleSecondArgInteger(common::WILDCARD_STMT_NUM);
 }
 
 // Abstraction (StmtNumber, StmtSynonym)
 IntermediateTable StmtToStmtAbstraction ::evaluateIntegerSynonym() {
-  return handleFirstArgInteger();
+  return handleFirstArgInteger(stoi(firstArgValue));
 }
 
 // Abstraction (StmtNumber, StmtNumber)
 IntermediateTable StmtToStmtAbstraction ::evaluateIntegerInteger() {
-  if (!isSelfReferencePossible() &&
-      this->firstArgValue == this->secondArgValue) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
-  return handleBothArgsInteger();
+  return handleBothArgsInteger(stoi(firstArgValue), stoi(secondArgValue));
 }
 
 // Abstraction (StmtNumber, _)
 IntermediateTable StmtToStmtAbstraction ::evaluateIntegerWildcard() {
-  return handleFirstArgInteger();
+  return handleBothArgsInteger(stoi(firstArgValue), common::WILDCARD_STMT_NUM);
 }
 
-// Abstraction (StmtNumber, StmtSynonym)
+// Abstraction (_, StmtSynonym)
 IntermediateTable StmtToStmtAbstraction ::evaluateWildcardSynonym() {
-  return handleSynonymOrWildcardArgs();
+  return handleFirstArgInteger(common::WILDCARD_STMT_NUM);
 }
 
 // Abstraction (_, StmtNumber)
 IntermediateTable StmtToStmtAbstraction ::evaluateWildcardInteger() {
-  return handleSecondArgInteger();
+  return handleBothArgsInteger(common::WILDCARD_STMT_NUM, stoi(secondArgValue));
 }
 
 // Abstraction (_, _)
 IntermediateTable StmtToStmtAbstraction ::evaluateWildcardWildcard() {
-  return handleBothArgsWildcard();
-}
-
-IntermediateTable StmtToStmtAbstraction::handleBothArgsWildcard() {
-  StmtType firstStmtType = this->getFirstArgStmtType();
-  StmtType secondStmtType = this->getSecondArgStmtType();
-
-  vector<pair<string, string>> stmtStmtPairs =
-      getAllPairs(firstStmtType, secondStmtType);
-
-  if (stmtStmtPairs.empty()) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
-
-  return IntermediateTableFactory::buildWildcardIntermediateTable();
+  return this->hasPairs()
+             ? IntermediateTableFactory::buildWildcardIntermediateTable()
+             : IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
 IntermediateTable StmtToStmtAbstraction::handleSynonymOrWildcardArgs() {
-  if (isFirstSynonymInvalid() || isSecondSynonymInvalid()) {
+  const string& firstArgStmtSynonym = this->firstArgValue;
+  const string& secondArgStmtSynonym = this->secondArgValue;
+  if (isFirstSynonymInvalid() || isSecondSynonymInvalid() ||
+      (!isSelfReferencePossible() &&
+       firstArgStmtSynonym == secondArgStmtSynonym)) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
-
-  string firstArgStmtSynonym = this->firstArgValue;
-  string secondArgStmtSynonym = this->secondArgValue;
 
   StmtType firstStmtType = this->getFirstArgStmtType();
   StmtType secondStmtType = this->getSecondArgStmtType();
@@ -140,34 +121,26 @@ IntermediateTable StmtToStmtAbstraction::handleSynonymOrWildcardArgs() {
       colNames, std::move(resultAsSynonymRes));
 }
 
-IntermediateTable StmtToStmtAbstraction::handleBothArgsInteger() {
-  string firstArgStmtNumberString = this->firstArgValue;
-  string secondArgStmtNumberString = this->secondArgValue;
-
-  if (!isSelfReferencePossible() &&
-      firstArgStmtNumberString == secondArgStmtNumberString) {
+IntermediateTable StmtToStmtAbstraction::handleBothArgsInteger(int s1, int s2) {
+  if (!isSelfReferencePossible() && s1 == s2) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
 
-  int firstArgStmtNumber = stoi(firstArgStmtNumberString);
-  int secondArgStmtNumber = stoi(secondArgStmtNumberString);
-
-  bool isValid = isStmtRelatedToStmt(firstArgStmtNumber, secondArgStmtNumber);
+  bool isValid = isStmtRelatedToStmt(s1, s2);
 
   return isValid ? IntermediateTableFactory::buildWildcardIntermediateTable()
                  : IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
-IntermediateTable StmtToStmtAbstraction::handleFirstArgInteger() {
+IntermediateTable StmtToStmtAbstraction::handleFirstArgInteger(int stmt) {
   if (isSecondSynonymInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
 
-  int firstArgStmtNumber = stoi(this->firstArgValue);
   StmtType secondArgStmtType = this->getSecondArgStmtType();
   string secondStmtSynonym = this->secondArgValue;
 
-  vector<string> results = getSecondStmt(firstArgStmtNumber, secondArgStmtType);
+  vector<string> results = getSecondStmt(stmt, secondArgStmtType);
 
   Entity secondArgEntity = ClauseUtil::getArgEntity(this->secondArg);
   vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes;
@@ -185,16 +158,15 @@ IntermediateTable StmtToStmtAbstraction::handleFirstArgInteger() {
       secondStmtSynonym, std::move(resultAsSynonymRes));
 }
 
-IntermediateTable StmtToStmtAbstraction::handleSecondArgInteger() {
+IntermediateTable StmtToStmtAbstraction::handleSecondArgInteger(int stmt) {
   if (isFirstSynonymInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
 
-  string firstArgStmtSynonym = this->firstArgValue;
+  const string& firstArgStmtSynonym = this->firstArgValue;
   StmtType firstArgStmtType = this->getFirstArgStmtType();
-  int secondArgStmtNumber = stoi(this->secondArgValue);
 
-  vector<string> results = getFirstStmt(secondArgStmtNumber, firstArgStmtType);
+  vector<string> results = getFirstStmt(stmt, firstArgStmtType);
 
   Entity firstArgEntity = ClauseUtil::getArgEntity(this->firstArg);
 

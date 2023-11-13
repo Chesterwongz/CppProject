@@ -7,15 +7,15 @@
  * node = new ProcNode(proc_name)
  * childNode = parseStmtLst()
  * node.addChild(childNode)
- * if context->tryEatExpected("}") is NULL: throw syntax error
+ * if context.tryEatExpected("}") is NULL: throw syntax error
  * return node
  */
 std::optional<std::unique_ptr<TNode>> ProcedureParser::parse() {
-  if (!context->tryEatExpected(SpTokenType::NAME, keyword::kProcedure)
+  if (!context.tryEatExpected(SpTokenType::NAME, keyword::kProcedure)
            .has_value())
     return std::nullopt;
 
-  std::string procName = context->forceEatExpected(SpTokenType::NAME);
+  std::string procName = context.forceEatExpected(SpTokenType::NAME);
 
   std::optional<std::unique_ptr<TNode>> stmtLstNodeOpt =
       StmtLstParser(context).parse();

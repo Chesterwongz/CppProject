@@ -1,5 +1,7 @@
 #include "PKBStore.h"
 
+AffectsCache& PKBStore::getAffectsCache() { return affectsCache; }
+
 RelationTStore<int>& PKBStore::getFollowsStore() { return followsStore; }
 
 RelationTStore<int>& PKBStore::getParentStore() { return parentStore; }

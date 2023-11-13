@@ -5,6 +5,7 @@
  * - firstArg: Synonym (Proc) OR Identifier (Proc) OR Wildcard
  * - secondArg: Synonym (Proc) OR Identifier (Proc) OR Wildcard
  */
+bool CallsStarAbstraction::hasPairs() { return this->pkb.hasCallsT(); }
 
 vector<pair<string, string>> CallsStarAbstraction::getAllAbstractionPairs() {
   return pkb.getCallsStarPairs();

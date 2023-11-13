@@ -189,7 +189,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, ProcName)_false") {
 
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, Wildcard)") {
   MockCallsReader mockReader = MockCallsReader();
-  mockReader.mockCalleeProcsStar = MOCK_CALLS_STAR_DATA::MOCK_CALLEE_STAR_PROCS;
+  mockReader.mockHasCallsT = true;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
@@ -254,7 +254,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, ProcSynonym)_empty") {
 
 TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, ProcName)") {
   MockCallsReader mockReader = MockCallsReader();
-  mockReader.mockCallerProcsStar = MOCK_CALLS_STAR_DATA::MOCK_CALLER_STAR_PROCS;
+  mockReader.mockHasCallsT = true;
   unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);

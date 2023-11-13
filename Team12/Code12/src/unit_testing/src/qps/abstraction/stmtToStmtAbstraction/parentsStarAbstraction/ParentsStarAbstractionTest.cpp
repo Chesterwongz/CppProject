@@ -254,7 +254,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)_same_integer") {
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Wildcard)") {
   MockParentsReader mockReader = MockParentsReader();
-  mockReader.mockChildrenStar = MOCK_CHILD_STARS;
+  mockReader.mockIsParentStar = true;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
@@ -303,7 +303,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Synonym)") {
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Integer)") {
   MockParentsReader mockReader = MockParentsReader();
-  mockReader.mockParentStarOf = MOCK_PARENT_STARS;
+  mockReader.mockIsParentStar = true;
   unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);

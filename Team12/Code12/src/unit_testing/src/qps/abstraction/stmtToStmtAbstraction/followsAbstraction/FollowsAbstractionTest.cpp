@@ -135,7 +135,7 @@ TEST_CASE("FollowsAbstraction - Follows(Integer, Synonym)_no followed") {
 
 TEST_CASE("FollowsAbstraction - Follows(Integer, Wildcard)") {
   MockFollowsReader mockReader = MockFollowsReader();
-  mockReader.mockFollowing = MOCK_FOLLOWED;
+  mockReader.mockIsFollows = true;
   unique_ptr<Integer> mockArgument1 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);
   unique_ptr<Wildcard> mockArgument2 = std::make_unique<Wildcard>();
@@ -216,7 +216,7 @@ TEST_CASE("FollowsAbstraction - Follows(Wildcard, Synonym)") {
 
 TEST_CASE("FollowsAbstraction - Follows(Wildcard, Integer)") {
   MockFollowsReader mockReader = MockFollowsReader();
-  mockReader.mockFollowed = MOCK_FOLLOWED;
+  mockReader.mockIsFollows = true;
   unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Integer>(MOCK_INTEGER_VALUE_1);

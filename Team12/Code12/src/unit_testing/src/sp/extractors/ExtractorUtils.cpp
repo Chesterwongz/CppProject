@@ -42,8 +42,9 @@ void extractAbstraction(TNode &node, MockPKBWriter &mockPKBWriter,
 
 void extractAbstraction(const string &input, MockPKBWriter &mockPKBWriter,
                         AbstractionType abstractionType) {
+  ParserContext context = ParserContext(input);
   std::optional<std::unique_ptr<TNode>> nodeOpt =
-      ProgramParser(std::move(std::make_shared<ParserContext>(input))).parse();
+      ProgramParser(context).parse();
   if (!nodeOpt.has_value()) {
     throw SpParsingFailedException();
   }

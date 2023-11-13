@@ -9,8 +9,8 @@
 
 class ExprParser : public ArithmParserTemplate {
  public:
-  explicit ExprParser(std::shared_ptr<ParserContext> context)
-      : ArithmParserTemplate(std::move(context)) {}
+  explicit ExprParser(ParserContext& context)
+      : ArithmParserTemplate(context) {}
 
  protected:
   [[nodiscard]] std::unique_ptr<AbstractParser> getNextParser() const override;

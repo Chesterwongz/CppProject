@@ -15,5 +15,5 @@
 class StmtParserFactory {
  public:
   static std::unique_ptr<AbstractParser> makeParser(
-      const std::string &keyword, std::shared_ptr<ParserContext>);
+      const std::string &keyword, ParserContext&);
 };

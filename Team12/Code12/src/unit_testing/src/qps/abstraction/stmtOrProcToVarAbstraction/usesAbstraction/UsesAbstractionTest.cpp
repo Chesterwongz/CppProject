@@ -423,7 +423,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcName, Ident)_false") {
 
 TEST_CASE("UsesAbstraction - Uses(ProcName, Wildcard)") {
   MockUsesReader mockReader = MockUsesReader();
-  mockReader.mockVarUsedByProc = MOCK_USED_FOR_PROCS;
+  mockReader.mockIsVariableUsedByProc = true;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();

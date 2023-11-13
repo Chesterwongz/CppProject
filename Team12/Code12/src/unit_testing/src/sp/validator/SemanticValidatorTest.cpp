@@ -13,8 +13,9 @@ using std::unique_ptr, std::make_unique, std::vector, std::string,
     std::unordered_map, std::unordered_set;
 
 void setup(const string& input) {
+  ParserContext context = ParserContext(input);
   std::optional<std::unique_ptr<TNode>> nodeOpt =
-      ProgramParser(std::move(std::make_shared<ParserContext>(input))).parse();
+      ProgramParser(context).parse();
   if (!nodeOpt.has_value()) {
     throw SpException("Failed to parse input");
   }
