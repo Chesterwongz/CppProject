@@ -39,17 +39,18 @@ class SingleSynWithEvaluator : public WithEvaluator {
   vector<std::reference_wrapper<SynonymRes>> evaluateStmtTypes(
       StmtType stmtType);
 
-  unordered_map<Entity, SingleSynWithEvaluatorFunc> singleSynWithEvaluatorFuncMap = {
-      {ASSIGN_ENTITY, [this]() { return evaluateAssignEntity(); }},
-      {IF_ENTITY, [this]() { return evaluateIfEntity(); }},
-      {WHILE_ENTITY, [this]() { return evaluateWhileEntity(); }},
-      {STMT_ENTITY, [this]() { return evaluateStmtEntity(); }},
-      {READ_ENTITY, [this]() { return evaluateReadEntity(); }},
-      {PRINT_ENTITY, [this]() { return evaluatePrintEntity(); }},
-      {CALL_ENTITY, [this]() { return evaluateCallEntity(); }},
-      {VARIABLE_ENTITY, [this]() { return evaluateVarEntity(); }},
-      {PROCEDURE_ENTITY, [this]() { return evaluateProcEntity(); }},
-      {CONSTANT_ENTITY, [this]() { return evaluateConstantEntity(); }}};
+  unordered_map<Entity, SingleSynWithEvaluatorFunc>
+      singleSynWithEvaluatorFuncMap = {
+          {ASSIGN_ENTITY, [this]() { return evaluateAssignEntity(); }},
+          {IF_ENTITY, [this]() { return evaluateIfEntity(); }},
+          {WHILE_ENTITY, [this]() { return evaluateWhileEntity(); }},
+          {STMT_ENTITY, [this]() { return evaluateStmtEntity(); }},
+          {READ_ENTITY, [this]() { return evaluateReadEntity(); }},
+          {PRINT_ENTITY, [this]() { return evaluatePrintEntity(); }},
+          {CALL_ENTITY, [this]() { return evaluateCallEntity(); }},
+          {VARIABLE_ENTITY, [this]() { return evaluateVarEntity(); }},
+          {PROCEDURE_ENTITY, [this]() { return evaluateProcEntity(); }},
+          {CONSTANT_ENTITY, [this]() { return evaluateConstantEntity(); }}};
 
  public:
   explicit SingleSynWithEvaluator(SynonymArg& firstArg,
