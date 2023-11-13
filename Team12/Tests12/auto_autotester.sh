@@ -1,9 +1,9 @@
 #!/bin/bash
 
 script_dir="$(dirname "$0")"
-input_dir="$script_dir/Tests21"
+input_dir="$script_dir"
 output_dir="$script_dir/output"
-
+rm -r "$output_dir"
 mkdir -p "$output_dir"
 
 # Change to the directory containing the script, if not found, exit with err

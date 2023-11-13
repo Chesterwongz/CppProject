@@ -69,9 +69,9 @@ void AffectsReader::findAffectsPairs(
 
 bool AffectsReader::isAffects(int s1, int s2) {
   if (s1 == common::WILDCARD_STMT_NUM) {
-    return getAffectedBy(s2, StmtType::ASSIGN).empty();
+    return !getAffectedBy(s2, StmtType::ASSIGN).empty();
   } else if (s2 == common::WILDCARD_STMT_NUM) {
-    return getAffects(s1, StmtType::ASSIGN).empty();
+    return !getAffects(s1, StmtType::ASSIGN).empty();
   }
   if (!nextStore.hasRelationT(s1, s2) ||
       !(stmtStore.hasStmt(s1, StmtType::ASSIGN) &&
@@ -170,7 +170,7 @@ bool AffectsReader::isCallReadAssign(int statementNumber) {
 
 bool AffectsReader::hasAffects() {
   if (affectsCache.getIsComplete()) {
-    return affectsCache.getDirectSuccessorMap().empty();
+    return !affectsCache.getDirectSuccessorMap().empty();
   }
   std::vector<std::pair<std::string, std::string>> result;
   processAffectsPairs(result, true);
