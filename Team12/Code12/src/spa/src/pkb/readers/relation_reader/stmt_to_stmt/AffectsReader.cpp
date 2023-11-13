@@ -154,9 +154,10 @@ std::vector<std::string> AffectsReader::getAffectedBy(int secondStmtNum,
 }
 
 bool AffectsReader::isCallReadAssign(int statementNumber) {
-  return stmtStore.hasStmt(statementNumber, StmtType::ASSIGN) ||
-         stmtStore.hasStmt(statementNumber, StmtType::READ) ||
-         stmtStore.hasStmt(statementNumber, StmtType::CALL);
+    return stmtStore.hasStmt(statementNumber, StmtType::ASSIGN) ||
+        stmtStore.hasStmt(statementNumber, StmtType::READ) ||
+        stmtStore.hasStmt(statementNumber, StmtType::CALL);
+}
 
 bool AffectsReader::hasAffects() {
   std::vector<std::pair<std::string, std::string>> result;
