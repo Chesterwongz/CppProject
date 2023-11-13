@@ -28,6 +28,8 @@ class StmtToStmtReader {
   std::vector<std::pair<std::string, std::string>> getDirectS1AndS2Pairs(
       StmtType stmtType1, StmtType stmtType2);
 
+  bool hasDirectS1AndS2Pairs();
+
   // ================================ FollowsT ================================
 
   std::vector<std::string> getTransitiveS1ByS2(int s2, StmtType stmtType1);
@@ -38,4 +40,6 @@ class StmtToStmtReader {
 
   std::vector<std::pair<std::string, std::string>> getTransitiveS1AndS2Pairs(
       StmtType stmtType1, StmtType stmtType2);
+
+  bool hasTransitiveS1AndS2Pairs();
 };

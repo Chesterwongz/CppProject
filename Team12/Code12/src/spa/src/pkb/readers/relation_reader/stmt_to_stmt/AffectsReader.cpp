@@ -157,4 +157,20 @@ bool AffectsReader::isCallReadAssign(int statementNumber) {
   return stmtStore.hasStmt(statementNumber, StmtType::ASSIGN) ||
          stmtStore.hasStmt(statementNumber, StmtType::READ) ||
          stmtStore.hasStmt(statementNumber, StmtType::CALL);
+
+bool AffectsReader::hasAffects() {
+  std::vector<std::pair<std::string, std::string>> result;
+
+  const auto assignStmts = stmtStore.getAllStmtsOf(StmtType::ASSIGN);
+
+  for (const auto& assign : assignStmts) {
+    if (!modifiesSStore.hasDirectSuccessors(assign)) continue;
+    std::unordered_set<std::string> done;
+    std::string v = *modifiesSStore.getDirectSuccessors(assign).begin();
+
+    findAffectsPairs(assign, assign, v, done, result);
+    if (!result.empty()) { return true; }
+  }
+
+  return !result.empty();
 }

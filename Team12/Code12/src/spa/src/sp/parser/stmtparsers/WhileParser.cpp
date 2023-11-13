@@ -8,7 +8,7 @@ std::optional<std::unique_ptr<TNode>> WhileParser::parse() {
     return std::nullopt;  // could be something like `while = 1;`
 
   std::unique_ptr<TNode> whileNode =
-      std::make_unique<WhileNode>(context->getLineNum());
+      std::make_unique<WhileNode>(context.getLineNum());
 
   std::optional<std::unique_ptr<TNode>> stmtLstNodeOpt =
       StmtLstParser(context).parse();

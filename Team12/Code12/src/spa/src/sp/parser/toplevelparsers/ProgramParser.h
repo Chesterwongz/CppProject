@@ -10,8 +10,8 @@
 
 class ProgramParser : public AbstractParser {
  public:
-  explicit ProgramParser(std::shared_ptr<ParserContext> context)
-      : AbstractParser(std::move(context)) {}
+  explicit ProgramParser(ParserContext& context)
+      : AbstractParser(context) {}
 
   std::optional<std::unique_ptr<TNode>> parse() override;
 };

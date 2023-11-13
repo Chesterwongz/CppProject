@@ -19,6 +19,11 @@ class ProcToProcAbstraction : public BaseAbstraction {
   IntermediateTable handleBothArgsIdent();
 
   /**
+   * Abstraction(a, b): a, b pairs exists
+   */
+  virtual bool hasPairs() = 0;
+
+  /**
    * Abstraction(a, b): get all a, b pairs satisfying abstraction
    */
   virtual vector<pair<string, string>> getAllAbstractionPairs() = 0;

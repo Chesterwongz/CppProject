@@ -61,4 +61,8 @@ class MockCallsReader : public BaseMockReader {
   bool hasCallsT(const std::string& proc1, const std::string& proc2) override {
     return mockHasCallsT;
   }
+
+  bool hasCalls() override { return !mockCallPairs.empty(); }
+
+  bool hasCallsT() override { return !mockCallsStarPairs.empty(); }
 };

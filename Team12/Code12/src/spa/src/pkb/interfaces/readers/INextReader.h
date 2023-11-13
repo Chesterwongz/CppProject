@@ -26,4 +26,7 @@ class INextReader {
                                                 StmtType secondStmtType) = 0;
   virtual std::vector<std::string> getNextTStmts(int firstStmtNum,
                                                  StmtType secondStmtType) = 0;
+
+  virtual bool hasNext() = 0;
+  virtual bool hasNextT() = 0;
 };

@@ -29,8 +29,9 @@ TEST_CASE("test_notDecorator_evaluate_0_synonym") {
   mockClause->mockEvaluate = wrapeeClauseResult;
 
   NotDecorator notDecorator = NotDecorator(std::move(mockClause));
-  notDecorator.setCurrentTable(
-      IntermediateTableFactory::buildWildcardIntermediateTable());
+  IntermediateTable intermediateTable =
+      IntermediateTableFactory::buildWildcardIntermediateTable();
+  notDecorator.setCurrentTable(intermediateTable);
 
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
@@ -62,8 +63,9 @@ TEST_CASE("test_notDecorator_evaluate_1_synonym") {
   mockClause->mockEvaluate = wrapeeClauseResult;
 
   NotDecorator notDecorator = NotDecorator(std::move(mockClause));
-  notDecorator.setCurrentTable(
-      IntermediateTableFactory::buildWildcardIntermediateTable());
+  IntermediateTable intermediateTable =
+      IntermediateTableFactory::buildWildcardIntermediateTable();
+  notDecorator.setCurrentTable(intermediateTable);
 
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 
@@ -105,8 +107,9 @@ TEST_CASE("test_notDecorator_evaluate_2_synonym") {
   mockClause->mockEvaluate = wrapeeClauseResult;
 
   NotDecorator notDecorator = NotDecorator(std::move(mockClause));
-  notDecorator.setCurrentTable(
-      IntermediateTableFactory::buildWildcardIntermediateTable());
+  IntermediateTable intermediateTable =
+      IntermediateTableFactory::buildWildcardIntermediateTable();
+  notDecorator.setCurrentTable(intermediateTable);
 
   MockDesignEntitiesReader mockPkbReader = MockDesignEntitiesReader();
 

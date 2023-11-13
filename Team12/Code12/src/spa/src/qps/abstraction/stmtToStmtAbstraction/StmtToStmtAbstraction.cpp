@@ -81,21 +81,9 @@ IntermediateTable StmtToStmtAbstraction ::evaluateWildcardInteger() {
 
 // Abstraction (_, _)
 IntermediateTable StmtToStmtAbstraction ::evaluateWildcardWildcard() {
-  return handleBothArgsWildcard();
-}
-
-IntermediateTable StmtToStmtAbstraction::handleBothArgsWildcard() {
-  StmtType firstStmtType = this->getFirstArgStmtType();
-  StmtType secondStmtType = this->getSecondArgStmtType();
-
-  vector<pair<string, string>> stmtStmtPairs =
-      getAllPairs(firstStmtType, secondStmtType);
-
-  if (stmtStmtPairs.empty()) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
-
-  return IntermediateTableFactory::buildWildcardIntermediateTable();
+  return this->hasPairs()
+             ? IntermediateTableFactory::buildWildcardIntermediateTable()
+             : IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
 IntermediateTable StmtToStmtAbstraction::handleSynonymOrWildcardArgs() {

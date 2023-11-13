@@ -7,6 +7,8 @@
  */
 bool NextStarAbstraction::isSelfReferencePossible() { return true; }
 
+bool NextStarAbstraction::hasPairs() { return this->pkb.hasNextT(); }
+
 vector<pair<string, string>> NextStarAbstraction::getAllPairs(
     StmtType firstStmtType, StmtType secondStmtType) {
   return pkb.getNextTPairs(firstStmtType, secondStmtType);

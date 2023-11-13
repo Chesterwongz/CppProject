@@ -11,7 +11,7 @@
  * return node
  */
 std::optional<std::unique_ptr<TNode>> AssignParser::parse() {
-  if (!context->tryEatExpected(SpTokenType::DELIM, delim::kAssignString)
+  if (!context.tryEatExpected(SpTokenType::DELIM, delim::kAssignString)
            .has_value())
     return std::nullopt;  // Not an assign stmt
 
@@ -21,10 +21,10 @@ std::optional<std::unique_ptr<TNode>> AssignParser::parse() {
       ExprParser(context).parse();
   requireTNodeOpt(TNodeType::TNODE_ASSIGN)(exprNodeOpt);
 
-  context->forceEatExpected(SpTokenType::DELIM, delim::kSemicolonString);
+  context.forceEatExpected(SpTokenType::DELIM, delim::kSemicolonString);
 
   std::unique_ptr<TNode> assignNode =
-      std::make_unique<AssignNode>(context->getLineNum());
+      std::make_unique<AssignNode>(context.getLineNum());
   assignNode->addChild(std::move(varNode));
   assignNode->addChild(std::move(exprNodeOpt.value()));
   return assignNode;

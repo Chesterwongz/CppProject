@@ -9,16 +9,16 @@ std::optional<std::unique_ptr<TNode>> IfParser::parse() {
 
   // Make if node with current line before parsing stmtLst
   std::unique_ptr<TNode> ifNode =
-      std::make_unique<IfNode>(context->getLineNum());
+      std::make_unique<IfNode>(context.getLineNum());
 
-  context->forceEatExpected(SpTokenType::NAME, keyword::kThen);
+  context.forceEatExpected(SpTokenType::NAME, keyword::kThen);
 
   StmtLstParser parser = StmtLstParser(context);
 
   std::optional<std::unique_ptr<TNode>> thenStmtLstNodeOpt = parser.parse();
   requireTNodeOpt(TNodeType::TNODE_IF)(thenStmtLstNodeOpt);
 
-  context->forceEatExpected(SpTokenType::NAME, keyword::kElse);
+  context.forceEatExpected(SpTokenType::NAME, keyword::kElse);
 
   std::optional<std::unique_ptr<TNode>> elseStmtLstNodeOpt = parser.parse();
   requireTNodeOpt(TNodeType::TNODE_IF)(elseStmtLstNodeOpt);

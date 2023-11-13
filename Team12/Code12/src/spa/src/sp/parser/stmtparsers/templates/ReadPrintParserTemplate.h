@@ -11,8 +11,8 @@ class ReadPrintParserTemplate : public AbstractParser {
   std::optional<std::unique_ptr<TNode>> parse() override;
 
  protected:
-  explicit ReadPrintParserTemplate(std::shared_ptr<ParserContext> context)
-      : AbstractParser(std::move(context)) {}
+  explicit ReadPrintParserTemplate(ParserContext& context)
+      : AbstractParser(context) {}
 
   [[nodiscard]] virtual std::unique_ptr<TNode> makeTNode() const = 0;
 };

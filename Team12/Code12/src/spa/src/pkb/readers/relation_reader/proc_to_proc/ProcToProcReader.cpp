@@ -34,9 +34,17 @@ ProcToProcReader::getDirectP1AndP2Pairs() {
   return CollectionUtils::mapSetToPairVector<std::string, std::string>(rawRes);
 }
 
+bool ProcToProcReader::hasDirectP1AndP2Pairs() {
+  return !store.getDirectSuccessorMap().empty();
+}
+
 std::vector<std::pair<std::string, std::string>>
 ProcToProcReader::getTransitiveP1AndP2Pairs() {
   return CollectionUtils::mapSetToPairVector(store.getRelationsT());
+}
+
+bool ProcToProcReader::hasTransitiveP1AndP2Pairs() {
+  return !store.getRelationsT().empty();
 }
 
 bool ProcToProcReader::hasDirectRelation(const std::string& proc1,

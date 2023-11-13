@@ -12,17 +12,105 @@ IntermediateTable SingleSynWithEvaluator::evaluate() {
   vector<std::reference_wrapper<SynonymRes>> synonymPKBResult =
       withEvaluatorFuncMap[synonymEntity]();
   IntermediateTable synonymResult =
-      IntermediateTableFactory::buildSingleColTable(
-          synonymValue, synonymPKBResult);
+      IntermediateTableFactory::buildSingleColTable(synonymValue,
+                                                    synonymPKBResult);
 
-  IntermediateTable valueArgResult = valueArgResultFuncMap[synonymEntity]();
-
-  IntermediateTable finalResult = synonymResult.join(valueArgResult);
-
-  return finalResult;
+  return synonymResult;
 }
 
-IntermediateTable SingleSynWithEvaluator::getCallValueArgResult() {
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateStmtTypes(StmtType stmtType) {
+  string attrRefValue = valueArg.getValue();
+  AttrRef attrRef = synonymArg.getAttrRef();
+  string synonymValue = synonymArg.getValue();
+
+  vector<string> stmtsOfStmtType = pkbReader.getAllStmtsOf(stmtType);
+  vector<string> filtered;
+
+  std::copy_if(std::begin(stmtsOfStmtType), std::end(stmtsOfStmtType),
+               std::back_inserter(filtered),
+               [&attrRefValue](const string& stmtNo) -> bool {
+                 return stmtNo == attrRefValue;
+               });
+
+  // build stmt synonymRes
+  vector<std::reference_wrapper<SynonymRes>> stmtSynonymResObjs =
+      SynonymResFactory::buildStmtSynonymResVector(filtered);
+
+  return std::move(stmtSynonymResObjs);
+}
+
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateStmtEntity() {
+  return std::move(evaluateStmtTypes(StmtType::STMT));
+}
+
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateAssignEntity() {
+  return std::move(evaluateStmtTypes(StmtType::ASSIGN));
+}
+
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateIfEntity() {
+  return std::move(evaluateStmtTypes(StmtType::IF));
+}
+
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateWhileEntity() {
+  return std::move(evaluateStmtTypes(StmtType::WHILE));
+}
+
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateConstantEntity() {
+  string attrRefValue = valueArg.getValue();
+  string synonymValue = synonymArg.getValue();
+
+  bool doesConstExists = pkbReader.isValidConstant(attrRefValue);
+
+  vector<std::reference_wrapper<SynonymRes>> constSynonymResObject = {};
+  if (doesConstExists) {
+    constSynonymResObject.emplace_back(
+        SynonymResFactory::buildConstantSynonym(attrRefValue));
+  }
+
+  return std::move(constSynonymResObject);
+}
+
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateProcEntity() {
+  string attrRefValue = valueArg.getValue();
+  AttrRef attrRef = synonymArg.getAttrRef();
+  string synonymValue = synonymArg.getValue();
+
+  bool doesProcExists = pkbReader.isValidProc(attrRefValue);
+  vector<std::reference_wrapper<SynonymRes>> procSynonymResObjs = {};
+  if (doesProcExists) {
+    procSynonymResObjs.emplace_back(
+        SynonymResFactory::buildProcSynonym(attrRefValue));
+  }
+
+  return std::move(procSynonymResObjs);
+}
+
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateVarEntity() {
+  string attrRefValue = valueArg.getValue();
+  AttrRef attrRef = synonymArg.getAttrRef();
+  string synonymValue = synonymArg.getValue();
+
+  bool doesVarExists = pkbReader.isValidVariable(attrRefValue);
+  vector<std::reference_wrapper<SynonymRes>> varSynonymResObjs = {};
+
+  if (doesVarExists) {
+    varSynonymResObjs.emplace_back(
+        SynonymResFactory::buildVarSynonym(attrRefValue));
+  }
+
+  return std::move(varSynonymResObjs);
+}
+
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateCallEntity() {
   string attrRefValue = valueArg.getValue();
   AttrRef attrRef = synonymArg.getAttrRef();
   string synonymValue = synonymArg.getValue();
@@ -46,13 +134,11 @@ IntermediateTable SingleSynWithEvaluator::getCallValueArgResult() {
     }
   }
 
-  IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
-      synonymValue, callSynonymResObjs);
-
-  return result;
+  return std::move(callSynonymResObjs);
 }
 
-IntermediateTable SingleSynWithEvaluator::getReadValueArgResult() {
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluateReadEntity() {
   string attrRefValue = valueArg.getValue();
   AttrRef attrRef = synonymArg.getAttrRef();
   string synonymValue = synonymArg.getValue();
@@ -76,13 +162,11 @@ IntermediateTable SingleSynWithEvaluator::getReadValueArgResult() {
     }
   }
 
-  IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
-      synonymValue, readSynonymResObjs);
-
-  return result;
+  return std::move(readSynonymResObjs);
 }
 
-IntermediateTable SingleSynWithEvaluator::getPrintValueArgResult() {
+vector<std::reference_wrapper<SynonymRes>>
+SingleSynWithEvaluator::evaluatePrintEntity() {
   string attrRefValue = valueArg.getValue();
   AttrRef attrRef = synonymArg.getAttrRef();
   string synonymValue = synonymArg.getValue();
@@ -106,60 +190,5 @@ IntermediateTable SingleSynWithEvaluator::getPrintValueArgResult() {
     }
   }
 
-  IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
-      synonymValue, printSynonymResObjs);
-
-  return result;
-}
-
-IntermediateTable SingleSynWithEvaluator::getStmtValueArgResult() {
-  string attrRefValue = valueArg.getValue();
-  string synonymValue = synonymArg.getValue();
-
-  vector<std::reference_wrapper<SynonymRes>> stmtSynonymResObjs = {
-      SynonymResFactory::buildStmtSynonym(attrRefValue)};
-
-  IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
-      synonymValue, stmtSynonymResObjs);
-
-  return result;
-}
-
-IntermediateTable SingleSynWithEvaluator::getVarValueArgResult() {
-  string attrRefValue = valueArg.getValue();
-  string synonymValue = synonymArg.getValue();
-
-  vector<std::reference_wrapper<SynonymRes>> varSynonymResObjs = {
-      SynonymResFactory::buildVarSynonym(attrRefValue)};
-
-  IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
-      synonymValue, varSynonymResObjs);
-
-  return result;
-}
-
-IntermediateTable SingleSynWithEvaluator::getConstantValueArgResult() {
-  string attrRefValue = valueArg.getValue();
-  string synonymValue = synonymArg.getValue();
-
-  vector<std::reference_wrapper<SynonymRes>> constSynonymResObjs = {
-      SynonymResFactory::buildConstantSynonym(attrRefValue)};
-
-  IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
-      synonymValue, constSynonymResObjs);
-
-  return result;
-}
-
-IntermediateTable SingleSynWithEvaluator::getProcValueArgResult() {
-  string attrRefValue = valueArg.getValue();
-  string synonymValue = synonymArg.getValue();
-
-  vector<std::reference_wrapper<SynonymRes>> procSynonymResObjs = {
-      SynonymResFactory::buildProcSynonym(attrRefValue)};
-
-  IntermediateTable result = IntermediateTableFactory::buildSingleColTable(
-      synonymValue, procSynonymResObjs);
-
-  return result;
+  return std::move(printSynonymResObjs);
 }

@@ -49,4 +49,6 @@ class AffectsReader : public IAffectsReader {
       std::vector<std::pair<std::string, std::string>>& result);
 
   bool isCallReadAssign(int statementNumber);
+
+  bool hasAffects() override;
 };

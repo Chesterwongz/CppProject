@@ -9,7 +9,7 @@
 
 class ReadParser : public ReadPrintParserTemplate {
  public:
-  explicit ReadParser(std::shared_ptr<ParserContext> context)
-      : ReadPrintParserTemplate(std::move(context)) {}
+  explicit ReadParser(ParserContext& context)
+      : ReadPrintParserTemplate(context) {}
   [[nodiscard]] std::unique_ptr<TNode> makeTNode() const override;
 };
