@@ -1,0 +1,111 @@
+name: Valgrind
+
+on:
+  workflow_dispatch:
+    inputs:
+      tooling:
+        type: choice
+        description: Valgrind tool to run
+        options:
+          - valgrind
+          - massif
+          - callgrind
+        required: true
+      target:
+        type: choice
+        description: Binary to perform valgrind checks on
+        options:
+          - unit_testing
+          - integration_testing
+          - autotester
+        required: true
+
+      executeflags:
+        type: string
+        description: Flags to pass to executable
+      valgrindflags:
+        type: string
+        description: Flags to pass to valgrind
+
+env:
+  BUILD_TYPE: Release
+  CCACHE_DIR: ${{ github.workspace }}/Team12/Code12/build/build-cache
+  CCACHE_BASEDIR: ${{ github.workspace }}/Team12/Code12
+
+jobs:
+  valgrind-check:
+    name: Run Valgrind
+    runs-on: Linux
+
+    steps:
+      - name: Checkout Git Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Valgrind
+        run: sudo apt-get install -y valgrind ccache
+
+      - name: Setup Build Folder
+        working-directory: ./Team12/Code12
+        run: |
+          cmake -E make_directory ./build
+
+      - name: Generate CMake Project
+        working-directory: ./Team12/Code12/build
+        run: |
+          sudo /usr/sbin/update-ccache-symlinks
+          export PATH="/usr/lib/ccache:$PATH"
+          ccache --set-config=cache_dir=${CCACHE_DIR}
+          CC=clang CXX=clang++ cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -D CMAKE_C_COMPILER_LAUNCHER=ccache -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
+
+      - name: Restore Build Cache
+        uses: actions/cache/restore@v3
+        with:
+          key: build-cache-${{ github.head_ref || github.ref_name }}-${{github.sha}}
+          path: ./Team12/Code12/build/build-cache
+          restore-keys: |
+            build-cache-${{ github.head_ref || github.ref_name }}-
+            build-cache-
+            master-scheduled-build-cache
+
+      - name: Compile SPA
+        working-directory: ./Team12/Code12/build
+        run: cmake --build . --target ${{ github.event.inputs.target }} --config ${BUILD_TYPE} -j 4
+
+      - name: Run Valgrind
+        if: github.event.inputs.tooling == 'valgrind'
+        working-directory: ./Team12/Code12/build
+        run: valgrind ${{ github.event.inputs.valgrindflags }} ./src/${{ github.event.inputs.target }}/${{ github.event.inputs.target }} ${{ github.event.inputs.executeflags }}
+
+      - name: Run Massif
+        if: github.event.inputs.tooling == 'massif'
+        working-directory: ./Team12/Code12/build
+        run: valgrind --tool=massif ${{ github.event.inputs.valgrindflags }} ./src/${{ github.event.inputs.target }}/${{ github.event.inputs.target }} ${{ github.event.inputs.executeflags }}
+
+      - name: Upload Massif Result
+        if: github.event.inputs.tooling == 'massif'
+        uses: actions/upload-artifact@v3
+        with:
+          name: massif-report-${{github.sha}}
+          path: ./Team12/Code12/build/massif.out.*
+          retention-days: 1
+
+      - name: Run Callgrind
+        if: github.event.inputs.tooling == 'callgrind'
+        working-directory: ./Team12/Code12/build
+        run: valgrind --tool=callgrind ${{ github.event.inputs.valgrindflags }} ./src/${{ github.event.inputs.target }}/${{ github.event.inputs.target }} ${{ github.event.inputs.executeflags }}
+
+      - name: Generate Flame Graph
+        if: github.event.inputs.tooling == 'callgrind'
+        working-directory: ./Team12/Code12/build
+        run: |
+          gprof2dot --format=callgrind --output=callgrind.out.dot callgrind.out.[0-9]*
+          dot -T png callgrind.out.dot -o callgrind.out.png
+          dot -T svg callgrind.out.dot -o callgrind.out.svg
+
+      - name: Upload Callgrind Result
+        if: github.event.inputs.tooling == 'callgrind'
+        uses: actions/upload-artifact@v3
+        with:
+          name: callgrind-report-${{github.sha}}
+          path: ./Team12/Code12/build/callgrind.out.*
+          retention-days: 1
