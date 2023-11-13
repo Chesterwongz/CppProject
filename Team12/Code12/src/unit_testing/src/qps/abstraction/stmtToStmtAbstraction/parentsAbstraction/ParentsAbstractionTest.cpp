@@ -22,6 +22,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)_EMPTY") {
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
   REQUIRE(resultTable.isTableEmpty());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)") {
@@ -41,6 +42,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)") {
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)_IF") {
@@ -60,6 +62,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)_IF") {
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)_WHILE") {
@@ -79,6 +82,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)_WHILE") {
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)_not_if_or_while") {
@@ -95,6 +99,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Synonym)_not_if_or_while") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Synonym, Integer)") {
@@ -114,6 +119,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Integer)") {
   REQUIRE(resultTable.getDataAsStrings().at(0).size() == 1);
   REQUIRE(resultTable.getDataAsStrings().at(0).at(0) ==
           MOCK_IMMEDIATE_PARENT_OF[0]);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Synonym, Integer)_not_if_or_while") {
@@ -130,6 +136,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Integer)_not_if_or_while") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE(
@@ -146,6 +153,7 @@ TEST_CASE(
   ParentsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Synonym, Wildcard)") {
@@ -163,6 +171,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Wildcard)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_PARENT_CHILD_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Synonym, Wildcard)_not_if_or_while") {
@@ -178,6 +187,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Wildcard)_not_if_or_while") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Synonym, Wildcard)_empty") {
@@ -193,6 +203,7 @@ TEST_CASE("ParentsAbstraction - Parents(Synonym, Wildcard)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Integer, Synonym)_EMPTY") {
@@ -209,6 +220,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Synonym)_EMPTY") {
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
   REQUIRE(resultTable.isTableEmpty());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Integer, Synonym)") {
@@ -227,6 +239,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Synonym)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_PARENT_CHILD_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Integer, Integer)") {
@@ -242,6 +255,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Integer)") {
   ParentsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Integer, Integer)_false") {
@@ -257,6 +271,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Integer)_false") {
   ParentsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Integer, Integer)_same_integer") {
@@ -272,6 +287,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Integer)_same_integer") {
   ParentsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Integer, Wildcard)") {
@@ -287,6 +303,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Wildcard)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Integer, Wildcard)_empty") {
@@ -301,6 +318,7 @@ TEST_CASE("ParentsAbstraction - Parents(Integer, Wildcard)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Wildcard, Synonym)") {
@@ -318,6 +336,7 @@ TEST_CASE("ParentsAbstraction - Parents(Wildcard, Synonym)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_PARENT_CHILD_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Wildcard, Integer)") {
@@ -333,6 +352,7 @@ TEST_CASE("ParentsAbstraction - Parents(Wildcard, Integer)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE(
@@ -349,6 +369,7 @@ TEST_CASE(
   ParentsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Wildcard, Wildcard)") {
@@ -363,6 +384,7 @@ TEST_CASE("ParentsAbstraction - Parents(Wildcard, Wildcard)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsAbstraction - Parents(Wildcard, Wildcard)_EMPTY") {

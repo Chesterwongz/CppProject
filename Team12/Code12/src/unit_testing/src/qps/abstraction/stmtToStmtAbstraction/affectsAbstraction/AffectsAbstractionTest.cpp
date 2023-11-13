@@ -22,6 +22,7 @@ TEST_CASE("AffectsAbstraction - Affects(Synonym, Synonym)_EMPTY") {
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
   REQUIRE(resultTable.isTableEmpty());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("AffectsAbstraction - Affects(Synonym, Synonym)_assign_entity") {
@@ -41,6 +42,7 @@ TEST_CASE("AffectsAbstraction - Affects(Synonym, Synonym)_assign_entity") {
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("AffectsAbstraction - Affects(Synonym, Synonym)_stmt_entity") {
@@ -60,6 +62,7 @@ TEST_CASE("AffectsAbstraction - Affects(Synonym, Synonym)_stmt_entity") {
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE(
@@ -78,6 +81,7 @@ TEST_CASE(
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE(
@@ -96,6 +100,7 @@ TEST_CASE(
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE(
@@ -114,6 +119,7 @@ TEST_CASE(
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("AffectsAbstraction - Affects(Synonym, Integer)") {
@@ -129,6 +135,7 @@ TEST_CASE("AffectsAbstraction - Affects(Synonym, Integer)") {
   AffectsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.getDataAsStrings() == MOCK_AFFECTED_BY_COL);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("AffectsAbstraction - Affects(Synonym, Integer)_not_affected") {
@@ -145,6 +152,7 @@ TEST_CASE("AffectsAbstraction - Affects(Synonym, Integer)_not_affected") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("AffectsAbstraction - Affects(Synonym, Integer)_not_assign") {
@@ -161,6 +169,7 @@ TEST_CASE("AffectsAbstraction - Affects(Synonym, Integer)_not_assign") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("AffectsAbstraction - Affects(Synonym, Wildcard)") {
@@ -178,6 +187,7 @@ TEST_CASE("AffectsAbstraction - Affects(Synonym, Wildcard)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_AFFECTS_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("AffectsAbstraction - Affects(Integer, Synonym)") {
@@ -193,6 +203,7 @@ TEST_CASE("AffectsAbstraction - Affects(Integer, Synonym)") {
   AffectsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.getDataAsStrings() == MOCK_AFFECTS_COL);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("AffectsAbstraction - Affects(Integer, Synonym)_no_affected") {
@@ -208,6 +219,7 @@ TEST_CASE("AffectsAbstraction - Affects(Integer, Synonym)_no_affected") {
   AffectsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("AffectsAbstraction - Affects(Integer, Wildcard)") {
@@ -238,6 +250,7 @@ TEST_CASE("AffectsAbstraction - Affects(Integer, Wildcard)_no_affected") {
   AffectsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("AffectsAbstraction - Affects(Integer, Integer)_true") {
@@ -253,6 +266,7 @@ TEST_CASE("AffectsAbstraction - Affects(Integer, Integer)_true") {
   AffectsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("AffectsAbstraction - Affects(Integer, Integer)_false") {
@@ -268,6 +282,7 @@ TEST_CASE("AffectsAbstraction - Affects(Integer, Integer)_false") {
   AffectsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("AffectsAbstraction - Affects(Wildcard, Synonym)") {
@@ -285,6 +300,7 @@ TEST_CASE("AffectsAbstraction - Affects(Wildcard, Synonym)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_AFFECTS_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("AffectsAbstraction - Affects(Wildcard, Integer)") {
@@ -299,6 +315,7 @@ TEST_CASE("AffectsAbstraction - Affects(Wildcard, Integer)") {
   AffectsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("AffectsAbstraction - Affects(Wildcard, Integer) not followed") {
@@ -313,6 +330,7 @@ TEST_CASE("AffectsAbstraction - Affects(Wildcard, Integer) not followed") {
   AffectsAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("AffectsAbstraction - Affects(Wildcard, Wildcard)") {
@@ -327,6 +345,7 @@ TEST_CASE("AffectsAbstraction - Affects(Wildcard, Wildcard)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("AffectsAbstraction - Affects(Wildcard, Wildcard)_EMPTY") {

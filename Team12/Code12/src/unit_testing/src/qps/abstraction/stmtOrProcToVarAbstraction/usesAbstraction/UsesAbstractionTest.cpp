@@ -26,6 +26,7 @@ TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Synonym)") {
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Synonym)_READ") {
@@ -42,6 +43,7 @@ TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Synonym)_READ") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Synonym)_empty") {
@@ -58,6 +60,7 @@ TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Synonym)_empty") {
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
   REQUIRE(resultTable.isTableEmpty());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Ident)_READ") {
@@ -74,6 +77,7 @@ TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Ident)_READ") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Ident)_empty") {
@@ -89,6 +93,7 @@ TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Ident)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Wildcard)") {
@@ -106,6 +111,7 @@ TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Wildcard)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_USED_VECTORS_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Wildcard)_READ") {
@@ -121,6 +127,7 @@ TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Wildcard)_READ") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Wildcard)_empty") {
@@ -135,6 +142,7 @@ TEST_CASE("UsesAbstraction - Uses(StmtSynonym, Wildcard)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Synonym)") {
@@ -154,6 +162,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Synonym)") {
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Synonym)_empty") {
@@ -170,6 +179,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Synonym)_empty") {
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
   REQUIRE(resultTable.isTableEmpty());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Ident)") {
@@ -188,6 +198,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Ident)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_USING_STATEMENTS_COL);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Ident)_empty") {
@@ -203,6 +214,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Ident)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Wildcard)") {
@@ -220,6 +232,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Wildcard)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_USED_VECTORS_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Wildcard)_empty") {
@@ -234,6 +247,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcSynonym, Wildcard)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(Integer, Synonym)") {
@@ -252,6 +266,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Synonym)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_USED_VECTORS_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(Integer, Synonym)_empty") {
@@ -268,6 +283,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Synonym)_empty") {
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
   REQUIRE(resultTable.isTableEmpty());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(Integer, Ident)") {
@@ -284,6 +300,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Ident)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(Integer, Ident)_false") {
@@ -300,6 +317,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Ident)_false") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(Integer, Wildcard)") {
@@ -315,6 +333,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Wildcard)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(Integer, Wildcard)_empty") {
@@ -329,6 +348,7 @@ TEST_CASE("UsesAbstraction - Uses(Integer, Wildcard)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(ProcName, Synonym)") {
@@ -347,6 +367,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcName, Synonym)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_USED_VECTOR_FOR_PROCS);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(ProcName, Synonym)_empty") {
@@ -363,6 +384,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcName, Synonym)_empty") {
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
   REQUIRE(resultTable.isTableEmpty());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(ProcName, Ident)") {
@@ -379,6 +401,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcName, Ident)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(ProcName, Ident)_false") {
@@ -395,6 +418,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcName, Ident)_false") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(ProcName, Wildcard)") {
@@ -410,6 +434,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcName, Wildcard)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(ProcName, Wildcard)_empty") {
@@ -424,6 +449,7 @@ TEST_CASE("UsesAbstraction - Uses(ProcName, Wildcard)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Synonym)") {
@@ -438,6 +464,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Synonym)") {
   UsesAbstraction abstraction(*abstractionParams);
   REQUIRE_THROWS_WITH(abstraction.evaluate(),
                       QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Synonym)_empty") {
@@ -451,6 +478,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Synonym)_empty") {
   UsesAbstraction abstraction(*abstractionParams);
   REQUIRE_THROWS_WITH(abstraction.evaluate(),
                       QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)") {
@@ -465,6 +493,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)") {
   UsesAbstraction abstraction(*abstractionParams);
   REQUIRE_THROWS_WITH(abstraction.evaluate(),
                       QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)_false") {
@@ -478,6 +507,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Ident)_false") {
   UsesAbstraction abstraction(*abstractionParams);
   REQUIRE_THROWS_WITH(abstraction.evaluate(),
                       QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Wildcard)") {
@@ -491,6 +521,7 @@ TEST_CASE("UsesAbstraction - Uses(Wildcard, Wildcard)") {
   UsesAbstraction abstraction(*abstractionParams);
   REQUIRE_THROWS_WITH(abstraction.evaluate(),
                       QPS_INVALID_ABSTRACTION_ERR_UNSUPPORTED_ARG_TYPE);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("UsesAbstraction - Uses(Wildcard, Wildcard)_empty") {
