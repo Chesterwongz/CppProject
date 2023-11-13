@@ -41,6 +41,6 @@ bool EntityStore::hasProc(const std::string& procName) const {
 }
 
 // Return true if the particular variable exists
-bool EntityStore::hasVariable(const std::string& variableName) const {
-  return varData.count(variableName);
+bool EntityStore::hasVar(const std::string& varName) const {
+  return varData.count(varName);
 }

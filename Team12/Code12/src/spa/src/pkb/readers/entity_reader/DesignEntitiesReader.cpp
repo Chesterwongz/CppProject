@@ -39,7 +39,7 @@ bool DesignEntitiesReader::isValidProc(std::string procName) {
 }
 
 bool DesignEntitiesReader::isValidVariable(std::string varName) {
-  return entityStore.hasVariable(varName);
+  return entityStore.hasVar(varName);
 }
 
 std::vector<std::string> DesignEntitiesReader::getStmtsThatCall(

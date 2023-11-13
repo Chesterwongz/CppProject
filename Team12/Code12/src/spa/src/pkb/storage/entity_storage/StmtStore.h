@@ -36,8 +36,4 @@ class StmtStore {
 
   [[nodiscard]] std::pair<std::function<bool(int)>, std::function<bool(int)>>
   getStmtStmtFilterPredicates(StmtType stmtType1, StmtType stmtType2) const;
-
-  [[nodiscard]] std::pair<std::function<bool(int)>,
-                          std::function<bool(std::string)>>
-  getStmtStrFilterPredicates(StmtType stmtType1) const;
 };

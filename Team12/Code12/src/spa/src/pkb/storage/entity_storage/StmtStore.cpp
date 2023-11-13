@@ -34,9 +34,3 @@ StmtStore::getStmtStmtFilterPredicates(StmtType stmtType1,
   return std::make_pair(getStmtFilterPredicate(stmtType1),
                         getStmtFilterPredicate(stmtType2));
 }
-
-std::pair<std::function<bool(int)>, std::function<bool(std::string)>>
-StmtStore::getStmtStrFilterPredicates(StmtType stmtType1) const {
-  return std::make_pair(getStmtFilterPredicate(stmtType1),
-                        PredicateUtils::returnTrue<std::string>());
-}
