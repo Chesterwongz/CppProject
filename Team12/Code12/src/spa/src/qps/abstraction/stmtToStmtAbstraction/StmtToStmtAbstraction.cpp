@@ -57,10 +57,6 @@ IntermediateTable StmtToStmtAbstraction ::evaluateIntegerSynonym() {
 
 // Abstraction (StmtNumber, StmtNumber)
 IntermediateTable StmtToStmtAbstraction ::evaluateIntegerInteger() {
-  if (!isSelfReferencePossible() &&
-      this->firstArgValue == this->secondArgValue) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
   return handleBothArgsInteger();
 }
 
