@@ -12,8 +12,8 @@ class ArithmParserTemplate : public AbstractParser {
   std::optional<std::unique_ptr<TNode>> parse() override;
 
  protected:
-  explicit ArithmParserTemplate(std::shared_ptr<ParserContext> context)
-      : AbstractParser(std::move(context)) {}
+  explicit ArithmParserTemplate(ParserContext& context)
+      : AbstractParser(context) {}
 
   [[nodiscard]] virtual std::unique_ptr<AbstractParser> getNextParser()
       const = 0;

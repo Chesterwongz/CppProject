@@ -8,7 +8,7 @@ std::optional<std::unique_ptr<TNode>> ArithmParserTemplate::parse() {
   if (!leftNodeOpt.has_value()) return std::nullopt;
 
   std::optional<std::string> opOpt =
-      context->tryEatExpected(getExpectedTokenType());
+      context.tryEatExpected(getExpectedTokenType());
   while (opOpt.has_value()) {
     std::optional<std::unique_ptr<TNode>> rightNodeOpt = parser->parse();
     requireTNodeOpt(getExpectedTNodeType())(rightNodeOpt);
@@ -17,7 +17,7 @@ std::optional<std::unique_ptr<TNode>> ArithmParserTemplate::parse() {
         ExprNodeFactory::makeNode(opOpt.value(), std::move(leftNodeOpt.value()),
                                   std::move(rightNodeOpt.value()));
 
-    opOpt = context->tryEatExpected(getExpectedTokenType());
+    opOpt = context.tryEatExpected(getExpectedTokenType());
   }
   return leftNodeOpt;
 }

@@ -14,9 +14,9 @@ class AssignParser : public AbstractParser {
   std::string varName;
 
  public:
-  explicit AssignParser(std::shared_ptr<ParserContext> context,
+  explicit AssignParser(ParserContext& context,
                         std::string varName)
-      : AbstractParser(std::move(context)), varName(std::move(varName)) {}
+      : AbstractParser(context), varName(std::move(varName)) {}
 
   std::optional<std::unique_ptr<TNode>> parse() override;
 };
