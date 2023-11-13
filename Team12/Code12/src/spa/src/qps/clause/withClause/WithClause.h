@@ -10,6 +10,7 @@
 
 #include "qps/argument/AbstractArgument.h"
 #include "qps/clause/Clause.h"
+#include "qps/clause/utils/ClauseUtil.h"
 #include "qps/common/Keywords.h"
 #include "qps/intermediateTable/IntermediateTable.h"
 

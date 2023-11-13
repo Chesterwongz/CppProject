@@ -33,7 +33,7 @@ bool WithClause::isEquals(const IClause& other) {
          *secondArg == *(otherClause->secondArg);
 }
 set<string> WithClause::getClauseSynonyms() {
-  return {firstArg->getValue(), secondArg->getValue()};
+  return ClauseUtil::getSynonymArgValues(this->firstArg, this->secondArg);
 }
 string WithClause::getKey() {
   return WITH_KEYWORD + "|" + firstArg->getValue() + "|" +

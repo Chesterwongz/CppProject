@@ -18,6 +18,7 @@ class IParserState {
   virtual void processNameToken(PQLToken& curr) = 0;
 
  public:
+  virtual bool isTerminable() = 0;
   virtual void handleToken() = 0;
   virtual ~IParserState() = default;
   friend class PQLParserContext;
