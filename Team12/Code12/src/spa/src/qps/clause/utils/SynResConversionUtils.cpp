@@ -31,3 +31,46 @@ SynResConversionUtils::toSynonymRes(const vector<pair<string, string>>& res,
 
   return synResVector;
 }
+
+bool SynResConversionUtils::isSynResCacheHit(const ClauseSignature& signature) {
+  return SynResConversionUtils::synResCache.find(signature) !=
+         SynResConversionUtils::synResCache.end();
+}
+
+bool SynResConversionUtils::isSingleColSynResCacheHit(
+    const ClauseSignature& signature) {
+  return SynResConversionUtils::singleColSynResCache.find(signature) !=
+         SynResConversionUtils::singleColSynResCache.end();
+}
+
+void SynResConversionUtils::saveToSynResCache(
+    const ClauseSignature& signature,
+    const vector<vector<std::reference_wrapper<SynonymRes>>>& res) {
+  // save copy to cache
+  SynResConversionUtils::synResCache.insert(std::make_pair(signature, res));
+}
+
+void SynResConversionUtils::saveToSingleColSynResCache(
+    const ClauseSignature& signature,
+    const vector<std::reference_wrapper<SynonymRes>>& res) {
+  // save copy to cache
+  SynResConversionUtils::singleColSynResCache.insert(
+      std::make_pair(signature, res));
+}
+
+vector<vector<std::reference_wrapper<SynonymRes>>>
+SynResConversionUtils::getFromSynResCache(const ClauseSignature& signature) {
+  return SynResConversionUtils::synResCache.at(signature);
+}
+
+vector<std::reference_wrapper<SynonymRes>>
+SynResConversionUtils::getFromSingleColSynResCache(
+    const ClauseSignature& signature) {
+  // save copy to cache
+  return SynResConversionUtils::singleColSynResCache.at(signature);
+}
+
+void SynResConversionUtils::clearSynResCache() {
+  SynResConversionUtils::singleColSynResCache.clear();
+  SynResConversionUtils::synResCache.clear();
+}

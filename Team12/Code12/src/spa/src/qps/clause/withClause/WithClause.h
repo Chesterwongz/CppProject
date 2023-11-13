@@ -28,8 +28,8 @@ class WithClause : public Clause {
       : firstArg(std::move(firstArg)), secondArg(std::move(secondArg)) {}
 
   IntermediateTable evaluate(PKBReader& pkb) override;
-  bool isEquals(const IClause& other) override;
+  bool isEquals(const BaseClause& other) override;
   vector<const AbstractArgument*> getAllArguments() override;
   set<string> getClauseSynonyms() override;
-  string getKey() override;
+  ClauseKey getKey() override;
 };

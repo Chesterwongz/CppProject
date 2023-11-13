@@ -22,6 +22,7 @@ TEST_CASE("NextStarAbstraction - Next*(Synonym, Synonym)_EMPTY") {
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
   REQUIRE(resultTable.isTableEmpty());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("NextStarAbstraction - Next*(Synonym, Synonym)") {
@@ -41,6 +42,7 @@ TEST_CASE("NextStarAbstraction - Next*(Synonym, Synonym)") {
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("NextStarAbstraction - Next*(Synonym, Integer)") {
@@ -59,6 +61,7 @@ TEST_CASE("NextStarAbstraction - Next*(Synonym, Integer)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_NEXT_STAR_FIRST_STMTS_2D);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("NextStarAbstraction - Next*(Synonym, Integer)_no_next") {
@@ -75,6 +78,7 @@ TEST_CASE("NextStarAbstraction - Next*(Synonym, Integer)_no_next") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("NextStarAbstraction - Next*(Synonym, Wildcard)") {
@@ -92,6 +96,7 @@ TEST_CASE("NextStarAbstraction - Next*(Synonym, Wildcard)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_NEXT_STAR_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("NextStarAbstraction - Next*(Integer, Synonym)") {
@@ -107,6 +112,7 @@ TEST_CASE("NextStarAbstraction - Next*(Integer, Synonym)") {
   NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.getDataAsStrings() == MOCK_NEXT_STAR_SECOND_STMTS_2D);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("NextStarAbstraction - Next*(Integer, Synonym)_no_next") {
@@ -122,6 +128,7 @@ TEST_CASE("NextStarAbstraction - Next*(Integer, Synonym)_no_next") {
   NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("NextStarAbstraction - Next*(Integer, Wildcard)") {
@@ -136,6 +143,7 @@ TEST_CASE("NextStarAbstraction - Next*(Integer, Wildcard)") {
   NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("NextStarAbstraction - Next*(Integer, Wildcard)_no_next") {
@@ -151,6 +159,7 @@ TEST_CASE("NextStarAbstraction - Next*(Integer, Wildcard)_no_next") {
   NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("NextStarAbstraction - Next*(Integer, Integer)_true") {
@@ -166,6 +175,7 @@ TEST_CASE("NextStarAbstraction - Next*(Integer, Integer)_true") {
   NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("NextStarAbstraction - Next*(Integer, Integer)_false") {
@@ -181,6 +191,7 @@ TEST_CASE("NextStarAbstraction - Next*(Integer, Integer)_false") {
   NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("NextStarAbstraction - Next*(Wildcard, Synonym)") {
@@ -198,6 +209,7 @@ TEST_CASE("NextStarAbstraction - Next*(Wildcard, Synonym)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_NEXT_STAR_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("NextStarAbstraction - Next*(Wildcard, Integer)") {
@@ -212,6 +224,7 @@ TEST_CASE("NextStarAbstraction - Next*(Wildcard, Integer)") {
   NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("NextStarAbstraction - Next*(Wildcard, Integer)_no_next") {
@@ -226,6 +239,7 @@ TEST_CASE("NextStarAbstraction - Next*(Wildcard, Integer)_no_next") {
   NextStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("NextStarAbstraction - Next*(Wildcard, Wildcard)") {
@@ -240,6 +254,7 @@ TEST_CASE("NextStarAbstraction - Next*(Wildcard, Wildcard)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("NextStarAbstraction - Next*(Wildcard, Wildcard)_EMPTY") {

@@ -10,7 +10,7 @@ IntermediateTable SelectBooleanClause::evaluate(PKBReader &pkb) {
   return IntermediateTableFactory::buildWildcardIntermediateTable();
 }
 
-bool SelectBooleanClause::isEquals(const IClause& other) {
+bool SelectBooleanClause::isEquals(const BaseClause & other) {
   return dynamic_cast<const SelectBooleanClause *>(&other);
 }
 

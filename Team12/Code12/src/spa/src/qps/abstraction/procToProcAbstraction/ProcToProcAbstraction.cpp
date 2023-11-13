@@ -83,8 +83,16 @@ IntermediateTable ProcToProcAbstraction::handleSynonymOrWildcardArgs() {
   vector<pair<string, string>> allPairs = getAllAbstractionPairs();
 
   vector<string> colNames = {firstArgSynonym, secondArgSynonym};
-  TableDataType resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
-      allPairs, {PROCEDURE_ENTITY, PROCEDURE_ENTITY}, this->pkb);
+  TableDataType resultAsSynonymRes;
+  if (SynResConversionUtils::isSynResCacheHit(this->signature)) {
+    resultAsSynonymRes =
+        SynResConversionUtils::getFromSynResCache(this->signature);
+  } else {
+    resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+        allPairs, {PROCEDURE_ENTITY, PROCEDURE_ENTITY}, this->pkb);
+    SynResConversionUtils::saveToSynResCache(this->signature,
+                                             resultAsSynonymRes);
+  }
 
   //! If any of the args are "_", the column will be ignored.
   return IntermediateTableFactory::buildIntermediateTable(colNames,
@@ -100,12 +108,20 @@ IntermediateTable ProcToProcAbstraction::handleFirstArgIdent(
 
   vector<string> possibleSecondProcs =
       getSecondProcInAbstraction(firstArgProcName);
-  vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes =
-      SynResConversionUtils::toSynonymRes(possibleSecondProcs, PROCEDURE_ENTITY,
-                                          this->pkb);
 
-  return IntermediateTableFactory::buildSingleColTable(secondArgProcSynonym,
-                                                       resultAsSynonymRes);
+  vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes;
+  if (SynResConversionUtils::isSingleColSynResCacheHit(this->signature)) {
+    resultAsSynonymRes =
+        SynResConversionUtils::getFromSingleColSynResCache(this->signature);
+  } else {
+    resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+        possibleSecondProcs, PROCEDURE_ENTITY, this->pkb);
+    SynResConversionUtils::saveToSingleColSynResCache(this->signature,
+                                                      resultAsSynonymRes);
+  }
+
+  return IntermediateTableFactory::buildSingleColTable(
+      secondArgProcSynonym, std::move(resultAsSynonymRes));
 }
 
 IntermediateTable ProcToProcAbstraction::handleSecondArgIdent(
@@ -117,12 +133,20 @@ IntermediateTable ProcToProcAbstraction::handleSecondArgIdent(
 
   vector<string> possibleFirstProcs =
       getFirstProcInAbstraction(secondArgProcName);
-  vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes =
-      SynResConversionUtils::toSynonymRes(possibleFirstProcs, PROCEDURE_ENTITY,
-                                          this->pkb);
 
-  return IntermediateTableFactory::buildSingleColTable(firstArgSynonym,
-                                                       resultAsSynonymRes);
+  vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes;
+  if (SynResConversionUtils::isSingleColSynResCacheHit(this->signature)) {
+    resultAsSynonymRes =
+        SynResConversionUtils::getFromSingleColSynResCache(this->signature);
+  } else {
+    resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+        possibleFirstProcs, PROCEDURE_ENTITY, this->pkb);
+    SynResConversionUtils::saveToSingleColSynResCache(this->signature,
+                                                      resultAsSynonymRes);
+  }
+
+  return IntermediateTableFactory::buildSingleColTable(
+      firstArgSynonym, std::move(resultAsSynonymRes));
 }
 
 IntermediateTable ProcToProcAbstraction::handleBothArgsIdent(

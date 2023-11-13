@@ -26,7 +26,7 @@ IntermediateTable WhilePatternClause::evaluate(PKBReader& pkbReader) {
   return evaluatorPtr->evaluate();
 }
 
-bool WhilePatternClause::isEquals(const IClause& other) {
+bool WhilePatternClause::isEquals(const BaseClause& other) {
   const auto* otherPattern = dynamic_cast<const WhilePatternClause*>(&other);
   if (!otherPattern) return false;
 
@@ -38,7 +38,7 @@ set<string> WhilePatternClause::getClauseSynonyms() {
   return ClauseUtil::getSynonymArgValues(synonym, firstArg);
 }
 
-string WhilePatternClause::getKey() {
-  return WHILE_ENTITY + ClauseUtil::KEY_DELIMITER + synonym->getValue() +
-         ClauseUtil::KEY_DELIMITER + firstArg->getValue();
+ClauseKey WhilePatternClause::getKey() {
+  return WHILE_ENTITY + ClauseUtil::KEY_DELIMITER + synonym->getArgKey() +
+         ClauseUtil::KEY_DELIMITER + firstArg->getArgKey();
 }

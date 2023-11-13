@@ -20,7 +20,8 @@ TEST_CASE("SelectClause - evaluate - no data") {
 
   unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause(std::move(mockSynonymsToSelect));
-  IntermediateTable result = selectClause->evaluate(mockPKB);
+  ClauseCache cache = ClauseCache {};
+  IntermediateTable result = selectClause->evaluate(mockPKB, cache);
 
   vector<string> singleColName = {MOCK_SYNONYM_VALUE_2};
   REQUIRE(result.getColumns(singleColName) == MOCK_EMPTY_RESULT);
@@ -43,7 +44,8 @@ TEST_CASE("SelectClause - evaluate - missing col") {
 
   unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause(std::move(mockSynonymsToSelect));
-  IntermediateTable result = selectClause->evaluate(mockPKB);
+  ClauseCache cache = ClauseCache {};
+  IntermediateTable result = selectClause->evaluate(mockPKB, cache);
 
   vector<string> singleColName = {MOCK_SYNONYM_VALUE_4};
   REQUIRE(result.getColumns(singleColName) == MOCK_EMPTY_RESULT);
@@ -66,7 +68,8 @@ TEST_CASE("SelectClause - evaluate - assign entity") {
 
   unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause(std::move(mockSynonymsToSelect));
-  IntermediateTable result = selectClause->evaluate(mockPKB);
+  ClauseCache cache = ClauseCache {};
+  IntermediateTable result = selectClause->evaluate(mockPKB, cache);
 
   vector<string> singleColName = {MOCK_SYNONYM_VALUE_2};
   REQUIRE(result.getColumns(singleColName) == MOCK_RESULTS_1_COL);
@@ -89,7 +92,8 @@ TEST_CASE("SelectClause - evaluate - constant entity") {
 
   unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause(std::move(mockSynonymsToSelect));
-  IntermediateTable result = selectClause->evaluate(mockPKB);
+  ClauseCache cache = ClauseCache {};
+  IntermediateTable result = selectClause->evaluate(mockPKB, cache);
 
   vector<string> singleColName = {MOCK_SYNONYM_VALUE_2};
   REQUIRE(result.getColumns(singleColName) == MOCK_RESULTS_1_COL);
@@ -112,7 +116,8 @@ TEST_CASE("SelectClause - evaluate - procedure entity") {
 
   unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause(std::move(mockSynonymsToSelect));
-  IntermediateTable result = selectClause->evaluate(mockPKB);
+  ClauseCache cache = ClauseCache {};
+  IntermediateTable result = selectClause->evaluate(mockPKB, cache);
 
   vector<string> singleColName = {MOCK_SYNONYM_VALUE_2};
   REQUIRE(result.getColumns(singleColName) == MOCK_RESULTS_1_COL);
@@ -136,7 +141,8 @@ TEST_CASE("SelectClause - evaluate - stmt entity") {
 
   unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause(std::move(mockSynonymsToSelect));
-  IntermediateTable result = selectClause->evaluate(mockPKB);
+  ClauseCache cache = ClauseCache {};
+  IntermediateTable result = selectClause->evaluate(mockPKB, cache);
 
   vector<string> singleColName = {MOCK_SYNONYM_VALUE_2};
   REQUIRE(result.getColumns(singleColName) == MOCK_RESULTS_1_COL);
@@ -159,7 +165,8 @@ TEST_CASE("SelectClause - evaluate - variable entity") {
 
   unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause(std::move(mockSynonymsToSelect));
-  IntermediateTable result = selectClause->evaluate(mockPKB);
+  ClauseCache cache = ClauseCache {};
+  IntermediateTable result = selectClause->evaluate(mockPKB, cache);
 
   vector<string> singleColName = {MOCK_SYNONYM_VALUE_2};
   REQUIRE(result.getColumns(singleColName) == MOCK_RESULTS_1_COL);
@@ -192,7 +199,8 @@ TEST_CASE("SelectClause - evaluate - multi entity") {
 
   unique_ptr<BaseSelectClause> selectClause =
       SelectClauseFactory::createSelectClause(std::move(mockSynonymsToSelect));
-  IntermediateTable result = selectClause->evaluate(mockPKB);
+  ClauseCache cache = ClauseCache {};
+  IntermediateTable result = selectClause->evaluate(mockPKB, cache);
 
   vector<string> singleColName = {MOCK_SYNONYM_VALUE_1};
   REQUIRE(result.getColumns(singleColName) == MOCK_RESULTS_1_COL);

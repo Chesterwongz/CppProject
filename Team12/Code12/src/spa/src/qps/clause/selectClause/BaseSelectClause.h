@@ -10,15 +10,16 @@
 #include <vector>
 
 #include "qps/argument/synonymArg/SynonymArg.h"
-#include "qps/clause/IClause.h"
+#include "qps/clause/BaseClause.h"
 #include "qps/clause/utils/ClauseConstants.h"
 
 using std::unique_ptr;
 
-class BaseSelectClause : public IClause {
+class BaseSelectClause : public BaseClause {
  protected:
   SynonymsToSelect synonymsToSelect;
   set<string> synonymsInOtherClauses;
+  bool isDisableCaching() override;
 
  public:
   explicit BaseSelectClause(SynonymsToSelect synonymsToSelect)
@@ -29,5 +30,5 @@ class BaseSelectClause : public IClause {
 
   void addSynonymsInOtherClause(const set<string>& synonyms);
 
-  string getKey() override;
+  ClauseKey getKey() override;
 };

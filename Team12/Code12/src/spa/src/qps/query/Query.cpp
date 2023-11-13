@@ -19,8 +19,8 @@ void Query::setSynonymToQuery(SynonymsToSelect selectSynonyms) {
       SelectClauseFactory::createSelectClause(std::move(selectSynonyms));
 }
 
-IntermediateTable Query::evalSelectClause(PKBReader& pkb) {
-  return this->selectClause->evaluate(pkb);
+IntermediateTable Query::evalSelectClause(PKBReader& pkb, ClauseCache& cache) {
+  return this->selectClause->evaluate(pkb, cache);
 }
 
 bool Query::operator==(const Query& other) {

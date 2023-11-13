@@ -26,6 +26,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, ProcSynonym)") {
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, ProcSynonym)_empty") {
@@ -42,6 +43,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, ProcSynonym)_empty") {
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
   REQUIRE(resultTable.isTableEmpty());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, ProcName)") {
@@ -61,6 +63,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, ProcName)") {
           MOCK_CALLS_STAR_DATA::MOCK_CALLER_STAR_PROCS_COL);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, ProcName)_empty") {
@@ -76,6 +79,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, ProcName)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, Wildcard)") {
@@ -94,6 +98,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, Wildcard)") {
           MOCK_CALLS_STAR_DATA::MOCK_CALLED_STAR_VECTORS_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, Wildcard)_empty") {
@@ -108,6 +113,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcSynonym, Wildcard)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, ProcSynonym)") {
@@ -127,6 +133,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, ProcSynonym)") {
           MOCK_CALLS_STAR_DATA::MOCK_CALLEE_STAR_PROCS_COL);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, ProcSynonym)_empty") {
@@ -143,6 +150,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, ProcSynonym)_empty") {
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
   REQUIRE(resultTable.isTableEmpty());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, ProcName)") {
@@ -159,6 +167,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, ProcName)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, ProcName)_false") {
@@ -175,6 +184,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, ProcName)_false") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, Wildcard)") {
@@ -190,6 +200,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, Wildcard)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, Wildcard)_empty") {
@@ -204,6 +215,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(ProcName, Wildcard)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, ProcSynonym)") {
@@ -222,6 +234,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, ProcSynonym)") {
           MOCK_CALLS_STAR_DATA::MOCK_CALLED_STAR_VECTORS_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, ProcSynonym)_empty") {
@@ -236,6 +249,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, ProcSynonym)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, ProcName)") {
@@ -251,6 +265,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, ProcName)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, ProcName)_false") {
@@ -265,6 +280,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, ProcName)_false") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, Wildcard)") {
@@ -279,6 +295,7 @@ TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, Wildcard)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsStarAbstraction - CallsStar(Wildcard, Wildcard)_empty") {

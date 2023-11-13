@@ -34,7 +34,7 @@ IntermediateTable SuchThatClause::evaluate(PKBReader& pkb) {
   return executableAbstraction->evaluate();
 }
 
-bool SuchThatClause::isEquals(const IClause& other) {
+bool SuchThatClause::isEquals(const BaseClause& other) {
   const auto* otherSuchThat = dynamic_cast<const SuchThatClause*>(&other);
   if (!otherSuchThat) return false;
 
@@ -46,8 +46,8 @@ set<string> SuchThatClause::getClauseSynonyms() {
   return ClauseUtil::getSynonymArgValues(this->firstArg, this->secondArg);
 }
 
-string SuchThatClause::getKey() {
+ClauseKey SuchThatClause::getKey() {
   return AbstractionEnumToStringMap.at(this->relationship) +
-         ClauseUtil::KEY_DELIMITER + this->firstArg->getValue() +
-         ClauseUtil::KEY_DELIMITER + this->secondArg->getValue();
+         ClauseUtil::KEY_DELIMITER + this->firstArg->getArgKey() +
+         ClauseUtil::KEY_DELIMITER + this->secondArg->getArgKey();
 }

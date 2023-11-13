@@ -32,7 +32,7 @@ class Query {
 
   void setSynonymToQuery(SynonymsToSelect selectSynonyms);
 
-  IntermediateTable evalSelectClause(PKBReader& pkb);
+  IntermediateTable evalSelectClause(PKBReader& pkb, ClauseCache& cache);
 
   set<string> getSelectedSynonyms();
 

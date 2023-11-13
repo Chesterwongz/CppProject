@@ -6,12 +6,12 @@
 #include <utility>
 #include <vector>
 
+#include "qps/clause/BaseClause.h"
 #include "qps/clause/Clause.h"
-#include "qps/clause/IClause.h"
 
 using std::unique_ptr, std::vector, std::string, std::set;
 
-class ClauseDecorator : public IClause {
+class ClauseDecorator : public BaseClause {
  protected:
   unique_ptr<Clause> wrapeeClause;
 
@@ -21,5 +21,5 @@ class ClauseDecorator : public IClause {
 
   set<string> getClauseSynonyms() override;
 
-  string getKey() override;
+  ClauseKey getKey() override;
 };

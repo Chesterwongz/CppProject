@@ -22,6 +22,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Synonym)_EMPTY") {
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
   REQUIRE(resultTable.isTableEmpty());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Synonym)") {
@@ -41,6 +42,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Synonym)") {
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE(
@@ -58,6 +60,7 @@ TEST_CASE(
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Integer)") {
@@ -76,6 +79,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Integer)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_PARENT_CHILD_STARS_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE(
@@ -93,6 +97,7 @@ TEST_CASE(
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE(
@@ -109,6 +114,7 @@ TEST_CASE(
   ParentsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Wildcard)") {
@@ -126,6 +132,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Wildcard)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_PARENT_CHILD_STARS_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE(
@@ -142,6 +149,7 @@ TEST_CASE(
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Wildcard)_EMPTY") {
@@ -157,6 +165,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Synonym, Wildcard)_EMPTY") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Synonym)_EMPTY") {
@@ -173,6 +182,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Synonym)_EMPTY") {
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
   REQUIRE(resultTable.isTableEmpty());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Synonym)") {
@@ -191,6 +201,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Synonym)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_PARENT_CHILD_STARS_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)") {
@@ -206,6 +217,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)") {
   ParentsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)_false") {
@@ -221,6 +233,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)_false") {
   ParentsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)_same_integer") {
@@ -236,6 +249,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Integer)_same_integer") {
   ParentsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Wildcard)") {
@@ -251,6 +265,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Wildcard)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Wildcard)_empty") {
@@ -265,6 +280,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Integer, Wildcard)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Synonym)") {
@@ -282,6 +298,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Synonym)") {
   REQUIRE(resultTable.getDataAsStrings() == MOCK_PARENT_CHILD_STARS_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Integer)") {
@@ -297,6 +314,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Integer)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE(
@@ -312,6 +330,7 @@ TEST_CASE(
   ParentsStarAbstraction abstraction(*abstractionParams);
   IntermediateTable resultTable = abstraction.evaluate();
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Wildcard)") {
@@ -326,6 +345,7 @@ TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Wildcard)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("ParentsStarAbstraction - Parents*(Wildcard, Wildcard)_EMPTY") {

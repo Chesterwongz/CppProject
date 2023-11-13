@@ -26,7 +26,7 @@ IntermediateTable IfPatternClause::evaluate(PKBReader& pkbReader) {
   return evaluatorPtr->evaluate();
 }
 
-bool IfPatternClause::isEquals(const IClause& other) {
+bool IfPatternClause::isEquals(const BaseClause& other) {
   const auto* otherPattern = dynamic_cast<const IfPatternClause*>(&other);
   if (!otherPattern) return false;
 
@@ -38,7 +38,7 @@ set<string> IfPatternClause::getClauseSynonyms() {
   return ClauseUtil::getSynonymArgValues(synonym, firstArg);
 }
 
-string IfPatternClause::getKey() {
-  return IF_ENTITY + ClauseUtil::KEY_DELIMITER + synonym->getValue() +
-         ClauseUtil::KEY_DELIMITER + firstArg->getValue();
+ClauseKey IfPatternClause::getKey() {
+  return IF_ENTITY + ClauseUtil::KEY_DELIMITER + synonym->getArgKey() +
+         ClauseUtil::KEY_DELIMITER + firstArg->getArgKey();
 }

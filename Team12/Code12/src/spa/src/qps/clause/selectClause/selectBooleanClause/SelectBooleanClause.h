@@ -21,7 +21,7 @@ class SelectBooleanClause : public BaseSelectClause {
 
   IntermediateTable evaluate(PKBReader &pkb) override;
 
-  bool isEquals(const IClause& other) override;
+  bool isEquals(const BaseClause & other) override;
 
   unordered_set<string> getQueryResult(
       IntermediateTable &intermediateTable) override;

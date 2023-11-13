@@ -1,11 +1,12 @@
 #include "PatternExp.h"
 
 #include <string>
+#include <utility>
 
 #include "qps/exceptions/QPSInvalidQueryException.h"
 
 PatternExp::PatternExp(string argumentValue) {
-  patternExpValue = QPSStringUtils::convertToRPN(argumentValue);
+  patternExpValue = QPSStringUtils::convertToRPN(std::move(argumentValue));
 }
 
 const string& PatternExp::getValue() { return patternExpValue; }
