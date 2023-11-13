@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "pkb/storage/AffectsCache.h"
 #include "pkb/storage/entity_storage/EntityStore.h"
 #include "pkb/storage/entity_storage/StmtStore.h"
 #include "pkb/storage/pattern_storage/PatternStorage.h"
@@ -11,6 +12,7 @@
 
 class PKBStore {
  private:
+  AffectsCache affectsCache;
   RelationTStore<int> followsStore;
   RelationTStore<int> parentStore;
   NextStore nextStore;
@@ -29,6 +31,7 @@ class PKBStore {
   PatternStorage patternStore;
 
  public:
+  [[nodiscard]] AffectsCache& getAffectsCache();
   [[nodiscard]] RelationTStore<int>& getFollowsStore();
   [[nodiscard]] RelationTStore<int>& getParentStore();
   [[nodiscard]] NextStore& getNextStore();
