@@ -94,7 +94,8 @@ IntermediateTable ProcToProcAbstraction::handleSynonymOrWildcardArgs() {
                                                           resultAsSynonymRes);
 }
 
-IntermediateTable ProcToProcAbstraction::handleFirstArgIdent(const string& firstArgProcName) {
+IntermediateTable ProcToProcAbstraction::handleFirstArgIdent(
+    const string& firstArgProcName) {
   if (isSecondSynonymInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
@@ -110,7 +111,8 @@ IntermediateTable ProcToProcAbstraction::handleFirstArgIdent(const string& first
                                                        resultAsSynonymRes);
 }
 
-IntermediateTable ProcToProcAbstraction::handleSecondArgIdent(const string& secondArgProcName) {
+IntermediateTable ProcToProcAbstraction::handleSecondArgIdent(
+    const string& secondArgProcName) {
   if (isFirstSynonymInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
