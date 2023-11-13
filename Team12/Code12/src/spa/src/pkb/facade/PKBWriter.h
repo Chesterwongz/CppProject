@@ -37,6 +37,7 @@ class PKBWriter : public DesignEntitiesWriter,
         parentStore(store.getParentStore()),
         callsPStore(store.getCallsStore()),
         callsSStore(store.getCallsStmtStore()),
+        followsStore(store.getFollowsStore()),
         DesignEntitiesWriter(store.getEntityStore(), store.getStmtStore()),
         FollowsWriter(store.getFollowsStore()),
         ModifiesWriter(store.getModifiesStore(), store.getModifiesProcStore()),
@@ -46,12 +47,13 @@ class PKBWriter : public DesignEntitiesWriter,
         UsesWriter(store.getUsesStore(), store.getUsesProcStore()),
         CallsWriter(store.getCallsStore(), store.getCallsStmtStore()) {}
 
-  void setIndirectCallsRelationship();
+  void computeAllRelationsT();
 
  private:
   RelationStore<std::string, std::string>& usesPStore;
   RelationStore<std::string, std::string>& modifiesPStore;
   RelationTStore<int>& parentStore;
+  RelationTStore<int>& followsStore;
   RelationTStore<std::string>& callsPStore;
   RelationStore<int, std::string>& callsSStore;
 
@@ -75,6 +77,7 @@ class PKBWriter : public DesignEntitiesWriter,
                            const unordered_set<string>& allCallees);
   void addModifiesForCallStmts(int stmtNum,
                                const unordered_set<string>& allCallees);
+  void setIndirectCallsRelationship();
   void setIndirectCallsProcRelationships();
   void setIndirectCallsStmtRelationships();
 };

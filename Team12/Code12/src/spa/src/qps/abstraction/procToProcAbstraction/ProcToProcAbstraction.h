@@ -14,9 +14,10 @@ class ProcToProcAbstraction : public BaseAbstraction {
   bool isSecondSynonymInvalid() override;
 
   IntermediateTable handleSynonymOrWildcardArgs();
-  IntermediateTable handleFirstArgIdent();
-  IntermediateTable handleSecondArgIdent();
-  IntermediateTable handleBothArgsIdent();
+  IntermediateTable handleFirstArgIdent(const string& firstArgValue);
+  IntermediateTable handleSecondArgIdent(const string& secondArgValue);
+  IntermediateTable handleBothArgsIdent(const string& firstArgValue,
+                                        const string& secondArgValue);
 
   /**
    * Abstraction(a, b): a, b pairs exists

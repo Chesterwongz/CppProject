@@ -1,5 +1,23 @@
 #include "AffectsReader.h"
 
+void AffectsReader::processAffectsPairs(
+    std::vector<std::pair<std::string, std::string>>& result,
+    bool findOnlyFirst) {
+  const auto assignStmts = stmtStore.getAllStmtsOf(StmtType::ASSIGN);
+
+  for (const auto& assign : assignStmts) {
+    if (!modifiesSStore.hasDirectSuccessors(assign)) continue;
+    std::unordered_set<std::string> done;
+    std::string v = *modifiesSStore.getDirectSuccessors(assign).begin();
+
+    findAffectsPairs(assign, assign, v, done, result);
+
+    if (findOnlyFirst && !result.empty()) {
+      break;
+    }
+  }
+}
+
 std::vector<std::pair<std::string, std::string>>
 AffectsReader::getAffectsPairs() {
   if (affectsCache.getIsComplete()) {
@@ -8,19 +26,8 @@ AffectsReader::getAffectsPairs() {
     return CollectionUtils::intIntMapSetToStrPairVector(
         affectsCache.getDirectSuccessorMap(), stmtFilters);
   }
-
   std::vector<std::pair<std::string, std::string>> result;
-
-  const auto& assignStmts = stmtStore.getAllStmtsOf(StmtType::ASSIGN);
-
-  for (const auto& assign : assignStmts) {
-    if (!modifiesSStore.hasDirectSuccessors(assign)) continue;
-    std::unordered_set<std::string> done;
-    std::string v = *modifiesSStore.getDirectSuccessors(assign).begin();
-
-    findAffectsPairs(assign, assign, v, done, result);
-  }
-
+  processAffectsPairs(result, false);
   affectsCache.setIsComplete();
   return result;
 }
@@ -60,50 +67,52 @@ void AffectsReader::findAffectsPairs(
   }
 }
 
-bool AffectsReader::isAffects(int firstStmtNum, int secondStmtNum) {
-  if (!nextStore.hasRelationT(firstStmtNum, secondStmtNum) ||
-      !(stmtStore.hasStmt(firstStmtNum, StmtType::ASSIGN) &&
-        stmtStore.hasStmt(secondStmtNum, StmtType::ASSIGN)) ||
-      !usesSStore.hasDirectSuccessors(secondStmtNum)) {
+bool AffectsReader::isAffects(int s1, int s2) {
+  if (s1 == common::WILDCARD_STMT_NUM) {
+    return !getAffectedBy(s2, StmtType::ASSIGN).empty();
+  } else if (s2 == common::WILDCARD_STMT_NUM) {
+    return !getAffects(s1, StmtType::ASSIGN).empty();
+  }
+  if (!nextStore.hasRelationT(s1, s2) ||
+      !(stmtStore.hasStmt(s1, StmtType::ASSIGN) &&
+        stmtStore.hasStmt(s2, StmtType::ASSIGN)) ||
+      !usesSStore.hasDirectSuccessors(s2)) {
     return false;
   }
 
-  if (affectsCache.hasDirectRelation(firstStmtNum, secondStmtNum)) {
+  if (affectsCache.hasDirectRelation(s1, s2)) {
     return true;
   }
 
-  if (affectsCache.getIsComplete() &&
-      !affectsCache.hasDirectRelation(firstStmtNum, secondStmtNum)) {
+  if (affectsCache.getIsComplete() && !affectsCache.hasDirectRelation(s1, s2)) {
     return false;
   }
-
-  std::vector<std::string> affectingStmts =
-      getAffects(firstStmtNum, StmtType::ASSIGN);
+  std::vector<std::string> affectingStmts = getAffects(s1, StmtType::ASSIGN);
   return std::find(affectingStmts.begin(), affectingStmts.end(),
-                   std::to_string(secondStmtNum)) != affectingStmts.end();
+                   std::to_string(s2)) != affectingStmts.end();
 }
 
-std::vector<std::string> AffectsReader::getAffects(int firstStmtNum,
-                                                   StmtType stmtType) {
+std::vector<std::string> AffectsReader::getAffects(int s1, StmtType stmtType) {
+  if (s1 == common::WILDCARD_STMT_NUM) {
+    return getAllAffectsS2();
+  }
   std::vector<std::string> result;
   std::vector<std::pair<std::string, std::string>> resultPairs;
   std::unordered_set<std::string> done;
 
-  if (!stmtStore.hasStmt(firstStmtNum, StmtType::ASSIGN)) {
+  if (!stmtStore.hasStmt(s1, StmtType::ASSIGN)) {
     return result;
   }
 
-  if (affectsCache.getIsComplete() &&
-      affectsCache.getDirectSuccessorMap().count(firstStmtNum)) {
+  if (affectsCache.getIsComplete() && affectsCache.hasDirectSuccessors(s1)) {
     auto stmtFilter = stmtStore.getStmtFilterPredicate(StmtType::ASSIGN);
     return CollectionUtils::intSetToStrVector(
-        affectsCache.getDirectSuccessors(firstStmtNum), stmtFilter);
+        affectsCache.getDirectSuccessors(s1), stmtFilter);
   }
 
-  const std::string& v =
-      *modifiesSStore.getDirectSuccessors(firstStmtNum).begin();
+  const std::string& v = *modifiesSStore.getDirectSuccessors(s1).begin();
 
-  findAffectsPairs(firstStmtNum, firstStmtNum, v, done, resultPairs);
+  findAffectsPairs(s1, s1, v, done, resultPairs);
 
   for (const auto& pair : resultPairs) {
     result.emplace_back(pair.second);
@@ -113,24 +122,24 @@ std::vector<std::string> AffectsReader::getAffects(int firstStmtNum,
   return result;
 }
 
-std::vector<std::string> AffectsReader::getAffectedBy(int secondStmtNum,
+std::vector<std::string> AffectsReader::getAffectedBy(int s2,
                                                       StmtType stmtType) {
+  if (s2 == common::WILDCARD_STMT_NUM) {
+    return getAllAffectsS1();
+  }
   std::vector<std::string> result;
   std::unordered_set<std::string> usedVariables;
-
-  if (!stmtStore.hasStmt(secondStmtNum, StmtType::ASSIGN)) {
+  if (!stmtStore.hasStmt(s2, StmtType::ASSIGN)) {
     return result;
   }
-
-  if (affectsCache.getIsComplete() &&
-      affectsCache.getDirectAncestorMap().count(secondStmtNum)) {
+  if (affectsCache.getIsComplete() && affectsCache.hasDirectAncestors(s2)) {
     auto stmtFilter = stmtStore.getStmtFilterPredicate(StmtType::ASSIGN);
     return CollectionUtils::intSetToStrVector(
-        affectsCache.getDirectAncestors(secondStmtNum), stmtFilter);
+        affectsCache.getDirectAncestors(s2), stmtFilter);
   }
 
-  if (usesSStore.hasDirectSuccessors(secondStmtNum)) {
-    usedVariables = usesSStore.getDirectSuccessors(secondStmtNum);
+  if (usesSStore.hasDirectSuccessors(s2)) {
+    usedVariables = usesSStore.getDirectSuccessors(s2);
     std::unordered_set<int> allModifyingStmts;
     for (const std::string& var : usedVariables) {
       if (modifiesSStore.hasDirectAncestors(var)) {
@@ -143,9 +152,9 @@ std::vector<std::string> AffectsReader::getAffectedBy(int secondStmtNum,
     }
 
     for (int stmt : allModifyingStmts) {
-      if (isAffects(stmt, secondStmtNum)) {
+      if (isAffects(stmt, s2)) {
         result.emplace_back(std::to_string(stmt));
-        affectsCache.addRelation(stmt, secondStmtNum);
+        affectsCache.addRelation(stmt, s2);
       }
     }
   }
@@ -160,20 +169,35 @@ bool AffectsReader::isCallReadAssign(int statementNumber) {
 }
 
 bool AffectsReader::hasAffects() {
+  if (affectsCache.getIsComplete()) {
+    return !affectsCache.getDirectSuccessorMap().empty();
+  }
   std::vector<std::pair<std::string, std::string>> result;
+  processAffectsPairs(result, true);
+  return !result.empty();
+}
 
-  const auto assignStmts = stmtStore.getAllStmtsOf(StmtType::ASSIGN);
+std::vector<std::string> AffectsReader::getUniqueAffects(
+    const std::function<
+        std::string(const std::pair<std::string, std::string>&)>& extractor) {
+  const auto affectsPairs = getAffectsPairs();
+  std::unordered_set<std::string> resultSet;
 
-  for (const auto& assign : assignStmts) {
-    if (!modifiesSStore.hasDirectSuccessors(assign)) continue;
-    std::unordered_set<std::string> done;
-    std::string v = *modifiesSStore.getDirectSuccessors(assign).begin();
-
-    findAffectsPairs(assign, assign, v, done, result);
-    if (!result.empty()) {
-      return true;
-    }
+  for (const auto& pair : affectsPairs) {
+    resultSet.insert(extractor(pair));
   }
 
-  return !result.empty();
+  return {resultSet.begin(), resultSet.end()};
+}
+
+std::vector<std::string> AffectsReader::getAllAffectsS1() {
+  return getUniqueAffects([](const std::pair<std::string, std::string>& pair) {
+    return pair.first;
+  });
+}
+
+std::vector<std::string> AffectsReader::getAllAffectsS2() {
+  return getUniqueAffects([](const std::pair<std::string, std::string>& pair) {
+    return pair.second;
+  });
 }

@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 
+#include "common/Constants.h"
 #include "common/utils/CollectionUtils.h"
 #include "pkb/storage/relation_storage/RelationTStore.h"
 #include "pkb/utils/PredicateUtils.h"

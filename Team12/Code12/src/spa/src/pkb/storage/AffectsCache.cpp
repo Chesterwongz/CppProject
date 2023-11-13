@@ -8,4 +8,4 @@ void AffectsCache::clearCache() {
 
 void AffectsCache::setIsComplete() { isComplete = true; }
 
-bool AffectsCache::getIsComplete() { return isComplete; }
+bool AffectsCache::getIsComplete() const { return isComplete; }

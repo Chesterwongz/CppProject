@@ -9,18 +9,16 @@
 bool FollowsStarAbstraction::hasPairs() { return this->pkb.hasFollowsT(); }
 
 vector<pair<string, string>> FollowsStarAbstraction::getAllPairs(
-    StmtType firstStmtType, StmtType secondStmtType) {
-  return pkb.getFollowsStarPairs(firstStmtType, secondStmtType);
+    StmtType type1, StmtType type2) {
+  return pkb.getFollowsStarPairs(type1, type2);
 }
 
-vector<string> FollowsStarAbstraction::getFirstStmt(int secondStmtNumber,
-                                                    StmtType firstStmtType) {
-  return pkb.getFollowedStar(secondStmtNumber, firstStmtType);
+vector<string> FollowsStarAbstraction::getFirstStmt(int s2, StmtType type1) {
+  return pkb.getFollowedStar(s2, type1);
 }
 
-vector<string> FollowsStarAbstraction::getSecondStmt(int firstStmtNumber,
-                                                     StmtType secondStmtType) {
-  return pkb.getFollowsStar(firstStmtNumber, secondStmtType);
+vector<string> FollowsStarAbstraction::getSecondStmt(int s1, StmtType type2) {
+  return pkb.getFollowsStar(s1, type2);
 }
 
 bool FollowsStarAbstraction::isStmtRelatedToStmt(int stmtNum1, int stmtNum2) {

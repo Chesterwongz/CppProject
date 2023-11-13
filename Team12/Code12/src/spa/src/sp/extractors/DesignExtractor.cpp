@@ -13,5 +13,5 @@ DesignExtractor::DesignExtractor(PKBWriter& pkbWriter) : pkbWriter(pkbWriter) {
 
 void DesignExtractor::extract(TNode& node) {
   populator.populate(node, extractors);
-  pkbWriter.setIndirectCallsRelationship();
+  pkbWriter.computeAllRelationsT();
 }

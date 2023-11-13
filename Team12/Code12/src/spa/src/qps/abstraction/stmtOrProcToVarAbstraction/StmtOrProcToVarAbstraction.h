@@ -12,6 +12,9 @@ class StmtOrProcToVarAbstraction : public BaseAbstraction {
  private:
   IntermediateTable handleSynonymOrWildcardArgs();
   IntermediateTable handleProcNameWithVarSynonymOrWildcard();
+  IntermediateTable handleSecondArgVarIdent(const std::string& secondVarName);
+  IntermediateTable handleProcNameVarName(const string& procName,
+                                          const string& varName);
   bool isFirstSynonymInvalid() override;
   bool isSecondSynonymInvalid() override;
 

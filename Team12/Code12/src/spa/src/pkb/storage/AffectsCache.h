@@ -15,5 +15,5 @@ class AffectsCache : public RelationStore<int, int> {
  public:
   void clearCache() override;
   void setIsComplete();
-  bool getIsComplete();
+  [[nodiscard]] bool getIsComplete() const;
 };

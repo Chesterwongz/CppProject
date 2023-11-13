@@ -22,22 +22,25 @@ failed_files=0
 
 # 1. Run the command for each pair of source and query files
 # Using find to recursively locate *_source.txt files
-while read -r source_file; do
-    # Get the base name without the path and suffix for the output file naming
-    base_name="$(basename "${source_file%_source.txt}")"
+while IFS= read -r -d $'\0' source_file; do
+    # Get the base name with the path, without the "_source.txt" suffix
+    base_name="${source_file%_source.txt}"
+
+    # Replace '/' with '_' to use in filename
+    filename_safe_base_name="${base_name//\//_}"
 
     # Check if the corresponding query file exists
     query_file="${source_file%_source.txt}_queries.txt"
     if [[ -f "$query_file" ]]; then
         # Construct the output XML filename in the output directory
-        out_file="$output_dir/${base_name}_out.xml"
+        out_file="$output_dir/${filename_safe_base_name}_out.xml"
         # Run the command
         echo "[INFO] Executing $query_file"
-        $1 "$source_file" "$query_file" "$out_file" > /dev/null 2>&1
+        "$1" "$source_file" "$query_file" "$out_file" > /dev/null 2>&1
     else
         echo "[WARN] Query file for $source_file not found!"
     fi
-done < <(find "$input_dir" -type f -iname '*_source.txt')
+done < <(find "$input_dir" -type f -iname '*_source.txt' -print0)
 
 # 2. Check if any of the out.xml files contain '<failed>'
 # Using find to recursively locate *_out.xml files

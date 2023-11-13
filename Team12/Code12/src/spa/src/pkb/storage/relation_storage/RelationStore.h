@@ -33,12 +33,30 @@ class RelationStore {
     return directSuccessorMap.at(from);
   }
 
+  [[nodiscard]] std::unordered_set<B> getDirectSuccessors() const {
+    std::unordered_set<B> result;
+    result.reserve(directAncestorMap.size());
+    std::transform(directAncestorMap.begin(), directAncestorMap.end(),
+                   std::inserter(result, result.end()),
+                   [](const auto& pair) { return pair.first; });
+    return result;
+  }
+
   [[nodiscard]] bool hasDirectAncestors(B to) const {
     return directAncestorMap.count(to);
   }
 
   [[nodiscard]] const std::unordered_set<A>& getDirectAncestors(B to) const {
     return directAncestorMap.at(to);
+  }
+
+  [[nodiscard]] std::unordered_set<A> getDirectAncestors() const {
+    std::unordered_set<A> result;
+    result.reserve(directSuccessorMap.size());
+    std::transform(directSuccessorMap.begin(), directSuccessorMap.end(),
+                   std::inserter(result, result.end()),
+                   [](const auto& pair) { return pair.first; });
+    return result;
   }
 
   [[nodiscard]] bool hasDirectRelation(A from, B to) const {
@@ -49,11 +67,6 @@ class RelationStore {
   [[nodiscard]] const std::unordered_map<A, std::unordered_set<B>>&
   getDirectSuccessorMap() const {
     return directSuccessorMap;
-  }
-
-  [[nodiscard]] const std::unordered_map<A, std::unordered_set<B>>&
-  getDirectAncestorMap() const {
-    return directAncestorMap;
   }
 
   virtual void clearCache() {}

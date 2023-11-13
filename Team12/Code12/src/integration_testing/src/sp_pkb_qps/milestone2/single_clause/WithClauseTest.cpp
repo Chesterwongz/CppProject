@@ -1164,10 +1164,69 @@ TEST_CASE(
   REQUIRE(result == expected);
 }
 
-
 TEST_CASE(
     "SP-PKB-QPS ../../Tests12/Milestone2/SingleClauseTests/With_queries.txt - "
     "75") {
+  string query =
+      "stmt Next;\n"
+      "Select BOOLEAN such that Uses(\"WithSource1\", _) with 1 = 1";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(source, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"TRUE"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS ../../Tests12/Milestone2/SingleClauseTests/With_queries.txt - "
+    "76") {
+  string query =
+      "stmt Next;\n"
+      "Select BOOLEAN such that Modifies(\"WithSource1\", _) with 1 = 1";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(source, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"TRUE"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS ../../Tests12/Milestone2/SingleClauseTests/With_queries.txt - "
+    "77") {
+  string query = R"(stmt s; Select s with "a" = "a")";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(source, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {
+      "1",  "2",  "3",  "4",  "5",  "6",  "7",  "8",  "9",  "10", "11", "12",
+      "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS ../../Tests12/Milestone2/SingleClauseTests/With_queries.txt - "
+    "78") {
+  string query = R"(stmt a; Select a with "a" = "a")";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(source, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {
+      "1",  "2",  "3",  "4",  "5",  "6",  "7",  "8",  "9",  "10", "11", "12",
+      "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS ../../Tests12/Milestone2/SingleClauseTests/With_queries.txt - "
+    "79") {
   string query = "Select";
   SourceProcessor sp;
   PKB pkb;
