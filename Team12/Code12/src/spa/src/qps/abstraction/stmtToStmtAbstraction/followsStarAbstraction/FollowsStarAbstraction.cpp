@@ -6,6 +6,8 @@
  * - secondArg: Synonym OR Integer OR Wildcard
  */
 
+bool FollowsStarAbstraction::hasPairs() { return this->pkb.hasFollowsT(); }
+
 vector<pair<string, string>> FollowsStarAbstraction::getAllPairs(
     StmtType firstStmtType, StmtType secondStmtType) {
   return pkb.getFollowsStarPairs(firstStmtType, secondStmtType);

@@ -18,4 +18,6 @@ class IAffectsReader {
                                               StmtType stmtType) = 0;
   virtual std::vector<std::string> getAffectedBy(int secondStmtNum,
                                                  StmtType stmtType) = 0;
+
+  virtual bool hasAffects() = 0;
 };

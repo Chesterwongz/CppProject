@@ -70,7 +70,9 @@ IntermediateTable ProcToProcAbstraction::evaluateWildcardIdent() {
 
 // Abstraction (_, _)
 IntermediateTable ProcToProcAbstraction::evaluateWildcardWildcard() {
-  return handleSynonymOrWildcardArgs();
+  return this->hasPairs()
+             ? IntermediateTableFactory::buildWildcardIntermediateTable()
+             : IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
 IntermediateTable ProcToProcAbstraction::handleSynonymOrWildcardArgs() {

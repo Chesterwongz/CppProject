@@ -11,6 +11,8 @@ vector<pair<string, string>> NextAbstraction::getAllPairs(
   return pkb.getNextPairs(firstStmtType, secondStmtType);
 }
 
+bool NextAbstraction::hasPairs() { return this->pkb.hasNext(); }
+
 vector<string> NextAbstraction::getFirstStmt(int secondStmtNumber,
                                              StmtType firstStmtType) {
   return pkb.getPrevStmts(secondStmtNumber, firstStmtType);

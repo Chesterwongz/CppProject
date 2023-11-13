@@ -36,7 +36,11 @@ class CallsReader : public ICallsReader {
   // Calls*(p1, p2)
   std::vector<std::pair<std::string, std::string>> getCallsStarPairs() override;
 
+  bool hasCalls() override;
+
   bool hasCalls(const std::string& proc1, const std::string& proc2) override;
+
+  bool hasCallsT() override;
 
   bool hasCallsT(const std::string& proc1, const std::string& proc2) override;
 };

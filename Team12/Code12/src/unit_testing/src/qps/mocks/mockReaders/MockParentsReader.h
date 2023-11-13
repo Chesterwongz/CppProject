@@ -64,4 +64,8 @@ class MockParentsReader : public BaseMockReader {
   bool isParentStar(int statementNumber, int followingStatement) override {
     return mockIsParentStar;
   }
+
+  bool hasParents() override { return !mockParentChildPairs.empty(); }
+
+  bool hasParentsT() override { return !mockParentChildStarPairs.empty(); }
 };
