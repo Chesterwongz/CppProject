@@ -86,22 +86,6 @@ IntermediateTable StmtToStmtAbstraction ::evaluateIntegerWildcard() {
 
 // Abstraction (_, StmtSynonym)
 IntermediateTable StmtToStmtAbstraction ::evaluateWildcardSynonym() {
-//  if (isSecondSynonymInvalid()) {
-//    return IntermediateTableFactory::buildEmptyIntermediateTable();
-//  }
-//
-//  StmtType secondArgStmtType = this->getSecondArgStmtType();
-//  string secondStmtSynonym = this->secondArgValue;
-//
-//  vector<string> results =
-//      getSecondStmt(common::WILDCARD_STMT_NUM, secondArgStmtType);
-//
-//  Entity secondArgEntity = ClauseUtil::getArgEntity(this->secondArg);
-//  vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes =
-//      SynResConversionUtils::toSynonymRes(results, secondArgEntity, this->pkb);
-//
-//  return IntermediateTableFactory::buildSingleColTable(secondStmtSynonym,
-//                                                       resultAsSynonymRes);
     return handleFirstArgInteger(common::WILDCARD_STMT_NUM);
 }
 
