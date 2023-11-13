@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <functional>
 #include <stack>
 #include <unordered_map>
@@ -111,17 +112,15 @@ class RelationTStore : public RelationStore<T, T> {
     return transitiveAncestorMap.at(to);
   }
 
-
-[[nodiscard]] std::unordered_set<T> getAncestorsT() {
-  computeAllRelationsT();
-  std::unordered_set<T> result;
-  result.reserve(transitiveSuccessorMap.size());
-  std::transform(transitiveSuccessorMap.begin(), transitiveSuccessorMap.end(),
-                 std::inserter(result, result.end()),
-                 [](const auto& pair) { return pair.first; });
-  return result;
-}
-
+  [[nodiscard]] std::unordered_set<T> getAncestorsT() {
+    computeAllRelationsT();
+    std::unordered_set<T> result;
+    result.reserve(transitiveSuccessorMap.size());
+    std::transform(transitiveSuccessorMap.begin(), transitiveSuccessorMap.end(),
+                   std::inserter(result, result.end()),
+                   [](const auto& pair) { return pair.first; });
+    return result;
+  }
 
   [[nodiscard]] bool hasRelationT(T from, T to) {
     return hasSuccessorsT(from) && transitiveSuccessorMap.at(from).count(to);

@@ -34,7 +34,8 @@ class FollowsReader : public IFollowsReader {
 
   std::vector<std::string> getFollowsStar(int stmt, StmtType stmtType) override;
 
-  std::vector<std::string> getFollowedStar(int stmt, StmtType stmtType) override;
+  std::vector<std::string> getFollowedStar(int stmt,
+                                           StmtType stmtType) override;
 
   bool isFollowsStar(int stmt1, int stmt2) override;
 

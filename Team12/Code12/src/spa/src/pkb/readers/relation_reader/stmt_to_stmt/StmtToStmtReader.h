@@ -2,6 +2,7 @@
 
 #include <string>
 #include <utility>
+#include <unordered_set>
 #include <vector>
 
 #include "common/Constants.h"

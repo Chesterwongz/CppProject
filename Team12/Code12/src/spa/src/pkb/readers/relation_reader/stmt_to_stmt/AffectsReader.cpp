@@ -108,7 +108,9 @@ bool AffectsReader::hasAffects() {
     std::string v = *modifiesSStore.getDirectSuccessors(assign).begin();
 
     findAffectsPairs(assign, assign, v, done, result);
-    if (!result.empty()) { return true; }
+    if (!result.empty()) {
+      return true;
+    }
   }
 
   return !result.empty();

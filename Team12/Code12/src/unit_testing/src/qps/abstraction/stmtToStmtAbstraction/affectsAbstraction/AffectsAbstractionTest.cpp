@@ -224,7 +224,6 @@ TEST_CASE("AffectsAbstraction - Affects(Integer, Wildcard)") {
   REQUIRE(resultTable.isTableWildcard());
 }
 
-
 TEST_CASE("AffectsAbstraction - Affects(Integer, Wildcard)_no_affected") {
   MockAffectsReader mockReader = MockAffectsReader();
   mockReader.mockAffects = {};

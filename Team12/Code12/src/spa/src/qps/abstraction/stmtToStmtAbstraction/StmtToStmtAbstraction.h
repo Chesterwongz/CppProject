@@ -35,7 +35,7 @@ class StmtToStmtAbstraction : public BaseAbstraction {
   /**
    * For handling cases where only second arg is stmtNumber
    */
-  IntermediateTable handleSecondArgInteger();
+  IntermediateTable handleSecondArgInteger(int stmt);
 
   IntermediateTable evaluateSynonymSynonym() override;
   IntermediateTable evaluateSynonymInteger() override;

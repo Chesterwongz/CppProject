@@ -42,27 +42,12 @@ IntermediateTable StmtToStmtAbstraction ::evaluateSynonymSynonym() {
 
 // Abstraction (StmtSynonym, StmtNumber)
 IntermediateTable StmtToStmtAbstraction ::evaluateSynonymInteger() {
-  return handleSecondArgInteger();
+  return handleSecondArgInteger(stoi(secondArgValue));
 }
 
 // Abstraction (StmtSynonym, _)
 IntermediateTable StmtToStmtAbstraction ::evaluateSynonymWildcard() {
-  if (isFirstSynonymInvalid()) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
-
-  string firstArgStmtSynonym = this->firstArgValue;
-  StmtType firstArgStmtType = this->getFirstArgStmtType();
-
-  vector<string> results =
-      getFirstStmt(common::WILDCARD_STMT_NUM, firstArgStmtType);
-
-  Entity firstArgEntity = ClauseUtil::getArgEntity(this->firstArg);
-  vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes =
-      SynResConversionUtils::toSynonymRes(results, firstArgEntity, this->pkb);
-
-  return IntermediateTableFactory::buildSingleColTable(firstArgStmtSynonym,
-                                                       resultAsSynonymRes);
+  return handleSecondArgInteger(common::WILDCARD_STMT_NUM);
 }
 
 // Abstraction (StmtNumber, StmtSynonym)
@@ -91,7 +76,7 @@ IntermediateTable StmtToStmtAbstraction ::evaluateWildcardSynonym() {
 
 // Abstraction (_, StmtNumber)
 IntermediateTable StmtToStmtAbstraction ::evaluateWildcardInteger() {
-  return handleSecondArgInteger();
+  return handleSecondArgInteger(stoi(secondArgValue));
 }
 
 // Abstraction (_, _)
@@ -172,16 +157,15 @@ IntermediateTable StmtToStmtAbstraction::handleFirstArgInteger(int stmt) {
                                                        resultAsSynonymRes);
 }
 
-IntermediateTable StmtToStmtAbstraction::handleSecondArgInteger() {
+IntermediateTable StmtToStmtAbstraction::handleSecondArgInteger(int stmt) {
   if (isFirstSynonymInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
 
   string firstArgStmtSynonym = this->firstArgValue;
   StmtType firstArgStmtType = this->getFirstArgStmtType();
-  int secondArgStmtNumber = stoi(this->secondArgValue);
 
-  vector<string> results = getFirstStmt(secondArgStmtNumber, firstArgStmtType);
+  vector<string> results = getFirstStmt(stmt, firstArgStmtType);
 
   Entity firstArgEntity = ClauseUtil::getArgEntity(this->firstArg);
   vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes =

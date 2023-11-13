@@ -19,19 +19,18 @@ bool ParentsAbstraction::isFirstSynonymInvalid() {
 
 bool ParentsAbstraction::hasPairs() { return this->pkb.hasParents(); }
 
-vector<pair<string, string>> ParentsAbstraction::getAllPairs(
-    StmtType firstStmtType, StmtType secondStmtType) {
-  return pkb.getParentChildPairs(firstStmtType, secondStmtType);
+vector<pair<string, string>> ParentsAbstraction::getAllPairs(StmtType type1,
+                                                             StmtType type2) {
+  return pkb.getParentChildPairs(type1, type2);
 }
 
-vector<string> ParentsAbstraction::getFirstStmt(int s2, StmtType firstStmtType) {
-  return pkb.getImmediateParentOf(s2, firstStmtType);
+vector<string> ParentsAbstraction::getFirstStmt(int s2, StmtType type1) {
+  return pkb.getImmediateParentOf(s2, type1);
 }
 
-vector<string> ParentsAbstraction::getSecondStmt(int s1, StmtType secondStmtType) {
-  return pkb.getImmediateChildrenOf(s1, secondStmtType);
+vector<string> ParentsAbstraction::getSecondStmt(int s1, StmtType type2) {
+  return pkb.getImmediateChildrenOf(s1, type2);
 }
-
 
 bool ParentsAbstraction::isStmtRelatedToStmt(int stmtNum1, int stmtNum2) {
   return pkb.isParent(stmtNum1, stmtNum2);

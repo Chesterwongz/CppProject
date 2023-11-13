@@ -19,9 +19,11 @@ class ParentReader : public IParentReader {
       : reader(parentStore, stmtStore) {}
 
  public:
-  std::vector<std::string> getImmediateChildrenOf(int stmt, StmtType stmtType) override;
+  std::vector<std::string> getImmediateChildrenOf(int stmt,
+                                                  StmtType stmtType) override;
 
-  std::vector<std::string> getImmediateParentOf(int stmt, StmtType stmtType) override;
+  std::vector<std::string> getImmediateParentOf(int stmt,
+                                                StmtType stmtType) override;
 
   bool isParent(int stmt1, int stmt2) override;
 
@@ -32,9 +34,11 @@ class ParentReader : public IParentReader {
 
   // ================================ ParentT ================================
 
-  std::vector<std::string> getChildrenStarOf(int stmt, StmtType stmtType) override;
+  std::vector<std::string> getChildrenStarOf(int stmt,
+                                             StmtType stmtType) override;
 
-  std::vector<std::string> getParentStarOf(int stmt, StmtType stmtType) override;
+  std::vector<std::string> getParentStarOf(int stmt,
+                                           StmtType stmtType) override;
 
   bool isParentStar(int stmt1, int stmt2) override;
 

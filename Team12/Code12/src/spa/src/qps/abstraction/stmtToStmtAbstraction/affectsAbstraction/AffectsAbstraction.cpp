@@ -26,26 +26,26 @@ bool AffectsAbstraction::isSelfReferencePossible() { return true; }
 
 bool AffectsAbstraction::hasPairs() { return this->pkb.hasAffects(); }
 
-vector<pair<string, string>> AffectsAbstraction::getAllPairs(
-    StmtType firstStmtType, StmtType secondStmtType) {
-  if (isInvalidStmtType(firstStmtType) || isInvalidStmtType(secondStmtType)) {
+vector<pair<string, string>> AffectsAbstraction::getAllPairs(StmtType type1,
+                                                             StmtType type2) {
+  if (isInvalidStmtType(type1) || isInvalidStmtType(type2)) {
     return {};
   }
   return pkb.getAffectsPairs();
 }
 
-vector<string> AffectsAbstraction::getFirstStmt(int s2, StmtType firstStmtType) {
-  if (isInvalidStmtType(firstStmtType)) {
+vector<string> AffectsAbstraction::getFirstStmt(int s2, StmtType type1) {
+  if (isInvalidStmtType(type1)) {
     return {};
   }
-  return pkb.getAffectedBy(s2, firstStmtType);
+  return pkb.getAffectedBy(s2, type1);
 }
 
-vector<string> AffectsAbstraction::getSecondStmt(int s1, StmtType secondStmtType) {
-  if (isInvalidStmtType(secondStmtType)) {
+vector<string> AffectsAbstraction::getSecondStmt(int s1, StmtType type2) {
+  if (isInvalidStmtType(type2)) {
     return {};
   }
-  return pkb.getAffects(s1, secondStmtType);
+  return pkb.getAffects(s1, type2);
 }
 
 bool AffectsAbstraction::isStmtRelatedToStmt(int stmtNum1, int stmtNum2) {
