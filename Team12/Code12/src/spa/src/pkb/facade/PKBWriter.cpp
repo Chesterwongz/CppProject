@@ -76,7 +76,7 @@ void PKBWriter::setIndirectCallsProcRelationships() {
 
 void PKBWriter::setIndirectCallsStmtRelationships() {
   unordered_set<string> allCallees;
-  for (const auto& [s, directCallees] : callsSStore.getDirectRelations()) {
+  for (const auto& [s, directCallees] : callsSStore.getDirectSuccessorMap()) {
     allCallees.insert(directCallees.begin(), directCallees.end());
     for (const auto& callee : directCallees) {
       if (!callsPStore.hasSuccessorsT(callee)) continue;

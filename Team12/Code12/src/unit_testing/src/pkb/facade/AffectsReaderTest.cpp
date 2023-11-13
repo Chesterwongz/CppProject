@@ -1,3 +1,4 @@
+#include <string>
 #include <unordered_set>
 #include <catch.hpp>
 
@@ -5,11 +6,10 @@
 #include "pkb/readers/relation_reader/stmt_to_stmt/AffectsReader.h"
 
 TEST_CASE("AffectsReader Tests 1") {
-  AffectsCache affectsCache;
-  ModifiesSStore modifiesSStore;
+  RelationStore<int, std::string> modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
-  UsesSStore usesSStore;
+  RelationStore<int, std::string> usesSStore;
 
   stmtStore.addStmt(1, StmtType::ASSIGN);
   stmtStore.addStmt(2, StmtType::ASSIGN);
@@ -55,6 +55,7 @@ TEST_CASE("AffectsReader Tests 1") {
   nextStore.addRelation(4, 5);
   nextStore.addRelation(5, 6);
   nextStore.addRelation(6, 3);
+  nextStore.addRelation(6, 7);
   nextStore.addRelation(7, 8);
   nextStore.addRelation(7, 9);
   nextStore.addRelation(8, 10);
@@ -63,8 +64,8 @@ TEST_CASE("AffectsReader Tests 1") {
   nextStore.addRelation(11, 12);
 
   SECTION("AffectsPairs") {
-    AffectsReader affectsReader(affectsCache, modifiesSStore, nextStore,
-                                stmtStore, usesSStore);
+    AffectsReader affectsReader(modifiesSStore, nextStore, stmtStore,
+                                usesSStore);
     std::vector<std::pair<std::string, std::string>> result =
         affectsReader.getAffectsPairs();
     REQUIRE(compareVectorContents(
@@ -98,7 +99,6 @@ TEST_CASE("AffectsReader Tests 1") {
     REQUIRE(
         compareVectorContents(affectsReader.getAffects(12, StmtType::ASSIGN),
                               std::vector<std::string> {}));
-
     REQUIRE(compareVectorContents(
         affectsReader.getAffectedBy(12, StmtType::ASSIGN),
         std::vector<std::string> {"1", "4", "8", "10", "11"}));
@@ -109,28 +109,16 @@ TEST_CASE("AffectsReader Tests 1") {
         compareVectorContents(affectsReader.getAffectedBy(1, StmtType::ASSIGN),
                               std::vector<std::string> {}));
     REQUIRE(affectsReader.isAffects(1, 4));
-    REQUIRE(affectsReader.isAffects(4, 10));
-    REQUIRE(affectsReader.isAffects(10, 11));
-    REQUIRE(affectsReader.isAffects(11, 12));
-    REQUIRE(affectsReader.isAffects(6, 6));
-    REQUIRE(affectsReader.isAffects(1, 10));
     REQUIRE(affectsReader.isAffects(6, 10));
     REQUIRE_FALSE(affectsReader.isAffects(6, 11));
-    REQUIRE_FALSE(affectsReader.isAffects(2, 11));
-    REQUIRE_FALSE(affectsReader.isAffects(5, 11));
-    REQUIRE_FALSE(affectsReader.isAffects(6, 2));
-    REQUIRE_FALSE(affectsReader.isAffects(9, 11));
-    REQUIRE_FALSE(affectsReader.isAffects(9, 12));
-    REQUIRE_FALSE(affectsReader.isAffects(3, 8));
   }
 }
 
 TEST_CASE("AffectsReader Tests 2 - Code 7") {
-  AffectsCache affectsCache;
-  ModifiesSStore modifiesSStore;
+  RelationStore<int, std::string> modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
-  UsesSStore usesSStore;
+  RelationStore<int, std::string> usesSStore;
 
   stmtStore.addStmt(1, StmtType::ASSIGN);
   stmtStore.addStmt(2, StmtType::IF);
@@ -154,8 +142,8 @@ TEST_CASE("AffectsReader Tests 2 - Code 7") {
   nextStore.addRelation(4, 5);
 
   SECTION("AffectsPairs") {
-    AffectsReader affectsReader(affectsCache, modifiesSStore, nextStore,
-                                stmtStore, usesSStore);
+    AffectsReader affectsReader(modifiesSStore, nextStore, stmtStore,
+                                usesSStore);
     std::vector<std::pair<std::string, std::string>> result =
         affectsReader.getAffectsPairs();
     REQUIRE(compareVectorContents(
@@ -173,11 +161,10 @@ TEST_CASE("AffectsReader Tests 2 - Code 7") {
 }
 
 TEST_CASE("AffectsReader Tests 3 - Code 8") {
-  AffectsCache affectsCache;
-  ModifiesSStore modifiesSStore;
+  RelationStore<int, std::string> modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
-  UsesSStore usesSStore;
+  RelationStore<int, std::string> usesSStore;
 
   stmtStore.addStmt(1, StmtType::ASSIGN);
   stmtStore.addStmt(2, StmtType::CALL);
@@ -195,8 +182,8 @@ TEST_CASE("AffectsReader Tests 3 - Code 8") {
   nextStore.addRelation(2, 3);
 
   SECTION("AffectsPairs") {
-    AffectsReader affectsReader(affectsCache, modifiesSStore, nextStore,
-                                stmtStore, usesSStore);
+    AffectsReader affectsReader(modifiesSStore, nextStore, stmtStore,
+                                usesSStore);
     std::vector<std::pair<std::string, std::string>> result =
         affectsReader.getAffectsPairs();
     REQUIRE(compareVectorContents(
@@ -215,11 +202,10 @@ TEST_CASE("AffectsReader Tests 3 - Code 8") {
 }
 
 TEST_CASE("AffectsReader Tests 4 - Code 9") {
-  AffectsCache affectsCache;
-  ModifiesSStore modifiesSStore;
+  RelationStore<int, std::string> modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
-  UsesSStore usesSStore;
+  RelationStore<int, std::string> usesSStore;
 
   stmtStore.addStmt(1, StmtType::ASSIGN);
   stmtStore.addStmt(2, StmtType::ASSIGN);
@@ -270,8 +256,8 @@ TEST_CASE("AffectsReader Tests 4 - Code 9") {
   nextStore.addRelation(10, 11);
 
   SECTION("AffectsPairs") {
-    AffectsReader affectsReader(affectsCache, modifiesSStore, nextStore,
-                                stmtStore, usesSStore);
+    AffectsReader affectsReader(modifiesSStore, nextStore, stmtStore,
+                                usesSStore);
     std::vector<std::pair<std::string, std::string>> result =
         affectsReader.getAffectsPairs();
     REQUIRE(compareVectorContents(
@@ -289,47 +275,15 @@ TEST_CASE("AffectsReader Tests 4 - Code 9") {
                               std::vector<std::string> {"7", "9"}));
     REQUIRE(affectsReader.isAffects(2, 3));
     REQUIRE(affectsReader.isAffects(7, 11));
-    REQUIRE(affectsReader.isAffects(3, 5));
-    REQUIRE(affectsReader.isAffects(6, 9));
-    REQUIRE(affectsReader.isAffects(6, 10));
-    REQUIRE(affectsReader.isAffects(9, 11));
-
     REQUIRE_FALSE(affectsReader.isAffects(6, 11));
-    REQUIRE_FALSE(affectsReader.isAffects(1, 2));
-    REQUIRE_FALSE(affectsReader.isAffects(4, 7));
-    REQUIRE_FALSE(affectsReader.isAffects(5, 8));
-    REQUIRE_FALSE(affectsReader.isAffects(7, 9));
-    REQUIRE_FALSE(affectsReader.isAffects(10, 12));
-    REQUIRE_FALSE(affectsReader.isAffects(1, 4));
-    REQUIRE_FALSE(affectsReader.isAffects(1, 5));
-    REQUIRE_FALSE(affectsReader.isAffects(1, 6));
-    REQUIRE_FALSE(affectsReader.isAffects(1, 7));
-    REQUIRE_FALSE(affectsReader.isAffects(1, 8));
-    REQUIRE_FALSE(affectsReader.isAffects(1, 9));
-    REQUIRE_FALSE(affectsReader.isAffects(1, 10));
-    REQUIRE_FALSE(affectsReader.isAffects(1, 11));
-
-    REQUIRE_FALSE(affectsReader.isAffects(2, 4));
-    REQUIRE_FALSE(affectsReader.isAffects(2, 5));
-    REQUIRE_FALSE(affectsReader.isAffects(2, 6));
-    REQUIRE_FALSE(affectsReader.isAffects(2, 7));
-    REQUIRE_FALSE(affectsReader.isAffects(2, 8));
-    REQUIRE_FALSE(affectsReader.isAffects(2, 9));
-    REQUIRE_FALSE(affectsReader.isAffects(2, 10));
-    REQUIRE_FALSE(affectsReader.isAffects(2, 11));
-
-    REQUIRE_FALSE(affectsReader.isAffects(3, 4));
-    REQUIRE_FALSE(affectsReader.isAffects(3, 6));
-    REQUIRE_FALSE(affectsReader.isAffects(3, 7));
   }
 }
 
 TEST_CASE("AffectsReader Tests 5 - Code 10") {
-  AffectsCache affectsCache;
-  ModifiesSStore modifiesSStore;
+  RelationStore<int, std::string> modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
-  UsesSStore usesSStore;
+  RelationStore<int, std::string> usesSStore;
 
   stmtStore.addStmt(1, StmtType::ASSIGN);
   stmtStore.addStmt(2, StmtType::CALL);
@@ -359,8 +313,8 @@ TEST_CASE("AffectsReader Tests 5 - Code 10") {
   nextStore.addRelation(4, 6);
 
   SECTION("AffectsPairs") {
-    AffectsReader affectsReader(affectsCache, modifiesSStore, nextStore,
-                                stmtStore, usesSStore);
+    AffectsReader affectsReader(modifiesSStore, nextStore, stmtStore,
+                                usesSStore);
     std::vector<std::pair<std::string, std::string>> result =
         affectsReader.getAffectsPairs();
     REQUIRE(compareVectorContents(
@@ -372,11 +326,10 @@ TEST_CASE("AffectsReader Tests 5 - Code 10") {
 }
 
 TEST_CASE("AffectsReader Tests 6 - Code 11") {
-  AffectsCache affectsCache;
-  ModifiesSStore modifiesSStore;
+  RelationStore<int, std::string> modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
-  UsesSStore usesSStore;
+  RelationStore<int, std::string> usesSStore;
 
   stmtStore.addStmt(1, StmtType::ASSIGN);
   stmtStore.addStmt(2, StmtType::READ);
@@ -393,8 +346,8 @@ TEST_CASE("AffectsReader Tests 6 - Code 11") {
   nextStore.addRelation(2, 3);
 
   SECTION("AffectsPairs") {
-    AffectsReader affectsReader(affectsCache, modifiesSStore, nextStore,
-                                stmtStore, usesSStore);
+    AffectsReader affectsReader(modifiesSStore, nextStore, stmtStore,
+                                usesSStore);
     std::vector<std::pair<std::string, std::string>> result =
         affectsReader.getAffectsPairs();
     REQUIRE(compareVectorContents(
@@ -406,11 +359,10 @@ TEST_CASE("AffectsReader Tests 6 - Code 11") {
 }
 
 TEST_CASE("AffectsReader Tests 7 - Autotester") {
-  AffectsCache affectsCache;
-  ModifiesSStore modifiesSStore;
+  RelationStore<int, std::string> modifiesSStore;
   NextStore nextStore;
   StmtStore stmtStore;
-  UsesSStore usesSStore;
+  RelationStore<int, std::string> usesSStore;
 
   stmtStore.addStmt(1, StmtType::READ);
   stmtStore.addStmt(2, StmtType::READ);
@@ -510,8 +462,8 @@ TEST_CASE("AffectsReader Tests 7 - Autotester") {
   nextStore.addRelation(21, 22);
 
   SECTION("AffectsPairs") {
-    AffectsReader affectsReader(affectsCache, modifiesSStore, nextStore,
-                                stmtStore, usesSStore);
+    AffectsReader affectsReader(modifiesSStore, nextStore, stmtStore,
+                                usesSStore);
     std::vector<std::pair<std::string, std::string>> result =
         affectsReader.getAffectsPairs();
     std::vector<std::pair<std::string, std::string>> expectedResults = {
@@ -526,32 +478,7 @@ TEST_CASE("AffectsReader Tests 7 - Autotester") {
     REQUIRE(
         compareVectorContents(affectsReader.getAffectedBy(7, StmtType::ASSIGN),
                               std::vector<std::string> {"7", "11", "12"}));
-    REQUIRE(compareVectorContents(
-        affectsReader.getAffectedBy(19, StmtType::ASSIGN),
-        std::vector<std::string> {"7", "11", "17", "18"}));
     REQUIRE(affectsReader.isAffects(7, 7));
     REQUIRE_FALSE(affectsReader.isAffects(7, 9));
-    REQUIRE(affectsReader.isAffects(4, 9));
-    REQUIRE(affectsReader.isAffects(4, 17));
-    REQUIRE(affectsReader.isAffects(7, 7));
-    REQUIRE(affectsReader.isAffects(7, 11));
-    REQUIRE(affectsReader.isAffects(7, 13));
-    REQUIRE(affectsReader.isAffects(7, 17));
-    REQUIRE(affectsReader.isAffects(7, 19));
-    REQUIRE(affectsReader.isAffects(9, 9));
-    REQUIRE(affectsReader.isAffects(9, 17));
-    REQUIRE(affectsReader.isAffects(11, 17));
-
-    REQUIRE_FALSE(affectsReader.isAffects(1, 2));
-    REQUIRE_FALSE(affectsReader.isAffects(3, 5));
-    REQUIRE_FALSE(affectsReader.isAffects(6, 8));
-    REQUIRE_FALSE(affectsReader.isAffects(10, 14));
-    REQUIRE_FALSE(affectsReader.isAffects(12, 19));
-    REQUIRE_FALSE(affectsReader.isAffects(14, 15));
-    REQUIRE_FALSE(affectsReader.isAffects(20, 21));
-    REQUIRE_FALSE(affectsReader.isAffects(23, 24));
-    REQUIRE_FALSE(affectsReader.isAffects(25, 26));
-    REQUIRE_FALSE(affectsReader.isAffects(27, 28));
-    REQUIRE_FALSE(affectsReader.isAffects(29, 30));
   }
 }

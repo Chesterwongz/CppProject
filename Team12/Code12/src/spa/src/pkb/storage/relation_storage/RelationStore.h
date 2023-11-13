@@ -47,12 +47,12 @@ class RelationStore {
   }
 
   [[nodiscard]] const std::unordered_map<A, std::unordered_set<B>>&
-  getDirectRelations() const {
+  getDirectSuccessorMap() const {
     return directSuccessorMap;
   }
 
-  [[nodiscard]] const std::unordered_map<B, std::unordered_set<A>>&
-  getDirectBackwardRelations() const {
+  [[nodiscard]] const std::unordered_map<A, std::unordered_set<B>>&
+  getDirectAncestorMap() const {
     return directAncestorMap;
   }
 

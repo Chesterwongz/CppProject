@@ -41,7 +41,7 @@ class PatternStorage : public IPatternStorage {
 
   std::vector<std::pair<std::string, std::string>> getAssignPattern(
       const std::string& variableName, const std::string& rpn,
-      std::function<bool(const std::string&, const std::string&)>
+      const std::function<bool(const std::string&, const std::string&)>&
           matchFunction);
 
   std::vector<std::pair<std::string, std::string>>
@@ -56,7 +56,7 @@ class PatternStorage : public IPatternStorage {
       const std::function<bool(const std::string&, const std::string&)>&
           matchFunction);
 
-  std::vector<std::pair<std::string, std::string>> getConditionPattern(
+  static std::vector<std::pair<std::string, std::string>> getConditionPattern(
       const std::unordered_map<int, std::unordered_set<std::string>>& storage,
       const std::string& variableName);
 

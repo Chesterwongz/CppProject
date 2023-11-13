@@ -26,7 +26,7 @@ class EntityStore {
   [[nodiscard]] const std::unordered_set<std::string>& getAllVars() const;
   [[nodiscard]] const std::unordered_set<std::string>& getAllConsts() const;
   [[nodiscard]] const std::unordered_set<std::string>& getAllProcs() const;
-  bool hasConst(const std::string& constVal) const;
-  bool hasProc(const std::string& procName) const;
-  bool hasVariable(const std::string& variableName) const;
+  [[nodiscard]] bool hasConst(const std::string& constVal) const;
+  [[nodiscard]] bool hasProc(const std::string& procName) const;
+  [[nodiscard]] bool hasVariable(const std::string& variableName) const;
 };

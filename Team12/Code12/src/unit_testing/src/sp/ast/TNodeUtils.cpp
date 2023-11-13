@@ -1,11 +1,5 @@
 #include "TNodeUtils.h"
 
-unique_ptr<ProgramNode> makeProgramNode() { return make_unique<ProgramNode>(); }
-
-unique_ptr<ProcNode> makeProcedureNode(const string& procName) {
-  return make_unique<ProcNode>(procName);
-}
-
 unique_ptr<ReadNode> makeReadNode(int lineNum, const string& varName) {
   unique_ptr<ReadNode> readNode = make_unique<ReadNode>(lineNum);
   readNode->addChild(make_unique<VarNode>(varName));
