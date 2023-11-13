@@ -34,7 +34,13 @@ std::vector<std::string> StmtOrProcToVarReader::getStmtByVar(
 
 bool StmtOrProcToVarReader::hasDirectRelation(int stmt,
                                               const std::string& varName) {
-  return relationSStore.hasDirectRelation(stmt, varName);
+  if (stmt == common::WILDCARD_STMT_NUM) {
+    return relationSStore.hasDirectSuccessors(stmt);
+  } else if (varName == common::WILDCARD_VAR) {
+    return relationSStore.hasDirectAncestors(varName);
+  } else {
+    return relationSStore.hasDirectRelation(stmt, varName);
+  }
 }
 
 std::vector<std::pair<std::string, std::string>>
@@ -78,7 +84,13 @@ std::vector<std::string> StmtOrProcToVarReader::getProcByVar(
 
 bool StmtOrProcToVarReader::hasDirectRelation(const std::string& procName,
                                               const std::string& varName) {
-  return relationPStore.hasDirectRelation(procName, varName);
+  if (procName == common::WILDCARD_PROC) {
+    return relationPStore.hasDirectAncestors(varName);
+  } else if (varName == common::WILDCARD_VAR) {
+    return relationPStore.hasDirectSuccessors(procName);
+  } else {
+    return relationPStore.hasDirectRelation(procName, varName);
+  }
 }
 
 std::vector<std::pair<std::string, std::string>>

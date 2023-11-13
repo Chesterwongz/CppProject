@@ -38,7 +38,7 @@ IntermediateTable StmtOrProcToVarAbstraction::handleSecondArgVarIdent(
   if (isFirstSynonymInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
-  string firstArgSynonym = this->firstArgValue;
+  const string& firstArgSynonym = this->firstArgValue;
   bool isFirstArgProcedure = this->firstArg.isProcSynonym();
 
   vector<string> possibleValuesOfSynonym;
@@ -72,7 +72,7 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateIntegerSynonym() {
   }
 
   int firstArgStmtNumber = stoi(this->firstArgValue);
-  string secondArgVarSynonym = this->secondArgValue;
+  const string& secondArgVarSynonym = this->secondArgValue;
 
   vector<string> possibleVars = getVarsRelatedToStmt(firstArgStmtNumber);
 
@@ -113,19 +113,29 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateIdentSynonym() {
 
 // Abstraction (ProcName, VarName)
 IntermediateTable StmtOrProcToVarAbstraction::evaluateIdentIdent() {
-  string firstArgProcName = this->firstArgValue;
-  string secondArgVarName = this->secondArgValue;
-  bool isProcRelatedToVar =
-      isVarRelatedToProc(firstArgProcName, secondArgVarName);
-
-  return isProcRelatedToVar
-             ? IntermediateTableFactory::buildWildcardIntermediateTable()
-             : IntermediateTableFactory::buildEmptyIntermediateTable();
+  //  string firstArgProcName = this->firstArgValue;
+  //  string secondArgVarName = this->secondArgValue;
+  //  bool isProcRelatedToVar =
+  //      isVarRelatedToProc(firstArgProcName, secondArgVarName);
+  //
+  //  return isProcRelatedToVar
+  //             ? IntermediateTableFactory::buildWildcardIntermediateTable()
+  //             : IntermediateTableFactory::buildEmptyIntermediateTable();
+  return handleProcNameVarName(firstArgValue, secondArgValue);
 }
 
 // Abstraction (ProcName, _)
 IntermediateTable StmtOrProcToVarAbstraction::evaluateIdentWildcard() {
-  return handleProcNameWithVarSynonymOrWildcard();
+  //  return handleProcNameWithVarSynonymOrWildcard();
+  return handleProcNameVarName(firstArgValue, common::WILDCARD_VAR);
+}
+
+IntermediateTable StmtOrProcToVarAbstraction::handleProcNameVarName(
+    const string& procName, const string& varName) {
+  bool isProcRelatedToVar = isVarRelatedToProc(procName, varName);
+  return isProcRelatedToVar
+             ? IntermediateTableFactory::buildWildcardIntermediateTable()
+             : IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
 IntermediateTable StmtOrProcToVarAbstraction::handleSynonymOrWildcardArgs() {

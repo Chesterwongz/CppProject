@@ -47,15 +47,12 @@ IntermediateTable ProcToProcAbstraction::evaluateIdentSynonym() {
 
 // Abstraction (ProcName, ProcName)
 IntermediateTable ProcToProcAbstraction::evaluateIdentIdent() {
-  if (this->firstArgValue == this->secondArgValue) {
-    return IntermediateTableFactory::buildEmptyIntermediateTable();
-  }
-  return handleBothArgsIdent();
+  return handleBothArgsIdent(firstArgValue, secondArgValue);
 }
 
 // Abstraction (ProcName, _)
 IntermediateTable ProcToProcAbstraction::evaluateIdentWildcard() {
-  return handleFirstArgIdent(firstArgValue);
+  return handleBothArgsIdent(firstArgValue, common::WILDCARD_PROC);
 }
 
 // Abstraction (_, Synonym)
@@ -65,7 +62,7 @@ IntermediateTable ProcToProcAbstraction::evaluateWildcardSynonym() {
 
 // Abstraction (_, ProcName)
 IntermediateTable ProcToProcAbstraction::evaluateWildcardIdent() {
-  return handleSecondArgIdent(secondArgValue);
+  return handleBothArgsIdent(common::WILDCARD_PROC, secondArgValue);
 }
 
 // Abstraction (_, _)
@@ -128,15 +125,13 @@ IntermediateTable ProcToProcAbstraction::handleSecondArgIdent(
                                                        resultAsSynonymRes);
 }
 
-IntermediateTable ProcToProcAbstraction::handleBothArgsIdent() {
-  string firstArgProcName = this->firstArgValue;
-  string secondArgProcName = this->secondArgValue;
+IntermediateTable ProcToProcAbstraction::handleBothArgsIdent(
+    const string& firstArgProcName, const string& secondArgProcName) {
   if (firstArgProcName == secondArgProcName) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
 
   bool isValid = isProcRelatedToProc(firstArgProcName, secondArgProcName);
-
   return isValid ? IntermediateTableFactory::buildWildcardIntermediateTable()
                  : IntermediateTableFactory::buildEmptyIntermediateTable();
 }

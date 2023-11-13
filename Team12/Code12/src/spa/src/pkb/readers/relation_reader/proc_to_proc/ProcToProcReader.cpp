@@ -62,10 +62,22 @@ bool ProcToProcReader::hasTransitiveP1AndP2Pairs() {
 
 bool ProcToProcReader::hasDirectRelation(const std::string& proc1,
                                          const std::string& proc2) {
-  return store.hasDirectRelation(proc1, proc2);
+  if (proc1 == common::WILDCARD_PROC) {
+    return store.hasDirectAncestors(proc2);
+  } else if (proc2 == common::WILDCARD_PROC) {
+    return store.hasDirectSuccessors(proc1);
+  } else {
+    return store.hasDirectRelation(proc1, proc2);
+  }
 }
 
 bool ProcToProcReader::hasTransitiveRelation(const std::string& proc1,
                                              const std::string& proc2) {
-  return store.hasRelationT(proc1, proc2);
+  if (proc1 == common::WILDCARD_PROC) {
+    return store.hasAncestorsT(proc2);
+  } else if (proc2 == common::WILDCARD_PROC) {
+    return store.hasSuccessorsT(proc1);
+  } else {
+    return store.hasRelationT(proc1, proc2);
+  }
 }
