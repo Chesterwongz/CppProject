@@ -26,9 +26,9 @@ class NextReader : public INextReader {
   bool isNext(int stmt1, int stmt2) override;
   bool isNextT(int stmt1, int stmt2) override;
 
-  std::vector<std::string> getPrevStmts(StmtType stmtType1, int stmt2) override;
-  std::vector<std::string> getPrevTStmts(StmtType stmtType1, int stmt2) override;
+  std::vector<std::string> getPrevStmts(int s2, StmtType stmtType1) override;
+  std::vector<std::string> getPrevTStmts(int s2, StmtType stmtType1) override;
 
-  std::vector<std::string> getNextStmts(StmtType stmtType2, int stmt1) override;
-  std::vector<std::string> getNextTStmts(StmtType stmtType2, int stmt1) override;
+  std::vector<std::string> getNextStmts(int s1, StmtType stmtType2) override;
+  std::vector<std::string> getNextTStmts(int s1, StmtType stmtType2) override;
 };

@@ -19,8 +19,8 @@ class AffectsAbstraction : public StmtToStmtAbstraction {
 
   vector<pair<string, string>> getAllPairs(StmtType firstStmtType,
                                            StmtType secondStmtType) override;
-  vector<string> getFirstStmt(StmtType firstStmtType, int s2) override;
-  vector<string> getSecondStmt(StmtType secondStmtType, int s1) override;
+  vector<string> getFirstStmt(int s2, StmtType firstStmtType) override;
+  vector<string> getSecondStmt(int s1, StmtType secondStmtType) override;
   bool isStmtRelatedToStmt(int stmtNum1, int stmtNum2) override;
 
  public:

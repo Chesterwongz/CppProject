@@ -6,17 +6,17 @@
  * - secondArg: Synonym OR Integer OR Wildcard
  */
 
-vector<pair<string, string>> FollowsAbstraction::getAllPairs(
-    StmtType firstStmtType, StmtType secondStmtType) {
-  return pkb.getFollowsPairs(firstStmtType, secondStmtType);
+vector<pair<string, string>> FollowsAbstraction::getAllPairs(StmtType type1,
+                                                             StmtType type2) {
+  return pkb.getFollowsPairs(type1, type2);
 }
 
-vector<string> FollowsAbstraction::getFirstStmt(StmtType firstStmtType, int s2) {
-  return pkb.getFollowed(firstStmtType, s2);
+vector<string> FollowsAbstraction::getFirstStmt(int s2, StmtType type1) {
+  return pkb.getFollowed(s2, type1);
 }
 
-vector<string> FollowsAbstraction::getSecondStmt(StmtType secondStmtType, int s1) {
-  return pkb.getFollowing(secondStmtType, s1);
+vector<string> FollowsAbstraction::getSecondStmt(int s1, StmtType type2) {
+  return pkb.getFollowing(s1, type2);
 }
 
 bool FollowsAbstraction::isStmtRelatedToStmt(int stmtNum1, int stmtNum2) {

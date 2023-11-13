@@ -25,6 +25,11 @@ void NextStore::computeAllRelationsT() {
   for (const auto& v : graphVector) {
     computeSuccessorsT(v);
   }
+  for (const auto& [a, successors] : transitiveSuccessorMap) {
+    for (const auto& s : successors) {
+      transitiveAncestorMap[s].insert(a);
+    }
+  }
   isFullyCached = true;
 }
 

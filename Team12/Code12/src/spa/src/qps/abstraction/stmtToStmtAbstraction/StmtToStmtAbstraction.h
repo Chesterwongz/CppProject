@@ -35,7 +35,7 @@ class StmtToStmtAbstraction : public BaseAbstraction {
   /**
    * For handling cases where only first arg is stmtNumber
    */
-  IntermediateTable handleFirstArgInteger();
+  IntermediateTable handleFirstArgInteger(int stmt);
 
   /**
    * For handling cases where only second arg is stmtNumber
@@ -65,13 +65,13 @@ class StmtToStmtAbstraction : public BaseAbstraction {
    * Abstraction(a, b): get all stmt a where a has specified stmtType
    * and b has specified stmtNumber or wildcard
    */
-  virtual vector<string> getFirstStmt(StmtType firstStmtType, int s2) = 0;
+  virtual vector<string> getFirstStmt(int s2, StmtType firstStmtType) = 0;
 
   /**
    * Abstraction(a, b): get all stmt b where b has specified stmtType
    * and a has specified stmtNumber or wildcard
    */
-  virtual vector<string> getSecondStmt(StmtType secondStmtType, int s1) = 0;
+  virtual vector<string> getSecondStmt(int s1, StmtType secondStmtType) = 0;
 
   /**
    * Abstraction(a, b): check if specified stmtNum and stmtNum are related

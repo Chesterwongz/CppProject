@@ -67,14 +67,14 @@ bool AffectsReader::isAffects(int firstStmtNum, int secondStmtNum) {
   return false;
 }
 
-std::vector<std::string> AffectsReader::getAffects(StmtType type2, int s1 = common::DEFAULT_STMT_NUM) {
+std::vector<std::string> AffectsReader::getAffects(int s1, StmtType type2) {
   std::vector<std::string> result;
 
   const auto affectsPairs = getAffectsPairs();
   std::string firstStmtStr = std::to_string(s1);
 
   for (const auto& pair : affectsPairs) {
-    if (s1 == common::DEFAULT_STMT_NUM || pair.first == firstStmtStr) {
+    if (s1 == common::WILDCARD_STMT_NUM || pair.first == firstStmtStr) {
       result.push_back(pair.second);
     }
   }
@@ -82,14 +82,14 @@ std::vector<std::string> AffectsReader::getAffects(StmtType type2, int s1 = comm
   return result;
 }
 
-std::vector<std::string> AffectsReader::getAffectedBy(StmtType type1, int s2 = common::DEFAULT_STMT_NUM) {
+std::vector<std::string> AffectsReader::getAffectedBy(int s2, StmtType type1) {
   std::vector<std::string> result;
 
   const auto affectsPairs = getAffectsPairs();
   std::string secondStmtStr = std::to_string(s2);
 
   for (const auto& pair : affectsPairs) {
-    if (s2 == common::DEFAULT_STMT_NUM || pair.second == secondStmtStr) {
+    if (s2 == common::WILDCARD_STMT_NUM || pair.second == secondStmtStr) {
       result.push_back(pair.first);
     }
   }

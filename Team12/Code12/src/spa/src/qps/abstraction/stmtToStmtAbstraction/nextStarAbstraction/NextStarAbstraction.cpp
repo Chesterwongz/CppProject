@@ -12,12 +12,12 @@ vector<pair<string, string>> NextStarAbstraction::getAllPairs(
   return pkb.getNextTPairs(firstStmtType, secondStmtType);
 }
 
-vector<string> NextStarAbstraction::getFirstStmt(StmtType firstStmtType, int s2) {
-  return pkb.getPrevTStmts(firstStmtType, s2);
+vector<string> NextStarAbstraction::getFirstStmt(int s2, StmtType firstStmtType) {
+  return pkb.getPrevTStmts(s2, firstStmtType);
 }
 
-vector<string> NextStarAbstraction::getSecondStmt(StmtType secondStmtType, int s1) {
-  return pkb.getNextTStmts(secondStmtType, s1);
+vector<string> NextStarAbstraction::getSecondStmt(int s1, StmtType secondStmtType) {
+  return pkb.getNextTStmts(s1, secondStmtType);
 }
 
 bool NextStarAbstraction::isStmtRelatedToStmt(int stmtNum1, int stmtNum2) {

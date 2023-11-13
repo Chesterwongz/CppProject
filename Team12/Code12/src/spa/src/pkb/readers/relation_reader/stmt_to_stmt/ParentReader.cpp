@@ -1,12 +1,12 @@
 #include "ParentReader.h"
 
-std::vector<std::string> ParentReader::getImmediateChildrenOf(
-    StmtType stmtType, int stmt = common::DEFAULT_STMT_NUM) {
-  return reader.getDirectS2ByS1(stmtType, stmt);
+std::vector<std::string> ParentReader::getImmediateChildrenOf(int s1,
+    StmtType stmtType) {
+  return reader.getDirectS2ByS1(s1, stmtType);
 }
 
-std::vector<std::string> ParentReader::getImmediateParentOf(StmtType stmtType, int stmt = common::DEFAULT_STMT_NUM) {
-  return reader.getDirectS1ByS2(stmtType, stmt);
+std::vector<std::string> ParentReader::getImmediateParentOf(int s2, StmtType stmtType) {
+  return reader.getDirectS1ByS2(s2, stmtType);
 }
 
 bool ParentReader::isParent(int stmt1, int stmt2) {
@@ -20,12 +20,12 @@ ParentReader::getParentChildPairs(StmtType stmtType1, StmtType stmtType2) {
 
 // ================================== ParentT ==================================
 
-std::vector<std::string> ParentReader::getChildrenStarOf(StmtType stmtType, int stmt = common::DEFAULT_STMT_NUM) {
-  return reader.getTransitiveS2ByS1(stmtType, stmt);
+std::vector<std::string> ParentReader::getChildrenStarOf(int s1, StmtType stmtType) {
+  return reader.getTransitiveS2ByS1(s1, stmtType);
 }
 
-std::vector<std::string> ParentReader::getParentStarOf(StmtType stmtType, int stmt = common::DEFAULT_STMT_NUM) {
-  return reader.getTransitiveS1ByS2(stmtType, stmt);
+std::vector<std::string> ParentReader::getParentStarOf(int s2, StmtType stmtType) {
+  return reader.getTransitiveS1ByS2(s2, stmtType);
 }
 
 bool ParentReader::isParentStar(int stmt1, int stmt2) {
