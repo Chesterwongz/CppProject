@@ -10,8 +10,8 @@
 // print: 'print' var_name';'
 class PrintParser : public ReadPrintParserTemplate {
  public:
-  explicit PrintParser(std::shared_ptr<ParserContext> context)
-      : ReadPrintParserTemplate(std::move(context)) {}
+  explicit PrintParser(ParserContext& context)
+      : ReadPrintParserTemplate(context) {}
 
   [[nodiscard]] std::unique_ptr<TNode> makeTNode() const override;
 };

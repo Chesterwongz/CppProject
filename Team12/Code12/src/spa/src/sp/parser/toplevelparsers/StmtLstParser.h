@@ -10,7 +10,7 @@
 
 class StmtLstParser : public AbstractParser {
  public:
-  explicit StmtLstParser(std::shared_ptr<ParserContext> context)
-      : AbstractParser(std::move(context)) {}
+  explicit StmtLstParser(ParserContext& context)
+      : AbstractParser(context) {}
   std::optional<std::unique_ptr<TNode>> parse() override;
 };

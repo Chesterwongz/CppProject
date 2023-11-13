@@ -10,7 +10,7 @@
 
 class CondExprParser : public AbstractParser {
  public:
-  explicit CondExprParser(std::shared_ptr<ParserContext> context)
-      : AbstractParser(std::move(context)) {}
+  explicit CondExprParser(ParserContext& context)
+      : AbstractParser(context) {}
   std::optional<std::unique_ptr<TNode>> parse() override;
 };
