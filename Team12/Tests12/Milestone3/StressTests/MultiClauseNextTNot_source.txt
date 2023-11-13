@@ -1,0 +1,13 @@
+procedure Initialize {
+    read x;
+}
+
+procedure MainProcess {
+    while (i > 0) {
+        if (x == 1) then {
+            x = x + 1;
+        } else {
+            z = x + y;
+        }
+    }
+}
