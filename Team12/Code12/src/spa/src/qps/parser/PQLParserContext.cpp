@@ -93,6 +93,9 @@ void PQLParserContext::handleTokens() {
   while (tokenStream->peek().has_value()) {
     currState->handleToken();
   }
+  if (!currState->isTerminable()) {
+    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_QUERY);
+  }
   if (!isSemanticallyValid) {
     throw QPSSemanticError(QPS_SEMANTIC_ERR);
   }
