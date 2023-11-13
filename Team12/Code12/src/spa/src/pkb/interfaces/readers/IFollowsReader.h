@@ -46,4 +46,7 @@ class IFollowsReader {
   // statement type restriction
   virtual std::vector<std::pair<std::string, std::string>> getFollowsStarPairs(
       StmtType stmtType1, StmtType stmtType2) = 0;
+
+  virtual bool hasFollows() = 0;
+  virtual bool hasFollowsT() = 0;
 };

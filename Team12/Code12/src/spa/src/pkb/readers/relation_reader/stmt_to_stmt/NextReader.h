@@ -31,4 +31,7 @@ class NextReader : public INextReader {
 
   std::vector<std::string> getNextStmts(int s1, StmtType stmtType2) override;
   std::vector<std::string> getNextTStmts(int s1, StmtType stmtType2) override;
+
+  bool hasNext() override;
+  bool hasNextT() override;
 };

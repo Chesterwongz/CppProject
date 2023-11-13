@@ -96,3 +96,20 @@ std::vector<std::string> AffectsReader::getAffectedBy(int s2, StmtType type1) {
 
   return result;
 }
+
+bool AffectsReader::hasAffects() {
+  std::vector<std::pair<std::string, std::string>> result;
+
+  const auto assignStmts = stmtStore.getAllStmtsOf(StmtType::ASSIGN);
+
+  for (const auto& assign : assignStmts) {
+    if (!modifiesSStore.hasDirectSuccessors(assign)) continue;
+    std::unordered_set<std::string> done;
+    std::string v = *modifiesSStore.getDirectSuccessors(assign).begin();
+
+    findAffectsPairs(assign, assign, v, done, result);
+    if (!result.empty()) { return true; }
+  }
+
+  return !result.empty();
+}

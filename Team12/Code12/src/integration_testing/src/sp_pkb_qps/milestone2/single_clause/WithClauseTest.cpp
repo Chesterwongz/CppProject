@@ -1122,3 +1122,29 @@ TEST_CASE(
   unordered_set<string> expected = {"SemanticError"};
   REQUIRE(result == expected);
 }
+
+TEST_CASE(
+    "SP-PKB-QPS ../../Tests12/Milestone2/SingleClauseTests/With_queries.txt - "
+    "72") {
+  string query = "stmt s; Select BOOLEAN with s.stmt# = \"1\"";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(source, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"SyntaxError"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS ../../Tests12/Milestone2/SingleClauseTests/With_queries.txt - "
+    "73") {
+  string query = R"(Select BOOLEAN with "x z" = "y")";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(source, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"SyntaxError"};
+  REQUIRE(result == expected);
+}

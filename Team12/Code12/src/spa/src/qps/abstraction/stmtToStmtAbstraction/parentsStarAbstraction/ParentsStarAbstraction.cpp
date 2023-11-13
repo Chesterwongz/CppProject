@@ -17,6 +17,8 @@ bool ParentsStarAbstraction::isFirstSynonymInvalid() {
          stmtType != StmtType::WHILE;
 }
 
+bool ParentsStarAbstraction::hasPairs() { return this->pkb.hasParentsT(); }
+
 vector<pair<string, string>> ParentsStarAbstraction::getAllPairs(
     StmtType firstStmtType, StmtType secondStmtType) {
   return pkb.getParentChildStarPairs(firstStmtType, secondStmtType);

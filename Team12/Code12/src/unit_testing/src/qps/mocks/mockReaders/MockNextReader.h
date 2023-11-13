@@ -98,4 +98,8 @@ class MockNextReader : public BaseMockReader {
       return mockGetNextTStmts;
     }
   }
+
+  bool hasNext() override { return !mockGetNextPairs.empty(); }
+
+  bool hasNextT() override { return !mockGetNextTPairs.empty(); }
 };

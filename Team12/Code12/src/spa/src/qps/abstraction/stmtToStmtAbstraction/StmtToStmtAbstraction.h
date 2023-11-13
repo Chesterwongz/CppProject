@@ -23,11 +23,6 @@ class StmtToStmtAbstraction : public BaseAbstraction {
   IntermediateTable handleSynonymOrWildcardArgs();
 
   /**
-   * For handling cases where both args wildcards
-   */
-  IntermediateTable handleBothArgsWildcard();
-
-  /**
    * For handling cases where both args are stmtNumbers
    */
   IntermediateTable handleBothArgsInteger();
@@ -55,6 +50,11 @@ class StmtToStmtAbstraction : public BaseAbstraction {
   IntermediateTable evaluateWildcardWildcard() override;
 
  protected:
+  /**
+   * Abstraction(a, b): a, b pairs exists
+   */
+  virtual bool hasPairs() = 0;
+
   /**
    * Abstraction(a, b): get all a, b pairs where a and b has specified stmtType
    */

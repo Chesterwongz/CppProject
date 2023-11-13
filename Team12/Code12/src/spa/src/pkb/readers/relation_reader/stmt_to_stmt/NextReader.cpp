@@ -17,6 +17,8 @@ std::vector<std::pair<std::string, std::string>> NextReader::getNextPairs(
   return reader.getDirectS1AndS2Pairs(type1, type2);
 }
 
+bool NextReader::hasNext() { return reader.hasDirectS1AndS2Pairs(); }
+
 // =================================== NextT ===================================
 
 std::vector<std::string> NextReader::getPrevTStmts(int s2, StmtType type1) {
@@ -35,3 +37,5 @@ std::vector<std::pair<std::string, std::string>> NextReader::getNextTPairs(
     StmtType type1, StmtType type2) {
   return reader.getTransitiveS1AndS2Pairs(type1, type2);
 }
+
+bool NextReader::hasNextT() { return hasNext(); }

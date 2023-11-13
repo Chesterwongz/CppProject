@@ -50,4 +50,6 @@ class MockAffectsReader : public BaseMockReader {
   bool isAffects(int statementNumber, int followingStatement) override {
     return mockIsAffects;
   }
+
+  bool hasAffects() override { return !mockAffectsPairs.empty(); }
 };

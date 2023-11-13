@@ -28,6 +28,8 @@ class ParentReader : public IParentReader {
   std::vector<std::pair<std::string, std::string>> getParentChildPairs(
       StmtType stmtType1, StmtType stmtType2) override;
 
+  bool hasParents() override;
+
   // ================================ ParentT ================================
 
   std::vector<std::string> getChildrenStarOf(int stmt, StmtType stmtType) override;
@@ -38,4 +40,6 @@ class ParentReader : public IParentReader {
 
   std::vector<std::pair<std::string, std::string>> getParentChildStarPairs(
       StmtType stmtType1, StmtType stmtType2) override;
+
+  bool hasParentsT() override;
 };

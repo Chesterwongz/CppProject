@@ -98,4 +98,8 @@ class MockFollowsReader : public BaseMockReader {
   bool isFollowsStar(int statementNumber, int followingStatement) override {
     return mockIsFollowsStar;
   }
+
+  bool hasFollows() override { return !mockFollowsPairs.empty(); }
+
+  bool hasFollowsT() override { return !mockFollowsStarPairs.empty(); }
 };

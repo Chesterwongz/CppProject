@@ -22,4 +22,7 @@ class INextReader {
 
   virtual std::vector<std::string> getNextStmts(int s1, StmtType type2) = 0;
   virtual std::vector<std::string> getNextTStmts(int s1, StmtType type2) = 0;
+
+  virtual bool hasNext() = 0;
+  virtual bool hasNextT() = 0;
 };

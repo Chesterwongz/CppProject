@@ -701,6 +701,7 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation") {
 
   vector<string> allVariables = {"a", "b", "imAVariable", "c"};
   mockPkbReader.mockAllVariables = allVariables;
+  mockPkbReader.mockIsValidVariable = true;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -759,6 +760,7 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation") {
 
   vector<string> allConstants = {"1", "2", "3", "93"};
   mockPkbReader.mockAllConstants = allConstants;
+  mockPkbReader.mockIsValidConstant = true;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -817,6 +819,7 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation") {
 
   vector<string> allProcs = {"sdf", "sdre", "theBestProc", "lousy"};
   mockPkbReader.mockAllProcedures = allProcs;
+  mockPkbReader.mockIsValidProcName = true;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -876,6 +879,7 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation_swapArgs") {
 
   vector<string> allProcs = {"sdf", "sdre", "theBestProc", "lousy"};
   mockPkbReader.mockAllProcedures = allProcs;
+  mockPkbReader.mockIsValidProcName = true;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 

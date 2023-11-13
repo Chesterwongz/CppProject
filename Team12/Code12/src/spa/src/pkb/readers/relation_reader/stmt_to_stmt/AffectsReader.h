@@ -41,4 +41,6 @@ class AffectsReader : public IAffectsReader {
       int originalStmt, int currentStmt, const std::string& variable,
       std::unordered_set<std::string>& done,
       std::vector<std::pair<std::string, std::string>>& result);
+
+  bool hasAffects() override;
 };

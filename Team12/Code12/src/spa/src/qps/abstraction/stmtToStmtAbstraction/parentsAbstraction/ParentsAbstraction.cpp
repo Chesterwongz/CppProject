@@ -17,6 +17,8 @@ bool ParentsAbstraction::isFirstSynonymInvalid() {
          stmtType != StmtType::WHILE;
 }
 
+bool ParentsAbstraction::hasPairs() { return this->pkb.hasParents(); }
+
 vector<pair<string, string>> ParentsAbstraction::getAllPairs(
     StmtType firstStmtType, StmtType secondStmtType) {
   return pkb.getParentChildPairs(firstStmtType, secondStmtType);

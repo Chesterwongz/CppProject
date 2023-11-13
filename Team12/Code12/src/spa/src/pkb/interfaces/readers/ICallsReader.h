@@ -19,8 +19,10 @@ class ICallsReader {
   virtual std::vector<std::pair<std::string, std::string>> getCallPairs() = 0;
   virtual std::vector<std::pair<std::string, std::string>>
   getCallsStarPairs() = 0;
+  virtual bool hasCalls() = 0;
   virtual bool hasCalls(const std::string& caller,
                         const std::string& callee) = 0;
+  virtual bool hasCallsT() = 0;
   virtual bool hasCallsT(const std::string& caller,
                          const std::string& callee) = 0;
 };

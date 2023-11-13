@@ -43,4 +43,8 @@ class IParentReader {
   // statement type restriction
   virtual std::vector<std::pair<std::string, std::string>>
   getParentChildStarPairs(StmtType parentType, StmtType childType) = 0;
+
+  virtual bool hasParents() = 0;
+
+  virtual bool hasParentsT() = 0;
 };

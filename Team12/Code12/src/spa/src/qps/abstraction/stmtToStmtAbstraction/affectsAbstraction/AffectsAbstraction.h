@@ -9,6 +9,8 @@
 
 class AffectsAbstraction : public StmtToStmtAbstraction {
  private:
+  bool hasPairs() override;
+
   static bool isInvalidStmtType(StmtType stmtType);
 
   bool isFirstSynonymInvalid() override;

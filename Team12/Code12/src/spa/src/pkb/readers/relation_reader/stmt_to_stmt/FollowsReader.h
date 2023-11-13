@@ -28,6 +28,8 @@ class FollowsReader : public IFollowsReader {
   std::vector<std::pair<std::string, std::string>> getFollowsPairs(
       StmtType stmtType1, StmtType stmtType2) override;
 
+  bool hasFollows() override;
+
   // ================================ FollowsT ================================
 
   std::vector<std::string> getFollowsStar(int stmt, StmtType stmtType) override;
@@ -38,4 +40,6 @@ class FollowsReader : public IFollowsReader {
 
   std::vector<std::pair<std::string, std::string>> getFollowsStarPairs(
       StmtType stmtType1, StmtType stmtType2) override;
+
+  bool hasFollowsT() override;
 };

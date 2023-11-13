@@ -12,6 +12,8 @@ class ParentsStarAbstraction : public StmtToStmtAbstraction {
  private:
   bool isFirstSynonymInvalid() override;
 
+  bool hasPairs() override;
+
   vector<pair<string, string>> getAllPairs(StmtType firstStmtType,
                                            StmtType secondStmtType) override;
   vector<string> getFirstStmt(int s2, StmtType firstStmtType) override;

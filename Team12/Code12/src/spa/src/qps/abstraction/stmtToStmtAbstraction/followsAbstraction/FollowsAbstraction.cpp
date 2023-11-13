@@ -5,6 +5,7 @@
  * - firstArg: Synonym OR Integer OR Wildcard
  * - secondArg: Synonym OR Integer OR Wildcard
  */
+bool FollowsAbstraction::hasPairs() { return this->pkb.hasFollows(); }
 
 vector<pair<string, string>> FollowsAbstraction::getAllPairs(StmtType type1,
                                                              StmtType type2) {

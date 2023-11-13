@@ -53,6 +53,10 @@ StmtToStmtReader::getDirectS1AndS2Pairs(StmtType type1, StmtType type2) {
   return CollectionUtils::intIntMapSetToStrPairVector(rawRes, stmtFilters);
 }
 
+bool StmtToStmtReader::hasDirectS1AndS2Pairs() {
+  return !store.getDirectSuccessorMap().empty();
+}
+
 // ================================= FollowsT =================================
 
 std::vector<std::string> StmtToStmtReader::getTransitiveS1ByS2(int s2,
@@ -104,4 +108,8 @@ StmtToStmtReader::getTransitiveS1AndS2Pairs(StmtType type1, StmtType type2) {
   const auto& rawRes = store.getRelationsT();
 
   return CollectionUtils::intIntMapSetToStrPairVector(rawRes, stmtFilters);
+}
+
+bool StmtToStmtReader::hasTransitiveS1AndS2Pairs() {
+  return !store.getRelationsT().empty();
 }

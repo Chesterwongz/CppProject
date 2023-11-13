@@ -24,6 +24,8 @@ bool AffectsAbstraction::isSecondSynonymInvalid() {
 
 bool AffectsAbstraction::isSelfReferencePossible() { return true; }
 
+bool AffectsAbstraction::hasPairs() { return this->pkb.hasAffects(); }
+
 vector<pair<string, string>> AffectsAbstraction::getAllPairs(
     StmtType firstStmtType, StmtType secondStmtType) {
   if (isInvalidStmtType(firstStmtType) || isInvalidStmtType(secondStmtType)) {
