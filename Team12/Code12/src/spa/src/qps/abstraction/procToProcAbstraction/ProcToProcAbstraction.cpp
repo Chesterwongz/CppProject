@@ -32,17 +32,17 @@ IntermediateTable ProcToProcAbstraction::evaluateSynonymSynonym() {
 
 // Abstraction (Synonym, ProcIdentifier)
 IntermediateTable ProcToProcAbstraction::evaluateSynonymIdent() {
-  return handleSecondArgIdent();
+  return handleSecondArgIdent(secondArgValue);
 }
 
 // Abstraction (Synonym, _)
 IntermediateTable ProcToProcAbstraction::evaluateSynonymWildcard() {
-  return handleSynonymOrWildcardArgs();
+  return handleSecondArgIdent(common::WILDCARD_PROC);
 }
 
 // Abstraction (ProcName, Synonym)
 IntermediateTable ProcToProcAbstraction::evaluateIdentSynonym() {
-  return handleFirstArgIdent();
+  return handleFirstArgIdent(firstArgValue);
 }
 
 // Abstraction (ProcName, ProcName)
@@ -55,17 +55,17 @@ IntermediateTable ProcToProcAbstraction::evaluateIdentIdent() {
 
 // Abstraction (ProcName, _)
 IntermediateTable ProcToProcAbstraction::evaluateIdentWildcard() {
-  return handleFirstArgIdent();
+  return handleFirstArgIdent(firstArgValue);
 }
 
 // Abstraction (_, Synonym)
 IntermediateTable ProcToProcAbstraction::evaluateWildcardSynonym() {
-  return handleSynonymOrWildcardArgs();
+  return handleFirstArgIdent(common::WILDCARD_PROC);
 }
 
 // Abstraction (_, ProcName)
 IntermediateTable ProcToProcAbstraction::evaluateWildcardIdent() {
-  return handleSecondArgIdent();
+  return handleSecondArgIdent(secondArgValue);
 }
 
 // Abstraction (_, _)
@@ -94,11 +94,10 @@ IntermediateTable ProcToProcAbstraction::handleSynonymOrWildcardArgs() {
                                                           resultAsSynonymRes);
 }
 
-IntermediateTable ProcToProcAbstraction::handleFirstArgIdent() {
+IntermediateTable ProcToProcAbstraction::handleFirstArgIdent(const string& firstArgProcName) {
   if (isSecondSynonymInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
-  string firstArgProcName = this->firstArgValue;
   string secondArgProcSynonym = this->secondArgValue;
 
   vector<string> possibleSecondProcs =
@@ -111,12 +110,11 @@ IntermediateTable ProcToProcAbstraction::handleFirstArgIdent() {
                                                        resultAsSynonymRes);
 }
 
-IntermediateTable ProcToProcAbstraction::handleSecondArgIdent() {
+IntermediateTable ProcToProcAbstraction::handleSecondArgIdent(const string& secondArgProcName) {
   if (isFirstSynonymInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
   string firstArgSynonym = this->firstArgValue;
-  string secondArgProcName = this->secondArgValue;
 
   vector<string> possibleFirstProcs =
       getFirstProcInAbstraction(secondArgProcName);
