@@ -1223,3 +1223,16 @@ TEST_CASE(
       "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"};
   REQUIRE(result == expected);
 }
+
+TEST_CASE(
+    "SP-PKB-QPS ../../Tests12/Milestone2/SingleClauseTests/With_queries.txt - "
+    "79") {
+  string query = "Select";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(source, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"SyntaxError"};
+  REQUIRE(result == expected);
+}

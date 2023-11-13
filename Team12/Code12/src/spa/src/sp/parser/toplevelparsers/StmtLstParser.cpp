@@ -9,7 +9,7 @@
  *  return node
  */
 std::optional<std::unique_ptr<TNode>> StmtLstParser::parse() {
-  context->forceEatExpected(SpTokenType::DELIM, delim::kOpenCurlyString);
+  context.forceEatExpected(SpTokenType::DELIM, delim::kOpenCurlyString);
 
   std::unique_ptr<TNode> stmtLstNode = std::make_unique<StmtListNode>();
 
@@ -22,7 +22,7 @@ std::optional<std::unique_ptr<TNode>> StmtLstParser::parse() {
     childNodeOpt = stmtParser.parse();
   }
 
-  context->forceEatExpected(SpTokenType::DELIM, delim::kCloseCurlyString);
+  context.forceEatExpected(SpTokenType::DELIM, delim::kCloseCurlyString);
 
   return stmtLstNode;
 }

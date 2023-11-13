@@ -52,3 +52,7 @@ void BaseParserState::processAttrRef(unique_ptr<SynonymArg> &synArg) {
   auto validRef = getValidAttrRef(synArg->getValue(), attrRef->getValue());
   synArg->setAttrRef(std::move(validRef));
 }
+
+bool BaseParserState::isTerminable() {
+  return false;
+}

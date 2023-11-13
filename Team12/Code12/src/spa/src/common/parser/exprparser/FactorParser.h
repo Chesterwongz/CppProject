@@ -11,8 +11,8 @@
 
 class FactorParser : public AbstractParser {
  public:
-  explicit FactorParser(std::shared_ptr<ParserContext> context)
-      : AbstractParser(std::move(context)) {}
+  explicit FactorParser(ParserContext& context)
+      : AbstractParser(context) {}
 
   std::optional<std::unique_ptr<TNode>> parse() override;
 };

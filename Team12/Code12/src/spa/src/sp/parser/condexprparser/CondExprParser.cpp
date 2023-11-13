@@ -7,7 +7,7 @@ std::optional<std::unique_ptr<TNode>> CondExprParser::parse() {
   std::optional<std::unique_ptr<TNode>> nodeOpt;
   CondExprParser condExprParser = CondExprParser(context);
   std::optional<std::string> operatorOpt =
-      context->tryEatExpected(SpTokenType::COND_OP, op::kNot);
+      context.tryEatExpected(SpTokenType::COND_OP, op::kNot);
 
   std::optional<std::unique_ptr<TNode>> leftNodeOpt =
       condExprParser.parseWithBrackets();
@@ -16,7 +16,7 @@ std::optional<std::unique_ptr<TNode>> CondExprParser::parse() {
             .has_value()) {  // Since there was a '!' op, it's a unary expr.
       nodeOpt = std::make_unique<NotNode>(std::move(leftNodeOpt.value()));
     } else {  // It's a binary expr.
-      std::string condOp = context->forceEatExpected(SpTokenType::COND_OP);
+      std::string condOp = context.forceEatExpected(SpTokenType::COND_OP);
 
       std::optional<std::unique_ptr<TNode>> rightNodeOpt =
           condExprParser.parseWithBrackets();
