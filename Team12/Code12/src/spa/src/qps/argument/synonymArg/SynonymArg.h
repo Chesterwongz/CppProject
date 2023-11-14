@@ -32,11 +32,12 @@ class SynonymArg : public AbstractArgument {
   void setAttrRef(AttrRef ref);
   const AttrRef& getAttrRef();
   QPSStringUtils::ArgumentType getArgumentType() override;
-  bool isSynonym() override;
+  bool isSynonym() const override;
   bool isStmtSynonym() override;
   bool isVarSynonym() override;
   bool isProcSynonym() override;
   bool operator==(const AbstractArgument& other) const override;
+  string getArgSignature() override;
 };
 
 typedef vector<unique_ptr<SynonymArg>> SynonymsToSelect;

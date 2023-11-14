@@ -17,14 +17,30 @@ class MockAffectsReader : public BaseMockReader {
 
   MockAffectsReader() : BaseMockReader() {}
 
-  vector<string> getAffects(int statementNumber,
-                            StmtType statementType) override {
-    return mockAffects;
+  vector<string> getAffects(int s1, StmtType type2) override {
+    if (s1 == common::WILDCARD_STMT_NUM) {
+      vector<string> res;
+      res.reserve(mockAffectsPairs.size());
+      for (auto &pair : mockAffectsPairs) {
+        res.push_back(pair.second);
+      }
+      return res;
+    } else {
+      return mockAffects;
+    }
   }
 
-  vector<string> getAffectedBy(int statementNumber,
-                               StmtType statementType) override {
-    return mockAffectedBy;
+  vector<string> getAffectedBy(int s2, StmtType type1) override {
+    if (s2 == common::WILDCARD_STMT_NUM) {
+      vector<string> res;
+      res.reserve(mockAffectsPairs.size());
+      for (auto &pair : mockAffectsPairs) {
+        res.push_back(pair.first);
+      }
+      return res;
+    } else {
+      return mockAffectedBy;
+    }
   }
 
   vector<pair<string, string>> getAffectsPairs() override {
@@ -34,4 +50,6 @@ class MockAffectsReader : public BaseMockReader {
   bool isAffects(int statementNumber, int followingStatement) override {
     return mockIsAffects;
   }
+
+  bool hasAffects() override { return !mockAffectsPairs.empty(); }
 };

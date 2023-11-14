@@ -10,7 +10,8 @@
 
 class StmtToStmtAbstraction : public BaseAbstraction {
  private:
-  void filterSelfRefPairs(vector<pair<string, string>>& stmtPairs);
+  static vector<string> filterSelfRefPairs(
+      vector<pair<string, string>>& stmtPairs);
   virtual bool isSelfReferencePossible();
   bool isFirstSynonymInvalid() override;
   bool isSecondSynonymInvalid() override;
@@ -22,24 +23,19 @@ class StmtToStmtAbstraction : public BaseAbstraction {
   IntermediateTable handleSynonymOrWildcardArgs();
 
   /**
-   * For handling cases where both args wildcards
-   */
-  IntermediateTable handleBothArgsWildcard();
-
-  /**
    * For handling cases where both args are stmtNumbers
    */
-  IntermediateTable handleBothArgsInteger();
+  IntermediateTable handleBothArgsInteger(int s1, int s2);
 
   /**
    * For handling cases where only first arg is stmtNumber
    */
-  IntermediateTable handleFirstArgInteger();
+  IntermediateTable handleFirstArgInteger(int stmt);
 
   /**
    * For handling cases where only second arg is stmtNumber
    */
-  IntermediateTable handleSecondArgInteger();
+  IntermediateTable handleSecondArgInteger(int stmt);
 
   IntermediateTable evaluateSynonymSynonym() override;
   IntermediateTable evaluateSynonymInteger() override;
@@ -55,6 +51,11 @@ class StmtToStmtAbstraction : public BaseAbstraction {
 
  protected:
   /**
+   * Abstraction(a, b): a, b pairs exists
+   */
+  virtual bool hasPairs() = 0;
+
+  /**
    * Abstraction(a, b): get all a, b pairs where a and b has specified stmtType
    */
   virtual vector<pair<string, string>> getAllPairs(StmtType firstStmtType,
@@ -62,17 +63,15 @@ class StmtToStmtAbstraction : public BaseAbstraction {
 
   /**
    * Abstraction(a, b): get all stmt a where a has specified stmtType
-   * and b has specified stmtNumber
+   * and b has specified stmtNumber or wildcard
    */
-  virtual vector<string> getFirstStmt(int secondStmtNumber,
-                                      StmtType firstStmtType) = 0;
+  virtual vector<string> getFirstStmt(int s2, StmtType firstStmtType) = 0;
 
   /**
    * Abstraction(a, b): get all stmt b where b has specified stmtType
-   * and a has specified stmtNumber
+   * and a has specified stmtNumber or wildcard
    */
-  virtual vector<string> getSecondStmt(int firstStmtNumber,
-                                       StmtType secondStmtType) = 0;
+  virtual vector<string> getSecondStmt(int s1, StmtType secondStmtType) = 0;
 
   /**
    * Abstraction(a, b): check if specified stmtNum and stmtNum are related

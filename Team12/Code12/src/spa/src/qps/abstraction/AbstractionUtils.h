@@ -122,3 +122,16 @@ inline StmtType getArgStmtType(AbstractArgument &argument) {
   throw QPSInvalidAbstractionException(
       QPS_INVALID_ABSTRACTION_ERR_NON_STATEMENT_TYPE);
 }
+
+inline StmtType getArgEntity(AbstractArgument &argument) {
+  if (argument.isSynonym()) {
+    auto &synonymArg = dynamic_cast<SynonymArg &>(argument);
+    auto firstStmtEntity = synonymArg.getEntityType();
+    assert(firstStmtEntity != PROCEDURE_ENTITY);
+    return StmtEntityToStatementType.at(firstStmtEntity);
+  } else if (argument.isWildcard()) {
+    return StmtType::STMT;
+  }
+  throw QPSInvalidAbstractionException(
+      QPS_INVALID_ABSTRACTION_ERR_NON_STATEMENT_TYPE);
+}

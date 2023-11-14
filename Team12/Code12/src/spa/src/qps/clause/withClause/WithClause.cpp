@@ -4,19 +4,28 @@
 
 #include "qps/clause/utils/ClauseConstants.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
-#include "qps/withEvaluator/WithEvaluatorFactory/WithEvaluatorFactory.h"
+#include "qps/withEvaluator/withEvaluatorFactory/WithEvaluatorFactory.h"
+
+vector<const AbstractArgument*> WithClause::getAllArguments() {
+  vector<const AbstractArgument*> argVector;
+
+  argVector.push_back(firstArg.get());
+  argVector.push_back(secondArg.get());
+
+  return argVector;
+}
 
 IntermediateTable WithClause::evaluate(PKBReader& pkb) {
   unique_ptr<WithEvaluator> withEvaluator =
-      WithEvaluatorFactory::createWithEvaluator(std::move(firstArg),
-                                                std::move(secondArg), pkb);
+      WithEvaluatorFactory::createWithEvaluator(*(this->firstArg),
+                                                *(this->secondArg), pkb);
 
   IntermediateTable pkbResult = withEvaluator->evaluate();
 
   return pkbResult;
 }
 
-bool WithClause::isEquals(const Clause& other) {
+bool WithClause::isEquals(const BaseClause& other) {
   const auto* otherClause = dynamic_cast<const WithClause*>(&other);
   if (!otherClause) return false;
 
@@ -24,5 +33,9 @@ bool WithClause::isEquals(const Clause& other) {
          *secondArg == *(otherClause->secondArg);
 }
 set<string> WithClause::getClauseSynonyms() {
-  return {firstArg->getValue(), secondArg->getValue()};
+  return ClauseUtil::getSynonymArgValues(this->firstArg, this->secondArg);
+}
+string WithClause::getKey() {
+  return WITH_KEYWORD + ClauseUtil::KEY_DELIMITER + firstArg->getArgKey() +
+         ClauseUtil::KEY_DELIMITER + secondArg->getArgKey();
 }

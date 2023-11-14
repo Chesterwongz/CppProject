@@ -2,7 +2,7 @@
 
 std::function<void(const std::optional<std::unique_ptr<TNode>> &)>
 AbstractParser::requireTNodeOpt(TNodeType nodeType) {
-  int lineNum = context->getLineNum();
+  int lineNum = context.getLineNum();
   return [nodeType,
           lineNum](const std::optional<std::unique_ptr<TNode>> &nodeOpt) {
     if (!nodeOpt.has_value())
@@ -11,21 +11,21 @@ AbstractParser::requireTNodeOpt(TNodeType nodeType) {
 }
 
 std::optional<std::unique_ptr<TNode>> AbstractParser::parseWithBrackets() {
-  context->saveContext();
-  if (!context->tryEatExpected(SpTokenType::DELIM, delim::kOpenBracketString)
+  context.saveContext();
+  if (!context.tryEatExpected(SpTokenType::DELIM, delim::kOpenBracketString)
            .has_value()) {
-    context->loadPrevSavedContext();
+    context.loadPrevSavedContext();
     return std::nullopt;
   }
 
   std::optional<std::unique_ptr<TNode>> nodeOpt = parse();
 
   if (!nodeOpt.has_value() ||
-      !context->tryEatExpected(SpTokenType::DELIM, delim::kCloseBracketString)
+      !context.tryEatExpected(SpTokenType::DELIM, delim::kCloseBracketString)
            .has_value()) {
-    context->loadPrevSavedContext();
+    context.loadPrevSavedContext();
     return std::nullopt;
   }
-  context->removePrevSavedContext();
+  context.removePrevSavedContext();
   return nodeOpt;
 }

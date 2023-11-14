@@ -68,7 +68,7 @@ TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation") {
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonymArgVal);
-  REQUIRE(actualTableData == expectedData);
+  REQUIRE(isTableDataSame(actualTableData, expectedData));
 }
 
 TEST_CASE("test_withClause_evaluate_STMT_STMTNUM_permutation_noResults") {
@@ -130,7 +130,7 @@ TEST_CASE("test_withClause_evaluate_READ_STMTNUM_permutation") {
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonymArgVal);
-  REQUIRE(actualTableData == expectedData);
+  REQUIRE(isTableDataSame(actualTableData, expectedData));
 }
 
 TEST_CASE("test_withClause_evaluate_read_STMTNUM_permutation_noResults") {
@@ -198,7 +198,7 @@ TEST_CASE("test_withClause_evaluate_READ_VARNAME_permutation") {
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonymArgVal);
-  REQUIRE(actualTableData == expectedData);
+  REQUIRE(isTableDataSame(actualTableData, expectedData));
 }
 
 TEST_CASE("test_withClause_evaluate_READ_VARNAME_permutation_noResults") {
@@ -268,7 +268,7 @@ TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation") {
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonymArgVal);
-  REQUIRE(actualTableData == expectedData);
+  REQUIRE(isTableDataSame(actualTableData, expectedData));
 }
 
 TEST_CASE("test_withClause_evaluate_PRINT_STMTNUM_permutation_noResults") {
@@ -336,7 +336,7 @@ TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation") {
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonymArgVal);
-  REQUIRE(actualTableData == expectedData);
+  REQUIRE(isTableDataSame(actualTableData, expectedData));
 }
 
 TEST_CASE("test_withClause_evaluate_PRINT_VARNAME_permutation_noResults") {
@@ -406,7 +406,7 @@ TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation") {
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonymArgVal);
-  REQUIRE(actualTableData == expectedData);
+  REQUIRE(isTableDataSame(actualTableData, expectedData));
 }
 
 TEST_CASE("test_withClause_evaluate_CALL_STMTNUM_permutation_noResults") {
@@ -476,7 +476,7 @@ TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation") {
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonymArgVal);
-  REQUIRE(actualTableData == expectedData);
+  REQUIRE(isTableDataSame(actualTableData, expectedData));
 }
 
 TEST_CASE("test_withClause_evaluate_CALL_PROCNAME_permutation_noResults") {
@@ -539,7 +539,7 @@ TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation") {
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonymArgVal);
-  REQUIRE(actualTableData == expectedData);
+  REQUIRE(isTableDataSame(actualTableData, expectedData));
 }
 
 TEST_CASE("test_withClause_evaluate_WHILE_STMTNUM_permutation_noResults") {
@@ -596,7 +596,7 @@ TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation") {
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonymArgVal);
-  REQUIRE(actualTableData == expectedData);
+  REQUIRE(isTableDataSame(actualTableData, expectedData));
 }
 
 TEST_CASE("test_withClause_evaluate_IF_STMTNUM_permutation_noResults") {
@@ -654,7 +654,7 @@ TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation") {
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonymArgVal);
-  REQUIRE(actualTableData == expectedData);
+  REQUIRE(isTableDataSame(actualTableData, expectedData));
 }
 
 TEST_CASE("test_withClause_evaluate_ASSIGN_STMTNUM_permutation_noResults") {
@@ -701,6 +701,7 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation") {
 
   vector<string> allVariables = {"a", "b", "imAVariable", "c"};
   mockPkbReader.mockAllVariables = allVariables;
+  mockPkbReader.mockIsValidVariable = true;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -712,7 +713,7 @@ TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation") {
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonymArgVal);
-  REQUIRE(actualTableData == expectedData);
+  REQUIRE(isTableDataSame(actualTableData, expectedData));
 }
 
 TEST_CASE("test_withClause_evaluate_VAR_VARNAME_permutation_noResults") {
@@ -759,6 +760,7 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation") {
 
   vector<string> allConstants = {"1", "2", "3", "93"};
   mockPkbReader.mockAllConstants = allConstants;
+  mockPkbReader.mockIsValidConstant = true;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -770,7 +772,7 @@ TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation") {
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonymArgVal);
-  REQUIRE(actualTableData == expectedData);
+  REQUIRE(isTableDataSame(actualTableData, expectedData));
 }
 
 TEST_CASE("test_withClause_evaluate_CONSTANT_VALUE_permutation_noResults") {
@@ -817,6 +819,7 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation") {
 
   vector<string> allProcs = {"sdf", "sdre", "theBestProc", "lousy"};
   mockPkbReader.mockAllProcedures = allProcs;
+  mockPkbReader.mockIsValidProcName = true;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -828,7 +831,7 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation") {
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonymArgVal);
-  REQUIRE(actualTableData == expectedData);
+  REQUIRE(isTableDataSame(actualTableData, expectedData));
 }
 
 TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation_noResults") {
@@ -876,6 +879,7 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation_swapArgs") {
 
   vector<string> allProcs = {"sdf", "sdre", "theBestProc", "lousy"};
   mockPkbReader.mockAllProcedures = allProcs;
+  mockPkbReader.mockIsValidProcName = true;
 
   IntermediateTable actualTable = withClause.evaluate(mockPkbReader);
 
@@ -887,7 +891,7 @@ TEST_CASE("test_withClause_evaluate_PROCEDURE_PROCNAME_permutation_swapArgs") {
 
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == withSynonymArgVal);
-  REQUIRE(actualTableData == expectedData);
+  REQUIRE(isTableDataSame(actualTableData, expectedData));
 }
 
 TEST_CASE(
@@ -1055,7 +1059,7 @@ TEST_CASE(
   REQUIRE(actualColNames[0] == withProcSynonymArgVal);
   REQUIRE(actualColNames[1] == withCallSynonymArgVal);
   REQUIRE(actualRowCount == 3);
-  REQUIRE(actualData == expectedData);
+  REQUIRE(isTableDataSame(actualData, expectedData));
 }
 
 TEST_CASE(
@@ -1096,7 +1100,7 @@ TEST_CASE(
   REQUIRE(actualColNames.size() == 1);
   REQUIRE(actualColNames[0] == assignSynonymArgVal);
   REQUIRE(actualRowCount == 4);
-  REQUIRE(actualData == expectedData);
+  REQUIRE(isTableDataSame(actualData, expectedData));
 }
 
 TEST_CASE(
@@ -1147,7 +1151,7 @@ TEST_CASE(
   REQUIRE(actualColNames[0] == varSynonymArgVal);
   REQUIRE(actualColNames[1] == procSynonymArgVal);
   REQUIRE(actualRowCount == 2);
-  REQUIRE(actualData == expectedData);
+  REQUIRE(isTableDataSame(actualData, expectedData));
 }
 
 TEST_CASE(

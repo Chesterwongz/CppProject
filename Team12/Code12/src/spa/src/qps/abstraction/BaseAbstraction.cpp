@@ -7,7 +7,9 @@ BaseAbstraction::BaseAbstraction(AbstractionParams &params)
       secondArg(params.secondArg),
       firstArgValue(params.firstArg.getValue()),
       secondArgValue(params.secondArg.getValue()),
-      argumentPermutation(getPermutation(params.firstArg, params.secondArg)) {}
+      argumentPermutation(getPermutation(params.firstArg, params.secondArg)),
+      signature(BaseAbstraction::getClauseAbstractionSignature(
+          params.abstraction, params.firstArg, params.secondArg)) {}
 
 StmtType BaseAbstraction::getFirstArgStmtType() {
   return getArgStmtType(this->firstArg);
@@ -15,6 +17,14 @@ StmtType BaseAbstraction::getFirstArgStmtType() {
 
 StmtType BaseAbstraction::getSecondArgStmtType() {
   return getArgStmtType(this->secondArg);
+}
+
+ClauseSignature BaseAbstraction::getClauseAbstractionSignature(
+    const Abstraction &abstraction, AbstractArgument &firstArg,
+    AbstractArgument &secondArg) {
+  return AbstractionEnumToStringMap.at(abstraction) +
+         ClauseUtil::KEY_DELIMITER + firstArg.getArgSignature() +
+         ClauseUtil::KEY_DELIMITER + secondArg.getArgSignature();
 }
 
 IntermediateTable BaseAbstraction::evaluate() {

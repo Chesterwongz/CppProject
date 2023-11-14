@@ -57,13 +57,36 @@ class CollectionUtils {
   }
 
   static std::vector<std::string> intSetToStrVector(
+      const std::unordered_set<int>& intSet) {
+    std::vector<std::string> res;
+    res.reserve(intSet.size());
+    for (const int& val : intSet) {
+      res.push_back(intToStrMapper(val));
+    }
+    return res;
+  }
+
+  static std::vector<std::string> intSetToStrVector(
       const std::unordered_set<int>& intSet,
       const std::function<bool(int)>& filter) {
     std::vector<std::string> res;
-    res.reserve(res.size() + intSet.size());
+    res.reserve(intSet.size());
     for (const int& val : intSet) {
       if (!filter(val)) continue;
       res.push_back(intToStrMapper(val));
+    }
+    return res;
+  }
+
+  static std::vector<std::pair<std::string, std::string>>
+  intIntMapSetToStrPairVector(
+      const std::unordered_map<int, std::unordered_set<int>>& mapSet) {
+    std::vector<std::pair<std::string, std::string>> res;
+    for (const auto& [a, setB] : mapSet) {
+      res.reserve(res.size() + setB.size());
+      for (const auto& b : setB) {
+        res.emplace_back(intToStrMapper(a), intToStrMapper(b));
+      }
     }
     return res;
   }
@@ -76,6 +99,7 @@ class CollectionUtils {
     std::vector<std::pair<std::string, std::string>> res;
     for (const auto& [a, setB] : mapSet) {
       if (!filterPair.first(a)) continue;
+      res.reserve(res.size() + setB.size());
       for (const auto& b : setB) {
         if (!filterPair.second(b)) continue;
         res.emplace_back(intToStrMapper(a), intToStrMapper(b));

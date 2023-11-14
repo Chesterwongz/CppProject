@@ -8,5 +8,5 @@ enum class AbstractionType {
   PARENT,
   PATTERN,
   CALLS,
-  CFG
+  NEXT
 };

@@ -10,8 +10,6 @@
 #include <vector>
 
 #include "BaseMockReader.h"
-#include "pkb/storage/ModifiesPStore.h"
-#include "pkb/storage/ModifiesSStore.h"
 
 using std::vector, std::set, std::string, std::pair;
 
@@ -30,11 +28,29 @@ class MockModifiesReader : public BaseMockReader {
 
   vector<string> getStatementsModifying(const string& variableName,
                                         StmtType statementType) override {
-    return mockStatementsModifying;
+    if (variableName == common::WILDCARD_VAR) {
+      vector<string> res;
+      res.reserve(mockAllModifiedVariables.size());
+      for (auto& pair : mockAllModifiedVariables) {
+        res.push_back(pair.first);
+      }
+      return res;
+    } else {
+      return mockStatementsModifying;
+    }
   }
 
   vector<string> getProcModifying(const std::string& varName) override {
-    return mockProceduresModifying;
+    if (varName == common::WILDCARD_VAR) {
+      vector<string> res;
+      res.reserve(mockModifiesProcPairs.size());
+      for (auto& pair : mockModifiesProcPairs) {
+        res.push_back(pair.first);
+      }
+      return res;
+    } else {
+      return mockProceduresModifying;
+    }
   }
 
   vector<string> getVariablesModifiedBy(int statementNumber) override {

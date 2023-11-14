@@ -30,34 +30,46 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymSynonym() {
 
 // Abstraction (StatementOrProcSynonym, VarIdentifier)
 IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymIdent() {
+  return handleSecondArgVarIdent(secondArgValue);
+}
+
+IntermediateTable StmtOrProcToVarAbstraction::handleSecondArgVarIdent(
+    const std::string& secondVarName) {
   if (isFirstSynonymInvalid()) {
     return IntermediateTableFactory::buildEmptyIntermediateTable();
   }
-  string firstArgSynonym = this->firstArgValue;
+  const string& firstArgSynonym = this->firstArgValue;
   bool isFirstArgProcedure = this->firstArg.isProcSynonym();
-  string secondArgVarName = this->secondArgValue;
 
   vector<string> possibleValuesOfSynonym;
   // Abstraction(procSynonym, *) and Abstraction(stmtSynonym, *) has diff APIs
   if (isFirstArgProcedure) {
-    possibleValuesOfSynonym = getProcsRelatedToVar(secondArgVarName);
+    possibleValuesOfSynonym = getProcsRelatedToVar(secondVarName);
   } else {
     StmtType firstArgStmtType = getFirstArgStmtType();
     possibleValuesOfSynonym =
-        getStmtsRelatedToVar(secondArgVarName, firstArgStmtType);
+        getStmtsRelatedToVar(secondVarName, firstArgStmtType);
   }
 
-  vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
-      possibleValuesOfSynonym, ClauseUtil::getArgEntity(this->firstArg),
-      this->pkb);
+  vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes;
+  if (SynResConversionUtils::isSingleColSynResCacheHit(this->signature)) {
+    resultAsSynonymRes =
+        SynResConversionUtils::getFromSingleColSynResCache(this->signature);
+  } else {
+    resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+        possibleValuesOfSynonym, ClauseUtil::getArgEntity(this->firstArg),
+        this->pkb);
+    SynResConversionUtils::saveToSingleColSynResCache(this->signature,
+                                                      resultAsSynonymRes);
+  }
 
-  return IntermediateTableFactory::buildSingleColTable(firstArgSynonym,
-                                                       resultAsSynonymRes);
+  return IntermediateTableFactory::buildSingleColTable(
+      firstArgSynonym, std::move(resultAsSynonymRes));
 }
 
 // Abstraction (StatementOrProcSynonym, _)
 IntermediateTable StmtOrProcToVarAbstraction::evaluateSynonymWildcard() {
-  return handleSynonymOrWildcardArgs();
+  return handleSecondArgVarIdent(common::WILDCARD_VAR);
 }
 
 // Abstraction (StatementNumber, VarSynonym)
@@ -67,15 +79,23 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateIntegerSynonym() {
   }
 
   int firstArgStmtNumber = stoi(this->firstArgValue);
-  string secondArgVarSynonym = this->secondArgValue;
+  const string& secondArgVarSynonym = this->secondArgValue;
 
   vector<string> possibleVars = getVarsRelatedToStmt(firstArgStmtNumber);
 
-  vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
-      possibleVars, VARIABLE_ENTITY, this->pkb);
+  vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes;
+  if (SynResConversionUtils::isSingleColSynResCacheHit(this->signature)) {
+    resultAsSynonymRes =
+        SynResConversionUtils::getFromSingleColSynResCache(this->signature);
+  } else {
+    resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+        possibleVars, VARIABLE_ENTITY, this->pkb);
+    SynResConversionUtils::saveToSingleColSynResCache(this->signature,
+                                                      resultAsSynonymRes);
+  }
 
-  return IntermediateTableFactory::buildSingleColTable(secondArgVarSynonym,
-                                                       resultAsSynonymRes);
+  return IntermediateTableFactory::buildSingleColTable(
+      secondArgVarSynonym, std::move(resultAsSynonymRes));
 }
 
 // Abstraction (StatementNumber, VarIdentifier)
@@ -94,9 +114,10 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateIntegerWildcard() {
   int firstArgStmtNumber = stoi(this->firstArgValue);
 
   vector<string> possibleVars = getVarsRelatedToStmt(firstArgStmtNumber);
-
-  return IntermediateTableFactory::buildSingleColTable(WILDCARD_KEYWORD,
-                                                       possibleVars);
+  if (possibleVars.empty()) {
+    return IntermediateTableFactory::buildEmptyIntermediateTable();
+  }
+  return IntermediateTableFactory::buildWildcardIntermediateTable();
 }
 
 // Abstraction (ProcName, VarSynonym)
@@ -106,19 +127,29 @@ IntermediateTable StmtOrProcToVarAbstraction::evaluateIdentSynonym() {
 
 // Abstraction (ProcName, VarName)
 IntermediateTable StmtOrProcToVarAbstraction::evaluateIdentIdent() {
-  string firstArgProcName = this->firstArgValue;
-  string secondArgVarName = this->secondArgValue;
-  bool isProcRelatedToVar =
-      isVarRelatedToProc(firstArgProcName, secondArgVarName);
-
-  return isProcRelatedToVar
-             ? IntermediateTableFactory::buildWildcardIntermediateTable()
-             : IntermediateTableFactory::buildEmptyIntermediateTable();
+  //  string firstArgProcName = this->firstArgValue;
+  //  string secondArgVarName = this->secondArgValue;
+  //  bool isProcRelatedToVar =
+  //      isVarRelatedToProc(firstArgProcName, secondArgVarName);
+  //
+  //  return isProcRelatedToVar
+  //             ? IntermediateTableFactory::buildWildcardIntermediateTable()
+  //             : IntermediateTableFactory::buildEmptyIntermediateTable();
+  return handleProcNameVarName(firstArgValue, secondArgValue);
 }
 
 // Abstraction (ProcName, _)
 IntermediateTable StmtOrProcToVarAbstraction::evaluateIdentWildcard() {
-  return handleProcNameWithVarSynonymOrWildcard();
+  //  return handleProcNameWithVarSynonymOrWildcard();
+  return handleProcNameVarName(firstArgValue, common::WILDCARD_VAR);
+}
+
+IntermediateTable StmtOrProcToVarAbstraction::handleProcNameVarName(
+    const string& procName, const string& varName) {
+  bool isProcRelatedToVar = isVarRelatedToProc(procName, varName);
+  return isProcRelatedToVar
+             ? IntermediateTableFactory::buildWildcardIntermediateTable()
+             : IntermediateTableFactory::buildEmptyIntermediateTable();
 }
 
 IntermediateTable StmtOrProcToVarAbstraction::handleSynonymOrWildcardArgs() {
@@ -142,12 +173,20 @@ IntermediateTable StmtOrProcToVarAbstraction::handleSynonymOrWildcardArgs() {
   pair<Entity, Entity> entityPair = {ClauseUtil::getArgEntity(this->firstArg),
                                      ClauseUtil::getArgEntity(this->secondArg)};
   vector<string> colNames = {firstArgSynonym, secondArgVarSynonym};
-  TableDataType resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
-      allStmtOrProcAndVarPairs, entityPair, this->pkb);
+  TableDataType resultAsSynonymRes;
+  if (SynResConversionUtils::isSynResCacheHit(this->signature)) {
+    resultAsSynonymRes =
+        SynResConversionUtils::getFromSynResCache(this->signature);
+  } else {
+    resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+        allStmtOrProcAndVarPairs, entityPair, this->pkb);
+    SynResConversionUtils::saveToSynResCache(this->signature,
+                                             resultAsSynonymRes);
+  }
 
   //! If any of the args are "_", the column will be ignored.
-  return IntermediateTableFactory::buildIntermediateTable(colNames,
-                                                          resultAsSynonymRes);
+  return IntermediateTableFactory::buildIntermediateTable(
+      colNames, std::move(resultAsSynonymRes));
 }
 
 IntermediateTable
@@ -159,9 +198,18 @@ StmtOrProcToVarAbstraction::handleProcNameWithVarSynonymOrWildcard() {
   string firstArgProcName = this->firstArgValue;
   string secondArgVarValue = this->secondArgValue;
   vector<string> possibleVarValues = getVarsRelatedToProc(firstArgProcName);
-  vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
-      possibleVarValues, VARIABLE_ENTITY, this->pkb);
+  vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes;
+  if (SynResConversionUtils::isSingleColSynResCacheHit(this->signature)) {
+    resultAsSynonymRes =
+        SynResConversionUtils::getFromSingleColSynResCache(this->signature);
+  } else {
+    resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
+        possibleVarValues, VARIABLE_ENTITY, this->pkb);
+    SynResConversionUtils::saveToSingleColSynResCache(this->signature,
+                                                      resultAsSynonymRes);
+  }
+
   //! If second arg is "_", wildcard table is built instead.
-  return IntermediateTableFactory::buildSingleColTable(secondArgVarValue,
-                                                       resultAsSynonymRes);
+  return IntermediateTableFactory::buildSingleColTable(
+      secondArgVarValue, std::move(resultAsSynonymRes));
 }

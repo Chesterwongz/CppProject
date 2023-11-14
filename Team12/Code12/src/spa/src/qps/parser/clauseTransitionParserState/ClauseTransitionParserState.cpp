@@ -4,6 +4,10 @@ ClauseTransitionParserState::ClauseTransitionParserState(
     PQLParserContext& parserContext)
     : parserContext(parserContext) {}
 
+bool ClauseTransitionParserState::isTerminable() {
+  return true;
+}
+
 void ClauseTransitionParserState::processNameToken(PQLToken& curr) {
   // has to be a keyword
   PQLTokenType toUpdate =

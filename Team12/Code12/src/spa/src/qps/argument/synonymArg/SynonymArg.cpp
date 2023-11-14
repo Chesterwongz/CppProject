@@ -16,7 +16,7 @@ QPSStringUtils::ArgumentType SynonymArg::getArgumentType() {
   return argumentType;
 }
 
-bool SynonymArg::isSynonym() { return true; }
+bool SynonymArg::isSynonym() const { return true; }
 
 bool SynonymArg::isStmtSynonym() {
   return STATEMENT_ENTITIES.find(entityType) != STATEMENT_ENTITIES.end();
@@ -33,4 +33,9 @@ bool SynonymArg::operator==(const AbstractArgument& other) const {
   return this->synonymValue == otherSynonym->synonymValue &&
          this->entityType == otherSynonym->entityType &&
          this->attrRef == otherSynonym->attrRef;
+}
+
+string SynonymArg::getArgSignature() {
+  return this->getEntityType() + AbstractArgument::ARG_KEY_DELIMITER +
+         QPSStringUtils::ArgTypeToKeyMap.at(this->getArgumentType());
 }

@@ -3,21 +3,20 @@
 #include <memory>
 #include <set>
 #include <string>
-#include <unordered_set>
 #include <vector>
 
+#include "BaseClause.h"
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"
+#include "qps/clause/clauseCache/ClauseCache.h"
 #include "qps/intermediateTable/IntermediateTable.h"
 
 typedef vector<std::unique_ptr<AbstractArgument>> ArgumentList;
 
-using std::string, std::set, std::map, std::pair, std::vector;
+using std::string, std::set, std::vector;
 
-class Clause {
+class Clause : public BaseClause {
  public:
-  virtual IntermediateTable evaluate(PKBReader& pkb) = 0;
-  virtual ~Clause() = default;
-  virtual bool isEquals(const Clause& other) = 0;
-  virtual set<string> getClauseSynonyms() = 0;
+  ~Clause() override = default;
+  virtual vector<const AbstractArgument*> getAllArguments() = 0;
 };

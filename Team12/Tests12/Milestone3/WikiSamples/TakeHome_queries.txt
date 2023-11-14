@@ -1,0 +1,75 @@
+1 - a
+constant c;
+Select c
+1, 2, 4, 8, 16
+5000
+2 - b
+stmt s;
+Select s such that Follows (s, 21)
+none
+5000
+3 - c
+assign a;
+Select a such that Follows* (3, a)
+4, 15
+5000
+4 - d
+stmt s;
+Select s such that Parent (6, s)
+7, 8, 13
+5000
+5 - e
+read re;
+Select re such that Parent* (_, re)
+9, 21
+5000
+6 - f
+variable v;
+Select v such that Modifies (8, v)
+a, b, c, gloria
+5000
+7 - g
+variable v;
+Select v such that Uses (5, v)
+a, b, c, gloria, sasha
+5000
+8 - h
+assign a;
+Select a pattern a ("gloria", _)
+2, 10, 15, 19
+5000
+9 - i
+assign a;
+Select a pattern a (_, _"b+c"_)
+none
+5000
+10 - j
+variable v; assign a;
+Select v pattern a (v, "2")
+c, gloria
+5000
+11 - k
+procedure p;
+Select p such that Modifies (12, "c")
+Ruth, Barbie, Ken
+5000
+12 - l
+assign a; variable v;
+Select a such that Uses (a, v) pattern a (v, _"c*a"_)
+11
+5000
+13 - m
+assign a; variable v; variable v1;
+Select a such that Uses (a, v) pattern a (v1, _"c*a"_)
+7, 11
+5000
+14 - n
+variable v; assign a; assign a1;
+Select v such that Uses (a, v) pattern a1 (v, _"c*a"_)
+b
+5000
+15 - o
+variable v; assign a; assign a1; variable v1;
+Select v such that Uses(a, v) pattern a1 (v1, _"c*a"_)
+a, b, c, gloria
+5000

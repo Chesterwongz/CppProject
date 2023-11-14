@@ -11,6 +11,8 @@
 
 class CallsStarAbstraction : public ProcToProcAbstraction {
  private:
+  bool hasPairs() override;
+
   vector<pair<string, string>> getAllAbstractionPairs() override;
 
   vector<string> getFirstProcInAbstraction(

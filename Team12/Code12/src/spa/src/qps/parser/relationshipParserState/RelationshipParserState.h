@@ -22,8 +22,7 @@ class RelationshipParserState : public BaseParserState {
   bool isNegated;
   ArgumentList arguments;
   string abstraction;
-  virtual unique_ptr<SuchThatClause> createSuchThatClause(
-      Abstraction abstractionEnum);
+  virtual unique_ptr<Clause> createSuchThatClause(Abstraction abstractionEnum);
   static Abstraction getAbstractionType(
       const string &keyword,
       unordered_map<string, Abstraction> abstractionKeywordMap);

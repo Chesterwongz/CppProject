@@ -1,0 +1,42 @@
+procedure MultiClauseNot1 {
+    read x;
+    read b;
+}
+
+procedure MultiClauseNot2 {
+    x = 0;
+    i = 5;
+    call MultiClauseNot1;      
+    while (i > 0) {
+        x = x + 2*y;
+        call MultiClauseNot3;
+        i = i - 1;
+        if (x == 1) then {   
+            x = x + 1;
+            y = y + 1;
+        } else {
+            z = x + y;
+        }
+    }
+    if (y < 2) then {
+        z = 1;                
+    } else {
+        z = z * 2;
+    }
+    z = z + x + i;
+    y = z + 2;
+    x = x * y + z;
+    call MultiClauseNot4;     
+}
+
+procedure MultiClauseNot3 {
+    z = 5;                    
+    v = z;
+    print v;
+}
+
+procedure MultiClauseNot4 {
+    print x;
+    print y;                  
+    print hello;
+}

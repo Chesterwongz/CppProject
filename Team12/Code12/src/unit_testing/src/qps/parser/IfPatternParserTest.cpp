@@ -1,13 +1,8 @@
 #include <memory>
-#include <string>
 #include <vector>
 #include <catch.hpp>
 
 #include "PQLParserTestUtils.h"
-#include "qps/argument/ident/Ident.h"
-#include "qps/argument/patternExp/PatternExp.h"
-#include "qps/argument/synonymArg/SynonymArg.h"
-#include "qps/argument/wildcard/Wildcard.h"
 #include "qps/clause/patternClause/IfPatternClause.h"
 #include "qps/parser/tokenizer/token/PQLToken.h"
 #include "qps/query/Query.h"
@@ -31,7 +26,7 @@ TEST_CASE("Valid Pattern if (LITERAL_REF,_,_)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   REQUIRE(true);
 }
@@ -59,7 +54,7 @@ TEST_CASE("Valid Pattern if (SYNONYM,_,_)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   REQUIRE(true);
 }
@@ -87,7 +82,7 @@ TEST_CASE("Valid Pattern if (_,_,_)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   REQUIRE(true);
 }
@@ -115,7 +110,7 @@ TEST_CASE("Invalid Pattern if (SYNONYM,_,_) - not var synonym") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
 
-  REQUIRE_THROWS_AS(parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+  REQUIRE_THROWS_AS(parseToQuery(tokenList),
                     QPSSemanticError);
 }
 
@@ -143,7 +138,7 @@ TEST_CASE("Invalid Pattern if (SYNONYM,_,LITERAL_REF)") {
   };
 
   REQUIRE_THROWS_MATCHES(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       QPSSyntaxError,
       Catch::Message(QPS_TOKENIZATION_ERR_INCORRECT_ARGUMENT));
 }
@@ -170,7 +165,7 @@ TEST_CASE("Invalid Pattern if (SYNONYM,_)") {
   };
 
   REQUIRE_THROWS_AS(
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader),
+      parseToQuery(tokenList),
       QPSSemanticError);
 }
 
@@ -198,7 +193,7 @@ TEST_CASE("Valid Pattern not if (_,_,_)") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   REQUIRE(true);
 }
@@ -227,7 +222,7 @@ TEST_CASE("Valid Pattern not if (_,_,_) - not as outer synonym") {
       PQLToken(PQL_CLOSE_BRACKET_TOKEN, ")"),
   };
   std::unique_ptr<Query> query =
-      parseToQuery(std::move(tokenList), dummyQpsParserPkbReader);
+      parseToQuery(tokenList);
 
   REQUIRE(true);
 }

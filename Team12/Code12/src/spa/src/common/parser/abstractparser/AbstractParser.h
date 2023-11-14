@@ -12,10 +12,10 @@
 
 class AbstractParser : public IParser {
  protected:
-  std::shared_ptr<ParserContext> context;
+  ParserContext& context;
 
-  explicit AbstractParser(std::shared_ptr<ParserContext> context)
-      : context(std::move(context)) {}
+  explicit AbstractParser(ParserContext& context)
+      : context(context) {}
 
   std::function<void(const std::optional<std::unique_ptr<TNode>> &)>
   requireTNodeOpt(TNodeType nodeType);

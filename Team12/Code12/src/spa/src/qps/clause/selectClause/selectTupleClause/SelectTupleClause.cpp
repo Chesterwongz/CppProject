@@ -44,14 +44,15 @@ IntermediateTable SelectTupleClause::getAllPossibleValues(
     results = SelectTupleClause::evaluatorFuncMap.at(entity)(pkb);
   }
 
-  vector<SynonymRes> resultAsSynonymRes = SynResConversionUtils::toSynonymRes(
-      results, ClauseUtil::getArgEntity(*synonymArg), pkb);
+  vector<std::reference_wrapper<SynonymRes>> resultAsSynonymRes =
+      SynResConversionUtils::toSynonymRes(
+          results, ClauseUtil::getArgEntity(*synonymArg), pkb);
 
   return IntermediateTableFactory::buildSingleColTable(synonymValue,
                                                        resultAsSynonymRes);
 }
 
-bool SelectTupleClause::isEquals(const Clause &other) {
+bool SelectTupleClause::isEquals(const BaseClause & other) {
   const auto *otherSelect = dynamic_cast<const SelectTupleClause *>(&other);
   if (!otherSelect) return false;
 

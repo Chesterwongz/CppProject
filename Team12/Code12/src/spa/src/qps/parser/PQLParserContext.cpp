@@ -3,7 +3,6 @@
 #include <utility>
 
 #include "qps/argument/synonymArg/SynonymArg.h"
-#include "qps/clause/selectClause/BaseSelectClause.h"
 #include "qps/common/QPSStringUtils.h"
 
 PQLParserContext::PQLParserContext(unique_ptr<PQLTokenStream> tokenStream,
@@ -18,9 +17,7 @@ void PQLParserContext::addToContext(string entity, const string& synonym) {
   if (!isSuccess) isSemanticallyValid = false;
 }
 
-void PQLParserContext::addSelectClause() {
-  this->query->setSynonymToQuery({});
-}
+void PQLParserContext::addSelectClause() { this->query->setSynonymToQuery({}); }
 
 void PQLParserContext::addSelectClause(unique_ptr<SynonymArg> synonym) {
   SynonymsToSelect synonymVector = {};
@@ -43,6 +40,10 @@ string PQLParserContext::getValidSynonymType(const string& synonym) {
 
 bool PQLParserContext::checkSynonymExists(const std::string& synonym) {
   return context->checkIfSynonymExists(synonym);
+}
+
+void PQLParserContext::addNotClause(unique_ptr<NotDecorator> notClause) {
+  query->addNotClause(std::move(notClause));
 }
 
 void PQLParserContext::addClause(unique_ptr<Clause> clause) {
@@ -91,6 +92,9 @@ void PQLParserContext::transitionTo(unique_ptr<IParserState> nextState) {
 void PQLParserContext::handleTokens() {
   while (tokenStream->peek().has_value()) {
     currState->handleToken();
+  }
+  if (!currState->isTerminable()) {
+    throw QPSSyntaxError(QPS_TOKENIZATION_ERR_INCOMPLETE_QUERY);
   }
   if (!isSemanticallyValid) {
     throw QPSSemanticError(QPS_SEMANTIC_ERR);

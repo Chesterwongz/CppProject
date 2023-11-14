@@ -1,0 +1,4 @@
+procedure simple { read num1;
+      print num2;
+      x = num1 + 1;
+}

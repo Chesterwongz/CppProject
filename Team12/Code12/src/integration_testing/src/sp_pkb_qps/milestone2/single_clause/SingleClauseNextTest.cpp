@@ -284,3 +284,31 @@ TEST_CASE(
   unordered_set<string> expected = {"SemanticError"};
   REQUIRE(result == expected);
 }
+
+TEST_CASE(
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/Next_queries.txt - 19") {
+  string query =
+      "stmt s;"
+      "Select s such that Next*( s,s )";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(nextSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"3", "4"};
+  REQUIRE(result == expected);
+}
+
+TEST_CASE(
+    "SP-PKB-QPS tests/Milestone2/SingleClauseTests/Next_queries.txt - 20") {
+  string query =
+      "stmt s;"
+      "Select s such that not Next*( s,s )";
+  SourceProcessor sp;
+  PKB pkb;
+  sp.processContent(nextSource, pkb.getWriter());
+  QPS qps(pkb.getReader());
+  auto result = qps.processQueryString(query);
+  unordered_set<string> expected = {"1", "2", "5", "6", "7", "8", "9"};
+  REQUIRE(result == expected);
+}

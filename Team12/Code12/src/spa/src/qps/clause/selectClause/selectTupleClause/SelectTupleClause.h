@@ -35,7 +35,7 @@ class SelectTupleClause : public BaseSelectClause {
 
   IntermediateTable evaluate(PKBReader &pkb) override;
 
-  bool isEquals(const Clause &other) override;
+  bool isEquals(const BaseClause & other) override;
 
   unordered_set<string> getQueryResult(
       IntermediateTable &intermediateTable) override;

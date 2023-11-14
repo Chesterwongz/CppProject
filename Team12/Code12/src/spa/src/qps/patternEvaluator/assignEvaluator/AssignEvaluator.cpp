@@ -6,10 +6,10 @@
 #include "qps/common/Keywords.h"
 
 vector<pair<string, string>> AssignEvaluator::evaluateArguments() {
-  string firstArgValue = firstArg->getValue();
-  string secondArgValue = secondArg->getValue();
+  string firstArgValue = firstArg.getValue();
+  string secondArgValue = secondArg.getValue();
 
-  bool isFirstArgSynonym = firstArg->isSynonym();
+  bool isFirstArgSynonym = firstArg.isSynonym();
 
   if (isFirstArgSynonym) {
     firstArgValue = WILDCARD_KEYWORD;

@@ -10,52 +10,38 @@
 
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"
+#include "qps/clause/utils/ClauseUtil.h"
 #include "qps/intermediateTable/IntermediateTable.h"
 #include "qps/intermediateTable/IntermediateTableFactory.h"
 
 using std::string, std::vector, std::unique_ptr, std::set, std::pair, std::move,
     std::function;
 
-typedef function<vector<SynonymRes>()> WithEvaluatorFunc;
+typedef function<vector<std::reference_wrapper<SynonymRes>>()>
+    WithEvaluatorFunc;
 
 class WithEvaluator {
  protected:
   PKBReader& pkbReader;
-
-  virtual vector<SynonymRes> evaluateStmtEntity();
-  virtual vector<SynonymRes> evaluateAssignEntity();
-  virtual vector<SynonymRes> evaluateIfEntity();
-  virtual vector<SynonymRes> evaluateWhileEntity();
-  virtual vector<SynonymRes> evaluateConstantEntity();
-  virtual vector<SynonymRes> evaluateProcEntity();
-  virtual vector<SynonymRes> evaluateVarEntity();
-  virtual vector<SynonymRes> evaluateCallEntity();
-  virtual vector<SynonymRes> evaluateReadEntity();
-  virtual vector<SynonymRes> evaluatePrintEntity();
-
-  vector<SynonymRes> buildStmtSynonymResVector(vector<string> stmtNums);
-  vector<SynonymRes> buildConstantSynonymResVector(vector<string> constantVals);
-  vector<SynonymRes> buildProcSynonymResVector(vector<string> procNames);
-  vector<SynonymRes> buildVarSynonymResVector(vector<string> procNames);
-  vector<SynonymRes> buildCallSynonymResVector(
-      vector<pair<string, string>> callProcNamePairs);
-  vector<SynonymRes> buildReadSynonymResVector(
-      vector<pair<string, string>> readVarNamePairs);
-  vector<SynonymRes> buildPrintSynonymResVector(
-      vector<pair<string, string>> printVarNamePairs);
-
   unordered_map<Entity, WithEvaluatorFunc> withEvaluatorFuncMap = {
-      {ASSIGN_ENTITY, [this]() { return evaluateAssignEntity(); }},
-      {IF_ENTITY, [this]() { return evaluateIfEntity(); }},
-      {WHILE_ENTITY, [this]() { return evaluateWhileEntity(); }},
-      {STMT_ENTITY, [this]() { return evaluateStmtEntity(); }},
-      {READ_ENTITY, [this]() { return evaluateReadEntity(); }},
-      {PRINT_ENTITY, [this]() { return evaluatePrintEntity(); }},
-      {CALL_ENTITY, [this]() { return evaluateCallEntity(); }},
-      {VARIABLE_ENTITY, [this]() { return evaluateVarEntity(); }},
-      {PROCEDURE_ENTITY, [this]() { return evaluateProcEntity(); }},
-      {CONSTANT_ENTITY, [this]() { return evaluateConstantEntity(); }}
-  };
+      {ASSIGN_ENTITY,
+       [this]() { return ClauseUtil::getAllAssignStmts(pkbReader); }},
+      {IF_ENTITY, [this]() { return ClauseUtil::getAllIfStmts(pkbReader); }},
+      {WHILE_ENTITY,
+       [this]() { return ClauseUtil::getAllWhileStmts(pkbReader); }},
+      {STMT_ENTITY, [this]() { return ClauseUtil::getAllStmts(pkbReader); }},
+      {READ_ENTITY,
+       [this]() { return ClauseUtil::getAllReadStmts(pkbReader); }},
+      {PRINT_ENTITY,
+       [this]() { return ClauseUtil::getAllPrintStmts(pkbReader); }},
+      {CALL_ENTITY,
+       [this]() { return ClauseUtil::getAllCallStmts(pkbReader); }},
+      {VARIABLE_ENTITY,
+       [this]() { return ClauseUtil::getAllVariables(pkbReader); }},
+      {PROCEDURE_ENTITY,
+       [this]() { return ClauseUtil::getAllProcedures(pkbReader); }},
+      {CONSTANT_ENTITY,
+       [this]() { return ClauseUtil::getAllConstants(pkbReader); }}};
 
  public:
   explicit WithEvaluator(PKBReader& pkbReader) : pkbReader(pkbReader) {}

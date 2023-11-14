@@ -17,19 +17,19 @@ bool ParentsStarAbstraction::isFirstSynonymInvalid() {
          stmtType != StmtType::WHILE;
 }
 
+bool ParentsStarAbstraction::hasPairs() { return this->pkb.hasParentsT(); }
+
 vector<pair<string, string>> ParentsStarAbstraction::getAllPairs(
-    StmtType firstStmtType, StmtType secondStmtType) {
-  return pkb.getParentChildStarPairs(firstStmtType, secondStmtType);
+    StmtType type1, StmtType type2) {
+  return pkb.getParentChildStarPairs(type1, type2);
 }
 
-vector<string> ParentsStarAbstraction::getFirstStmt(int secondStmtNumber,
-                                                    StmtType firstStmtType) {
-  return pkb.getParentStarOf(secondStmtNumber, firstStmtType);
+vector<string> ParentsStarAbstraction::getFirstStmt(int s2, StmtType type1) {
+  return pkb.getParentStarOf(s2, type1);
 }
 
-vector<string> ParentsStarAbstraction::getSecondStmt(int firstStmtNumber,
-                                                     StmtType secondStmtType) {
-  return pkb.getChildrenStarOf(firstStmtNumber, secondStmtType);
+vector<string> ParentsStarAbstraction::getSecondStmt(int s1, StmtType type2) {
+  return pkb.getChildrenStarOf(s1, type2);
 }
 
 bool ParentsStarAbstraction::isStmtRelatedToStmt(int stmtNum1, int stmtNum2) {

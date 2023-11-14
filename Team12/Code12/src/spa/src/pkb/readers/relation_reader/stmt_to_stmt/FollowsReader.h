@@ -1,26 +1,22 @@
 #pragma once
 
-#include <cassert>
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "common/Constants.h"
-#include "common/StmtTypes.h"
+#include "StmtToStmtReader.h"
 #include "common/utils/CollectionUtils.h"
 #include "pkb/interfaces/readers/IFollowsReader.h"
-#include "pkb/storage/FollowsStore.h"
-#include "pkb/storage/StmtStore.h"
+#include "pkb/storage/entity_storage/StmtStore.h"
+#include "pkb/storage/relation_storage/RelationTStore.h"
 
 class FollowsReader : public IFollowsReader {
  private:
-  FollowsStore& followsStore;
-  StmtStore& stmtStore;
+  StmtToStmtReader reader;
 
  protected:
-  explicit FollowsReader(FollowsStore& storage, StmtStore& stmtStorage)
-      : followsStore(storage), stmtStore(stmtStorage) {}
+  explicit FollowsReader(RelationTStore<int>& store, StmtStore& stmtStorage)
+      : reader(store, stmtStorage) {}
 
  public:
   std::vector<std::string> getFollowing(int stmt, StmtType stmtType) override;
@@ -31,6 +27,8 @@ class FollowsReader : public IFollowsReader {
 
   std::vector<std::pair<std::string, std::string>> getFollowsPairs(
       StmtType stmtType1, StmtType stmtType2) override;
+
+  bool hasFollows() override;
 
   // ================================ FollowsT ================================
 
@@ -43,4 +41,6 @@ class FollowsReader : public IFollowsReader {
 
   std::vector<std::pair<std::string, std::string>> getFollowsStarPairs(
       StmtType stmtType1, StmtType stmtType2) override;
+
+  bool hasFollowsT() override;
 };

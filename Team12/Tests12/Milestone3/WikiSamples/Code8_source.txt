@@ -1,0 +1,8 @@
+procedure p {
+    x = a;
+    call q;
+    v = x; }
+
+procedure q {
+    print x;
+}

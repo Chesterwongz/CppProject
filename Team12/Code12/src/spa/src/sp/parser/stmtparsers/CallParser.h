@@ -9,7 +9,7 @@
 
 class CallParser : public AbstractParser {
  public:
-  explicit CallParser(std::shared_ptr<ParserContext> context)
-      : AbstractParser(std::move(context)) {}
+  explicit CallParser(ParserContext& context)
+      : AbstractParser(context) {}
   std::optional<std::unique_ptr<TNode>> parse() override;
 };

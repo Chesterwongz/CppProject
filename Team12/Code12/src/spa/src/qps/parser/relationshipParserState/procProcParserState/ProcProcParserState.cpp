@@ -2,6 +2,8 @@
 
 #include <utility>
 
+#include "qps/clause/clauseDecorator/notDecorator/NotDecorator.h"
+
 unordered_map<string, Abstraction>
     ProcProcParserState::procProcKeywordToAbstraction = {
         {CALLS_ABSTRACTION, CALLS_ENUM},
@@ -36,14 +38,20 @@ void ProcProcParserState::handleToken() {
   while (curr.has_value()) {
     PQLToken token = curr.value();
 
+    unique_ptr<Clause> suchThatClause;
+
     switch (token.getType()) {
       case PQL_OPEN_BRACKET_TOKEN:
         isInBracket = true;
         break;
       case PQL_CLOSE_BRACKET_TOKEN:
         isInBracket = false;
-        parserContext.addClause(std::move(createSuchThatClause(
-            getAbstractionType(abstraction, procProcKeywordToAbstraction))));
+        suchThatClause = createSuchThatClause(
+            getAbstractionType(abstraction, procProcKeywordToAbstraction));
+
+        BaseParserState::addEvaluableClause(std::move(suchThatClause),
+                                            isNegated);
+
         ClauseTransitionParserState::setClauseTransitionState(parserContext);
         return;
       case PQL_SYNONYM_TOKEN:

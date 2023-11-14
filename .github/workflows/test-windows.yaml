@@ -52,7 +52,6 @@ jobs:
         run: |
           chmod +x ./auto_autotester.sh 
           ./auto_autotester.sh ../Code12/build/src/autotester/${BUILD_TYPE}/autotester.exe
-        continue-on-error: true
 
       - name: Upload out.xml artifacts
         uses: actions/upload-artifact@v3

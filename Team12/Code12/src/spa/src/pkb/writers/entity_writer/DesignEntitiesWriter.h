@@ -4,8 +4,8 @@
 
 #include "common/StmtTypes.h"
 #include "pkb/interfaces/writers/IDesignEntitiesWriter.h"
-#include "pkb/storage/EntityStore.h"
-#include "pkb/storage/StmtStore.h"
+#include "pkb/storage/entity_storage/EntityStore.h"
+#include "pkb/storage/entity_storage/StmtStore.h"
 
 class DesignEntitiesWriter : public IDesignEntitiesWriter {
  private:

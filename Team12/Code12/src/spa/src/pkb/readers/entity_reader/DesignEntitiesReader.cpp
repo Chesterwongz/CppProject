@@ -39,7 +39,7 @@ bool DesignEntitiesReader::isValidProc(std::string procName) {
 }
 
 bool DesignEntitiesReader::isValidVariable(std::string varName) {
-  return entityStore.hasVariable(varName);
+  return entityStore.hasVar(varName);
 }
 
 std::vector<std::string> DesignEntitiesReader::getStmtsThatCall(
@@ -114,7 +114,7 @@ std::vector<std::string> DesignEntitiesReader::getVariablePrintedBy(
 
 std::vector<std::pair<std::string, std::string>>
 DesignEntitiesReader::getAllStmtProcCallsPairs() {
-  const auto& rawRes = callsSStore.getDirectRelations();
+  const auto& rawRes = callsSStore.getDirectSuccessorMap();
   return CollectionUtils::intStrMapSetToStrPairVector(rawRes);
 }
 

@@ -4,17 +4,17 @@
 #include <utility>
 #include <vector>
 
-#include "common/utils/CollectionUtils.h"
+#include "ProcToProcReader.h"
 #include "pkb/interfaces/readers/ICallsReader.h"
-#include "pkb/storage/CallsStore.h"
-#include "pkb/utils/PredicateUtils.h"
+#include "pkb/storage/relation_storage/RelationTStore.h"
 
 class CallsReader : public ICallsReader {
  private:
-  CallsStore& callsStore;
+  ProcToProcReader reader;
 
  public:
-  explicit CallsReader(CallsStore& callsStore) : callsStore(callsStore) {}
+  explicit CallsReader(RelationTStore<std::string>& callsStore)
+      : reader(callsStore) {}
 
   // Calls(p, "proc2"), returns all p
   std::vector<std::string> getCallerProcs(const std::string& proc2) override;
@@ -36,7 +36,11 @@ class CallsReader : public ICallsReader {
   // Calls*(p1, p2)
   std::vector<std::pair<std::string, std::string>> getCallsStarPairs() override;
 
+  bool hasCalls() override;
+
   bool hasCalls(const std::string& proc1, const std::string& proc2) override;
+
+  bool hasCallsT() override;
 
   bool hasCallsT(const std::string& proc1, const std::string& proc2) override;
 };

@@ -9,7 +9,7 @@
 
 class VarParser : public AbstractParser {
  public:
-  explicit VarParser(std::shared_ptr<ParserContext> context)
-      : AbstractParser(std::move(context)) {}
+  explicit VarParser(ParserContext& context)
+      : AbstractParser(context) {}
   std::optional<std::unique_ptr<TNode>> parse() override;
 };

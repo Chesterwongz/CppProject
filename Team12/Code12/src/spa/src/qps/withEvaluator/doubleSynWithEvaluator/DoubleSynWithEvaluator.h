@@ -18,16 +18,16 @@ using std::unique_ptr, std::string, std::move, std::pair, std::make_pair,
 
 class DoubleSynWithEvaluator : public WithEvaluator {
  protected:
-  unique_ptr<SynonymArg> firstSynonymArg;
-  unique_ptr<SynonymArg> secondSynonymArg;
+  SynonymArg& firstSynonymArg;
+  SynonymArg& secondSynonymArg;
 
  public:
-  explicit DoubleSynWithEvaluator(unique_ptr<SynonymArg> firstArg,
-                                  unique_ptr<SynonymArg> secondArg,
+  explicit DoubleSynWithEvaluator(SynonymArg& firstArg,
+                                  SynonymArg& secondArg,
                                   PKBReader& pkbReader)
       : WithEvaluator(pkbReader),
-        firstSynonymArg(std::move(firstArg)),
-        secondSynonymArg(std::move(secondArg)) {}
+        firstSynonymArg(firstArg),
+        secondSynonymArg(secondArg) {}
 
   IntermediateTable evaluate() override;
 };

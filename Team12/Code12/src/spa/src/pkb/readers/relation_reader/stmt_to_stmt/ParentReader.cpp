@@ -1,94 +1,45 @@
 #include "ParentReader.h"
 
 std::vector<std::string> ParentReader::getImmediateChildrenOf(
-    int stmt, StmtType stmtType) {
-  if (!stmtStore.hasStmtType(stmtType) ||
-      !parentStore.hasDirectSuccessors(stmt)) {
-    return {};
-  }
-
-  auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
-
-  const auto& rawRes = parentStore.getDirectSuccessors(stmt);
-
-  return CollectionUtils::transformSetUToVectorV<int, std::string>(
-      rawRes, CollectionUtils::intToStrMapper, stmtFilter);
+    int s1, StmtType stmtType) {
+  return reader.getDirectS2ByS1(s1, stmtType);
 }
 
-std::vector<std::string> ParentReader::getImmediateParentOf(int stmt,
+std::vector<std::string> ParentReader::getImmediateParentOf(int s2,
                                                             StmtType stmtType) {
-  if (!stmtStore.hasStmtType(stmtType) ||
-      !parentStore.hasDirectAncestors(stmt)) {
-    return {};
-  }
-  auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
-
-  const auto& rawRes = parentStore.getDirectAncestors(stmt);
-
-  return CollectionUtils::transformSetUToVectorV<int, std::string>(
-      rawRes, CollectionUtils::intToStrMapper, stmtFilter);
+  return reader.getDirectS1ByS2(s2, stmtType);
 }
 
 bool ParentReader::isParent(int stmt1, int stmt2) {
-  return parentStore.hasDirectRelation(stmt1, stmt2);
+  return reader.hasDirectRelation(stmt1, stmt2);
 }
 
 std::vector<std::pair<std::string, std::string>>
 ParentReader::getParentChildPairs(StmtType stmtType1, StmtType stmtType2) {
-  if (!stmtStore.hasStmtType(stmtType1) || !stmtStore.hasStmtType(stmtType2)) {
-    return {};
-  }
-
-  auto stmtFilters =
-      stmtStore.getStmtStmtFilterPredicates(stmtType1, stmtType2);
-
-  const auto& rawRes = parentStore.getDirectRelations();
-
-  return CollectionUtils::intIntMapSetToStrPairVector(rawRes, stmtFilters);
+  return reader.getDirectS1AndS2Pairs(stmtType1, stmtType2);
 }
+
+bool ParentReader::hasParents() { return reader.hasDirectS1AndS2Pairs(); }
 
 // ================================== ParentT ==================================
 
-std::vector<std::string> ParentReader::getChildrenStarOf(int stmt,
+std::vector<std::string> ParentReader::getChildrenStarOf(int s1,
                                                          StmtType stmtType) {
-  if (!stmtStore.hasStmtType(stmtType) || !parentStore.hasSuccessorsT(stmt)) {
-    return {};
-  }
-
-  auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
-
-  const auto& rawRes = parentStore.getSuccessorsT(stmt);
-
-  return CollectionUtils::intSetToStrVector(rawRes, stmtFilter);
+  return reader.getTransitiveS2ByS1(s1, stmtType);
 }
 
-std::vector<std::string> ParentReader::getParentStarOf(int stmt,
+std::vector<std::string> ParentReader::getParentStarOf(int s2,
                                                        StmtType stmtType) {
-  if (!stmtStore.hasStmtType(stmtType) || !parentStore.hasAncestorsT(stmt)) {
-    return {};
-  }
-
-  auto stmtFilter = stmtStore.getStmtFilterPredicate(stmtType);
-
-  const auto& rawRes = parentStore.getAncestorsT(stmt);
-
-  return CollectionUtils::intSetToStrVector(rawRes, stmtFilter);
+  return reader.getTransitiveS1ByS2(s2, stmtType);
 }
 
 bool ParentReader::isParentStar(int stmt1, int stmt2) {
-  return parentStore.hasRelationT(stmt1, stmt2);
+  return reader.hasTransitiveRelation(stmt1, stmt2);
 }
 
 std::vector<std::pair<std::string, std::string>>
 ParentReader::getParentChildStarPairs(StmtType stmtType1, StmtType stmtType2) {
-  if (!stmtStore.hasStmtType(stmtType1) || !stmtStore.hasStmtType(stmtType2)) {
-    return {};
-  }
-
-  auto stmtFilters =
-      stmtStore.getStmtStmtFilterPredicates(stmtType1, stmtType2);
-
-  const auto& rawRes = parentStore.getRelationsT();
-
-  return CollectionUtils::intIntMapSetToStrPairVector(rawRes, stmtFilters);
+  return reader.getTransitiveS1AndS2Pairs(stmtType1, stmtType2);
 }
+
+bool ParentReader::hasParentsT() { return reader.hasDirectS1AndS2Pairs(); }

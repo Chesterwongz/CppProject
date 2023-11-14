@@ -26,6 +26,7 @@ TEST_CASE("CallsAbstraction - Calls(ProcSynonym, ProcSynonym)") {
   REQUIRE(resultTable.getColNames().size() == 2);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
   REQUIRE(resultTable.getColNames().at(1) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(ProcSynonym, ProcSynonym)_empty") {
@@ -42,6 +43,7 @@ TEST_CASE("CallsAbstraction - Calls(ProcSynonym, ProcSynonym)_empty") {
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
   REQUIRE(resultTable.isTableEmpty());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(ProcSynonym, ProcName)") {
@@ -61,6 +63,7 @@ TEST_CASE("CallsAbstraction - Calls(ProcSynonym, ProcName)") {
           MOCK_CALLS_DATA::MOCK_CALLER_PROCS_COL);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(ProcSynonym, ProcName)_empty") {
@@ -76,6 +79,7 @@ TEST_CASE("CallsAbstraction - Calls(ProcSynonym, ProcName)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(ProcSynonym, Wildcard)") {
@@ -94,6 +98,7 @@ TEST_CASE("CallsAbstraction - Calls(ProcSynonym, Wildcard)") {
           MOCK_CALLS_DATA::MOCK_CALLED_VECTORS_COL_1);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_1);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(ProcSynonym, Wildcard)_empty") {
@@ -108,6 +113,7 @@ TEST_CASE("CallsAbstraction - Calls(ProcSynonym, Wildcard)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(ProcName, ProcSynonym)") {
@@ -127,6 +133,7 @@ TEST_CASE("CallsAbstraction - Calls(ProcName, ProcSynonym)") {
           MOCK_CALLS_DATA::MOCK_CALLEE_PROCS_COL);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(ProcName, ProcSynonym)_empty") {
@@ -143,6 +150,7 @@ TEST_CASE("CallsAbstraction - Calls(ProcName, ProcSynonym)_empty") {
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
   REQUIRE(resultTable.isTableEmpty());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(ProcName, ProcName)") {
@@ -159,6 +167,7 @@ TEST_CASE("CallsAbstraction - Calls(ProcName, ProcName)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(ProcName, ProcName)_false") {
@@ -175,11 +184,12 @@ TEST_CASE("CallsAbstraction - Calls(ProcName, ProcName)_false") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(ProcName, Wildcard)") {
   MockCallsReader mockReader = MockCallsReader();
-  mockReader.mockCalleeProcs = MOCK_CALLS_DATA::MOCK_CALLEE_PROCS;
+  mockReader.mockHasCalls = true;
   unique_ptr<AbstractArgument> mockArgument1 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
   unique_ptr<AbstractArgument> mockArgument2 = std::make_unique<Wildcard>();
@@ -190,6 +200,7 @@ TEST_CASE("CallsAbstraction - Calls(ProcName, Wildcard)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(ProcName, Wildcard)_empty") {
@@ -204,6 +215,7 @@ TEST_CASE("CallsAbstraction - Calls(ProcName, Wildcard)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(Wildcard, ProcSynonym)") {
@@ -222,6 +234,7 @@ TEST_CASE("CallsAbstraction - Calls(Wildcard, ProcSynonym)") {
           MOCK_CALLS_DATA::MOCK_CALLED_VECTORS_COL_2);
   REQUIRE(resultTable.getColNames().size() == 1);
   REQUIRE(resultTable.getColNames().at(0) == MOCK_SYNONYM_VALUE_2);
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(Wildcard, ProcSynonym)_empty") {
@@ -236,11 +249,12 @@ TEST_CASE("CallsAbstraction - Calls(Wildcard, ProcSynonym)_empty") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(Wildcard, ProcName)") {
   MockCallsReader mockReader = MockCallsReader();
-  mockReader.mockCallerProcs = MOCK_CALLS_DATA::MOCK_CALLER_PROCS;
+  mockReader.mockHasCalls = true;
   unique_ptr<AbstractArgument> mockArgument1 = std::make_unique<Wildcard>();
   unique_ptr<AbstractArgument> mockArgument2 =
       std::make_unique<Ident>(MOCK_IDENT_VALUE_1);
@@ -251,6 +265,7 @@ TEST_CASE("CallsAbstraction - Calls(Wildcard, ProcName)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(Wildcard, ProcName)_false") {
@@ -265,6 +280,7 @@ TEST_CASE("CallsAbstraction - Calls(Wildcard, ProcName)_false") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableEmptyAndNotWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(Wildcard, Wildcard)") {
@@ -279,6 +295,7 @@ TEST_CASE("CallsAbstraction - Calls(Wildcard, Wildcard)") {
   IntermediateTable resultTable = abstraction.evaluate();
 
   REQUIRE(resultTable.isTableWildcard());
+  SynResConversionUtils::clearSynResCache();
 }
 
 TEST_CASE("CallsAbstraction - Calls(Wildcard, Wildcard)_empty") {

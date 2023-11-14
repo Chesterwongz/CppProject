@@ -9,7 +9,6 @@
 #include <utility>
 #include <vector>
 
-#include "common/cfg/CFG.h"
 #include "common/utils/PairUtils.h"
 #include "pkb/facade/PKBStore.h"
 #include "pkb/writers/entity_writer/DesignEntitiesWriter.h"
@@ -38,6 +37,7 @@ class PKBWriter : public DesignEntitiesWriter,
         parentStore(store.getParentStore()),
         callsPStore(store.getCallsStore()),
         callsSStore(store.getCallsStmtStore()),
+        followsStore(store.getFollowsStore()),
         DesignEntitiesWriter(store.getEntityStore(), store.getStmtStore()),
         FollowsWriter(store.getFollowsStore()),
         ModifiesWriter(store.getModifiesStore(), store.getModifiesProcStore()),
@@ -47,14 +47,15 @@ class PKBWriter : public DesignEntitiesWriter,
         UsesWriter(store.getUsesStore(), store.getUsesProcStore()),
         CallsWriter(store.getCallsStore(), store.getCallsStmtStore()) {}
 
-  void setIndirectCallsRelationship();
+  void computeAllRelationsT();
 
  private:
-  UsesPStore& usesPStore;
-  ModifiesPStore& modifiesPStore;
-  ParentStore& parentStore;
-  CallsStore& callsPStore;
-  CallsSStore& callsSStore;
+  RelationStore<std::string, std::string>& usesPStore;
+  RelationStore<std::string, std::string>& modifiesPStore;
+  RelationTStore<int>& parentStore;
+  RelationTStore<int>& followsStore;
+  RelationTStore<std::string>& callsPStore;
+  RelationStore<int, std::string>& callsSStore;
 
   void addUsesForCallsProc(const string& callerProc,
                            const unordered_set<string>& calleeProcs);
@@ -76,6 +77,7 @@ class PKBWriter : public DesignEntitiesWriter,
                            const unordered_set<string>& allCallees);
   void addModifiesForCallStmts(int stmtNum,
                                const unordered_set<string>& allCallees);
+  void setIndirectCallsRelationship();
   void setIndirectCallsProcRelationships();
   void setIndirectCallsStmtRelationships();
 };

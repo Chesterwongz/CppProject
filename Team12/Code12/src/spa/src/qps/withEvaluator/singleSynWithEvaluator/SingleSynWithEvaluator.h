@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "pkb/facade/PKBReader.h"
 #include "qps/argument/AbstractArgument.h"
@@ -16,40 +17,46 @@
 using std::unique_ptr, std::string, std::move, std::pair, std::make_pair,
     std::function, std::make_unique;
 
-typedef function<IntermediateTable()> EntityValueFunc;
+typedef function<vector<std::reference_wrapper<SynonymRes>>()>
+    SingleSynWithEvaluatorFunc;
 
 class SingleSynWithEvaluator : public WithEvaluator {
  protected:
-  unique_ptr<SynonymArg> synonymArg;
-  unique_ptr<AbstractArgument> valueArg;
+  SynonymArg& synonymArg;
+  AbstractArgument& valueArg;
 
-  IntermediateTable getCallValueArgResult();
-  IntermediateTable getReadValueArgResult();
-  IntermediateTable getPrintValueArgResult();
-  IntermediateTable getStmtValueArgResult();
-  IntermediateTable getVarValueArgResult();
-  IntermediateTable getConstantValueArgResult();
-  IntermediateTable getProcValueArgResult();
+  vector<std::reference_wrapper<SynonymRes>> evaluateStmtEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluateAssignEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluateIfEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluateWhileEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluateConstantEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluateProcEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluateVarEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluateCallEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluateReadEntity();
+  vector<std::reference_wrapper<SynonymRes>> evaluatePrintEntity();
 
-  unordered_map<Entity, EntityValueFunc> valueArgResultFuncMap = {
-      {CALL_ENTITY, [this]() { return getCallValueArgResult(); }},
-      {READ_ENTITY, [this]() { return getReadValueArgResult(); }},
-      {PRINT_ENTITY, [this]() { return getPrintValueArgResult(); }},
-      {STMT_ENTITY, [this]() { return getStmtValueArgResult(); }},
-      {ASSIGN_ENTITY, [this]() { return getStmtValueArgResult(); }},
-      {IF_ENTITY, [this]() { return getStmtValueArgResult(); }},
-      {WHILE_ENTITY, [this]() { return getStmtValueArgResult(); }},
-      {VARIABLE_ENTITY, [this]() { return getVarValueArgResult(); }},
-      {CONSTANT_ENTITY, [this]() { return getConstantValueArgResult(); }},
-      {PROCEDURE_ENTITY, [this]() { return getProcValueArgResult(); }}};
+  vector<std::reference_wrapper<SynonymRes>> evaluateStmtTypes(
+      StmtType stmtType);
+
+  unordered_map<Entity, SingleSynWithEvaluatorFunc>
+      singleSynWithEvaluatorFuncMap = {
+          {ASSIGN_ENTITY, [this]() { return evaluateAssignEntity(); }},
+          {IF_ENTITY, [this]() { return evaluateIfEntity(); }},
+          {WHILE_ENTITY, [this]() { return evaluateWhileEntity(); }},
+          {STMT_ENTITY, [this]() { return evaluateStmtEntity(); }},
+          {READ_ENTITY, [this]() { return evaluateReadEntity(); }},
+          {PRINT_ENTITY, [this]() { return evaluatePrintEntity(); }},
+          {CALL_ENTITY, [this]() { return evaluateCallEntity(); }},
+          {VARIABLE_ENTITY, [this]() { return evaluateVarEntity(); }},
+          {PROCEDURE_ENTITY, [this]() { return evaluateProcEntity(); }},
+          {CONSTANT_ENTITY, [this]() { return evaluateConstantEntity(); }}};
 
  public:
-  explicit SingleSynWithEvaluator(unique_ptr<SynonymArg> firstArg,
-                                  unique_ptr<AbstractArgument> secondArg,
+  explicit SingleSynWithEvaluator(SynonymArg& firstArg,
+                                  AbstractArgument& secondArg,
                                   PKBReader& pkbReader)
-      : WithEvaluator(pkbReader),
-        synonymArg(std::move(firstArg)),
-        valueArg(std::move(secondArg)) {}
+      : WithEvaluator(pkbReader), synonymArg(firstArg), valueArg(secondArg) {}
 
   IntermediateTable evaluate() override;
 };

@@ -10,7 +10,7 @@
 #include <utility>
 #include <vector>
 
-#include "common/cfg/CFG.h"
+#include "common/AliasTypes.h"
 #include "pkb/facade/PKBWriter.h"
 
 using std::string, std::unordered_set, std::unordered_map, std::set, std::pair;
@@ -33,7 +33,6 @@ class MockPKBWriter : public PKBWriter {
   unordered_map<int, unordered_set<string>> whilePatternStorage;
   unordered_map<int, unordered_set<string>> ifPatternStorage;
   unordered_map<string, unordered_set<string>> callsStorage;
-  unordered_map<string, unique_ptr<CFG>> cfgStorage;
   IntToIntSetMap nextStorage;
 
  public:
@@ -184,21 +183,6 @@ class MockPKBWriter : public PKBWriter {
   [[nodiscard]] bool isCallsEqual(
       unordered_map<string, unordered_set<string>> &calls) const {
     return callsStorage == calls;
-  }
-
-  [[nodiscard]] bool isCFGEqual(
-      const unordered_map<string, unique_ptr<CFG>> &other) const {
-    if (cfgStorage.size() != other.size()) {
-      return false;
-    }
-
-    return std::all_of(cfgStorage.begin(), cfgStorage.end(),
-                       [&](const auto &pair) {
-                         const string &procName = pair.first;
-                         const unique_ptr<CFG> &cfgPtr = pair.second;
-                         return other.find(procName) != other.end() &&
-                                *cfgPtr == *other.at(procName);
-                       });
   }
 
   [[nodiscard]] bool isNextEqual(const IntToIntSetMap &next) const {
