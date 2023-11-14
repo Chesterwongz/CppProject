@@ -7,4 +7,4 @@ procedure p {
           while (y == x) {
               z = 2; } }
       else {
-          y = 3; } } } }
+          y = 3; } } }
