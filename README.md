@@ -1,4 +1,4 @@
-[![Project Description](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://nus-cs3203.github.io/course-website/)
+# [Project Description](https://nus-cs3203.github.io/course-website/)
 # Team 12
 
 ## Target Environment
